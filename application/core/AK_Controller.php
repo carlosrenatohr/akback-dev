@@ -11,7 +11,7 @@ class AK_Controller extends \CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // It can be auto-loaded..
+        // It can be auto-loaded
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->model('backoffice_model');
