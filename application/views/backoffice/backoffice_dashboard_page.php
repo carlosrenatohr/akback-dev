@@ -71,7 +71,7 @@
                                 </a>
                             </div>
 							<div class="icon">
-                                <a href="<?php echo base_url("backoffice/administration")?>">
+                                <a href="<?php echo base_url("dashboard/admin")?>">
                                     <img width="48" alt="" src="<?php echo base_url()?>assets/img/administration.png">
                                     <span class="mlabel">ADMINISTRATION</span>
                                 </a>

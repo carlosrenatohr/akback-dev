@@ -56,6 +56,12 @@ $route['translate_uri_dashes'] = FALSE;
 $route['service'] = "service/version";
 $route['service/(:any)'] = "service/$1";
 
+/**
+ * Admin routes definition
+ */
+$route['dashboard/admin'] = 'admin/DashboardController';
+$route['dashboard/admin/users'] = 'admin/User';
+
 //logon page
 $route['backoffice'] = "backoffice/login";
 $route['backoffice/dashboard'] = "backoffice/dashboard_main";
