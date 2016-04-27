@@ -18,7 +18,9 @@ $(function(){
     checkAnyFormFieldEdited();
     checkAnyFormFieldAdd();
 
-    $//("#zip").select2();
+    function changetabtile(){
+        $("#tabtitle").html("Users");
+    }
 
     $(".searchinput").keyup(function () {
         $(this).next().toggle(Boolean($(this).val()));
@@ -54,11 +56,54 @@ $(function(){
 
 });
 
-function changetabtile(){
-    $("#tabtitle").html("Users");
-}
-
 var demoApp = angular.module("demoApp", ["jqwidgets"]);
+
+/**
+ * User controller
+ */
+demoApp.controller("userController", function($scope) {
+
+    $scope.userTableSettings = {
+        source: {
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'UserName', type: 'string'},
+                {name: 'FirstName', type: 'string'},
+                {name: 'LastName', type: 'string'},
+                //{name: 'Primary Position', type: 'string'},
+                {name: 'Phone1', type: 'string'},
+                {name: 'Phone2', type: 'string'},
+                {name: 'Email', type: 'string'},
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/user/load_users'
+        },
+        columns: [
+            {text: 'id', dataField: 'Unique', type: 'int'},
+            {text: 'User Name',dataField: 'UserName', type: 'string'},
+            {text: 'First Name',dataField: 'FirstName', type: 'string'},
+            {text: 'Last Name', dataField: 'LastName', type: 'string'},
+            //{text: 'Primary Position',dataField: 'Primary Position', type: 'string'},
+            {text: 'Phone 1', dataField: 'Phone1', type: 'string'},
+            {text: 'Phone 2', dataField: 'Phone2', type: 'string'},
+            {text: 'Email', dataField: 'Email', type: 'string'},
+        ],
+        columnsResize: true,
+        width: "99.7%",
+        theme: 'arctic',
+        sortable: true,
+        pageable: true,
+        pageSize: 15,
+        pagerMode: 'default',
+        altRows: true,
+        filterable: true,
+        filterMode: 'simple',
+    }
+});
+
+// -- User controller //
+
 demoApp.controller("demoController", function ($scope, $compile, $window) {
 
     $scope.dialogSettings =

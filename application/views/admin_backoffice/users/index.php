@@ -48,8 +48,12 @@ jqxthemes();
                 </nav>
             </div>
             <div class="row">
-                <jqx-data-table id="table" jqx-watch="disabled" jqx-on-row-click="rowClick(event)" jqx-on-row-double-click="rowDoubleClick(event)" jqx-settings="gridSettings"></jqx-data-table>
-                <jqx-window jqx-on-close="close()" class="customer_form" jqx-create="dialogSettings" jqx-settings="dialogSettings" style="display:none;">
+<!--                <jqx-data-table id="users-table" jqx-watch="disabled"-->
+<!--                                jqx-on-row-click="rowClick(event)"-->
+<!--                                jqx-on-row-double-click="rowDoubleClick(event)"-->
+<!--                                jqx-settings="gridSettings">-->
+<!--                </jqx-data-table>-->
+                <jqx-window jqx-on-close="close()" class="customer_form" jqx-create="dialogSettings" jqx-settings="dialogSettings" style="display:none;" >
                     <div id="editform">
                         <div style="overflow: hidden;">
                             <div class="col-md-12 col-md-offset-0" id="table" style="float:left;">
@@ -525,6 +529,12 @@ jqxthemes();
                     </div>
                 </jqx-window>
             </div>
+            <div class="row" ng-controller="userController">
+                <jqx-data-table jqx-settings="userTableSettings">
+
+                </jqx-data-table>
+            </div>
+
         </div>
     </div>
 </div>
