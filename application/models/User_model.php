@@ -22,4 +22,10 @@ class user_model extends CI_Model
         return $query->result_array();
     }
 
+    public function store($data)
+    {
+        $result = $this->db->insert('config_user', $data);
+        return $result;
+    }
+
 }

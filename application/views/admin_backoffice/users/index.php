@@ -529,6 +529,7 @@ jqxthemes();
                     </div>
                 </jqx-window>
             </div>
+            <!--     USER ACTION       -->
             <div class="row" ng-controller="userController">
                 <a style="outline:0;" ng-click="openAddUserWindows()">
                     <span class="icon-32-new"></span>
@@ -538,6 +539,7 @@ jqxthemes();
                 <jqx-data-table jqx-settings="userTableSettings">
                 </jqx-data-table>
 
+
                 <jqx-window jqx-on-close="close()" jqx-settings="addUserWindowSettings"
                             jqx-create="addUserWindowSettings">
                     <div>
@@ -545,6 +547,7 @@ jqxthemes();
                     </div>
                     <div>
                         <div class="new-user-form">
+                            <form action="" id="new-user-form">
                             <div class="col-md-12 col-md-offset-0" id="table_add" style="float:left;">
                                 <jqx-tabs id="" jqx-width="'100%'" jqx-height="'100%'" style='float: left;' jqx-theme="thetabsadd" jqx-settings="tabsSettings" jqx-selected-item="selectedItem">
                                     <ul style="margin-left: 30px;">
@@ -556,13 +559,13 @@ jqxthemes();
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab1" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <div class="row">
                                             <div style="width:330px;float:left;">
-                                                <input type="hidden" name="submitted" id="submitted" value="1">
+<!--                                                <input type="hidden" name="submitted" id="submitted" value="1">-->
 
                                                 <!-- Start user fields-->
                                                 <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">User Name:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_username" name="add_username" placeholder="User Name" autofocus>
+                                                        <input type="text" class="form-control addUserField required-field" id="add_username" name="add_userName" placeholder="User Name" autofocus>
                                                     </div>
                                                     <div style="float:left;">
                                                         <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -572,7 +575,7 @@ jqxthemes();
                                                 <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">First Name:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_firstname" name="add_firstname" placeholder="First Name">
+                                                        <input type="text" class="form-control addUserField required-field" id="add_firstname" name="add_firstName" placeholder="First Name">
                                                     </div>
                                                     <div style="float:left;">
                                                         <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -582,21 +585,27 @@ jqxthemes();
                                                 <div style="float:left; padding:2px;  width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Last Name:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_lastname" name="add_lastname" placeholder="Last Name">
+                                                        <input type="text" class="form-control addUserField" id="add_lastname" name="add_lastName" placeholder="Last Name">
                                                     </div>
                                                 </div>
 
                                                 <div style="float:left; padding:2px;  width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Password:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_password" name="add_password" placeholder="Password">
+                                                        <input type="text" class="form-control addUserField required-field" id="add_password" name="add_password" placeholder="Password">
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                                                     </div>
                                                 </div>
 
                                                 <div style="float:left; padding:2px;  width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Code:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_code" name="add_code" placeholder="Code">
+                                                        <input type="text" class="form-control addUserField required-field" id="add_code" name="add_code" placeholder="Code">
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                                                     </div>
                                                 </div>
 
@@ -714,7 +723,8 @@ jqxthemes();
                                         <div id="add_btnscd">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>
+<!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
+                                                    <button type="button" ng-click="submitUserForm()" class="btn btn-primary" >Save</button>
                                                     <button	type="button" id="add_cancel" class="btn btn-warning">Close</button>
                                                 </div>
                                             </div>
@@ -742,13 +752,27 @@ jqxthemes();
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                             </div>
                         </div>
-                        <div>
-                            <div style="float: right; margin-top: 15px;">
-                                <jqx-button jqx-on-click="Ok()" style="margin-right: 10px">Ok</jqx-button>
-                                <jqx-button jqx-on-click="Cancel()">Cancel</jqx-button>
+                        <div id="add_jqxNotification">
+                            <div id="add_notificationContent">
                             </div>
+                        </div>
+                        <div id="add_email_jqxNotification">
+                            <div id="add_email_notificationContent">
+                            </div>
+                        </div>
+                        <div id="add_save_jqxNotification">
+                            <div id="add_save_notificationContent">
+                            </div>
+                        </div>
+                        <jqx-notification jqx-settings="notificationSettings">
+                            <div id="notification-content">
+
+                            </div>
+                        </jqx-notification>
+                        <div id="add_container" style="width: 400px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;">
                         </div>
                     </div>
                 </jqx-window>

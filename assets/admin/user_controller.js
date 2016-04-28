@@ -56,13 +56,25 @@ $(function(){
 
 });
 
-var demoApp = angular.module("demoApp", ["jqwidgets"]);
+var demoApp = angular.module("demoApp", ['jqwidgets']);
 
 /**
  * User controller
  */
-demoApp.controller("userController", function($scope) {
+demoApp.controller("userController", function($scope, $http) {
 
+    // Tabs config
+    $scope.thetabs = 'darkblue';
+    $scope.thetabsadd = 'darkblue';
+
+    $scope.tabset = {
+        selectedItem:0
+    };
+    $scope.tabsSettings = {
+        selectedItem:0
+    };
+
+    // User datatable settings
     $scope.userTableSettings = {
         source: {
             dataType: 'json',
@@ -74,7 +86,7 @@ demoApp.controller("userController", function($scope) {
                 //{name: 'Primary Position', type: 'string'},
                 {name: 'Phone1', type: 'string'},
                 {name: 'Phone2', type: 'string'},
-                {name: 'Email', type: 'string'},
+                {name: 'Email', type: 'string'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/user/load_users'
@@ -99,8 +111,9 @@ demoApp.controller("userController", function($scope) {
         altRows: true,
         filterable: true,
         filterMode: 'simple',
-    }
+    };
 
+    // User window settings
     $scope.addUserWindowSettings = {
         created: function(args)
         {
@@ -114,19 +127,52 @@ demoApp.controller("userController", function($scope) {
         showCloseButton: true
     };
 
+    //
+    $scope.notificationSettings = {
+        width: "auto",
+        appendContainer: "#add_container",
+        opacity: 0.9,
+        closeOnClick: true,
+        autoClose: true,
+        showCloseButton: false,
+        //blink: true,
+        template: 'error'
+    };
+
+    // Open the window form to add user
     $scope.openAddUserWindows = function() {
         addUserDialog.open();
+    };
+
+    // Action to save a user
+    $scope.submitUserForm = function() {
+        var needValidation = false;
+        $('.new-user-form input.required-field').each(function(i, el) {
+            $scope.notificationSettings.apply('closeAll');
+            if (el.value == '') {
+                $('#notification-content').html($(el).attr('placeholder') + ' can not be empty!');
+                $scope.notificationSettings.apply('open');
+                console.info($(el).attr('placeholder') + ' can not be empty!');
+                needValidation = true;
+            }
+        });
+        if (!needValidation) {
+            var params = {};
+            $.each($('#new-user-form').serializeArray(), function(i, el){
+                params[el.name] = encodeURIComponent(el.value);
+            });
+            $.ajax({
+                'url': SiteRoot + 'admin/user/store_user',
+                'method': 'POST',
+                'dataType': 'json',
+                'data': params,
+                success: function(data) {
+                    console.log(data);
+                }
+            })
+        }
+
     }
-
-    $scope.thetabs = 'darkblue';
-    $scope.thetabsadd = 'darkblue';
-
-    $scope.tabset = {
-        selectedItem:0
-    };
-    $scope.tabsSettings = {
-        selectedItem:0
-    };
 });
 
 // -- User controller //

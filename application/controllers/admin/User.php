@@ -27,10 +27,33 @@ class User extends AK_Controller
     /**
      * @method GET
      * @description Get all users
+     * returnType json
      */
     public function load_users()
     {
         echo json_encode($this->user_model->getLists());
+    }
+
+    /**
+     * @method POST
+     * @description Save a new user
+     * @returnType json
+     */
+    public function store_user()
+    {
+        $values = [];
+        foreach ($_POST as $index => $element) {
+            $pos = strpos($index, '_');
+            if ($pos !== false) {
+                $temp_index = ucfirst(substr($index, $pos + 1));
+                if ($temp_index == 'Password' || $temp_index == 'Code') {
+                    $values[$temp_index] = md5($element);
+                }
+            } else {
+                $values[$index] = $element;
+            }
+        }
+        var_dump($this->user_model->store($values));
     }
 
 }
