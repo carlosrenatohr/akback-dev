@@ -22,6 +22,17 @@ class user_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getPositions()
+    {
+        $query = $this->db
+                    ->select('Unique as id, PositionName as name, PositionLevel as level')
+                    ->where('Status', 1)
+                    ->from("config_position")
+                    ->get();
+
+        return $query->result_array();
+    }
+
     public function store($data)
     {
         $result = $this->db->insert('config_user', $data);

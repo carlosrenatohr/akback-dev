@@ -3,15 +3,6 @@
  */
 
 var DynamicTab;
-var selzipcode, selzipunique, selcity, selstate, selisland, selcountry = null;
-var zipcodesDataAdapter = '';
-var citiesDataAdapter =  '';
-var statesDataAdapter = '' ;
-var islandDataAdapter =  '';
-var countriesDataAdapter =  '';
-var areacode;
-var intervalclosemessage = 1000;
-var global_custid, global_custname='';
 
 $(function(){
     changetabtile();
@@ -42,7 +33,6 @@ $(function(){
 
     $('#addtabs').on('tabclick', function (event) {
         var tabclicked = event.args.item;
-        console.log('The clicked tab is ' + tabclicked);
         if(tabclicked == 0){
             $("#container").css({"height":"60px"});
         }else if(tabclicked == 1){
@@ -137,6 +127,40 @@ demoApp.controller("userController", function($scope, $http) {
         showCloseButton: false,
         //blink: true,
         template: 'error'
+    };
+
+    //
+
+    var source =
+    {
+        datatype: "json",
+        datafields: [
+            { name: 'name' },
+            { name: 'id' }
+        ],
+        url: SiteRoot + 'admin/user/load_allPositions',
+        async: true
+    };
+    var dataAdapter = new $.jqx.dataAdapter(source);
+
+    $scope.positionSelectPlaceholder = 'Select a position';
+    $scope.positionSelectSetting = {
+        created: function(args)
+        {
+            combo = args.instance;
+        },
+        selectedIndex: 0,
+        displayMember: "name",
+        valueMember: "id",
+        width: "99%",
+        height: 25,
+        source: dataAdapter
+    };
+
+    $scope.positionSelectClicked = function(e){
+        if (e.args) {
+            console.log(e)
+        }
     };
 
     // Open the window form to add user
@@ -1548,7 +1572,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
 
 //#########################################################################################################################################################//
     /*@@ City Drop Down @@*/
-    $scope.addcity = {selectedIndex: 0, source: citiesDataAdapter, displayMember: "City", valueMember: "City", width: "99%", height: 25};
+    //$scope.addcity = {selectedIndex: 0, source: citiesDataAdapter, displayMember: "City", valueMember: "City", width: "99%", height: 25};
     $scope.placeHolderaddcity = "Select City";
     $("#add_city").on("select", function(event){
         if(event.args){
@@ -1567,7 +1591,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
         }
     })
 
-    $scope.city = {selectedIndex: 0, source: citiesDataAdapter, displayMember: "City", valueMember: "City", width: "99%", height: 25};
+    //$scope.city = {selectedIndex: 0, source: citiesDataAdapter, displayMember: "City", valueMember: "City", width: "99%", height: 25};
     $scope.placeHoldercity = "Select City";
     $("#city").on("select", function(event){
         if(event.args){
@@ -1587,7 +1611,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
     })
 //#########################################################################################################################################################//
     /*@@ Island Drop Down @@*/
-    $scope.addisland = {selectedIndex: 0, source: islandDataAdapter, displayMember: "Island", valueMember: "County", width: "99%", height: 25};
+    //$scope.addisland = {selectedIndex: 0, source: islandDataAdapter, displayMember: "Island", valueMember: "County", width: "99%", height: 25};
     $scope.placeHolderaddisland = "Select Island";
     $("#add_island").on("select", function(event){
         if(event.args){
@@ -1607,7 +1631,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
     })
 
 
-    $scope.island = {selectedIndex: 0, source: islandDataAdapter, displayMember: "Island", valueMember: "County", width: "99%", height: 25};
+    //$scope.island = {selectedIndex: 0, source: islandDataAdapter, displayMember: "Island", valueMember: "County", width: "99%", height: 25};
     $scope.placeHolderisland = "Select Island";
     $("#island").on("select", function(event){
         if(event.args){
@@ -1628,7 +1652,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
 
 //#########################################################################################################################################################//
     /*@@ State Drop Down @@*/
-    $scope.addstate = {selectedIndex: 0, source: statesDataAdapter, displayMember: "State", valueMember: "StateID", width: "99%", height: 25};
+    //$scope.addstate = {selectedIndex: 0, source: statesDataAdapter, displayMember: "State", valueMember: "StateID", width: "99%", height: 25};
     $scope.placeHolderaddstate = "Select State";
     $("#add_state").on("select", function(event){
         if(event.args){
@@ -1647,7 +1671,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
         }
     })
 
-    $scope.state = {selectedIndex: 0, source: statesDataAdapter, displayMember: "State", valueMember: "StateID", width: "99%", height: 25};
+    //$scope.state = {selectedIndex: 0, source: statesDataAdapter, displayMember: "State", valueMember: "StateID", width: "99%", height: 25};
     $scope.placeHolderstate = "Select State";
     $("#state").on("select", function(event){
         if(event.args){
@@ -1667,7 +1691,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
     })
 //#########################################################################################################################################################//
     /*@@ Zip Code Drop Down @@*/
-    $scope.addzipcode = { selectedIndex: 0, source: zipcodesDataAdapter, displayMember: "ZipCode", valueMember: "ZipCode", width: "99%", height: 25};
+    //$scope.addzipcode = { selectedIndex: 0, source: zipcodesDataAdapter, displayMember: "ZipCode", valueMember: "ZipCode", width: "99%", height: 25};
     $scope.placeHolderaddzipcode = "Select Zip Code";
     $("#add_zip").on("select", function(event){
         if(event.args){
@@ -1697,7 +1721,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
         }
     })
 
-    $scope.zipcode = {selectedIndex: 0, source: zipcodesDataAdapter, displayMember: "ZipCode", valueMember: "ZipCode", width: "99%", height: 25};
+    //$scope.zipcode = {selectedIndex: 0, source: zipcodesDataAdapter, displayMember: "ZipCode", valueMember: "ZipCode", width: "99%", height: 25};
     $scope.placeHolderzipcode = "Select Zip Code";
     $("#zipcode").on("select", function(event){
         if(event.args){
@@ -1729,7 +1753,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
 
 //#########################################################################################################################################################//
     /*@@ Country Drop Down @@*/
-    $scope.addcountry = { selectedIndex: 0, source: countriesDataAdapter, displayMember: "CountryName", valueMember: "CountryCode", width: "99%", height: 25};
+    //$scope.addcountry = { selectedIndex: 0, source: countriesDataAdapter, displayMember: "CountryName", valueMember: "CountryCode", width: "99%", height: 25};
     $scope.placeHolderaddcountry = "Select Country";
     $("#add_country").on("select", function(event){
         if(event.args){
@@ -1746,7 +1770,7 @@ demoApp.controller("demoController", function ($scope, $compile, $window) {
         }
     })
 
-    $scope.country = {selectedIndex: 0, source: countriesDataAdapter, displayMember: "CountryName", valueMember: "CountryCode", width: "99%", height: 25};
+    //$scope.country = {selectedIndex: 0, source: countriesDataAdapter, displayMember: "CountryName", valueMember: "CountryCode", width: "99%", height: 25};
     $scope.placeHoldercountry = "Select Country";
     $("#country").on("select", function(event){
         if(event.args){

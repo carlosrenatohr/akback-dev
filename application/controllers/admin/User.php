@@ -35,6 +35,16 @@ class User extends AK_Controller
     }
 
     /**
+     * @method GET
+     * @description Get all positions to show
+     * returnType json
+     */
+    public function load_allPositions()
+    {
+        echo json_encode($this->user_model->getPositions());
+    }
+
+    /**
      * @method POST
      * @description Save a new user
      * @returnType json
