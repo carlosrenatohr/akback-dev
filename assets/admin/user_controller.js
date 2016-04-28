@@ -42,7 +42,7 @@ $(function(){
 
     $('#addtabs').on('tabclick', function (event) {
         var tabclicked = event.args.item;
-        //console.log('The clicked tab is ' + tabclicked);
+        console.log('The clicked tab is ' + tabclicked);
         if(tabclicked == 0){
             $("#container").css({"height":"60px"});
         }else if(tabclicked == 1){
@@ -100,6 +100,33 @@ demoApp.controller("userController", function($scope) {
         filterable: true,
         filterMode: 'simple',
     }
+
+    $scope.addUserWindowSettings = {
+        created: function(args)
+        {
+            addUserDialog = args.instance;
+        },
+        resizable: false,
+        width: "100%", height: "100%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: true
+    };
+
+    $scope.openAddUserWindows = function() {
+        addUserDialog.open();
+    }
+
+    $scope.thetabs = 'darkblue';
+    $scope.thetabsadd = 'darkblue';
+
+    $scope.tabset = {
+        selectedItem:0
+    };
+    $scope.tabsSettings = {
+        selectedItem:0
+    };
 });
 
 // -- User controller //

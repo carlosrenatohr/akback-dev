@@ -530,9 +530,228 @@ jqxthemes();
                 </jqx-window>
             </div>
             <div class="row" ng-controller="userController">
-                <jqx-data-table jqx-settings="userTableSettings">
+                <a style="outline:0;" ng-click="openAddUserWindows()">
+                    <span class="icon-32-new"></span>
+                    New
+                </a>
 
+                <jqx-data-table jqx-settings="userTableSettings">
                 </jqx-data-table>
+
+                <jqx-window jqx-on-close="close()" jqx-settings="addUserWindowSettings"
+                            jqx-create="addUserWindowSettings">
+                    <div>
+                        Add new user
+                    </div>
+                    <div>
+                        <div class="new-user-form">
+                            <div class="col-md-12 col-md-offset-0" id="table_add" style="float:left;">
+                                <jqx-tabs id="" jqx-width="'100%'" jqx-height="'100%'" style='float: left;' jqx-theme="thetabsadd" jqx-settings="tabsSettings" jqx-selected-item="selectedItem">
+                                    <ul style="margin-left: 30px;">
+                                        <li>Info</li>
+                                        <li>Contact</li>
+                                        <li>Position</li>
+                                        <li>Notes</li>
+                                    </ul>
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab1" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                        <div class="row">
+                                            <div style="width:330px;float:left;">
+                                                <input type="hidden" name="submitted" id="submitted" value="1">
+
+                                                <!-- Start user fields-->
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">User Name:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_username" name="add_username" placeholder="User Name" autofocus>
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">First Name:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_firstname" name="add_firstname" placeholder="First Name">
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px;  width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Last Name:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_lastname" name="add_lastname" placeholder="Last Name">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px;  width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Password:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_password" name="add_password" placeholder="Password">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px;  width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Code:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_code" name="add_code" placeholder="Code">
+                                                    </div>
+                                                </div>
+
+                                            </div><!--End Grid1-->
+
+                                            <div style="float:left; padding:2px; width:350px;">
+                                                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary Position:</div>
+                                                <div style="float:left; width:180px;">
+                                                    <jqx-combo-box id="" jqx-on-select="" jqx-settings="" jqx-place-holder=""></jqx-combo-box>
+                                                </div>
+                                            </div>
+
+                                            <div style="width:330px;float:left;">
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Phone 1:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField phone" id="add_phone1" name="add_phone1" placeholder="Phone1">
+                                                    </div>
+                                                </div>
+
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Phone 2:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField phone" id="add_phone2" name="add_phone2" placeholder="Phone2">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:400px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Email Address:</div>
+                                                    <div style="float:left; width:250px;">
+                                                        <div class="btn-group">
+                                                            <input type="email" class="form-control searchinput addUserField" id="add_email" name="add_email" placeholder="Email Address" value="">
+                                                            <span id="searchclear" class="searchclear glyphicon glyphicon-remove-circle"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--End Grid2-->
+                                        </div><!--End Grid Row-->
+                                    </div><!--End Tab1-->
+
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab2" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                        <div class="row">
+                                            <div style="width:350px;float:left;">
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Address 1:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_address1" name="add_address1" placeholder="Adress1">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Address 2:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_address2" name="add_address2" placeholder="Adress2">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">City:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_address2" name="add_city" placeholder="City">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">State:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_state" name="add_state" placeholder="State">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Zip:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_zip" name="add_zip" placeholder="Zip">
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Country:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control addUserField" id="add_country" name="add_zip" placeholder="Country">
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab4" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                        <div class="row">
+                                            <div>
+                                                <jqx-data-table jqx-watch="" jqx-on-row-double-click="" jqx-settings=""></jqx-data-table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab3" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                        <div class="row">
+                                            <div style="width:100%;float:left;">
+                                                <div style="float:left; padding:2px; width:100%;">
+                                                    <div style="float:left; padding:8px; text-align:left; width:100px; font-weight:bold;">Note:</div>
+                                                    <div style="float:left; width:100%;">
+                                                        <textarea rows="15" id="add_note" name="add_note" class="form-control addcustomer" placeholder="Note"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </jqx-tabs>
+                                <div class="col-md-12 col-md-offset-0">
+                                    <div class="row">
+                                        <div id="add_btnscd">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>
+                                                    <button	type="button" id="add_cancel" class="btn btn-warning">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="add_msg" style="display:none; margin-top:10px; overflow:auto;">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    Would you like to save your changes.
+                                                    <button type="button" id="add_yes" class="btn btn-primary">Yes</button>
+                                                    <button type="button" id="add_no" class="btn btn-warning">No</button>
+                                                    <button type="button" id="add_conf_cancel" class="btn btn-info">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="add_confirmation_after_save" style="display:none; margin-top:10px; overflow:auto;">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <label id="addsavedmymessage"></label>
+                                                    <button type="button" id="add_aftersave_yes" class="btn btn-primary">Yes</button>
+                                                    <button type="button" id="add_aftersave_no" class="btn btn-warning">No</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="float: right; margin-top: 15px;">
+                                <jqx-button jqx-on-click="Ok()" style="margin-right: 10px">Ok</jqx-button>
+                                <jqx-button jqx-on-click="Cancel()">Cancel</jqx-button>
+                            </div>
+                        </div>
+                    </div>
+                </jqx-window>
             </div>
 
         </div>
