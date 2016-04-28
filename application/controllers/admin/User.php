@@ -37,7 +37,7 @@ class User extends AK_Controller
     /**
      * @method GET
      * @description Get all positions to show
-     * returnType json
+     * @returnType json
      */
     public function load_allPositions()
     {
@@ -58,6 +58,9 @@ class User extends AK_Controller
                 $temp_index = ucfirst(substr($index, $pos + 1));
                 if ($temp_index == 'Password' || $temp_index == 'Code') {
                     $values[$temp_index] = md5($element);
+                }
+                else {
+                    $values[$temp_index] = $element;
                 }
             } else {
                 $values[$index] = $element;
