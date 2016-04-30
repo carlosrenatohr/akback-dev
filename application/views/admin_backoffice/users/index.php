@@ -275,7 +275,10 @@ jqxthemes();
                             </form>
                             </div>
                         </div>
-                        <jqx-notification jqx-settings="notificationSettings">
+                        <jqx-notification jqx-settings="notificationSuccessSettings" id="notificationSuccessSettings">
+                            <div id="notification-content"></div>
+                        </jqx-notification>
+                        <jqx-notification jqx-settings="notificationErrorSettings" id="notificationErrorSettings">
                             <div id="notification-content"></div>
                         </jqx-notification>
                         <div id="add_container" style="width: 650px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto; ">

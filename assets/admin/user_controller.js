@@ -179,7 +179,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     // NOTIFICATIONS SETTINGS
-    $scope.notificationSettings = {
+    $scope.notificationErrorSettings = {
         width: "auto",
         appendContainer: "#add_container",
         opacity: 0.9,
@@ -190,30 +190,53 @@ demoApp.controller("userController", function($scope, $http) {
         template: 'error'
     };
 
+    $scope.notificationSuccessSettings = {
+        width: "auto",
+        appendContainer: "#add_container",
+        opacity: 0.9,
+        closeOnClick: true,
+        autoClose: true,
+        showCloseButton: false,
+        //blink: true,
+        template: 'success'
+    };
+
     // Action to save a user
     $scope.submitUserForm = function() {
         var needValidation = false;
+
+        // VALIDATION Not empty fields
         $('.new-user-form input.required-field').each(function(i, el) {
-            $scope.notificationSettings.apply('closeAll');
             if (el.value == '') {
-                $('#notification-content').html($(el).attr('placeholder') + ' can not be empty!');
-                $scope.notificationSettings.apply('open');
+                $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
+                $(el).css({"border-color":"#F00"});
+                $scope.notificationErrorSettings.apply('open');
                 console.info($(el).attr('placeholder') + ' can not be empty!');
                 needValidation = true;
             }
+            else {
+                $(el).css({"border-color":"#ccc"});
+            }
         });
+        // VALIDATION Combobox Primary position
         var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
         if (!comboboxPosition) {
-            $('#notification-content').html('Primary position can not be empty!');
-            $scope.notificationSettings.apply('open');
+            $('#notificationErrorSettings #notification-content').html('Primary position can not be empty!');
+            $scope.notificationErrorSettings.apply('open');
             console.info('Primary position can not be empty!');
             needValidation = true;
         }
-        if (!check_email($('.addUserField#add_email').val())) {
-            $('#notification-content').html('Format of email is not valid!');
-            $scope.notificationSettings.apply('open');
+        // VALIDATION Format of email
+        var emailInputField = $('.addUserField#add_email');
+        if (!check_email(emailInputField.val())) {
+            $('#notificationErrorSettings #notification-content').html('Format of email is not valid!');
+            emailInputField.css({"border-color":"#F00"});
+            $scope.notificationErrorSettings.apply('open');
             console.info('Format of email is not valid');
             needValidation = true;
+        }
+        else {
+            emailInputField.css({"border-color":"#ccc"});
         }
         // Check if some is missing
         if (!needValidation) {
@@ -230,6 +253,7 @@ demoApp.controller("userController", function($scope, $http) {
                 'data': params,
                 success: function(data) {
                     console.log(data);
+                    // reload table
                     $scope.userTableSettings = {
                         source: {
                             dataType: 'json',
@@ -238,7 +262,7 @@ demoApp.controller("userController", function($scope, $http) {
                                 {name: 'UserName', type: 'string'},
                                 {name: 'FirstName', type: 'string'},
                                 {name: 'LastName', type: 'string'},
-                                //{name: 'Primary Position', type: 'string'},
+                                {name: 'PrimaryPositionName', type: 'string'},
                                 {name: 'Phone1', type: 'string'},
                                 {name: 'Phone2', type: 'string'},
                                 {name: 'Email', type: 'string'}
@@ -251,8 +275,12 @@ demoApp.controller("userController", function($scope, $http) {
                             instance.updateBoundData();
                         }
                     };
+                    $('#notificationSuccessSettings #notification-content').html('User created successfully!');
+                    $('#notificationSuccessSettings').jqxNotification('open');
                     // CLOSE
-                    $scope.closeWindows();
+                    setTimeout(function() {
+                        $scope.closeWindows();
+                    }, 2000);
                 }
             })
         }
