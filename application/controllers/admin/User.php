@@ -51,15 +51,14 @@ class User extends AK_Controller
      */
     public function store_user()
     {
-        $values = [];
+        $values = $positionValues = [];
         foreach ($_POST as $index => $element) {
             $pos = strpos($index, '_');
             if ($pos !== false) {
                 $temp_index = ucfirst(substr($index, $pos + 1));
                 if ($temp_index == 'Password' || $temp_index == 'Code') {
                     $values[$temp_index] = md5($element);
-                }
-                else {
+                } else {
                     $values[$temp_index] = $element;
                 }
             } else {
@@ -67,7 +66,8 @@ class User extends AK_Controller
             }
         }
         $values['Status'] = 1;
-
+        $values['Created'] = date('Y-m-d G:i:s');
+        $values['CreatedBy'] = $this->session->userdata('userid');
         $status = $this->user_model->store($values);
         echo json_encode($status);
     }

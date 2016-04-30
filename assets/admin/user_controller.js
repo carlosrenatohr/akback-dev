@@ -84,7 +84,7 @@ demoApp.controller("userController", function($scope, $http) {
                 {name: 'UserName', type: 'string'},
                 {name: 'FirstName', type: 'string'},
                 {name: 'LastName', type: 'string'},
-                //{name: 'Primary Position', type: 'string'},
+                {name: 'PrimaryPositionName', type: 'string'},
                 {name: 'Phone1', type: 'string'},
                 {name: 'Phone2', type: 'string'},
                 {name: 'Email', type: 'string'}
@@ -97,17 +97,17 @@ demoApp.controller("userController", function($scope, $http) {
             {text: 'User Name',dataField: 'UserName', type: 'string'},
             {text: 'First Name',dataField: 'FirstName', type: 'string'},
             {text: 'Last Name', dataField: 'LastName', type: 'string'},
-            //{text: 'Primary Position',dataField: 'Primary Position', type: 'string'},
+            {text: 'Primary Position',dataField: 'PrimaryPositionName', type: 'string'},
             {text: 'Phone 1', dataField: 'Phone1', type: 'string'},
             {text: 'Phone 2', dataField: 'Phone2', type: 'string'},
-            {text: 'Email', dataField: 'Email', type: 'string'},
+            {text: 'Email', dataField: 'Email', type: 'string'}
         ],
         columnsResize: true,
         width: "99.7%",
         theme: 'arctic',
         sortable: true,
         pageable: true,
-        pageSize: 15,
+        pageSize: 20,
         pagerMode: 'default',
         altRows: true,
         filterable: true,
@@ -162,7 +162,7 @@ demoApp.controller("userController", function($scope, $http) {
     $scope.positionSelectSetting = {
         created: function(args)
         {
-            combo = args.instance;
+            comboboxPosition = args.instance;
         },
         selectedIndex: 0,
         displayMember: "name",
@@ -202,12 +202,27 @@ demoApp.controller("userController", function($scope, $http) {
                 needValidation = true;
             }
         });
+        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
+        if (!comboboxPosition) {
+            $('#notification-content').html('Primary position can not be empty!');
+            $scope.notificationSettings.apply('open');
+            console.info('Primary position can not be empty!');
+            needValidation = true;
+        }
+        if (!check_email($('.addUserField#add_email').val())) {
+            $('#notification-content').html('Format of email is not valid!');
+            $scope.notificationSettings.apply('open');
+            console.info('Format of email is not valid');
+            needValidation = true;
+        }
+        // Check if some is missing
         if (!needValidation) {
             var params = {};
             $.each($('#new-user-form').serializeArray(), function(i, el) {
                 params[el.name] = el.value;
                 //params[el.name] = encodeURIComponent(el.value);
             });
+            params['position'] = comboboxPosition.value;
             $.ajax({
                 'url': SiteRoot + 'admin/user/store_user',
                 'method': 'POST',
@@ -310,7 +325,7 @@ function reset_form(){
     // PENDING TO CLEAR USER INPUTS
 }
 
-function check_email(val){
+function check_email(val) {
     if(!val.match(/\S+@\S+\.\S+/)){
         return false;
     }

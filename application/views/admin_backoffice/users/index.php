@@ -127,11 +127,15 @@ jqxthemes();
                                             <div style="float:left; padding:2px; width:350px;">
                                                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary:</div>
                                                 <div style="float:left; width:180px;">
-                                                    <jqx-combo-box  jqx-on-select="selectHandler(event)"
+                                                    <jqx-combo-box  jqx-on-select="selectHandler(event)" id="positionCombobox" class="required-field"
                                                                     jqx-settings="positionSelectSetting">
 
                                                     </jqx-combo-box>
                                                 </div>
+                                                <div style="float:left;">
+                                                    <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                </div>
+
                                             </div>
 
                                             <div style="width:330px;float:left;">
@@ -274,7 +278,7 @@ jqxthemes();
                         <jqx-notification jqx-settings="notificationSettings">
                             <div id="notification-content"></div>
                         </jqx-notification>
-                        <div id="add_container" style="width: 400px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;">
+                        <div id="add_container" style="width: 650px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto; ">
                         </div>
                     </div>
                 </jqx-window>
