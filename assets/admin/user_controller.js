@@ -41,13 +41,24 @@ $(function(){
             $("#container").css({"height":"60px"});
             $("#add_note").focus();
         }
+    });
 
+    // Watch any change on user inputs
+    $('.addUserField').on('keypress paste change', function(e) {
+        $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
+    });
+
+    $('.addUserField').on('keyup', function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+            enableAddSaveBtn();
+        } else {
+            e.preventDefault();
+        }
     });
 
 });
 
 var demoApp = angular.module("demoApp", ['jqwidgets']);
-
 /**
  * User controller
  */
@@ -57,10 +68,10 @@ demoApp.controller("userController", function($scope, $http) {
     $scope.thetabs = 'darkblue';
     $scope.thetabsadd = 'darkblue';
 
-    $scope.tabset = {
-        selectedItem:0
-    };
     $scope.tabsSettings = {
+        created: function(args) {
+            tabsControl = args.instance
+        },
         selectedItem:0
     };
 
@@ -100,7 +111,7 @@ demoApp.controller("userController", function($scope, $http) {
         pagerMode: 'default',
         altRows: true,
         filterable: true,
-        filterMode: 'simple',
+        filterMode: 'simple'
     };
 
     // User window settings
@@ -114,23 +125,27 @@ demoApp.controller("userController", function($scope, $http) {
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
-        showCloseButton: true
+        showCloseButton: false
     };
 
-    //
-    $scope.notificationSettings = {
-        width: "auto",
-        appendContainer: "#add_container",
-        opacity: 0.9,
-        closeOnClick: true,
-        autoClose: true,
-        showCloseButton: false,
-        //blink: true,
-        template: 'error'
+    // Open the window form to add user
+    $scope.openAddUserWindows = function() {
+        addUserDialog.open();
     };
 
-    //
+    $scope.closeWindows = function(e) {
+        //var currentWindow = angular.element(e.currentTarget).parents('.userJqxwindows');
+        var currentWindow = $('.userJqxwindows');
+        $(currentWindow).find('form input, textarea').val('');
 
+        //$scope.tabsSettings = {
+        //    selectedItem: 0
+        //};
+        $('#tabsUser').jqxTabs({ selectedItem: 0 });
+        addUserDialog.close();
+    };
+
+    // POSITION COMBOBOX
     var source =
     {
         datatype: "json",
@@ -163,9 +178,16 @@ demoApp.controller("userController", function($scope, $http) {
         }
     };
 
-    // Open the window form to add user
-    $scope.openAddUserWindows = function() {
-        addUserDialog.open();
+    // NOTIFICATIONS SETTINGS
+    $scope.notificationSettings = {
+        width: "auto",
+        appendContainer: "#add_container",
+        opacity: 0.9,
+        closeOnClick: true,
+        autoClose: true,
+        showCloseButton: false,
+        //blink: true,
+        template: 'error'
     };
 
     // Action to save a user
@@ -182,8 +204,9 @@ demoApp.controller("userController", function($scope, $http) {
         });
         if (!needValidation) {
             var params = {};
-            $.each($('#new-user-form').serializeArray(), function(i, el){
-                params[el.name] = encodeURIComponent(el.value);
+            $.each($('#new-user-form').serializeArray(), function(i, el) {
+                params[el.name] = el.value;
+                //params[el.name] = encodeURIComponent(el.value);
             });
             $.ajax({
                 'url': SiteRoot + 'admin/user/store_user',
@@ -192,6 +215,29 @@ demoApp.controller("userController", function($scope, $http) {
                 'data': params,
                 success: function(data) {
                     console.log(data);
+                    $scope.userTableSettings = {
+                        source: {
+                            dataType: 'json',
+                            dataFields: [
+                                {name: 'Unique', type: 'int'},
+                                {name: 'UserName', type: 'string'},
+                                {name: 'FirstName', type: 'string'},
+                                {name: 'LastName', type: 'string'},
+                                //{name: 'Primary Position', type: 'string'},
+                                {name: 'Phone1', type: 'string'},
+                                {name: 'Phone2', type: 'string'},
+                                {name: 'Email', type: 'string'}
+                            ],
+                            id: 'Unique',
+                            url: SiteRoot + 'admin/user/load_users'
+                        },
+                        created: function (args) {
+                            var instance = args.instance;
+                            instance.updateBoundData();
+                        }
+                    };
+                    // CLOSE
+                    $scope.closeWindows();
                 }
             })
         }

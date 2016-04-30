@@ -66,7 +66,10 @@ class User extends AK_Controller
                 $values[$index] = $element;
             }
         }
-        var_dump($this->user_model->store($values));
+        $values['Status'] = 1;
+
+        $status = $this->user_model->store($values);
+        echo json_encode($status);
     }
 
 }

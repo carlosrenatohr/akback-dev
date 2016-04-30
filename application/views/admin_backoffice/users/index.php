@@ -52,17 +52,17 @@ jqxthemes();
                 <jqx-data-table jqx-settings="userTableSettings">
                 </jqx-data-table>
 
-
                 <jqx-window jqx-on-close="close()" jqx-settings="addUserWindowSettings"
-                            jqx-create="addUserWindowSettings">
+                            jqx-create="addUserWindowSettings" class="userJqxwindows">
                     <div>
                         Add new user
                     </div>
                     <div>
                         <div class="new-user-form">
+
                             <form action="" id="new-user-form">
                             <div class="col-md-12 col-md-offset-0" id="table_add" style="float:left;">
-                                <jqx-tabs id="" jqx-width="'100%'" jqx-height="'100%'" style='float: left;' jqx-theme="thetabsadd" jqx-settings="tabsSettings" jqx-selected-item="selectedItem">
+                                <jqx-tabs id="tabsUser" jqx-width="'100%'" jqx-height="'100%'" style=' float: left;' jqx-theme="thetabsadd" jqx-settings="tabsSettings">
                                     <ul style="margin-left: 30px;">
                                         <li>Info</li>
                                         <li>Contact</li>
@@ -125,7 +125,7 @@ jqxthemes();
                                             </div><!--End Grid1-->
 
                                             <div style="float:left; padding:2px; width:350px;">
-                                                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary Position:</div>
+                                                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary:</div>
                                                 <div style="float:left; width:180px;">
                                                     <jqx-combo-box  jqx-on-select="selectHandler(event)"
                                                                     jqx-settings="positionSelectSetting">
@@ -151,7 +151,7 @@ jqxthemes();
                                                 </div>
 
                                                 <div style="float:left; padding:2px; width:400px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Email Address:</div>
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Email:</div>
                                                     <div style="float:left; width:250px;">
                                                         <div class="btn-group">
                                                             <input type="email" class="form-control searchinput addUserField" id="add_email" name="add_email" placeholder="Email Address" value="">
@@ -240,8 +240,8 @@ jqxthemes();
                                             <div class="form-group">
                                                 <div class="col-sm-12">
 <!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
-                                                    <button type="button" ng-click="submitUserForm()" class="btn btn-primary" >Save</button>
-                                                    <button	type="button" id="add_cancel" class="btn btn-warning">Close</button>
+                                                    <button type="button" id="submitAddUserForm" ng-click="submitUserForm()" class="btn btn-primary submitUserBtn" disabled>Save</button>
+                                                    <button	type="button" id="cancelAddUserForm" ng-click="closeWindows($event)" class="btn btn-warning cancelUserBtn">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,22 +271,8 @@ jqxthemes();
                             </form>
                             </div>
                         </div>
-                        <div id="add_jqxNotification">
-                            <div id="add_notificationContent">
-                            </div>
-                        </div>
-                        <div id="add_email_jqxNotification">
-                            <div id="add_email_notificationContent">
-                            </div>
-                        </div>
-                        <div id="add_save_jqxNotification">
-                            <div id="add_save_notificationContent">
-                            </div>
-                        </div>
                         <jqx-notification jqx-settings="notificationSettings">
-                            <div id="notification-content">
-
-                            </div>
+                            <div id="notification-content"></div>
                         </jqx-notification>
                         <div id="add_container" style="width: 400px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;">
                         </div>
@@ -328,13 +314,13 @@ jqxthemes();
         background-image: url("../../assets/img/addnew.png");
     }
 
-    .icon-32-edit{
-        background-image: url("../assets/img/edit.png");
-    }
+    /*.icon-32-edit{*/
+        /*background-image: url("../assets/img/edit.png");*/
+    /*}*/
 
-    .icon-32-trash{
-        background-image: url("../assets/img/remove3.png");
-    }
+    /*.icon-32-trash{*/
+        /*background-image: url("../assets/img/remove3.png");*/
+    /*}*/
 
     .icon-32-back {
         background-image: url("../../assets/img/back.png");
