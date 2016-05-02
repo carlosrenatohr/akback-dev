@@ -158,7 +158,6 @@ jqxthemes();
                                                     <div style="float:left; width:250px;">
                                                         <div class="btn-group">
                                                             <input type="email" class="form-control searchinput addUserField" id="add_email" name="add_email" placeholder="Email Address" value="">
-                                                            <span id="searchclear" class="searchclear glyphicon glyphicon-remove-circle"></span>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -137,6 +137,7 @@ demoApp.controller("userController", function($scope, $http) {
         //var currentWindow = angular.element(e.currentTarget).parents('.userJqxwindows');
         var currentWindow = $('.userJqxwindows');
         $(currentWindow).find('form input, textarea').val('');
+        $('#positionCombobox').jqxComboBox({'selectedIndex': 4})
 
         //$scope.tabsSettings = {
         //    selectedItem: 0
@@ -228,7 +229,7 @@ demoApp.controller("userController", function($scope, $http) {
         }
         // VALIDATION Format of email
         var emailInputField = $('.addUserField#add_email');
-        if (!check_email(emailInputField.val())) {
+        if (emailInputField.val() != '' && !check_email(emailInputField.val())) {
             $('#notificationErrorSettings #notification-content').html('Format of email is not valid!');
             emailInputField.css({"border-color":"#F00"});
             $scope.notificationErrorSettings.apply('open');
