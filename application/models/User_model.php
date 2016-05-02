@@ -23,9 +23,9 @@ class user_model extends CI_Model
             '
         );
         $this->db->from('config_user');
-        $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique');
-        $this->db->join('config_position', 'config_position.Unique = config_user_position.ConfigPositionUnique');
-        $query = $this->db->where('config_user_position.PrimaryPosition', 1)
+        $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique', 'left');
+        $this->db->join('config_position', 'config_position.Unique = config_user_position.ConfigPositionUnique', 'left');
+        $query = $this->db/*->where('config_user_position.PrimaryPosition', 1)*/
             ->where('config_user.Status', 1)
             ->order_by('config_user.Unique', 'DESC')
             ->get();
