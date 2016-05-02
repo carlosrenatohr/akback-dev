@@ -7,19 +7,42 @@
     }
 </script>
 <div class="container-fluid">
+    <div class="col-md-12 col-md-offset-0">
+
+    <div class="row">
+        <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
+            <!--
+            <div class="col-md-3">
+                 <a class="navbar-brand" style="color: #146295;"><b>List of Customer:</b></a>
+            </div>
+            -->
+            <div class="col-md-12">
+                <div id="toolbar" class="toolbar-list">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <a href="<?php echo base_url("backoffice/dashboard")?>" style="outline:0;">
+                                <span class="icon-32-back"></span>
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    </div>
     <div class="row">
         <div class="col-md-12 col-md-offset-0">
             <div class="panel panel-primary">
-                <div class="panel-heading">&nbsp;</div>
                 <div class="panel-body">
                     <div class="col-md-12">
                         <div class="icon-handler">
-                            <div class="icon">
-                                <a href="<?php echo base_url("backoffice/dashboard")?>">
-                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/back.png">
-                                    <span class="mlabel">HOME</span>
-                                </a>
-                            </div>
+<!--                            <div class="icon">-->
+<!--                                <a href="--><?php //echo base_url("backoffice/dashboard")?><!--">-->
+<!--                                    <img width="48" alt="" src="--><?php //echo base_url()?><!--assets/img/back.png">-->
+<!--                                    <span class="mlabel">HOME</span>-->
+<!--                                </a>-->
+<!--                            </div>-->
                             <div class="icon">
                                 <a href="<?php echo base_url("dashboard/admin/users")?>">
                                     <img width="48" alt="" src="<?php echo base_url()?>assets/img/customer.png">
@@ -93,4 +116,23 @@
         padding: 0;
     }
 
+    div.toolbar-list a {
+        cursor: pointer;
+        display: block;
+        float: left;
+        padding: 1px 10px;
+        white-space: nowrap;
+    }
+
+    div.toolbar-list span {
+        display: block;
+        float: none;
+        height: 32px;
+        margin: 0 auto;
+        width: 32px;
+    }
+
+    .icon-32-back {
+        background-image: url("../assets/img/back.png");
+    }
 </style>

@@ -15,8 +15,7 @@ jqxthemes();
 </script>
 <script type="application/javascript" src="../../assets/admin/user_controller.js"></script>
 <!-- -->
-<input type="hidden" id="default_zipcode" value="<?php //echo $zipcode; ?>"/>
-<input type="hidden" id="customerid" value="">
+
 <div ng-controller="userController">
     <div class="container-fluid">
         <div class="col-md-12 col-md-offset-0">
@@ -33,7 +32,7 @@ jqxthemes();
                                 <li>
                                     <a href="<?php echo base_url("dashboard/admin")?>" style="outline:0;">
                                         <span class="icon-32-back"></span>
-                                        Home
+                                        Back
                                     </a>
                                 </li>
                                 <li>
