@@ -56,20 +56,65 @@ class User extends AK_Controller
             $pos = strpos($index, '_');
             if ($pos !== false) {
                 $temp_index = ucfirst(substr($index, $pos + 1));
-                if ($temp_index == 'Password' || $temp_index == 'Code') {
-                    $values[$temp_index] = md5($element);
-                } else {
-                    $values[$temp_index] = $element;
-                }
+                $values[$temp_index] = $element;
             } else {
                 $values[$index] = $element;
             }
         }
-        $values['Status'] = 1;
-        $values['Created'] = date('Y-m-d G:i:s');
-        $values['CreatedBy'] = $this->session->userdata('userid');
-        $status = $this->user_model->store($values);
-        echo json_encode($status);
+
+        $validations = $this->validationsBeforeSaving($values);
+        if ($validations['sure']) {
+            $values['Password'] = md5($values['Password']);
+            $values['Code'] = md5($values['Code']);
+            //
+            $values['Status'] = 1;
+            $values['Created'] = date('Y-m-d G:i:s');
+            $values['CreatedBy'] = $this->session->userdata('userid');
+            $status = $this->user_model->store($values);
+            $response = [
+                'status' => 'success',
+                'message' => $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => $validations['message']
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @helper
+     * @description Backend validations
+     * @returnType array
+     */
+    private function validationsBeforeSaving($data) {
+        $sure = true;
+        $message = [];
+        //
+        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName']);
+        if($usernameUsed) {
+            $sure = false;
+            $message['username'] = 'Selected User Name already in use.  Please input different user name';
+        }
+        //
+        // if (is_numeric($code) && !is_float($code)) {
+        if (!preg_match('/^[1-9][0-9]{0,12}$/', $data['Code'])) {
+            $sure = false;
+            $message['code'] = 'Your code must be number.';
+        }
+        $codeUsed = $this->user_model->validateField('Code', md5($data['Code']));
+        if($codeUsed) {
+            $sure = false;
+            $message['code'] = 'Selected Code already in use.  Please input different code';
+        }
+        $return = [
+            'sure' => $sure,
+            'message' => $message
+        ];
+        return $return;
     }
 
 }

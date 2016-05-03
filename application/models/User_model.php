@@ -12,6 +12,7 @@ class user_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('session');
     }
 
     public function getLists()
@@ -24,9 +25,13 @@ class user_model extends CI_Model
         );
         $this->db->from('config_user');
         $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique', 'left');
-        $this->db->join('config_position', 'config_position.Unique = config_user_position.ConfigPositionUnique', 'left');
+        $this->db->join(
+            'config_position',
+            'config_position.Unique = config_user_position.ConfigPositionUnique',
+            'left'
+        );
         $query = $this->db/*->where('config_user_position.PrimaryPosition', 1)*/
-            ->where('config_user.Status', 1)
+        ->where('config_user.Status', 1)
             ->order_by('config_user.Unique', 'DESC')
             ->get();
         return $query->result_array();
@@ -55,10 +60,17 @@ class user_model extends CI_Model
 //            'PayBasis' => 1,
 //            'Payrate' => 1,
             'Status' => 1,
-            'Created' => date('Y-m-d G:i:s')
+            'Created' => date('Y-m-d G:i:s'),
+            'CreatedBy' => $this->session->userdata('userid')
         ];
         $this->db->insert('config_user_position', $user_position);
         return $result;
+    }
+
+    public function validateField($field, $value)
+    {
+        $query = $this->db->where($field, $value)->get('config_user')->result_array();
+        return count($query);
     }
 
 }

@@ -227,6 +227,7 @@ demoApp.controller("userController", function($scope, $http) {
             console.info('Primary position can not be empty!');
             needValidation = true;
         }
+
         // VALIDATION Format of email
         var emailInputField = $('.addUserField#add_email');
         if (emailInputField.val() != '' && !check_email(emailInputField.val())) {
@@ -254,34 +255,46 @@ demoApp.controller("userController", function($scope, $http) {
                 'data': params,
                 success: function(data) {
                     console.log(data);
-                    // reload table
-                    $scope.userTableSettings = {
-                        source: {
-                            dataType: 'json',
-                            dataFields: [
-                                {name: 'Unique', type: 'int'},
-                                {name: 'UserName', type: 'string'},
-                                {name: 'FirstName', type: 'string'},
-                                {name: 'LastName', type: 'string'},
-                                {name: 'PrimaryPositionName', type: 'string'},
-                                {name: 'Phone1', type: 'string'},
-                                {name: 'Phone2', type: 'string'},
-                                {name: 'Email', type: 'string'}
-                            ],
-                            id: 'Unique',
-                            url: SiteRoot + 'admin/user/load_users'
-                        },
-                        created: function (args) {
-                            var instance = args.instance;
-                            instance.updateBoundData();
-                        }
-                    };
-                    $('#notificationSuccessSettings #notification-content').html('User created successfully!');
-                    $('#notificationSuccessSettings').jqxNotification('open');
-                    // CLOSE
-                    setTimeout(function() {
-                        $scope.closeWindows();
-                    }, 2000);
+                    if (data.status == 'success') {
+                        $('.addUserField').css({"border-color":"#ccc"});
+                        // reload table
+                        $scope.userTableSettings = {
+                            source: {
+                                dataType: 'json',
+                                dataFields: [
+                                    {name: 'Unique', type: 'int'},
+                                    {name: 'UserName', type: 'string'},
+                                    {name: 'FirstName', type: 'string'},
+                                    {name: 'LastName', type: 'string'},
+                                    {name: 'PrimaryPositionName', type: 'string'},
+                                    {name: 'Phone1', type: 'string'},
+                                    {name: 'Phone2', type: 'string'},
+                                    {name: 'Email', type: 'string'}
+                                ],
+                                id: 'Unique',
+                                url: SiteRoot + 'admin/user/load_users'
+                            },
+                            created: function (args) {
+                                var instance = args.instance;
+                                instance.updateBoundData();
+                            }
+                        };
+                        $('#notificationSuccessSettings #notification-content').html('User created successfully!');
+                        $('#notificationSuccessSettings').jqxNotification('open');
+                        // CLOSE
+                        setTimeout(function() {
+                            $scope.closeWindows();
+                        }, 2000);
+                    }
+                    else {
+                        console.log(data.message);
+                        $.each(data.message, function(i, msg){
+                            $('#notificationErrorSettings #notification-content').html(msg);
+                            $scope.notificationErrorSettings.apply('open');
+                            $('.addUserField#add_' + i).css({"border-color":"#F00"});
+                            console.info('Format of email is not valid');
+                        });
+                    }
                 }
             })
         }
