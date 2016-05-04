@@ -46,6 +46,7 @@ $(function(){
     // Watch any change on user inputs
     $('.addUserField').on('keypress paste change', function(e) {
         $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
+
     });
 
     $('.addUserField').on('keyup', function(e) {
@@ -55,6 +56,7 @@ $(function(){
             e.preventDefault();
         }
     });
+    // --
 
 });
 
@@ -133,18 +135,39 @@ demoApp.controller("userController", function($scope, $http) {
         addUserDialog.open();
     };
 
-    $scope.closeWindows = function(e) {
-        //var currentWindow = angular.element(e.currentTarget).parents('.userJqxwindows');
+    var resetWindowAddUserForm = function() {
         var currentWindow = $('.userJqxwindows');
         $(currentWindow).find('form input, textarea').val('');
-        $('#positionCombobox').jqxComboBox({'selectedIndex': 4})
-
-        //$scope.tabsSettings = {
-        //    selectedItem: 0
-        //};
+        $('#positionCombobox').jqxComboBox({'selectedIndex': 4});
         $('#tabsUser').jqxTabs({ selectedItem: 0 });
+        $('#addUserButtons').show();
+        $('#addUserConfirm').hide();
         addUserDialog.close();
     };
+
+    $scope.closeWindows = function(e) {
+        if ($('#submitAddUserForm').is(':disabled')) {
+            // Resetting
+            resetWindowAddUserForm();
+        }
+        else {
+            $('#addUserConfirm').show();
+            $('#addUserButtons').hide();
+        }
+    };
+
+    $scope.closeWindowsConfirm = function(selected) {
+        if (selected == 0) {
+            $scope.submitUserForm();
+        } else if (selected == 1) {
+            resetWindowAddUserForm();
+        } else if (selected == 2) {
+            $('#addUserConfirm').hide();
+            $('#addUserButtons').show();
+        }
+    };
+
+
 
     // POSITION COMBOBOX
     var source =
@@ -180,27 +203,20 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     // NOTIFICATIONS SETTINGS
-    $scope.notificationErrorSettings = {
-        width: "auto",
-        appendContainer: "#add_container",
-        opacity: 0.9,
-        closeOnClick: true,
-        autoClose: true,
-        showCloseButton: false,
-        //blink: true,
-        template: 'error'
+    var notificationSet = function(type) {
+        return {
+            width: "auto",
+            appendContainer: "#add_container",
+            opacity: 0.9,
+            closeOnClick: true,
+            autoClose: true,
+            showCloseButton: false,
+            //blink: true,
+            template: (type == 1) ? 'success' : 'error'
+        }
     };
-
-    $scope.notificationSuccessSettings = {
-        width: "auto",
-        appendContainer: "#add_container",
-        opacity: 0.9,
-        closeOnClick: true,
-        autoClose: true,
-        showCloseButton: false,
-        //blink: true,
-        template: 'success'
-    };
+    $scope.notificationErrorSettings = notificationSet(0);
+    $scope.notificationSuccessSettings = notificationSet(1);
 
     // Action to save a user
     $scope.submitUserForm = function() {
@@ -282,6 +298,7 @@ demoApp.controller("userController", function($scope, $http) {
                         $('#notificationSuccessSettings #notification-content').html('User created successfully!');
                         $('#notificationSuccessSettings').jqxNotification('open');
                         // CLOSE
+
                         setTimeout(function() {
                             $scope.closeWindows();
                         }, 2000);

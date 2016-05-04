@@ -238,7 +238,7 @@ jqxthemes();
                                 </jqx-tabs>
                                 <div class="col-md-12 col-md-offset-0">
                                     <div class="row">
-                                        <div id="add_btnscd">
+                                        <div id="addUserButtons">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
 <!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
@@ -247,13 +247,13 @@ jqxthemes();
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="add_msg" style="display:none; margin-top:10px; overflow:auto;">
+                                        <div id="addUserConfirm" style="display:none; margin-top:10px; overflow:auto;">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     Would you like to save your changes.
-                                                    <button type="button" id="add_yes" class="btn btn-primary">Yes</button>
-                                                    <button type="button" id="add_no" class="btn btn-warning">No</button>
-                                                    <button type="button" id="add_conf_cancel" class="btn btn-info">Cancel</button>
+                                                    <button type="button" ng-click="closeWindowsConfirm(0)" class="btn btn-primary">Yes</button>
+                                                    <button type="button" ng-click="closeWindowsConfirm(1)" class="btn btn-warning">No</button>
+                                                    <button type="button" ng-click="closeWindowsConfirm(2)" class="btn btn-info">Cancel</button>
                                                 </div>
                                             </div>
                                         </div>
