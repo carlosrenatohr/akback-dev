@@ -215,7 +215,7 @@ jqxthemes();
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab4" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab3" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <div class="row">
                                             <div>
                                                 <jqx-data-table jqx-watch="" jqx-on-row-double-click="" jqx-settings=""></jqx-data-table>
@@ -223,7 +223,7 @@ jqxthemes();
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab3" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab4" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <div class="row">
                                             <div style="width:100%;float:left;">
                                                 <div style="float:left; padding:2px; width:100%;">
@@ -259,12 +259,12 @@ jqxthemes();
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div id="add_confirmation_after_save" style="display:none; margin-top:10px; overflow:auto;">
+                                        <div id="addUserAnotherRow" style="display:none; margin-top:10px; overflow:auto;">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label id="addsavedmymessage"></label>
-                                                    <button type="button" id="add_aftersave_yes" class="btn btn-primary">Yes</button>
-                                                    <button type="button" id="add_aftersave_no" class="btn btn-warning">No</button>
+                                                    Would you like to add another user?
+                                                    <button type="button" class="btn btn-primary" ng-click="addAnotherUserConfirm(0)">Yes</button>
+                                                    <button type="button" class="btn btn-warning" ng-click="addAnotherUserConfirm(1)">No</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -142,13 +142,28 @@ demoApp.controller("userController", function($scope, $http) {
         $('#tabsUser').jqxTabs({ selectedItem: 0 });
         $('#addUserButtons').show();
         $('#addUserConfirm').hide();
-        addUserDialog.close();
+        $('#addUserAnotherRow').hide();
+        //
+        $('#addtab1').unblock();
+        $('#addtab2').unblock();
+        $('#addtab3').unblock();
+        $('#addtab4').unblock();
+        //
+        $('#submitAddUserForm').prop('disabled', true);
+    };
+
+    var blockTabs = function() {
+        $('#addtab1').block({message: null});
+        $('#addtab2').block({message: null});
+        $('#addtab3').block({message: null});
+        $('#addtab4').block({message: null});
     };
 
     $scope.closeWindows = function(e) {
         if ($('#submitAddUserForm').is(':disabled')) {
             // Resetting
             resetWindowAddUserForm();
+            addUserDialog.close();
         }
         else {
             $('#addUserConfirm').show();
@@ -161,10 +176,20 @@ demoApp.controller("userController", function($scope, $http) {
             $scope.submitUserForm();
         } else if (selected == 1) {
             resetWindowAddUserForm();
+            addUserDialog.close();
         } else if (selected == 2) {
             $('#addUserConfirm').hide();
             $('#addUserButtons').show();
         }
+    };
+
+    $scope.addAnotherUserConfirm = function(selected) {
+        resetWindowAddUserForm();
+        if (selected == 0) {
+
+        } else if (selected == 1) {
+            addUserDialog.close();
+        } else {}
     };
 
 
@@ -298,10 +323,9 @@ demoApp.controller("userController", function($scope, $http) {
                         $('#notificationSuccessSettings #notification-content').html('User created successfully!');
                         $('#notificationSuccessSettings').jqxNotification('open');
                         // CLOSE
-
-                        setTimeout(function() {
-                            $scope.closeWindows();
-                        }, 2000);
+                        $('#addUserAnotherRow').show();
+                        $('#addUserButtons').hide();
+                        blockTabs();
                     }
                     else {
                         console.log(data.message);
