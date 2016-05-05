@@ -48,13 +48,14 @@ jqxthemes();
             </div>
             <!--     USER ACTION       -->
             <div class="row">
-                <jqx-data-table jqx-settings="userTableSettings">
+                <jqx-data-table jqx-settings="userTableSettings"
+                                jqx-on-row-double-click="openEditUserWindows(event)">
                 </jqx-data-table>
 
                 <jqx-window jqx-on-close="close()" jqx-settings="addUserWindowSettings"
                             jqx-create="addUserWindowSettings" class="userJqxwindows">
                     <div>
-                        Add new user
+
                     </div>
                     <div>
                         <div class="new-user-form">
@@ -185,7 +186,7 @@ jqxthemes();
                                                 <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">City:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_address2" name="add_city" placeholder="City">
+                                                        <input type="text" class="form-control addUserField" id="add_city" name="add_city" placeholder="City">
                                                     </div>
                                                 </div>
 
@@ -229,7 +230,7 @@ jqxthemes();
                                                 <div style="float:left; padding:2px; width:100%;">
                                                     <div style="float:left; padding:8px; text-align:left; width:100px; font-weight:bold;">Note:</div>
                                                     <div style="float:left; width:100%;">
-                                                        <textarea rows="15" id="add_note" name="add_note" class="form-control addcustomer" placeholder="Note"></textarea>
+                                                        <textarea rows="15" id="add_note" name="add_note" class="form-control addUserField" placeholder="Note"></textarea>
                                                     </div>
                                                 </div>
                                             </div>

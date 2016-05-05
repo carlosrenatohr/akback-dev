@@ -66,10 +66,12 @@ var demoApp = angular.module("demoApp", ['jqwidgets']);
  */
 demoApp.controller("userController", function($scope, $http) {
 
+    $scope.newOrEditSelected = null;
     // Tabs config
     $scope.thetabs = 'darkblue';
     $scope.thetabsadd = 'darkblue';
 
+    // User Tabs settings
     $scope.tabsSettings = {
         created: function(args) {
             tabsControl = args.instance
@@ -86,23 +88,42 @@ demoApp.controller("userController", function($scope, $http) {
                 {name: 'UserName', type: 'string'},
                 {name: 'FirstName', type: 'string'},
                 {name: 'LastName', type: 'string'},
+                //{name: 'Code', type: 'string'},
+                //{name: 'Password', type: 'string'},
+                {name: 'Address1', type: 'string'},
+                {name: 'Address2', type: 'string'},
+                {name: 'City', type: 'string'},
+                {name: 'State', type: 'string'},
+                {name: 'Zip', type: 'string'},
+                {name: 'Country', type: 'string'},
+                {name: 'PrimaryPosition', type: 'string'},
                 {name: 'PrimaryPositionName', type: 'string'},
                 {name: 'Phone1', type: 'string'},
                 {name: 'Phone2', type: 'string'},
-                {name: 'Email', type: 'string'}
+                {name: 'Email', type: 'string'},
+                {name: 'Note', type: 'string'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/user/load_users'
         },
         columns: [
-            {text: 'id', dataField: 'Unique', type: 'int'},
+            {text: 'ID', dataField: 'Unique', type: 'int'},
             {text: 'User Name',dataField: 'UserName', type: 'string'},
             {text: 'First Name',dataField: 'FirstName', type: 'string'},
             {text: 'Last Name', dataField: 'LastName', type: 'string'},
             {text: 'Primary Position',dataField: 'PrimaryPositionName', type: 'string'},
+            {text: 'Primary Position id', dataField: 'PrimaryPosition', type: 'string', hidden: true},
+            {text: 'Address 1', dataField: 'Address1', type: 'string', hidden: true},
+            {text: 'Address 2', dataField: 'Address2', type: 'string',  hidden: true},
+            {text: 'City', dataField: 'City', type: 'string',  hidden: true},
+            {text: 'State', dataField: 'State', type: 'string',  hidden: true},
+            {text: 'Zip', dataField: 'Zip', type: 'string',  hidden: true},
+            {text: 'Country', dataField: 'Country', type: 'string',  hidden: true},
             {text: 'Phone 1', dataField: 'Phone1', type: 'string'},
             {text: 'Phone 2', dataField: 'Phone2', type: 'string'},
-            {text: 'Email', dataField: 'Email', type: 'string'}
+            {text: 'Email', dataField: 'Email', type: 'string'},
+            {name: 'Note', dataField: 'Note', hidden: true}
+
         ],
         columnsResize: true,
         width: "99.7%",
@@ -132,6 +153,26 @@ demoApp.controller("userController", function($scope, $http) {
 
     // Open the window form to add user
     $scope.openAddUserWindows = function() {
+        $scope.newOrEditSelected = 'new';
+        addUserDialog.setTitle('Add new user');
+        addUserDialog.open();
+    };
+
+    // Open the window form as edit user
+    $scope.openEditUserWindows = function(e) {
+        $scope.newOrEditSelected = 'edit';
+        var index = e.args.index;
+        var values = e.args.row;
+        for (var i in values) {
+            var ind = i.toLocaleLowerCase();
+            if ($('.addUserField#add_' + ind).length) {
+                $('.addUserField#add_' + ind).val(values[i]);
+            }
+        }
+        $('#positionCombobox').jqxComboBox({'selectedIndex': values['PrimaryPosition']});
+        $scope.userId = values['Unique'];
+
+        addUserDialog.setTitle('User ID '+ values.Unique + ': | User Name: ' + values.UserName);
         addUserDialog.open();
     };
 
@@ -144,6 +185,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#addUserConfirm').hide();
         $('#addUserAnotherRow').hide();
         //
+        //$('.new-user-form input.required-field').css({'border-color':'#ccc'});
         $('#addtab1').unblock();
         $('#addtab2').unblock();
         $('#addtab3').unblock();
@@ -185,16 +227,16 @@ demoApp.controller("userController", function($scope, $http) {
 
     $scope.addAnotherUserConfirm = function(selected) {
         resetWindowAddUserForm();
-        if (selected == 0) {
-
-        } else if (selected == 1) {
+        if (selected == 1) {
             addUserDialog.close();
-        } else {}
+        }
+        //if (selected == 0) {}
+        //else if (selected == 1) {
+        //    addUserDialog.close();
+        //} else {}
     };
 
-
-
-    // POSITION COMBOBOX
+    // PRIMARY POSITION COMBOBOX
     var source =
     {
         datatype: "json",
@@ -243,10 +285,11 @@ demoApp.controller("userController", function($scope, $http) {
     $scope.notificationErrorSettings = notificationSet(0);
     $scope.notificationSuccessSettings = notificationSet(1);
 
-    // Action to save a user
-    $scope.submitUserForm = function() {
-        var needValidation = false;
 
+    // HELPER to validate fields of user form
+    var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
+    var userValidationFields = function() {
+        var needValidation = false;
         // VALIDATION Not empty fields
         $('.new-user-form input.required-field').each(function(i, el) {
             if (el.value == '') {
@@ -261,7 +304,6 @@ demoApp.controller("userController", function($scope, $http) {
             }
         });
         // VALIDATION Combobox Primary position
-        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
         if (!comboboxPosition) {
             $('#notificationErrorSettings #notification-content').html('Primary position can not be empty!');
             $scope.notificationErrorSettings.apply('open');
@@ -281,63 +323,89 @@ demoApp.controller("userController", function($scope, $http) {
         else {
             emailInputField.css({"border-color":"#ccc"});
         }
+
+        return needValidation;
+    };
+
+    // Action to save a user
+    $scope.submitUserForm = function() {
+        var needValidation = userValidationFields();
+        var params = {};
         // Check if some is missing
         if (!needValidation) {
-            var params = {};
-            $.each($('#new-user-form').serializeArray(), function(i, el) {
-                params[el.name] = el.value;
-                //params[el.name] = encodeURIComponent(el.value);
-            });
-            params['position'] = comboboxPosition.value;
-            $.ajax({
-                'url': SiteRoot + 'admin/user/store_user',
-                'method': 'POST',
-                'dataType': 'json',
-                'data': params,
-                success: function(data) {
-                    console.log(data);
-                    if (data.status == 'success') {
-                        $('.addUserField').css({"border-color":"#ccc"});
-                        // reload table
-                        $scope.userTableSettings = {
-                            source: {
-                                dataType: 'json',
-                                dataFields: [
-                                    {name: 'Unique', type: 'int'},
-                                    {name: 'UserName', type: 'string'},
-                                    {name: 'FirstName', type: 'string'},
-                                    {name: 'LastName', type: 'string'},
-                                    {name: 'PrimaryPositionName', type: 'string'},
-                                    {name: 'Phone1', type: 'string'},
-                                    {name: 'Phone2', type: 'string'},
-                                    {name: 'Email', type: 'string'}
-                                ],
-                                id: 'Unique',
-                                url: SiteRoot + 'admin/user/load_users'
-                            },
-                            created: function (args) {
-                                var instance = args.instance;
-                                instance.updateBoundData();
-                            }
-                        };
-                        $('#notificationSuccessSettings #notification-content').html('User created successfully!');
-                        $('#notificationSuccessSettings').jqxNotification('open');
-                        // CLOSE
-                        $('#addUserAnotherRow').show();
-                        $('#addUserButtons').hide();
-                        blockTabs();
+            // Creating..
+            if ($scope.newOrEditSelected == 'new') {
+                $.each($('#new-user-form').serializeArray(), function(i, el) {
+                    params[el.name] = el.value;
+                });
+                params['position'] = comboboxPosition.value;
+                $.ajax({
+                    'url': SiteRoot + 'admin/user/store_user',
+                    'method': 'POST',
+                    'dataType': 'json',
+                    'data': params,
+                    success: function(data) {
+                        if (data.status == 'success') {
+                            $('.addUserField').css({"border-color":"#ccc"});
+                            // reload table
+                            $scope.userTableSettings = {
+                                source: {
+                                    dataType: 'json',
+                                    dataFields: [
+                                        {name: 'Unique', type: 'int'},
+                                        {name: 'UserName', type: 'string'},
+                                        {name: 'FirstName', type: 'string'},
+                                        {name: 'LastName', type: 'string'},
+                                        {name: 'PrimaryPositionName', type: 'string'},
+                                        {name: 'Phone1', type: 'string'},
+                                        {name: 'Phone2', type: 'string'},
+                                        {name: 'Email', type: 'string'}
+                                    ],
+                                    id: 'Unique',
+                                    url: SiteRoot + 'admin/user/load_users'
+                                },
+                                created: function (args) {
+                                    var instance = args.instance;
+                                    instance.updateBoundData();
+                                }
+                            };
+                            $('#notificationSuccessSettings #notification-content').html('User created successfully!');
+                            $('#notificationSuccessSettings').jqxNotification('open');
+                            // CLOSE
+                            $('#addUserAnotherRow').show();
+                            $('#addUserButtons').hide();
+                            blockTabs();
+                        }
+                        else {
+                            $.each(data.message, function(i, msg) {
+                                $('#notificationErrorSettings #notification-content').html(msg);
+                                $scope.notificationErrorSettings.apply('open');
+                                $('.addUserField#add_' + i).css({"border-color":"#F00"});
+                                //console.info('Format of email is not valid');
+                            });
+                        }
                     }
-                    else {
-                        console.log(data.message);
-                        $.each(data.message, function(i, msg){
-                            $('#notificationErrorSettings #notification-content').html(msg);
-                            $scope.notificationErrorSettings.apply('open');
-                            $('.addUserField#add_' + i).css({"border-color":"#F00"});
-                            console.info('Format of email is not valid');
-                        });
+                })
+
+            } else if ($scope.newOrEditSelected == 'edit') {
+                $.each($('#new-user-form').serializeArray(), function(i, el) {
+                    params[el.name] = el.value;
+                });
+                params['position'] = comboboxPosition.value;
+                params['Unique'] = $scope.userId;
+                $.ajax({
+                    'url': SiteRoot + 'admin/user/update_user',
+                    'method': 'POST',
+                    'dataType': 'json',
+                    'data': params,
+                    success: function(data) {
+                        console.log('success: ');
+                        console.log(data);
                     }
-                }
-            })
+                });
+
+            }
+
         }
 
     }

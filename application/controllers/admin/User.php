@@ -86,6 +86,44 @@ class User extends AK_Controller
     }
 
     /**
+     * @method POST
+     * @description Update an exist user
+     * @returnType json
+     */
+    public function update_user()
+    {
+        $values = $positionValues = [];
+        $id = $_POST['Unique'];
+        unset($_POST['Unique']);
+        foreach ($_POST as $index => $element) {
+            $pos = strpos($index, '_');
+            if ($pos !== false) {
+                $temp_index = ucfirst(substr($index, $pos + 1));
+                $values[$temp_index] = $element;
+            } else {
+                $values[$index] = $element;
+            }
+        }
+
+        // Valid Code or Password, if it is empty
+        $validations = $this->validationsBeforeSaving($values);
+        if ($validations['sure']) {
+            $status = $this->user_model->update($values, $id);
+            $response = [
+                'status' => 'success',
+                'message' => 'NOTHING' . $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => $validations['message']
+            ];
+        }
+        echo json_encode($response);
+
+    }
+
+    /**
      * @helper
      * @description Backend validations
      * @returnType array

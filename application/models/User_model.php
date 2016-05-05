@@ -67,6 +67,11 @@ class user_model extends CI_Model
         return $result;
     }
 
+    public function update($data, $id) {
+        $query = $this->db->where('Unique', $id)->get('config_user')->result_array();
+        return count($query);
+    }
+
     public function validateField($field, $value)
     {
         $query = $this->db->where($field, $value)->get('config_user')->result_array();
