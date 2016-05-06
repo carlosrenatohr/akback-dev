@@ -119,6 +119,7 @@ class user_model extends CI_Model
     public function validateField($field, $value, $whereNot = null)
     {
 
+        $this->db->where('Status', 1);
         $this->db->where($field, $value);
         if (!is_null($whereNot)) {
             $this->db->where($whereNot);

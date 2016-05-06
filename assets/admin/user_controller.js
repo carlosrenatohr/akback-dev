@@ -264,7 +264,6 @@ demoApp.controller("userController", function($scope, $http) {
 
     $scope.positionSelectChanged = function (e) {
         if (e.args) {
-            console.log(e)
         }
         //$('.submitUserBtn#submitAddUserForm').prop('disabled', false);
     };
@@ -478,7 +477,6 @@ demoApp.controller("userController", function($scope, $http) {
             'method': 'POST',
             'dataType': 'json',
             success: function (data) {
-                console.log(data);
                 if (data.status == 'success') {
                     $('.addUserField').css({"border-color": "#ccc"});
                     // reload table
