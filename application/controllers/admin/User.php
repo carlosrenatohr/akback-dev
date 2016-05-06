@@ -109,13 +109,15 @@ class User extends AK_Controller
         $validations = $this->validationsBeforeUpdating($values);
         if ($validations['sure']) {
             // Password is not empty?
-            if ((!empty($values['Password']))) {
+            $values['Password'] = ($values['Password'] == '******') ? '' : $values['Password'];
+            if (!empty($values['Password'])) {
                 $values['Password'] = md5($values['Password']);
             } else {
                 unset($values['Password']);
             }
             // Code is not empty?
-            if ((!empty($values['Code']))) {
+            $values['Code'] = ($values['Code'] == '******') ? '' : $values['Code'];
+            if (!empty($values['Code'])) {
                 $values['Code'] = md5($values['Code']);
             } else {
                 unset($values['Code']);
@@ -203,6 +205,7 @@ class User extends AK_Controller
             $message['username'] = 'Selected User Name already in use.  Please input different user name';
         }
         // -- Checking Code and password
+        $data['Code'] = ($data['Code'] == "******") ? '' : $data['Code'];
         if (!empty($data['Code'])) {
             if (!preg_match('/^[1-9][0-9]{0,12}$/', $data['Code'])) {
                 $sure = false;

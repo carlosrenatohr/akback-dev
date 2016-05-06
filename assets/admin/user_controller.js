@@ -155,6 +155,13 @@ demoApp.controller("userController", function($scope, $http) {
         $scope.userId = values['Unique'];
         $scope.editing_username = values['UserName'];
 
+        //inputsCode
+        var inputsCode = $('#add_code, #add_password');
+        inputsCode.val('******');
+        inputsCode.on('focus', function() {
+            $(this).select();
+        });
+
         addUserDialog.setTitle('User ID ' + values.Unique + ': | User Name: ' + values.UserName);
         addUserDialog.open();
     };
