@@ -336,6 +336,7 @@ demoApp.controller("userController", function($scope, $http) {
 
     // Action to save a user
     $scope.submitUserForm = function () {
+        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
         var needValidation = userValidationFields();
         var params = {};
         // Check if some is missing
@@ -410,7 +411,6 @@ demoApp.controller("userController", function($scope, $http) {
                 $.each($('#new-user-form').serializeArray(), function (i, el) {
                     params[el.name] = el.value;
                 });
-                var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
                 params['position'] = comboboxPosition.value;
                 params['Unique'] = $scope.userId;
                 $.ajax({
