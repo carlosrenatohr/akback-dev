@@ -140,6 +140,22 @@ class User extends AK_Controller
     }
 
     /**
+     * @method POST
+     * @description Delete an exist user
+     * @returnType json
+     */
+    public function delete_user() {
+        $id = $_POST['Unique'];
+        $status = $this->user_model->softDelete($id);
+        $response = [
+            'status' => 'success',
+            'message' => $status
+        ];
+
+        echo json_encode($response);
+    }
+
+    /**
      * @helper
      * @description Backend validations
      * @returnType array

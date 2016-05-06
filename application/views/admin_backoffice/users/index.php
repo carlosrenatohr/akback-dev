@@ -245,32 +245,41 @@ jqxthemes();
 <!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
                                                     <button type="button" id="submitAddUserForm" ng-click="submitUserForm()" class="btn btn-primary submitUserBtn" disabled>Save</button>
                                                     <button	type="button" id="cancelAddUserForm" ng-click="closeWindows($event)" class="btn btn-warning cancelUserBtn">Close</button>
-                                                    <button	type="button" id="deleteAddUserForm" ng-click="deleteRowUser($event)" class="btn btn-danger removeUserBtn">Close</button>
+                                                    <button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn hwide" style="display:none; overflow:auto;">Delete</button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="addUserConfirm" style="display:none; margin-top:10px; overflow:auto;">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    Would you like to save your changes.
+                                                    <div>Would you like to save your changes.</div>
                                                     <button type="button" ng-click="closeWindowsConfirm(0)" class="btn btn-primary">Yes</button>
                                                     <button type="button" ng-click="closeWindowsConfirm(1)" class="btn btn-warning">No</button>
                                                     <button type="button" ng-click="closeWindowsConfirm(2)" class="btn btn-info">Cancel</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div id="addUserAnotherRow" style="display:none; margin-top:10px; overflow:auto;">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    Would you like to add another user?
+                                                    <span>Would you like to add another user?</span>
                                                     <button type="button" class="btn btn-primary" ng-click="addAnotherUserConfirm(0)">Yes</button>
                                                     <button type="button" class="btn btn-warning" ng-click="addAnotherUserConfirm(1)">No</button>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="sureToDeleteUser" style="display:none; margin-top:10px; overflow:auto;">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <span>Are you sure you want to delete {{ editing_username }}?</span>
+                                                    <button type="button" class="btn btn-primary" ng-click="deletingUserConfirm(0)">Yes</button>
+                                                    <button type="button" class="btn btn-warning" ng-click="deletingUserConfirm(1)">No</button>
+                                                    <button type="button" class="btn btn-info" ng-click="deletingUserConfirm(2)">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </form>
                             </div>

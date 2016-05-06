@@ -104,6 +104,18 @@ class user_model extends CI_Model
         return $query;
     }
 
+    public function softDelete($id) {
+        $values = [
+            'Status' => 0,
+            'Updated' => date('Y-m-d G:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
+        $this->db->where('Unique', $id);
+        $query = $this->db->update('config_user', $values);
+
+        return $query;
+    }
+
     public function validateField($field, $value, $whereNot = null)
     {
 
