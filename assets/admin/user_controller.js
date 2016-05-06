@@ -200,6 +200,7 @@ demoApp.controller("userController", function($scope, $http) {
     $scope.closeWindowsConfirm = function (selected) {
         if (selected == 0) {
             $scope.submitUserForm();
+            $('#addUserConfirm').hide();
         } else if (selected == 1) {
             resetWindowAddUserForm();
             addUserDialog.close();
