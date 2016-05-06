@@ -293,11 +293,18 @@ demoApp.controller("userController", function($scope, $http) {
         // VALIDATION Not empty fields
         $('.new-user-form input.required-field').each(function(i, el) {
             if (el.value == '') {
-                $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
-                $(el).css({"border-color":"#F00"});
-                $scope.notificationErrorSettings.apply('open');
-                console.info($(el).attr('placeholder') + ' can not be empty!');
-                needValidation = true;
+                /**
+                 *  PENDING, SKIPPING code & password FOR EDITING USER
+                 */
+                if ($scope.newOrEditSelected != 'edit') {
+                    if ($(el).attr('id') != 'add_code' || $(el).attr('id') != 'add_password') {
+                        $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
+                        $(el).css({"border-color":"#F00"});
+                        $scope.notificationErrorSettings.apply('open');
+                        console.info($(el).attr('placeholder') + ' can not be empty!');
+                        needValidation = true;
+                    }
+                }
             }
             else {
                 $(el).css({"border-color":"#ccc"});

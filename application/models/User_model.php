@@ -68,7 +68,8 @@ class user_model extends CI_Model
     }
 
     public function update($data, $id) {
-        $query = $this->db->where('Unique', $id)->get('config_user')->result_array();
+        $query = $this->db
+            ->where('Unique', $id)->get('config_user')->result_array();
         return count($query);
     }
 

@@ -106,8 +106,15 @@ class User extends AK_Controller
         }
 
         // Valid Code or Password, if it is empty
-        $validations = $this->validationsBeforeSaving($values);
+        $validations = $this->validationsBeforeUpdating($values);
         if ($validations['sure']) {
+            $values['Password'] = (!empty($values['Password'])) ? md5($values['Password']) : null;
+            $values['Code'] = (!empty($values['Code'])) ? md5($values['Code']) : null;
+            //
+//            $values['Status'] = 1;
+            $values['Updated'] = date('Y-m-d G:i:s');
+            $values['UpdatedBy'] = $this->session->userdata('userid');
+
             $status = $this->user_model->update($values, $id);
             $response = [
                 'status' => 'success',
@@ -148,6 +155,41 @@ class User extends AK_Controller
             $sure = false;
             $message['code'] = 'Selected Code already in use.  Please input different code';
         }
+        $return = [
+            'sure' => $sure,
+            'message' => $message
+        ];
+        return $return;
+    }
+
+    /**
+     * @helper
+     * @description Backend validations
+     * @returnType array
+     */
+    private function validationsBeforeUpdating($data) {
+        $sure = true;
+        $message = [];
+        // -- Username validation
+        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName']);
+        if($usernameUsed) {
+            $sure = false;
+            $message['username'] = 'Selected User Name already in use.  Please input different user name';
+        }
+        // -- Checking Code and password
+        if (!empty($data['Code'])) {
+            if (!preg_match('/^[1-9][0-9]{0,12}$/', $data['Code'])) {
+                $sure = false;
+                $message['code'] = 'Your code must be number.';
+            }
+            $codeUsed = $this->user_model->validateField('Code', md5($data['Code']));
+            if($codeUsed) {
+                $sure = false;
+                $message['code'] = 'Selected Code already in use.  Please input different code';
+            }
+        }
+
+
         $return = [
             'sure' => $sure,
             'message' => $message
