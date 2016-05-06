@@ -271,7 +271,7 @@ jqxthemes();
                                         <div id="sureToDeleteUser" style="display:none; margin-top:10px; overflow:auto;">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <span>Are you sure you want to delete {{ editing_username }}?</span>
+                                                    <span>Are you sure you want to delete <b>{{ editing_username }}</b>?</span>
                                                     <button type="button" class="btn btn-primary" ng-click="deletingUserConfirm(0)">Yes</button>
                                                     <button type="button" class="btn btn-warning" ng-click="deletingUserConfirm(1)">No</button>
                                                     <button type="button" class="btn btn-info" ng-click="deletingUserConfirm(2)">Cancel</button>
