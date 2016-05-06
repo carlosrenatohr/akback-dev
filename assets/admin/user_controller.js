@@ -4,32 +4,30 @@
 
 var DynamicTab;
 
-$(function(){
+$(function() {
     changetabtile();
-    checkAnyFormFieldEdited();
-    checkAnyFormFieldAdd();
+    watchingInputs();
 
     function changetabtile(){
         $("#tabtitle").html("Users");
     }
 
-    $(".searchinput").keyup(function () {
-        $(this).next().toggle(Boolean($(this).val()));
-    });
-    $(".searchclear").toggle(Boolean($(".searchinput").val()));
-    $(".searchclear").click(function () {
-        $(this).prev().val('').focus();
-        $(this).hide();
-    });
+    // Watch any change on user inputs
+    function watchingInputs() {
+        $('.addUserField').on('keypress paste change', function (e) {
+            $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
 
-    $(".edit_searchinput").keyup(function () {
-        $(this).next().toggle(Boolean($(this).val()));
-    });
-    $(".edit_searchclear").toggle(Boolean($(".edit_searchinput").val()));
-    $(".edit_searchclear").click(function () {
-        $(this).prev().val('').focus();
-        $(this).hide();
-    });
+        });
+
+        $('.addUserField').on('keyup', function (e) {
+            if (e.keyCode == 8 || e.keyCode == 46) {
+                $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
+            } else {
+                e.preventDefault();
+            }
+        });
+    };
+    // --
 
     $('#addtabs').on('tabclick', function (event) {
         var tabclicked = event.args.item;
@@ -42,21 +40,6 @@ $(function(){
             $("#add_note").focus();
         }
     });
-
-    // Watch any change on user inputs
-    $('.addUserField').on('keypress paste change', function(e) {
-        $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
-
-    });
-
-    $('.addUserField').on('keyup', function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) {
-            enableAddSaveBtn();
-        } else {
-            e.preventDefault();
-        }
-    });
-    // --
 
 });
 
@@ -202,7 +185,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.closeWindows = function(e) {
-        if ($('#submitAddUserForm').is(':disabled')) {
+        if ($('#submitAddUserForm').is(':disabled') || $scope.newOrEditSelected == 'edit') {
             // Resetting
             resetWindowAddUserForm();
             addUserDialog.close();
@@ -244,8 +227,7 @@ demoApp.controller("userController", function($scope, $http) {
             { name: 'name' },
             { name: 'id' }
         ],
-        url: SiteRoot + 'admin/user/load_allPositions',
-        async: true
+        url: SiteRoot + 'admin/user/load_allPositions'
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
 
@@ -255,7 +237,7 @@ demoApp.controller("userController", function($scope, $http) {
         {
             comboboxPosition = args.instance;
         },
-        selectedIndex: 0,
+        //selectedIndex: 0,
         displayMember: "name",
         valueMember: "id",
         width: "99%",
@@ -263,10 +245,11 @@ demoApp.controller("userController", function($scope, $http) {
         source: dataAdapter
     };
 
-    $scope.positionSelectClicked = function(e){
+    $scope.positionSelectChanged = function(e){
         if (e.args) {
             console.log(e)
         }
+        //$('.submitUserBtn#submitAddUserForm').prop('disabled', false);
     };
 
     // NOTIFICATIONS SETTINGS
@@ -287,7 +270,6 @@ demoApp.controller("userController", function($scope, $http) {
 
 
     // HELPER to validate fields of user form
-    var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
     var userValidationFields = function() {
         var needValidation = false;
         // VALIDATION Not empty fields
@@ -311,6 +293,7 @@ demoApp.controller("userController", function($scope, $http) {
             }
         });
         // VALIDATION Combobox Primary position
+        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
         if (!comboboxPosition) {
             $('#notificationErrorSettings #notification-content').html('Primary position can not be empty!');
             $scope.notificationErrorSettings.apply('open');
@@ -363,10 +346,20 @@ demoApp.controller("userController", function($scope, $http) {
                                         {name: 'UserName', type: 'string'},
                                         {name: 'FirstName', type: 'string'},
                                         {name: 'LastName', type: 'string'},
+                                        //{name: 'Code', type: 'string'},
+                                        //{name: 'Password', type: 'string'},
+                                        {name: 'Address1', type: 'string'},
+                                        {name: 'Address2', type: 'string'},
+                                        {name: 'City', type: 'string'},
+                                        {name: 'State', type: 'string'},
+                                        {name: 'Zip', type: 'string'},
+                                        {name: 'Country', type: 'string'},
+                                        {name: 'PrimaryPosition', type: 'string'},
                                         {name: 'PrimaryPositionName', type: 'string'},
                                         {name: 'Phone1', type: 'string'},
                                         {name: 'Phone2', type: 'string'},
-                                        {name: 'Email', type: 'string'}
+                                        {name: 'Email', type: 'string'},
+                                        {name: 'Note', type: 'string'}
                                     ],
                                     id: 'Unique',
                                     url: SiteRoot + 'admin/user/load_users'
@@ -394,10 +387,13 @@ demoApp.controller("userController", function($scope, $http) {
                     }
                 })
 
-            } else if ($scope.newOrEditSelected == 'edit') {
+            }
+            // AJAX updating user
+            else if ($scope.newOrEditSelected == 'edit') {
                 $.each($('#new-user-form').serializeArray(), function(i, el) {
                     params[el.name] = el.value;
                 });
+                var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
                 params['position'] = comboboxPosition.value;
                 params['Unique'] = $scope.userId;
                 $.ajax({
@@ -406,16 +402,58 @@ demoApp.controller("userController", function($scope, $http) {
                     'dataType': 'json',
                     'data': params,
                     success: function(data) {
-                        console.log('success: ');
-                        console.log(data);
+                        if (data.status == 'success') {
+                            $('.addUserField').css({"border-color":"#ccc"});
+                            // reload table
+                            $scope.userTableSettings = {
+                                source: {
+                                    dataType: 'json',
+                                    dataFields: [
+                                        {name: 'Unique', type: 'int'},
+                                        {name: 'UserName', type: 'string'},
+                                        {name: 'FirstName', type: 'string'},
+                                        {name: 'LastName', type: 'string'},
+                                        //{name: 'Code', type: 'string'},
+                                        //{name: 'Password', type: 'string'},
+                                        {name: 'Address1', type: 'string'},
+                                        {name: 'Address2', type: 'string'},
+                                        {name: 'City', type: 'string'},
+                                        {name: 'State', type: 'string'},
+                                        {name: 'Zip', type: 'string'},
+                                        {name: 'Country', type: 'string'},
+                                        {name: 'PrimaryPosition', type: 'string'},
+                                        {name: 'PrimaryPositionName', type: 'string'},
+                                        {name: 'Phone1', type: 'string'},
+                                        {name: 'Phone2', type: 'string'},
+                                        {name: 'Email', type: 'string'},
+                                        {name: 'Note', type: 'string'}
+                                    ],
+                                    id: 'Unique',
+                                    url: SiteRoot + 'admin/user/load_users'
+                                },
+                                created: function (args) {
+                                    var instance = args.instance;
+                                    instance.updateBoundData();
+                                }
+                            };
+                            $('#notificationSuccessSettings #notification-content').html('User updated successfully!');
+                            $('#notificationSuccessSettings').jqxNotification('open');
+                        }
+                        else {
+                            $.each(data.message, function(i, msg) {
+                                $('#notificationErrorSettings #notification-content').html(msg);
+                                $scope.notificationErrorSettings.apply('open');
+                                $('.addUserField#add_' + i).css({"border-color":"#F00"});
+                                //console.info('Format of email is not valid');
+                            });
+                        }
                     }
                 });
-
             }
-
         }
 
-    }
+    };
+
 });
 
 // -- User controller //
@@ -423,66 +461,6 @@ demoApp.controller("userController", function($scope, $http) {
 /**
  * HELPERS from customer...
  */
-var FilterCharacters = function(text){
-    return encodeURIComponent(text);
-}
-
-function checkAnyFormFieldEdited() {
-    $('.customer').keypress(function(e) { // text written
-        enableSaveBtn();
-    });
-
-    $('.customer').keyup(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) { //backspace and delete key
-            enableSaveBtn();
-        } else { // rest ignore
-            e.preventDefault();
-        }
-    });
-
-    $('.customer').bind('paste', function(e) { // text pasted
-        enableSaveBtn();
-    });
-
-    $('.customer').change(function(e) { // select element changed
-        enableSaveBtn();
-    });
-}
-
-function checkAnyFormFieldAdd() {
-    $('.addcustomer').keypress(function(e) { // text written
-        enableAddSaveBtn();
-    });
-
-    $('.addcustomer').keyup(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) { //backspace and delete key
-            enableAddSaveBtn();
-        } else { // rest ignore
-            e.preventDefault();
-        }
-    });
-
-    $('.addcustomer').bind('paste', function(e) { // text pasted
-        enableAddSaveBtn();
-    });
-
-    $('.addcustomer').change(function(e) { // select element changed
-        enableAddSaveBtn();
-    });
-}
-
-function enableSaveBtn(){
-    $("#_update").attr("disabled", false);
-}
-
-function enableAddSaveBtn(){
-    $("#add_save").attr("disabled", false);
-}
-
-function reset_form(){
-    // PENDING TO CLEAR USER INPUTS
-}
-
 function check_email(val) {
     if(!val.match(/\S+@\S+\.\S+/)){
         return false;
@@ -493,7 +471,6 @@ function check_email(val) {
     return true;
 }
 
-
 function countChar() {
     var len = $("#phone1").val().length;
     if (len >= 6) {
@@ -502,14 +479,3 @@ function countChar() {
         $('#phone1').val("");
     }
 }
-
-function confirmation_message(){
-    setTimeout(function(){
-    }, intervalclosemessage);
-}
-
-$(function(){
-    setTimeout(function(){
-        $("#table input.jqx-input").focus();
-    },1000)
-});

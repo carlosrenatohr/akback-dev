@@ -68,14 +68,50 @@ class user_model extends CI_Model
     }
 
     public function update($data, $id) {
+        $position_id = $data['position'];
+        unset($data['position']);
+        //
         $query = $this->db
-            ->where('Unique', $id)->get('config_user')->result_array();
-        return count($query);
+                    ->update('config_user', $data, "Unique = {$id}");
+        //
+        $user_position = [
+            'PrimaryPosition' => 1,
+            'Status' => 1,
+        ];
+        $where = ['ConfigPositionUnique' => $position_id,
+                  'ConfigUserUnique' => $id];
+        $exists = $this->db->where($where)
+            ->get('config_user_position')->result_array();
+        if (count($exists)) {
+            $user_position['Updated'] = date('Y-m-d G:i:s');
+            $user_position['UpdatedBy'] = $this->session->userdata('userid');
+            $this->db->where('ConfigUserUnique', $id);
+            $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
+
+            $this->db->where($where);
+            $this->db->update('config_user_position', $user_position);
+        } else {
+            $user_position['Created'] = date('Y-m-d G:i:s');
+            $user_position['CreatedBy'] = $this->session->userdata('userid');
+
+            $this->db->where('ConfigUserUnique', $id);
+            $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
+
+            $user_position = array_merge($user_position, $where);
+            $this->db->insert('config_user_position', $user_position);
+        }
+
+        return $query;
     }
 
-    public function validateField($field, $value)
+    public function validateField($field, $value, $whereNot = null)
     {
-        $query = $this->db->where($field, $value)->get('config_user')->result_array();
+
+        $this->db->where($field, $value);
+        if (!is_null($whereNot)) {
+            $this->db->where($whereNot);
+        }
+        $query = $this->db->get('config_user')->result_array();
         return count($query);
     }
 

@@ -108,17 +108,26 @@ class User extends AK_Controller
         // Valid Code or Password, if it is empty
         $validations = $this->validationsBeforeUpdating($values);
         if ($validations['sure']) {
-            $values['Password'] = (!empty($values['Password'])) ? md5($values['Password']) : null;
-            $values['Code'] = (!empty($values['Code'])) ? md5($values['Code']) : null;
-            //
+            // Password is not empty?
+            if ((!empty($values['Password']))) {
+                $values['Password'] = md5($values['Password']);
+            } else {
+                unset($values['Password']);
+            }
+            // Code is not empty?
+            if ((!empty($values['Code']))) {
+                $values['Code'] = md5($values['Code']);
+            } else {
+                unset($values['Code']);
+            }
+            // Rest of values
 //            $values['Status'] = 1;
             $values['Updated'] = date('Y-m-d G:i:s');
             $values['UpdatedBy'] = $this->session->userdata('userid');
-
             $status = $this->user_model->update($values, $id);
             $response = [
                 'status' => 'success',
-                'message' => 'NOTHING' . $status
+                'message' => 'Updated: ' . $status
             ];
         } else {
             $response = [
@@ -171,7 +180,8 @@ class User extends AK_Controller
         $sure = true;
         $message = [];
         // -- Username validation
-        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName']);
+        $whereNot = ['UserName !=' => $data['UserName']];
+        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName'], $whereNot);
         if($usernameUsed) {
             $sure = false;
             $message['username'] = 'Selected User Name already in use.  Please input different user name';

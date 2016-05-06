@@ -127,7 +127,7 @@ jqxthemes();
                                             <div style="float:left; padding:2px; width:350px;">
                                                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary:</div>
                                                 <div style="float:left; width:180px;">
-                                                    <jqx-combo-box  jqx-on-select="selectHandler(event)" id="positionCombobox" class="required-field"
+                                                    <jqx-combo-box  jqx-on-select="positionSelectChanged(event)" id="positionCombobox" class="required-field"
                                                                     jqx-settings="positionSelectSetting">
 
                                                     </jqx-combo-box>
@@ -245,6 +245,7 @@ jqxthemes();
 <!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
                                                     <button type="button" id="submitAddUserForm" ng-click="submitUserForm()" class="btn btn-primary submitUserBtn" disabled>Save</button>
                                                     <button	type="button" id="cancelAddUserForm" ng-click="closeWindows($event)" class="btn btn-warning cancelUserBtn">Close</button>
+                                                    <button	type="button" id="deleteAddUserForm" ng-click="deleteRowUser($event)" class="btn btn-danger removeUserBtn">Close</button>
                                                 </div>
                                             </div>
                                         </div>
