@@ -183,6 +183,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#addtab4').unblock();
         //
         $('#submitAddUserForm').prop('disabled', true);
+        $('#deleteAddUserForm').hide();
     };
 
     var blockTabs = function () {
