@@ -60,7 +60,7 @@ class user_model extends CI_Model
 //            'PayBasis' => 1,
 //            'Payrate' => 1,
             'Status' => 1,
-            'Created' => date('Y-m-d G:i:s'),
+            'Created' => date('Y-m-d H:i:s'),
             'CreatedBy' => $this->session->userdata('userid')
         ];
         $this->db->insert('config_user_position', $user_position);
@@ -83,7 +83,7 @@ class user_model extends CI_Model
         $exists = $this->db->where($where)
             ->get('config_user_position')->result_array();
         if (count($exists)) {
-            $user_position['Updated'] = date('Y-m-d G:i:s');
+            $user_position['Updated'] = date('Y-m-d H:i:s');
             $user_position['UpdatedBy'] = $this->session->userdata('userid');
             $this->db->where('ConfigUserUnique', $id);
             $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
@@ -91,7 +91,7 @@ class user_model extends CI_Model
             $this->db->where($where);
             $this->db->update('config_user_position', $user_position);
         } else {
-            $user_position['Created'] = date('Y-m-d G:i:s');
+            $user_position['Created'] = date('Y-m-d H:i:s');
             $user_position['CreatedBy'] = $this->session->userdata('userid');
 
             $this->db->where('ConfigUserUnique', $id);
@@ -107,7 +107,7 @@ class user_model extends CI_Model
     public function softDelete($id) {
         $values = [
             'Status' => 0,
-            'Updated' => date('Y-m-d G:i:s'),
+            'Updated' => date('Y-m-d H:i:s'),
             'UpdatedBy' => $this->session->userdata('userid')
         ];
         $this->db->where('Unique', $id);

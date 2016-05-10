@@ -5,6 +5,7 @@
 var DynamicTab;
 
 $(function() {
+    $('#add_username').focus();
     changetabtile();
     watchingInputs();
 
@@ -29,15 +30,14 @@ $(function() {
     };
     // --
 
-    $('#addtabs').on('tabclick', function (event) {
+    $('#tabsUser').on('tabclick', function (event) {
         var tabclicked = event.args.item;
-        if(tabclicked == 0){
-            $("#container").css({"height":"60px"});
-        }else if(tabclicked == 1){
-            $("#container").css({"height":"60px"});
-        }else if(tabclicked == 2){
-            $("#container").css({"height":"60px"});
-            $("#add_note").focus();
+        //if(tabclicked == 0){
+        //    $("#container").css({"height":"60px"}); }
+        if(tabclicked == 3) {
+            setTimeout(function(){
+                $("#add_note").focus();
+            }, 100);
         }
     });
 
@@ -138,6 +138,9 @@ demoApp.controller("userController", function($scope, $http) {
         $scope.newOrEditSelected = 'new';
         addUserDialog.setTitle('Add new user');
         addUserDialog.open();
+        setTimeout(function(){
+            $('#add_username').focus();
+        }, 100);
     };
 
     // Open the window form as edit user
@@ -164,6 +167,9 @@ demoApp.controller("userController", function($scope, $http) {
 
         addUserDialog.setTitle('User ID ' + values.Unique + ': | User Name: ' + values.UserName);
         addUserDialog.open();
+        //setTimeout(function(){
+        //    $('#add_username').focus();
+        //}, 100);
     };
 
     var resetWindowAddUserForm = function () {
@@ -184,6 +190,8 @@ demoApp.controller("userController", function($scope, $http) {
         //
         $('#submitAddUserForm').prop('disabled', true);
         $('#deleteAddUserForm').hide();
+
+        $('.addUserField.required-field').css({"border-color": "#ccc"});
     };
 
     var blockTabs = function () {
@@ -194,7 +202,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.closeWindows = function (e) {
-        if ($('#submitAddUserForm').is(':disabled') || $scope.newOrEditSelected == 'edit') {
+        if ($('#submitAddUserForm').is(':disabled')) {
             // Resetting
             resetWindowAddUserForm();
             addUserDialog.close();
@@ -206,6 +214,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.closeWindowsConfirm = function (selected) {
+        $('#addUserButtons').show();
         if (selected == 0) {
             $scope.submitUserForm();
             $('#addUserConfirm').hide();
@@ -214,7 +223,6 @@ demoApp.controller("userController", function($scope, $http) {
             addUserDialog.close();
         } else if (selected == 2) {
             $('#addUserConfirm').hide();
-            $('#addUserButtons').show();
         }
     };
 
@@ -223,6 +231,9 @@ demoApp.controller("userController", function($scope, $http) {
         if (selected == 1) {
             addUserDialog.close();
         }
+        setTimeout(function(){
+            $('#add_username').focus();
+        }, 100);
         //if (selected == 0) {}
         //else if (selected == 1) {
         //    addUserDialog.close();
@@ -303,15 +314,15 @@ demoApp.controller("userController", function($scope, $http) {
                 /**
                  *  PENDING, SKIPPING code & password FOR EDITING USER
                  */
-                if ($scope.newOrEditSelected != 'edit') {
-                    if ($(el).attr('id') != 'add_code' || $(el).attr('id') != 'add_password') {
+                //if ($scope.newOrEditSelected != 'edit') {
+                //    if ($(el).attr('id') != 'add_code' || $(el).attr('id') != 'add_password') {
                         $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
                         $(el).css({"border-color": "#F00"});
                         $scope.notificationErrorSettings.apply('open');
                         console.info($(el).attr('placeholder') + ' can not be empty!');
                         needValidation = true;
-                    }
-                }
+                    //}
+                //}
             }
             else {
                 $(el).css({"border-color": "#ccc"});
@@ -463,6 +474,13 @@ demoApp.controller("userController", function($scope, $http) {
                             };
                             $('#notificationSuccessSettings #notification-content').html('User updated successfully!');
                             $('#notificationSuccessSettings').jqxNotification('open');
+
+                            $('#addUserButtons').show();
+                            blockTabs();
+                            setTimeout(function() {
+                                addUserDialog.close();
+                                resetWindowAddUserForm();
+                            }, 2000);
                         }
                         else {
                             $.each(data.message, function (i, msg) {
@@ -522,12 +540,7 @@ demoApp.controller("userController", function($scope, $http) {
                     };
                     $('#notificationSuccessSettings #notification-content').html('User deleted!');
                     $('#notificationSuccessSettings').jqxNotification('open');
-                    blockTabs();
-                    setTimeout(function() {
-                        resetWindowAddUserForm();
-                        addUserDialog.close();
-                    }, 2000);
-
+                    //blockTabs();
                     // CLOSE
                     //$('#addUserAnotherRow').show();
                     //$('#addUserButtons').hide();
