@@ -40,9 +40,28 @@ class user_model extends CI_Model
     public function getPositions()
     {
         $query = $this->db
-            ->select('Unique as id, PositionName as name, PositionLevel as level')
+            ->select('Unique, PositionName, PositionLevel as level')
             ->where('Status', 1)
             ->from("config_position")
+            ->get();
+        return $query->result_array();
+    }
+
+    public function getPositionsByUser($id) {
+        $where = [
+            'config_user_position.Status' => 1,
+            'config_user_position.ConfigUserUnique' => $id];
+        $query = $this->db
+            ->select('config_user_position.*,
+                    config_position.PositionName,
+                    config_position.PositionLevel,
+                        ')
+            ->where($where)
+            ->join(
+                'config_position',
+                'config_position.Unique = config_user_position.ConfigPositionUnique'
+            )
+            ->from("config_user_position")
             ->get();
         return $query->result_array();
     }
@@ -53,6 +72,7 @@ class user_model extends CI_Model
         unset($data['position']);
         $result = $this->db->insert('config_user', $data);
         $insert_id = $this->db->insert_id();
+        //
         $user_position = [
             'ConfigPositionUnique' => $position_id,
             'ConfigUserUnique' => $insert_id,
@@ -86,7 +106,7 @@ class user_model extends CI_Model
             $user_position['Updated'] = date('Y-m-d H:i:s');
             $user_position['UpdatedBy'] = $this->session->userdata('userid');
             $this->db->where('ConfigUserUnique', $id);
-            $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
+            $this->db->update('config_user_position', ['PrimaryPosition' => 0, 'Status' => 0]);
 
             $this->db->where($where);
             $this->db->update('config_user_position', $user_position);
@@ -95,7 +115,7 @@ class user_model extends CI_Model
             $user_position['CreatedBy'] = $this->session->userdata('userid');
 
             $this->db->where('ConfigUserUnique', $id);
-            $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
+            $this->db->update('config_user_position', ['PrimaryPosition' => 0, 'Status' => 0]);
 
             $user_position = array_merge($user_position, $where);
             $this->db->insert('config_user_position', $user_position);

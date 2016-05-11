@@ -14,6 +14,7 @@ jqxthemes();
     var SiteRoot = "<?php echo base_url()?>";
 </script>
 <script type="application/javascript" src="../../assets/admin/user_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/position_controller.js"></script>
 <!-- -->
 
 <div ng-controller="userController">
@@ -216,10 +217,14 @@ jqxthemes();
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab3" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
-                                        <div class="row">
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab3"
+                                         style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                        <div class="row" >
                                             <div>
-                                                <jqx-data-table jqx-watch="" jqx-on-row-double-click="" jqx-settings=""></jqx-data-table>
+                                                <jqx-data-table
+                                                    jqx-on-row-double-click=""
+                                                    jqx-settings="userPositionsTableSettings">
+                                                </jqx-data-table>
                                             </div>
                                         </div>
                                     </div>

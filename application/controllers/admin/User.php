@@ -44,6 +44,10 @@ class User extends AK_Controller
         echo json_encode($this->user_model->getPositions());
     }
 
+    public function load_positionsByUser($id) {
+        echo json_encode($this->user_model->getPositionsByUser($id));
+    }
+
     /**
      * @method POST
      * @description Save a new user

@@ -30,17 +30,6 @@ $(function() {
     };
     // --
 
-    $('#tabsUser').on('tabclick', function (event) {
-        var tabclicked = event.args.item;
-        //if(tabclicked == 0){
-        //    $("#container").css({"height":"60px"}); }
-        if(tabclicked == 3) {
-            setTimeout(function(){
-                $("#add_note").focus();
-            }, 100);
-        }
-    });
-
 });
 
 var demoApp = angular.module("demoApp", ['jqwidgets']);
@@ -154,7 +143,8 @@ demoApp.controller("userController", function($scope, $http) {
             }
         }
         $('#deleteAddUserForm').show();
-        $('#positionCombobox').jqxComboBox({'selectedIndex': values['PrimaryPosition']});
+        var selectedIndexByPosition = $('#positionCombobox').jqxComboBox('getItemByValue', values['PrimaryPosition']).index;
+        $('#positionCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
         $scope.userId = values['Unique'];
         $scope.editing_username = values['UserName'];
 
@@ -192,6 +182,26 @@ demoApp.controller("userController", function($scope, $http) {
         $('#deleteAddUserForm').hide();
 
         $('.addUserField.required-field').css({"border-color": "#ccc"});
+        $scope.userId = null;
+        //
+        $scope.userPositionsTableSettings = {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'PositionName', type: 'string'},
+                    {name: 'PrimaryPosition', type: 'string'}                ]
+                //id: 'Unique',
+                //url: SiteRoot + 'admin/user/load_positionsByUser/100'
+            },
+            columns: [
+                {text: 'Name', dataField: 'PositionName', type: 'string'},
+                {text: 'Primary', dataField: 'PrimaryPosition', type: 'string'},
+            ],
+            //columnsResize: true,
+            width: "75%",
+            theme: 'arctic',
+            pagerMode: 'default'
+        };
     };
 
     var blockTabs = function () {
@@ -262,8 +272,8 @@ demoApp.controller("userController", function($scope, $http) {
     {
         datatype: "json",
         datafields: [
-            {name: 'name'},
-            {name: 'id'}
+            {name: 'PositionName'},
+            {name: 'Unique'}
         ],
         url: SiteRoot + 'admin/user/load_allPositions'
     };
@@ -275,8 +285,8 @@ demoApp.controller("userController", function($scope, $http) {
             comboboxPosition = args.instance;
         },
         selectedIndex: 0,
-        displayMember: "name",
-        valueMember: "id",
+        displayMember: "PositionName",
+        valueMember: "Unique",
         width: "99%",
         height: 25,
         source: dataAdapter
@@ -303,6 +313,54 @@ demoApp.controller("userController", function($scope, $http) {
     };
     $scope.notificationErrorSettings = notificationSet(0);
     $scope.notificationSuccessSettings = notificationSet(1);
+
+    // USER-POSITIONS
+    $scope.userPositionsTableSettings = {
+        source: {
+            dataType: 'json',
+            dataFields: [
+                {name: 'PositionName', type: 'string'},
+                {name: 'PrimaryPosition', type: 'string'},
+            ],
+            //id: 'Unique',
+            //url: SiteRoot + 'admin/user/load_positionsByUser/100'
+        },
+        columns: [
+            {text: 'Name', dataField: 'PositionName', type: 'string'},
+            {text: 'Primary', dataField: 'PrimaryPosition', type: 'string'},
+        ],
+        columnsResize: true,
+        width: "75%",
+        theme: 'arctic',
+        pagerMode: 'default'
+    };
+
+    $('#tabsUser').on('tabclick', function (event) {
+        var tabclicked = event.args.item;
+
+        if(tabclicked == 2) {
+            if ($scope.userId != null) {
+                $scope.$apply(function(){
+                    $scope.userPositionsTableSettings = {
+                        source: {
+                            dataType: 'json',
+                            dataFields: [
+                                {name: 'PositionName', type: 'string'},
+                                {name: 'PrimaryPosition', type: 'string'}
+                            ],
+                            id: 'PrimaryPosition',
+                            url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId
+                        }
+                    };
+                });
+            }
+        }
+        if(tabclicked == 3) {
+            setTimeout(function(){
+                $("#add_note").focus();
+            }, 100);
+        }
+    });
 
 
     // HELPER to validate fields of user form
