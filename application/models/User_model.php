@@ -66,6 +66,10 @@ class user_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getUsernameByUser($id) {
+        return $this->db->get_where('config_user', ['Unique'=> $id])->result_array();
+    }
+
     public function store($data)
     {
         $position_id = $data['position'];

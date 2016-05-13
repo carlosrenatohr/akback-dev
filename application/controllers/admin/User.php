@@ -110,7 +110,7 @@ class User extends AK_Controller
         }
 
         // Valid Code or Password, if it is empty
-        $validations = $this->validationsBeforeUpdating($values);
+        $validations = $this->validationsBeforeUpdating($values, $id);
         if ($validations['sure']) {
             // Password is not empty?
             $values['Password'] = ($values['Password'] == '******') ? '' : $values['Password'];
@@ -222,11 +222,13 @@ class User extends AK_Controller
      * @description Backend validations
      * @returnType array
      */
-    private function validationsBeforeUpdating($data) {
+    private function validationsBeforeUpdating($data, $id) {
         $sure = true;
         $message = [];
         // -- Username validation
-        $whereNot = ['UserName !=' => $data['UserName']];
+        $user = $this->user_model->getUsernameByUser($id);
+
+        $whereNot = ['UserName !=' => $user[0]['UserName']];
         $usernameUsed = $this->user_model->validateField('UserName', $data['UserName'], $whereNot);
         if($usernameUsed) {
             $sure = false;
