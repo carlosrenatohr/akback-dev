@@ -285,8 +285,10 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     //
-    $('#positionByUserCombobox').jqxComboBox({disabled: true});
     $scope.openUserpositionsWindows = function() {
+        $('#positionByUserCombobox').jqxComboBox({disabled: false});
+        $('#deletePositionuserBtn').hide();
+
         userPositionWindow.setTitle("Add Position | username: <b>" + $scope.editing_username+ "</b>");
         userPositionWindow.open();
     };
@@ -365,6 +367,7 @@ demoApp.controller("userController", function($scope, $http) {
         }
         //
         $('#savePositionuserBtn').attr('disabled', 'disabled');
+        $('#positionByUserCombobox').jqxComboBox({disabled: true});
         userPositionWindow.open();
     };
 
