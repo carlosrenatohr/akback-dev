@@ -46,7 +46,13 @@
                             <div class="icon">
                                 <a href="<?php echo base_url("dashboard/admin/users")?>">
                                     <img width="48" alt="" src="<?php echo base_url()?>assets/img/customer.png">
-                                    <span class="mlabel">USER</span>
+                                    <span class="mlabel">USERS</span>
+                                </a>
+                            </div>
+                            <div class="icon">
+                                <a href="<?php echo base_url("dashboard/admin/categories")?>">
+                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/kahon.png">
+                                    <span class="mlabel">MENU CATEGORIES</span>
                                 </a>
                             </div>
                         </div>
@@ -81,7 +87,7 @@
         color: #565656;
         display: block;
         float: left;
-        height: 97px;
+        height: 102px;
         text-decoration: none;
         transition-duration: 0.8s;
         transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
