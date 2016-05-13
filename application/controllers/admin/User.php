@@ -45,7 +45,13 @@ class User extends AK_Controller
     }
 
     public function load_positionsByUser($id) {
-        echo json_encode($this->user_model->getPositionsByUser($id));
+        $positions = $this->user_model->getPositionsByUser($id);
+        $new_positions = [];
+        foreach($positions as $index => $position) {
+            $position['isPosition'] = ($position['PrimaryPosition'] == 1) ? 'YES' : '-';
+            $new_positions[] = $position;
+        }
+        echo json_encode($new_positions);
     }
 
     /**

@@ -247,8 +247,6 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.positionSelectChanged = function (e) {
-        if (e.args) {
-        }
         //$('.submitUserBtn#submitAddUserForm').prop('disabled', false);
     };
 
@@ -267,6 +265,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
     $scope.notificationErrorSettings = notificationSet(0);
     $scope.notificationSuccessSettings = notificationSet(1);
+    $scope.notificationPositionSettings = notificationSet(1);
 
     /**
      * USER-POSITIONS tab
@@ -286,25 +285,69 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     //
+    $('#positionByUserCombobox').jqxComboBox({disabled: true});
     $scope.openUserpositionsWindows = function() {
-        //addUserDialog.setTitle('Add new user');
+        userPositionWindow.setTitle("Add Position | username: <b>" + $scope.editing_username+ "</b>");
         userPositionWindow.open();
     };
 
-    //
+    // Events position
+    $('#PayRateField').on('keypress keyup paste change', function (e) {
+        $('#savePositionuserBtn').prop('disabled', false);
+    });
+
+    $('#payBasisSelect').on('select', function(){
+        $('#savePositionuserBtn').prop('disabled', false);
+    });
+
+    $('#positionByUserCombobox').on('select', function (e) {
+        //$('#savePositionuserBtn').prop('disabled', false);
+    });
+
+
     $scope.closeUserpositionsWindows = function() {
-        userPositionWindow.close();
+
+        if ($('#savePositionuserBtn').is(':disabled')) {
+            resetPositionForm();
+            userPositionWindow.close();
+        } else {
+            $('#sureToCancelPosition').show();
+            $('#buttonsGroupsPositions').hide();
+        }
     };
+
+    $scope.actionsToBeSurePosition = function(option) {
+        if (option == 1) {
+            $scope.submitUserpositionsWindows();
+        } else if (option == 2) {
+            userPositionWindow.close();
+            resetPositionForm();
+        } else if (option == 3) {
+            $('#sureToCancelPosition').hide();
+            $('#buttonsGroupsPositions').show();
+        }
+        //$('#deletePositionuserBtn').show();
+    };
+
+    function resetPositionForm() {
+        angular.element('#PayRateField').val('');
+        $('#deletePositionuserBtn').show();
+
+        $('#sureToCancelPosition').hide();
+        $('#buttonsGroupsPositions').show();
+
+        $('#savePositionuserBtn').prop('disabled', true);
+    }
 
     $scope.editPositionByUser = function(e) {
         var values = e.args.row;
+        userPositionWindow.setTitle("Edit position <b>"+ values['PositionName'] + "</b> | Username: <b>" + $scope.editing_username + "</b>");
 
         var selectedIndexByPosition;
         var positionCombo = $('#positionByUserCombobox').jqxComboBox('getItemByValue', values['ConfigPositionUnique']);
         if (positionCombo != undefined) {
             selectedIndexByPosition = positionCombo.index | 0;
         } else selectedIndexByPosition = 0;
-        //console.log(selectedIndexByPosition);
         $('#positionByUserCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
         //
         var selectedPayPosition;
@@ -312,12 +355,16 @@ demoApp.controller("userController", function($scope, $http) {
         if (payCombo  != undefined) {
             selectedPayPosition = payCombo.index | 0;
         } else selectedPayPosition = 0;
-        //console.log(selectedPayPosition);
         $('#payBasisSelect').jqxDropDownList({'selectedIndex': selectedPayPosition});
         //
         angular.element('#PayRateField').val(values['PayRate']);
         angular.element('#idPositionUserWin').val(values['Unique']);
         //
+        if (values['PrimaryPosition'] == 1) {
+            $('#deletePositionuserBtn').hide();
+        }
+        //
+        $('#savePositionuserBtn').attr('disabled', 'disabled');
         userPositionWindow.open();
     };
 
@@ -351,6 +398,7 @@ demoApp.controller("userController", function($scope, $http) {
                             {name: 'ConfigUserUnique', type: 'string'},
                             {name: 'ConfigPositionUnique', type: 'string'},
                             {name: 'PrimaryPosition', type: 'string'},
+                            {name: 'isPosition', type: 'string'},
                             {name: 'PayBasis', type: 'string'},
                             {name: 'PayRate', type: 'string'}
                         ],
@@ -365,6 +413,7 @@ demoApp.controller("userController", function($scope, $http) {
                 //});
                 //
                 userPositionWindow.close();
+                resetPositionForm();
             }
 
         }, function(response){
@@ -392,6 +441,7 @@ demoApp.controller("userController", function($scope, $http) {
                             {name: 'ConfigUserUnique', type: 'string'},
                             {name: 'ConfigPositionUnique', type: 'string'},
                             {name: 'PrimaryPosition', type: 'string'},
+                            {name: 'isPosition', type: 'string'},
                             {name: 'PayBasis', type: 'string'},
                             {name: 'PayRate', type: 'string'}
                         ],
@@ -405,6 +455,7 @@ demoApp.controller("userController", function($scope, $http) {
                 };
                 //
                 userPositionWindow.close();
+                resetPositionForm();
             }
         });
     };
@@ -419,20 +470,20 @@ demoApp.controller("userController", function($scope, $http) {
                 {name: 'ConfigUserUnique', type: 'string'},
                 {name: 'ConfigPositionUnique', type: 'string'},
                 {name: 'PrimaryPosition', type: 'string'},
+                {name: 'isPosition', type: 'string'},
                 {name: 'PayBasis', type: 'string'},
                 {name: 'PayRate', type: 'string'}
-            ],
-            //id: 'Unique',
-            //url: SiteRoot + 'admin/user/load_positionsByUser/100'
+            ]
         },
         columns: [
             {text: 'Unique', dataField: 'Unique', type: 'number', hidden:true},
-            {text: 'Name', dataField: 'PositionName', type: 'string'},
-            {text: 'Primary', dataField: 'PrimaryPosition', type: 'string'},
+            {text: 'Name', dataField: 'PositionName', type: 'string', width: '35%'},
+            {text: 'Primary id', dataField: 'PrimaryPosition', type: 'string', hidden: true},
+            {text: 'Primary', dataField: 'isPosition', type: 'string', width: '15%'},
             {text: 'User Unique', dataField: 'ConfigUserUnique', type: 'number', hidden:true},
             {text: 'Position Unique', dataField: 'ConfigPositionUnique', type: 'number', hidden:true},
-            {text: 'Pay Basis', dataField: 'PayBasis', type: 'string', hidden:true},
-            {text: 'Pay Rate', dataField: 'PayRate', type: 'string', hidden:true}
+            {text: 'Pay Basis', dataField: 'PayBasis', type: 'string', width: '25%'},
+            {text: 'Pay Rate', dataField: 'PayRate', type: 'string', width: '25%'}
         ],
         columnsResize: true,
         width: "75%",
@@ -459,6 +510,7 @@ demoApp.controller("userController", function($scope, $http) {
                                 {name: 'ConfigUserUnique', type: 'string'},
                                 {name: 'ConfigPositionUnique', type: 'string'},
                                 {name: 'PrimaryPosition', type: 'string'},
+                                {name: 'isPosition', type: 'string'},
                                 {name: 'PayBasis', type: 'string'},
                                 {name: 'PayRate', type: 'string'}
                             ],

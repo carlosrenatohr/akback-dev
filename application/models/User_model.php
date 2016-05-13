@@ -24,13 +24,12 @@ class user_model extends CI_Model
             '
         );
         $this->db->from('config_user');
-        $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique', 'left');
+        $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique');
         $this->db->join(
             'config_position',
-            'config_position.Unique = config_user_position.ConfigPositionUnique',
-            'left'
+            'config_position.Unique = config_user_position.ConfigPositionUnique'
         );
-        $query = $this->db/*->where('config_user_position.PrimaryPosition', 1)*/
+        $query = $this->db->where('config_user_position.PrimaryPosition', 1)
         ->where('config_user.Status', 1)
             ->order_by('config_user.Unique', 'DESC')
             ->get();
@@ -110,7 +109,7 @@ class user_model extends CI_Model
             $user_position['Updated'] = date('Y-m-d H:i:s');
             $user_position['UpdatedBy'] = $this->session->userdata('userid');
             $this->db->where('ConfigUserUnique', $id);
-            $this->db->update('config_user_position', ['PrimaryPosition' => 0, 'Status' => 0]);
+            $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
 
             $this->db->where($where);
             $this->db->update('config_user_position', $user_position);
@@ -119,7 +118,7 @@ class user_model extends CI_Model
             $user_position['CreatedBy'] = $this->session->userdata('userid');
 
             $this->db->where('ConfigUserUnique', $id);
-            $this->db->update('config_user_position', ['PrimaryPosition' => 0, 'Status' => 0]);
+            $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
 
             $user_position = array_merge($user_position, $where);
             $this->db->insert('config_user_position', $user_position);

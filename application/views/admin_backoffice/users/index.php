@@ -242,7 +242,7 @@ jqxthemes();
                                                         <div style="float:left; padding:2px; width:350px;">
                                                             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Position:</div>
                                                             <div style="float:left; width:180px;">
-                                                                <jqx-combo-box  jqx-on-select="" id="positionByUserCombobox" class=""
+                                                                <jqx-combo-box id="positionByUserCombobox" class="" disabled
                                                                                 jqx-settings="positionSelectSetting">
                                                                 </jqx-combo-box>
                                                             </div>
@@ -267,15 +267,30 @@ jqxthemes();
 
                                                         <input type="hidden" id="idPositionUserWin">
 
-                                                        <div id="" class="row">
-                                                            <div class="form-group" style="margin: 40px 0 0 10px;">
-                                                                <div class="col-sm-12">
-                                                                    <button type="button" id="" ng-click="submitUserpositionsWindows()" class="btn btn-primary submitUserpositionsBtn">Save</button>
+                                                        <div id="buttonsGroupsPositions" class="row">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-12" style="margin: 40px 0 0 10px;">
+                                                                    <button type="button" id="savePositionuserBtn" ng-click="submitUserpositionsWindows()" class="btn btn-primary" disabled>Save</button>
                                                                     <button	type="button" id="" ng-click="closeUserpositionsWindows()" class="btn btn-warning cancelUserBtn">Close</button>
-                                                                    <button	type="button" id="" ng-click="deletePositionByUser()" class="btn btn-danger">Delete</button>
+                                                                    <button	type="button" id="deletePositionuserBtn" ng-click="deletePositionByUser()" class="btn btn-danger">Delete</button>
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <div id="sureToCancelPosition" style="display: none;">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-12" style="margin: 40px 10px;">
+                                                                    Would you like to save your changes?<br>
+                                                                    <button type="button" ng-click="actionsToBeSurePosition(1)" class="btn btn-primary">Yes</button>
+                                                                    <button	type="button" ng-click="actionsToBeSurePosition(2)" class="btn btn-warning">No</button>
+                                                                    <button	type="button" ng-click="actionsToBeSurePosition(3)" class="btn btn-danger">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <jqx-notification jqx-settings="notificationPositionSettings" id="notificationPositionSettings">
+                                                            <div id="notification-content"></div>
+                                                        </jqx-notification>
                                                     </div>
 
                                                 </jqx-window>
@@ -306,7 +321,7 @@ jqxthemes();
 <!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
                                                     <button type="button" id="submitAddUserForm" ng-click="submitUserForm()" class="btn btn-primary submitUserBtn" disabled>Save</button>
                                                     <button	type="button" id="cancelAddUserForm" ng-click="closeWindows($event)" class="btn btn-warning cancelUserBtn">Close</button>
-                                                    <button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn hwide" style="display:none; overflow:auto;">Delete</button>
+                                                    <button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn hide" style="display:none; overflow:auto;">Delete</button>
                                                 </div>
                                             </div>
                                         </div>
