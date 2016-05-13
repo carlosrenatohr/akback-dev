@@ -177,6 +177,14 @@ class User extends AK_Controller
         echo json_encode($return);
     }
 
+    public function delete_position_user($id) {
+        $return = [];
+        $return['status'] = 'success';
+        $return['message'] = $this->user_model->deletePositionByUser($id);
+
+        echo json_encode($return);
+    }
+
     /**
      * @helper
      * @description Backend validations

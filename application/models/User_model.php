@@ -146,7 +146,6 @@ class user_model extends CI_Model
             'PayRate' => $values['PayRate'],
             'PayBasis' => $values['PayBasis'],
             'Status' => 1,
-            'PrimaryPosition' => 0,
         ];
         $exists = $this->db->where($where)
             ->get('config_user_position')->result_array();
@@ -157,6 +156,7 @@ class user_model extends CI_Model
             $return = $this->db->update('config_user_position', $updateValues);
         }
         else {
+            $updateValues['PrimaryPosition'] = 0;
             $updateValues['Created'] = date('Y-m-d H:i:s');
             $updateValues['CreatedBy'] = $this->session->userdata('userid');
             $updateValues = array_merge($updateValues, $where);
@@ -164,7 +164,16 @@ class user_model extends CI_Model
         }
 
         return $return;
+    }
 
+    public function deletePositionByUser($id) {
+        $this->db->where('Unique', $id);
+        $return = $this->db->update('config_user_position',
+            ['Status' => 0,
+             'Updated' => date('Y-m-d H:i:s'),
+             'UpdatedBy' => $this->session->userdata('userid')
+            ]);
+        return $return;
     }
 
     public function validateField($field, $value, $whereNot = null)

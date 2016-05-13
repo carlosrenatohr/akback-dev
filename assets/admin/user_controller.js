@@ -304,7 +304,7 @@ demoApp.controller("userController", function($scope, $http) {
         if (positionCombo != undefined) {
             selectedIndexByPosition = positionCombo.index | 0;
         } else selectedIndexByPosition = 0;
-        console.log(selectedIndexByPosition);
+        //console.log(selectedIndexByPosition);
         $('#positionByUserCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
         //
         var selectedPayPosition;
@@ -316,6 +316,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#payBasisSelect').jqxDropDownList({'selectedIndex': selectedPayPosition});
         //
         angular.element('#PayRateField').val(values['PayRate']);
+        angular.element('#idPositionUserWin').val(values['Unique']);
         //
         userPositionWindow.open();
     };
@@ -344,6 +345,7 @@ demoApp.controller("userController", function($scope, $http) {
                     source: {
                         dataType: 'json',
                         dataFields: [
+                            {name: 'Unique', type: 'number'},
                             {name: 'PositionName', type: 'string'},
                             {name: 'PrimaryPosition', type: 'string'},
                             {name: 'ConfigUserUnique', type: 'string'},
@@ -352,7 +354,7 @@ demoApp.controller("userController", function($scope, $http) {
                             {name: 'PayBasis', type: 'string'},
                             {name: 'PayRate', type: 'string'}
                         ],
-                        id: 'PrimaryPosition',
+                        id: 'Unique',
                         url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
                         created: function (args) {
                             var instance = args.instance;
@@ -370,10 +372,48 @@ demoApp.controller("userController", function($scope, $http) {
         });
     };
 
+    $scope.deletePositionByUser = function() {
+        var id = angular.element('#idPositionUserWin').val();
+        $http({
+            'method': 'POST',
+            'url': SiteRoot + 'admin/user/delete_position_user/' + id
+            //headers: {'Content-Type': 'application/json'}
+        }).then(function(response) {
+            if(response.data.status == "success") {
+                console.info('Position removed');
+                //
+                $scope.userPositionsTableSettings = {
+                    source: {
+                        dataType: 'json',
+                        dataFields: [
+                            {name: 'Unique', type: 'number'},
+                            {name: 'PositionName', type: 'string'},
+                            {name: 'PrimaryPosition', type: 'string'},
+                            {name: 'ConfigUserUnique', type: 'string'},
+                            {name: 'ConfigPositionUnique', type: 'string'},
+                            {name: 'PrimaryPosition', type: 'string'},
+                            {name: 'PayBasis', type: 'string'},
+                            {name: 'PayRate', type: 'string'}
+                        ],
+                        id: 'Unique',
+                        url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
+                        created: function (args) {
+                            var instance = args.instance;
+                            instance.updateBoundData();
+                        }
+                    }
+                };
+                //
+                userPositionWindow.close();
+            }
+        });
+    };
+
     $scope.userPositionsTableSettings = {
         source: {
             dataType: 'json',
             dataFields: [
+                {name: 'Unique', type: 'number'},
                 {name: 'PositionName', type: 'string'},
                 {name: 'PrimaryPosition', type: 'string'},
                 {name: 'ConfigUserUnique', type: 'string'},
@@ -386,6 +426,7 @@ demoApp.controller("userController", function($scope, $http) {
             //url: SiteRoot + 'admin/user/load_positionsByUser/100'
         },
         columns: [
+            {text: 'Unique', dataField: 'Unique', type: 'number', hidden:true},
             {text: 'Name', dataField: 'PositionName', type: 'string'},
             {text: 'Primary', dataField: 'PrimaryPosition', type: 'string'},
             {text: 'User Unique', dataField: 'ConfigUserUnique', type: 'number', hidden:true},
@@ -412,6 +453,7 @@ demoApp.controller("userController", function($scope, $http) {
                         source: {
                             dataType: 'json',
                             dataFields: [
+                                {name: 'Unique', type: 'number'},
                                 {name: 'PositionName', type: 'string'},
                                 {name: 'PrimaryPosition', type: 'string'},
                                 {name: 'ConfigUserUnique', type: 'string'},
@@ -420,8 +462,12 @@ demoApp.controller("userController", function($scope, $http) {
                                 {name: 'PayBasis', type: 'string'},
                                 {name: 'PayRate', type: 'string'}
                             ],
-                            id: 'PrimaryPosition',
-                            url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId
+                            id: 'Unique',
+                            url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
+                            created: function (args) {
+                                var instance = args.instance;
+                                instance.updateBoundData();
+                            }
                         }
                     };
                 });

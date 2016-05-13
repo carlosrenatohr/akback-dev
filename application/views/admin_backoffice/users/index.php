@@ -221,10 +221,12 @@ jqxthemes();
                                          style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <div class="row" >
                                             <div>
-                                                <button	type="button" id="openUserPositionWindowBtn" ng-click="openUserpositionsWindows()" class="btn btn-warning" style="display: none;">
+                                                <button	type="button" id="openUserPositionWindowBtn" ng-click="openUserpositionsWindows()" class="btn btn-warning"
+                                                           style="display: none;margin: 10px;">
                                                     Add Position
                                                 </button>
-                                                <jqx-data-table id="userPositionsTable" style="display: none"
+                                                <jqx-data-table id="userPositionsTable"
+                                                                style="display: none;margin: 10px;"
                                                                 jqx-on-row-double-click="editPositionByUser(event)"
                                                     jqx-settings="userPositionsTableSettings">
                                                 </jqx-data-table>
@@ -263,11 +265,14 @@ jqxthemes();
                                                             </div>
                                                         </div>
 
+                                                        <input type="hidden" id="idPositionUserWin">
+
                                                         <div id="" class="row">
-                                                            <div class="form-group">
+                                                            <div class="form-group" style="margin: 40px 0 0 10px;">
                                                                 <div class="col-sm-12">
                                                                     <button type="button" id="" ng-click="submitUserpositionsWindows()" class="btn btn-primary submitUserpositionsBtn">Save</button>
                                                                     <button	type="button" id="" ng-click="closeUserpositionsWindows()" class="btn btn-warning cancelUserBtn">Close</button>
+                                                                    <button	type="button" id="" ng-click="deletePositionByUser()" class="btn btn-danger">Delete</button>
                                                                 </div>
                                                             </div>
                                                         </div>
