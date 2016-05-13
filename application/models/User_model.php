@@ -136,6 +136,37 @@ class user_model extends CI_Model
         return $query;
     }
 
+    public function updatePositionByUser($values)
+    {
+        $where = [
+            'ConfigPositionUnique' => $values['ConfigPositionUnique'],
+            'ConfigUserUnique' => $values['ConfigUserUnique']
+        ];
+        $updateValues = [
+            'PayRate' => $values['PayRate'],
+            'PayBasis' => $values['PayBasis'],
+            'Status' => 1,
+            'PrimaryPosition' => 0,
+        ];
+        $exists = $this->db->where($where)
+            ->get('config_user_position')->result_array();
+        if (count($exists)) {
+            $updateValues['Updated'] = date('Y-m-d H:i:s');
+            $updateValues['UpdatedBy'] = $this->session->userdata('userid');
+            $this->db->where($where);
+            $return = $this->db->update('config_user_position', $updateValues);
+        }
+        else {
+            $updateValues['Created'] = date('Y-m-d H:i:s');
+            $updateValues['CreatedBy'] = $this->session->userdata('userid');
+            $updateValues = array_merge($updateValues, $where);
+            $return = $this->db->insert('config_user_position', $updateValues);
+        }
+
+        return $return;
+
+    }
+
     public function validateField($field, $value, $whereNot = null)
     {
 

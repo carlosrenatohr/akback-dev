@@ -162,6 +162,22 @@ class User extends AK_Controller
     }
 
     /**
+     * @method POST
+     * @description Add a position for user
+     * @returnType json
+     */
+    public function add_position_user() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        $return = [];
+        $return['status'] = 'success';
+        $return['message'] = $this->user_model->updatePositionByUser($request);
+
+        echo json_encode($return);
+    }
+
+    /**
      * @helper
      * @description Backend validations
      * @returnType array

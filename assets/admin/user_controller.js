@@ -2,36 +2,6 @@
  * Created by carlosrenato on 04-25-16.
  */
 
-var DynamicTab;
-
-$(function() {
-    $('#add_username').focus();
-    changetabtile();
-    watchingInputs();
-
-    function changetabtile(){
-        $("#tabtitle").html("Users");
-    }
-
-    // Watch any change on user inputs
-    function watchingInputs() {
-        $('.addUserField').on('keypress paste change', function (e) {
-            $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
-
-        });
-
-        $('.addUserField').on('keyup', function (e) {
-            if (e.keyCode == 8 || e.keyCode == 46) {
-                $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
-            } else {
-                e.preventDefault();
-            }
-        });
-    };
-    // --
-
-});
-
 var demoApp = angular.module("demoApp", ['jqwidgets']);
 /**
  * User controller
@@ -184,24 +154,8 @@ demoApp.controller("userController", function($scope, $http) {
         $('.addUserField.required-field').css({"border-color": "#ccc"});
         $scope.userId = null;
         //
-        $scope.userPositionsTableSettings = {
-            source: {
-                dataType: 'json',
-                dataFields: [
-                    {name: 'PositionName', type: 'string'},
-                    {name: 'PrimaryPosition', type: 'string'}                ]
-                //id: 'Unique',
-                //url: SiteRoot + 'admin/user/load_positionsByUser/100'
-            },
-            columns: [
-                {text: 'Name', dataField: 'PositionName', type: 'string'},
-                {text: 'Primary', dataField: 'PrimaryPosition', type: 'string'},
-            ],
-            //columnsResize: true,
-            width: "75%",
-            theme: 'arctic',
-            pagerMode: 'default'
-        };
+        $('#userPositionsTable').hide();
+        $('#openUserPositionWindowBtn').hide();
     };
 
     var blockTabs = function () {
@@ -314,13 +268,119 @@ demoApp.controller("userController", function($scope, $http) {
     $scope.notificationErrorSettings = notificationSet(0);
     $scope.notificationSuccessSettings = notificationSet(1);
 
-    // USER-POSITIONS
+    /**
+     * USER-POSITIONS tab
+     */
+    // Position tab window settings
+    $('#payBasisSelect').jqxDropDownList({autoDropDownHeight: true});
+    $scope.userPositionsWindowSettings = {
+        created: function (args) {
+            userPositionWindow = args.instance;
+        },
+        resizable: false,
+        width: "30%", height: "40%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    //
+    $scope.openUserpositionsWindows = function() {
+        //addUserDialog.setTitle('Add new user');
+        userPositionWindow.open();
+    };
+
+    //
+    $scope.closeUserpositionsWindows = function() {
+        userPositionWindow.close();
+    };
+
+    $scope.editPositionByUser = function(e) {
+        var values = e.args.row;
+
+        var selectedIndexByPosition;
+        var positionCombo = $('#positionByUserCombobox').jqxComboBox('getItemByValue', values['ConfigPositionUnique']);
+        if (positionCombo != undefined) {
+            selectedIndexByPosition = positionCombo.index | 0;
+        } else selectedIndexByPosition = 0;
+        console.log(selectedIndexByPosition);
+        $('#positionByUserCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
+        //
+        var selectedPayPosition;
+        var payCombo = $('#payBasisSelect').jqxDropDownList('getItemByValue', values['PayBasis']);
+        if (payCombo  != undefined) {
+            selectedPayPosition = payCombo.index | 0;
+        } else selectedPayPosition = 0;
+        //console.log(selectedPayPosition);
+        $('#payBasisSelect').jqxDropDownList({'selectedIndex': selectedPayPosition});
+        //
+        angular.element('#PayRateField').val(values['PayRate']);
+        //
+        userPositionWindow.open();
+    };
+
+    $scope.submitUserpositionsWindows = function() {
+        var position = $('#positionByUserCombobox').jqxComboBox('getSelectedItem');
+        var payBasis = $('#payBasisSelect').jqxDropDownList('getSelectedItem');
+        var values = {};
+
+        values['PayRate'] = angular.element('#PayRateField').val();
+        values['PayBasis'] = payBasis.value;
+        values['ConfigPositionUnique'] = position.value;
+        values['ConfigUserUnique'] = $scope.userId;
+
+        $http({
+            'method': 'POST',
+            'url': SiteRoot + 'admin/user/add_position_user',
+            'data': values
+            //headers: {'Content-Type': 'application/json'}
+        }).then(function(response) {
+            if(response.data.status == "success") {
+                console.info('Position added');
+                //
+                //$scope.$apply(function(){
+                $scope.userPositionsTableSettings = {
+                    source: {
+                        dataType: 'json',
+                        dataFields: [
+                            {name: 'PositionName', type: 'string'},
+                            {name: 'PrimaryPosition', type: 'string'},
+                            {name: 'ConfigUserUnique', type: 'string'},
+                            {name: 'ConfigPositionUnique', type: 'string'},
+                            {name: 'PrimaryPosition', type: 'string'},
+                            {name: 'PayBasis', type: 'string'},
+                            {name: 'PayRate', type: 'string'}
+                        ],
+                        id: 'PrimaryPosition',
+                        url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
+                        created: function (args) {
+                            var instance = args.instance;
+                            instance.updateBoundData();
+                        }
+                    }
+                };
+                //});
+                //
+                userPositionWindow.close();
+            }
+
+        }, function(response){
+            console.log(response.data || 'Request failed');
+        });
+    };
+
     $scope.userPositionsTableSettings = {
         source: {
             dataType: 'json',
             dataFields: [
                 {name: 'PositionName', type: 'string'},
                 {name: 'PrimaryPosition', type: 'string'},
+                {name: 'ConfigUserUnique', type: 'string'},
+                {name: 'ConfigPositionUnique', type: 'string'},
+                {name: 'PrimaryPosition', type: 'string'},
+                {name: 'PayBasis', type: 'string'},
+                {name: 'PayRate', type: 'string'}
             ],
             //id: 'Unique',
             //url: SiteRoot + 'admin/user/load_positionsByUser/100'
@@ -328,6 +388,10 @@ demoApp.controller("userController", function($scope, $http) {
         columns: [
             {text: 'Name', dataField: 'PositionName', type: 'string'},
             {text: 'Primary', dataField: 'PrimaryPosition', type: 'string'},
+            {text: 'User Unique', dataField: 'ConfigUserUnique', type: 'number', hidden:true},
+            {text: 'Position Unique', dataField: 'ConfigPositionUnique', type: 'number', hidden:true},
+            {text: 'Pay Basis', dataField: 'PayBasis', type: 'string', hidden:true},
+            {text: 'Pay Rate', dataField: 'PayRate', type: 'string', hidden:true}
         ],
         columnsResize: true,
         width: "75%",
@@ -338,15 +402,23 @@ demoApp.controller("userController", function($scope, $http) {
     $('#tabsUser').on('tabclick', function (event) {
         var tabclicked = event.args.item;
 
+        // POSITION TAB
         if(tabclicked == 2) {
             if ($scope.userId != null) {
+                $('#userPositionsTable').show();
+                $('#openUserPositionWindowBtn').show();
                 $scope.$apply(function(){
                     $scope.userPositionsTableSettings = {
                         source: {
                             dataType: 'json',
                             dataFields: [
                                 {name: 'PositionName', type: 'string'},
-                                {name: 'PrimaryPosition', type: 'string'}
+                                {name: 'PrimaryPosition', type: 'string'},
+                                {name: 'ConfigUserUnique', type: 'string'},
+                                {name: 'ConfigPositionUnique', type: 'string'},
+                                {name: 'PrimaryPosition', type: 'string'},
+                                {name: 'PayBasis', type: 'string'},
+                                {name: 'PayRate', type: 'string'}
                             ],
                             id: 'PrimaryPosition',
                             url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId
@@ -598,6 +670,14 @@ demoApp.controller("userController", function($scope, $http) {
                     };
                     $('#notificationSuccessSettings #notification-content').html('User deleted!');
                     $('#notificationSuccessSettings').jqxNotification('open');
+                    //
+                    $('#sureToDeleteUser').hide();
+                    $('#addUserButtons').show();
+                    blockTabs();
+                    setTimeout(function() {
+                        addUserDialog.close();
+                        resetWindowAddUserForm();
+                    }, 2000);
                     //blockTabs();
                     // CLOSE
                     //$('#addUserAnotherRow').show();
@@ -611,25 +691,3 @@ demoApp.controller("userController", function($scope, $http) {
 });
 
 // -- User controller //
-
-/**
- * HELPERS from customer...
- */
-function check_email(val) {
-    if(!val.match(/\S+@\S+\.\S+/)){
-        return false;
-    }
-    if( val.indexOf(' ')!=-1 || val.indexOf('..')!=-1){
-        return false;
-    }
-    return true;
-}
-
-function countChar() {
-    var len = $("#phone1").val().length;
-    if (len >= 6) {
-        //do nothing
-    } else {
-        $('#phone1').val("");
-    }
-}

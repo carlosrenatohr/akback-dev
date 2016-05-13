@@ -14,6 +14,7 @@ jqxthemes();
     var SiteRoot = "<?php echo base_url()?>";
 </script>
 <script type="application/javascript" src="../../assets/admin/user_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/user_helpers.js"></script>
 <script type="application/javascript" src="../../assets/admin/position_controller.js"></script>
 <!-- -->
 
@@ -52,7 +53,6 @@ jqxthemes();
                 <jqx-data-table jqx-settings="userTableSettings"
                                 jqx-on-row-double-click="openEditUserWindows(event)">
                 </jqx-data-table>
-
                 <jqx-window jqx-on-close="close()" jqx-settings="addUserWindowSettings"
                             jqx-create="addUserWindowSettings" class="userJqxwindows">
                     <div>
@@ -221,13 +221,64 @@ jqxthemes();
                                          style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <div class="row" >
                                             <div>
-                                                <jqx-data-table
-                                                    jqx-on-row-double-click=""
+                                                <button	type="button" id="openUserPositionWindowBtn" ng-click="openUserpositionsWindows()" class="btn btn-warning" style="display: none;">
+                                                    Add Position
+                                                </button>
+                                                <jqx-data-table id="userPositionsTable" style="display: none"
+                                                                jqx-on-row-double-click="editPositionByUser(event)"
                                                     jqx-settings="userPositionsTableSettings">
                                                 </jqx-data-table>
+                                                <!-- -->
+                                                <jqx-window jqx-on-close="" jqx-settings="userPositionsWindowSettings"
+                                                            jqx-create="userPositionsWindowSettings" class="userJqxwindows">
+
+                                                    <div class="">
+                                                        Add Position for user: <b>{{ editing_username }}</b>
+                                                    </div>
+                                                    <div class="">
+                                                        <!-- Position fields -->
+                                                        <div style="float:left; padding:2px; width:350px;">
+                                                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Position:</div>
+                                                            <div style="float:left; width:180px;">
+                                                                <jqx-combo-box  jqx-on-select="" id="positionByUserCombobox" class=""
+                                                                                jqx-settings="positionSelectSetting">
+                                                                </jqx-combo-box>
+                                                            </div>
+                                                        </div>
+
+                                                        <div style="float:left; padding:2px; width:350px;">
+                                                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Pay Basis:</div>
+                                                            <div style="float:left; width:180px;">
+                                                                <select id="payBasisSelect" name="PayBasis" class="userPositionField">
+                                                                    <option value="hourly">Hourly</option>
+                                                                    <option value="salary">Salary</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div style="float:left; padding:2px; width:350px;">
+                                                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Pay Rate:</div>
+                                                            <div style="float:left; width:180px;">
+                                                                <input type="number" class="form-control userPositionField" id="PayRateField" name="PayRate" placeholder="Pay Rate">
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="" class="row">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-12">
+                                                                    <button type="button" id="" ng-click="submitUserpositionsWindows()" class="btn btn-primary submitUserpositionsBtn">Save</button>
+                                                                    <button	type="button" id="" ng-click="closeUserpositionsWindows()" class="btn btn-warning cancelUserBtn">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </jqx-window>
                                             </div>
+
                                         </div>
                                     </div>
+
 
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab4" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <div class="row">
