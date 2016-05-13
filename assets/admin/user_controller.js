@@ -651,12 +651,14 @@ demoApp.controller("userController", function($scope, $http) {
                             $('#notificationSuccessSettings #notification-content').html('User updated successfully!');
                             $('#notificationSuccessSettings').jqxNotification('open');
 
+
+                            $('#submitAddUserForm').attr('disabled', 'disabled');
                             $('#addUserButtons').show();
-                            blockTabs();
-                            setTimeout(function() {
-                                addUserDialog.close();
-                                resetWindowAddUserForm();
-                            }, 2000);
+                            //blockTabs();
+                            //setTimeout(function() {
+                            //    addUserDialog.close();
+                            //    resetWindowAddUserForm();
+                            //}, 2000);
                         }
                         else {
                             $.each(data.message, function (i, msg) {
