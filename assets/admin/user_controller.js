@@ -714,21 +714,18 @@ demoApp.controller("userController", function($scope, $http) {
                             instance.updateBoundData();
                         }
                     };
-                    $('#notificationSuccessSettings #notification-content').html('User deleted!');
-                    $('#notificationSuccessSettings').jqxNotification('open');
+                    addUserDialog.close();
+                    resetWindowAddUserForm();
+                    //$('#notificationSuccessSettings #notification-content').html('User deleted!');
+                    //$('#notificationSuccessSettings').jqxNotification('open');
                     //
-                    $('#sureToDeleteUser').hide();
-                    $('#addUserButtons').show();
-                    blockTabs();
-                    setTimeout(function() {
-                        addUserDialog.close();
-                        resetWindowAddUserForm();
-                    }, 2000);
+                    //$('#sureToDeleteUser').hide();
+                    //$('#addUserButtons').show();
                     //blockTabs();
-                    // CLOSE
-                    //$('#addUserAnotherRow').show();
-                    //$('#addUserButtons').hide();
-                    //blockTabs();
+                    //setTimeout(function() {
+                    //    addUserDialog.close();
+                    //    resetWindowAddUserForm();
+                    //}, 2000);
                 }
             }
         })
