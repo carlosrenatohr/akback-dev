@@ -9,8 +9,11 @@ class Menu_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getLists()
+    public function getLists($status = null)
     {
+        if (!is_null($status)) {
+            $this->db->where('Status', $status);
+        }
         $this->db->order_by('Unique', 'DESC');
         $query = $this->db->get('config_menu');
         return $query->result_array();

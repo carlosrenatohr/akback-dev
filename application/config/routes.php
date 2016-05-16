@@ -61,7 +61,7 @@ $route['service/(:any)'] = "service/$1";
  */
 $route['dashboard/admin'] = 'admin/DashboardController';
 $route['dashboard/admin/users'] = 'admin/User';
-$route['dashboard/admin/categories'] = 'admin/Category';
+$route['dashboard/admin/categories'] = 'admin/MenuCategory';
 
 //logon page
 $route['backoffice'] = "backoffice/login";

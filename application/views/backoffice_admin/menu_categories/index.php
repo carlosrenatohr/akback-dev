@@ -36,6 +36,7 @@ jqxthemes();
                         <li>Menu</li>
                         <li>Categories</li>
                     </ul>
+                    <!-- MENU TAB -->
                     <div>
                         <div>
                             <div>
@@ -47,6 +48,7 @@ jqxthemes();
                             <jqx-data-table jqx-settings="menuTableSettings"
                                             jqx-on-row-double-click="updateMenuAction(event)">
                             </jqx-data-table>
+
                             <jqx-window jqx-on-close="close()" jqx-settings="addMenuWindowSettings"
                                         jqx-create="addMenuWindowSettings" class="">
                                 <div>
@@ -94,16 +96,84 @@ jqxthemes();
                                 </div>
                             </jqx-window>
                         </div>
-                    </div>
+                    </div >
+                    <!-- CATEGORIES TAB -->
                     <div>
                         <div>
-                            <a style="outline:0;" class="btn btn-info" ng-click="">
+                            <a style="outline:0;" class="btn btn-info" ng-click="newCategoryAction()">
                                 <span class="icon-32-new"></span>
                                 New
                             </a>
                             <jqx-data-table jqx-settings="categoriesTableSettings"
-                                            jqx-on-row-double-click="">
+                                            jqx-on-row-double-click="updateCategoryAction(e)">
                             </jqx-data-table>
+                            <!-- -->
+                            <jqx-window jqx-on-close="close()" jqx-settings="addCategoryWindowSettings"
+                                        jqx-create="addCategoryWindowSettings" class="">
+                                <div>
+                                    Add new Category
+                                </div>
+                                <div>
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div style=" width:330px;float:left;">
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Category Name:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control required-field" id="add_CategoryName" name="add_CategoryName" placeholder="Category Name" autofocus>
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Menu:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <jqx-drop-down-list id="add_MenuUnique"
+                                                            jqx-settings="settingsMenuSelect"
+                                                            jqx-on-select="">
+                                                        </jqx-drop-down-list>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Sort:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control required-field" id="add_Sort" name="add_Sort" placeholder="Sort">
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <select name="Status" id="add_CategoryStatus">
+                                                            <option value="1">Enabled</option>
+                                                            <option value="2">Disabled</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <button type="button" id="" ng-click="" class="btn btn-primary" >Save</button>
+                                                        <button	type="button" id="" ng-click="CloseCategoryWindows()" class="btn btn-warning">Close</button>
+                                                        <!--                                                        <button	type="button" id="" ng-click="" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </jqx-window>
                         </div>
                     </div>
                 </jqx-tabs>

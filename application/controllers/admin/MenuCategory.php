@@ -6,7 +6,7 @@
  * Date: 05-12-16
  * Time: 11:57 PM
  */
-class Category extends AK_Controller
+class MenuCategory extends AK_Controller
 {
 
     public function __construct()
@@ -23,9 +23,15 @@ class Category extends AK_Controller
         $this->load->view("backoffice_admin/menu_categories/index", $data);
     }
 
-    public function load_allmenus()
+    public function load_allmenus($status = null)
     {
-        echo json_encode($this->menu->getLists());
+        $menus = $this->menu->getLists($status);
+        $formatted_menus = [];
+        foreach($menus as $menu) {
+            $menu['statusName'] = ($menu['Status'] == 1 ? 'Enabled' : 'Disabled');
+            $formatted_menus[] = $menu;
+        }
+        echo json_encode($formatted_menus);
     }
 
     public function load_allcategories()
