@@ -12,7 +12,7 @@ class User extends AK_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user_model');
+        $this->load->model('User_model', 'user_model');
     }
 
     public function index()
@@ -61,6 +61,7 @@ class User extends AK_Controller
      */
     public function store_user()
     {
+        $this->load->model('User_model', 'user_model');
         $values = $positionValues = [];
         foreach ($_POST as $index => $element) {
             $pos = strpos($index, '_');
