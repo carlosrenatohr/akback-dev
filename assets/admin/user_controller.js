@@ -125,6 +125,7 @@ demoApp.controller("userController", function($scope, $http) {
             $(this).select();
         });
 
+        $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('User ID ' + values.Unique + ': | User Name: ' + values.UserName);
         addUserDialog.open();
         //setTimeout(function(){
@@ -247,7 +248,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.positionSelectChanged = function (e) {
-        //$('.submitUserBtn#submitAddUserForm').prop('disabled', false);
+        $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
     };
 
     // NOTIFICATIONS SETTINGS
@@ -289,6 +290,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#positionByUserCombobox').jqxComboBox({disabled: false});
         $('#deletePositionuserBtn').hide();
 
+        $('#savePositionuserBtn').attr('disabled', 'disabled');
         userPositionWindow.setTitle("Add Position | username: <b>" + $scope.editing_username+ "</b>");
         userPositionWindow.open();
     };
@@ -303,7 +305,7 @@ demoApp.controller("userController", function($scope, $http) {
     });
 
     $('#positionByUserCombobox').on('select', function (e) {
-        //$('#savePositionuserBtn').prop('disabled', false);
+        $('#savePositionuserBtn').prop('disabled', false);
     });
 
 
