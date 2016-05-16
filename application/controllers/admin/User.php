@@ -20,8 +20,8 @@ class User extends AK_Controller
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['page_title'] = "Users administrator";
         $data['storename'] = $this->displaystore();
-        $data['main_content'] = "admin_backoffice/users/index";
-        $this->load->view('admin_backoffice/templates/main_layout', $data);
+        $data['main_content'] = "backoffice_admin/users/index";
+        $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 
     /**

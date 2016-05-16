@@ -18,7 +18,7 @@ class DashboardController extends AK_Controller
         $data["page_title"] = "Administrator";
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['storename'] = $this->displaystore();
-        $data['main_content'] = "admin_backoffice/dashboard/index";
-        $this->load->view('admin_backoffice/templates/main_layout', $data);
+        $data['main_content'] = "backoffice_admin/dashboard/index";
+        $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 }
