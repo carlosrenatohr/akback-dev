@@ -95,6 +95,8 @@ demoApp.controller("userController", function($scope, $http) {
     // Open the window form to add user
     $scope.openAddUserWindows = function () {
         $scope.newOrEditSelected = 'new';
+
+        $('#position_itemTab').hide();
         addUserDialog.setTitle('Add new user');
         addUserDialog.open();
         setTimeout(function(){
@@ -125,6 +127,7 @@ demoApp.controller("userController", function($scope, $http) {
             $(this).select();
         });
 
+        $('#position_itemTab').show();
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('User ID ' + values.Unique + ': | User Name: ' + values.UserName);
         addUserDialog.open();
