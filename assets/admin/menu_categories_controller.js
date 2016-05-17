@@ -16,7 +16,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                 {name: 'Unique', type: 'int'},
                 {name: 'MenuName', type: 'number'},
                 {name: 'Status', type: 'number'},
-                {name: 'StatusName', type: 'string'}
+                {name: 'StatusName', type: 'string'},
+                {name: 'Column', type: 'number'},
+                {name: 'Row', type: 'number'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -26,6 +28,8 @@ app.controller('menuCategoriesController', function($scope, $http){
             {text: 'Menu Name', dataField: 'MenuName', type: 'number'},
             {text: 'Status', dataField: 'Status', type: 'int', hidden:true},
             {text: 'Status', dataField: 'StatusName', type: 'string'},
+            {text: 'Column', dataField: 'Column', type: 'number', hidden: true},
+            {text: 'Row', dataField: 'Row', type: 'number', hidden: true},
         ],
         columnsResize: true,
         width: "99.7%",
@@ -66,6 +70,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         var statusCombo = $('#add_Status').jqxDropDownList('getItemByValue', values['Status']);
         $('#add_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
         $('#add_MenuName').val(values['MenuName']);
+        $('#add_MenuColumn').val(values['Column']);
+        $('#add_MenuRow').val(values['Row']);
         $scope.newOrEditOption = 'edit';
         $scope.menuId = values['Unique'];
         menuWindow.setTitle('Edit menu ' + values['MenuName']);
@@ -85,6 +91,8 @@ app.controller('menuCategoriesController', function($scope, $http){
     $scope.SaveMenuWindows = function () {
         var values = {
             'MenuName': $('#add_MenuName').val(),
+            'Row': $('#add_MenuRow').val(),
+            'Column': $('#add_MenuColumn').val(),
             'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value,
         };
         if (validationMenuItem(values)) {
@@ -108,7 +116,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                                 {name: 'Unique', type: 'int'},
                                 {name: 'MenuName', type: 'number'},
                                 {name: 'Status', type: 'number'},
-                                {name: 'StatusName', type: 'string'}
+                                {name: 'StatusName', type: 'string'},
+                                {name: 'Column', type: 'number'},
+                                {name: 'Row', type: 'number'}
                             ],
                             id: 'Unique',
                             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
