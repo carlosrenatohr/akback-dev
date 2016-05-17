@@ -16,7 +16,7 @@ app.controller('menuCategoriesController', function($scope, $http){
                 {name: 'Unique', type: 'int'},
                 {name: 'MenuName', type: 'number'},
                 {name: 'Status', type: 'number'},
-                {name: 'statusName', type: 'string'}
+                {name: 'StatusName', type: 'string'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -25,7 +25,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             {text: 'ID', dataField: 'Unique', type: 'int'},
             {text: 'Menu Name', dataField: 'MenuName', type: 'number'},
             {text: 'Status', dataField: 'Status', type: 'int', hidden:true},
-            {text: 'Status', dataField: 'statusName', type: 'string'},
+            {text: 'Status', dataField: 'StatusName', type: 'string'},
         ],
         columnsResize: true,
         width: "99.7%",
@@ -108,7 +108,7 @@ app.controller('menuCategoriesController', function($scope, $http){
                                 {name: 'Unique', type: 'int'},
                                 {name: 'MenuName', type: 'number'},
                                 {name: 'Status', type: 'number'},
-                                {name: 'statusName', type: 'string'}
+                                {name: 'StatusName', type: 'string'}
                             ],
                             id: 'Unique',
                             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -148,7 +148,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                 {name: 'CategoryName', type: 'string'},
                 {name: 'Sort', type: 'number'},
                 {name: 'Status', type: 'number'},
+                {name: 'StatusName', type: 'string'},
                 {name: 'MenuUnique', type: 'number'},
+                {name: 'MenuName', type: 'string'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuCategory/load_allcategories'
@@ -156,9 +158,11 @@ app.controller('menuCategoriesController', function($scope, $http){
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
             {text: 'Category Name', dataField: 'CategoryName', type: 'string'},
-            {text: 'Menu', dataField: 'MenuUnique', type: 'string'},
+            {text: 'Menu', dataField: 'MenuUnique', type: 'string', hidden: true},
+            {text: 'Menu', dataField: 'MenuName', type: 'string'},
             {text: 'Sort', dataField: 'Sort', type: 'number'},
-            {text: 'Status', dataField: 'Status', type: 'number'}
+            {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
+            {text: 'Status', dataField: 'StatusName', type: 'string'}
         ],
         columnsResize: true,
         width: "99.7%",
@@ -178,7 +182,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         datatype: "json",
         datafields: [
             { name: 'MenuName' },
-            { name: 'Status' }
+            { name: 'Status' },
+            { name: 'Unique' }
         ],
         id: 'Unique',
         url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
@@ -194,7 +199,7 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     // Init scope
     $scope.newOrEditCategoryOption = null;
-    $scope.categoryIdSelected = null;
+    $scope.categoryId = null;
 
     // Open category windows
     $scope.addCategoryWindowSettings = {
@@ -211,7 +216,7 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     $scope.newCategoryAction = function() {
         $scope.newOrEditCategoryOption = 'new';
-        $scope.categoryIdSelected = null;
+        $scope.categoryId = null;
 
         categoryWindow.setTitle('Add new Category');
         categoryWindow.open();
@@ -227,15 +232,128 @@ app.controller('menuCategoriesController', function($scope, $http){
 
         $('#add_CategoryName').val(values['CategoryName']);
         $('#add_Sort').val(values['Sort']);
-        $scope.newOrEditOption = 'edit';
-        $scope.menuId = values['Unique'];
+        $scope.newOrEditCategoryOption = 'edit';
+        $scope.categoryId = values['Unique'];
+
+        $('#deleteCategoryBtn').show();
         categoryWindow.setTitle('Edit category ' + values['CategoryName']);
         categoryWindow.open();
     };
 
     $scope.CloseCategoryWindows = function() {
         categoryWindow.close();
-        //resetMenuWindows();
+        resetMenuWindows();
+    };
+
+    var validationCategoryItem = function (values) {
+          var isOk = true;
+          if (values) {
+              isOk = true;
+          }
+
+        return isOk;
+    };
+
+    $scope.SaveCategoryWindows = function() {
+        var values = {
+            'CategoryName': $('#add_CategoryName').val(),
+            'Sort': $('#add_Sort').val(),
+            'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
+            'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value
+        };
+        if (validationCategoryItem(values)) {
+            var url;
+            if ($scope.newOrEditCategoryOption == 'new') {
+                url = SiteRoot + 'admin/MenuCategory/add_newCategory';
+            } else if ($scope.newOrEditCategoryOption == 'edit') {
+                url = SiteRoot + 'admin/MenuCategory/update_Category/' + $scope.categoryId;
+            }
+            $http({
+                'method': 'POST',
+                'url': url,
+                data: values
+            }).then(function (response) {
+                console.info(response);
+                if (response.data.status == "success") {
+                    $scope.categoriesTableSettings = {
+                        source: {
+                            dataType: 'json',
+                            dataFields: [
+                                {name: 'Unique', type: 'int'},
+                                {name: 'CategoryName', type: 'string'},
+                                {name: 'Sort', type: 'number'},
+                                {name: 'Status', type: 'number'},
+                                {name: 'StatusName', type: 'string'},
+                                {name: 'MenuUnique', type: 'number'},
+                                {name: 'MenuName', type: 'string'}
+                            ],
+                            id: 'Unique',
+                            url: SiteRoot + 'admin/MenuCategory/load_allcategories'
+                        },
+                        created: function (args) {
+                            var instance = args.instance;
+                            instance.updateBoundData();
+                        }
+                    };
+                    categoryWindow.close();
+                    resetMenuWindows();
+
+                } else {
+                    console.log(response);
+                }
+            }, function (response) {
+                console.log('There was an error');
+                console.log(response);
+            });
+        }
+    };
+
+    var resetMenuWindows = function() {
+        $('#add_CategoryName').val();
+        $('#add_Sort').val();
+        $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
+        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
+
+        $('#deleteCategoryBtn').hide();
+    };
+
+    $scope.deleteCategoryWindow = function() {
+        $http({
+            method: 'POST',
+            url: SiteRoot + 'admin/MenuCategory/remove_category/' + $scope.categoryId
+        }).then(function(response){
+            console.info(response);
+            if (response.data.status == "success") {
+                $scope.categoriesTableSettings = {
+                    source: {
+                        dataType: 'json',
+                        dataFields: [
+                            {name: 'Unique', type: 'int'},
+                            {name: 'CategoryName', type: 'string'},
+                            {name: 'Sort', type: 'number'},
+                            {name: 'Status', type: 'number'},
+                            {name: 'StatusName', type: 'string'},
+                            {name: 'MenuUnique', type: 'number'},
+                            {name: 'MenuName', type: 'string'}
+                        ],
+                        id: 'Unique',
+                        url: SiteRoot + 'admin/MenuCategory/load_allcategories'
+                    },
+                    created: function (args) {
+                        var instance = args.instance;
+                        instance.updateBoundData();
+                    }
+                };
+                categoryWindow.close();
+                resetMenuWindows();
+
+            } else {
+                console.log(response);
+            }
+        }, function(response) {
+            console.log('There was an error');
+            console.log(response);
+        });
     }
 
 

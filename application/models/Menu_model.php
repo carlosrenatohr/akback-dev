@@ -21,8 +21,11 @@ class Menu_model extends CI_Model
 
     public function getCategories()
     {
+        $this->db->select('config_menu_category.*, config_menu.MenuName');
+        $this->db->from('config_menu_category');
+        $this->db->join('config_menu', 'config_menu.Unique = config_menu_category.MenuUnique', 'left');
         $this->db->order_by('Unique', 'DESC');
-        $query = $this->db->get('config_menu_category');
+        $query = $this->db->get();
         return $query->result_array();
     }
 
@@ -37,6 +40,25 @@ class Menu_model extends CI_Model
     {
         $this->db->where('Unique', $id);
         $query = $this->db->update('config_menu', $values);
+        return $query;
+    }
+
+    public function storeCategory($values) {
+        $query = $this->db->insert('config_menu_category', $values);
+
+        return $query;
+    }
+
+    public function updateCategory($values, $id)
+    {
+        $this->db->where('Unique', $id);
+        $query = $this->db->update('config_menu_category', $values);
+        return $query;
+    }
+
+    public function deleteCategory($id) {
+        $this->db->where('Unique', $id);
+        $query = $this->db->delete('config_menu_category');
         return $query;
     }
 

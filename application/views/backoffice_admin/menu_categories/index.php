@@ -164,9 +164,9 @@ jqxthemes();
                                             <div id="">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <button type="button" id="" ng-click="" class="btn btn-primary" >Save</button>
+                                                        <button type="button" id="" ng-click="SaveCategoryWindows()" class="btn btn-primary" >Save</button>
                                                         <button	type="button" id="" ng-click="CloseCategoryWindows()" class="btn btn-warning">Close</button>
-                                                        <!--                                                        <button	type="button" id="" ng-click="" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>-->
+                                                        <button	type="button" id="deleteCategoryBtn" ng-click="deleteCategoryWindow()" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
