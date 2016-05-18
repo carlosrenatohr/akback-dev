@@ -43,13 +43,29 @@ app.controller('menuCategoriesController', function($scope, $http){
         //filterMode: 'simple'
     };
 
+    // Menu Notification settings
+    var setNotificationInit = function (type) {
+        return {
+            width: "auto",
+            appendContainer: "#notification_container",
+            opacity: 0.9,
+            closeOnClick: true,
+            autoClose: true,
+            showCloseButton: false,
+            template: (type == 1) ? 'success' : 'error'
+        }
+    };
+    $scope.menuNotificationsSuccessSettings = setNotificationInit(1);
+    $scope.menuNotificationsErrorSettings = setNotificationInit(0);
+
+    // Menu Windows settings
     $('#add_Status').jqxDropDownList({autoDropDownHeight: true});
     $scope.addMenuWindowSettings = {
         created: function (args) {
             menuWindow = args.instance;
         },
         resizable: false,
-        width: "50%", height: "40%",
+        width: "40%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -84,8 +100,20 @@ app.controller('menuCategoriesController', function($scope, $http){
     };
 
     var validationMenuItem = function(values) {
-        console.log(values);
-        return true;
+        var needValidation = false;
+        $('.menuFormContainer .required-field').each(function(i, el) {
+            console.log($(el).val() + '-->' + $(el).attr('id'));
+            if (el.value == '') {
+                $('#menuNotificationsErrorSettings #notification-content')
+                    .html($(el).attr('placeholder') + ' can not be empty!');
+                $(el).css({"border-color": "#F00"});
+                $scope.menuNotificationsErrorSettings.apply('open');
+                needValidation = true;
+            } else {
+                $(el).css({"border-color": "#ccc"});
+            }
+        });
+        return needValidation;
     };
 
     $scope.SaveMenuWindows = function () {
@@ -93,9 +121,9 @@ app.controller('menuCategoriesController', function($scope, $http){
             'MenuName': $('#add_MenuName').val(),
             'Row': $('#add_MenuRow').val(),
             'Column': $('#add_MenuColumn').val(),
-            'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value,
+            'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value
         };
-        if (validationMenuItem(values)) {
+        if (!validationMenuItem(values)) {
             var url;
             if ($scope.newOrEditOption == 'new') {
                 url = SiteRoot + 'admin/MenuCategory/add_newMenu';
@@ -108,6 +136,7 @@ app.controller('menuCategoriesController', function($scope, $http){
                 'data': values
                 //headers: {'Content-Type': 'application/json'}
             }).then(function(response) {
+                console.log(response);
                 if(response.data.status == "success") {
                     $scope.menuTableSettings = {
                         source: {
@@ -129,12 +158,21 @@ app.controller('menuCategoriesController', function($scope, $http){
                         }
                     };
                     //
-                    menuWindow.close();
+                    $('#menuNotificationsSuccessSettings #notification-content')
+                        .html('Menu updated');
+                    $scope.menuNotificationsSuccessSettings.apply('open');
+
+                    //menuWindow.close();
                     resetMenuWindows();
                 } else {
-                    console.log(response);
+                    $.each(response.data.message, function(i, val) {
+                        $('#menuNotificationsErrorSettings #notification-content')
+                            .html(val);
+                        $('#add_MenuName').css({"border-color": "#F00"});
+                    });
+                    $scope.menuNotificationsErrorSettings.apply('open');
                 }
-            }, function(response){
+            }, function(response) {
                 console.log('ERROR: ');
                 console.log(response);
             });
@@ -142,7 +180,11 @@ app.controller('menuCategoriesController', function($scope, $http){
     };
 
     var resetMenuWindows = function() {
+        $('.menuFormContainer .required-field').css({"border-color": "#ccc"});
+
         $('#add_MenuName').val('');
+        $('#add_MenuRow').val('');
+        $('#add_MenuColumn').val('');
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
 
@@ -186,6 +228,21 @@ app.controller('menuCategoriesController', function($scope, $http){
         filterMode: 'simple'
     };
 
+    // Menu Notification settings
+    var setNotificationCategoryInit = function (type) {
+        return {
+            width: "auto",
+            appendContainer: "#notification_container_category",
+            opacity: 0.9,
+            closeOnClick: true,
+            autoClose: true,
+            showCloseButton: false,
+            template: (type == 1) ? 'success' : 'error'
+        }
+    };
+    $scope.categoryNotificationsSuccessSettings = setNotificationCategoryInit(1);
+    $scope.categoryNotificationsErrorSettings = setNotificationCategoryInit(0);
+
     // Menu select
     var source =
     {
@@ -217,7 +274,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             categoryWindow = args.instance;
         },
         resizable: false,
-        width: "50%", height: "40%",
+        width: "40%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -255,12 +312,19 @@ app.controller('menuCategoriesController', function($scope, $http){
         resetMenuWindows();
     };
 
-    var validationCategoryItem = function (values) {
-          var isOk = true;
-          if (values) {
-              isOk = true;
-          }
-
+    var validationCategoryItem = function(values) {
+        var isOk = false;
+        $('.categoryFormContainer .required-field').each(function(i, el) {
+            if (el.value == '') {
+                $('#categoryNotificationsErrorSettings #notification-content')
+                    .html($(el).attr('placeholder') + ' can not be empty!');
+                $(el).css({"border-color": "#F00"});
+                $scope.categoryNotificationsErrorSettings.apply('open');
+                isOk = true;
+            } else {
+                $(el).css({"border-color": "#ccc"});
+            }
+        });
         return isOk;
     };
 
@@ -271,7 +335,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
             'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value
         };
-        if (validationCategoryItem(values)) {
+        if (!validationCategoryItem(values)) {
             var url;
             if ($scope.newOrEditCategoryOption == 'new') {
                 url = SiteRoot + 'admin/MenuCategory/add_newCategory';
@@ -305,11 +369,20 @@ app.controller('menuCategoriesController', function($scope, $http){
                             instance.updateBoundData();
                         }
                     };
-                    categoryWindow.close();
-                    resetMenuWindows();
+                    //
+                    $('#categoryNotificationsSuccessSettings #notification-content')
+                        .html('Category updated!');
+                    $scope.categoryNotificationsSuccessSettings.apply('open');
 
+                    //menuWindow.close();
+                    resetCategoryWindows()
                 } else {
-                    console.log(response);
+                    $.each(response.data.message, function(i, val) {
+                        $('#categoryNotificationsErrorSettings #notification-content')
+                            .html(val);
+                        $('#add_CategoryName').css({"border-color": "#F00"});
+                    });
+                    $scope.categoryNotificationsErrorSettings.apply('open');
                 }
             }, function (response) {
                 console.log('There was an error');
@@ -318,7 +391,9 @@ app.controller('menuCategoriesController', function($scope, $http){
         }
     };
 
-    var resetMenuWindows = function() {
+    var resetCategoryWindows = function() {
+        $('.categoryFormContainer .required-field').css({"border-color": "#ccc"});
+
         $('#add_CategoryName').val();
         $('#add_Sort').val();
         $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});

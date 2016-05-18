@@ -62,4 +62,18 @@ class Menu_model extends CI_Model
         return $query;
     }
 
+    public function getNameByMenu($id, $table) {
+        return $this->db->get_where($table, ['Unique'=> $id])->result_array();
+    }
+
+    public function validateField($field, $value, $table, $whereNot = null)
+    {
+        $this->db->where($field, $value);
+        if (!is_null($whereNot)) {
+            $this->db->where($whereNot);
+        }
+        $query = $this->db->get($table)->result_array();
+        return count($query);
+    }
+
 }

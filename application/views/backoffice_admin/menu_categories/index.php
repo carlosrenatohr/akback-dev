@@ -55,8 +55,8 @@ jqxthemes();
                                     Add new menu
                                 </div>
                                 <div>
-                                    <div class="col-md-12 col-md-offset-0">
-                                        <div class="row">
+                                    <div class="col-md-12 col-md-offset-0" id="menuWindowContent">
+                                        <div class="row menuFormContainer">
                                             <div style=" width:330px;float:left;">
                                                 <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Menu Name:</div>
@@ -97,8 +97,15 @@ jqxthemes();
                                                         <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                                                     </div>
                                                 </div>
+                                                <div id="notification_container" style="width: 650px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                                             </div>
                                         </div>
+                                        <jqx-notification jqx-settings="menuNotificationsSuccessSettings" id="menuNotificationsSuccessSettings">
+                                            <div id="notification-content"></div>
+                                        </jqx-notification>
+                                        <jqx-notification jqx-settings="menuNotificationsErrorSettings" id="menuNotificationsErrorSettings">
+                                            <div id="notification-content"></div>
+                                        </jqx-notification>
                                     </div>
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
@@ -135,7 +142,7 @@ jqxthemes();
                                 </div>
                                 <div>
                                     <div class="col-md-12 col-md-offset-0">
-                                        <div class="row">
+                                        <div class="row categoryFormContainer">
                                             <div style=" width:330px;float:left;">
                                                 <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Category Name:</div>
@@ -176,8 +183,15 @@ jqxthemes();
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div id="notification_container_category" style="width: 650px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                                             </div>
                                         </div>
+                                        <jqx-notification jqx-settings="categoryNotificationsSuccessSettings" id="categoryNotificationsSuccessSettings">
+                                            <div id="notification-content"></div>
+                                        </jqx-notification>
+                                        <jqx-notification jqx-settings="categoryNotificationsErrorSettings" id="categoryNotificationsErrorSettings">
+                                            <div id="notification-content"></div>
+                                        </jqx-notification>
                                     </div>
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">

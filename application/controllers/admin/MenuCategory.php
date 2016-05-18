@@ -66,13 +66,27 @@ class MenuCategory extends AK_Controller
 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $return = $this->menu->storeMenu($request);
+        $table = 'config_menu';
 
-        if ($return){
+        $nameUsed = $this->menu->validateField('MenuName', $request['MenuName'], $table);
+        if ($nameUsed) {
             $response = [
-                'status' => 'success',
-                'message' => $return
+                'status' => 'error',
+                'message' => [
+                    'MenuName' => 'Menu name must be unique. Please type a different one.'
+                ]
             ];
+        } else {
+            $values['Updated'] = date('Y-m-d H:i:s');
+            $values['UpdatedBy'] = $this->session->userdata('userid');
+            $return = $this->menu->storeMenu($request);
+
+            if ($return) {
+                $response = [
+                    'status' => 'success',
+                    'message' => $return
+                ];
+            }
         }
 
         echo json_encode($response);
@@ -87,13 +101,29 @@ class MenuCategory extends AK_Controller
     public function edit_newMenu($id) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $return = $this->menu->updateMenu($request, $id);
-
-        if ($return){
+        $table = 'config_menu';
+        //
+        $menu = $this->menu->getNameByMenu($id, $table);
+        $whereNot = ['MenuName !=' => $menu[0]['MenuName']];
+        $nameUsed = $this->menu->validateField('MenuName', $request['MenuName'], $table, $whereNot);
+        if ($nameUsed) {
             $response = [
-                'status' => 'success',
-                'message' => $return
+                'status' => 'error',
+                'message' => [
+                    'MenuName' => 'Menu name must be unique. Please type a different one.'
+                ]
             ];
+        } else {
+            $values['Updated'] = date('Y-m-d H:i:s');
+            $values['UpdatedBy'] = $this->session->userdata('userid');
+            $status = $this->menu->updateMenu($request, $id);
+
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => $status
+                ];
+            }
         }
 
         echo json_encode($response);
@@ -108,14 +138,28 @@ class MenuCategory extends AK_Controller
 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        $table = 'config_menu_category';
 
-        $return = $this->menu->storeCategory($request);
+        $nameUsed = $this->menu->validateField('CategoryName', $request['CategoryName'], $table);
 
-        if ($return){
+        if ($nameUsed) {
             $response = [
-                'status' => 'success',
-                'message' => $return
+                'status' => 'error',
+                'message' => [
+                    'CategoryName' => 'Category name must be unique.'
+                ]
             ];
+        } else {
+            $values['Updated'] = date('Y-m-d H:i:s');
+            $values['UpdatedBy'] = $this->session->userdata('userid');
+            $return = $this->menu->storeCategory($request);
+
+            if ($return){
+                $response = [
+                    'status' => 'success',
+                    'message' => $return
+                ];
+            }
         }
 
         echo json_encode($response);
@@ -130,14 +174,32 @@ class MenuCategory extends AK_Controller
     public function update_Category($id) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $return = $this->menu->updateCategory($request, $id);
+        $table = 'config_menu_category';
 
-        if ($return){
+        $menu = $this->menu->getNameByMenu($id, $table);
+        $whereNot = ['CategoryName !=' => $menu[0]['CategoryName']];
+        $nameUsed = $this->menu->validateField('CategoryName', $request['CategoryName'], $table, $whereNot);
+
+        if ($nameUsed) {
             $response = [
-                'status' => 'success',
-                'message' => $return
+                'status' => 'error',
+                'message' => [
+                    'CategoryName' => 'Category name must be unique.'
+                ]
             ];
+        } else {
+            $values['Updated'] = date('Y-m-d H:i:s');
+            $values['UpdatedBy'] = $this->session->userdata('userid');
+            $return = $this->menu->updateCategory($request, $id);
+
+            if ($return){
+                $response = [
+                    'status' => 'success',
+                    'message' => $return
+                ];
+            }
         }
+
 
         echo json_encode($response);
     }
