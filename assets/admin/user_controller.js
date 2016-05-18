@@ -129,6 +129,7 @@ demoApp.controller("userController", function($scope, $http) {
         });
 
         $('#position_itemTab').show();
+        $('#position_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('User ID ' + values.Unique + ': | User Name: ' + values.UserName);
         addUserDialog.open();
