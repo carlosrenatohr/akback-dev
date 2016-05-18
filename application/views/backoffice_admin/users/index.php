@@ -321,7 +321,7 @@ jqxthemes();
 <!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
                                                     <button type="button" id="submitAddUserForm" ng-click="submitUserForm()" class="btn btn-primary submitUserBtn" disabled>Save</button>
                                                     <button	type="button" id="cancelAddUserForm" ng-click="closeWindows($event)" class="btn btn-warning cancelUserBtn">Close</button>
-                                                    <button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn hide" style="display:none; overflow:auto;">Delete</button>
+                                                    <button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn" style=" display:none; overflow:auto;">Delete</button>
                                                 </div>
                                             </div>
                                         </div>

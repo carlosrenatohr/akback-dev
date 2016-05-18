@@ -97,6 +97,7 @@ demoApp.controller("userController", function($scope, $http) {
         $scope.newOrEditSelected = 'new';
 
         $('#position_itemTab').hide();
+        $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('Add new user');
         addUserDialog.open();
         setTimeout(function(){
