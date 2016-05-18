@@ -36,11 +36,13 @@ jqxthemes();
                         <li>Menu</li>
                         <li>Categories</li>
                     </ul>
+                    <!-- -------------- -->
                     <!-- MENU TAB -->
+                    <!-- -------------- -->
                     <div>
                         <div>
                             <div>
-                                <a style="outline:0;" class="btn btn-info" ng-click="newMenuAction()">
+                                <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="newMenuAction()">
                                     <span class="icon-32-new"></span>
                                     New
                                 </a>
@@ -109,25 +111,48 @@ jqxthemes();
                                     </div>
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
-                                            <div id="">
+                                            <div id="mainButtonsForMenus">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <button type="button" id="" ng-click="SaveMenuWindows()" class="btn btn-primary" >Save</button>
+                                                        <button type="button" id="saveMenuBtn" ng-click="SaveMenuWindows()" class="btn btn-primary" disabled>Save</button>
                                                         <button	type="button" id="" ng-click="CloseMenuWindows()" class="btn btn-warning">Close</button>
-<!--                                                        <button	type="button" id="" ng-click="" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>-->
+                                                        <button	type="button" id="deleteMenuBtn" ng-click="beforeDeleteMenu()" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <!-- ALERT MESSAGES BEFORE ACTIONS -->
+                                    <style>
+                                        .alertButtonsMenuCategories {
+                                            display:none;
+                                        }
+                                    </style>
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="beforeDeleteMenu" class="alertButtonsMenuCategories">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <div>Are you sure you want to delete it?</div>
+                                                        <button type="button" ng-click="beforeDeleteMenu(0)" class="btn btn-primary">Yes</button>
+                                                        <button type="button" ng-click="beforeDeleteMenu(1)" class="btn btn-warning">No</button>
+                                                        <button type="button" ng-click="beforeDeleteMenu(2)" class="btn btn-info">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </jqx-window>
                         </div>
                     </div >
+                    <!-- -------------- -->
                     <!-- CATEGORIES TAB -->
+                    <!-- -------------- -->
                     <div>
                         <div>
-                            <a style="outline:0;" class="btn btn-info" ng-click="newCategoryAction()">
+                            <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="newCategoryAction()">
                                 <span class="icon-32-new"></span>
                                 New
                             </a>
@@ -195,15 +220,31 @@ jqxthemes();
                                     </div>
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
-                                            <div id="">
+                                            <div id="mainButtonsForCategories">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <button type="button" id="" ng-click="SaveCategoryWindows()" class="btn btn-primary" >Save</button>
+                                                        <button type="button" id="saveCategoryBtn" ng-click="SaveCategoryWindows()" class="btn btn-primary" disabled>Save</button>
                                                         <button	type="button" id="" ng-click="CloseCategoryWindows()" class="btn btn-warning">Close</button>
-                                                        <button	type="button" id="deleteCategoryBtn" ng-click="deleteCategoryWindow()" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>
+                                                        <button	type="button" id="deleteCategoryBtn" ng-click="beforeDeleteCategory()" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <!-- ALERT MESSAGES BEFORE ACTIONS -->
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="beforeDeleteCategory" class="alertButtonsMenuCategories">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <div>Are you sure you want to delete it?</div>
+                                                        <button type="button" ng-click="beforeDeleteCategory(0)" class="btn btn-primary">Yes</button>
+                                                        <button type="button" ng-click="beforeDeleteCategory(1)" class="btn btn-warning">No</button>
+                                                        <button type="button" ng-click="beforeDeleteCategory(2)" class="btn btn-info">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

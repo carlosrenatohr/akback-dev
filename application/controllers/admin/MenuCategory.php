@@ -206,6 +206,30 @@ class MenuCategory extends AK_Controller
 
     /**
      * @method POST
+     * @param $id Unique from selected Menu
+     * @description Delete an existing Menu
+     * @returnType json
+     */
+    public function remove_menu($id) {
+        $return = $this->menu->deleteMenu($id);
+
+        if ($return) {
+            $response = [
+                'status' => 'success',
+                'message' => $return
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => $return
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @method POST
      * @param $id Unique from selected Category
      * @description Delete an existing category
      * @returnType json
@@ -216,6 +240,11 @@ class MenuCategory extends AK_Controller
         if ($return) {
             $response = [
                 'status' => 'success',
+                'message' => $return
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
                 'message' => $return
             ];
         }

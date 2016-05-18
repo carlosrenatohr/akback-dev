@@ -43,6 +43,12 @@ class Menu_model extends CI_Model
         return $query;
     }
 
+    public function deleteMenu($id) {
+        $this->db->where('Unique', $id);
+        $query = $this->db->delete('config_menu');
+        return $query;
+    }
+
     public function storeCategory($values) {
         $query = $this->db->insert('config_menu_category', $values);
 

@@ -72,12 +72,22 @@ app.controller('menuCategoriesController', function($scope, $http){
         showCloseButton: false
     };
 
+    // Events menu controls
+    $('.menuFormContainer .required-field').on('keypress keyup paste change', function (e) {
+        $('#saveMenuBtn').prop('disabled', false);
+    });
+
+    $('#add_Status').on('select', function(){
+        $('#saveMenuBtn').prop('disabled', false);
+    });
+
     $scope.newOrEditOption = null;
     $scope.menuId = null;
     $scope.newMenuAction = function() {
         menuWindow.setTitle('Add new menu');
         $scope.newOrEditOption = 'new';
         $scope.menuId = null;
+        $('#saveMenuBtn').prop('disabled', true);
         menuWindow.open();
     };
 
@@ -88,8 +98,11 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_MenuName').val(values['MenuName']);
         $('#add_MenuColumn').val(values['Column']);
         $('#add_MenuRow').val(values['Row']);
+
+        $('#deleteMenuBtn').show();
         $scope.newOrEditOption = 'edit';
         $scope.menuId = values['Unique'];
+        $('#saveMenuBtn').prop('disabled', true);
         menuWindow.setTitle('Edit menu ' + values['MenuName']);
         menuWindow.open();
     };
@@ -158,12 +171,19 @@ app.controller('menuCategoriesController', function($scope, $http){
                         }
                     };
                     //
-                    $('#menuNotificationsSuccessSettings #notification-content')
-                        .html('Menu updated');
-                    $scope.menuNotificationsSuccessSettings.apply('open');
-
-                    //menuWindow.close();
-                    resetMenuWindows();
+                    if ($scope.newOrEditOption == 'new') {
+                        $('#menuNotificationsSuccessSettings #notification-content')
+                            .html('Menu created successfully!');
+                        $scope.menuNotificationsSuccessSettings.apply('open');
+                        setTimeout(function() {
+                            menuWindow.close();
+                            resetMenuWindows();
+                        }, 2000);
+                    } else if ($scope.newOrEditOption == 'edit') {
+                        $('#menuNotificationsSuccessSettings #notification-content')
+                            .html('Menu updated successfully!');
+                        $scope.menuNotificationsSuccessSettings.apply('open');
+                    }
                 } else {
                     $.each(response.data.message, function(i, val) {
                         $('#menuNotificationsErrorSettings #notification-content')
@@ -181,6 +201,11 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     var resetMenuWindows = function() {
         $('.menuFormContainer .required-field').css({"border-color": "#ccc"});
+        $('#deleteMenuBtn').hide();
+        $('.alertButtonsMenuCategories').hide();
+        $('#mainButtonsForMenus').show();
+
+        $('#saveMenuBtn').prop('disabled', true);
 
         $('#add_MenuName').val('');
         $('#add_MenuRow').val('');
@@ -188,9 +213,68 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
 
+    $scope.beforeDeleteMenu = function(option) {
+        $('#mainButtonsForMenus').hide();
+        if (option == 0) {
+            $scope.deleteMenuWindow();
+        } else if (option == 1) {
+            resetMenuWindows();
+            menuWindow.close();
+        } else if (option == 2) {
+            $('.alertButtonsMenuCategories').hide();
+            $('#mainButtonsForMenus').show();
+            // Press button delete
+        } else {
+            $('#beforeDeleteMenu').show();
+            $('#mainButtonsForMenus').hide();
+        }
+    };
+
+    $scope.deleteMenuWindow = function() {
+        $http({
+            method: 'POST',
+            url: SiteRoot + 'admin/MenuCategory/remove_menu/' + $scope.menuId
+        }).then(function(response){
+            console.info(response);
+            if (response.data.status == "success") {
+                $scope.menuTableSettings = {
+                    source: {
+                        dataType: 'json',
+                        dataFields: [
+                            {name: 'Unique', type: 'int'},
+                            {name: 'MenuName', type: 'number'},
+                            {name: 'Status', type: 'number'},
+                            {name: 'StatusName', type: 'string'},
+                            {name: 'Column', type: 'number'},
+                            {name: 'Row', type: 'number'}
+                        ],
+                        id: 'Unique',
+                        url: SiteRoot + 'admin/MenuCategory/load_allmenus'
+                    },
+                    created: function (args) {
+                        var instance = args.instance;
+                        instance.updateBoundData();
+                    }
+                };
+                //$('#menuNotificationsSuccessSettings #notification-content')
+                //    .html('Menu was deleted successfully!');
+                //$scope.menuNotificationsSuccessSettings.apply('open');
+                menuWindow.close();
+                resetMenuWindows();
+            } else {
+                console.log(response);
+            }
+        }, function(response) {
+            console.log('There was an error');
+            console.log(response);
+        });
+    };
+
 
     /**
+     * --------------------
      * CATEGORIES TAB LOGIC
+     * --------------------
      */
     $scope.categoriesTableSettings = {
         source: {
@@ -263,6 +347,8 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     // Status select
     $('#add_CategoryStatus').jqxDropDownList({autoDropDownHeight: true});
+    $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
+    $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
 
     // Init scope
     $scope.newOrEditCategoryOption = null;
@@ -281,10 +367,20 @@ app.controller('menuCategoriesController', function($scope, $http){
         showCloseButton: false
     };
 
+    // Events menu controls
+    $('.categoryFormContainer .required-field').on('keypress keyup paste change', function (e) {
+        $('#saveCategoryBtn').prop('disabled', false);
+    });
+
+    $('#add_CategoryStatus, #add_MenuUnique').on('select', function(){
+        $('#saveCategoryBtn').prop('disabled', false);
+    });
+
     $scope.newCategoryAction = function() {
         $scope.newOrEditCategoryOption = 'new';
         $scope.categoryId = null;
 
+        $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Add new Category');
         categoryWindow.open();
     };
@@ -303,13 +399,14 @@ app.controller('menuCategoriesController', function($scope, $http){
         $scope.categoryId = values['Unique'];
 
         $('#deleteCategoryBtn').show();
+        $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Edit category ' + values['CategoryName']);
         categoryWindow.open();
     };
 
     $scope.CloseCategoryWindows = function() {
         categoryWindow.close();
-        resetMenuWindows();
+        resetCategoryWindows();
     };
 
     var validationCategoryItem = function(values) {
@@ -370,12 +467,19 @@ app.controller('menuCategoriesController', function($scope, $http){
                         }
                     };
                     //
-                    $('#categoryNotificationsSuccessSettings #notification-content')
-                        .html('Category updated!');
-                    $scope.categoryNotificationsSuccessSettings.apply('open');
-
-                    //menuWindow.close();
-                    resetCategoryWindows()
+                    if ($scope.newOrEditCategoryOption == 'new') {
+                        $('#categoryNotificationsSuccessSettings #notification-content')
+                            .html('Category created successfully!');
+                        $scope.categoryNotificationsSuccessSettings.apply('open');
+                        setTimeout(function() {
+                            categoryWindow.close();
+                            resetCategoryWindows();
+                        }, 2000);
+                    } else if ($scope.newOrEditCategoryOption == 'edit') {
+                        $('#categoryNotificationsSuccessSettings #notification-content')
+                            .html('Category updated!');
+                        $scope.categoryNotificationsSuccessSettings.apply('open');
+                    }
                 } else {
                     $.each(response.data.message, function(i, val) {
                         $('#categoryNotificationsErrorSettings #notification-content')
@@ -394,12 +498,33 @@ app.controller('menuCategoriesController', function($scope, $http){
     var resetCategoryWindows = function() {
         $('.categoryFormContainer .required-field').css({"border-color": "#ccc"});
 
+        $('.alertButtonsMenuCategories').hide();
+        $('#mainButtonsForCategories').show();
+
         $('#add_CategoryName').val();
         $('#add_Sort').val();
         $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
         $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
 
+        $('#saveCategoryBtn').prop('disabled', true);
         $('#deleteCategoryBtn').hide();
+    };
+
+    $scope.beforeDeleteCategory = function(option) {
+        $('#mainButtonsForCategories').hide();
+        if (option == 0) {
+            $scope.deleteCategoryWindow();
+        } else if (option == 1) {
+            resetCategoryWindows();
+            categoryWindow.close();
+        } else if (option == 2) {
+            $('.alertButtonsMenuCategories').hide();
+            $('#mainButtonsForCategories').show();
+            // Press button delete
+        } else {
+            $('#beforeDeleteCategory').show();
+            $('#mainButtonsForCategories').hide();
+        }
     };
 
     $scope.deleteCategoryWindow = function() {
@@ -430,8 +555,7 @@ app.controller('menuCategoriesController', function($scope, $http){
                     }
                 };
                 categoryWindow.close();
-                resetMenuWindows();
-
+                resetCategoryWindows();
             } else {
                 console.log(response);
             }
@@ -440,8 +564,6 @@ app.controller('menuCategoriesController', function($scope, $http){
             console.log(response);
         });
     }
-
-
 
 
 });
