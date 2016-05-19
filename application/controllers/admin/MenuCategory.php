@@ -29,9 +29,9 @@ class MenuCategory extends AK_Controller
      * @description Load all registered menus
      * @returnType json
      */
-    public function load_allmenus($status = null)
+    public function load_allmenus($status = null, $withCategories = null)
     {
-        $menus = $this->menu->getLists($status);
+        $menus = $this->menu->getLists($status, $withCategories);
         $formatted_menus = [];
         foreach($menus as $menu) {
             $menu['StatusName'] = ($menu['Status'] == 1 ? 'Enabled' : 'Disabled');

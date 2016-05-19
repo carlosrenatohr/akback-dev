@@ -9,10 +9,18 @@ class Menu_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getLists($status = null)
+    public function getLists($status = null, $withCategories = null)
     {
-        if (!is_null($status)) {
-            $this->db->where('Status', $status);
+        if (!is_null($status) && in_array($status, [1, 2])) {
+            $this->db->where('config_menu.Status', $status);
+        }
+        if (!is_null($withCategories) && $withCategories == 'on') {
+            $this->db->select('config_menu.*, config_menu_category.CategoryName');
+            $this->db->join(
+                'config_menu_category',
+                'config_menu_category.MenuUnique = config_menu.Unique',
+                'left'
+            );
         }
         $this->db->order_by('Unique', 'DESC');
         $query = $this->db->get('config_menu');

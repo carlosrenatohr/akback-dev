@@ -13,6 +13,7 @@ jqxthemes();
     $("#tabtitle").text("Category");
 </script>
 <script type="application/javascript" src="../../assets/admin/menu_categories_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/menu_items_controller.js"></script>
 <div class="parent-container" ng-controller="menuCategoriesController">
     <div ng-cloak class="row-offcanvas row-offcanvas-left ng-cloak">
         <div style="width: 100%;">
@@ -35,6 +36,7 @@ jqxthemes();
                     <ul>
                         <li>Menu</li>
                         <li>Categories</li>
+                        <li>Items</li>
                     </ul>
                     <!-- -------------- -->
                     <!-- MENU TAB -->
@@ -251,6 +253,17 @@ jqxthemes();
                             </jqx-window>
                         </div>
                     </div>
+                    <!-- -------------- -->
+                    <!-- ITEMS TAB -->
+                    <!-- -------------- -->
+                    <div class="" ng-controller="menuItemController">
+                        <div class="">
+                            <jqx-list-box jqx-settings="menuListBoxSettings" id="menuListBox"
+                                          jqx-on-select="menuListBoxSelecting(event)">
+                            </jqx-list-box>
+                        </div>
+                    </div>
+
                 </jqx-tabs>
             </div>
         </div>
