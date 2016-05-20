@@ -20,4 +20,4 @@
         color: #000;
     }
 </style>
-<body>
+<body ng-cloak>

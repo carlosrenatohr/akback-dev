@@ -10,7 +10,7 @@ jqxthemes();
 ?>
 <!-- JS-->
 <script>
-    //-->Global Variable
+    // --Global Variable
     var SiteRoot = "<?php echo base_url()?>";
 </script>
 <script type="application/javascript" src="../../assets/admin/user_controller.js"></script>
@@ -18,7 +18,7 @@ jqxthemes();
 <script type="application/javascript" src="../../assets/admin/position_controller.js"></script>
 <!-- -->
 
-<div ng-controller="userController">
+<div ng-controller="userController" ng-cloak>
     <div class="container-fluid">
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
