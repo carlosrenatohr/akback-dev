@@ -13,6 +13,8 @@ class Menu_model extends CI_Model
     {
         if (!is_null($status) && in_array($status, [1, 2])) {
             $this->db->where('config_menu.Status', $status);
+        } else {
+            $this->db->where('config_menu.Status !=', 0);
         }
         if (!is_null($withCategories) && $withCategories == 'on') {
             $this->db->select('config_menu.*, config_menu_category.CategoryName');
@@ -32,6 +34,8 @@ class Menu_model extends CI_Model
         $this->db->select('config_menu_category.*, config_menu.MenuName');
         $this->db->from('config_menu_category');
         $this->db->join('config_menu', 'config_menu.Unique = config_menu_category.MenuUnique', 'left');
+        $this->db->where('config_menu_category.Status!=', '0');
+
         $this->db->order_by('Unique', 'DESC');
         $query = $this->db->get();
         return $query->result_array();
@@ -52,8 +56,13 @@ class Menu_model extends CI_Model
     }
 
     public function deleteMenu($id) {
+        $deletingValues = [
+            'Status' => 0,
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
         $this->db->where('Unique', $id);
-        $query = $this->db->delete('config_menu');
+        $query = $this->db->update('config_menu', $deletingValues);
         return $query;
     }
 
@@ -71,8 +80,13 @@ class Menu_model extends CI_Model
     }
 
     public function deleteCategory($id) {
+        $deletingValues = [
+            'Status' => 0,
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
         $this->db->where('Unique', $id);
-        $query = $this->db->delete('config_menu_category');
+        $query = $this->db->update('config_menu_category', $deletingValues);
         return $query;
     }
 

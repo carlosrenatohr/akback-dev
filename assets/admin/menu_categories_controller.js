@@ -501,8 +501,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('.alertButtonsMenuCategories').hide();
         $('#mainButtonsForCategories').show();
 
-        $('#add_CategoryName').val();
-        $('#add_Sort').val();
+        $('#add_CategoryName').val('');
+        $('#add_Sort').val('');
         $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
         $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
 

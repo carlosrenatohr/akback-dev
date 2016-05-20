@@ -77,8 +77,8 @@ class MenuCategory extends AK_Controller
                 ]
             ];
         } else {
-            $values['Updated'] = date('Y-m-d H:i:s');
-            $values['UpdatedBy'] = $this->session->userdata('userid');
+            $values['Created'] = date('Y-m-d H:i:s');
+            $values['CreatedBy'] = $this->session->userdata('userid');
             $return = $this->menu->storeMenu($request);
 
             if ($return) {
@@ -150,8 +150,8 @@ class MenuCategory extends AK_Controller
                 ]
             ];
         } else {
-            $values['Updated'] = date('Y-m-d H:i:s');
-            $values['UpdatedBy'] = $this->session->userdata('userid');
+            $values['Created'] = date('Y-m-d H:i:s');
+            $values['CreatedBy'] = $this->session->userdata('userid');
             $return = $this->menu->storeCategory($request);
 
             if ($return){
