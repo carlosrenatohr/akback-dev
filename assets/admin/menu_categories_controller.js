@@ -191,9 +191,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                     $.each(response.data.message, function(i, val) {
                         $('#menuNotificationsErrorSettings #notification-content')
                             .html(val);
-                        $('#add_MenuName').css({"border-color": "#F00"});
+                        $('#add_' + i).css({"border-color": "#F00"});
+                        $scope.menuNotificationsErrorSettings.apply('open');
                     });
-                    $scope.menuNotificationsErrorSettings.apply('open');
                 }
             }, function(response) {
                 console.log('ERROR: ');

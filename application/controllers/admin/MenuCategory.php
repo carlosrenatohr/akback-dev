@@ -68,13 +68,11 @@ class MenuCategory extends AK_Controller
         $request = json_decode($postdata, true);
         $table = 'config_menu';
 
-        $nameUsed = $this->menu->validateField('MenuName', $request['MenuName'], $table);
-        if ($nameUsed) {
+        $validation = $this->beforeAddingMenu($request, $table);
+        if (!$validation['sure']){
             $response = [
                 'status' => 'error',
-                'message' => [
-                    'MenuName' => 'Menu name must be unique. Please type a different one.'
-                ]
+                'message' => $validation['message']
             ];
         } else {
             $values['Created'] = date('Y-m-d H:i:s');
@@ -92,6 +90,32 @@ class MenuCategory extends AK_Controller
         echo json_encode($response);
     }
 
+    private function beforeAddingMenu($request, $table) {
+        $sure = true;
+        $message = [];
+        //
+        $nameUsed = $this->menu->validateField('MenuName', $request['MenuName'], $table);
+        if ($nameUsed) {
+            $sure = false;
+            $message['MenuName'] = 'Menu name must be unique. Please type a different one.';
+        }
+        //
+        if (!ctype_digit($request['Row'])) {
+            $sure = false;
+            $message['MenuRow'] = 'Row must be an integer value.';
+        }
+
+        if (!ctype_digit($request['Column'])) {
+            $sure = false;
+            $message['MenuColumn'] = 'Column must be an integer value.';
+        }
+
+        return [
+            'sure' => $sure,
+            'message' => $message
+        ];
+    }
+
     /**
      * @method POST
      * @param $id Unique from selected menu
@@ -102,18 +126,15 @@ class MenuCategory extends AK_Controller
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $table = 'config_menu';
-        //
-        $menu = $this->menu->getNameByMenu($id, $table);
-        $whereNot = ['MenuName !=' => $menu[0]['MenuName']];
-        $nameUsed = $this->menu->validateField('MenuName', $request['MenuName'], $table, $whereNot);
-        if ($nameUsed) {
+
+        $validation = $this->beforeUpdatingMenu($id, $request, $table);
+        if (!$validation['sure']) {
             $response = [
                 'status' => 'error',
-                'message' => [
-                    'MenuName' => 'Menu name must be unique. Please type a different one.'
-                ]
+                'message' => $validation['message']
             ];
-        } else {
+        }
+         else {
             $values['Updated'] = date('Y-m-d H:i:s');
             $values['UpdatedBy'] = $this->session->userdata('userid');
             $status = $this->menu->updateMenu($request, $id);
@@ -127,6 +148,24 @@ class MenuCategory extends AK_Controller
         }
 
         echo json_encode($response);
+    }
+
+    private function beforeUpdatingMenu($id, $request, $table) {
+        $sure = true;
+        $message = [];
+        //
+        $menu = $this->menu->getNameByMenu($id, $table);
+        $whereNot = ['MenuName !=' => $menu[0]['MenuName']];
+        $nameUsed = $this->menu->validateField('MenuName', $request['MenuName'], $table, $whereNot);
+        if ($nameUsed) {
+            $sure = false;
+            $message['MenuName'] = 'Menu name must be unique. Please type a different one.';
+        }
+
+        return [
+            'sure' => $sure,
+            'message' => $message
+        ];
     }
 
     /**

@@ -85,7 +85,10 @@ jqxthemes();
                                                 <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Row:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="number" class="form-control required-field" id="add_MenuRow" name="add_Row" placeholder="Row">
+                                                        <input type="number" class="form-control required-field" id="add_MenuRow"
+                                                               name="add_Row" placeholder="Row"
+                                                               step="1" min="1" pattern="\d*"
+                                                        >
                                                     </div>
                                                     <div style="float:left;">
                                                         <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -95,7 +98,10 @@ jqxthemes();
                                                 <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Column:</div>
                                                     <div style="float:left; width:180px;">
-                                                        <input type="number" class="form-control required-field" id="add_MenuColumn" name="add_Column" placeholder="Column">
+                                                        <input type="number" class="form-control required-field" id="add_MenuColumn"
+                                                               name="add_Column" placeholder="Column"
+                                                               step="1" min="1" pattern="\d*"
+                                                        >
                                                     </div>
                                                     <div style="float:left;">
                                                         <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
