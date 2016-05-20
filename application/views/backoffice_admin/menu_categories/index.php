@@ -275,9 +275,45 @@ jqxthemes();
                     <!-- -------------- -->
                     <div class="" ng-controller="menuItemController">
                         <div class="">
-                            <jqx-list-box jqx-settings="menuListBoxSettings" id="menuListBox"
-                                          jqx-on-select="menuListBoxSelecting(event)">
-                            </jqx-list-box>
+                            <div class="col-md-3">
+                                <jqx-tabs jqx-width="'100%'" jqx-height="'100%'">
+                                    <ul>
+                                        <li>Menu</li>
+                                        <li>Items</li>
+                                    </ul>
+                                    <div class="">
+                                        <div class="">
+                                            <jqx-list-box jqx-settings="menuListBoxSettings" id="menuListBox"
+                                                          jqx-on-select="menuListBoxSelecting(event)">
+                                            </jqx-list-box>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="" >
+<!--                                            <jqx-list-box jqx-settings="menuListBoxSettings" id=""-->
+<!--                                                          jqx-on-select="">-->
+<!--                                            </jqx-list-box>-->
+                                            <div>Type an item to find:</div>
+                                            <jqx-combo-box
+                                                jqx-on-select=""
+                                                jqx-settings="itemsComboboxSettings"></jqx-combo-box>
+                                            <div style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </jqx-tabs>
+                            </div>
+                            <div class="col-md-9">
+                                <?php for($i=0;$i<24;$i++){ ?>
+                                    <div class="col-md-1" style="height: 120px;background-color: <?= ($i%2 == 0) ?'red': 'green'?>;border: black 1px solid ">
+                                        <?= $i +1 ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+<!--                            <div class="col-md-12">-->
+<!--                                <jqx-data-table jqx-settings="categoriesMenuShownSettings"-->
+<!--                                                jqx-on-row-double-click="">-->
+<!--                                </jqx-data-table>-->
+<!--                            </div>-->
                         </div>
                     </div>
 

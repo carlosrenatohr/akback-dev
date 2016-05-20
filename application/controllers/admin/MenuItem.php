@@ -12,7 +12,7 @@ class MenuItem extends AK_Controller
     public function __construct()
     {
         parent::__construct();
-//        $this->load->model('MenuItem_model', 'menuItem');
+        $this->load->model('Menu_item_model', 'menuItem');
         $this->load->model('Menu_model', 'menu');
     }
 
@@ -28,6 +28,12 @@ class MenuItem extends AK_Controller
         }
 
         echo json_encode(($newMenus));
+    }
+
+    public function load_allItems() {
+        $items = $this->menuItem->getItems();
+
+        echo json_encode($items);
     }
 
 }

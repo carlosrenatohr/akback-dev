@@ -4,36 +4,91 @@
 //var app = angular.module("akamaiposApp", ['jqwidgets']);
 
 app.controller('menuItemController', function ($scope, $http) {
-    var source =
-    {
-        dataType: 'json',
-        dataFields: [
-            {name: 'Unique', type: 'int'},
-            {name: 'MenuName', type: 'number'},
-            {name: 'Status', type: 'number'},
-            {name: 'StatusName', type: 'string'},
-            {name: 'Column', type: 'number'},
-            {name: 'Row', type: 'number'},
-            {name: 'CategoryName', type: 'string'}
-        ],
-        id: 'Unique',
-        url: SiteRoot + 'admin/MenuItem/load_allMenusWithCategories/1/on'
-    };
-    var dataAdapter = new $.jqx.dataAdapter(source);
+
+    // -- MENU LISTBOX
+    var dataAdapterMenu = new $.jqx.dataAdapter(
+        {
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'MenuName', type: 'number'},
+                {name: 'Status', type: 'number'},
+                {name: 'StatusName', type: 'string'},
+                {name: 'Column', type: 'number'},
+                {name: 'Row', type: 'number'},
+                {name: 'CategoryName', type: 'string'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuItem/load_allMenusWithCategories/1/on'
+        }
+    );
 
     $scope.menuListBoxSettings =
     {
-        source: dataAdapter,
+        source: dataAdapterMenu,
         displayMember: "MenuName",
         valueMember: "Unique",
         //, width: 200, height: 250
-        width: "10%",
+        width: "100%",
+        height: "100%",
         theme: 'arctic'
     };
 
     $scope.menuListBoxSelecting = function(e) {
         var row = e.args;
         console.log(row);
-    }
+    };
+
+    // -- ITEMS LIST COMBOBOX
+    var dataAdapterItems = new $.jqx.dataAdapter(
+        {
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'Description', type: 'string'},
+                {name: 'Item', type: 'string'},
+                {name: 'Part', type: 'string'},
+                {name: 'Status', type: 'number'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuItem/load_allItems'
+        }
+    );
+
+    $scope.itemsComboboxSettings =
+    {
+        created: function (args) {
+            comboboxItems = args.instance;
+        },
+        //selectedIndex: 0,
+        placeHolder: 'Select an item',
+        displayMember: "Description",
+        valueMember: "Unique",
+        width: "99%",
+        itemHeight: 50,
+        height: 40,
+        source: dataAdapterItems
+    };
+
+    // -- CATEGORIES BOTTON GRID
+    // -- TO FIX
+    $scope.categoriesMenuShownSettings = {
+        columns: [
+            {text: 'ID', dataField: 'Unique', type: 'int'},
+            {text: 'Menu Name', dataField: 'MenuName', type: 'number'},
+            {text: 'Status', dataField: 'Status', type: 'int', hidden:true},
+            {text: 'Status', dataField: 'StatusName', type: 'string'},
+            {text: 'Column', dataField: 'Column', type: 'number', hidden: true},
+            {text: 'Row', dataField: 'Row', type: 'number', hidden: true},
+        ],
+        columnsResize: true,
+        width: "99.7%",
+        theme: 'arctic',
+        //sortable: true,
+        pageable: true,
+        pageSize: 20,
+        pagerMode: 'default',
+        altRows: true,
+    };
 
 });
