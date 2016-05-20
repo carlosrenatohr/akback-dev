@@ -101,15 +101,8 @@ jqxthemes();
                                                         <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                                                     </div>
                                                 </div>
-                                                <div id="notification_container" style="width: 650px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                                             </div>
                                         </div>
-                                        <jqx-notification jqx-settings="menuNotificationsSuccessSettings" id="menuNotificationsSuccessSettings">
-                                            <div id="notification-content"></div>
-                                        </jqx-notification>
-                                        <jqx-notification jqx-settings="menuNotificationsErrorSettings" id="menuNotificationsErrorSettings">
-                                            <div id="notification-content"></div>
-                                        </jqx-notification>
                                     </div>
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
@@ -135,7 +128,7 @@ jqxthemes();
                                             <div id="beforeDeleteMenu" class="alertButtonsMenuCategories">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <div>Are you sure you want to delete it?</div>
+                                                        Are you sure you want to delete it?
                                                         <button type="button" ng-click="beforeDeleteMenu(0)" class="btn btn-primary">Yes</button>
                                                         <button type="button" ng-click="beforeDeleteMenu(1)" class="btn btn-warning">No</button>
                                                         <button type="button" ng-click="beforeDeleteMenu(2)" class="btn btn-info">Cancel</button>
@@ -143,6 +136,18 @@ jqxthemes();
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <!-- NOTIFICATIONS AREA -->
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <jqx-notification jqx-settings="menuNotificationsSuccessSettings" id="menuNotificationsSuccessSettings">
+                                                <div id="notification-content"></div>
+                                            </jqx-notification>
+                                            <jqx-notification jqx-settings="menuNotificationsErrorSettings" id="menuNotificationsErrorSettings">
+                                                <div id="notification-content"></div>
+                                            </jqx-notification>
+                                            <div id="notification_container" style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -210,15 +215,8 @@ jqxthemes();
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div id="notification_container_category" style="width: 650px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                                             </div>
                                         </div>
-                                        <jqx-notification jqx-settings="categoryNotificationsSuccessSettings" id="categoryNotificationsSuccessSettings">
-                                            <div id="notification-content"></div>
-                                        </jqx-notification>
-                                        <jqx-notification jqx-settings="categoryNotificationsErrorSettings" id="categoryNotificationsErrorSettings">
-                                            <div id="notification-content"></div>
-                                        </jqx-notification>
                                     </div>
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
@@ -233,13 +231,14 @@ jqxthemes();
                                             </div>
                                         </div>
                                     </div>
+
                                     <!-- ALERT MESSAGES BEFORE ACTIONS -->
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
                                             <div id="beforeDeleteCategory" class="alertButtonsMenuCategories">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <div>Are you sure you want to delete it?</div>
+                                                        Are you sure you want to delete it?
                                                         <button type="button" ng-click="beforeDeleteCategory(0)" class="btn btn-primary">Yes</button>
                                                         <button type="button" ng-click="beforeDeleteCategory(1)" class="btn btn-warning">No</button>
                                                         <button type="button" ng-click="beforeDeleteCategory(2)" class="btn btn-info">Cancel</button>
@@ -247,6 +246,18 @@ jqxthemes();
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <!-- NOTIFICATIONS AREA -->
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <jqx-notification jqx-settings="categoryNotificationsSuccessSettings" id="categoryNotificationsSuccessSettings">
+                                                <div id="notification-content"></div>
+                                            </jqx-notification>
+                                            <jqx-notification jqx-settings="categoryNotificationsErrorSettings" id="categoryNotificationsErrorSettings">
+                                                <div id="notification-content"></div>
+                                            </jqx-notification>
+                                            <div id="notification_container_category" style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                                         </div>
                                     </div>
                                 </div>

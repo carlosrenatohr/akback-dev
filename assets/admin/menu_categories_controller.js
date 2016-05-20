@@ -65,7 +65,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             menuWindow = args.instance;
         },
         resizable: false,
-        width: "40%",
+        width: "60%", height: "50%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -88,6 +88,9 @@ app.controller('menuCategoriesController', function($scope, $http){
         $scope.newOrEditOption = 'new';
         $scope.menuId = null;
         $('#saveMenuBtn').prop('disabled', true);
+        setTimeout(function(){
+            $('#add_MenuName').focus();
+        }, 100);
         menuWindow.open();
     };
 
@@ -360,7 +363,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             categoryWindow = args.instance;
         },
         resizable: false,
-        width: "40%",
+        width: "60%", height: "50%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -381,6 +384,9 @@ app.controller('menuCategoriesController', function($scope, $http){
         $scope.categoryId = null;
 
         $('#saveCategoryBtn').prop('disabled', true);
+        setTimeout(function(){
+            $('#add_CategoryName').focus();
+        }, 100);
         categoryWindow.setTitle('Add new Category');
         categoryWindow.open();
     };
