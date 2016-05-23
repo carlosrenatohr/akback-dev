@@ -12,8 +12,11 @@ jqxthemes();
     var SiteRoot ="<?php echo base_url() ?>";
     $("#tabtitle").text("Category");
 </script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jqwidgets/jqxdragdrop.js"></script>
+
 <script type="application/javascript" src="../../assets/admin/menu_categories_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu_items_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/menu_items_directives.js"></script>
 <div class="parent-container" ng-controller="menuCategoriesController">
     <div ng-cloak class="row-offcanvas row-offcanvas-left ng-cloak">
         <div style="width: 100%;">
@@ -275,7 +278,7 @@ jqxthemes();
                     <!-- -------------- -->
                     <div class="" ng-controller="menuItemController">
                         <div class="">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <jqx-tabs jqx-width="'100%'" jqx-height="'100%'">
                                     <ul>
                                         <li>Menu</li>
@@ -297,23 +300,48 @@ jqxthemes();
                                             <jqx-combo-box
                                                 jqx-on-select=""
                                                 jqx-settings="itemsComboboxSettings"></jqx-combo-box>
-                                            <div style="height: 300px;"></div>
+                                            <div style="min-height: 400px;"></div>
                                         </div>
                                     </div>
                                 </jqx-tabs>
                             </div>
-                            <div class="col-md-9">
-                                <?php for($i=0;$i<24;$i++){ ?>
-                                    <div class="col-md-1" style="height: 120px;background-color: <?= ($i%2 == 0) ?'red': 'green'?>;border: black 1px solid ">
-                                        <?= $i +1 ?>
+                            <div class="col-md-10 restricter-dragdrop" style="max-height: 500px;overflow-y: scroll;">
+                                <?php
+                                $rows = 3;
+                                $cols = 5;
+                                $diff = (12 / $cols);
+                                $round = floor($diff);
+                                echo $rows . ' x ' . $cols . '<br>';
+                                var_dump($diff);
+                                for($j=0;$j<$rows;$j++){ ?>
+                                    <div class="row " style="background-color: lightgrey">
+
+                                    <?php
+                                    if (!is_int($diff)) { ?>
+                                        <div class="col-md-offset-1 col-sm-offset-1"></div>
+                                    <?php }
+                                    for($i=0;$i<$cols;$i++) { ?>
+                                    <div class="draggable col-md-<?= $round?> col-sm-<?= $round?>" style="height: 120px;background-color: <?= ($i%2 == 0) ?'red': 'green'?>;border: black 1px solid "
+                                            id="draggable-<?= $i + ($j * 5) + 1?>">
+
+                                        <?= $i + ($j * 5) + 1 ?>
+                                    </div>
+                                    <?php }
+                                    if (!is_int($diff)) {
+                                    ?>
+                                        <div class="col-md-offset-1"></div>
+                                    <?php } ?>
+
                                     </div>
                                 <?php } ?>
                             </div>
-<!--                            <div class="col-md-12">-->
-<!--                                <jqx-data-table jqx-settings="categoriesMenuShownSettings"-->
-<!--                                                jqx-on-row-double-click="">-->
-<!--                                </jqx-data-table>-->
-<!--                            </div>-->
+                            <div class="col-md-12">
+                                <h4 class="col-md-offset-2">Category grid</h4>
+                                <div class="col-md-offset-2 col-md-10" id="categories-container">
+                                    <category-cell ng-repeat="uno in items" ng-click="clickCategoryCell(uno)" category-title="{{uno.CategoryName}}">
+                                    </category-cell>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -351,6 +379,14 @@ jqxthemes();
 
     .icon-32-back {
         background-image: url("../../assets/img/back.png");
+    }
+
+    .category-cell-grid {
+        height: 100px;
+        background-color: red;
+        border: black 1px solid;
+        text-align: center;
+        padding-top: 40px;
     }
 </style>
 

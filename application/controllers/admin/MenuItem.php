@@ -21,13 +21,25 @@ class MenuItem extends AK_Controller
         $newMenus = [];
         $menus = $this->menu->getLists($status, $withCategories);
         foreach($menus as $menu) {
-            if (array_search($menu['Unique'], $newMenus)) {
-
+            if (!isset($newMenus[$menu['MenuName']])) {
+                $categ_keys = ['CategoryName' => '', 'CategoryRow' => '','CategoryColumn' => '','CategorySort' => '','CategoryStatus' => '','CategoryUnique' => '', ];
+                $menuValues = array_diff_key($menu, $categ_keys);
+                $newMenus[$menu['MenuName']] = $menuValues;
             }
-            $newMenus[] = $menu;
+
+            $newMenus
+            [$menu['MenuName']]['categories'][] =
+                                    ['CategoryName' => $menu['CategoryName'],
+                                    'Unique' => $menu['CategoryUnique'],
+                                    'Row' => $menu['CategoryRow'],
+                                    'Column' => $menu['CategoryColumn'],
+                                    'Sort' => $menu['CategorySort'],
+                                    'Status' => $menu['CategoryStatus']
+                                    ];
+//            $newMenus[] = $menu;
         }
 
-        echo json_encode(($newMenus));
+        echo json_encode(array_values($newMenus));
     }
 
     public function load_allItems() {

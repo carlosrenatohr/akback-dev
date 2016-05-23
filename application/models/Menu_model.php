@@ -17,16 +17,38 @@ class Menu_model extends CI_Model
             $this->db->where('config_menu.Status !=', 0);
         }
         if (!is_null($withCategories) && $withCategories == 'on') {
-            $this->db->select('config_menu.*, config_menu_category.CategoryName');
+            $this->db->select('config_menu.*,
+                            config_menu_category.CategoryName,
+                            config_menu_category.Unique as CategoryUnique,
+                            config_menu_category.Sort as CategorySort,
+                            config_menu_category.Row as CategoryRow,
+                            config_menu_category.Column as CategoryColumn,
+                            config_menu_category.Status as CategoryStatus,
+
+                            ');
             $this->db->join(
                 'config_menu_category',
-                'config_menu_category.MenuUnique = config_menu.Unique',
-                'left'
+                'config_menu_category.MenuUnique = config_menu.Unique'
+//                'left'
             );
         }
-        $this->db->order_by('Unique', 'DESC');
+        $this->db->order_by('config_menu.Unique', 'DESC');
+
         $query = $this->db->get('config_menu');
         return $query->result_array();
+    }
+
+    public function getMenuCateg($status) {
+        $query = "SELECT cm.\"MenuName\",
+                (SELECT cmc.* FROM config_menu_category cmc
+                  WHERE cmc.\"MenuUnique\" = cm.\"Unique\" ORDER BY cmc.\"Unique\"
+                  LIMIT 1
+                ) AS CATEGORY_DATA
+
+                FROM config_menu cm
+                WHERE cm.\"Status\" = {$status}";
+
+        return $this->db->query($query)->result_array();
     }
 
     public function getCategories()

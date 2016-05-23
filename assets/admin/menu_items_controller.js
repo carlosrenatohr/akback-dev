@@ -16,7 +16,8 @@ app.controller('menuItemController', function ($scope, $http) {
                 {name: 'StatusName', type: 'string'},
                 {name: 'Column', type: 'number'},
                 {name: 'Row', type: 'number'},
-                {name: 'CategoryName', type: 'string'}
+                {name: 'CategoryName', type: 'string'},
+                {name: 'categories', type: 'json'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuItem/load_allMenusWithCategories/1/on'
@@ -33,10 +34,11 @@ app.controller('menuItemController', function ($scope, $http) {
         height: "100%",
         theme: 'arctic'
     };
-
+    $scope.items = [];
     $scope.menuListBoxSelecting = function(e) {
-        var row = e.args;
-        console.log(row);
+        var row = e.args.item.originalItem;
+        $scope.items = row.categories;
+        //console.log(row.categories);
     };
 
     // -- ITEMS LIST COMBOBOX
@@ -91,4 +93,21 @@ app.controller('menuItemController', function ($scope, $http) {
         altRows: true,
     };
 
+});
+
+$(function() {
+    $('.draggable').jqxDragDrop({dropTarget: '.draggable', restricter:'.restricter-dragdrop' });
+    $('.draggable').bind('dragStart', function (event) {
+        console.log(event.type, event.args.position);
+    });
+    $('.draggable').bind('dragEnd', function (event) {
+        console.log(event.type, event.args.position);
+    });
+    $('.draggable').bind('dropTargetEnter', function (event) {
+        console.log(event.type, event.args.position);
+    });
+    $('.draggable').bind('dropTargetLeave', function (event) {
+        console.log(event.args);
+        console.log(event.type, event.args.position);
+    });
 });
