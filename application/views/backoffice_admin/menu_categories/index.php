@@ -361,12 +361,10 @@ jqxthemes();
                             </div>
                             <div class="col-md-10 restricter-dragdrop" style="max-height: 500px;overflow-y: scroll;">
                                 <?php
-                                $rows = 3;
-                                $cols = 5;
+                                $rows = 2;
+                                $cols = 2;
                                 $diff = (12 / $cols);
                                 $round = floor($diff);
-                                echo $rows . ' x ' . $cols . '<br>';
-                                var_dump($diff);
                                 for($j=0;$j<$rows;$j++){ ?>
                                     <div class="row " style="background-color: lightgrey">
 
@@ -375,7 +373,7 @@ jqxthemes();
                                         <div class="col-md-offset-1 col-sm-offset-1"></div>
                                     <?php }
                                     for($i=0;$i<$cols;$i++) { ?>
-                                    <div class="draggable col-md-<?= $round?> col-sm-<?= $round?>" style="height: 120px;background-color: <?= ($i%2 == 0) ?'red': 'green'?>;border: black 1px solid "
+                                    <div class="draggable col-md-<?= $round?> col-sm-<?= $round?>" style="height: 120px;background-color: <?= ($i%2 == 0) ?'red': 'green'?>;border: black 1px solid;"
                                             id="draggable-<?= $i + ($j * 5) + 1?>">
 
                                         <?= $i + ($j * 5) + 1 ?>
@@ -388,11 +386,13 @@ jqxthemes();
 
                                     </div>
                                 <?php } ?>
+<!--                                <div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
+<!--                                <items-grid></items-grid>-->
                             </div>
                             <div class="col-md-12">
                                 <h4 class="col-md-offset-2">Category grid</h4>
                                 <div class="col-md-offset-2 col-md-10" id="categories-container">
-                                    <category-cell ng-repeat="uno in items" ng-click="clickCategoryCell(uno)" category-title="{{uno.CategoryName}}">
+                                    <category-cell ng-repeat="uno in categoriesByMenu" ng-click="clickCategoryCell(uno)" category-title="{{uno.CategoryName}}">
                                     </category-cell>
                                 </div>
                             </div>

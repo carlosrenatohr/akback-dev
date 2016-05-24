@@ -34,10 +34,11 @@ app.controller('menuItemController', function ($scope, $http) {
         height: "100%",
         theme: 'arctic'
     };
-    $scope.items = [];
+
+    $scope.categoriesByMenu = [];
     $scope.menuListBoxSelecting = function(e) {
         var row = e.args.item.originalItem;
-        $scope.items = row.categories;
+        $scope.categoriesByMenu = row.categories;
         //console.log(row.categories);
     };
 
@@ -96,7 +97,12 @@ app.controller('menuItemController', function ($scope, $http) {
 });
 
 $(function() {
-    $('.draggable').jqxDragDrop({dropTarget: '.draggable', restricter:'.restricter-dragdrop' });
+    $('.draggable').jqxDragDrop(
+        {dropTarget: '.droppingTarget',
+        restricter:'.restricter-dragdrop',
+        //tolerance: 'fit'
+        }
+    );
     $('.draggable').bind('dragStart', function (event) {
         console.log(event.type, event.args.position);
     });
@@ -110,4 +116,13 @@ $(function() {
         console.log(event.args);
         console.log(event.type, event.args.position);
     });
+
+    //(function centerLabels() {
+    //    var labels = $('.draggable');
+    //    labels.each(function (index, el) {
+    //        el = $(el);
+    //        var top = (el.height() - el.height()) / 2;
+    //        el.css('top', top + 'px');
+    //    });
+    //} ());
 });
