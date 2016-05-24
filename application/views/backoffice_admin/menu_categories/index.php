@@ -85,31 +85,31 @@ jqxthemes();
                                                     </div>
                                                 </div>
 
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Row:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="number" class="form-control required-field" id="add_MenuRow"
-                                                               name="add_Row" placeholder="Row"
-                                                               step="1" min="1" pattern="\d*"
-                                                        >
-                                                    </div>
-                                                    <div style="float:left;">
-                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Column:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="number" class="form-control required-field" id="add_MenuColumn"
-                                                               name="add_Column" placeholder="Column"
-                                                               step="1" min="1" pattern="\d*"
-                                                        >
-                                                    </div>
-                                                    <div style="float:left;">
-                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                                                    </div>
-                                                </div>
+<!--                                                <div style="float:left; padding:2px; width:350px;">-->
+<!--                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Row:</div>-->
+<!--                                                    <div style="float:left; width:180px;">-->
+<!--                                                        <input type="number" class="form-control required-field" id="add_MenuRow"-->
+<!--                                                               name="add_Row" placeholder="Row"-->
+<!--                                                               step="1" min="1" pattern="\d*"-->
+<!--                                                        >-->
+<!--                                                    </div>-->
+<!--                                                    <div style="float:left;">-->
+<!--                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!---->
+<!--                                                <div style="float:left; padding:2px; width:350px;">-->
+<!--                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Column:</div>-->
+<!--                                                    <div style="float:left; width:180px;">-->
+<!--                                                        <input type="number" class="form-control required-field" id="add_MenuColumn"-->
+<!--                                                               name="add_Column" placeholder="Column"-->
+<!--                                                               step="1" min="1" pattern="\d*"-->
+<!--                                                        >-->
+<!--                                                    </div>-->
+<!--                                                    <div style="float:left;">-->
+<!--                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +144,20 @@ jqxthemes();
                                                     </div>
                                                 </div>
                                             </div>
-
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="promptToSaveInCloseButtonMenu" class="alertButtonsMenuCategories">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        Do you want to save your changes?
+                                                        <button type="button" ng-click="CloseMenuWindows(0)" class="btn btn-primary">Yes</button>
+                                                        <button type="button" ng-click="CloseMenuWindows(1)" class="btn btn-warning">No</button>
+                                                        <button type="button" ng-click="CloseMenuWindows(2)" class="btn btn-info">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- NOTIFICATIONS AREA -->
@@ -216,6 +229,32 @@ jqxthemes();
                                                 </div>
 
                                                 <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Row:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="number" class="form-control required-field" id="add_CategoryRow"
+                                                               name="add_CategoryRow" placeholder="Row"
+                                                               step="1" min="1" pattern="\d*"
+                                                        >
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Column:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="number" class="form-control required-field" id="add_CategoryColumn"
+                                                               name="add_CategoryColumn" placeholder="Column"
+                                                               step="1" min="1" max="12" pattern="\d*"
+                                                        >
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
                                                     <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:</div>
                                                     <div style="float:left; width:180px;">
                                                         <select name="Status" id="add_CategoryStatus">
@@ -255,6 +294,21 @@ jqxthemes();
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="promptToSaveInCloseButtonCategory" class="alertButtonsMenuCategories">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        Do you want to save your changes?
+                                                        <button type="button" ng-click="CloseCategoryWindows(0)" class="btn btn-primary">Yes</button>
+                                                        <button type="button" ng-click="CloseCategoryWindows(1)" class="btn btn-warning">No</button>
+                                                        <button type="button" ng-click="CloseCategoryWindows(2)" class="btn btn-info">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- NOTIFICATIONS AREA -->

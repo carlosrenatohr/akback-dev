@@ -110,9 +110,27 @@ app.controller('menuCategoriesController', function($scope, $http){
         menuWindow.open();
     };
 
-    $scope.CloseMenuWindows = function() {
-        menuWindow.close();
-        resetMenuWindows();
+    $scope.CloseMenuWindows = function(option) {
+        if (option == 0) {
+            $scope.SaveMenuWindows();
+            $('#mainButtonsForMenus').show();
+            $('.alertButtonsMenuCategories').hide();
+        } else if (option == 1) {
+            resetMenuWindows();
+            menuWindow.close();
+        } else if (option == 2) {
+            $('#promptToSaveInCloseButtonMenu').hide();
+            $('#mainButtonsForMenus').show();
+        } else {
+            if ($('#saveMenuBtn').is(':disabled')) {
+                menuWindow.close();
+                resetMenuWindows();
+            } else {
+                $('#mainButtonsForMenus').hide();
+                $('.alertButtonsMenuCategories').hide();
+                $('#promptToSaveInCloseButtonMenu').show();
+            }
+        }
     };
 
     var validationMenuItem = function(values) {
@@ -186,6 +204,7 @@ app.controller('menuCategoriesController', function($scope, $http){
                         $('#menuNotificationsSuccessSettings #notification-content')
                             .html('Menu updated successfully!');
                         $scope.menuNotificationsSuccessSettings.apply('open');
+                        $('#saveMenuBtn').prop('disabled', true);
                     }
                 } else {
                     $.each(response.data.message, function(i, val) {
@@ -286,6 +305,8 @@ app.controller('menuCategoriesController', function($scope, $http){
                 {name: 'Unique', type: 'int'},
                 {name: 'CategoryName', type: 'string'},
                 {name: 'Sort', type: 'number'},
+                {name: 'Row', type: 'number'},
+                {name: 'Column', type: 'number'},
                 {name: 'Status', type: 'number'},
                 {name: 'StatusName', type: 'string'},
                 {name: 'MenuUnique', type: 'number'},
@@ -299,6 +320,8 @@ app.controller('menuCategoriesController', function($scope, $http){
             {text: 'Category Name', dataField: 'CategoryName', type: 'string'},
             {text: 'Menu', dataField: 'MenuUnique', type: 'string', hidden: true},
             {text: 'Menu', dataField: 'MenuName', type: 'string'},
+            {text: 'Row', dataField: 'Row', type: 'number'},
+            {text: 'Column', dataField: 'Column', type: 'number'},
             {text: 'Sort', dataField: 'Sort', type: 'number'},
             {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
             {text: 'Status', dataField: 'StatusName', type: 'string'}
@@ -350,8 +373,8 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     // Status select
     $('#add_CategoryStatus').jqxDropDownList({autoDropDownHeight: true});
-    $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
-    $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
+    //$('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
+    //$('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
 
     // Init scope
     $scope.newOrEditCategoryOption = null;
@@ -387,6 +410,9 @@ app.controller('menuCategoriesController', function($scope, $http){
         setTimeout(function(){
             $('#add_CategoryName').focus();
         }, 100);
+        $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
+        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
+        $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Add new Category');
         categoryWindow.open();
     };
@@ -400,6 +426,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_MenuUnique').jqxDropDownList({'selectedIndex': (menuCombo) ? menuCombo.index: '0'});
 
         $('#add_CategoryName').val(values['CategoryName']);
+        $('#add_CategoryRow').val(values['Row']);
+        $('#add_CategoryColumn').val(values['Column']);
         $('#add_Sort').val(values['Sort']);
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
@@ -410,9 +438,27 @@ app.controller('menuCategoriesController', function($scope, $http){
         categoryWindow.open();
     };
 
-    $scope.CloseCategoryWindows = function() {
-        categoryWindow.close();
-        resetCategoryWindows();
+    $scope.CloseCategoryWindows = function(option) {
+        if (option == 0) {
+            $scope.SaveCategoryWindows();
+            $('#mainButtonsForCategories').show();
+            $('.alertButtonsMenuCategories').hide();
+        } else if (option == 1) {
+            categoryWindow.close();
+            resetCategoryWindows();
+        } else if (option == 2) {
+            $('#promptToSaveInCloseButtonCategory').hide();
+            $('#mainButtonsForCategories').show();
+        } else {
+            if ($('#saveCategoryBtn').is(':disabled')) {
+                categoryWindow.close();
+                resetCategoryWindows();
+            } else {
+                $('#mainButtonsForCategories').hide();
+                $('.alertButtonsMenuCategories').hide();
+                $('#promptToSaveInCloseButtonCategory').show();
+            }
+        }
     };
 
     var validationCategoryItem = function(values) {
@@ -434,6 +480,8 @@ app.controller('menuCategoriesController', function($scope, $http){
     $scope.SaveCategoryWindows = function() {
         var values = {
             'CategoryName': $('#add_CategoryName').val(),
+            'Row': $('#add_CategoryRow').val(),
+            'Column': $('#add_CategoryColumn').val(),
             'Sort': $('#add_Sort').val(),
             'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
             'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value
@@ -450,7 +498,6 @@ app.controller('menuCategoriesController', function($scope, $http){
                 'url': url,
                 data: values
             }).then(function (response) {
-                console.info(response);
                 if (response.data.status == "success") {
                     $scope.categoriesTableSettings = {
                         source: {
@@ -458,6 +505,8 @@ app.controller('menuCategoriesController', function($scope, $http){
                             dataFields: [
                                 {name: 'Unique', type: 'int'},
                                 {name: 'CategoryName', type: 'string'},
+                                {name: 'Row', type: 'number'},
+                                {name: 'Column', type: 'number'},
                                 {name: 'Sort', type: 'number'},
                                 {name: 'Status', type: 'number'},
                                 {name: 'StatusName', type: 'string'},
@@ -485,12 +534,13 @@ app.controller('menuCategoriesController', function($scope, $http){
                         $('#categoryNotificationsSuccessSettings #notification-content')
                             .html('Category updated!');
                         $scope.categoryNotificationsSuccessSettings.apply('open');
+                        $('#saveCategoryBtn').prop('disabled', true);
                     }
                 } else {
                     $.each(response.data.message, function(i, val) {
                         $('#categoryNotificationsErrorSettings #notification-content')
                             .html(val);
-                        $('#add_CategoryName').css({"border-color": "#F00"});
+                        $('#add_' + i).css({"border-color": "#F00"});
                     });
                     $scope.categoryNotificationsErrorSettings.apply('open');
                 }
@@ -508,6 +558,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#mainButtonsForCategories').show();
 
         $('#add_CategoryName').val('');
+        $('#add_CategoryRow').val('');
+        $('#add_CategoryColumn').val('');
         $('#add_Sort').val('');
         $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
         $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
@@ -547,6 +599,8 @@ app.controller('menuCategoriesController', function($scope, $http){
                             {name: 'Unique', type: 'int'},
                             {name: 'CategoryName', type: 'string'},
                             {name: 'Sort', type: 'number'},
+                            {name: 'Row', type: 'number'},
+                            {name: 'Category', type: 'number'},
                             {name: 'Status', type: 'number'},
                             {name: 'StatusName', type: 'string'},
                             {name: 'MenuUnique', type: 'number'},

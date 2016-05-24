@@ -99,16 +99,6 @@ class MenuCategory extends AK_Controller
             $sure = false;
             $message['MenuName'] = 'Menu name must be unique. Please type a different one.';
         }
-        //
-        if (!ctype_digit($request['Row'])) {
-            $sure = false;
-            $message['MenuRow'] = 'Row must be an integer value.';
-        }
-
-        if (!ctype_digit($request['Column'])) {
-            $sure = false;
-            $message['MenuColumn'] = 'Column must be an integer value.';
-        }
 
         return [
             'sure' => $sure,
@@ -179,21 +169,19 @@ class MenuCategory extends AK_Controller
         $request = json_decode($postdata, true);
         $table = 'config_menu_category';
 
-        $nameUsed = $this->menu->validateField('CategoryName', $request['CategoryName'], $table);
+        $validation = $this->beforeAddingCategory($request, $table);
 
-        if ($nameUsed) {
+        if (!$validation['sure']){
             $response = [
                 'status' => 'error',
-                'message' => [
-                    'CategoryName' => 'Category name must be unique.'
-                ]
+                'message' => $validation['message']
             ];
         } else {
             $values['Created'] = date('Y-m-d H:i:s');
             $values['CreatedBy'] = $this->session->userdata('userid');
             $return = $this->menu->storeCategory($request);
 
-            if ($return){
+            if ($return) {
                 $response = [
                     'status' => 'success',
                     'message' => $return
@@ -202,6 +190,31 @@ class MenuCategory extends AK_Controller
         }
 
         echo json_encode($response);
+    }
+
+    private function beforeAddingCategory($request, $table) {
+        $sure = true;
+        $message = [];
+        //
+        $nameUsed = $this->menu->validateField('CategoryName', $request['CategoryName'], $table);        if ($nameUsed) {
+            $sure = false;
+            $message['CategoryName'] = 'Category name must be unique. Please type a different one.';
+        }
+        //
+        if (!ctype_digit($request['Row'])) {
+            $sure = false;
+            $message['CategoryRow'] = 'Row must be an integer value.';
+        }
+
+        if (!ctype_digit($request['Column'])) {
+            $sure = false;
+            $message['CategoryColumn'] = 'Column must be an integer value.';
+        }
+
+        return [
+            'sure' => $sure,
+            'message' => $message
+        ];
     }
 
     /**
@@ -215,32 +228,55 @@ class MenuCategory extends AK_Controller
         $request = json_decode($postdata, true);
         $table = 'config_menu_category';
 
-        $menu = $this->menu->getNameByMenu($id, $table);
-        $whereNot = ['CategoryName !=' => $menu[0]['CategoryName']];
-        $nameUsed = $this->menu->validateField('CategoryName', $request['CategoryName'], $table, $whereNot);
 
-        if ($nameUsed) {
+        $validation = $this->beforeUpdatingCategory($id, $request, $table);
+        if (!$validation['sure']) {
             $response = [
                 'status' => 'error',
-                'message' => [
-                    'CategoryName' => 'Category name must be unique.'
-                ]
+                'message' => $validation['message']
             ];
-        } else {
+        }
+        else {
             $values['Updated'] = date('Y-m-d H:i:s');
             $values['UpdatedBy'] = $this->session->userdata('userid');
-            $return = $this->menu->updateCategory($request, $id);
+            $status = $this->menu->updateCategory($request, $id);
 
-            if ($return){
+            if ($status) {
                 $response = [
                     'status' => 'success',
-                    'message' => $return
+                    'message' => $status
                 ];
             }
         }
 
-
         echo json_encode($response);
+    }
+
+    private function beforeUpdatingCategory($id, $request, $table) {
+        $sure = true;
+        $message = [];
+        //
+        $category = $this->menu->getNameByMenu($id, $table);
+        $whereNot = ['CategoryName !=' => $category[0]['CategoryName']];
+        $nameUsed = $this->menu->validateField('CategoryName', $request['CategoryName'], $table, $whereNot);
+        if ($nameUsed) {
+            $sure = false;
+            $message['CategoryName'] = 'Category name must be unique. Please type a different one.';
+        }
+        if (!ctype_digit($request['Row'])) {
+            $sure = false;
+            $message['CategoryRow'] = 'Row must be an integer value.';
+        }
+
+        if (!ctype_digit($request['Column'])) {
+            $sure = false;
+            $message['CategoryColumn'] = 'Column must be an integer value.';
+        }
+
+        return [
+            'sure' => $sure,
+            'message' => $message
+        ];
     }
 
     /**
