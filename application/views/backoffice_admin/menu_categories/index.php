@@ -387,12 +387,11 @@ jqxthemes();
                                     </div>
                                 <?php } ?>
 <!--                                <div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
-<!--                                <items-grid></items-grid>-->
                             </div>
                             <div class="col-md-12">
                                 <h4 class="col-md-offset-2">Category grid</h4>
                                 <div class="col-md-offset-2 col-md-10" id="categories-container">
-                                    <category-cell ng-repeat="uno in categoriesByMenu" ng-click="clickCategoryCell(uno)" category-title="{{uno.CategoryName}}">
+                                    <category-cell ng-repeat="uno in categoriesByMenu" ng-click="clickCategoryCell($event, uno)" category-title="{{uno.CategoryName}}">
                                     </category-cell>
                                 </div>
                             </div>

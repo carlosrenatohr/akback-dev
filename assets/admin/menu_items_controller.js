@@ -3,7 +3,7 @@
  */
 //var app = angular.module("akamaiposApp", ['jqwidgets']);
 
-app.controller('menuItemController', function ($scope, $http) {
+app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     // -- MENU LISTBOX
     var dataAdapterMenu = new $.jqx.dataAdapter(
@@ -40,6 +40,47 @@ app.controller('menuItemController', function ($scope, $http) {
         var row = e.args.item.originalItem;
         $scope.categoriesByMenu = row.categories;
         //console.log(row.categories);
+    };
+
+    $rootScope.grid = {
+        'cols': 12,
+        'rows': 5,
+        'diff': (12 / 12),
+        'round': Math.floor(12 / 12)
+    };
+
+    $scope.clickCategoryCell = function(e, row) {
+        angular.element(e.currentTarget).find('.col-md-2').attr('CategoryID', row.Unique);
+        $scope.grid = {
+            'cols': row.Column,
+            'rows': row.Row,
+            'diff': (12 / row.Column),
+            'round': Math.floor(12 / row.Column)
+        };
+        //
+        console.log($scope.grid);
+
+        var diff = $scope.grid.diff;
+        var round = $scope.grid.round;
+        $('.restricter-dragdrop div').remove();
+        for(var i = 0;i < $scope.grid.rows;i++) {
+            var template = '';
+            template += '<div class="row " style="background-color: lightgrey">';
+            if (Number(diff) === diff && diff % 1 === 0) {
+                template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
+            }
+            for (var j = 0; j < $scope.grid.cols; j++) {
+                template += '<div class="draggable col-md-' + round + ' col-sm-' + round + '" style="height: 120px;background-color: ' + ((i % 2 == 0) ? 'red' : 'green') + ';border: black 1px solid;"' +
+                    'id="draggable-' + (i + (j * 5) + 1) + '">' +
+                    (i + (j * 5) + 1 ) + '</div>';
+            }
+            if (Number(diff) === diff && diff % 1 === 0) {
+                template += '<div class="col-md-offset-1"></div>';
+            }
+            template += '</div>';
+            $('.restricter-dragdrop').append(template);
+        }
+
     };
 
     // -- ITEMS LIST COMBOBOX
