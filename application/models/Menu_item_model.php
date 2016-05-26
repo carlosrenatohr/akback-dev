@@ -18,20 +18,27 @@ class Menu_item_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         $query = $this->db->get_where($this->itemTable, ['Status!=' => 0]);
-
         $result = $query->result_array();
         return $result;
     }
 
-    public function getItemsByCategoryMenu($id) {
-        $this->db->select();
+    public function getItemByPosition($request)
+    {
+        $result = $this->db->get_where($this->menuItemTable, $request)->result_array();
+        return $result;
+    }
+
+    public function getItemsByCategoryMenu($id)
+    {
+        $this->db->select('item.Description, config_menu_items.*');
         $this->db->from($this->menuItemTable);
         $this->db->join('item', 'item.Unique = config_menu_items.ItemUnique');
-        $this->db->where('MenuCategoryUnique', $id);
+        $this->db->where('config_menu_items.MenuCategoryUnique', $id);
+//        $this->db->where('config_menu_items.Status!=', 0);
         $result = $this->db->get()->result_array();
-
         return $result;
     }
 
@@ -58,5 +65,15 @@ class Menu_item_model extends CI_Model
         return $return;
     }
 
+    public function deleteMenuItem($request)
+    {
+        $this->db->where($request);
+        $return = $this->db->update($this->menuItemTable,
+            ['Status' => 0,
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ]);
+        return $return;
+    }
 
 }

@@ -333,7 +333,7 @@ jqxthemes();
                     <div class="" ng-controller="menuItemController">
                         <div class="">
                             <div class="col-md-2">
-                                <jqx-tabs jqx-width="'100%'" jqx-height="'100%'">
+                                <jqx-tabs jqx-width="'100%'" jqx-height="'100%'" id="jqxTabsMenuItemSection">
                                     <ul>
                                         <li>Menu</li>
                                         <li>Items</li>
@@ -365,33 +365,7 @@ jqxthemes();
                             </div>
 
                             <div class="col-md-10 restricter-dragdrop">
-                                <?php
-                                $rows = 2;
-                                $cols = 10;
-                                $diff = (12 / $cols);
-                                $round = floor($diff);
-                                for($j=0;$j<$rows;$j++){ ?>
-                                    <div class="row ">
-
-                                    <?php
-                                    if (!is_int($diff)) { ?>
-                                        <div class="col-md-offset-1 col-sm-offset-1"></div>
-                                    <?php }
-                                    for($i=0;$i<$cols;$i++) { ?>
-                                    <div class="draggable col-md-<?= $round?> col-sm-<?= $round?>" style="height: 120px;background-color: <?= ($i%2 == 0) ?'red': 'green'?>;border: black 1px solid;"
-                                            id="draggable-<?= $i + ($j * 5) + 1?>">
-
-                                        <?= $i + ($j * 5) + 1 ?>
-                                    </div>
-                                    <?php }
-                                    if (!is_int($diff)) {
-                                    ?>
-                                        <div class="col-md-offset-1"></div>
-                                    <?php } ?>
-
-                                    </div>
-                                <?php } ?>
-<!--                                <div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
+<!--                            <div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
                             </div>
                             <div class="col-md-12">
                                 <h4 class="col-md-offset-2">Category grid</h4>
@@ -400,6 +374,65 @@ jqxthemes();
                                     </category-cell>
                                 </div>
                             </div>
+                            <!--  Windows to save data on items   -->
+                            <jqx-window jqx-on-close="close()" jqx-settings="itemsMenuWindowsSetting"
+                                        jqx-create="itemsMenuWindowsSetting" class="">
+                                <div>
+                                    Edit Item
+                                </div>
+                                <div>
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row editItemFormContainer">
+                                            <div style=" width:330px;float:left;">
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Item:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <jqx-combo-box
+                                                            jqx-on-select=""
+                                                            jqx-on-unselect=""
+                                                            jqx-settings="itemsComboboxSettings"
+                                                            id="editItem_ItemSelected">
+                                                        </jqx-combo-box>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Label:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <input type="text" class="form-control required-field" id="editItem_label" name="editItem_label" placeholder="Label">
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
+                                                <div style="float:left; padding:2px; width:350px;">
+                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:</div>
+                                                    <div style="float:left; width:180px;">
+                                                        <select name="editItem_Status" id="editItem_Status">
+                                                            <option value="1">Enabled</option>
+                                                            <option value="2">Disabled</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="mainButtonsForEdittingItems">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <button type="button" id="saveItemGridBtn" ng-click="saveItemGridBtn()" class="btn btn-primary" disabled>Save</button>
+                                                        <button	type="button" id="" ng-click="closeItemGridWindows()" class="btn btn-warning">Close</button>
+                                                        <button	type="button" id="deleteItemGridBtn" ng-click="deleteItemGridBtn()" class="btn btn-danger " style="overflow:auto;">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </jqx-window>
                         </div>
                     </div>
 
@@ -459,6 +492,7 @@ jqxthemes();
         background-color: #f0f0f0;
         border: black 1px solid;
         color: #fff;
+        padding: 0!important;
     }
 
     #categories-container {

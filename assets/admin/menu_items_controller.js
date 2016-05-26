@@ -35,6 +35,24 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         theme: 'arctic'
     };
 
+    var itemsMenuWindow;
+    $scope.itemsMenuWindowsSetting = {
+        created: function (args) {
+            itemsMenuWindow = args.instance;
+        },
+        resizable: false,
+        width: "60%", height: "50%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    /**
+     *
+     * @type {Array}
+     */
+
     $scope.categoriesByMenu = [];
     $scope.menuListBoxSelecting = function(e) {
         var row = e.args.item.originalItem;
@@ -42,7 +60,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         $('.restricter-dragdrop div').remove();
     };
 
-
+    /**
+     * -- CATEGORY BOTTOM GRID
+     */
+    $scope.allItemsDataStore = {};
     $scope.selectedCategoryInfo = {};
     $scope.clickCategoryCell = function(e, row) {
         $scope.selectedCategoryInfo = row;
@@ -59,9 +80,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'round': Math.floor(12 / row.Column)
         };
         //
+        $('.restricter-dragdrop div').remove();
+        //
         var diff = $scope.grid.diff;
         var round = $scope.grid.round;
-        $('.restricter-dragdrop div').remove();
         for(var i = 0;i < $scope.grid.rows;i++) {
             var template = '';
             template += '<div class="row ">';
@@ -71,7 +93,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             for (var j = 0; j < $scope.grid.cols; j++) {
                 var num = j + 1 + (i * $scope.grid.cols);
                 template += '<div class="draggable col-md-' + round + ' col-sm-' + round +
-                    'id="draggable-' +  num + '" data-col="' + (j+1) + '" data-row="' + (i+1) + '">' +
+                    '" id="draggable-' + num + '" data-col="' + (j+1) + '" data-row="' + (i+1) + '">' +
                     num + '</div>';
             }
             if (Number(diff) === diff && diff % 1 === 0) {
@@ -82,6 +104,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             draggable();
         }
         //
+        drawExistsItemsOnGrid();
+        onClickDraggableItem();
+        $('#jqxTabsMenuItemSection').jqxTabs('select', 1);
+    };
+
+    function drawExistsItemsOnGrid() {
         $.ajax({
             'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
             'method': 'GET',
@@ -89,16 +117,26 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'success': function(data) {
                 $.each(data, function(i, el) {
                     var cell = $('body .restricter-dragdrop .draggable[data-col="' + el.ColumnPosition+ '"][data-row="' + el.RowPosition + '"]');
-                    cell.css('background-color', '#063dee');
-                    cell.html(el.Description);
-                })
+                    if (el.Status == 0) {
+                        cell.css('background-color', '#f0f0f0');
+                        cell.removeClass('filled');
+                        cell.data('categoryId', '');
+                        cell.html('');
+                    } else {
+                        cell.css('background-color', (el.Status == 1) ? '#063dee' : '#06b1ee');
+                        cell.addClass('filled');
+                        cell.data('categoryId', el.MenuCategoryUnique);
+                        cell.html(el.Description);
+                        //$scope.allItemsDataStore[el.MenuCategoryUnique + '-' + el.RowPosition + '-' + el.ColumnPosition] = el;
+                    }
+                });
             }
-        })
+        });
+    }
 
-
-    };
-
-    // -- ITEMS LIST COMBOBOX
+    /**
+     * -- ITEMS COMBO BOX SIDE
+     */
     var dataAdapterItems = new $.jqx.dataAdapter(
         {
             dataType: 'json',
@@ -156,6 +194,117 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         altRows: true,
     };
 
+    /**
+     * -- TOP GRID OF ITEMS
+     */
+    $scope.closeItemGridWindows = function() {
+        itemsMenuWindow.close();
+    };
+
+    $scope.saveItemGridBtn = function() {
+        console.log($scope.itemCellSelectedOnGrid);
+        var data = {
+            'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
+            'RowPosition': $scope.itemCellSelectedOnGrid.RowPosition,
+            'ColumnPosition': $scope.itemCellSelectedOnGrid.ColumnPosition,
+            'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
+            'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
+            'Label': $('#editItem_label').val()
+        };
+
+        $.ajax({
+            'url': SiteRoot + 'admin/MenuItem/postMenuItems',
+            'method': 'post',
+            'data': data,
+            'dataType': 'json',
+            'success': function(data) {
+                console.log(data);
+                drawExistsItemsOnGrid();
+                itemsMenuWindow.close();
+            }
+        });
+
+    };
+
+    $scope.deleteItemGridBtn = function() {
+        console.log($scope.itemCellSelectedOnGrid);
+        var data = {
+            'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
+            'RowPosition': $scope.itemCellSelectedOnGrid.RowPosition,
+            'ColumnPosition': $scope.itemCellSelectedOnGrid.ColumnPosition,
+        };
+
+        $.ajax({
+            'url': SiteRoot + 'admin/MenuItem/deleteMenuItems',
+            'method': 'post',
+            'data': data,
+            'dataType': 'json',
+            'success': function(data) {
+                console.log(data);
+                drawExistsItemsOnGrid();
+                itemsMenuWindow.close();
+            }
+        });
+    };
+
+    // Events item form controls
+    $('.editItemFormContainer .required-field').on('keypress keyup paste change', function (e) {
+        $('#saveItemGridBtn').prop('disabled', false);
+    });
+
+    $('#editItem_Status')
+        .jqxDropDownList({autoDropDownHeight: true});
+    $('#editItem_Status').on('select', function(){
+        $('#saveItemGridBtn').prop('disabled', false);
+    });
+
+    $('#editItem_ItemSelected').on('select', function(){
+        $('#saveItemGridBtn').prop('disabled', false);
+    });
+
+    $scope.itemCellSelectedOnGrid = {};
+    function onClickDraggableItem() {
+        var itemWindow = itemsMenuWindow;
+        $('body .draggable').on('dblclick', function(e) {
+            var $this = $(e.currentTarget);
+            if ($this.hasClass('filled')) {
+                var data = {
+                    'MenuCategoryUnique': $this.data('categoryId'),
+                    'ColumnPosition': $this.data('col'),
+                    'RowPosition': $this.data('row')
+                };
+                $.ajax({
+                    'url': SiteRoot + 'admin/MenuItem/getItemByPositions',
+                    'method': 'post',
+                    'data': data,
+                    'dataType': 'json',
+                    'success': function(data) {
+                        $scope.itemCellSelectedOnGrid = data;
+                        var statusCombo = $('#editItem_Status').jqxDropDownList('getItemByValue', data['Status']);
+                        $('#editItem_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
+
+                        var selectedIndexItem;
+                        var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['ItemUnique']);
+                        if (itemCombo != undefined) {
+                            selectedIndexItem = itemCombo.index | 0;
+                        } else selectedIndexItem = 0;
+                        $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+
+                        $('#editItem_label').val(data['Label']);
+                        //
+                        $('#saveItemGridBtn').prop('disabled', true);
+                        itemWindow.open();
+                    }
+
+                });
+            }
+            console.log('Clicked');
+        });
+    }
+
+    /**
+     * -- DRAGGABLE EVENTS
+     */
     function draggable () {
         //$('.draggable').jqxDragDrop(
         //    {
@@ -186,7 +335,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
                     'ItemUnique': $scope.selectedItemInfo.Unique,
                     'RowPosition': $(event.args.target).data('row'),
-                    'ColumnPosition': $(event.args.target).data('col')
+                    'ColumnPosition': $(event.args.target).data('col'),
+                    'Status': 1
                 };
                 $.ajax({
                     'url': SiteRoot + 'admin/MenuItem/postMenuItems',
@@ -196,6 +346,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     'success': function(data) {
                         if (data.status == 'success') {
                             $this.html($scope.selectedItemInfo.Description);
+                            $this.addClass('filled');
+                            $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
                             $this.css('background-color', '#063dee')
                         } else {
                             console.log('error from ajax');
