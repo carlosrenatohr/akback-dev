@@ -58,14 +58,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'round': Math.floor(12 / row.Column)
         };
         //
-        console.log($scope.grid);
 
         var diff = $scope.grid.diff;
         var round = $scope.grid.round;
         $('.restricter-dragdrop div').remove();
         for(var i = 0;i < $scope.grid.rows;i++) {
             var template = '';
-            template += '<div class="row " style="background-color: lightgrey">';
+            template += '<div class="row " style="background-color: lightgrey;">';
             if (Number(diff) === diff && diff % 1 === 0) {
                 template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
             }
@@ -79,6 +78,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             }
             template += '</div>';
             $('.restricter-dragdrop').append(template);
+            draggable();
         }
 
     };
@@ -114,6 +114,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         source: dataAdapterItems
     };
 
+    $scope.selectedItemInfo = {};
+    $scope.itemComboboxOnselect = function(e) {
+        var args = e.args;
+
+        $scope.selectedItemInfo = args.item.originalItem;
+    };
     // -- CATEGORIES BOTTON GRID
     // -- TO FIX
     $scope.categoriesMenuShownSettings = {
@@ -135,28 +141,60 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         altRows: true,
     };
 
+    function draggable () {
+        $('.draggable').jqxDragDrop(
+            {
+                //dropTarget: '.draggable',
+                restricter:'.restricter-dragdrop',
+                //tolerance: 'fit'
+            }
+        );
+        $('#selectedItemInfo').jqxDragDrop(
+            {dropTarget: '.draggable',
+                //restricter:'parent',
+                //tolerance: 'fit',
+                revert: true
+            }
+        );
+
+        $('#selectedItemInfo').bind('dragStart', function (event) {
+            console.log(event.type, event.args.position);
+        });
+        $('#selectedItemInfo').bind('dragEnd', function (event) {
+            console.log(event.type, event.args.position);
+        });
+        $('#selectedItemInfo').bind('dropTargetEnter', function (event) {
+            //console.log(event.type, event.args.position);
+            console.log($(event.args.target));
+            $(event.args.target).html('');
+            for (var i in $scope.selectedItemInfo) {
+                console.log(i, $scope.selectedItemInfo[i]);
+                $(event.args.target).html($scope.selectedItemInfo[i]);
+            }
+        });
+        $('#selectedItemInfo').bind('dropTargetLeave', function (event) {
+            console.log(event.args);
+            console.log(event.type, event.args.position);
+        });
+
+        $('.draggable').bind('dragStart', function (event) {
+            console.log(event.type, event.args.position);
+        });
+        $('.draggable').bind('dragEnd', function (event) {
+            console.log(event.type, event.args.position);
+        });
+        $('.draggable').bind('dropTargetEnter', function (event) {
+            console.log(event.type, event.args.position);
+        });
+        $('.draggable').bind('dropTargetLeave', function (event) {
+            console.log(event.args);
+            console.log(event.type, event.args.position);
+        });
+    }
+
 });
 
-$(function() {
-    $('.draggable').jqxDragDrop(
-        {dropTarget: '.droppingTarget',
-        restricter:'.restricter-dragdrop',
-        //tolerance: 'fit'
-        }
-    );
-    $('.draggable').bind('dragStart', function (event) {
-        console.log(event.type, event.args.position);
-    });
-    $('.draggable').bind('dragEnd', function (event) {
-        console.log(event.type, event.args.position);
-    });
-    $('.draggable').bind('dropTargetEnter', function (event) {
-        console.log(event.type, event.args.position);
-    });
-    $('.draggable').bind('dropTargetLeave', function (event) {
-        console.log(event.args);
-        console.log(event.type, event.args.position);
-    });
+//$(function() {
 
     //(function centerLabels() {
     //    var labels = $('.draggable');
@@ -166,4 +204,4 @@ $(function() {
     //        el.css('top', top + 'px');
     //    });
     //} ());
-});
+//});

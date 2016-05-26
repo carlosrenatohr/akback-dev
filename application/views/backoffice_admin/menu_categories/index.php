@@ -352,13 +352,26 @@ jqxthemes();
 <!--                                            </jqx-list-box>-->
                                             <div>Type an item to find:</div>
                                             <jqx-combo-box
-                                                jqx-on-select=""
+                                                jqx-on-select="itemComboboxOnselect(event)"
+                                                jqx-on-unselect=""
                                                 jqx-settings="itemsComboboxSettings"></jqx-combo-box>
-                                            <div style="min-height: 400px;"></div>
+                                            <div class="" style="min-height: 20px;"></div>
+                                            <div id="selectedItemInfo" style="background-color: lightblue;height: 150px;width: 100%;text-align: center;top: 50%;;">
+                                                {{ selectedItemInfo.Description }}
+                                            </div>
                                         </div>
                                     </div>
                                 </jqx-tabs>
                             </div>
+                            <style>
+
+                                .restricter-dragdrop .row {
+                                    margin-right: 0!important;margin-left: 0!important;
+                                }
+                                .restricter-dragdrop .col-md-* {
+                                    margin-right: 0!important;margin-left: 0!important;
+                                }
+                            </style>
                             <div class="col-md-10 restricter-dragdrop" style="max-height: 500px;overflow-y: scroll;">
                                 <?php
                                 $rows = 2;
