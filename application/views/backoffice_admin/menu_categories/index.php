@@ -356,30 +356,22 @@ jqxthemes();
                                                 jqx-on-unselect=""
                                                 jqx-settings="itemsComboboxSettings"></jqx-combo-box>
                                             <div class="" style="min-height: 20px;"></div>
-                                            <div id="selectedItemInfo" style="background-color: lightblue;height: 150px;width: 100%;text-align: center;top: 50%;;">
+                                            <div id="selectedItemInfo">
                                                 {{ selectedItemInfo.Description }}
                                             </div>
                                         </div>
                                     </div>
                                 </jqx-tabs>
                             </div>
-                            <style>
 
-                                .restricter-dragdrop .row {
-                                    margin-right: 0!important;margin-left: 0!important;
-                                }
-                                .restricter-dragdrop .col-md-* {
-                                    margin-right: 0!important;margin-left: 0!important;
-                                }
-                            </style>
-                            <div class="col-md-10 restricter-dragdrop" style="max-height: 500px;overflow-y: scroll;">
+                            <div class="col-md-10 restricter-dragdrop">
                                 <?php
                                 $rows = 2;
-                                $cols = 2;
+                                $cols = 10;
                                 $diff = (12 / $cols);
                                 $round = floor($diff);
                                 for($j=0;$j<$rows;$j++){ ?>
-                                    <div class="row " style="background-color: lightgrey">
+                                    <div class="row ">
 
                                     <?php
                                     if (!is_int($diff)) { ?>
@@ -447,13 +439,62 @@ jqxthemes();
         background-image: url("../../assets/img/back.png");
     }
 
+    /* ITEMS */
+    .restricter-dragdrop {
+        max-height: 500px;
+        min-height: 400px;
+        overflow-y: scroll;
+        background-color: lightgrey;
+        border: black 2px dotted;
+        padding: 0!important;
+    }
+    .restricter-dragdrop .row {
+        margin-right: 0!important;margin-left: 0!important;
+    }
+    .restricter-dragdrop .col-md-* {
+        margin-right: 0!important;margin-left: 0!important;
+    }
+    .restricter-dragdrop .draggable {
+        height: 120px;
+        background-color: #f0f0f0;
+        border: black 1px solid;
+        color: #fff;
+    }
+
+    #categories-container {
+        max-height: 300px;
+        min-height: 250px;
+        overflow-y: scroll;
+        background-color: lightgrey;
+        border: black 2px dotted;
+        padding: 0!important;
+    }
+
+    #selectedItemInfo {
+        background-color: lightblue;
+        -webkit-border-radius:3px;
+        -moz-border-radius:3px;
+        border-radius:3px;
+        height: 40px;
+        width: 100%;
+        margin: 10px 0;
+        text-align: center;
+    }
+
     .category-cell-grid {
         height: 100px;
-        background-color: red;
+        background-color: #bc0530;
+        color: #fff;
         border: black 1px solid;
         text-align: center;
         padding-top: 40px;
     }
+    .category-cell-grid.clicked {
+        background-color: #ee063d;
+        border: black 2px solid;
+        box-shadow: 3px 3px 2px #888888;
+    }
+
 </style>
 
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

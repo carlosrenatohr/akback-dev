@@ -48,4 +48,36 @@ class MenuItem extends AK_Controller
         echo json_encode($items);
     }
 
+    public function getItemsByCategoryMenu($id) {
+        $items = $this->menuItem->getItemsByCategoryMenu($id);
+
+        echo json_encode($items);
+    }
+
+
+    /**
+     * @method POST
+     * @description post an item By Category
+     * @returnType json
+     */
+    public function postMenuItems() {
+        $request = $_POST;
+        $status = $this->menuItem->postItemByMenu($request);
+
+        // FIX missing validations
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Item success: ' . $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => $status
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
 }

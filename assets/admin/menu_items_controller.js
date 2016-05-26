@@ -39,17 +39,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.menuListBoxSelecting = function(e) {
         var row = e.args.item.originalItem;
         $scope.categoriesByMenu = row.categories;
-        //console.log(row.categories);
+        $('.restricter-dragdrop div').remove();
     };
 
-    $rootScope.grid = {
-        'cols': 12,
-        'rows': 5,
-        'diff': (12 / 12),
-        'round': Math.floor(12 / 12)
-    };
 
+    $scope.selectedCategoryInfo = {};
     $scope.clickCategoryCell = function(e, row) {
+        $scope.selectedCategoryInfo = row;
+        //var $this = angular.element(e.currentTarget);
+        var $this = $(e.currentTarget).find('.category-cell-grid');
+        $('.category-cell-grid').removeClass('clicked');
+        $this.addClass('clicked');
+        $this.attr('CategoryID', row.Unique);
         angular.element(e.currentTarget).find('.col-md-2').attr('CategoryID', row.Unique);
         $scope.grid = {
             'cols': row.Column,
@@ -58,28 +59,42 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'round': Math.floor(12 / row.Column)
         };
         //
-
         var diff = $scope.grid.diff;
         var round = $scope.grid.round;
         $('.restricter-dragdrop div').remove();
         for(var i = 0;i < $scope.grid.rows;i++) {
             var template = '';
-            template += '<div class="row " style="background-color: lightgrey;">';
+            template += '<div class="row ">';
             if (Number(diff) === diff && diff % 1 === 0) {
                 template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
             }
             for (var j = 0; j < $scope.grid.cols; j++) {
-                template += '<div class="draggable col-md-' + round + ' col-sm-' + round + '" style="height: 120px;background-color: ' + ((i % 2 == 0) ? 'red' : 'green') + ';border: black 1px solid;"' +
-                    'id="draggable-' + (i + (j * 5) + 1) + '">' +
-                    (i + (j * 5) + 1 ) + '</div>';
+                var num = j + 1 + (i * $scope.grid.cols);
+                template += '<div class="draggable col-md-' + round + ' col-sm-' + round +
+                    'id="draggable-' +  num + '" data-col="' + (j+1) + '" data-row="' + (i+1) + '">' +
+                    num + '</div>';
             }
             if (Number(diff) === diff && diff % 1 === 0) {
-                template += '<div class="col-md-offset-1"></div>';
+                template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
             }
             template += '</div>';
             $('.restricter-dragdrop').append(template);
             draggable();
         }
+        //
+        $.ajax({
+            'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
+            'method': 'GET',
+            'dataType': 'json',
+            'success': function(data) {
+                $.each(data, function(i, el) {
+                    var cell = $('body .restricter-dragdrop .draggable[data-col="' + el.ColumnPosition+ '"][data-row="' + el.RowPosition + '"]');
+                    cell.css('background-color', '#063dee');
+                    cell.html(el.Description);
+                })
+            }
+        })
+
 
     };
 
@@ -142,39 +157,62 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     function draggable () {
-        $('.draggable').jqxDragDrop(
-            {
-                //dropTarget: '.draggable',
-                restricter:'.restricter-dragdrop',
-                //tolerance: 'fit'
-            }
-        );
+        //$('.draggable').jqxDragDrop(
+        //    {
+        //        //dropTarget: '.draggable',
+        //        restricter:'.restricter-dragdrop',
+        //        //tolerance: 'fit'
+        //    }
+        //);
+
         $('#selectedItemInfo').jqxDragDrop(
-            {dropTarget: '.draggable',
+            {dropTarget: $('body .draggable'),
                 //restricter:'parent',
                 //tolerance: 'fit',
                 revert: true
             }
         );
 
+        var onCellItem = false;
         $('#selectedItemInfo').bind('dragStart', function (event) {
             console.log(event.type, event.args.position);
         });
         $('#selectedItemInfo').bind('dragEnd', function (event) {
             console.log(event.type, event.args.position);
+            if (onCellItem) {
+                //
+                var $this = $(event.args.target);
+                var data = {
+                    'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
+                    'ItemUnique': $scope.selectedItemInfo.Unique,
+                    'RowPosition': $(event.args.target).data('row'),
+                    'ColumnPosition': $(event.args.target).data('col')
+                };
+                $.ajax({
+                    'url': SiteRoot + 'admin/MenuItem/postMenuItems',
+                    'method': 'POST',
+                    'data': data,
+                    'dataType': 'json',
+                    'success': function(data) {
+                        if (data.status == 'success') {
+                            $this.html($scope.selectedItemInfo.Description);
+                            $this.css('background-color', '#063dee')
+                        } else {
+                            console.log('error from ajax');
+                        }
+                    }
+                });
+            }
         });
         $('#selectedItemInfo').bind('dropTargetEnter', function (event) {
-            //console.log(event.type, event.args.position);
-            console.log($(event.args.target));
-            $(event.args.target).html('');
-            for (var i in $scope.selectedItemInfo) {
-                console.log(i, $scope.selectedItemInfo[i]);
-                $(event.args.target).html($scope.selectedItemInfo[i]);
-            }
+            console.log(event.type, event.args.position);
+            onCellItem = true;
+
         });
         $('#selectedItemInfo').bind('dropTargetLeave', function (event) {
             console.log(event.args);
             console.log(event.type, event.args.position);
+            onCellItem = false;
         });
 
         $('.draggable').bind('dragStart', function (event) {
