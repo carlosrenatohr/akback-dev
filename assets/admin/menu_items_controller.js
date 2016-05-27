@@ -3,7 +3,18 @@
  */
 //var app = angular.module("akamaiposApp", ['jqwidgets']);
 
+
 app.controller('menuItemController', function ($scope, $rootScope, $http) {
+
+    // -- MenuCategoriesTabs Main Tabs
+    $('#MenuCategoriesTabs').on('tabclick', function (event) {
+        var tabclicked = event.args.item;
+        // ITEMS TAB - Reload queries
+        if(tabclicked == 2) {
+            console.log('items');
+            $scope.menuListBoxSettings.apply('refresh');
+        }
+    });
 
     // -- MENU LISTBOX
     var dataAdapterMenu = new $.jqx.dataAdapter(
@@ -87,7 +98,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         for(var i = 0;i < $scope.grid.rows;i++) {
             var template = '';
             template += '<div class="row ">';
-            if (Number(diff) === diff && diff % 1 === 0) {
+            if (diff % 1 !== 0) {
                 template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
             }
             for (var j = 0; j < $scope.grid.cols; j++) {
@@ -96,16 +107,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     '" id="draggable-' + num + '" data-col="' + (j+1) + '" data-row="' + (i+1) + '">' +
                     num + '</div>';
             }
-            if (Number(diff) === diff && diff % 1 === 0) {
+            if (diff % 1 !== 0) {
                 template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
             }
             template += '</div>';
             $('.restricter-dragdrop').append(template);
-            draggable();
         }
         //
         drawExistsItemsOnGrid();
         onClickDraggableItem();
+        //draggableEvents();
         $('#jqxTabsMenuItemSection').jqxTabs('select', 1);
     };
 
@@ -125,11 +136,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     } else {
                         cell.css('background-color', (el.Status == 1) ? '#063dee' : '#06b1ee');
                         cell.addClass('filled');
+                        cell.addClass('itemOnGrid');
                         cell.data('categoryId', el.MenuCategoryUnique);
                         cell.html(el.Description);
                         //$scope.allItemsDataStore[el.MenuCategoryUnique + '-' + el.RowPosition + '-' + el.ColumnPosition] = el;
                     }
                 });
+                draggableEvents();
             }
         });
     }
@@ -218,7 +231,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'data': data,
             'dataType': 'json',
             'success': function(data) {
-                console.log(data);
                 drawExistsItemsOnGrid();
                 itemsMenuWindow.close();
             }
@@ -240,7 +252,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'data': data,
             'dataType': 'json',
             'success': function(data) {
-                console.log(data);
                 drawExistsItemsOnGrid();
                 itemsMenuWindow.close();
             }
@@ -265,7 +276,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.itemCellSelectedOnGrid = {};
     function onClickDraggableItem() {
         var itemWindow = itemsMenuWindow;
-        $('body .draggable').on('dblclick', function(e) {
+        $('.draggable').on('dblclick', function(e) {
             var $this = $(e.currentTarget);
             if ($this.hasClass('filled')) {
                 var data = {
@@ -298,37 +309,30 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
                 });
             }
-            console.log('Clicked');
         });
     }
 
     /**
      * -- DRAGGABLE EVENTS
      */
-    function draggable () {
-        //$('.draggable').jqxDragDrop(
-        //    {
-        //        //dropTarget: '.draggable',
-        //        restricter:'.restricter-dragdrop',
-        //        //tolerance: 'fit'
-        //    }
-        //);
-
+    function draggableEvents() {
         $('#selectedItemInfo').jqxDragDrop(
-            {dropTarget: $('body .draggable'),
+            {
+                dropTarget: $('body .draggable'),
                 //restricter:'parent',
                 //tolerance: 'fit',
                 revert: true
             }
         );
 
-        var onCellItem = false;
+        var ItemOnAboveGrid = false;
         $('#selectedItemInfo').bind('dragStart', function (event) {
             console.log(event.type, event.args.position);
         });
+
         $('#selectedItemInfo').bind('dragEnd', function (event) {
             console.log(event.type, event.args.position);
-            if (onCellItem) {
+            if (ItemOnAboveGrid) {
                 //
                 var $this = $(event.args.target);
                 var data = {
@@ -347,6 +351,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         if (data.status == 'success') {
                             $this.html($scope.selectedItemInfo.Description);
                             $this.addClass('filled');
+                            $this.addClass('itemOnGrid');
                             $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
                             $this.css('background-color', '#063dee')
                         } else {
@@ -358,27 +363,56 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         });
         $('#selectedItemInfo').bind('dropTargetEnter', function (event) {
             console.log(event.type, event.args.position);
-            onCellItem = true;
+            ItemOnAboveGrid = true;
 
         });
         $('#selectedItemInfo').bind('dropTargetLeave', function (event) {
             console.log(event.args);
             console.log(event.type, event.args.position);
-            onCellItem = false;
+            ItemOnAboveGrid = false;
         });
 
-        $('.draggable').bind('dragStart', function (event) {
+        // ----
+        var onTargetDrop = function (target) {
+            alert("Dropped over " + target[0].id);
+        };
+
+        var onCellAboveGrid = false;
+        $('.itemOnGrid').jqxDragDrop(
+            {
+                dropTarget: $('.draggable').not($(this).attr('id')),
+                restricter:'.restricter-dragdrop',
+                //tolerance: 'fit'
+                onTargetDrop: onTargetDrop,
+                //dropAction: 'none',
+                //revert: true
+            }
+        );
+
+        $('.itemOnGrid').on('click', function (e) {
+            console.log('cicked itemOnGrid');
+        });
+
+        $('.itemOnGrid').bind('dragStart', function (event) {
+            $(this).removeClass('draggable');
+            console.log(event.type, event.args.position);
+            $('.itemOnGrid').jqxDragDrop( { dropTarget: $('.draggable').not($(this)) } );
+            console.log($(this).jqxDragDrop('dropTarget'));
+        });
+        $('.itemOnGrid').bind('dragEnd', function (event) {
+            $(this).addClass('draggable');
+            if (onCellAboveGrid) {
+                console.log(event.target);
+            }
             console.log(event.type, event.args.position);
         });
-        $('.draggable').bind('dragEnd', function (event) {
+        $('.itemOnGrid').bind('dropTargetEnter', function (event) {
             console.log(event.type, event.args.position);
+            onCellAboveGrid = true;
         });
-        $('.draggable').bind('dropTargetEnter', function (event) {
+        $('.itemOnGrid').bind('dropTargetLeave', function (event) {
             console.log(event.type, event.args.position);
-        });
-        $('.draggable').bind('dropTargetLeave', function (event) {
-            console.log(event.args);
-            console.log(event.type, event.args.position);
+            onCellAboveGrid = false;
         });
     }
 

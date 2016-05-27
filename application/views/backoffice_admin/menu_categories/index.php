@@ -34,8 +34,9 @@ jqxthemes();
                     </div>
                 </div>
             </nav>
+
             <div>
-                <jqx-tabs id="tabs" jqx-width="'100%'" jqx-height="'580px'">
+                <jqx-tabs  jqx-width="'100%'" jqx-height="'100%'" id="MenuCategoriesTabs">
                     <ul>
                         <li>Menu</li>
                         <li>Categories</li>
@@ -484,7 +485,7 @@ jqxthemes();
     .restricter-dragdrop .row {
         margin-right: 0!important;margin-left: 0!important;
     }
-    .restricter-dragdrop .col-md-* {
+    .restricter-dragdrop .col-md-*, .restricter-dragdrop .col-sm-*  {
         margin-right: 0!important;margin-left: 0!important;
     }
     .restricter-dragdrop .draggable {
@@ -494,6 +495,10 @@ jqxthemes();
         color: #fff;
         padding: 0!important;
     }
+
+    /*.restricter-dragdrop .itemOnGrid {*/
+        /*z-index: 999999;*/
+    /*}*/
 
     #categories-container {
         max-height: 300px;

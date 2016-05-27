@@ -5,6 +5,29 @@ var app = angular.module("akamaiposApp", ['jqwidgets']);
 
 app.controller('menuCategoriesController', function($scope, $http){
 
+    // -- MenuCategoriesTabs Main Tabs
+    $('#MenuCategoriesTabs').on('tabclick', function (event) {
+        var tabclicked = event.args.item;
+        // Categories TAB - Reload queries
+        if(tabclicked == 1) {
+            var source =
+            {
+                datatype: "json",
+                datafields: [
+                    { name: 'MenuName' },
+                    { name: 'Status' },
+                    { name: 'Unique' }
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            $scope.settingsMenuSelect =
+                { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
+        }
+    });
+
     /**
      * MENU TAB LOGIC
      */
