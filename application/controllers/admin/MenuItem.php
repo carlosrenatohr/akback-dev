@@ -110,4 +110,13 @@ class MenuItem extends AK_Controller
         echo json_encode($response);
     }
 
+    public function setNewPosition($category) {
+        $request = $_POST;
+        $element = $request['element'];
+        $target = $request['target'];
+
+        $status = $this->menuItem->setNewPosition($category, $element, $target);
+        echo json_encode($status);
+    }
+
 }

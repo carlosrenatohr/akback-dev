@@ -11,7 +11,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var tabclicked = event.args.item;
         // ITEMS TAB - Reload queries
         if(tabclicked == 2) {
-            console.log('items');
             $scope.menuListBoxSettings.apply('refresh');
         }
     });
@@ -116,7 +115,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         //
         drawExistsItemsOnGrid();
         onClickDraggableItem();
-        //draggableEvents();
         $('#jqxTabsMenuItemSection').jqxTabs('select', 1);
     };
 
@@ -143,6 +141,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     }
                 });
                 draggableEvents();
+                selectedItemEvents();
             }
         });
     }
@@ -315,7 +314,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     /**
      * -- DRAGGABLE EVENTS
      */
-    function draggableEvents() {
+    function selectedItemEvents () {
+
         $('#selectedItemInfo').jqxDragDrop(
             {
                 dropTarget: $('body .draggable'),
@@ -327,11 +327,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
         var ItemOnAboveGrid = false;
         $('#selectedItemInfo').bind('dragStart', function (event) {
-            console.log(event.type, event.args.position);
+
         });
 
         $('#selectedItemInfo').bind('dragEnd', function (event) {
-            console.log(event.type, event.args.position);
             if (ItemOnAboveGrid) {
                 //
                 var $this = $(event.args.target);
@@ -347,13 +346,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     'method': 'POST',
                     'data': data,
                     'dataType': 'json',
-                    'success': function(data) {
+                    'success': function (data) {
                         if (data.status == 'success') {
                             $this.html($scope.selectedItemInfo.Description);
                             $this.addClass('filled');
                             $this.addClass('itemOnGrid');
                             $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
-                            $this.css('background-color', '#063dee')
+                            $this.css('background-color', '#063dee');
+                            draggableEvents();
                         } else {
                             console.log('error from ajax');
                         }
@@ -362,70 +362,112 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             }
         });
         $('#selectedItemInfo').bind('dropTargetEnter', function (event) {
-            console.log(event.type, event.args.position);
             ItemOnAboveGrid = true;
 
         });
         $('#selectedItemInfo').bind('dropTargetLeave', function (event) {
-            console.log(event.args);
-            console.log(event.type, event.args.position);
             ItemOnAboveGrid = false;
-        });
-
-        // ----
-        var onTargetDrop = function (target) {
-            alert("Dropped over " + target[0].id);
-        };
-
-        var onCellAboveGrid = false;
-        $('.itemOnGrid').jqxDragDrop(
-            {
-                dropTarget: $('.draggable').not($(this).attr('id')),
-                restricter:'.restricter-dragdrop',
-                //tolerance: 'fit'
-                onTargetDrop: onTargetDrop,
-                //dropAction: 'none',
-                //revert: true
-            }
-        );
-
-        $('.itemOnGrid').on('click', function (e) {
-            console.log('cicked itemOnGrid');
-        });
-
-        $('.itemOnGrid').bind('dragStart', function (event) {
-            $(this).removeClass('draggable');
-            console.log(event.type, event.args.position);
-            $('.itemOnGrid').jqxDragDrop( { dropTarget: $('.draggable').not($(this)) } );
-            console.log($(this).jqxDragDrop('dropTarget'));
-        });
-        $('.itemOnGrid').bind('dragEnd', function (event) {
-            $(this).addClass('draggable');
-            if (onCellAboveGrid) {
-                console.log(event.target);
-            }
-            console.log(event.type, event.args.position);
-        });
-        $('.itemOnGrid').bind('dropTargetEnter', function (event) {
-            console.log(event.type, event.args.position);
-            onCellAboveGrid = true;
-        });
-        $('.itemOnGrid').bind('dropTargetLeave', function (event) {
-            console.log(event.type, event.args.position);
-            onCellAboveGrid = false;
         });
     }
 
+        // ---- DRAG ITEMS ON ABOVE GRID BETWEEN THEMSELVES
+        function draggableEvents() {
+        if ($('body .itemOnGrid').length) {
+            var onCellAboveGrid = false;
+            $('.itemOnGrid').jqxDragDrop(
+                {
+                    dropTarget: $('.draggable'),
+                    restricter: '.restricter-dragdrop',
+                    //tolerance: 'fit'
+                    onTargetDrop: function(data) {
+                        console.log('onTargetDrop', data);
+                    },
+                    dropAction: 'none',
+                    //revert: true
+                }
+            )
+            .bind('dragStart', function (event) {
+                //$(this).removeClass('draggable');
+                //console.log(event.type, event.args.position);
+                $(this).jqxDragDrop( { dropTarget: $('.draggable').not($(this)) } );
+            })
+            .bind('dragEnd', function (event) {
+                //$(this).addClass('draggable');
+                if (onCellAboveGrid) {
+                    if (!isEqual($scope.onGridTargetMoved, $scope.onGridElementMoved)) {
+                        var data = {
+                          'element': $scope.onGridElementMoved,
+                          'target': $scope.onGridTargetMoved
+                        };
+                        var current = $('.restricter-dragdrop .draggable[data-col="' + $scope.onGridElementMoved.ColumnPosition+ '"][data-row="' + $scope.onGridElementMoved.RowPosition + '"]');
+                        var target = $('.restricter-dragdrop .draggable[data-col="' + $scope.onGridTargetMoved.ColumnPosition+ '"][data-row="' + $scope.onGridTargetMoved.RowPosition + '"]');
+
+                        $.ajax({
+                            'url': SiteRoot + 'admin/MenuItem/setNewPosition/' + $scope.selectedCategoryInfo.Unique,
+                            'method': 'POST',
+                            'data': data,
+                            'success': function(data) {
+                                //console.log(data);
+                                //if (!data) {
+                                //    target.css('background-color', current.css('background-color'));
+                                //    target.addClass('filled');
+                                //    target.data('categoryId', current.data('categoryId'));
+                                //    target.html(current.html());
+                                //
+                                //    current.css('background-color', '#f0f0f0');
+                                //    current.removeClass('filled');
+                                //    current.data('categoryId', '');
+                                //    current.html('');
+                                //} else {
+                                //    var currentData = current.data('categoryId');
+                                //    var currentBackColor = current.css('background-color')
+                                //    var currentContent = current.html();
+                                //
+                                //    current.css('background-color', target.css('background-color'));
+                                //    current.data('categoryId', target.data('categoryId'));
+                                //    current.html(target.html());
+                                //
+                                //    target.css('background-color', currentBackColor);
+                                //    target.data('background-color', currentData);
+                                //    target.html(currentContent);
+                                //}
+                                setTimeout(function() {
+                                    angular.element('.category-cell-grid.clicked').parent().triggerHandler('click');
+                                }, 100);
+                            }
+
+                        });
+                    }
+
+                }
+                //console.log(event.type, event.args.position);
+            })
+            .bind('dropTargetEnter', function (event) {
+                //console.log(event.type, event.args.position);
+                onCellAboveGrid = true;
+                //$scope.currentTargetOnItemsGrid = event.args.target;
+                var target_col = $(event.args.target).data('col');
+                var element_col = $(event.args.element).data('col');
+                var target_row = $(event.args.target).data('row');
+                var element_row = $(event.args.element).data('row');
+                $scope.onGridTargetMoved = {'ColumnPosition': target_col, 'RowPosition': target_row};
+                $scope.onGridElementMoved = {'ColumnPosition': element_col, 'RowPosition': element_row};
+            })
+            .bind('dropTargetLeave', function (event) {
+                //console.log(event.type, event.args.position);
+                onCellAboveGrid = false;
+            });
+
+            function isEqual(obj1, obj2) {
+                var equal = true;
+                for(var i in obj1) {
+                    if (obj1[i] != obj2[i]) {
+                        equal = false;
+                    }
+                }
+                return equal;
+            }
+        }
+
+    }
 });
-
-//$(function() {
-
-    //(function centerLabels() {
-    //    var labels = $('.draggable');
-    //    labels.each(function (index, el) {
-    //        el = $(el);
-    //        var top = (el.height() - el.height()) / 2;
-    //        el.css('top', top + 'px');
-    //    });
-    //} ());
-//});
