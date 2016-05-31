@@ -97,7 +97,23 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     // Events menu controls
     $('.menuFormContainer .required-field').on('keypress keyup paste change', function (e) {
-        $('#saveMenuBtn').prop('disabled', false);
+        var idsRestricted = ['add_MenuRow', 'add_MenuColumn'];
+        var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        if (inarray >= 0) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                if ($(this).val() == '') {
+                    $('#menuNotificationsErrorSettings #notification-content')
+                        .html('Row and Column values must be numbers!');
+                    $scope.menuNotificationsErrorSettings.apply('open');
+                    return false;
+                }
+            }
+            $('#saveMenuBtn').prop('disabled', false);
+            return true;
+        } else {
+            $('#saveMenuBtn').prop('disabled', false);
+        }
     });
 
     $('#add_Status').on('select', function(){
@@ -159,7 +175,6 @@ app.controller('menuCategoriesController', function($scope, $http){
     var validationMenuItem = function(values) {
         var needValidation = false;
         $('.menuFormContainer .required-field').each(function(i, el) {
-            console.log($(el).val() + '-->' + $(el).attr('id'));
             if (el.value == '') {
                 $('#menuNotificationsErrorSettings #notification-content')
                     .html($(el).attr('placeholder') + ' can not be empty!');
@@ -396,6 +411,7 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     // Status select
     $('#add_CategoryStatus').jqxDropDownList({autoDropDownHeight: true});
+    $('#add_MenuUnique').jqxDropDownList({autoDropDownHeight: true});
     //$('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
     //$('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
 
@@ -409,16 +425,32 @@ app.controller('menuCategoriesController', function($scope, $http){
             categoryWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "50%",
+        width: "60%", height: "65%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
         showCloseButton: false
     };
 
-    // Events menu controls
+    // Events category controls
     $('.categoryFormContainer .required-field').on('keypress keyup paste change', function (e) {
-        $('#saveCategoryBtn').prop('disabled', false);
+        var idsRestricted = ['add_CategoryRow', 'add_CategoryColumn', 'add_Sort'];
+        var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        if (inarray >= 0) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                if ($(this).val() == '') {
+                    $('#categoryNotificationsErrorSettings #notification-content')
+                        .html('Row, Sort and Column values must be numbers!');
+                    $scope.categoryNotificationsErrorSettings.apply('open');
+                }
+                return false;
+            }
+            $('#saveCategoryBtn').prop('disabled', false);
+            return true;
+        } else {
+            $('#saveCategoryBtn').prop('disabled', false);
+        }
     });
 
     $('#add_CategoryStatus, #add_MenuUnique').on('select', function(){
@@ -433,8 +465,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         setTimeout(function(){
             $('#add_CategoryName').focus();
         }, 100);
-        $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
-        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
+        $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
+        $('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
         $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Add new Category');
         categoryWindow.open();
@@ -446,7 +478,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': statusCombo.index});
 
         var menuCombo = $('#add_MenuUnique').jqxDropDownList('getItemByValue', values['MenuUnique']);
-        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': (menuCombo) ? menuCombo.index: '0'});
+        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': (menuCombo !== undefined) ? menuCombo.index: 0});
 
         $('#add_CategoryName').val(values['CategoryName']);
         $('#add_CategoryRow').val(values['Row']);
@@ -484,7 +516,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         }
     };
 
-    var validationCategoryItem = function(values) {
+    var validationCategoryItem = function() {
         var isOk = false;
         $('.categoryFormContainer .required-field').each(function(i, el) {
             if (el.value == '') {
@@ -497,19 +529,30 @@ app.controller('menuCategoriesController', function($scope, $http){
                 $(el).css({"border-color": "#ccc"});
             }
         });
+        // Menu no selected
+        if ($('#add_MenuUnique').jqxDropDownList('getSelectedItem') == null) {
+            $('#categoryNotificationsErrorSettings #notification-content')
+                .html('Please select a menu can not be empty!');
+            $('#add_MenuUnique').css({"border-color": "#F00"});
+            $scope.categoryNotificationsErrorSettings.apply('open');
+            isOk = true;
+        } else {
+            $('#add_MenuUnique').css({"border-color": "#ccc"});
+        }
         return isOk;
     };
 
     $scope.SaveCategoryWindows = function() {
-        var values = {
-            'CategoryName': $('#add_CategoryName').val(),
-            'Row': $('#add_CategoryRow').val(),
-            'Column': $('#add_CategoryColumn').val(),
-            'Sort': $('#add_Sort').val(),
-            'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
-            'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value
-        };
-        if (!validationCategoryItem(values)) {
+        if (!validationCategoryItem()) {
+            var values = {
+                'CategoryName': $('#add_CategoryName').val(),
+                'Row': $('#add_CategoryRow').val(),
+                'Column': $('#add_CategoryColumn').val(),
+                'Sort': $('#add_Sort').val(),
+                'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
+                'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value
+            };
+
             var url;
             if ($scope.newOrEditCategoryOption == 'new') {
                 url = SiteRoot + 'admin/MenuCategory/add_newCategory';
@@ -576,6 +619,7 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     var resetCategoryWindows = function() {
         $('.categoryFormContainer .required-field').css({"border-color": "#ccc"});
+        $('#add_MenuUnique').css({"border-color": "#ccc"});
 
         $('.alertButtonsMenuCategories').hide();
         $('#mainButtonsForCategories').show();
@@ -584,8 +628,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_CategoryRow').val('');
         $('#add_CategoryColumn').val('');
         $('#add_Sort').val('');
-        $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
-        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
+        $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
+        $('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
 
         $('#saveCategoryBtn').prop('disabled', true);
         $('#deleteCategoryBtn').hide();
