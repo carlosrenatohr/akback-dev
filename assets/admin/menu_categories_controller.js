@@ -41,7 +41,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                 {name: 'Status', type: 'number'},
                 {name: 'StatusName', type: 'string'},
                 {name: 'Column', type: 'number'},
-                {name: 'Row', type: 'number'}
+                {name: 'Row', type: 'number'},
+                {name: 'MenuItemRow', type: 'number'},
+                {name: 'MenuItemColumn', type: 'number'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -53,6 +55,8 @@ app.controller('menuCategoriesController', function($scope, $http){
             {text: 'Status', dataField: 'StatusName', type: 'string'},
             {text: 'Column', dataField: 'Column', type: 'number', hidden: true},
             {text: 'Row', dataField: 'Row', type: 'number', hidden: true},
+            {text: 'MenuItemRow', dataField: 'MenuItemRow', type: 'number', hidden: true},
+            {text: 'MenuItemColumn', dataField: 'MenuItemColumn', type: 'number', hidden: true}
         ],
         columnsResize: true,
         width: "99.7%",
@@ -88,7 +92,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             menuWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "50%",
+        width: "60%", height: "65%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -97,7 +101,7 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     // Events menu controls
     $('.menuFormContainer .required-field').on('keypress keyup paste change', function (e) {
-        var idsRestricted = ['add_MenuRow', 'add_MenuColumn'];
+        var idsRestricted = ['add_MenuRow', 'add_MenuColumn', 'add_MenuItemRow', 'add_MenuItemColumn'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
         if (inarray >= 0) {
             var charCode = (e.which) ? e.which : e.keyCode;
@@ -140,6 +144,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_MenuName').val(values['MenuName']);
         $('#add_MenuColumn').val(values['Column']);
         $('#add_MenuRow').val(values['Row']);
+        $('#add_MenuItemRow').val(values['MenuItemRow']);
+        $('#add_MenuItemColumn').val(values['MenuItemColumn']);
 
         $('#deleteMenuBtn').show();
         $scope.newOrEditOption = 'edit';
@@ -193,6 +199,8 @@ app.controller('menuCategoriesController', function($scope, $http){
             'MenuName': $('#add_MenuName').val(),
             'Row': $('#add_MenuRow').val(),
             'Column': $('#add_MenuColumn').val(),
+            'MenuItemRow': $('#add_MenuItemRow').val(),
+            'MenuItemColumn': $('#add_MenuItemColumn').val(),
             'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value
         };
         if (!validationMenuItem(values)) {
@@ -206,7 +214,6 @@ app.controller('menuCategoriesController', function($scope, $http){
                 method: 'POST',
                 'url': url,
                 'data': values
-                //headers: {'Content-Type': 'application/json'}
             }).then(function(response) {
                 console.log(response);
                 if(response.data.status == "success") {
@@ -219,7 +226,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                                 {name: 'Status', type: 'number'},
                                 {name: 'StatusName', type: 'string'},
                                 {name: 'Column', type: 'number'},
-                                {name: 'Row', type: 'number'}
+                                {name: 'Row', type: 'number'},
+                                {name: 'MenuItemRow', type: 'number'},
+                                {name: 'MenuItemColumn', type: 'number'}
                             ],
                             id: 'Unique',
                             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -270,6 +279,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_MenuName').val('');
         $('#add_MenuRow').val('');
         $('#add_MenuColumn').val('');
+        $('#add_MenuItemRowColumn').val('');
+        $('#add_MenuItemRow').val('');
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
 
@@ -306,7 +317,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                             {name: 'Status', type: 'number'},
                             {name: 'StatusName', type: 'string'},
                             {name: 'Column', type: 'number'},
-                            {name: 'Row', type: 'number'}
+                            {name: 'Row', type: 'number'},
+                            {name: 'MenuItemRow', type: 'number'},
+                            {name: 'MenuItemColumn', type: 'number'}
                         ],
                         id: 'Unique',
                         url: SiteRoot + 'admin/MenuCategory/load_allmenus'
