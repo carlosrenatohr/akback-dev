@@ -51,10 +51,10 @@
             <div>
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row editItemFormContainer">
-                        <div style=" width:330px;float:left;">
-                            <div style="float:left; padding:2px; width:350px;">
+                        <div style=" width:100%;float:left;">
+                            <div style="float:left; padding:2px; width:650px;">
                                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Item:</div>
-                                <div style="float:left; width:180px;">
+                                <div style="float:left; width:300px;">
                                     <jqx-combo-box
                                         jqx-on-select=""
                                         jqx-on-unselect=""
@@ -64,19 +64,32 @@
                                 </div>
                             </div>
 
-                            <div style="float:left; padding:2px; width:350px;">
-                                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Label:</div>
-                                <div style="float:left; width:180px;">
-                                    <input type="text" class="form-control required-field" id="editItem_label" name="editItem_label" placeholder="Label">
+                            <div style="float:left; padding:2px; width:650px; ">
+                                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Label:</div>
+                                <div style=" float:left; width:300px;">
+                                    <textarea class="form-control required-field" id="editItem_label"
+                                              cols="30" rows="3"
+                                              name="editItem_label" placeholder="Label">
+                                    </textarea>
+                                    <!-- <input type="text" class="form-control required-field" id="editItem_label" name="editItem_label" placeholder="Label">-->
                                 </div>
                                 <div style="float:left;">
                                     <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                                 </div>
                             </div>
 
-                            <div style="float:left; padding:2px; width:350px;">
+                            <div style=" float:left; padding:2px; width:650px; ">
+                                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Sort:</div>
+                                <div style=" float:left; width:300px;">
+                                    <input type="number" class="form-control required-field"
+                                           id="editItem_sort" name="editItem_sort" placeholder="Sort"
+                                           step="1" min="1" pattern="\d*">
+                                </div>
+                            </div>
+
+                            <div style=" float:left; padding:2px; width:650px; ">
                                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:</div>
-                                <div style="float:left; width:180px;">
+                                <div style=" float:left; width:300px;">
                                     <select name="editItem_Status" id="editItem_Status">
                                         <option value="1">Enabled</option>
                                         <option value="2">Disabled</option>

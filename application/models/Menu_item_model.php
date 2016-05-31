@@ -46,8 +46,8 @@ class Menu_item_model extends CI_Model
     {
         $where = [
             'MenuCategoryUnique' => $request['MenuCategoryUnique'],
-            'ColumnPosition' => $request['ColumnPosition'],
-            'RowPosition' => $request['RowPosition']
+            'Column' => $request['Column'],
+            'Row' => $request['Row']
         ];
         $exists = $this->db->where($where)
             ->get($this->menuItemTable)->result_array();

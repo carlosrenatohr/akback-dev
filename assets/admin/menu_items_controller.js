@@ -39,9 +39,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         source: dataAdapterMenu,
         displayMember: "MenuName",
         valueMember: "Unique",
-        //, width: 200, height: 250
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        //height: "100%",
         theme: 'arctic'
     };
 
@@ -120,12 +119,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     function drawExistsItemsOnGrid() {
         $.ajax({
-            'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
+                'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
             'method': 'GET',
             'dataType': 'json',
             'success': function(data) {
                 $.each(data, function(i, el) {
-                    var cell = $('body .restricter-dragdrop .draggable[data-col="' + el.ColumnPosition+ '"][data-row="' + el.RowPosition + '"]');
+                    var cell = $('body .restricter-dragdrop .draggable[data-col="' + el.Column+ '"][data-row="' + el.Row + '"]');
                     if (el.Status == 0) {
                         cell.css('background-color', '#f0f0f0');
                         cell.removeClass('filled');
@@ -136,8 +135,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         cell.addClass('filled');
                         cell.addClass('itemOnGrid');
                         cell.data('categoryId', el.MenuCategoryUnique);
-                        cell.html(el.Description);
-                        //$scope.allItemsDataStore[el.MenuCategoryUnique + '-' + el.RowPosition + '-' + el.ColumnPosition] = el;
+                        cell.html((el.Label == null || el.Label == '') ?  el.Description : el.Label);
+                        //$scope.allItemsDataStore[el.MenuCategoryUnique + '-' + el.Row + '-' + el.Column] = el;
                     }
                 });
                 draggableEvents();
@@ -217,11 +216,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         console.log($scope.itemCellSelectedOnGrid);
         var data = {
             'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
-            'RowPosition': $scope.itemCellSelectedOnGrid.RowPosition,
-            'ColumnPosition': $scope.itemCellSelectedOnGrid.ColumnPosition,
+            'Row': $scope.itemCellSelectedOnGrid.Row,
+            'Column': $scope.itemCellSelectedOnGrid.Column,
             'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
             'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
-            'Label': $('#editItem_label').val()
+            'Label': $('#editItem_label').val(),
+            'sort': $('#editItem_sort').val()
         };
 
         $.ajax({
@@ -241,8 +241,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         console.log($scope.itemCellSelectedOnGrid);
         var data = {
             'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
-            'RowPosition': $scope.itemCellSelectedOnGrid.RowPosition,
-            'ColumnPosition': $scope.itemCellSelectedOnGrid.ColumnPosition,
+            'Row': $scope.itemCellSelectedOnGrid.Row,
+            'Column': $scope.itemCellSelectedOnGrid.Column,
         };
 
         $.ajax({
@@ -259,7 +259,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     // Events item form controls
     $('.editItemFormContainer .required-field').on('keypress keyup paste change', function (e) {
-        $('#saveItemGridBtn').prop('disabled', false);
+        var idsRestricted = ['editItem_sort'];
+        var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        if (inarray >= 0) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            $('#saveItemGridBtn').prop('disabled', false);
+            return true;
+        } else {
+            $('#saveItemGridBtn').prop('disabled', false);
+        }
     });
 
     $('#editItem_Status')
@@ -280,8 +291,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             if ($this.hasClass('filled')) {
                 var data = {
                     'MenuCategoryUnique': $this.data('categoryId'),
-                    'ColumnPosition': $this.data('col'),
-                    'RowPosition': $this.data('row')
+                    'Column': $this.data('col'),
+                    'Row': $this.data('row')
                 };
                 $.ajax({
                     'url': SiteRoot + 'admin/MenuItem/getItemByPositions',
@@ -301,6 +312,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
 
                         $('#editItem_label').val(data['Label']);
+                        $('#editItem_sort').val(data['sort']);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         itemWindow.open();
@@ -337,8 +349,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 var data = {
                     'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
                     'ItemUnique': $scope.selectedItemInfo.Unique,
-                    'RowPosition': $(event.args.target).data('row'),
-                    'ColumnPosition': $(event.args.target).data('col'),
+                    'Row': $(event.args.target).data('row'),
+                    'Column': $(event.args.target).data('col'),
                     'Status': 1
                 };
                 $.ajax({
@@ -399,8 +411,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                           'element': $scope.onGridElementMoved,
                           'target': $scope.onGridTargetMoved
                         };
-                        var current = $('.restricter-dragdrop .draggable[data-col="' + $scope.onGridElementMoved.ColumnPosition+ '"][data-row="' + $scope.onGridElementMoved.RowPosition + '"]');
-                        var target = $('.restricter-dragdrop .draggable[data-col="' + $scope.onGridTargetMoved.ColumnPosition+ '"][data-row="' + $scope.onGridTargetMoved.RowPosition + '"]');
+                        var current = $('.restricter-dragdrop .draggable[data-col="' + $scope.onGridElementMoved.Column+ '"][data-row="' + $scope.onGridElementMoved.Row + '"]');
+                        var target = $('.restricter-dragdrop .draggable[data-col="' + $scope.onGridTargetMoved.Column+ '"][data-row="' + $scope.onGridTargetMoved.Row + '"]');
 
                         $.ajax({
                             'url': SiteRoot + 'admin/MenuItem/setNewPosition/' + $scope.selectedCategoryInfo.Unique,
@@ -450,8 +462,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 var element_col = $(event.args.element).data('col');
                 var target_row = $(event.args.target).data('row');
                 var element_row = $(event.args.element).data('row');
-                $scope.onGridTargetMoved = {'ColumnPosition': target_col, 'RowPosition': target_row};
-                $scope.onGridElementMoved = {'ColumnPosition': element_col, 'RowPosition': element_row};
+                $scope.onGridTargetMoved = {'Column': target_col, 'Row': target_row};
+                $scope.onGridElementMoved = {'Column': element_col, 'Row': element_row};
             })
             .bind('dropTargetLeave', function (event) {
                 //console.log(event.type, event.args.position);

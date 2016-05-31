@@ -371,8 +371,8 @@ jqxthemes();
 
     /* ITEMS */
     .restricter-dragdrop {
-        max-height: 500px;
-        min-height: 400px;
+        max-height: 450px;
+        min-height: 450px;
         overflow-y: scroll;
         background-color: lightgrey;
         border: black 2px dotted;
@@ -398,7 +398,7 @@ jqxthemes();
 
     #categories-container {
         max-height: 300px;
-        min-height: 250px;
+        min-height: 300px;
         overflow-y: scroll;
         background-color: lightgrey;
         border: black 2px dotted;
