@@ -248,8 +248,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
             'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
             'Label': $('#editItem_label').val(),
-            'sort': $('#editItem_sort').val()
         };
+        if ($('#editItem_sort').val() != '') {
+            data['sort'] = $('#editItem_sort').val();
+        }
 
         $.ajax({
             'url': SiteRoot + 'admin/MenuItem/postMenuItems',
