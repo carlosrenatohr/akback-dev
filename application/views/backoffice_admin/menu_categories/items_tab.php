@@ -38,8 +38,8 @@
         <div class="col-md-12">
             <h4 class="col-md-offset-2">Category grid</h4>
             <div class="col-md-offset-2 col-md-10" id="categories-container">
-                <category-cell ng-repeat="uno in categoriesByMenu" ng-click="clickCategoryCell($event, uno);$event.stopPropagation();" category-title="{{uno.CategoryName}}">
-                </category-cell>
+                <category-cell-grid category-title="{{uno.CategoryName}}">
+                </category-cell-grid>
             </div>
         </div>
         <!--  Windows to save data on items   -->

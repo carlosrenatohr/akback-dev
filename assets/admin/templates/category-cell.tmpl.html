@@ -1,0 +1,9 @@
+<div class="row" ng-repeat="row in menuSelectedWithCategories.newCategories">
+
+    <div ng-repeat="uno in row" class="col-md-{{menuSelectedWithCategories.grid.round}} category-cell-grid"
+         ng-class="{valued:uno}"
+         ng-click="clickCategoryCell($event, uno);$event.stopPropagation();">
+        {{ uno.CategoryName }}
+    </div>
+
+</div>

@@ -444,11 +444,14 @@ jqxthemes();
 
     .category-cell-grid {
         height: 100px;
-        background-color: #bc0530;
+        background-color: #f0f0f0;
         color: #fff;
         border: black 1px solid;
         text-align: center;
         padding-top: 40px;
+    }
+    .category-cell-grid.valued {
+        background-color: #bc0530;
     }
     .category-cell-grid.clicked {
         background-color: #ee063d;
