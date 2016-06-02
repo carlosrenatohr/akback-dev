@@ -68,41 +68,45 @@ class Menu_item_model extends CI_Model
     public function deleteMenuItem($request)
     {
         $this->db->where($request);
-        $return = $this->db->update($this->menuItemTable,
-            ['Status' => 0,
-            'Updated' => date('Y-m-d H:i:s'),
-            'UpdatedBy' => $this->session->userdata('userid')
-        ]);
+        $return = $this->db->update(
+            $this->menuItemTable,
+            [
+                'Status' => 0,
+                'Updated' => date('Y-m-d H:i:s'),
+                'UpdatedBy' => $this->session->userdata('userid')
+            ]
+        );
         return $return;
     }
 
-    public function setNewPosition($category, $element, $target) {
+    public function setNewPosition($category, $element, $target)
+    {
         //
         $this->db->trans_start();
         $exists = $this->db->where('MenuCategoryUnique', $category)
             ->where($target)
             ->get($this->menuItemTable)->result_array();
-
         $this->db->trans_complete();
         //
         $targetValues = array_merge(
             [
-            'Updated' => date('Y-m-d H:i:s'),
-            'UpdatedBy' => $this->session->userdata('userid')
-            ], $target
+                'Updated' => date('Y-m-d H:i:s'),
+                'UpdatedBy' => $this->session->userdata('userid')
+            ],
+            $target
         );
         $elementValues = array_merge(
             [
                 'Updated' => date('Y-m-d H:i:s'),
                 'UpdatedBy' => $this->session->userdata('userid')
-            ], $element
+            ],
+            $element
         );
         //
         $this->db->trans_start();
         $query = $this->db->where('MenuCategoryUnique', $category)
             ->where($element)
             ->update($this->menuItemTable, $targetValues);
-
         $this->db->trans_complete();
         /**
          * Target
@@ -111,10 +115,9 @@ class Menu_item_model extends CI_Model
             $target_id = $exists[0]['Unique'];
             $this->db->trans_start();
             $this->db->where('Unique', $target_id)
-                    ->update($this->menuItemTable, $elementValues);
+                ->update($this->menuItemTable, $elementValues);
             $this->db->trans_complete();
         }
-
         return count($exists);
     }
 

@@ -1,8 +1,6 @@
 /**
  * Created by carlosrenato on 05-19-16.
  */
-//var app = angular.module("akamaiposApp", ['jqwidgets']);
-
 
 app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
@@ -80,21 +78,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 for (var k in $scope.menuSelectedWithCategories.categories) {
                     if (!categoriesInGrid.hasOwnProperty(i)) {
                         categoriesInGrid[i] = {};
-                        //categoriesInGrid[i+'-'+j] = $scope.menuSelectedWithCategories.categories[k];
                     }
                     if($scope.menuSelectedWithCategories.categories[k]['Row'] == i
                         &&
                         $scope.menuSelectedWithCategories.categories[k]['Column'] == j) {
-                        //if (categoriesInGrid[i+'-'+j] == null) {
-                        //if (categoriesInGrid[i][j] == null)
                         categoriesInGrid[i][j] = $scope.menuSelectedWithCategories.categories[k];
                     } else {
-                        //if (categoriesInGrid[i+'-'+j] == undefined) {
                         if (categoriesInGrid[i][j] == undefined) {
-                            //categoriesInGrid[i + '-' + j] = null;
                             categoriesInGrid[i][j] = null;
                         }
-                        //categoriesInGrid[i][j] = null;
                     }
                 }
             }
@@ -360,6 +352,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     /**
      * -- DRAGGABLE EVENTS
      */
+    // ---- DRAG ITEMS ON ABOVE GRID FOR Selected item from combobox
     function selectedItemEvents () {
 
         $('#selectedItemInfo').jqxDragDrop(
@@ -416,7 +409,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         });
     }
 
-        // ---- DRAG ITEMS ON ABOVE GRID BETWEEN THEMSELVES
+    // ---- DRAG ITEMS ON ABOVE GRID BETWEEN THEMSELVES
     function draggableEvents() {
         if ($('body .itemOnGrid').length) {
             var onCellAboveGrid = false;
@@ -487,7 +480,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             })
             .bind('dropTargetEnter', function (event) {
                 onCellAboveGrid = true;
-                //$scope.currentTargetOnItemsGrid = event.args.target;
                 var target_col = $(event.args.target).data('col');
                 var element_col = $(event.args.element).data('col');
                 var target_row = $(event.args.target).data('row');
@@ -499,6 +491,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 onCellAboveGrid = false;
             });
 
+            // Helper: Object.isEqual(OtherObject)
             function isEqual(obj1, obj2) {
                 var equal = true;
                 for(var i in obj1) {

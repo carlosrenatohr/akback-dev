@@ -16,6 +16,13 @@ class MenuItem extends AK_Controller
         $this->load->model('Menu_model', 'menu');
     }
 
+    /**
+     * @method POST
+     * @param $status filter by status
+     * @param $withCategories include categories data values
+     * @description Load all registered menus with categories
+     * @returnType json
+     */
     public function load_allMenusWithCategories($status, $withCategories)
     {
         $newMenus = [];
@@ -48,18 +55,34 @@ class MenuItem extends AK_Controller
         echo json_encode(array_values($newMenus));
     }
 
+    /**
+     * @method GET
+     * @description Load all items
+     * @returnType json
+     */
     public function load_allItems()
     {
         $items = $this->menuItem->getItems();
         echo json_encode($items);
     }
 
+    /**
+     * @method GET
+     * @param $id
+     * @description Load all items by Category menu
+     * @returnType json
+     */
     public function getItemsByCategoryMenu($id)
     {
         $items = $this->menuItem->getItemsByCategoryMenu($id);
         echo json_encode($items);
     }
 
+    /**
+     * @method GET
+     * @description Load an item by position of Row and Column
+     * @returnType json
+     */
     public function getItemByPositions()
     {
         $request = $_POST;
@@ -91,6 +114,11 @@ class MenuItem extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * @method POST
+     * @description delete an item By Category on config_menu_items table
+     * @returnType json
+     */
     public function deleteMenuItems()
     {
         $request = $_POST;
@@ -110,6 +138,12 @@ class MenuItem extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * @method POST
+     * @description set new position values between items on grid
+     * @param $category array
+     * @returnType json
+     */
     public function setNewPosition($category) {
         $request = $_POST;
         $element = $request['element'];

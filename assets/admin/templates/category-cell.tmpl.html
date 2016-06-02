@@ -3,7 +3,7 @@
     <div ng-repeat="uno in row" class="col-md-{{menuSelectedWithCategories.grid.round}} category-cell-grid"
          ng-class="{valued:uno}"
          ng-click="clickCategoryCell($event, uno);$event.stopPropagation();">
-        {{ uno.CategoryName }}
+        {{ (uno) ? uno.CategoryName : $index+1 }}
     </div>
 
 </div>
