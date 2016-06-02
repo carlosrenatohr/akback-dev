@@ -8,7 +8,6 @@
  */
 class Menu_item_model extends CI_Model
 {
-
     private $itemTable = 'item';
     private $menuItemTable = 'config_menu_items';
 

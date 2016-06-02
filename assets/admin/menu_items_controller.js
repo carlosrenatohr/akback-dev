@@ -147,7 +147,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     function drawExistsItemsOnGrid() {
         $.ajax({
-                'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
+            'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
             'method': 'GET',
             'dataType': 'json',
             'success': function(data) {
@@ -427,7 +427,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             )
             .bind('dragStart', function (event) {
                 //$(this).removeClass('draggable');
-                $(this).jqxDragDrop( { dropTarget: $('.draggable').not($(this)) } );
+                //$(this).jqxDragDrop( { dropTarget: $('.draggable').not($(this)) } );
+                $(this).jqxDragDrop( { dropTarget: $('div[id^="draggable-"]').not($(this)) } );
             })
             .bind('dragEnd', function (event) {
                 //$(this).addClass('draggable');

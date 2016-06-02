@@ -52,7 +52,6 @@ class MenuCategory extends AK_Controller
         $formatted_categories = [];
         foreach($categories as $category) {
             $category['StatusName'] = ($category['Status'] == 1) ? 'Enabled' : 'Disabled';
-//            $category['statusName'] = ($category['Status'] == 1) ? 'Enabled' : 'Disabled';
             $formatted_categories[] = $category;
         }
         echo json_encode($formatted_categories);
@@ -91,6 +90,12 @@ class MenuCategory extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * @description Validation before creating menu
+     * @param $request
+     * @param $table
+     * @return array
+     */
     private function beforeAddingMenu($request, $table) {
         $sure = true;
         $message = [];
@@ -141,6 +146,13 @@ class MenuCategory extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * @description Validation before updating Menu
+     * @param $id
+     * @param $request
+     * @param $table
+     * @return array
+     */
     private function beforeUpdatingMenu($id, $request, $table) {
         $sure = true;
         $message = [];
@@ -193,6 +205,12 @@ class MenuCategory extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * @description Validation before creating
+     * @param $request
+     * @param $table
+     * @return array
+     */
     private function beforeAddingCategory($request, $table) {
         $sure = true;
         $message = [];
@@ -253,6 +271,13 @@ class MenuCategory extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * @description Validation before updating Category
+     * @param $id
+     * @param $request
+     * @param $table
+     * @return array
+     */
     private function beforeUpdatingCategory($id, $request, $table) {
         $sure = true;
         $message = [];
