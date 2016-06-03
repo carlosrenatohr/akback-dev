@@ -6,7 +6,7 @@ app.directive('categoryCellGrid', function($rootScope) {
     return {
         restrict: 'E',
         scope: '=',
-        templateUrl: '../../assets/admin/templates/category-cell.tmpl.html',
+        templateUrl: '../../assets/admin/menu/templates/category-cell.tmpl.html',
         'link': function(scope, elem, attrs) {}
     }
 });
