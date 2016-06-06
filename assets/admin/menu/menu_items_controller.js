@@ -236,8 +236,42 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     /**
      * -- TOP GRID OF ITEMS
      */
-    $scope.closeItemGridWindows = function() {
-        itemsMenuWindow.close();
+    // Menu Item Notification settings
+    var setNotificationInit = function (type) {
+        return {
+            width: "auto",
+            appendContainer: "#notification_container_menuitem",
+            opacity: 0.9,
+            closeOnClick: true,
+            autoClose: true,
+            showCloseButton: false,
+            template: (type == 1) ? 'success' : 'error'
+        }
+    };
+    $scope.menuitemNotificationsSuccessSettings = setNotificationInit(1);
+    $scope.menuitemNotificationsErrorSettings = setNotificationInit(0);
+
+    $scope.closeItemGridWindows = function(option) {
+        if(option != undefined) {
+            $('#mainButtonsOnItemGrid').show();
+            $('#promptToCloseItemGrid').hide();
+        }
+        if (option == 0) {
+            $scope.saveItemGridBtn();
+        } else if (option == 1) {
+            itemsMenuWindow.close();
+        }
+        else if (option == 2) {}
+        else {
+            if ($('#saveItemGridBtn').is(':disabled')) {
+                itemsMenuWindow.close();
+            }
+            else {
+                $('#promptToCloseItemGrid').show();
+                $('#mainButtonsOnItemGrid').hide();
+            }
+        }
+
     };
 
     $scope.saveItemGridBtn = function() {
@@ -260,7 +294,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'dataType': 'json',
             'success': function(data) {
                 drawExistsItemsOnGrid();
-                itemsMenuWindow.close();
+                $('#menuitemNotificationsSuccessSettings #notification-content')
+                    .html('Menu item was updated successfully!');
+                $scope.menuitemNotificationsSuccessSettings.apply('open');
+                setTimeout(function() {
+                    itemsMenuWindow.close();
+                }, 2000);
             }
         });
 
@@ -338,14 +377,19 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                             selectedIndexItem = itemCombo.index | 0;
                         } else selectedIndexItem = 0;
                         $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+                        //console.log($('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label);
 
-                        $('#editItem_label').val(data['Label']);
-                        $('#editItem_sort').val(data['sort']);
+                        var label = (data['Label'] == '' || data['Label'] == null)
+                                    ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
+                                    : data['Label'];
+                        $('#editItem_label').val(label);
+                        $('#editItem_sort').val((data['sort']) == '' || data['sort'] == null ? 1 : data['sort']);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
+                        itemWindow.setTitle(
+                            'Edit Menu Item: ' + data.Unique + ' | Item: ' + data.ItemUnique + ' | Label: ' + label);
                         itemWindow.open();
                     }
-
                 });
             }
         });
@@ -378,6 +422,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 var data = {
                     'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
                     'ItemUnique': $scope.selectedItemInfo.Unique,
+                    'Label': $scope.selectedItemInfo.Description,
                     'Row': $(event.args.target).data('row'),
                     'Column': $(event.args.target).data('col'),
                     'Status': 1

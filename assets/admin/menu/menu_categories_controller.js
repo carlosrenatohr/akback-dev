@@ -110,13 +110,14 @@ app.controller('menuCategoriesController', function($scope, $http){
                     $('#menuNotificationsErrorSettings #notification-content')
                         .html('Row and Column values must be numbers!');
                     $scope.menuNotificationsErrorSettings.apply('open');
-                    return false;
                 }
+                return false;
+            }
+            if (this.value.length > 2) {
+                return false;
             }
             $('#saveMenuBtn').prop('disabled', false);
             return true;
-        } else {
-            $('#saveMenuBtn').prop('disabled', false);
         }
     });
 
@@ -127,7 +128,7 @@ app.controller('menuCategoriesController', function($scope, $http){
     $scope.newOrEditOption = null;
     $scope.menuId = null;
     $scope.newMenuAction = function() {
-        menuWindow.setTitle('Add new menu');
+        menuWindow.setTitle('Add New Menu');
         $scope.newOrEditOption = 'new';
         $scope.menuId = null;
         $('#saveMenuBtn').prop('disabled', true);
@@ -151,7 +152,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $scope.newOrEditOption = 'edit';
         $scope.menuId = values['Unique'];
         $('#saveMenuBtn').prop('disabled', true);
-        menuWindow.setTitle('Edit menu ' + values['MenuName']);
+        menuWindow.setTitle('Edit menu ID: ' + values['Unique'] + ' | Menu: <b>' + values['MenuName'] +'</b>');
         menuWindow.open();
     };
 
@@ -279,7 +280,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_MenuName').val('');
         $('#add_MenuRow').val('');
         $('#add_MenuColumn').val('');
-        $('#add_MenuItemRowColumn').val('');
+        $('#add_MenuItemColumn').val('');
         $('#add_MenuItemRow').val('');
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
@@ -459,10 +460,11 @@ app.controller('menuCategoriesController', function($scope, $http){
                 }
                 return false;
             }
+            if (this.value.length > 2) {
+                return false;
+            }
             $('#saveCategoryBtn').prop('disabled', false);
             return true;
-        } else {
-            $('#saveCategoryBtn').prop('disabled', false);
         }
     });
 
@@ -481,7 +483,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
         $('#saveCategoryBtn').prop('disabled', true);
-        categoryWindow.setTitle('Add new Category');
+        categoryWindow.setTitle('Add New Menu Category');
         categoryWindow.open();
     };
 
@@ -502,7 +504,9 @@ app.controller('menuCategoriesController', function($scope, $http){
 
         $('#deleteCategoryBtn').show();
         $('#saveCategoryBtn').prop('disabled', true);
-        categoryWindow.setTitle('Edit category ' + values['CategoryName']);
+        //Edit Menu Category: | Category:
+        categoryWindow.setTitle('Edit Menu Category: ' + values['Unique'] + ' | Category: <b>' +
+                                        values['CategoryName'] + '</b>');
         categoryWindow.open();
     };
 
@@ -545,7 +549,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         // Menu no selected
         if ($('#add_MenuUnique').jqxDropDownList('getSelectedItem') == null) {
             $('#categoryNotificationsErrorSettings #notification-content')
-                .html('Please select a menu can not be empty!');
+                .html('Menu cannot be empty, please select');
             $('#add_MenuUnique').css({"border-color": "#F00"});
             $scope.categoryNotificationsErrorSettings.apply('open');
             isOk = true;
@@ -640,7 +644,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_CategoryName').val('');
         $('#add_CategoryRow').val('');
         $('#add_CategoryColumn').val('');
-        $('#add_Sort').val('');
+        $('#add_Sort').val(1);
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
 

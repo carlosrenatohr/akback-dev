@@ -3,12 +3,19 @@
 class Menu_model extends CI_Model
 {
 
+    private $menu_table = 'config_menu';
+    private $category_table = 'config_menu_category';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->library('session');
     }
 
+    /**
+     * MENU QUERIES
+     *
+     */
     public function getLists($status = null, $withCategories = null)
     {
         if (!is_null($status) && in_array($status, [1, 2])) {
@@ -27,14 +34,14 @@ class Menu_model extends CI_Model
 
                             ');
             $this->db->join(
-                'config_menu_category',
+                $this->category_table,
                 'config_menu_category.MenuUnique = config_menu.Unique'
 //                'left'
             );
         }
-        $this->db->order_by('config_menu.Unique', 'DESC');
+        $this->db->order_by('config_menu.MenuName', 'ASC');
 
-        $query = $this->db->get('config_menu');
+        $query = $this->db->get($this->menu_table);
         return $query->result_array();
     }
 
@@ -54,8 +61,8 @@ class Menu_model extends CI_Model
     public function getCategories()
     {
         $this->db->select('config_menu_category.*, config_menu.MenuName');
-        $this->db->from('config_menu_category');
-        $this->db->join('config_menu', 'config_menu.Unique = config_menu_category.MenuUnique', 'left');
+        $this->db->from($this->category_table);
+        $this->db->join($this->menu_table, 'config_menu.Unique = config_menu_category.MenuUnique', 'left');
         $this->db->where('config_menu_category.Status!=', '0');
 
         $this->db->order_by('Unique', 'DESC');
@@ -65,7 +72,7 @@ class Menu_model extends CI_Model
 
     public function storeMenu($values)
     {
-        $query = $this->db->insert('config_menu', $values);
+        $query = $this->db->insert($this->menu_table, $values);
         $insert_id = $this->db->insert_id();
         return $query;
     }
@@ -73,7 +80,7 @@ class Menu_model extends CI_Model
     public function updateMenu($values, $id)
     {
         $this->db->where('Unique', $id);
-        $query = $this->db->update('config_menu', $values);
+        $query = $this->db->update($this->menu_table, $values);
         return $query;
     }
 
@@ -84,12 +91,16 @@ class Menu_model extends CI_Model
             'UpdatedBy' => $this->session->userdata('userid')
         ];
         $this->db->where('Unique', $id);
-        $query = $this->db->update('config_menu', $deletingValues);
+        $query = $this->db->update($this->menu_table, $deletingValues);
         return $query;
     }
 
+    /**
+     * MENU CATEGORIES QUERIES
+     *
+     */
     public function storeCategory($values) {
-        $query = $this->db->insert('config_menu_category', $values);
+        $query = $this->db->insert($this->category_table, $values);
 
         return $query;
     }
@@ -97,7 +108,7 @@ class Menu_model extends CI_Model
     public function updateCategory($values, $id)
     {
         $this->db->where('Unique', $id);
-        $query = $this->db->update('config_menu_category', $values);
+        $query = $this->db->update($this->category_table, $values);
         return $query;
     }
 
@@ -108,12 +119,24 @@ class Menu_model extends CI_Model
             'UpdatedBy' => $this->session->userdata('userid')
         ];
         $this->db->where('Unique', $id);
-        $query = $this->db->update('config_menu_category', $deletingValues);
+        $query = $this->db->update($this->category_table, $deletingValues);
         return $query;
     }
 
     public function getNameByMenu($id, $table) {
         return $this->db->get_where($table, ['Unique'=> $id])->result_array();
+    }
+
+    public function isCategoryPositionBusy($request, $id = null) {
+        unset($request['CategoryName']);
+        unset($request['Sort']);
+        unset($request['Status']);
+        if (!is_null($id)) {
+            $this->db->where('Unique!=', $id);
+        }
+        $result = $this->db->get_where($this->category_table, $request)->result_array();
+
+        return count($result);
     }
 
     public function validateField($field, $value, $table, $whereNot = null)

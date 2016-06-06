@@ -16,8 +16,8 @@
             <div class="col-md-12 col-md-offset-0">
                 <div class="row categoryFormContainer">
                     <div style=" width:330px;float:left;">
-                        <div style="float:left; padding:2px; width:350px;">
-                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Category Name:</div>
+                        <div style="float:left; padding:2px; width:450px;">
+                            <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Category Name:</div>
                             <div style="float:left; width:180px;">
                                 <input type="text" class="form-control required-field" id="add_CategoryName" name="add_CategoryName" placeholder="Category Name" autofocus>
                             </div>
@@ -26,8 +26,8 @@
                             </div>
                         </div>
 
-                        <div style="float:left; padding:2px; width:350px;">
-                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Menu:</div>
+                        <div style="float:left; padding:2px; width:450px;">
+                            <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Menu:</div>
                             <div style="float:left; width:180px;">
                                 <jqx-drop-down-list id="add_MenuUnique"
                                                     jqx-settings="settingsMenuSelect"
@@ -36,18 +36,20 @@
                             </div>
                         </div>
 
-                        <div style="float:left; padding:2px; width:350px;">
-                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Sort:</div>
+                        <div style="float:left; padding:2px; width:450px;">
+                            <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Sort:</div>
                             <div style="float:left; width:180px;">
-                                <input type="text" class="form-control required-field" id="add_Sort" name="add_Sort" placeholder="Sort">
+                                <input type="number" class="form-control required-field"
+                                       id="add_Sort" name="add_Sort" placeholder="Sort"
+                                       step="1" min="1" pattern="\d*" value="1">
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                             </div>
                         </div>
 
-                        <div style="float:left; padding:2px; width:350px;">
-                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Row:</div>
+                        <div style="float:left; padding:2px; width:450px;">
+                            <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Row:</div>
                             <div style="float:left; width:180px;">
                                 <input type="number" class="form-control required-field" id="add_CategoryRow"
                                        name="add_CategoryRow" placeholder="Row"
@@ -59,8 +61,8 @@
                             </div>
                         </div>
 
-                        <div style="float:left; padding:2px; width:350px;">
-                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Column:</div>
+                        <div style="float:left; padding:2px; width:450px;">
+                            <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Column:</div>
                             <div style="float:left; width:180px;">
                                 <input type="number" class="form-control required-field" id="add_CategoryColumn"
                                        name="add_CategoryColumn" placeholder="Column"
@@ -72,8 +74,8 @@
                             </div>
                         </div>
 
-                        <div style="float:left; padding:2px; width:350px;">
-                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:</div>
+                        <div style="float:left; padding:2px; width:450px;">
+                            <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Status:</div>
                             <div style="float:left; width:180px;">
                                 <select name="Status" id="add_CategoryStatus">
                                     <option value="1">Enabled</option>

@@ -78,8 +78,8 @@ class MenuCategory extends AK_Controller
                 'message' => $validation['message']
             ];
         } else {
-            $values['Created'] = date('Y-m-d H:i:s');
-            $values['CreatedBy'] = $this->session->userdata('userid');
+            $request['Created'] = date('Y-m-d H:i:s');
+            $request['CreatedBy'] = $this->session->userdata('userid');
             $return = $this->menu->storeMenu($request);
 
             if ($return) {
@@ -134,9 +134,9 @@ class MenuCategory extends AK_Controller
             ];
         }
          else {
-            $values['Updated'] = date('Y-m-d H:i:s');
-            $values['UpdatedBy'] = $this->session->userdata('userid');
-            $status = $this->menu->updateMenu($request, $id);
+             $request['Updated'] = date('Y-m-d H:i:s');
+             $request['UpdatedBy'] = $this->session->userdata('userid');
+             $status = $this->menu->updateMenu($request, $id);
 
             if ($status) {
                 $response = [
@@ -193,8 +193,8 @@ class MenuCategory extends AK_Controller
                 'message' => $validation['message']
             ];
         } else {
-            $values['Created'] = date('Y-m-d H:i:s');
-            $values['CreatedBy'] = $this->session->userdata('userid');
+            $request['Created'] = date('Y-m-d H:i:s');
+            $request['CreatedBy'] = $this->session->userdata('userid');
             $return = $this->menu->storeCategory($request);
 
             if ($return) {
@@ -232,6 +232,12 @@ class MenuCategory extends AK_Controller
             $sure = false;
             $message['CategoryColumn'] = 'Column must be an integer value.';
         }
+        $gridPosition = $this->menu->isCategoryPositionBusy($request);
+        if ($gridPosition) {
+            $sure = false;
+            $message['CategoryColumn'] = 'Column and Row selected are still busy.';
+            $message['CategoryRow'] = 'Column and Row selected are still busy.';
+        };
 
         return [
             'sure' => $sure,
@@ -259,8 +265,8 @@ class MenuCategory extends AK_Controller
             ];
         }
         else {
-            $values['Updated'] = date('Y-m-d H:i:s');
-            $values['UpdatedBy'] = $this->session->userdata('userid');
+            $request['Updated'] = date('Y-m-d H:i:s');
+            $request['UpdatedBy'] = $this->session->userdata('userid');
             $status = $this->menu->updateCategory($request, $id);
 
             if ($status) {
@@ -301,6 +307,12 @@ class MenuCategory extends AK_Controller
             $sure = false;
             $message['CategoryColumn'] = 'Column must be an integer value.';
         }
+        $gridPosition = $this->menu->isCategoryPositionBusy($request, $id);
+        if ($gridPosition) {
+            $sure = false;
+            $message['CategoryColumn'] = 'Column and Row selected are still busy.';
+            $message['CategoryRow'] = 'Column and Row selected are still busy.';
+        };
 
         return [
             'sure' => $sure,
