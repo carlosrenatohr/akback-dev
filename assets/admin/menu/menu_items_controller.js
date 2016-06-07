@@ -154,8 +154,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 $.each(data, function(i, el) {
                     var cell = $('body .restricter-dragdrop .draggable[data-col="' + el.Column+ '"][data-row="' + el.Row + '"]');
                     if (el.Status == 0) {
+                        cell.jqxDragDrop('destroy');
+                        cell.removeClass('itemOnGrid');
+                        //cell.unbind('dragStart');
+                        //cell.unbind('dragEnd');
                         cell.css('background-color', '#f0f0f0');
                         cell.removeClass('filled');
+                        //cell.removeClass('draggable');
                         cell.data('categoryId', '');
                         cell.html('');
                     } else {

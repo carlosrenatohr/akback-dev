@@ -134,10 +134,6 @@ jqxthemes();
         padding: 0!important;
     }
 
-    /*.restricter-dragdrop .itemOnGrid {*/
-        /*z-index: 999999;*/
-    /*}*/
-
     #categories-container {
         max-height: 300px;
         min-height: 300px;
