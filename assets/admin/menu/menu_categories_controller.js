@@ -9,22 +9,8 @@ app.controller('menuCategoriesController', function($scope, $http){
     $('#MenuCategoriesTabs').on('tabclick', function (event) {
         var tabclicked = event.args.item;
         // Categories TAB - Reload queries
-        if(tabclicked == 1) {
-            var source =
-            {
-                datatype: "json",
-                datafields: [
-                    { name: 'MenuName' },
-                    { name: 'Status' },
-                    { name: 'Unique' }
-                ],
-                id: 'Unique',
-                url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
-            };
-
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            $scope.settingsMenuSelect =
-                { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
+        if(tabclicked == 1 || tabclicked == 0) {
+            reloadMenuSelectOnCategories();
         }
     });
 
@@ -59,15 +45,15 @@ app.controller('menuCategoriesController', function($scope, $http){
             {text: 'MenuItemColumn', dataField: 'MenuItemColumn', type: 'number', hidden: true}
         ],
         columnsResize: true,
-        width: "99.7%",
+        width: "100%",
         theme: 'arctic',
-        //sortable: true,
+        sortable: true,
         pageable: true,
         pageSize: 20,
         pagerMode: 'default',
         altRows: true,
-        //filterable: true,
-        //filterMode: 'simple'
+        filterable: true,
+        filterMode: 'simple'
     };
 
     // Menu Notification settings
@@ -118,6 +104,8 @@ app.controller('menuCategoriesController', function($scope, $http){
             }
             $('#saveMenuBtn').prop('disabled', false);
             return true;
+        } else {
+            $('#saveCategoryBtn').prop('disabled', false);
         }
     });
 
@@ -152,7 +140,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $scope.newOrEditOption = 'edit';
         $scope.menuId = values['Unique'];
         $('#saveMenuBtn').prop('disabled', true);
-        menuWindow.setTitle('Edit menu ID: ' + values['Unique'] + ' | Menu: <b>' + values['MenuName'] +'</b>');
+        menuWindow.setTitle('Edit Menu ID: ' + values['Unique'] + ' | Menu: <b>' + values['MenuName'] +'</b>');
         menuWindow.open();
     };
 
@@ -254,6 +242,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                         $scope.menuNotificationsSuccessSettings.apply('open');
                         $('#saveMenuBtn').prop('disabled', true);
                     }
+                    // -----
+                    reloadMenuSelectOnCategories();
+                    // ------
                 } else {
                     $.each(response.data.message, function(i, val) {
                         $('#menuNotificationsErrorSettings #notification-content')
@@ -422,6 +413,25 @@ app.controller('menuCategoriesController', function($scope, $http){
     $scope.settingsMenuSelect =
             { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
 
+    function reloadMenuSelectOnCategories() {
+        var source =
+        {
+            datatype: "json",
+            datafields: [
+                { name: 'MenuName' },
+                { name: 'Status' },
+                { name: 'Unique' }
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
+        };
+
+        var dataAdapter = new $.jqx.dataAdapter(source, {
+            'async': false
+        });
+        $scope.settingsMenuSelect =
+        { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
+    }
 
     // Status select
     $('#add_CategoryStatus').jqxDropDownList({autoDropDownHeight: true});
@@ -465,6 +475,8 @@ app.controller('menuCategoriesController', function($scope, $http){
             }
             $('#saveCategoryBtn').prop('disabled', false);
             return true;
+        } else {
+            $('#saveCategoryBtn').prop('disabled', false);
         }
     });
 
@@ -481,7 +493,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             $('#add_CategoryName').focus();
         }, 100);
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
-        $('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
+        //$('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
         $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Add New Menu Category');
         categoryWindow.open();
@@ -646,7 +658,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_CategoryColumn').val('');
         $('#add_Sort').val(1);
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
-        $('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
+        $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
 
         $('#saveCategoryBtn').prop('disabled', true);
         $('#deleteCategoryBtn').hide();

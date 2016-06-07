@@ -235,8 +235,8 @@ class MenuCategory extends AK_Controller
         $gridPosition = $this->menu->isCategoryPositionBusy($request);
         if ($gridPosition) {
             $sure = false;
-            $message['CategoryColumn'] = 'Column and Row selected are still busy.';
-            $message['CategoryRow'] = 'Column and Row selected are still busy.';
+            $message['CategoryColumn'] = 'Row and Column cannot be the same as another Category';
+            $message['CategoryRow'] = 'Row and Column cannot be the same as another Category';
         };
 
         return [
@@ -310,8 +310,8 @@ class MenuCategory extends AK_Controller
         $gridPosition = $this->menu->isCategoryPositionBusy($request, $id);
         if ($gridPosition) {
             $sure = false;
-            $message['CategoryColumn'] = 'Column and Row selected are still busy.';
-            $message['CategoryRow'] = 'Column and Row selected are still busy.';
+            $message['CategoryColumn'] = 'Row and Column cannot be the same as another Category';
+            $message['CategoryRow'] = 'Row and Column cannot be the same as another Category';
         };
 
         return [

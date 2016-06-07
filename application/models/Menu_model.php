@@ -38,6 +38,7 @@ class Menu_model extends CI_Model
                 'config_menu_category.MenuUnique = config_menu.Unique'
 //                'left'
             );
+            $this->db->where('config_menu_category.Status !=', 0);
         }
         $this->db->order_by('config_menu.MenuName', 'ASC');
 

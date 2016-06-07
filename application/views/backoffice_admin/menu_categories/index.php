@@ -19,10 +19,12 @@ jqxthemes();
 <script type="application/javascript" src="../../assets/admin/menu/menu_questions_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_directives.js"></script>
 <div class="parent-container" ng-controller="menuCategoriesController">
-    <div ng-cloak class="row-offcanvas row-offcanvas-left ng-cloak">
-        <div style="width: 100%;">
-            <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
-                <div class="col-md-12">
+    <div ng-cloak class=" ng-cloak">
+        <div class="container-fluid">
+
+            <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
                     <div id="toolbar" class="toolbar-list">
                         <ul class="nav navbar-nav navbar-left" style="color: #000;">
                             <li>
@@ -33,11 +35,13 @@ jqxthemes();
                             </li>
                         </ul>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
+            </div>
 
-            <div>
-                <jqx-tabs  jqx-width="'100%'" jqx-height="'100%'" id="MenuCategoriesTabs">
+            <div class="row">
+                <div class="col-md-12">
+                <jqx-tabs  jqx-width="" jqx-height="" id="MenuCategoriesTabs">
                     <ul>
                         <li>Menu</li>
                         <li>Categories</li>
@@ -71,6 +75,7 @@ jqxthemes();
                     </div>
 
                 </jqx-tabs>
+            </div>
             </div>
         </div>
     </div>

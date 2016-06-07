@@ -425,7 +425,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     'Label': $scope.selectedItemInfo.Description,
                     'Row': $(event.args.target).data('row'),
                     'Column': $(event.args.target).data('col'),
-                    'Status': 1
+                    'Status': 1,
+                    'sort': 1
                 };
                 $.ajax({
                     'url': SiteRoot + 'admin/MenuItem/postMenuItems',
