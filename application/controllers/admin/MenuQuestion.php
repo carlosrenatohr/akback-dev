@@ -26,6 +26,16 @@ class MenuQuestion extends AK_Controller
         echo json_encode($return);
     }
 
+    public function load_questions_items($id) {
+        $result = $this->question->getQuestionItemData($id);
+        $return = [];
+        foreach($result as $row) {
+            $row['Sort'] = $row['sort'];
+            $return[] = $row;
+        }
+        echo json_encode($return);
+    }
+
     public function postQuestion() {
         $post = $_POST;
         $status = $this->question->postQuestion($post);
@@ -33,7 +43,23 @@ class MenuQuestion extends AK_Controller
             'status' => 'success',
             'message' => $status
         ]);
+    }
 
+    public function updateQuestion($id) {
+        $post = $_POST;
+        $status = $this->question->updateQuestion($id, $post);
+        echo json_encode([
+            'status' => 'success',
+            'message' => $status
+        ]);
+    }
+
+    public function deleteQuestion($id) {
+        $status = $this->question->deleteQuestion($id);
+        echo json_encode([
+            'status' => 'success',
+            'message' => $status
+        ]);
     }
 
 }

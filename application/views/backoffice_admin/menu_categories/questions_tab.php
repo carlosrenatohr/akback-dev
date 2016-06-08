@@ -1,12 +1,12 @@
 <div>
     <div>
-        <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="openQuestionWindows()">
+        <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="openQuestionWindow()">
             <span class="icon-32-new"></span>
             New
         </a>
     </div>
     <jqx-data-table jqx-settings="questionTableSettings"
-                    jqx-on-row-double-click="">
+                    jqx-on-row-double-click="editQuestionWindow($event)">
     </jqx-data-table>
 
     <!-- WINDOWS FOR ADD/EDIT QUESTIONS   -->
@@ -25,10 +25,15 @@
                     border: 1px solid #dddddd;
                     height: 390px;
                 }
+                .alertButtonsQuestionForm {
+                    display: none;
+                }
             </style>
             <div id="questionWindowForm">
                 <div class="col-md-12 col-md-offset-0">
-                    <jqx-tabs jqx-width="'100%'" jqx-height="'100%'" jqx-settings="questionstabsSettings">
+                    <jqx-tabs jqx-width="'100%'" jqx-height="'100%'"
+                              jqx-settings="questionstabsSettings"
+                              id="questionstabsWin">
                         <ul style=" margin-left: 10px;">
                             <li>Question tab</li>
                             <li>Item tab</li>
@@ -77,24 +82,46 @@
                             </div>
                         </div>
                         <div class="col-md-12 question-tabs" id="question-tab2">
-                            asdasd
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="">
+                                        <span class="icon-32-new"></span>
+                                            New
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a style="outline:0;margin: 10px 2px;" class="btn btn-danger" ng-click="">
+                                        <span class="icon-32-new"></span>
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <jqx-data-table jqx-settings="questionItemTableSettings"
+                                                    jqx-on-row-double-click="">
+                                    </jqx-data-table>
+                                </div>
+                            </div>
                     </jqx-tabs>
                 </div>
             </div>
+            <!-- MAIN BUTTONS FOR QUESTIONS FORM -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="">
+                    <div id="mainButtonsQuestionForm">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <button type="button" id="saveQuestionBtn" ng-click="saveQuestionWindow()"
-                                        class="btn btn-primary" disabled>Save
+                                        class="btn btn-primary" disabled>
+                                    Save
                                 </button>
                                 <button type="button" id="" ng-click="closeQuestionWindow()" class="btn btn-warning">
                                     Close
                                 </button>
                                 <button type="button" id="deleteQuestionBtn" ng-click="beforeDeleteQuestion()"
-                                        class="btn btn-danger " style="display:none; overflow:auto;">Delete
+                                        class="btn btn-danger " style="display:none; overflow:auto;">
+                                    Delete
                                 </button>
                             </div>
                         </div>
@@ -102,18 +129,37 @@
                 </div>
             </div>
 
-            <!-- ALERT MESSAGES BEFORE ACTIONS -->
+            <!-- BUTTONS BEFORE DELETING QUESTIONS-->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="beforeDeleteMenu" class="alertButtonsMenuCategories">
+                    <div id="" class="alertButtonsQuestionForm">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 Are you sure you want to delete it?
-                                <button type="button" ng-click="beforeDeleteMenu(0)" class="btn btn-primary">Yes
+                                <button type="button" ng-click="beforeDeleteMenu(0)" class="btn btn-primary">
+                                    Yes
                                 </button>
-                                <button type="button" ng-click="beforeDeleteMenu(1)" class="btn btn-warning">No</button>
-                                <button type="button" ng-click="beforeDeleteMenu(2)" class="btn btn-info">Cancel
+                                <button type="button" ng-click="beforeDeleteMenu(1)" class="btn btn-warning">
+                                    No
                                 </button>
+                                <button type="button" ng-click="beforeDeleteMenu(2)" class="btn btn-info">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BUTTONS TO PROMPT SAVING CHANGES-->
+            <div class="col-md-12 col-md-offset-0">
+                <div class="row">
+                    <div id="promptToCloseQuestionForm" class="alertButtonsQuestionForm">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                Do you want to save your changes?
+                                <button type="button" ng-click="closeQuestionWindow(0)" class="btn btn-primary">Yes</button>
+                                <button type="button" ng-click="closeQuestionWindow(1)" class="btn btn-warning">No</button>
+                                <button type="button" ng-click="closeQuestionWindow(2)" class="btn btn-info">Cancel</button>
                             </div>
                         </div>
                     </div>

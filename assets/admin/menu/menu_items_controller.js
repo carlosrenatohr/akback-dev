@@ -169,7 +169,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         cell.addClass('itemOnGrid');
                         cell.data('categoryId', el.MenuCategoryUnique);
                         cell.html((el.Label == null || el.Label == '') ?  el.Description : el.Label);
-                        //$scope.allItemsDataStore[el.MenuCategoryUnique + '-' + el.Row + '-' + el.Column] = el;
                     }
                 });
                 draggableEvents();

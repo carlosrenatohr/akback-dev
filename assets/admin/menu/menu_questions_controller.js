@@ -6,6 +6,7 @@
 app.controller('menuQuestionController', function ($scope) {
 
     var questionsWindow, tabsQuestionWindow;
+    // --Question window settings
     $scope.questionWindowsFormSettings = {
         created: function (args) {
             questionsWindow = args.instance;
@@ -18,6 +19,7 @@ app.controller('menuQuestionController', function ($scope) {
         showCloseButton: false
     };
 
+    // --Question table settings
     $scope.questionTableSettings = {
         source: {
             dataType: 'json',
@@ -49,6 +51,23 @@ app.controller('menuQuestionController', function ($scope) {
         filterMode: 'simple'
     };
 
+    // -- Question Item table settings
+    $scope.questionItemTableSettings = {
+        source: {
+            columns: [
+                {text: 'ID', type: 'int'},
+                {text: 'Name', type: 'string'},
+                {text: 'Label', type: 'string'},
+                {text: 'Sort', type: 'number'}
+            ]
+        },
+        width: "100%",
+        columnsResize: true,
+        theme: 'arctic',
+        pagerMode: 'default'
+    };
+
+    // -- Question tabs settings
     $scope.questionstabsSettings = {
         created: function (args) {
             tabsQuestionWindow = args.instance
@@ -57,6 +76,46 @@ app.controller('menuQuestionController', function ($scope) {
         selectedItem: 0
     };
 
+    $('#questionstabsWin').on('tabclick', function (event) {
+        var tabclicked = event.args.item;
+        //
+        if (tabclicked == 1 ) {
+            if($scope.questionId != null) {
+                $scope.$apply(function() {
+                    updateItemQuestiontable();
+                });
+            }
+        }
+    });
+
+    var updateItemQuestiontable  = function() {
+        $scope.questionItemTableSettings = {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'QuestionUnique', type: 'string'},
+                    {name: 'ItemUnique', type: 'string'},
+                    {name: 'Description', type: 'string'},
+                    {name: 'Label', type: 'number'},
+                    {name: 'Sort', type: 'number'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + ($scope.questionId)
+            },
+            columns: [
+                {text: 'ID', dataField: 'Unique', type: 'int'},
+                {text: 'Name', dataField: 'Description', type: 'string'},
+                {text: 'Label', dataField: 'Label', type: 'string'},
+                {text: 'Sort', dataField: 'Sort', type: 'number'}
+            ],
+            created: function (args) {
+                args.instance.updateBoundData();
+            }
+        }
+    };
+
+    // -- Notification settings
     var notificationSet = function (type) {
         return {
             width: "auto",
@@ -71,40 +130,63 @@ app.controller('menuQuestionController', function ($scope) {
     $scope.questionNotificationsSuccessSettings = notificationSet(1);
     $scope.questionNotificationsErrorSettings = notificationSet(0);
 
-    $scope.openQuestionWindows = function() {
+    // -- Create and edit actions on question form
+    $scope.newOrEditQuestionOption = null;
+    $scope.questionId = null;
+    $scope.openQuestionWindow = function() {
+        $scope.newOrEditQuestionOption = 'new';
         resetQuestionForm();
         questionsWindow.open();
     };
 
-    $scope.closeQuestionWindow = function () {
-        //if (option == 0) {
-        //    $scope.SaveCategoryWindows();
-        //    $('#mainButtonsForCategories').show();
-        //    $('.alertButtonsMenuCategories').hide();
-        //} else if (option == 1) {
-        //    categoryWindow.close();
-        //    resetCategoryWindows();
-        //} else if (option == 2) {
-        //    $('#promptToSaveInCloseButtonCategory').hide();
-        //    $('#mainButtonsForCategories').show();
-        //} else {
+    $scope.editQuestionWindow = function(e) {
+        var row = e.args.row;
+        $scope.newOrEditQuestionOption = 'edit';
+        $scope.questionId = row.Unique;
+        $('#qt_QuestionName').val(row.QuestionName);
+        $('#qt_Question').val(row.Question);
+        $('#qt_sort').val(row.Sort);
+        $('#deleteQuestionBtn').show();
+        questionsWindow.open();
+    };
+
+    var resetQuestionForm = function() {
+        $('#mainButtonsQuestionForm').show();
+        $('.alertButtonsQuestionForm').hide();
+        $('#qt_QuestionName').val('');
+        $('#qt_Question').val('');
+        $('#qt_sort').val(1);
+        //
+        $('#questionstabsWin').jqxTabs({selectedItem: 0});
+        $('#questionWindowForm .required-field').css({"border-color": "#ccc"});
+        $('#deleteQuestionBtn').hide();
+        $('#saveQuestionBtn').prop('disabled', true);
+    };
+
+    $scope.closeQuestionWindow = function (option) {
+        if (option == 0) {
+            $scope.saveQuestionWindow();
+        } else if (option == 1) {
+            questionsWindow.close();
+            resetQuestionForm();
+        } else if (option == 2) {
+            $('.alertButtonsQuestionForm').hide();
+            $('#mainButtonsQuestionForm').show();
+            $('#promptToCloseQuestionForm').hide();
+        } else {
             if ($('#saveQuestionBtn').is(':disabled')) {
                 questionsWindow.close();
                 resetQuestionForm();
             }
-            /*else {
-                $('#mainButtonsForCategories').hide();
-                $('.alertButtonsMenuCategories').hide();
-                $('#promptToSaveInCloseButtonCategory').show();
-            }*/
+            else {
+                $('#mainButtonsQuestionForm').hide();
+                $('.alertButtonsQuestionForm').hide();
+                $('#promptToCloseQuestionForm').show();
+            }
+        }
     };
 
-    var resetQuestionForm = function() {
-        $('#qt_QuestionName').val('');
-        $('#qt_Question').val('');
-        $('#qt_sort').val(1);
-    };
-
+    // -- Question Events controls
     $('#questionWindowForm .required-field').on('keypress keyup paste change', function (e) {
         $('#saveQuestionBtn').prop('disabled', false);
     });
@@ -130,8 +212,7 @@ app.controller('menuQuestionController', function ($scope) {
                 $('#questionNotificationsErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
                 $(el).css({"border-color": "#F00"});
                 $scope.questionNotificationsErrorSettings.apply('open');
-                console.info($(el).attr('placeholder') + ' can not be empty!');
-                needValidation = true;
+                needValidation = false;
             }
             else {
                 $(el).css({"border-color": "#ccc"});
@@ -141,6 +222,7 @@ app.controller('menuQuestionController', function ($scope) {
         return needValidation;
     };
 
+
     $scope.saveQuestionWindow = function() {
         if (validationQuestionForm()) {
             var values = {
@@ -148,14 +230,17 @@ app.controller('menuQuestionController', function ($scope) {
                 'QuestionName': $('#qt_QuestionName').val(),
                 'sort': $('#qt_sort').val()
             };
+            var url = '';
+            if ($scope.newOrEditQuestionOption == 'edit') {
+                url = 'admin/MenuQuestion/updateQuestion/' + $scope.questionId;
+            }
 
             $.ajax({
                 method: 'post',
-                url: SiteRoot + 'admin/MenuQuestion/postQuestion',
+                url: SiteRoot + ((url == '') ? 'admin/MenuQuestion/postQuestion' : url),
                 dataType: 'json',
                 data: values,
                 success: function(data) {
-                    console.log(data);
                     $scope.questionTableSettings = {
                         source: {
                             dataType: 'json',
@@ -173,11 +258,56 @@ app.controller('menuQuestionController', function ($scope) {
                             args.instance.updateBoundData();
                         }
                     };
-                    questionsWindow.close();
+                    //
+                    if ($scope.newOrEditQuestionOption == 'new') {
+                        $('#questionNotificationsSuccessSettings #notification-content')
+                            .html('Question created successfully!');
+                        $scope.questionNotificationsSuccessSettings.apply('open');
+                        setTimeout(function() {
+                            questionsWindow.close();
+                            resetQuestionForm();
+                        }, 2000);
+                    } else if ($scope.newOrEditQuestionOption == 'edit') {
+                        $('#questionNotificationsSuccessSettings #notification-content')
+                            .html('Question updated successfully!');
+                        $scope.questionNotificationsSuccessSettings.apply('open');
+                        $('#saveQuestionBtn').prop('disabled', true);
+                    }
                 }
 
-            })
+
+            });
         }
+    };
+
+    // -- Question Delete actions
+    $scope.beforeDeleteQuestion = function() {
+        $.ajax({
+            method: 'post',
+            url: SiteRoot + 'admin/MenuQuestion/deleteQuestion/' + $scope.questionId,
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                $scope.questionTableSettings = {
+                    source: {
+                        dataType: 'json',
+                        dataFields: [
+                            {name: 'Unique', type: 'int'},
+                            {name: 'QuestionName', type: 'string'},
+                            {name: 'Question', type: 'string'},
+                            {name: 'Status', type: 'number'},
+                            {name: 'Sort', type: 'number'}
+                        ],
+                        id: 'Unique',
+                        url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
+                    },
+                    created: function (args) {
+                        args.instance.updateBoundData();
+                    }
+                };
+                questionsWindow.close();
+            }
+        });
     }
 
 });
