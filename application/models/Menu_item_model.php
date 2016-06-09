@@ -67,14 +67,16 @@ class Menu_item_model extends CI_Model
     public function deleteMenuItem($request)
     {
         $this->db->where($request);
-        $return = $this->db->update(
-            $this->menuItemTable,
-            [
-                'Status' => 0,
-                'Updated' => date('Y-m-d H:i:s'),
-                'UpdatedBy' => $this->session->userdata('userid')
-            ]
-        );
+//        $return = $this->db->update(
+//            $this->menuItemTable,
+//            [
+//                'Status' => 0,
+//                'Updated' => date('Y-m-d H:i:s'),
+//                'UpdatedBy' => $this->session->userdata('userid')
+//            ]
+//        );
+        $return = $this->db->delete($this->menuItemTable);
+
         return $return;
     }
 

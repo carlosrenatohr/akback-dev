@@ -322,7 +322,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'data': data,
             'dataType': 'json',
             'success': function(data) {
-                drawExistsItemsOnGrid();
+                //drawExistsItemsOnGrid();
+                setTimeout(function() {
+                    angular.element('.category-cell-grid.clicked').triggerHandler('click');
+                }, 100);
                 itemsMenuWindow.close();
             }
         });
