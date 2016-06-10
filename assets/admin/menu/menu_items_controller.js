@@ -62,6 +62,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     $scope.categoriesByMenu = [];
     $scope.menuListBoxSelecting = function (e) {
+        $('.category-cell-grid').removeClass('clicked');
         var row = e.args.item.originalItem;
         $scope.categoriesByMenu = row.categories;
         $scope.menuSelectedWithCategories = row;
