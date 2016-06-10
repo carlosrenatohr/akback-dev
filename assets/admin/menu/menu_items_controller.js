@@ -232,16 +232,40 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         source: dataAdapterItems('ASC'),
         theme: 'arctic',
         filterable: true,
-        allowDrop: true,
-        allowDrag: true,
-        dragEnd: function(dragItem, dropItem) {
-            //console.log(dragItem);
-            //console.log(dropItem);
-
-            //var dropTargetId = dropItem.element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
-            //console.log(dropTargetId);
-        }
+        //allowDrop: true,
+        //allowDrag: true,
+        //dragEnd: function(dragItem, dropItem) {}
     };
+
+    //$('#itemListboxSearch').on('dragEnd', function(e){
+    //    console.log(e);
+    //    if (e.args.label) {
+    //        var ev = e.args.originalEvent;
+    //        var x = ev.pageX;
+    //        var y = ev.pageY;
+    //        if (e.args.originalEvent
+    //            && e.args.originalEvent.originalEvent
+    //            && e.args.originalEvent.originalEvent.touches) {
+    //            var touch = e.args.originalEvent.originalEvent.changedTouches[0];
+    //            x = touch.pageX;
+    //            y = touch.pageY;
+    //        }
+    //        var offset = $(".restricter-dragdrop").offset();
+    //        var width = $(".restricter-dragdrop").width();
+    //        var height = $(".restricter-dragdrop").height();
+    //        var right = parseInt(offset.left) + width;
+    //        var bottom = parseInt(offset.top) + height;
+    //        if (x >= parseInt(offset.left) && x <= right) {
+    //            if (y >= parseInt(offset.top) && y <= bottom) {
+    //                console.log('IN');
+    //                //$("#textarea").val(event.args.label);
+    //            }
+    //            else {
+    //                console.log('OUT');
+    //            }
+    //        }
+    //    }
+    //});
 
     $scope.selectedItemInfo = {};
     $scope.itemListBoxOnSelect = function(e) {
@@ -394,6 +418,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     function onClickDraggableItem() {
         var itemWindow = itemsMenuWindow;
         $('.draggable').on('dblclick', function(e) {
+            $('#promptToCloseItemGrid').hide();
+            $('#mainButtonsOnItemGrid').show();
+
             var $this = $(e.currentTarget);
             if ($this.hasClass('filled')) {
                 var data = {
@@ -441,21 +468,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     // ---- DRAG ITEMS ON ABOVE GRID FOR Selected item from combobox
     function selectedItemEvents () {
 
-        $('#selectedItemInfo').jqxDragDrop(
+        $('#selectedItemInfo, #itemListboxSearch .jqx-listitem-element').jqxDragDrop(
             {
                 dropTarget: $('body .draggable'),
                 //restricter:'parent',
                 //tolerance: 'fit',
-                revert: true
+                revert: true,
+                opacity: 0.9,
             }
         );
 
         var ItemOnAboveGrid = false;
-        $('#selectedItemInfo').bind('dragStart', function (event) {
-
-        });
-
-        $('#selectedItemInfo').bind('dragEnd', function (event) {
+        $('#selectedItemInfo, #itemListboxSearch .jqx-listitem-element').bind('dragStart', function (event) {
+            $('.restricter-dragdrop').css({'border': '#202020 dotted 3px'});
+        })
+        .bind('dragEnd', function (event) {
+            $('.restricter-dragdrop').css({'border': '#202020 solid 2px'});
             if (ItemOnAboveGrid) {
                 //
                 var $this = $(event.args.target);
@@ -487,12 +515,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     }
                 });
             }
-        });
-        $('#selectedItemInfo').bind('dropTargetEnter', function (event) {
+        })
+        .bind('dropTargetEnter', function (event) {
             ItemOnAboveGrid = true;
-
-        });
-        $('#selectedItemInfo').bind('dropTargetLeave', function (event) {
+        })
+        .bind('dropTargetLeave', function (event) {
             ItemOnAboveGrid = false;
         });
     }

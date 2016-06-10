@@ -117,7 +117,7 @@ jqxthemes();
         min-height: 450px;
         overflow-y: scroll;
         background-color: lightgrey;
-        border: black 2px dotted;
+        border: #202020 2px solid;
         padding: 0!important;
     }
     .restricter-dragdrop .row {

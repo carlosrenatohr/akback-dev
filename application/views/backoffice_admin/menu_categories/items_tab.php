@@ -15,9 +15,6 @@
             </div>
             <div class="">
                 <div class="" >
-                    <!--                                            <jqx-list-box jqx-settings="menuListBoxSettings" id=""-->
-                    <!--                                                          jqx-on-select="">-->
-                    <!--                                            </jqx-list-box>-->
                     <div>Type an item to find:</div>
 <!--                    <jqx-combo-box-->
 <!--                        jqx-on-select="itemComboboxOnselect(event)"-->
