@@ -7,8 +7,9 @@
             </ul>
             <div class="">
                 <div class="">
-                    <jqx-list-box jqx-settings="menuListBoxSettings" id="menuListBox"
-                                  jqx-on-select="menuListBoxSelecting(event)">
+                    <jqx-list-box jqx-settings="menuListBoxSettings"
+                                  jqx-on-select="menuListBoxSelecting(event)"
+                                  id="menuListBox">
                     </jqx-list-box>
                 </div>
             </div>
@@ -18,10 +19,17 @@
                     <!--                                                          jqx-on-select="">-->
                     <!--                                            </jqx-list-box>-->
                     <div>Type an item to find:</div>
-                    <jqx-combo-box
-                        jqx-on-select="itemComboboxOnselect(event)"
+<!--                    <jqx-combo-box-->
+<!--                        jqx-on-select="itemComboboxOnselect(event)"-->
+<!--                        jqx-on-unselect=""-->
+<!--                        jqx-settings="itemsComboboxSettings">-->
+<!--                    </jqx-combo-box>-->
+                    <jqx-list-box
+                        jqx-on-select="itemListBoxOnSelect(event)"
                         jqx-on-unselect=""
-                        jqx-settings="itemsComboboxSettings"></jqx-combo-box>
+                        jqx-settings="itemsListboxSettings"
+                        id="itemListboxSearch">
+                    </jqx-list-box>
                     <div class="" style="min-height: 20px;"></div>
                     <div id="selectedItemInfo">
                         {{ selectedItemInfo.Description }}
@@ -32,7 +40,7 @@
     </div>
 
     <div class="col-md-10 restricter-dragdrop">
-        <!--                            <div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
+        <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
     </div>
     <div class="col-md-12">
         <h4 class="col-md-offset-2">Category grid</h4>
@@ -55,7 +63,7 @@
                             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Item:</div>
                             <div style="float:left; width:300px;">
                                 <jqx-combo-box
-                                    jqx-on-select=""
+                                    jqx-on-select="itemsComboboxSelecting(event)"
                                     jqx-on-unselect=""
                                     jqx-settings="itemsComboboxSettings"
                                     id="editItem_ItemSelected">

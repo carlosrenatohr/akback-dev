@@ -62,8 +62,17 @@ class MenuItem extends AK_Controller
      */
     public function load_allItems()
     {
-        $items = $this->menuItem->getItems();
-        echo json_encode($items);
+        $sort = $_GET['sort'];
+        $items = $this->menuItem->getItems($sort);
+        $new_items = [];
+        foreach($items as $item) {
+            if (!empty(trim($item['Description']))) {
+                $item['Description'] = trim($item['Description']);
+                $new_items[] = $item;
+            }
+        }
+
+        echo json_encode($new_items);
     }
 
     /**

@@ -8,7 +8,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $('#MenuCategoriesTabs').on('tabclick', function (event) {
         var tabclicked = event.args.item;
         // ITEMS TAB - Reload queries
-        if(tabclicked == 2) {
+        if (tabclicked == 2) {
             $scope.menuListBoxSettings.apply('refresh');
         }
     });
@@ -61,16 +61,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     $scope.categoriesByMenu = [];
-    $scope.menuListBoxSelecting = function(e) {
+    $scope.menuListBoxSelecting = function (e) {
         var row = e.args.item.originalItem;
         $scope.categoriesByMenu = row.categories;
         $scope.menuSelectedWithCategories = row;
 
         $scope.menuSelectedWithCategories.grid = {
-                cols: $scope.menuSelectedWithCategories.Column,
-                rows: $scope.menuSelectedWithCategories.Row,
-                diff: (12 / $scope.menuSelectedWithCategories.Column),
-                round: Math.round(12 / $scope.menuSelectedWithCategories.Column)
+            cols: $scope.menuSelectedWithCategories.Column,
+            rows: $scope.menuSelectedWithCategories.Row,
+            diff: (12 / $scope.menuSelectedWithCategories.Column),
+            round: Math.round(12 / $scope.menuSelectedWithCategories.Column)
         };
         var categoriesInGrid = {};
         for (var i = 1; i <= $scope.menuSelectedWithCategories.Row; i++) {
@@ -79,7 +79,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     if (!categoriesInGrid.hasOwnProperty(i)) {
                         categoriesInGrid[i] = {};
                     }
-                    if($scope.menuSelectedWithCategories.categories[k]['Row'] == i
+                    if ($scope.menuSelectedWithCategories.categories[k]['Row'] == i
                         &&
                         $scope.menuSelectedWithCategories.categories[k]['Column'] == j) {
                         categoriesInGrid[i][j] = $scope.menuSelectedWithCategories.categories[k];
@@ -100,7 +100,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
      */
     $scope.allItemsDataStore = {};
     $scope.selectedCategoryInfo = {};
-    $scope.clickCategoryCell = function(e, row) {
+    $scope.clickCategoryCell = function (e, row) {
         if (row == null) {
             return;
         }
@@ -121,7 +121,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         //
         var diff = $scope.grid.diff;
         var round = $scope.grid.round;
-        for(var i = 0;i < $scope.grid.rows;i++) {
+        for (var i = 0; i < $scope.grid.rows; i++) {
             var template = '';
             template += '<div class="row">';
             if (diff % 1 !== 0) {
@@ -130,7 +130,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             for (var j = 0; j < $scope.grid.cols; j++) {
                 var num = j + 1 + (i * $scope.grid.cols);
                 template += '<div class="draggable col-md-' + round + ' col-sm-' + round +
-                    '" id="draggable-' + num + '" data-col="' + (j+1) + '" data-row="' + (i+1) + '">' +
+                    '" id="draggable-' + num + '" data-col="' + (j + 1) + '" data-row="' + (i + 1) + '">' +
                     num + '</div>';
             }
             if (diff % 1 !== 0) {
@@ -150,9 +150,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
             'method': 'GET',
             'dataType': 'json',
-            'success': function(data) {
-                $.each(data, function(i, el) {
-                    var cell = $('body .restricter-dragdrop .draggable[data-col="' + el.Column+ '"][data-row="' + el.Row + '"]');
+            'success': function (data) {
+                $.each(data, function (i, el) {
+                    var cell = $('body .restricter-dragdrop .draggable[data-col="' + el.Column + '"][data-row="' + el.Row + '"]');
                     if (el.Status == 0) {
                         cell.jqxDragDrop('destroy');
                         cell.removeClass('itemOnGrid');
@@ -168,7 +168,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         cell.addClass('filled');
                         cell.addClass('itemOnGrid');
                         cell.data('categoryId', el.MenuCategoryUnique);
-                        cell.html((el.Label == null || el.Label == '') ?  el.Description : el.Label);
+                        cell.html((el.Label == null || el.Label == '') ? el.Description : el.Label);
                     }
                 });
                 draggableEvents();
@@ -180,41 +180,74 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     /**
      * -- ITEMS COMBO BOX SIDE
      */
-    var dataAdapterItems = new $.jqx.dataAdapter(
-        {
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'Description', type: 'string'},
-                {name: 'Item', type: 'string'},
-                {name: 'Part', type: 'string'},
-                {name: 'Status', type: 'number'}
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/MenuItem/load_allItems'
-        }
-    );
+    var dataAdapterItems = function(sort) {
+        return new $.jqx.dataAdapter(
+            {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'Description', type: 'string'},
+                    {name: 'Item', type: 'string'},
+                    {name: 'Part', type: 'string'},
+                    {name: 'Status', type: 'number'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuItem/load_allItems?sort=' + sort
+            }
+        );
+    };
 
-    $scope.itemsComboboxSettings =
+    $scope.itemsComboboxSettings = {
+        created: function (args) {
+            comboboxItems = args.instance;
+        },
+        placeHolder: 'Select an item',
+        displayMember: "Description",
+        valueMember: "Unique",
+        width: "100%",
+        itemHeight: 50,
+        //height: '100%',
+        //height: 300,
+        source: dataAdapterItems('DESC'),
+        theme: 'arctic'
+    };
+
+    $scope.itemsComboboxSelecting = function(e) {
+        var item = e.args.item.originalItem;
+        $('#editItem_label').val(item.Description);
+    };
+
+    $scope.itemsListboxSettings =
     {
         created: function (args) {
             comboboxItems = args.instance;
         },
-        //selectedIndex: 0,
-        placeHolder: 'Select an item',
+        selectedIndex: 0,
+        //placeHolder: 'Select an item',
         displayMember: "Description",
         valueMember: "Unique",
-        width: "99%",
-        itemHeight: 50,
-        height: 40,
-        source: dataAdapterItems
+        width: "100%",
+        //itemHeight: 50,
+        //height: '100%',
+        source: dataAdapterItems('ASC'),
+        theme: 'arctic',
+        filterable: true,
+        allowDrop: true,
+        allowDrag: true,
+        dragEnd: function(dragItem, dropItem) {
+            //console.log(dragItem);
+            //console.log(dropItem);
+
+            //var dropTargetId = dropItem.element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+            //console.log(dropTargetId);
+        }
     };
 
     $scope.selectedItemInfo = {};
-    $scope.itemComboboxOnselect = function(e) {
-        var args = e.args;
+    $scope.itemListBoxOnSelect = function(e) {
+        var args = e.args.item.originalItem;
 
-        $scope.selectedItemInfo = args.item.originalItem;
+        $scope.selectedItemInfo = args;
     };
     // -- CATEGORIES BOTTON GRID
     // -- TO FIX
@@ -536,12 +569,17 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             })
             .bind('dropTargetEnter', function (event) {
                 onCellAboveGrid = true;
+                console.log($(event.args.target));
+                console.log(event.args.position);
                 var target_col = $(event.args.target).data('col');
                 var element_col = $(event.args.element).data('col');
                 var target_row = $(event.args.target).data('row');
                 var element_row = $(event.args.element).data('row');
                 $scope.onGridTargetMoved = {'Column': target_col, 'Row': target_row};
                 $scope.onGridElementMoved = {'Column': element_col, 'Row': element_row};
+            })
+            .bind('dragging', function (event) {
+                //console.log(event);
             })
             .bind('dropTargetLeave', function (event) {
                 onCellAboveGrid = false;
