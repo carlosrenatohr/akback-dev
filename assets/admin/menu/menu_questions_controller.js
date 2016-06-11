@@ -88,38 +88,11 @@ app.controller('menuQuestionController', function ($scope) {
         }
     });
 
-    var updateItemQuestiontable  = function() {
-        $scope.questionItemTableSettings = {
-            source: {
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'QuestionUnique', type: 'string'},
-                    {name: 'ItemUnique', type: 'string'},
-                    {name: 'Description', type: 'string'},
-                    {name: 'Label', type: 'number'},
-                    {name: 'Sort', type: 'number'}
-                ],
-                id: 'Unique',
-                url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + ($scope.questionId)
-            },
-            columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int'},
-                {text: 'Name', dataField: 'Description', type: 'string'},
-                {text: 'Label', dataField: 'Label', type: 'string'},
-                {text: 'Sort', dataField: 'Sort', type: 'number'}
-            ],
-            created: function (args) {
-                args.instance.updateBoundData();
-            }
-        }
-    };
-
     // -- Notification settings
-    var notificationSet = function (type) {
+    var notificationSet = function (type, sector) {
         return {
             width: "auto",
-            appendContainer: "#notification_container",
+            appendContainer: (sector == 'item') ? "#qItemNotification" : "#notification_container",
             opacity: 0.9,
             closeOnClick: true,
             autoClose: true,
@@ -130,12 +103,17 @@ app.controller('menuQuestionController', function ($scope) {
     $scope.questionNotificationsSuccessSettings = notificationSet(1);
     $scope.questionNotificationsErrorSettings = notificationSet(0);
 
+    $scope.qItemSuccessNotif = notificationSet(1, 'item');
+    $scope.qItemErrorNotif = notificationSet(0, 'item');
+
     // -- Create and edit actions on question form
     $scope.newOrEditQuestionOption = null;
     $scope.questionId = null;
     $scope.openQuestionWindow = function() {
         $scope.newOrEditQuestionOption = 'new';
+        $('#item-tab-2').hide();
         resetQuestionForm();
+        questionsWindow.setTitle('Add New Question');
         questionsWindow.open();
     };
 
@@ -143,10 +121,13 @@ app.controller('menuQuestionController', function ($scope) {
         var row = e.args.row;
         $scope.newOrEditQuestionOption = 'edit';
         $scope.questionId = row.Unique;
+        $('#item-tab-2').show();
+        $('#item-tab-2 .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         $('#qt_QuestionName').val(row.QuestionName);
         $('#qt_Question').val(row.Question);
         $('#qt_sort').val(row.Sort);
         $('#deleteQuestionBtn').show();
+        questionsWindow.setTitle('Edit Question: ' + $scope.questionId);
         questionsWindow.open();
     };
 
@@ -308,6 +289,249 @@ app.controller('menuQuestionController', function ($scope) {
                 questionsWindow.close();
             }
         });
+    };
+
+    /**
+     * -- Question items tab actions
+     */
+
+    var updateItemQuestiontable  = function() {
+        $scope.questionItemTableSettings = {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'QuestionUnique', type: 'string'},
+                    {name: 'ItemUnique', type: 'string'},
+                    {name: 'Description', type: 'string'},
+                    {name: 'Label', type: 'number'},
+                    {name: 'Sort', type: 'number'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + ($scope.questionId)
+            },
+            columns: [
+                {text: 'ID', dataField: 'Unique', type: 'int'},
+                {text: 'Name', dataField: 'Description', type: 'string'},
+                {text: 'Label', dataField: 'Label', type: 'string'},
+                {text: 'Sort', dataField: 'Sort', type: 'number'}
+            ],
+            created: function (args) {
+                args.instance.updateBoundData();
+            }
+        }
+    };
+
+    var question_item_window, cbxItems;
+    $scope.questionItemWindowsSettings = {
+        created: function (args) {
+            question_item_window = args.instance;
+        },
+        resizable: false,
+        width: "40%", height: "60%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    var resetQuestionItemForm = function() {
+        $('.itemQuestionFormContainer .required-in').css({"border-color": "#ccc"});
+        $('#qItem_ItemUnique').jqxComboBox({'selectedIndex': -1});
+        $('#qItem_sort').val(1);
+        $('#qItem_Label').val('');
+        $('#saveQuestionItemBtn').prop('disabled', true);
+    };
+
+    $scope.newOrEditQItemOption = null;
+    $scope.qitemId = null;
+
+    $scope.openQuestionItemWin = function (e) {
+        $scope.newOrEditQItemOption = 'create';
+        $('#deleteQuestionItemBtn').hide();
+        question_item_window.setTitle('Add New Question Item');
+        question_item_window.open();
+    };
+
+    $scope.editQuestionItemTable = function (e) {
+        var row = e.args.row;
+        $scope.newOrEditQItemOption = 'edit';
+        $scope.qitemId = row.Unique;
+
+        var selectedItem;
+        var itemCbx = $('#qItem_ItemUnique').jqxComboBox('getItemByValue', row.ItemUnique);
+        if (itemCbx != undefined) {
+            selectedItem = itemCbx.index
+        } else selectedItem = -1;
+        $('#qItem_ItemUnique').jqxComboBox({'selectedIndex': selectedItem});
+
+        $('#qItem_sort').val(row.Sort);
+        $('#qItem_Label').val(row.Label);
+        $('#deleteQuestionItemBtn').show();
+        question_item_window.setTitle('Edit Question Item: ' + $scope.qitemId + ' | Question ID: ' + $scope.questionId);
+        question_item_window.open();
+    };
+
+    $scope.closeQuestionItemWin = function(e) {
+        resetQuestionItemForm();
+        question_item_window.close();
+        $('#saveQuestionItemBtn').prop('disabled', true);
+    };
+
+    var dataAdapterItems =
+        new $.jqx.dataAdapter(
+        {
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'Description', type: 'string'},
+                {name: 'Item', type: 'string'},
+                {name: 'Part', type: 'string'},
+                {name: 'Status', type: 'number'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuItem/load_allItems'
+        }
+    );
+
+    $scope.itemsCbxSettings = {
+        created: function (args) {
+            cbxItems = args.instance;
+        },
+        placeHolder: 'Select an item',
+        displayMember: "Description",
+        valueMember: "Unique",
+        width: "100%",
+        itemHeight: 50,
+        source: dataAdapterItems,
+        theme: 'arctic'
+    };
+
+    $scope.itemsCbxSelecting = function(e) {
+        var item = e.args.item;
+        if (item) {
+            $('#qItem_Label').val(item.label);
+            $('#saveQuestionItemBtn').prop('disabled', false);
+        }
+    };
+
+    $('.itemQuestionFormContainer .required-in').on('keypress keyup paste change', function(e) {
+        var idsRestricted = ['qItem_sort'];
+        var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        if (inarray >= 0) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                if (this.value == '') {
+                    $('#qItemErrorNotif #notification-content')
+                        .html('Sort value must be number!');
+                    $scope.qItemErrorNotif.apply('open');
+                }
+                return false;
+            }
+            if (this.value.length > 2) {
+                return false;
+            }
+        }
+        $('#saveQuestionItemBtn').prop('disabled', false);
+    });
+
+    var beforeValidationsSaveItemQuestion = function() {
+        var needvalidation = false;
+        $('.itemQuestionFormContainer .required-in').each(function(index, el) {
+            if (el.value == '') {
+                needvalidation = true;
+                $(el).css({"border-color": "#F00"});
+                $('#qItemErrorNotif #notification-content')
+                    .html($(el).attr('placeholder') + ' can not be empty!');
+                $scope.qItemErrorNotif.apply('open');
+            } else {
+                $(el).css({"border-color": "#ccc"});
+            }
+        });
+        //
+        var cbxItemUnique = $('#qItem_ItemUnique').jqxComboBox('getSelectedItem');
+        if (!cbxItemUnique) {
+            $('#qItem_ItemUnique').css({"border-color": "#F00"});
+            $('#qItemErrorNotif #notification-content')
+                .html('Item value can not be empty!');
+            $scope.qItemErrorNotif.apply('open');
+            needvalidation = true;
+        } else {
+            $('#qItem_ItemUnique').css({"border-color": "#ccc"});
+        }
+        return needvalidation;
+    };
+
+    $scope.saveItemByQuestion = function() {
+        if (!beforeValidationsSaveItemQuestion()) {
+            var data = {
+                'QuestionUnique': $scope.questionId,
+                'ItemUnique': $('#qItem_ItemUnique').jqxComboBox('getSelectedItem').value,
+                'sort': $('#qItem_sort').val(),
+                'Label': $('#qItem_Label').val()
+            };
+            var url;
+            if ($scope.newOrEditQItemOption == 'create') {
+                url = 'admin/MenuQuestion/post_question_item';
+            } else if ($scope.newOrEditQItemOption == 'edit') {
+                url = 'admin/MenuQuestion/update_question_item/' + $scope.qitemId;
+            }
+            $.ajax({
+                method: 'POST',
+                url:  SiteRoot + url,
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        if ($scope.newOrEditQItemOption == 'create') {
+                            $('#qItemSuccessNotif #notification-content')
+                                .html('Question item created successfully!');
+                            $scope.qItemSuccessNotif.apply('open');
+                            updateItemQuestiontable();
+                            setTimeout(function() {
+                                $scope.closeQuestionItemWin();
+                            }, 2000);
+                        } else if ($scope.newOrEditQItemOption == 'edit') {
+                            $('#qItemSuccessNotif #notification-content')
+                                .html('Question Item updated!');
+                            $scope.qItemSuccessNotif.apply('open');
+                            updateItemQuestiontable();
+                            $('#saveQuestionItemBtn').prop('disabled', true);
+                        }
+                    } else {
+                        console.log(response);
+                        $('#qItemErrorNotif #notification-content')
+                            .html('There was an error!');
+                        $scope.qItemErrorNotif.apply('open');
+                    }
+                }
+            });
+        }
+    };
+
+    $scope.deleteItemByQuestion = function() {
+        $.ajax({
+            method: 'POST',
+            url:  SiteRoot + 'admin/MenuQuestion/delete_question_item/' + $scope.qitemId,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    $('#qItemSuccessNotif #notification-content')
+                        .html('Question item was deleted!');
+                    $scope.qItemSuccessNotif.apply('open');
+                    updateItemQuestiontable();
+                    setTimeout(function() {
+                        $scope.closeQuestionItemWin();
+                    }, 2000);
+                } else {
+                    console.log(response);
+                    $('#qItemErrorNotif #notification-content')
+                        .html('There was an error!');
+                    $scope.qItemErrorNotif.apply('open');
+                }
+            }
+        })
     }
+
 
 });

@@ -19,47 +19,92 @@ class MenuQuestion extends AK_Controller
     {
         $result = $this->question->getAllQuestions();
         $return = [];
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $row['Sort'] = $row['sort'];
             $return[] = $row;
         }
         echo json_encode($return);
     }
 
-    public function load_questions_items($id) {
+    public function load_questions_items($id)
+    {
         $result = $this->question->getQuestionItemData($id);
         $return = [];
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $row['Sort'] = $row['sort'];
             $return[] = $row;
         }
         echo json_encode($return);
     }
 
-    public function postQuestion() {
+    public function postQuestion()
+    {
         $post = $_POST;
         $status = $this->question->postQuestion($post);
-        echo json_encode([
-            'status' => 'success',
-            'message' => $status
-        ]);
+        echo json_encode(
+            [
+                'status' => 'success',
+                'message' => $status
+            ]
+        );
     }
 
-    public function updateQuestion($id) {
+    public function updateQuestion($id)
+    {
         $post = $_POST;
         $status = $this->question->updateQuestion($id, $post);
-        echo json_encode([
-            'status' => 'success',
-            'message' => $status
-        ]);
+        echo json_encode(
+            [
+                'status' => 'success',
+                'message' => $status
+            ]
+        );
     }
 
-    public function deleteQuestion($id) {
+    public function update_question_item($id)
+    {
+        $post = $_POST;
+        $status = $this->question->updateQuestionItem($id, $post);
+        echo json_encode(
+            [
+                'status' => 'success',
+                'message' => $status
+            ]
+        );
+    }
+
+    public function deleteQuestion($id)
+    {
         $status = $this->question->deleteQuestion($id);
-        echo json_encode([
-            'status' => 'success',
-            'message' => $status
-        ]);
+        echo json_encode(
+            [
+                'status' => 'success',
+                'message' => $status
+            ]
+        );
+    }
+
+    public function post_question_item()
+    {
+        $post = $_POST;
+        $status = $this->question->postQuestionItem($post);
+        echo json_encode(
+            [
+                'status' => 'success',
+                'message' => $status
+            ]
+        );
+    }
+
+    public function delete_question_item($id)
+    {
+        $status = $this->question->deleteQuestionItem($id);
+        echo json_encode(
+            [
+                'status' => 'success',
+                'message' => $status
+            ]
+        );
     }
 
 }

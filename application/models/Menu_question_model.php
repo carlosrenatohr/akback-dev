@@ -46,6 +46,17 @@ class Menu_question_model extends CI_Model
         return $status;
     }
 
+    public function postQuestionItem($request)
+    {
+        $request['Status'] = 1;
+        $request['Created'] = date('Y-m-d H:i:s');
+        $request['CreatedBy'] = $this->session->userdata('userid');
+
+        $status = $this->db->insert($this->question_items_table, $request);
+        $insert_id = $this->db->insert_id();
+        return $status;
+    }
+
     public function updateQuestion($id, $request)
     {
         $request['Updated'] = date('Y-m-d H:i:s');
@@ -53,6 +64,16 @@ class Menu_question_model extends CI_Model
 
         $this->db->where('Unique', $id);
         $query = $this->db->update($this->question_table, $request);
+        return $query;
+    }
+
+    public function updateQuestionItem($id, $request)
+    {
+        $request['Updated'] = date('Y-m-d H:i:s');
+        $request['UpdatedBy'] = $this->session->userdata('userid');
+
+        $this->db->where('Unique', $id);
+        $query = $this->db->update($this->question_items_table, $request);
         return $query;
     }
 
@@ -64,6 +85,12 @@ class Menu_question_model extends CI_Model
         ];
         $this->db->where('Unique', $id);
         $query = $this->db->update($this->question_table, $deletingValues);
+        return $query;
+    }
+
+    public function deleteQuestionItem($id) {
+        $this->db->where('Unique', $id);
+        $query = $this->db->delete($this->question_items_table);
         return $query;
     }
 

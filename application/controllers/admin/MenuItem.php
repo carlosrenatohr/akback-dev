@@ -62,7 +62,7 @@ class MenuItem extends AK_Controller
      */
     public function load_allItems()
     {
-        $sort = $_GET['sort'];
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
         $items = $this->menuItem->getItems($sort);
         $new_items = [];
         foreach($items as $item) {
