@@ -35,8 +35,8 @@
                               jqx-settings="questionstabsSettings"
                               id="questionstabsWin">
                         <ul style=" margin-left: 10px;">
-                            <li id="question-tab-1">Question tab</li>
-                            <li id="item-tab-2">Item tab</li>
+                            <li id="question-tab-1">Question</li>
+                            <li id="item-tab-2">Choices</li>
                         </ul>
                         <div class="col-md-12 question-tabs" id="question-tab1" >
                             <div class="row">
@@ -77,6 +77,10 @@
                                                    id="qt_sort" name="qt_sort" placeholder="Sort"
                                                    step="1" min="1" value="1" pattern="\d*">
                                         </div>
+                                        <div style="float:left;">
+                                            <span
+                                                style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -88,12 +92,6 @@
                                     <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="openQuestionItemWin($event)">
                                         <span class="icon-32-new"></span>
                                             New
-                                    </a>
-                                </div>
-                                <div class="col-md-6">
-                                    <a style="outline:0;margin: 10px 2px;" class="btn btn-danger" ng-click="">
-                                        <span class="icon-32-new"></span>
-                                        Delete
                                     </a>
                                 </div>
                             </div>
@@ -123,6 +121,9 @@
                                                             id="qItem_ItemUnique" class="required-in">
                                                         </jqx-combo-box>
                                                     </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
                                                 </div>
 
                                                 <div style="float:left; padding:2px; width:650px; ">
@@ -144,13 +145,16 @@
                                                                id="qItem_sort" name="qItem_sort" placeholder="Sort"
                                                                step="1" min="1" value="1" pattern="\d*">
                                                     </div>
+                                                    <div style="float:left;">
+                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
-                                            <div id="">
+                                            <div id="mainQItemButtons">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
                                                         <button type="button" id="saveQuestionItemBtn"
@@ -168,6 +172,21 @@
                                                                 class="btn btn-danger " style="display:none; overflow:auto;">
                                                             Delete
                                                         </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- BUTTONS TO PROMPT SAVING CHANGES-->
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="promptToCloseQItemForm" class="alertButtonsQuestionForm">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        Do you want to save your changes?
+                                                        <button type="button" ng-click="closeQuestionItemWin(0)" class="btn btn-primary">Yes</button>
+                                                        <button type="button" ng-click="closeQuestionItemWin(1)" class="btn btn-warning">No</button>
+                                                        <button type="button" ng-click="closeQuestionItemWin(2)" class="btn btn-info">Cancel</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,7 +212,7 @@
                 </div>
             </div>
             <!-- MAIN BUTTONS FOR QUESTIONS FORM -->
-            <div class="col-md-12 col-md-offset-0">
+            <div class="col-md-12 col-md-offset-0 QuestionWindowsRow">
                 <div class="row">
                     <div id="mainButtonsQuestionForm">
                         <div class="form-group">
@@ -214,30 +233,8 @@
                     </div>
                 </div>
             </div>
-
-            <!-- BUTTONS BEFORE DELETING QUESTIONS-->
-            <div class="col-md-12 col-md-offset-0">
-                <div class="row">
-                    <div id="" class="alertButtonsQuestionForm">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                Are you sure you want to delete it?
-                                <button type="button" ng-click="beforeDeleteMenu(0)" class="btn btn-primary">
-                                    Yes
-                                </button>
-                                <button type="button" ng-click="beforeDeleteMenu(1)" class="btn btn-warning">
-                                    No
-                                </button>
-                                <button type="button" ng-click="beforeDeleteMenu(2)" class="btn btn-info">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- BUTTONS TO PROMPT SAVING CHANGES-->
-            <div class="col-md-12 col-md-offset-0">
+            <div class="col-md-12 col-md-offset-0 QuestionWindowsRow">
                 <div class="row">
                     <div id="promptToCloseQuestionForm" class="alertButtonsQuestionForm">
                         <div class="form-group">
@@ -253,7 +250,7 @@
             </div>
 
             <!-- NOTIFICATIONS AREA -->
-            <div class="col-md-12 col-md-offset-0">
+            <div class="col-md-12 col-md-offset-0 QuestionWindowsRow">
                 <div class="row">
                     <jqx-notification jqx-settings="questionNotificationsSuccessSettings"
                                       id="questionNotificationsSuccessSettings">

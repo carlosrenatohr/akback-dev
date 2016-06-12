@@ -47,8 +47,9 @@ app.controller('menuQuestionController', function ($scope) {
         pageSize: 20,
         pagerMode: 'default',
         altRows: true,
+        sortable: true,
         filterable: true,
-        filterMode: 'simple'
+        filterMode: 'simple',
     };
 
     // -- Question Item table settings
@@ -79,7 +80,11 @@ app.controller('menuQuestionController', function ($scope) {
     $('#questionstabsWin').on('tabclick', function (event) {
         var tabclicked = event.args.item;
         //
+        if (tabclicked == 0 ) {
+            $('#deleteQuestionBtn').show();
+        }
         if (tabclicked == 1 ) {
+            $('#deleteQuestionBtn').hide();
             if($scope.questionId != null) {
                 $scope.$apply(function() {
                     updateItemQuestiontable();
@@ -127,11 +132,12 @@ app.controller('menuQuestionController', function ($scope) {
         $('#qt_Question').val(row.Question);
         $('#qt_sort').val(row.Sort);
         $('#deleteQuestionBtn').show();
-        questionsWindow.setTitle('Edit Question: ' + $scope.questionId);
+        questionsWindow.setTitle('Edit Question: ' + $scope.questionId + ' | Question: <b>' + row.QuestionName + '</b>');
         questionsWindow.open();
     };
 
     var resetQuestionForm = function() {
+        //
         $('#mainButtonsQuestionForm').show();
         $('.alertButtonsQuestionForm').hide();
         $('#qt_QuestionName').val('');
@@ -147,6 +153,8 @@ app.controller('menuQuestionController', function ($scope) {
     $scope.closeQuestionWindow = function (option) {
         if (option == 0) {
             $scope.saveQuestionWindow();
+            $('#saveQuestionBtn').prop('disabled', true);
+            $scope.closeQuestionWindow();
         } else if (option == 1) {
             questionsWindow.close();
             resetQuestionForm();
@@ -169,21 +177,23 @@ app.controller('menuQuestionController', function ($scope) {
 
     // -- Question Events controls
     $('#questionWindowForm .required-field').on('keypress keyup paste change', function (e) {
-        $('#saveQuestionBtn').prop('disabled', false);
-    });
-
-    $('#questionWindowForm input[number]').on('keypress keyup paste change', function (e) {
-        var charCode = (e.which) ? e.which : e.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            if (this.value == '' || this.value == 1) {
-                $('#questionNotificationsErrorSettings #notification-content')
-                    .html($(this).attr('placeholder') + ' must be number!');
-                $scope.questionNotificationsErrorSettings.apply('open');
+        var idsRestricted = ['qt_sort'];
+        var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        if (inarray >= 0) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                if (this.value == '' || this.value == 1) {
+                    $('#questionNotificationsErrorSettings #notification-content')
+                        .html($(this).attr('placeholder') + ' must be number!');
+                    $scope.questionNotificationsErrorSettings.apply('open');
+                }
+                return false;
             }
-            return false;
+            if (this.value.length > 2) {
+                return false;
+            }
         }
         $('#saveQuestionBtn').prop('disabled', false);
-        return true;
     });
 
     var validationQuestionForm = function() {
@@ -295,7 +305,7 @@ app.controller('menuQuestionController', function ($scope) {
      * -- Question items tab actions
      */
 
-    var updateItemQuestiontable  = function() {
+    var updateItemQuestiontable = function() {
         $scope.questionItemTableSettings = {
             source: {
                 dataType: 'json',
@@ -308,7 +318,7 @@ app.controller('menuQuestionController', function ($scope) {
                     {name: 'Sort', type: 'number'}
                 ],
                 id: 'Unique',
-                url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + ($scope.questionId)
+                url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + $scope.questionId
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'},
@@ -340,6 +350,9 @@ app.controller('menuQuestionController', function ($scope) {
         $('#qItem_ItemUnique').jqxComboBox({'selectedIndex': -1});
         $('#qItem_sort').val(1);
         $('#qItem_Label').val('');
+        //
+        $('#mainQItemButtons').show();
+        $('#promptToCloseQItemForm').hide();
         $('#saveQuestionItemBtn').prop('disabled', true);
     };
 
@@ -372,10 +385,30 @@ app.controller('menuQuestionController', function ($scope) {
         question_item_window.open();
     };
 
-    $scope.closeQuestionItemWin = function(e) {
-        resetQuestionItemForm();
-        question_item_window.close();
-        $('#saveQuestionItemBtn').prop('disabled', true);
+    $scope.closeQuestionItemWin = function(option) {
+        if (option == 0) {
+            $scope.saveItemByQuestion();
+            $('#saveQuestionItemBtn').prop('disabled', true);
+            //$scope.closeQuestionItemWin();
+            resetQuestionItemForm();
+            question_item_window.close();
+        } else if (option == 1) {
+            question_item_window.close();
+            resetQuestionItemForm();
+        } else if (option == 2) {
+            $('#mainQItemButtons').show();
+            $('#promptToCloseQItemForm').hide();
+        } else {
+            if ($('#saveQuestionItemBtn').is(':disabled')) {
+                resetQuestionItemForm();
+                question_item_window.close();
+                //$('#saveQuestionItemBtn').prop('disabled', true);
+            }
+            else {
+                $('#mainQItemButtons').hide();
+                $('#promptToCloseQItemForm').show();
+            }
+        }
     };
 
     var dataAdapterItems =
@@ -390,7 +423,7 @@ app.controller('menuQuestionController', function ($scope) {
                 {name: 'Status', type: 'number'}
             ],
             id: 'Unique',
-            url: SiteRoot + 'admin/MenuItem/load_allItems'
+            url: SiteRoot + 'admin/MenuItem/load_allItems/?sort=ASC'
         }
     );
 
@@ -495,8 +528,11 @@ app.controller('menuQuestionController', function ($scope) {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question Item updated!');
                             $scope.qItemSuccessNotif.apply('open');
-                            updateItemQuestiontable();
-                            $('#saveQuestionItemBtn').prop('disabled', true);
+                            setTimeout(function() {
+                                updateItemQuestiontable();
+                                $('#saveQuestionItemBtn').prop('disabled', true);
+                            }, 100);
+
                         }
                     } else {
                         console.log(response);

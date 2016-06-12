@@ -31,6 +31,7 @@ class Menu_question_model extends CI_Model
             $this->db->where("{$this->question_items_table}.QuestionUnique", $id);
         }
         $this->db->join('item', "item.Unique = {$this->question_items_table}.ItemUnique");
+        $this->db->order_by("sort", 'ASC');
         $query = $this->db->get($this->question_items_table)->result_array();
         return $query;
     }
