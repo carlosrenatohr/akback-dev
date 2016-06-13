@@ -317,6 +317,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         if(option != undefined) {
             $('#mainButtonsOnItemGrid').show();
             $('#promptToCloseItemGrid').hide();
+            //$('.RowOptionButtonsOnItemGrid').hide();
         }
         if (option == 0) {
             $scope.saveItemGridBtn();
@@ -336,59 +337,96 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     };
 
-    $scope.saveItemGridBtn = function() {
-        var data = {
-            'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
-            //'Row': $('#editItem_Row').val(),
-            'Row': $scope.itemCellSelectedOnGrid.Row,
-            //'Column': $('#editItem_Column').val(),
-            'Column': $scope.itemCellSelectedOnGrid.Column,
-            'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
-            'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
-            'Label': $('#editItem_label').val(),
-        };
-        if ($('#editItem_sort').val() != '') {
-            data['sort'] = $('#editItem_sort').val();
-        }
-
-        $.ajax({
-            'url': SiteRoot + 'admin/MenuItem/postMenuItems',
-            'method': 'post',
-            'data': data,
-            'dataType': 'json',
-            'success': function(data) {
-                drawExistsItemsOnGrid();
-                $('#menuitemNotificationsSuccessSettings #notification-content')
-                    .html('Menu item was updated successfully!');
-                $scope.menuitemNotificationsSuccessSettings.apply('open');
-                setTimeout(function() {
-                    itemsMenuWindow.close();
-                }, 2000);
+    var validationDataOnItemGrid = function() {
+        var needValidation = false;
+        $('.editItemFormContainer .required-field').each(function(i, el) {
+            if (el.value == '') {
+                needValidation = true;
+                $('#menuitemNotificationsErrorSettings #notification-content')
+                    .html($(el).attr('placeholder') + ' can not be empty!');
+                $scope.menuitemNotificationsErrorSettings.apply('open');
             }
         });
+
+        return needValidation;
+    };
+
+    $scope.saveItemGridBtn = function() {
+        if (!validationDataOnItemGrid()) {
+            var data = {
+                'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
+                //'Row': $('#editItem_Row').val(),
+                'Row': $scope.itemCellSelectedOnGrid.Row,
+                //'Column': $('#editItem_Column').val(),
+                'Column': $scope.itemCellSelectedOnGrid.Column,
+                'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
+                'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
+                'Label': $('#editItem_label').val(),
+            };
+            if ($('#editItem_sort').val() != '') {
+                data['sort'] = $('#editItem_sort').val();
+            }
+
+            $.ajax({
+                'url': SiteRoot + 'admin/MenuItem/postMenuItems',
+                'method': 'post',
+                'data': data,
+                'dataType': 'json',
+                'success': function(data) {
+                    drawExistsItemsOnGrid();
+                    $('#menuitemNotificationsSuccessSettings #notification-content')
+                        .html('Menu item was updated successfully!');
+                    $scope.menuitemNotificationsSuccessSettings.apply('open');
+                    setTimeout(function() {
+                        itemsMenuWindow.close();
+                    }, 2000);
+                }
+            });
+        }
 
     };
 
-    $scope.deleteItemGridBtn = function() {
-        var data = {
-            'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
-            'Row': $scope.itemCellSelectedOnGrid.Row,
-            'Column': $scope.itemCellSelectedOnGrid.Column,
-        };
+    $scope.deleteItemGridBtn = function(option) {
+        if (option == 0) {
+            var data = {
+                'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
+                'Row': $scope.itemCellSelectedOnGrid.Row,
+                'Column': $scope.itemCellSelectedOnGrid.Column,
+            };
 
-        $.ajax({
-            'url': SiteRoot + 'admin/MenuItem/deleteMenuItems',
-            'method': 'post',
-            'data': data,
-            'dataType': 'json',
-            'success': function(data) {
-                //drawExistsItemsOnGrid();
-                setTimeout(function() {
-                    angular.element('.category-cell-grid.clicked').triggerHandler('click');
-                }, 100);
-                itemsMenuWindow.close();
-            }
-        });
+            $.ajax({
+                'url': SiteRoot + 'admin/MenuItem/deleteMenuItems',
+                'method': 'post',
+                'data': data,
+                'dataType': 'json',
+                'success': function(data) {
+                    //drawExistsItemsOnGrid();
+                    setTimeout(function() {
+                        angular.element('.category-cell-grid.clicked').triggerHandler('click');
+                    }, 100);
+                    itemsMenuWindow.close();
+                }
+            });
+            $('#mainButtonsOnItemGrid').show();
+            $('.RowOptionButtonsOnItemGrid').hide();
+        } else if (option == 1) {
+            $('#mainButtonsOnItemGrid').show();
+            $('.RowOptionButtonsOnItemGrid').hide();
+            itemsMenuWindow.close();
+        } else if (option == 2) {
+            $('#mainButtonsOnItemGrid').show();
+            $('.RowOptionButtonsOnItemGrid').hide();
+        } else {
+            //if ($('#saveItemGridBtn').is(':disabled')) {
+            //    itemsMenuWindow.close();
+            //}
+            //else {
+            $('#mainButtonsOnItemGrid').hide();
+            $('.RowOptionButtonsOnItemGrid').hide();
+            $('#promptToDeleteItemGrid').show();
+            //}
+
+        }
     };
 
     // Events item form controls
@@ -398,6 +436,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         if (inarray >= 0) {
             var charCode = (e.which) ? e.which : e.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                $('#menuitemNotificationsErrorSettings #notification-content')
+                    .html('Row, Column and Sort values must be numbers!');
+                $scope.menuitemNotificationsErrorSettings.apply('open');
                 return false;
             }
             if (this.value.length > 2) {

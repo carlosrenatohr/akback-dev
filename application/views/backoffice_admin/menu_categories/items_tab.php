@@ -1,5 +1,5 @@
 <div class="">
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-2">
         <jqx-tabs jqx-width="'100%'" jqx-height="'100%'" id="jqxTabsMenuItemSection">
             <ul>
                 <li>Menu</li>
@@ -15,6 +15,9 @@
             </div>
             <div class="">
                 <div class="" >
+                    <div id="selectedItemInfo">
+                        {{ selectedItemInfo.Description }}
+                    </div>
                     <div>Type an item to find:</div>
 <!--                    <jqx-combo-box-->
 <!--                        jqx-on-select="itemComboboxOnselect(event)"-->
@@ -28,19 +31,16 @@
                         id="itemListboxSearch"
                         >
                     </jqx-list-box>
-                    <div class="" style="min-height: 20px;"></div>
-                    <div id="selectedItemInfo">
-                        {{ selectedItemInfo.Description }}
-                    </div>
+                    <div class="" style="min-height: 50px;"></div>
                 </div>
             </div>
         </jqx-tabs>
     </div>
 
-    <div class="col-md-10 restricter-dragdrop">
+    <div class="col-md-10 col-sm-10 restricter-dragdrop">
         <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <h4 class="col-md-offset-2">Category grid</h4>
         <div class="col-md-offset-2 col-md-10" id="categories-container">
             <category-cell-grid category-title="{{uno.CategoryName}}">
@@ -90,6 +90,9 @@
                                        id="editItem_Row" name="editItem_Row" placeholder="Row"
                                        step="1" min="1" value="1" pattern="\d*">
                             </div>
+                            <div style="float:left;">
+                                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                            </div>
                         </div>
 
                         <div style=" float:left; padding:2px; width:650px; ">
@@ -99,6 +102,9 @@
                                        id="editItem_Column" name="editItem_Column" placeholder="Column"
                                        step="1" min="1" value="1" pattern="\d*">
                             </div>
+                            <div style="float:left;">
+                                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                            </div>
                         </div>
 
                         <div style=" float:left; padding:2px; width:650px; ">
@@ -107,6 +113,9 @@
                                 <input type="number" class="form-control required-field"
                                        id="editItem_sort" name="editItem_sort" placeholder="Sort"
                                        step="1" min="1" value="1" pattern="\d*">
+                            </div>
+                            <div style="float:left;">
+                                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                             </div>
                         </div>
 
@@ -140,13 +149,29 @@
             <!-- Prompt before saving item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="promptToCloseItemGrid" class="" style="display: none">
+                    <div id="promptToCloseItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 Do you want to save your changes?
                                 <button type="button" ng-click="closeItemGridWindows(0)" class="btn btn-primary">Yes</button>
                                 <button type="button" ng-click="closeItemGridWindows(1)" class="btn btn-warning">No</button>
                                 <button type="button" ng-click="closeItemGridWindows(2)" class="btn btn-info">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prompt before delete an item on grid -->
+            <div class="col-md-12 col-md-offset-0">
+                <div class="row">
+                    <div id="promptToDeleteItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                Do you really want to delete it?
+                                <button type="button" ng-click="deleteItemGridBtn(0)" class="btn btn-primary">Yes</button>
+                                <button type="button" ng-click="deleteItemGridBtn(1)" class="btn btn-warning">No</button>
+                                <button type="button" ng-click="deleteItemGridBtn(2)" class="btn btn-info">Cancel</button>
                             </div>
                         </div>
                     </div>

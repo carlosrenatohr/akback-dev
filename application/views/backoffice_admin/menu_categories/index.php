@@ -150,7 +150,8 @@ jqxthemes();
         border-radius:3px;
         height: 40px;
         width: 100%;
-        margin: 10px 0;
+        margin: 15px 0;
+        padding: 8px;
         text-align: center;
     }
 
