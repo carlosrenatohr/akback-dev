@@ -56,10 +56,10 @@ app.controller('menuQuestionController', function ($scope) {
     $scope.questionItemTableSettings = {
         source: {
             columns: [
-                {text: 'ID', type: 'int'},
-                {text: 'Name', type: 'string'},
-                {text: 'Label', type: 'string'},
-                {text: 'Sort', type: 'number'}
+                {text: 'ID', dataField: 'Unique', type: 'int'},
+                {text: 'Name', dataField: 'Description', type: 'string'},
+                {text: 'Label', dataField: 'Label', type: 'string'},
+                {text: 'Sort', dataField: 'Sort', type: 'number'}
             ]
         },
         width: "100%",
@@ -152,9 +152,7 @@ app.controller('menuQuestionController', function ($scope) {
 
     $scope.closeQuestionWindow = function (option) {
         if (option == 0) {
-            $scope.saveQuestionWindow();
-            $('#saveQuestionBtn').prop('disabled', true);
-            $scope.closeQuestionWindow();
+            $scope.saveQuestionWindow(option);
         } else if (option == 1) {
             questionsWindow.close();
             resetQuestionForm();
@@ -214,7 +212,7 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
 
-    $scope.saveQuestionWindow = function() {
+    $scope.saveQuestionWindow = function(closed) {
         if (validationQuestionForm()) {
             var values = {
                 'Question': $('#qt_Question').val(),
@@ -232,6 +230,7 @@ app.controller('menuQuestionController', function ($scope) {
                 dataType: 'json',
                 data: values,
                 success: function(data) {
+                    $('#saveQuestionBtn').prop('disabled', true);
                     $scope.questionTableSettings = {
                         source: {
                             dataType: 'json',
@@ -255,14 +254,15 @@ app.controller('menuQuestionController', function ($scope) {
                             .html('Question created successfully!');
                         $scope.questionNotificationsSuccessSettings.apply('open');
                         setTimeout(function() {
-                            questionsWindow.close();
-                            resetQuestionForm();
-                        }, 2000);
+                            $scope.closeQuestionWindow();
+                        }, 1500);
                     } else if ($scope.newOrEditQuestionOption == 'edit') {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question updated successfully!');
                         $scope.questionNotificationsSuccessSettings.apply('open');
-                        $('#saveQuestionBtn').prop('disabled', true);
+                        if (closed == 0) {
+                            $scope.closeQuestionWindow();
+                        }
                     }
                 }
 
@@ -314,7 +314,7 @@ app.controller('menuQuestionController', function ($scope) {
                     {name: 'QuestionUnique', type: 'string'},
                     {name: 'ItemUnique', type: 'string'},
                     {name: 'Description', type: 'string'},
-                    {name: 'Label', type: 'number'},
+                    {name: 'Label', type: 'string'},
                     {name: 'Sort', type: 'number'}
                 ],
                 id: 'Unique',
@@ -324,7 +324,7 @@ app.controller('menuQuestionController', function ($scope) {
                 {text: 'ID', dataField: 'Unique', type: 'int'},
                 {text: 'Name', dataField: 'Description', type: 'string'},
                 {text: 'Label', dataField: 'Label', type: 'string'},
-                {text: 'Sort', dataField: 'Sort', type: 'number'}
+                {text: 'Sort', dataField: 'Sort', type: 'string'}
             ],
             created: function (args) {
                 args.instance.updateBoundData();
@@ -353,7 +353,6 @@ app.controller('menuQuestionController', function ($scope) {
         //
         $('#mainQItemButtons').show();
         $('#promptToCloseQItemForm').hide();
-        $('#saveQuestionItemBtn').prop('disabled', true);
     };
 
     $scope.newOrEditQItemOption = null;
@@ -362,6 +361,7 @@ app.controller('menuQuestionController', function ($scope) {
     $scope.openQuestionItemWin = function (e) {
         $scope.newOrEditQItemOption = 'create';
         $('#deleteQuestionItemBtn').hide();
+        $('#saveQuestionItemBtn').prop('disabled', true);
         question_item_window.setTitle('Add New Question Item');
         question_item_window.open();
     };
@@ -381,17 +381,14 @@ app.controller('menuQuestionController', function ($scope) {
         $('#qItem_sort').val(row.Sort);
         $('#qItem_Label').val(row.Label);
         $('#deleteQuestionItemBtn').show();
+        $('#saveQuestionItemBtn').prop('disabled', true);
         question_item_window.setTitle('Edit Question Item: ' + $scope.qitemId + ' | Question ID: ' + $scope.questionId);
         question_item_window.open();
     };
 
     $scope.closeQuestionItemWin = function(option) {
         if (option == 0) {
-            $scope.saveItemByQuestion();
-            $('#saveQuestionItemBtn').prop('disabled', true);
-            //$scope.closeQuestionItemWin();
-            resetQuestionItemForm();
-            question_item_window.close();
+            $scope.saveItemByQuestion(option);
         } else if (option == 1) {
             question_item_window.close();
             resetQuestionItemForm();
@@ -495,7 +492,7 @@ app.controller('menuQuestionController', function ($scope) {
         return needvalidation;
     };
 
-    $scope.saveItemByQuestion = function() {
+    $scope.saveItemByQuestion = function(closed) {
         if (!beforeValidationsSaveItemQuestion()) {
             var data = {
                 'QuestionUnique': $scope.questionId,
@@ -516,23 +513,22 @@ app.controller('menuQuestionController', function ($scope) {
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'success') {
+                        updateItemQuestiontable();
+                        $('#saveQuestionItemBtn').prop('disabled', true);
                         if ($scope.newOrEditQItemOption == 'create') {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question item created successfully!');
                             $scope.qItemSuccessNotif.apply('open');
-                            updateItemQuestiontable();
                             setTimeout(function() {
                                 $scope.closeQuestionItemWin();
-                            }, 2000);
+                            }, 1500);
                         } else if ($scope.newOrEditQItemOption == 'edit') {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question Item updated!');
                             $scope.qItemSuccessNotif.apply('open');
-                            setTimeout(function() {
-                                updateItemQuestiontable();
-                                $('#saveQuestionItemBtn').prop('disabled', true);
-                            }, 100);
-
+                            if (closed == 0) {
+                                $scope.closeQuestionItemWin();
+                            }
                         }
                     } else {
                         console.log(response);
@@ -552,13 +548,14 @@ app.controller('menuQuestionController', function ($scope) {
             dataType: 'json',
             success: function(response) {
                 if (response.status == 'success') {
+                    updateItemQuestiontable();
+                    $('#saveQuestionItemBtn').prop('disabled', true);
                     $('#qItemSuccessNotif #notification-content')
                         .html('Question item was deleted!');
                     $scope.qItemSuccessNotif.apply('open');
-                    updateItemQuestiontable();
                     setTimeout(function() {
                         $scope.closeQuestionItemWin();
-                    }, 2000);
+                    }, 1500);
                 } else {
                     console.log(response);
                     $('#qItemErrorNotif #notification-content')
@@ -568,6 +565,5 @@ app.controller('menuQuestionController', function ($scope) {
             }
         })
     }
-
 
 });
