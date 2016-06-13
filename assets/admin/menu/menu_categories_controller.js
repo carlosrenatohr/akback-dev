@@ -89,6 +89,7 @@ app.controller('menuCategoriesController', function($scope, $http){
     $('.menuFormContainer .required-field').on('keypress keyup paste change', function (e) {
         var idsRestricted = ['add_MenuRow', 'add_MenuColumn', 'add_MenuItemRow', 'add_MenuItemColumn'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        console.log(inarray);
         if (inarray >= 0) {
             var charCode = (e.which) ? e.which : e.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -102,11 +103,8 @@ app.controller('menuCategoriesController', function($scope, $http){
             if (this.value.length > 2) {
                 return false;
             }
-            $('#saveMenuBtn').prop('disabled', false);
-            return true;
-        } else {
-            $('#saveCategoryBtn').prop('disabled', false);
         }
+        $('#saveMenuBtn').prop('disabled', false);
     });
 
     $('#add_Status').on('select', function(){
@@ -146,7 +144,7 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     $scope.CloseMenuWindows = function(option) {
         if (option == 0) {
-            $scope.SaveMenuWindows();
+            $scope.SaveMenuWindows(option);
             $('#mainButtonsForMenus').show();
             $('.alertButtonsMenuCategories').hide();
         } else if (option == 1) {
@@ -183,7 +181,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         return needValidation;
     };
 
-    $scope.SaveMenuWindows = function () {
+    $scope.SaveMenuWindows = function (closed) {
         var values = {
             'MenuName': $('#add_MenuName').val(),
             'Row': $('#add_MenuRow').val(),
@@ -223,8 +221,7 @@ app.controller('menuCategoriesController', function($scope, $http){
                             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
                         },
                         created: function (args) {
-                            var instance = args.instance;
-                            instance.updateBoundData();
+                            args.instance.updateBoundData();
                         }
                     };
                     //
@@ -235,12 +232,15 @@ app.controller('menuCategoriesController', function($scope, $http){
                         setTimeout(function() {
                             menuWindow.close();
                             resetMenuWindows();
-                        }, 2000);
+                        }, 1500);
                     } else if ($scope.newOrEditOption == 'edit') {
                         $('#menuNotificationsSuccessSettings #notification-content')
                             .html('Menu updated successfully!');
                         $scope.menuNotificationsSuccessSettings.apply('open');
                         $('#saveMenuBtn').prop('disabled', true);
+                        if (closed == 0) {
+                            $scope.CloseMenuWindows();
+                        }
                     }
                     // -----
                     reloadMenuSelectOnCategories();
@@ -317,8 +317,7 @@ app.controller('menuCategoriesController', function($scope, $http){
                         url: SiteRoot + 'admin/MenuCategory/load_allmenus'
                     },
                     created: function (args) {
-                        var instance = args.instance;
-                        instance.updateBoundData();
+                        args.instance.updateBoundData();
                     }
                 };
                 //$('#menuNotificationsSuccessSettings #notification-content')
@@ -427,10 +426,11 @@ app.controller('menuCategoriesController', function($scope, $http){
         };
 
         var dataAdapter = new $.jqx.dataAdapter(source, {
-            'async': false
+            //'async': false
         });
+
         $scope.settingsMenuSelect =
-        { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
+            { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
     }
 
     // Status select
@@ -473,14 +473,12 @@ app.controller('menuCategoriesController', function($scope, $http){
             if (this.value.length > 2) {
                 return false;
             }
-            $('#saveCategoryBtn').prop('disabled', false);
-            return true;
-        } else {
-            $('#saveCategoryBtn').prop('disabled', false);
         }
+        $('#saveCategoryBtn').prop('disabled', false);
     });
 
-    $('#add_CategoryStatus, #add_MenuUnique').on('select', function(){
+    $('#add_CategoryStatus, #add_MenuUnique').on('select', function() {
+    //$('#add_CategoryStatus').on('select', function() {
         $('#saveCategoryBtn').prop('disabled', false);
     });
 
@@ -488,12 +486,11 @@ app.controller('menuCategoriesController', function($scope, $http){
         $scope.newOrEditCategoryOption = 'new';
         $scope.categoryId = null;
 
-        $('#saveCategoryBtn').prop('disabled', true);
-        setTimeout(function(){
+        $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
+        $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
+        setTimeout(function() {
             $('#add_CategoryName').focus();
         }, 100);
-        $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
-        //$('#add_MenuUnique').jqxDropDownList({selectedIndex: 0});
         $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Add New Menu Category');
         categoryWindow.open();
@@ -505,7 +502,8 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': statusCombo.index});
 
         var menuCombo = $('#add_MenuUnique').jqxDropDownList('getItemByValue', values['MenuUnique']);
-        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': (menuCombo !== undefined) ? menuCombo.index: 0});
+        var indexSelected = (menuCombo != undefined) ? menuCombo.index : -1;
+        $('#add_MenuUnique').jqxDropDownList({'selectedIndex': indexSelected});
 
         $('#add_CategoryName').val(values['CategoryName']);
         $('#add_CategoryRow').val(values['Row']);
@@ -516,15 +514,14 @@ app.controller('menuCategoriesController', function($scope, $http){
 
         $('#deleteCategoryBtn').show();
         $('#saveCategoryBtn').prop('disabled', true);
-        //Edit Menu Category: | Category:
         categoryWindow.setTitle('Edit Menu Category: ' + values['Unique'] + ' | Category: <b>' +
-                                        values['CategoryName'] + '</b>');
+                                 values['CategoryName'] + '</b>');
         categoryWindow.open();
     };
 
     $scope.CloseCategoryWindows = function(option) {
         if (option == 0) {
-            $scope.SaveCategoryWindows();
+            $scope.SaveCategoryWindows(option);
             $('#mainButtonsForCategories').show();
             $('.alertButtonsMenuCategories').hide();
         } else if (option == 1) {
@@ -571,7 +568,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         return isOk;
     };
 
-    $scope.SaveCategoryWindows = function() {
+    $scope.SaveCategoryWindows = function(closed) {
         if (!validationCategoryItem()) {
             var values = {
                 'CategoryName': $('#add_CategoryName').val(),
@@ -630,6 +627,9 @@ app.controller('menuCategoriesController', function($scope, $http){
                             .html('Category updated!');
                         $scope.categoryNotificationsSuccessSettings.apply('open');
                         $('#saveCategoryBtn').prop('disabled', true);
+                        if(closed == 0) {
+                            $scope.CloseCategoryWindows();
+                        }
                     }
                 } else {
                     $.each(response.data.message, function(i, val) {
