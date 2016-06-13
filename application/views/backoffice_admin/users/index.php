@@ -239,11 +239,12 @@ jqxthemes();
                                                     </div>
                                                     <div class="">
                                                         <!-- Position fields -->
+                                                        <form name="positionForm">
                                                         <div style="float:left; padding:2px; width:350px;">
                                                             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Position:</div>
                                                             <div style="float:left; width:180px;">
-                                                                <jqx-combo-box id="positionByUserCombobox" class="" disabled
-                                                                                jqx-settings="positionSelectSetting">
+                                                                <jqx-combo-box id="positionByUserCombobox" class="new-form-control"
+                                                                                jqx-settings="positionSelectSetting" disabled>
                                                                 </jqx-combo-box>
                                                             </div>
                                                         </div>
@@ -251,9 +252,10 @@ jqxthemes();
                                                         <div style="float:left; padding:2px; width:350px;">
                                                             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Pay Basis:</div>
                                                             <div style="float:left; width:180px;">
-                                                                <select id="payBasisSelect" name="PayBasis" class="userPositionField">
-                                                                    <option value="hourly">Hourly</option>
-                                                                    <option value="salary">Salary</option>
+                                                                <select id="payBasisSelect" name="PayBasis" class="userPositionField new-form-control"
+                                                                >
+                                                                    <option value="Hourly">Hourly</option>
+                                                                    <option value="Salary">Salary</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -261,9 +263,14 @@ jqxthemes();
                                                         <div style="float:left; padding:2px; width:350px;">
                                                             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Pay Rate:</div>
                                                             <div style="float:left; width:180px;">
-                                                                <input type="number" class="form-control userPositionField" id="PayRateField" name="PayRate" placeholder="Pay Rate">
+                                                                <input type="number" class="form-control userPositionField"
+                                                                       id="PayRateField" name="PayRate" placeholder="Pay Rate"
+                                                                       step="0.01" min="1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                                                       ng-model="PayRate"
+                                                                >
                                                             </div>
                                                         </div>
+                                                        </form>
 
                                                         <input type="hidden" id="idPositionUserWin">
 
@@ -281,9 +288,9 @@ jqxthemes();
                                                             <div class="form-group">
                                                                 <div class="col-sm-12" style="margin: 40px 10px;">
                                                                     Would you like to save your changes?<br>
-                                                                    <button type="button" ng-click="actionsToBeSurePosition(1)" class="btn btn-primary">Yes</button>
-                                                                    <button	type="button" ng-click="actionsToBeSurePosition(2)" class="btn btn-warning">No</button>
-                                                                    <button	type="button" ng-click="actionsToBeSurePosition(3)" class="btn btn-danger">Cancel</button>
+                                                                    <button type="button" ng-click="closeUserpositionsWindows(1)" class="btn btn-primary">Yes</button>
+                                                                    <button	type="button" ng-click="closeUserpositionsWindows(2)" class="btn btn-warning">No</button>
+                                                                    <button	type="button" ng-click="closeUserpositionsWindows(3)" class="btn btn-danger">Cancel</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -318,9 +325,8 @@ jqxthemes();
                                         <div id="addUserButtons">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-<!--                                                    <button type="button" id="add_save" class="btn btn-primary" disabled>Save</button>-->
                                                     <button type="button" id="submitAddUserForm" ng-click="submitUserForm()" class="btn btn-primary submitUserBtn" disabled>Save</button>
-                                                    <button	type="button" id="cancelAddUserForm" ng-click="closeWindows($event)" class="btn btn-warning cancelUserBtn">Close</button>
+                                                    <button	type="button" id="cancelAddUserForm" ng-click="closeUserWindows()" class="btn btn-warning cancelUserBtn">Close</button>
                                                     <button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn" style=" display:none; overflow:auto;">Delete</button>
                                                 </div>
                                             </div>
@@ -329,9 +335,9 @@ jqxthemes();
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <div>Would you like to save your changes.</div>
-                                                    <button type="button" ng-click="closeWindowsConfirm(0)" class="btn btn-primary">Yes</button>
-                                                    <button type="button" ng-click="closeWindowsConfirm(1)" class="btn btn-warning">No</button>
-                                                    <button type="button" ng-click="closeWindowsConfirm(2)" class="btn btn-info">Cancel</button>
+                                                    <button type="button" ng-click="closeUserWindows(0)" class="btn btn-primary">Yes</button>
+                                                    <button type="button" ng-click="closeUserWindows(1)" class="btn btn-warning">No</button>
+                                                    <button type="button" ng-click="closeUserWindows(2)" class="btn btn-info">Cancel</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -387,6 +393,15 @@ jqxthemes();
         color: #F00;
     }
 
+    .new-form-control {
+        font-size: 14px !important;
+        line-height: 1.42857143!important;
+        color: #555!important;
+        background: #fff none !important;
+        border: 1px solid #ccc!important;
+        border-radius: 4px!important"
+    }
+
     div.toolbar-list a {
         cursor: pointer;
         display: block;
@@ -416,98 +431,5 @@ jqxthemes();
 
     .icon-32-back {
         background-image: url("../../assets/img/back.png");
-    }
-
-    /*
-    .customer_form{
-        min-height: 200px !important;
-        min-width: 500px !important;
-    }
-    */
-
-    .add_customer_form{
-        height: 100% !important;
-        width: 100% !important;
-    }
-
-    .ngx-icon-close{
-        display:none;
-    }
-
-    .customer_form{
-        -webkit-border-radius: 15px 15px 15px 15px;
-        border-radius: 15px 15px 15px 15px;
-        border: 5px solid #449bca;
-    }
-
-    .add_customer_form{
-        -webkit-border-radius: 15px 15px 15px 15px;
-        border-radius: 15px 15px 15px 15px;
-        border: 5px solid #449bca;
-    }
-
-    #ngxTabs1{
-        -webkit-border-radius: 20px 20px 20px 20px;
-        border-radius: 20px 20px 20px 20px;
-    }
-
-    div.growlUI { background: url("../assets/img/symbol_check.png") no-repeat 10px 10px; width:48px; }
-    div.growlUI h1, div.growlUI h2 {
-        color: white; padding: 5px 5px 5px 65px; text-align: left
-    }
-
-    div.growlUI h1{
-        font-size:1.5em;
-    }
-    div.growlUI h2{
-        font-size: 1em;
-    }
-
-    #editform{
-        position:relative;
-    }
-
-    .taskbar{
-        border-top: 2px solid #CCC;
-        overflow: auto;
-        bottom: 0px;
-        height: 30px;
-        width: 100%;
-        position:absolute;
-        left:0px;
-    }
-
-    .add_taskbar{
-        border-top: 2px solid #CCC;
-        overflow: auto;
-        bottom: 0px;
-        height: 30px;
-        width: 100%;
-        position:absolute;
-        left:0px;
-    }
-
-    .searchclear {
-        position:absolute;
-        right:5px;
-        top:0;
-        bottom:0;
-        height:14px;
-        margin:auto;
-        font-size:14px;
-        cursor:pointer;
-        color:#ccc;
-    }
-
-    .edit_searchclear {
-        position:absolute;
-        right:5px;
-        top:0;
-        bottom:0;
-        height:14px;
-        margin:auto;
-        font-size:14px;
-        cursor:pointer;
-        color:#ccc;
     }
 </style>

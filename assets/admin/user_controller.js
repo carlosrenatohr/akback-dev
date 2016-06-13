@@ -171,28 +171,27 @@ demoApp.controller("userController", function($scope, $http) {
         $('#addtab4').block({message: null});
     };
 
-    $scope.closeWindows = function (e) {
-        if ($('#submitAddUserForm').is(':disabled')) {
-            // Resetting
-            resetWindowAddUserForm();
-            addUserDialog.close();
-        }
-        else {
-            $('#addUserConfirm').show();
-            $('#addUserButtons').hide();
-        }
-    };
-
-    $scope.closeWindowsConfirm = function (selected) {
+    $scope.closeUserWindows = function (selected) {
         $('#addUserButtons').show();
         if (selected == 0) {
-            $scope.submitUserForm();
+            $scope.submitUserForm(selected);
             $('#addUserConfirm').hide();
         } else if (selected == 1) {
             resetWindowAddUserForm();
             addUserDialog.close();
         } else if (selected == 2) {
             $('#addUserConfirm').hide();
+        }
+        else {
+            if ($('#submitAddUserForm').is(':disabled')) {
+                // Resetting
+                resetWindowAddUserForm();
+                addUserDialog.close();
+            }
+            else {
+                $('#addUserConfirm').show();
+                $('#addUserButtons').hide();
+            }
         }
     };
 
@@ -301,7 +300,15 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     // Events position
+    $scope.PayRate = 1;
     $('#PayRateField').on('keypress keyup paste change', function (e) {
+        if ($scope.PayRate == undefined) {
+            //console.log(this.value);
+            $(this).css({"border-color": "#F00"});
+            return false;
+        } else {
+            $(this).css({"border-color": "#CCC"});
+        }
         $('#savePositionuserBtn').prop('disabled', false);
     });
 
@@ -314,18 +321,7 @@ demoApp.controller("userController", function($scope, $http) {
     });
 
 
-    $scope.closeUserpositionsWindows = function() {
-
-        if ($('#savePositionuserBtn').is(':disabled')) {
-            resetPositionForm();
-            userPositionWindow.close();
-        } else {
-            $('#sureToCancelPosition').show();
-            $('#buttonsGroupsPositions').hide();
-        }
-    };
-
-    $scope.actionsToBeSurePosition = function(option) {
+    $scope.closeUserpositionsWindows = function(option) {
         if (option == 1) {
             $scope.submitUserpositionsWindows();
         } else if (option == 2) {
@@ -336,6 +332,15 @@ demoApp.controller("userController", function($scope, $http) {
             $('#buttonsGroupsPositions').show();
         }
         //$('#deletePositionuserBtn').show();
+        else {
+            if ($('#savePositionuserBtn').is(':disabled')) {
+                resetPositionForm();
+                userPositionWindow.close();
+            } else {
+                $('#sureToCancelPosition').show();
+                $('#buttonsGroupsPositions').hide();
+            }
+        }
     };
 
     function resetPositionForm() {
@@ -379,6 +384,9 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.submitUserpositionsWindows = function() {
+        if ($scope.PayRate == undefined) {
+            return;
+        }
         var position = $('#positionByUserCombobox').jqxComboBox('getSelectedItem');
         var payBasis = $('#payBasisSelect').jqxDropDownList('getSelectedItem');
         var values = {};
@@ -415,12 +423,10 @@ demoApp.controller("userController", function($scope, $http) {
                         id: 'Unique',
                         url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
                         created: function (args) {
-                            var instance = args.instance;
-                            instance.updateBoundData();
+                            args.instance.updateBoundData();
                         }
                     }
                 };
-                //});
                 //
                 userPositionWindow.close();
                 resetPositionForm();
@@ -503,7 +509,12 @@ demoApp.controller("userController", function($scope, $http) {
 
     $('#tabsUser').on('tabclick', function (event) {
         var tabclicked = event.args.item;
-
+        //
+        if (tabclicked == 0) {
+            $('#deleteAddUserForm').show();
+        } else {
+            $('#deleteAddUserForm').hide();
+        }
         // POSITION TAB
         if(tabclicked == 2) {
             if ($scope.userId != null) {
@@ -592,7 +603,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     // Action to save a user
-    $scope.submitUserForm = function () {
+    $scope.submitUserForm = function (closed) {
         var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
         var needValidation = userValidationFields();
         var params = {};
@@ -647,9 +658,14 @@ demoApp.controller("userController", function($scope, $http) {
                             $('#notificationSuccessSettings #notification-content').html('User created successfully!');
                             $('#notificationSuccessSettings').jqxNotification('open');
                             // CLOSE
-                            $('#addUserAnotherRow').show();
-                            $('#addUserButtons').hide();
-                            blockTabs();
+                            if (closed == 0) {
+                                $('#savePositionuserBtn').prop('disabled', true);
+                                $scope.closeUserWindows();
+                            } else {
+                                $('#addUserAnotherRow').show();
+                                $('#addUserButtons').hide();
+                                blockTabs();
+                            }
                         }
                         else {
                             $.each(data.message, function (i, msg) {
@@ -716,11 +732,10 @@ demoApp.controller("userController", function($scope, $http) {
 
                             $('#submitAddUserForm').attr('disabled', 'disabled');
                             $('#addUserButtons').show();
-                            //blockTabs();
-                            //setTimeout(function() {
-                            //    addUserDialog.close();
-                            //    resetWindowAddUserForm();
-                            //}, 2000);
+                            if (closed == 0) {
+                                $('#savePositionuserBtn').prop('disabled', true);
+                                $scope.closeUserWindows();
+                            }
                         }
                         else {
                             $.each(data.message, function (i, msg) {

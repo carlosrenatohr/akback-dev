@@ -49,8 +49,10 @@ class User extends AK_Controller
         $new_positions = [];
         foreach($positions as $index => $position) {
             $position['isPosition'] = ($position['PrimaryPosition'] == 1) ? 'YES' : '-';
+            $position['PayBasis'] = ucfirst($position['PayBasis']);
             $new_positions[] = $position;
         }
+
         echo json_encode($new_positions);
     }
 
