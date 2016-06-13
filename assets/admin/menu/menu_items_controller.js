@@ -19,7 +19,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             itemsMenuWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "50%",
+        width: "60%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -209,7 +209,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         itemHeight: 50,
         //height: '100%',
         //height: 300,
-        source: dataAdapterItems('DESC'),
+        source: dataAdapterItems('ASC'),
         theme: 'arctic'
     };
 
@@ -339,7 +339,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.saveItemGridBtn = function() {
         var data = {
             'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
+            //'Row': $('#editItem_Row').val(),
             'Row': $scope.itemCellSelectedOnGrid.Row,
+            //'Column': $('#editItem_Column').val(),
             'Column': $scope.itemCellSelectedOnGrid.Column,
             'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
             'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
@@ -391,18 +393,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     // Events item form controls
     $('.editItemFormContainer .required-field').on('keypress keyup paste change', function (e) {
-        var idsRestricted = ['editItem_sort'];
+        var idsRestricted = ['editItem_sort', 'editItem_Row', 'editItem_Column'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
         if (inarray >= 0) {
             var charCode = (e.which) ? e.which : e.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
                 return false;
             }
-            $('#saveItemGridBtn').prop('disabled', false);
-            return true;
-        } else {
-            $('#saveItemGridBtn').prop('disabled', false);
+            if (this.value.length > 2) {
+                return false;
+            }
         }
+        $('#saveItemGridBtn').prop('disabled', false);
     });
 
     $('#editItem_Status')
@@ -452,6 +454,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                                     : data['Label'];
                         $('#editItem_label').val(label);
                         $('#editItem_sort').val((data['sort']) == '' || data['sort'] == null ? 1 : data['sort']);
+                        $('#editItem_Row').val(data.Row);
+                        $('#editItem_Column').val(data.Column);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         itemWindow.setTitle(
