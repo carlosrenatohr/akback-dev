@@ -15,15 +15,24 @@ class AK_Controller extends \CI_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->model('backoffice_model');
+        $this->_is_logged_in();
     }
 
     /**
      * Helpers..
      */
-    function displaystore(){
+    function displaystore()
+    {
         $storeid = $this->session->userdata("storeunique");
         $storename = $this->backoffice_model->stores($storeid);
         return $storename;
+    }
+
+    private function _is_logged_in()
+    {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('backoffice/dashboard');
+        }
     }
 
 }
