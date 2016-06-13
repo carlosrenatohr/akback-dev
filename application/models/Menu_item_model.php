@@ -44,14 +44,20 @@ class Menu_item_model extends CI_Model
 
     public function postItemByMenu($request)
     {
+        $posRow = (isset($request['posRow'])) ? $request['posRow']: $request['Row'];
+        $posCol = (isset($request['posCol'])) ? $request['posCol']: $request['Column'];
+        if (isset($request['posCol']) && isset($request['posRow'])) {
+            unset($request['posRow']);
+            unset($request['posCol']);
+        }
         $where = [
             'MenuCategoryUnique' => $request['MenuCategoryUnique'],
-            'Column' => $request['Column'],
-            'Row' => $request['Row']
+            'Column' => $posCol,
+            'Row' => $posRow
         ];
         $exists = $this->db->where($where)
             ->get($this->menuItemTable)->result_array();
-        if (count($exists)) {
+        if (count($exists) || isset($request['posRow'])) {
             $request['Updated'] = date('Y-m-d H:i:s');
             $request['UpdatedBy'] = $this->session->userdata('userid');
             $this->db->where($where);

@@ -56,7 +56,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         displayMember: "MenuName",
         valueMember: "Unique",
         width: '100%',
-        //height: "100%",
+        height: "450px",
         theme: 'arctic'
     };
 
@@ -229,7 +229,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         valueMember: "Unique",
         width: "100%",
         //itemHeight: 50,
-        //height: '100%',
+        height: '450px',
         source: dataAdapterItems('ASC'),
         theme: 'arctic',
         filterable: true,
@@ -355,13 +355,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         if (!validationDataOnItemGrid()) {
             var data = {
                 'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
-                //'Row': $('#editItem_Row').val(),
-                'Row': $scope.itemCellSelectedOnGrid.Row,
-                //'Column': $('#editItem_Column').val(),
-                'Column': $scope.itemCellSelectedOnGrid.Column,
+                'Row': $('#editItem_Row').val(),
+                //'Row': $scope.itemCellSelectedOnGrid.Row,
+                'Column': $('#editItem_Column').val(),
+                //'Column': $scope.itemCellSelectedOnGrid.Column,
                 'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
                 'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
                 'Label': $('#editItem_label').val(),
+                //
+                'posRow': $scope.itemCellSelectedOnGrid.Row,
+                'posCol': $scope.itemCellSelectedOnGrid.Column
             };
             if ($('#editItem_sort').val() != '') {
                 data['sort'] = $('#editItem_sort').val();
@@ -373,7 +376,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'data': data,
                 'dataType': 'json',
                 'success': function(data) {
-                    drawExistsItemsOnGrid();
+                    //drawExistsItemsOnGrid();
+                    setTimeout(function() {
+                        angular.element('.category-cell-grid.clicked').triggerHandler('click');
+                    }, 100);
                     $('#menuitemNotificationsSuccessSettings #notification-content')
                         .html('Menu item was updated successfully!');
                     $scope.menuitemNotificationsSuccessSettings.apply('open');

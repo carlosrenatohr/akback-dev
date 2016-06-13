@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="">
-                <div class="" >
+                <div class="">
                     <div id="selectedItemInfo">
                         {{ selectedItemInfo.Description }}
                     </div>
@@ -37,15 +37,18 @@
         </jqx-tabs>
     </div>
 
-    <div class="col-md-10 col-sm-10 restricter-dragdrop">
-        <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
-    </div>
-    <div class="col-md-12 col-sm-12">
-        <h4 class="col-md-offset-2">Category grid</h4>
-        <div class="col-md-offset-2 col-md-10" id="categories-container">
-            <category-cell-grid category-title="{{uno.CategoryName}}">
-            </category-cell-grid>
+    <div class="col-md-10 col-sm-10">
+        <div class="col-md-12 restricter-dragdrop">
+
         </div>
+        <div class="col-md-12">
+            <h4 class="">Category grid</h4>
+            <div class="    " id="categories-container">
+                <category-cell-grid category-title="{{uno.CategoryName}}">
+                </category-cell-grid>
+            </div>
+        </div>
+        <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
     </div>
     <!--  Windows to save data on items   -->
     <jqx-window jqx-on-close="close()" jqx-settings="itemsMenuWindowsSetting"
