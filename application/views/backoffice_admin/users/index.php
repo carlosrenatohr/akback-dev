@@ -265,7 +265,7 @@ jqxthemes();
                                                             <div style="float:left; width:180px;">
                                                                 <input type="number" class="form-control userPositionField"
                                                                        id="PayRateField" name="PayRate" placeholder="Pay Rate"
-                                                                       step="0.01" min="1" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                                                       step="0.01" min="1" ng-pattern="/^[0-9]+(\.[0-9]{1})?$/"
                                                                        ng-model="PayRate"
                                                                 >
                                                             </div>

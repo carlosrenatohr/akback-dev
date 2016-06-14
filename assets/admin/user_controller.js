@@ -302,9 +302,12 @@ demoApp.controller("userController", function($scope, $http) {
     // Events position
     $scope.PayRate = 1;
     $('#PayRateField').on('keypress keyup paste change', function (e) {
+        if (this.value == '') {
+            $scope.PayRate = 1;
+        }
         if ($scope.PayRate == undefined) {
             //console.log(this.value);
-            $(this).css({"border-color": "#F00"});
+            //$(this).css({"border-color": "#F00"});
             return false;
         } else {
             $(this).css({"border-color": "#CCC"});
@@ -384,9 +387,10 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.submitUserpositionsWindows = function() {
-        if ($scope.PayRate == undefined) {
-            return;
-        }
+        //if ($scope.PayRate == undefined) {
+        //    $(this).css({"border-color": "#F00"});
+        //    return;
+        //}
         var position = $('#positionByUserCombobox').jqxComboBox('getSelectedItem');
         var payBasis = $('#payBasisSelect').jqxDropDownList('getSelectedItem');
         var values = {};
