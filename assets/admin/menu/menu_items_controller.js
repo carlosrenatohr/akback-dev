@@ -105,6 +105,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         if (row == null) {
             return;
         }
+        $('#NewMenuItemBtn').prop('disabled', true);
         $scope.selectedCategoryInfo = row;
         //var $this = angular.element(e.currentTarget);
         var $this = $(e.currentTarget);
@@ -526,8 +527,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         .on('click', function(e) {
             $('.draggable').removeClass('selectedItemOnGrid');
             $(this).addClass('selectedItemOnGrid');
+            $('#NewMenuItemBtn').prop('disabled', false);
         });
     }
+
+    $scope.newMenuItemBtn = function() {
+        var selectedItem = $('body .draggable.selectedItemOnGrid');
+        console.log(selectedItem.data('row'));
+        console.log(selectedItem.data('col'));
+    };
 
     /**
      * -- DRAGGABLE EVENTS

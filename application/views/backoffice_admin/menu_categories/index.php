@@ -151,9 +151,9 @@ jqxthemes();
         -webkit-border-radius:3px;
         -moz-border-radius:3px;
         border-radius:3px;
-        height: 40px;
+        min-height: 40px;
         width: 100%;
-        margin: 15px 0;
+        margin: 15px 0 0;
         padding: 8px;
         text-align: center;
     }

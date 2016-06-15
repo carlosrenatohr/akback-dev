@@ -15,10 +15,18 @@
             </div>
             <div class="">
                 <div class="">
-                    <div id="selectedItemInfo">
+                    <div id="selectedItemInfo" class="col-md-12">
                         {{ selectedItemInfo.Description }}
                     </div>
-                    <div>Type an item to find:</div>
+                    <div id="" class="col-md-12">
+                        <button class="btn btn-info" ng-click="newMenuItemBtn()" id="NewMenuItemBtn"
+                                style="margin: 10px 25%;">
+                            New Item
+                        </button>
+                    </div>
+                    <div class="col-md-12">
+                        <span>Type an item to find:</span>
+                    </div>
 <!--                    <jqx-combo-box-->
 <!--                        jqx-on-select="itemComboboxOnselect(event)"-->
 <!--                        jqx-on-unselect=""-->
