@@ -64,7 +64,7 @@ class Menu_item_model extends CI_Model
             $this->db->where($where);
             $return = $this->db->update($this->menuItemTable, $request);
         } else {
-            $request['Status'] = 1;
+//            $request['Status'] = 1;
             $request['Created'] = date('Y-m-d H:i:s');
             $request['CreatedBy'] = $this->session->userdata('userid');
             $return = $this->db->insert($this->menuItemTable, $request);

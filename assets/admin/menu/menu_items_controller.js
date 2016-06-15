@@ -10,6 +10,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         // ITEMS TAB - Reload queries
         if (tabclicked == 2) {
             $scope.menuListBoxSettings.apply('refresh');
+            $('.draggable').removeClass('selectedItemOnGrid');
+            $('#NewMenuItemBtn').prop('disabled', true)
         }
     });
 
@@ -346,8 +348,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 $('#menuitemNotificationsErrorSettings #notification-content')
                     .html($(el).attr('placeholder') + ' can not be empty!');
                 $scope.menuitemNotificationsErrorSettings.apply('open');
+                $(el).css({"border-color": "#F00"});
+            } else {
+                $(el).css({"border-color": "#CCC"});
             }
         });
+
+        var itemCombo = $('#editItem_ItemSelected');
+        if (!itemCombo.jqxComboBox('getSelectedItem')) {
+            needValidation = true;
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html('You must select an item');
+            $scope.menuitemNotificationsErrorSettings.apply('open');
+            itemCombo.css({"border-color": "#F00"});
+        } else {
+            itemCombo.css({"border-color": "#CCC"});
+        }
 
         return needValidation;
     };
@@ -517,6 +533,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         $('#editItem_Column').val(data.Column);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
+                        $('#deleteItemGridBtn').show();
                         itemWindow.setTitle(
                             'Edit Menu Item: ' + data.Unique + ' | Item: ' + data.ItemUnique + ' | Label: ' + label);
                         itemWindow.open();
@@ -527,14 +544,46 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         .on('click', function(e) {
             $('.draggable').removeClass('selectedItemOnGrid');
             $(this).addClass('selectedItemOnGrid');
-            $('#NewMenuItemBtn').prop('disabled', false);
+            var isOccupied = $(this).hasClass('filled');
+            $('#NewMenuItemBtn').prop('disabled', isOccupied);
+
         });
     }
 
+    var resetMenuItemForm = function() {
+        var itemCombo, selectedIndexItem;
+            itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.selectedItemInfo.Unique);
+        if (itemCombo != undefined) {
+            selectedIndexItem = itemCombo.index | 0;
+        } //else selectedIndexItem = 0;
+        $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+        $('#editItem_Status').jqxDropDownList({'selectedIndex': 0});
+        //$('#editItem_label').val('');
+        $('#editItem_sort').val(1);
+        $('#editItem_Row').val('');
+        $('#editItem_Column').val('');
+        //
+        $('#saveItemGridBtn').prop('disabled', true);
+    };
+
     $scope.newMenuItemBtn = function() {
         var selectedItem = $('body .draggable.selectedItemOnGrid');
-        console.log(selectedItem.data('row'));
-        console.log(selectedItem.data('col'));
+        var row = selectedItem.data('row');
+        var col = selectedItem.data('col');
+        resetMenuItemForm();
+        $scope.itemCellSelectedOnGrid = {
+            'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
+            'Row': row,
+            'Column': col
+        };
+        $('#editItem_Row').val(row);
+        $('#editItem_Column').val(col);
+
+        $('#deleteItemGridBtn').hide();
+        $('#NewMenuItemBtn').prop('disabled', false);
+        $('#saveItemGridBtn').prop('disabled', false)
+        itemsMenuWindow.setTitle('Add New Menu Item');
+        itemsMenuWindow.open();
     };
 
     /**
@@ -562,7 +611,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             $('.restricter-dragdrop').css({'border': '#202020 solid 2px'});
             if (ItemOnAboveGrid) {
                 //
-                console.log(ItemOnAboveGrid);
                 var $this = $(event.args.target);
                 var data = {
                     'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
