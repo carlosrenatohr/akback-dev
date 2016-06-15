@@ -107,20 +107,56 @@ class MenuItem extends AK_Controller
     public function postMenuItems()
     {
         $request = $_POST;
-        $status = $this->menuItem->postItemByMenu($request);
-        // FIX missing validations
-        if ($status) {
-            $response = [
-                'status' => 'success',
-                'message' => 'Item success: ' . $status
-            ];
-        } else {
+
+        $ready = $this->validatePostingItemsOnMenu($request);
+        if ($ready['needValidation']) {
             $response = [
                 'status' => 'error',
-                'message' => $status
+                'message' => $ready['message']
             ];
         }
+        // Posting
+        else {
+            $status = $this->menuItem->postItemByMenu($request);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Item success: ' . $status
+                ];
+            } else {
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Database error: ' . $status
+                ];
+            }
+        }
         echo json_encode($response);
+
+    }
+
+    private function validatePostingItemsOnMenu($data) {
+        $msg = [];
+        $needValidation = false;
+        $condition = false;
+        if (isset($data['posCol'])) {
+            $condition = $data['Column'] == $data['posCol'] && $data['Row'] == $data['posRow'];
+        }
+
+        if ($condition) {}
+        else {
+            $busy = $this->menuItem->verifyBusyPosition($data['Row'], $data['Column'], $data['MenuCategoryUnique']);
+            if ($busy) {
+                $needValidation = true;
+                $msg['Row'] = 'Row and Column position are occupied.';
+            }
+            // No busy
+            else {}
+        }
+
+        return [
+            'needValidation' => $needValidation,
+            'message' => $msg
+            ];
     }
 
     /**

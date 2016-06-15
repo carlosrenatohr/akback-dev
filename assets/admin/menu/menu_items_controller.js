@@ -376,16 +376,26 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'data': data,
                 'dataType': 'json',
                 'success': function(data) {
-                    //drawExistsItemsOnGrid();
-                    setTimeout(function() {
-                        angular.element('.category-cell-grid.clicked').triggerHandler('click');
-                    }, 100);
-                    $('#menuitemNotificationsSuccessSettings #notification-content')
-                        .html('Menu item was updated successfully!');
-                    $scope.menuitemNotificationsSuccessSettings.apply('open');
-                    setTimeout(function() {
-                        itemsMenuWindow.close();
-                    }, 2000);
+                    if (data.status == 'success') {
+                        //drawExistsItemsOnGrid();
+                        setTimeout(function() {
+                            angular.element('.category-cell-grid.clicked').triggerHandler('click');
+                        }, 100);
+                        $('#menuitemNotificationsSuccessSettings #notification-content')
+                            .html('Menu item was updated successfully!');
+                        $scope.menuitemNotificationsSuccessSettings.apply('open');
+                        setTimeout(function() {
+                            itemsMenuWindow.close();
+                        }, 2000);
+                    } else if (data.status == 'error') {
+                        $.each(data.message, function(i, value){
+                            $('#menuitemNotificationsErrorSettings #notification-content')
+                                .html(value);
+                            $scope.menuitemNotificationsErrorSettings.apply('open');
+                        });
+                    } else {
+                        console.log('Error from ajax');
+                    }
                 }
             });
         }
@@ -441,7 +451,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
         if (inarray >= 0) {
             var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
                 $('#menuitemNotificationsErrorSettings #notification-content')
                     .html('Row, Column and Sort values must be numbers!');
                 $scope.menuitemNotificationsErrorSettings.apply('open');
@@ -467,7 +477,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.itemCellSelectedOnGrid = {};
     function onClickDraggableItem() {
         var itemWindow = itemsMenuWindow;
-        $('.draggable').on('dblclick', function(e) {
+        $('.draggable')
+            .on('dblclick', function(e) {
             $('#promptToCloseItemGrid').hide();
             $('#mainButtonsOnItemGrid').show();
 
@@ -511,6 +522,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     }
                 });
             }
+        })
+        .on('click', function(e) {
+            $('.draggable').removeClass('selectedItemOnGrid');
+            $(this).addClass('selectedItemOnGrid');
         });
     }
 
@@ -526,18 +541,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 //restricter:'parent',
                 //tolerance: 'fit',
                 revert: true,
-                opacity: 0.9,
+                opacity: 0.9
             }
         );
 
         var ItemOnAboveGrid = false;
-        $('#selectedItemInfo, #itemListboxSearch .jqx-listitem-element').bind('dragStart', function (event) {
+        $('#selectedItemInfo, .jqx-listitem-element')
+        .bind('dragStart', function (event) {
             $('.restricter-dragdrop').css({'border': '#202020 dotted 3px'});
         })
         .bind('dragEnd', function (event) {
             $('.restricter-dragdrop').css({'border': '#202020 solid 2px'});
             if (ItemOnAboveGrid) {
                 //
+                console.log(ItemOnAboveGrid);
                 var $this = $(event.args.target);
                 var data = {
                     'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
@@ -561,7 +578,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                             $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
                             $this.css('background-color', '#063dee');
                             draggableEvents();
-                        } else {
+                        }
+                        else if (data.status == 'error') {
+                            $.each(data.message, function(i, value){
+                                //alert(value);
+                            });
+                        }
+                        else {
                             console.log('error from ajax');
                         }
                     }
@@ -613,29 +636,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                             'method': 'POST',
                             'data': data,
                             'success': function(data) {
-                                //if (!data) {
-                                //    target.css('background-color', current.css('background-color'));
-                                //    target.addClass('filled');
-                                //    target.data('categoryId', current.data('categoryId'));
-                                //    target.html(current.html());
-                                //
-                                //    current.css('background-color', '#f0f0f0');
-                                //    current.removeClass('filled');
-                                //    current.data('categoryId', '');
-                                //    current.html('');
-                                //} else {
-                                //    var currentData = current.data('categoryId');
-                                //    var currentBackColor = current.css('background-color')
-                                //    var currentContent = current.html();
-                                //
-                                //    current.css('background-color', target.css('background-color'));
-                                //    current.data('categoryId', target.data('categoryId'));
-                                //    current.html(target.html());
-                                //
-                                //    target.css('background-color', currentBackColor);
-                                //    target.data('background-color', currentData);
-                                //    target.html(currentContent);
-                                //}
                                 setTimeout(function() {
                                     angular.element('.category-cell-grid.clicked').triggerHandler('click');
                                 }, 100);
@@ -648,8 +648,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             })
             .bind('dropTargetEnter', function (event) {
                 onCellAboveGrid = true;
-                console.log($(event.args.target));
-                console.log(event.args.position);
                 var target_col = $(event.args.target).data('col');
                 var element_col = $(event.args.element).data('col');
                 var target_row = $(event.args.target).data('row');

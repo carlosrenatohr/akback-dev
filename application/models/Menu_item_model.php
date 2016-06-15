@@ -27,6 +27,7 @@ class Menu_item_model extends CI_Model
 
     public function getItemByPosition($request)
     {
+        $this->db->where('Status>', 0);
         $result = $this->db->get_where($this->menuItemTable, $request)->result_array();
         return $result;
     }
@@ -74,17 +75,20 @@ class Menu_item_model extends CI_Model
     public function deleteMenuItem($request)
     {
         $this->db->where($request);
-//        $return = $this->db->update(
-//            $this->menuItemTable,
-//            [
-//                'Status' => 0,
-//                'Updated' => date('Y-m-d H:i:s'),
-//                'UpdatedBy' => $this->session->userdata('userid')
-//            ]
-//        );
         $return = $this->db->delete($this->menuItemTable);
 
         return $return;
+    }
+
+    public function verifyBusyPosition($row, $column, $category) {
+        $this->db->where([
+            'Row' => $row,
+            'Column' => $column,
+            'MenuCategoryUnique' => $category,
+            'Status>' => 0
+        ]);
+        $count = $this->db->get($this->menuItemTable)->result_array();
+        return count($count);
     }
 
     public function setNewPosition($category, $element, $target)

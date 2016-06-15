@@ -131,9 +131,12 @@ jqxthemes();
         background-color: #f0f0f0;
         border: black 1px solid;
         color: #fff;
-        padding: 0!important;
+        padding: 2px!important;
     }
-
+    .restricter-dragdrop .draggable.selectedItemOnGrid {
+        /*background-color: #f0f0f0;*/
+        border: #2F2F2F 4px solid;
+    }
     #categories-container {
         max-height: 300px;
         min-height: 300px;
