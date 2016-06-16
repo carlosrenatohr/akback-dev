@@ -5,13 +5,23 @@
 app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     // -- MenuCategoriesTabs Main Tabs
-    $('#MenuCategoriesTabs').on('tabclick', function (event) {
-        var tabclicked = event.args.item;
+    $('#MenuCategoriesTabs').on('tabclick', function (e) {
+        var tabclicked = e.args.item;
         // ITEMS TAB - Reload queries
         if (tabclicked == 2) {
             $scope.menuListBoxSettings.apply('refresh');
             $('.draggable').removeClass('selectedItemOnGrid');
             $('#NewMenuItemBtn').prop('disabled', true)
+        }
+    });
+
+    $('#jqxTabsMenuItemSection').on('selecting', function(e) {
+        var tabclicked = e.args.item;
+        // ITEMS SUBTAB
+        if (tabclicked == 1) {
+            setTimeout(function(){
+                $('#itemListboxSearch .jqx-listbox-filter-input').focus();
+            }, 100);
         }
     });
 
@@ -226,7 +236,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         created: function (args) {
             comboboxItems = args.instance;
         },
-        selectedIndex: 0,
+        selectedIndex: -1, // 0
         //placeHolder: 'Select an item',
         displayMember: "Description",
         valueMember: "Unique",
@@ -236,6 +246,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         source: dataAdapterItems('ASC'),
         theme: 'arctic',
         filterable: true,
+        filterHeight: 40,
+        filterPlaceHolder: 'Looking for item',
         //allowDrop: true,
         //allowDrag: true,
         //dragEnd: function(dragItem, dropItem) {}
@@ -554,7 +566,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var itemCombo, selectedIndexItem;
             itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.selectedItemInfo.Unique);
         if (itemCombo != undefined) {
-            selectedIndexItem = itemCombo.index | 0;
+            selectedIndexItem = itemCombo.index | -1;
         } //else selectedIndexItem = 0;
         $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
         $('#editItem_Status').jqxDropDownList({'selectedIndex': 0});

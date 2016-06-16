@@ -1,5 +1,5 @@
 <div class="">
-    <div class="col-md-2 col-sm-2">
+    <div class="col-lg-2 col-md-2 col-sm-2">
         <jqx-tabs jqx-width="'100%'" jqx-height="'100%'" id="jqxTabsMenuItemSection">
             <ul>
                 <li>Menu</li>
@@ -45,16 +45,20 @@
         </jqx-tabs>
     </div>
 
-    <div class="col-md-10 col-sm-10">
-        <div class="col-md-12 restricter-dragdrop">
+    <div class="col-lg-10 col-md-10 col-sm-10">
+        <div class="row">
+        <div class="col-md-12 col-sm-12 restricter-dragdrop">
 
         </div>
-        <div class="col-md-12">
+        </div>
+        <div class="row">
+        <div class="col-md-12 col-sm-12">
             <h4 class="">Category grid</h4>
-            <div class="    " id="categories-container">
+            <div id="categories-container">
                 <category-cell-grid category-title="{{uno.CategoryName}}">
                 </category-cell-grid>
             </div>
+        </div>
         </div>
         <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
     </div>
@@ -85,8 +89,7 @@
                             <div style=" float:left; width:300px;">
                                 <textarea class="form-control required-field" id="editItem_label"
                                           cols="30" rows="3"
-                                          name="editItem_label" placeholder="Label">
-                                </textarea>
+                                          name="editItem_label" placeholder="Label"></textarea>
                                 <!-- <input type="text" class="form-control required-field" id="editItem_label" name="editItem_label" placeholder="Label">-->
                             </div>
                             <div style="float:left;">

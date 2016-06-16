@@ -112,10 +112,19 @@ jqxthemes();
     }
 
     /* ITEMS */
+    @media (max-width: 768px) {
+        .restricter-dragdrop {
+            height: 320px!important;
+        }
+        #categories-container {
+            height: 120px;
+        }
+    }
     .restricter-dragdrop {
-        max-height: 450px;
-        min-height: 450px;
+        /*max-height: 450px;*/
+        height: 420px;
         overflow-y: scroll;
+        overflow-x: hidden;
         background-color: lightgrey;
         border: #202020 2px solid;
         padding: 0!important;
@@ -138,12 +147,14 @@ jqxthemes();
         border: #2F2F2F 4px solid;
     }
     #categories-container {
-        max-height: 300px;
-        min-height: 300px;
+        /*max-height: 300px;*/
+        /*min-height: 100%;*/
+        height: 200px;
         overflow-y: scroll;
         background-color: lightgrey;
         border: black 2px dotted;
         padding: 0!important;
+        overflow-x: hidden;
     }
 
     #selectedItemInfo {
@@ -159,12 +170,12 @@ jqxthemes();
     }
 
     .category-cell-grid {
-        height: 100px;
+        height: 90px;
         background-color: #f0f0f0;
         color: #fff;
         border: black 1px solid;
         text-align: center;
-        padding-top: 40px;
+        padding-top: 35px;
     }
     .category-cell-grid.valued {
         background-color: #bc0530;
