@@ -407,7 +407,6 @@ demoApp.controller("userController", function($scope, $http) {
             //headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
             if(response.data.status == "success") {
-                console.info('Position added');
                 //
                 //$scope.$apply(function(){
                 $scope.userPositionsTableSettings = {
@@ -449,7 +448,6 @@ demoApp.controller("userController", function($scope, $http) {
             //headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
             if(response.data.status == "success") {
-                console.info('Position removed');
                 //
                 $scope.userPositionsTableSettings = {
                     source: {
@@ -572,7 +570,6 @@ demoApp.controller("userController", function($scope, $http) {
                         $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
                         $(el).css({"border-color": "#F00"});
                         $scope.notificationErrorSettings.apply('open');
-                        console.info($(el).attr('placeholder') + ' can not be empty!');
                         needValidation = true;
                     //}
                 //}
@@ -586,7 +583,6 @@ demoApp.controller("userController", function($scope, $http) {
         if (!comboboxPosition) {
             $('#notificationErrorSettings #notification-content').html('Primary position can not be empty!');
             $scope.notificationErrorSettings.apply('open');
-            console.info('Primary position can not be empty!');
             needValidation = true;
         }
 
@@ -596,7 +592,6 @@ demoApp.controller("userController", function($scope, $http) {
             $('#notificationErrorSettings #notification-content').html('Format of email is not valid!');
             emailInputField.css({"border-color": "#F00"});
             $scope.notificationErrorSettings.apply('open');
-            console.info('Format of email is not valid');
             needValidation = true;
         }
         else {
@@ -676,7 +671,6 @@ demoApp.controller("userController", function($scope, $http) {
                                 $('#notificationErrorSettings #notification-content').html(msg);
                                 $scope.notificationErrorSettings.apply('open');
                                 $('.addUserField#add_' + i).css({"border-color": "#F00"});
-                                //console.info('Format of email is not valid');
                             });
                         }
                     }
@@ -746,7 +740,6 @@ demoApp.controller("userController", function($scope, $http) {
                                 $('#notificationErrorSettings #notification-content').html(msg);
                                 $scope.notificationErrorSettings.apply('open');
                                 $('.addUserField#add_' + i).css({"border-color": "#F00"});
-                                //console.info('Format of email is not valid');
                             });
                         }
                     }
