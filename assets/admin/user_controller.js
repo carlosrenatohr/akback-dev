@@ -98,7 +98,7 @@ demoApp.controller("userController", function($scope, $http) {
 
         $('#position_itemTab').hide();
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
-        addUserDialog.setTitle('Add new user');
+        addUserDialog.setTitle('Add New User');
         addUserDialog.open();
         setTimeout(function(){
             $('#add_username').focus();
