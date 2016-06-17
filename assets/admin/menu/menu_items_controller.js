@@ -25,13 +25,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         }
     });
 
+    $('#jqxTabsMenuItemWindows').on('tabclick', function(e) {
+        var tabclicked = e.args.item;
+        if (tabclicked == 0) {
+            $('#deleteItemGridBtn').show();
+        } else {
+            $('#deleteItemGridBtn').hide();
+        }
+    });
+
     var itemsMenuWindow;
     $scope.itemsMenuWindowsSetting = {
         created: function (args) {
             itemsMenuWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "75%",
+        width: "60%", height: "70%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -741,6 +750,41 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 return equal;
             }
         }
-
 }
+
+    /**
+     * QUESTION TAB ACTIONS
+     */
+    $scope.questionTableOnMenuItemsSettings = {
+        source: {
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'ItemUnique', type: 'int'},
+                {name: 'QuestionUnique', type: 'int'},
+                {name: 'Status', type: 'number'},
+                {name: 'Sort', type: 'number'},
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuItem/load_itemquestions'
+        },
+        columns: [
+            {text: 'ID', dataField: 'Unique', type: 'int'},
+            {text: 'Item', dataField: 'ItemUnique', type: 'int'},
+            {text: 'Question', dataField: 'QuestionUnique', type: 'int'},
+            {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
+            {text: 'Sort', dataField: 'Sort', type: 'number'},
+        ],
+        columnsResize: true,
+        width: "99.7%",
+        theme: 'arctic',
+        sortable: true,
+        pageable: true,
+        pageSize: 15,
+        //pagerMode: 'default',
+        //altRows: true,
+        //filterable: true,
+        //filterMode: 'simple'
+    }
+
 });

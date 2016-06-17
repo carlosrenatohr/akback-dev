@@ -10,6 +10,7 @@ class Menu_item_model extends CI_Model
 {
     private $itemTable = 'item';
     private $menuItemTable = 'config_menu_items';
+    private $questionsItemTable = 'item_questions';
 
     public function __construct()
     {
@@ -131,6 +132,17 @@ class Menu_item_model extends CI_Model
             $this->db->trans_complete();
         }
         return count($exists);
+    }
+
+    /**
+     * Queries for item_questions table
+     */
+    public function getAllItemQuestions() {
+
+        $this->db->select("{$this->questionsItemTable}.*, item.Description");
+        $this->db->join($this->itemTable, "{$this->questionsItemTable}.ItemUnique = item.Unique");
+        $query = $this->db->get($this->questionsItemTable);
+        return $query->result_array();
     }
 
 }

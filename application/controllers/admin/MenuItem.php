@@ -198,4 +198,11 @@ class MenuItem extends AK_Controller
         echo json_encode($status);
     }
 
+
+    public function load_itemquestions() {
+        $questions = $this->menuItem->getAllItemQuestions();
+
+        echo json_encode($questions);
+    }
+
 }
