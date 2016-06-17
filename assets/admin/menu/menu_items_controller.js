@@ -31,6 +31,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             $('#deleteItemGridBtn').show();
         } else {
             $('#deleteItemGridBtn').hide();
+            if($scope.itemCellSelectedOnGrid != null) {
+                $scope.$apply(function() {
+                    updateQuestionItemTable();
+                });
+            }
         }
     });
 
@@ -358,7 +363,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 $('#mainButtonsOnItemGrid').hide();
             }
         }
-
     };
 
     var validationDataOnItemGrid = function() {
@@ -425,6 +429,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         setTimeout(function() {
                             itemsMenuWindow.close();
                         }, 2000);
+                        updateQuestionItemTable();
                     } else if (data.status == 'error') {
                         $.each(data.message, function(i, value){
                             $('#menuitemNotificationsErrorSettings #notification-content')
@@ -484,7 +489,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     // Events item form controls
-    $('.editItemFormContainer .required-field').on('keypress keyup paste change', function (e) {
+    $('.editItemFormContainer .required-field')
+        .on('keypress keyup paste change', function (e) {
         var idsRestricted = ['editItem_sort', 'editItem_Row', 'editItem_Column'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
         if (inarray >= 0) {
@@ -519,7 +525,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             .on('dblclick', function(e) {
             $('#promptToCloseItemGrid').hide();
             $('#mainButtonsOnItemGrid').show();
-
+            $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
             var $this = $(e.currentTarget);
             if ($this.hasClass('filled')) {
                 var data = {
@@ -555,6 +561,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();
+
                         itemWindow.setTitle(
                             'Edit Menu Item: ' + data.Unique + ' | Item: ' + data.ItemUnique + ' | Label: ' + label);
                         itemWindow.open();
@@ -602,7 +609,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
         $('#deleteItemGridBtn').hide();
         $('#NewMenuItemBtn').prop('disabled', false);
-        $('#saveItemGridBtn').prop('disabled', false)
+        $('#saveItemGridBtn').prop('disabled', false);
         itemsMenuWindow.setTitle('Add New Menu Item');
         itemsMenuWindow.open();
     };
@@ -780,11 +787,263 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         theme: 'arctic',
         sortable: true,
         pageable: true,
-        pageSize: 15,
+        pageSize: 15
         //pagerMode: 'default',
         //altRows: true,
         //filterable: true,
         //filterMode: 'simple'
-    }
+    };
+
+    var updateQuestionItemTable = function() {
+        $scope.questionTableOnMenuItemsSettings = {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ItemUnique', type: 'int'},
+                    {name: 'QuestionUnique', type: 'int'},
+                    {name: 'QuestionName', type: 'string'},
+                    {name: 'ItemName', type: 'string'},
+                    {name: 'Status', type: 'number'},
+                    {name: 'StatusName', type: 'string'},
+                    {name: 'Sort', type: 'number'},
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.itemCellSelectedOnGrid.ItemUnique
+            },
+            columns: [
+                {text: 'ID', dataField: 'Unique', type: 'int'},
+                {text: 'Item', dataField: 'ItemUnique', type: 'int', hidden: true},
+                {text: 'Item', dataField: 'ItemName', type: 'string'},
+                {text: 'Question', dataField: 'QuestionUnique', type: 'int', hidden: true},
+                {text: 'Question', dataField: 'QuestionName', type: 'string'},
+                {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
+                {text: 'Status', dataField: 'StatusName', type: 'string'},
+                {text: 'Sort', dataField: 'Sort', type: 'number'}
+            ],
+            created: function (args) {
+                args.instance.updateBoundData();
+            }
+        }
+    };
+
+    $scope.qitemNotificationsSuccessSettings = setNotificationInit(1);
+    $scope.qitemNotificationsErrorSettings = setNotificationInit(0);
+
+    var questionOnItemGridWindow, cbxQuestionsItem;
+    $scope.questionOnItemGridWindowSettings = {
+        created: function (args) {
+            questionOnItemGridWindow = args.instance;
+        },
+        resizable: false,
+        width: "40%", height: "40%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    var dataAdapterQuestionItems = new $.jqx.dataAdapter(
+        {
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'QuestionName', type: 'string'},
+                {name: 'Question', type: 'string'},
+                {name: 'Status', type: 'number'},
+                {name: 'Sort', type: 'number'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
+        }
+    );
+
+    $scope.questionItemsCbxSettings = {
+        created: function (args) {
+            cbxQuestionsItem = args.instance;
+        },
+        placeHolder: 'Select a question',
+        displayMember: "QuestionName",
+        valueMember: "Unique",
+        width: "100%",
+        itemHeight: 30,
+        source: dataAdapterQuestionItems,
+        theme: 'arctic'
+    };
+
+    $('#itemq_Status').jqxDropDownList({autoDropDownHeight: true});
+
+    // Events questions item form
+    $('#itemq_Status, #itemq_Question').on('select', function() {
+        $('#saveQuestionItemBtn').prop('disabled', false);
+    });
+
+    $('.itemqFormContainer .required-qitem').on('keypress keyup paste change', function (e) {
+        var idsRestricted = ['itemq_Sort'];
+        var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        if (inarray >= 0) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
+                if (this.val == '') {
+                    $('#qitemNotificationsErrorSettings #notification-content')
+                        .html('Sort value must be number');
+                    $scope.qitemNotificationsErrorSettings.apply('open');
+                    $(this).css({'border-color': '#F00'});
+                }
+                return false;
+            }
+            if (this.value.length > 2) {
+                return false;
+            }
+        }
+        $('#saveQuestionItemBtn').prop('disabled', false);
+    });
+
+    $scope.addOrEditqItem = null;
+    $scope.qItemIdChosen = null;
+    $scope.openQuestionItemWin = function() {
+        //
+        $('#itemq_Status').jqxDropDownList({'selectedIndex': 0});
+        $('#itemq_Question').jqxComboBox({'selectedIndex': -1});
+        $('#itemq_Sort').val(1);
+        //
+        $('#saveQuestionItemBtn').prop('disabled', true);
+        $('#deleteQuestionItemBtn').hide();
+        $scope.addOrEditqItem = 'create';
+        questionOnItemGridWindow.setTitle('Add New Question | Item: ' + $scope.itemCellSelectedOnGrid.ItemUnique);
+        questionOnItemGridWindow.open();
+    };
+
+    $scope.editQuestionItemWin = function(e) {
+        var row = e.args.row;
+        console.log(row);
+        var statusCombo = $('#itemq_Status').jqxDropDownList('getItemByValue', row.Status);
+        $('#itemq_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
+
+        var selectedIndexItem;
+        var itemCombo = $('#itemq_Question').jqxComboBox('getItemByValue', row.QuestionUnique);
+        if (itemCombo != undefined) {
+            selectedIndexItem = itemCombo.index | 0;
+        }
+        $('#itemq_Question').jqxComboBox({'selectedIndex': selectedIndexItem});
+
+        $('#itemq_Sort').val(row.Sort);
+        //
+        $('#saveQuestionItemBtn').prop('disabled', true);
+        $('#deleteQuestionItemBtn').show();
+        $scope.addOrEditqItem = 'edit';
+        $scope.qItemIdChosen = row.Unique;
+        questionOnItemGridWindow.setTitle('Edit Question: ' + row.QuestionUnique +' | Item: ' + row.ItemUnique);
+        questionOnItemGridWindow.open();
+    };
+
+    $scope.closeQuestionItemWin = function (option) {
+        //questionOnItemGridWindow.close();
+        if(option != undefined) {
+            $('#mainButtonsQitem').show();
+            $('#promptToCloseQitem').hide();
+            //$('.RowOptionButtonsOnItemGrid').hide();
+        }
+        if (option == 0) {
+            $scope.saveQuestionItem();
+        } else if (option == 1) {
+            questionOnItemGridWindow.close();
+        }
+        else if (option == 2) {}
+        else {
+            if ($('#saveQuestionItemBtn').is(':disabled')) {
+                questionOnItemGridWindow.close();
+            }
+            else {
+                $('#promptToCloseQitem').show();
+                $('#mainButtonsQitem').hide();
+            }
+        }
+    };
+
+    var validationQuestionItemForm = function() {
+        var needValidation = false;
+        if (!$('#itemq_Question').jqxComboBox('getSelectedItem')) {
+            needValidation = true;
+            $('#qitemNotificationsErrorSettings #notification-content')
+                .html('Select a question');
+            $scope.qitemNotificationsErrorSettings.apply('open');
+            $('#itemq_Question').css({'border-color': '#F00'});
+        } else {
+            $('#itemq_Question').css({'border-color': '#CCC'});
+        }
+        $('.required-qitem').each( function(i, el) {
+            if (el.value == '') {
+                needValidation = true;
+                $('#qitemNotificationsErrorSettings #notification-content')
+                    .html($(el).attr('placeholder') + ' can not be empty!');
+                $scope.qitemNotificationsErrorSettings.apply('open');
+                $(el).css({'border-color': '#F00'});
+            } else {
+                $(el).css({'border-color': '#CCC'});
+            }
+        });
+
+        return needValidation;
+    };
+
+    $scope.saveQuestionItem = function() {
+        if (!validationQuestionItemForm()) {
+            var data = {
+                'QuestionUnique': $('#itemq_Question').jqxComboBox('getSelectedItem').value,
+                'Status': $('#itemq_Status').jqxDropDownList('getSelectedItem').value,
+                'Sort': $('#itemq_Sort').val(),
+                'ItemUnique': $scope.itemCellSelectedOnGrid.ItemUnique
+            };
+            var url, msg;
+            if ($scope.addOrEditqItem == 'create') {
+                url = 'admin/MenuItem/postQuestionMenuItems';
+            } else if($scope.addOrEditqItem == 'edit') {
+                url = 'admin/MenuItem/updateQuestionMenuItems/' + $scope.qItemIdChosen;
+            }
+            $.ajax({
+                'method': 'POST',
+                'url': SiteRoot + url,
+                'dataType': 'json',
+                'data': data,
+                'success': function(data) {
+                    if (data.status == 'success') {
+                        updateQuestionItemTable();
+                        if ($scope.addOrEditqItem == 'create') {
+                            msg = 'Question saved successfully!';
+                        } else {
+                            msg = 'Question was updated successfully!';
+                        }
+                        $('#qitemNotificationsSuccessSettings #notification-content')
+                            .html(msg);
+                        $scope.qitemNotificationsSuccessSettings.apply('open');
+                        setTimeout(function(){
+                            questionOnItemGridWindow.close();
+                        }, 2000);
+                    } else if (data.status == 'error') {
+                        $('#qitemNotificationsErrorSettings #notification-content')
+                            .html('There was an error');
+                        $scope.qitemNotificationsErrorSettings.apply('open');
+                    }
+                    else {
+                        console.info('Ajax error');
+                    }
+
+                }
+            });
+        }
+    };
+
+    $scope.deleteQuestionItem = function() {
+        $.ajax({
+            'url': SiteRoot + 'admin/MenuItem/deleteQuestionMenuItems/' + $scope.qItemIdChosen,
+            'method': 'post',
+            'dataType': 'json',
+            'success': function (data) {
+                updateQuestionItemTable();
+                questionOnItemGridWindow.close();
+            }
+        });
+    };
 
 });

@@ -46,8 +46,8 @@ class Menu_item_model extends CI_Model
 
     public function postItemByMenu($request)
     {
-        $posRow = (isset($request['posRow'])) ? $request['posRow']: $request['Row'];
-        $posCol = (isset($request['posCol'])) ? $request['posCol']: $request['Column'];
+        $posRow = (isset($request['posRow'])) ? $request['posRow'] : $request['Row'];
+        $posCol = (isset($request['posCol'])) ? $request['posCol'] : $request['Column'];
         if (isset($request['posCol']) && isset($request['posRow'])) {
             unset($request['posRow']);
             unset($request['posCol']);
@@ -77,17 +77,19 @@ class Menu_item_model extends CI_Model
     {
         $this->db->where($request);
         $return = $this->db->delete($this->menuItemTable);
-
         return $return;
     }
 
-    public function verifyBusyPosition($row, $column, $category) {
-        $this->db->where([
-            'Row' => $row,
-            'Column' => $column,
-            'MenuCategoryUnique' => $category,
-            'Status>' => 0
-        ]);
+    public function verifyBusyPosition($row, $column, $category)
+    {
+        $this->db->where(
+            [
+                'Row' => $row,
+                'Column' => $column,
+                'MenuCategoryUnique' => $category,
+                'Status>' => 0
+            ]
+        );
         $count = $this->db->get($this->menuItemTable)->result_array();
         return count($count);
     }
@@ -137,12 +139,42 @@ class Menu_item_model extends CI_Model
     /**
      * Queries for item_questions table
      */
-    public function getAllItemQuestions() {
-
-        $this->db->select("{$this->questionsItemTable}.*, item.Description");
+    public function getAllItemQuestions($itemId = null)
+    {
+        $this->db->select("{$this->questionsItemTable}.*, item.Description as ItemName, config_questions.QuestionName");
+        $this->db->join('config_questions', "config_questions.Unique = {$this->questionsItemTable}.QuestionUnique");
         $this->db->join($this->itemTable, "{$this->questionsItemTable}.ItemUnique = item.Unique");
+        if (!is_null($itemId)) {
+            $this->db->where('ItemUnique', $itemId);
+        }
+        $this->db->order_by('Sort', 'ASC');
         $query = $this->db->get($this->questionsItemTable);
         return $query->result_array();
+    }
+
+    public function postItemQuestion($request)
+    {
+        $request['Created'] = date('Y-m-d H:i:s');
+        $request['CreatedBy'] = $this->session->userdata('userid');
+        $status = $this->db->insert($this->questionsItemTable, $request);
+        $insert_id = $this->db->insert_id();
+        return $status;
+    }
+
+    public function updateItemQuestion($id, $request)
+    {
+        $request['Updated'] = date('Y-m-d H:i:s');
+        $request['UpdatedBy'] = $this->session->userdata('userid');
+        $this->db->where('Unique', $id);
+        $query = $this->db->update($this->questionsItemTable, $request);
+        return $query;
+    }
+
+    public function deleteItemQuestion($id)
+    {
+        $this->db->where('Unique', $id);
+        $query = $this->db->delete($this->questionsItemTable);
+        return $query;
     }
 
 }

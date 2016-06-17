@@ -131,7 +131,6 @@ class MenuItem extends AK_Controller
             }
         }
         echo json_encode($response);
-
     }
 
     private function validatePostingItemsOnMenu($data) {
@@ -199,10 +198,74 @@ class MenuItem extends AK_Controller
     }
 
 
-    public function load_itemquestions() {
-        $questions = $this->menuItem->getAllItemQuestions();
 
-        echo json_encode($questions);
+    public function load_itemquestions($itemId = null) {
+        $questions_format = [];
+        $questions = $this->menuItem->getAllItemQuestions($itemId);
+        foreach($questions as $question) {
+            if ($question['Status'] == 1)
+                $question['StatusName'] = 'Enabled';
+            elseif($question['Status'] == 2)
+                $question['StatusName'] = 'Disabled';
+            else
+                $question['StatusName'] = '-';
+            $questions_format[] = $question;
+        }
+
+        echo json_encode($questions_format);
+    }
+
+    public function postQuestionMenuItems()
+    {
+        $request = $_POST;
+
+        $status = $this->menuItem->postItemQuestion($request);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Question Item success: ' . $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Database error: ' . $status
+            ];
+        }
+        echo json_encode($response);
+    }
+
+    public function updateQuestionMenuItems($id) {
+        $request = $_POST;
+
+        $status = $this->menuItem->updateItemQuestion($id, $request);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Question Item success: ' . $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Database error: ' . $status
+            ];
+        }
+        echo json_encode($response);
+    }
+
+    public function deleteQuestionMenuItems($id) {
+        $status = $this->menuItem->deleteItemQuestion($id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Question Item deleted: ' . $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => $status
+            ];
+        }
+        echo json_encode($response);
     }
 
 }
