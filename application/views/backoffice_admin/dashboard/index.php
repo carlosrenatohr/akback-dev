@@ -37,12 +37,6 @@
                 <div class="panel-body">
                     <div class="col-md-12">
                         <div class="icon-handler">
-<!--                            <div class="icon">-->
-<!--                                <a href="--><?php //echo base_url("backoffice/dashboard")?><!--">-->
-<!--                                    <img width="48" alt="" src="--><?php //echo base_url()?><!--assets/img/back.png">-->
-<!--                                    <span class="mlabel">HOME</span>-->
-<!--                                </a>-->
-<!--                            </div>-->
                             <div class="icon">
                                 <a href="<?php echo base_url("dashboard/admin/users")?>">
                                     <img width="48" alt="" src="<?php echo base_url()?>assets/img/customer.png">
@@ -53,6 +47,12 @@
                                 <a href="<?php echo base_url("dashboard/admin/categories")?>">
                                     <img width="48" alt="" src="<?php echo base_url()?>assets/img/kahon.png">
                                     <span class="mlabel">MENU</span>
+                                </a>
+                            </div>
+                            <div class="icon">
+                                <a href="<?php echo base_url("dashboard/admin/customers")?>">
+                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/customer.png">
+                                    <span class="mlabel">CUSTOMERS</span>
                                 </a>
                             </div>
                         </div>
