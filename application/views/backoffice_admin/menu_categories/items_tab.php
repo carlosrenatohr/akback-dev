@@ -40,15 +40,17 @@
         </jqx-tabs>
     </div>
 
-    <div class="col-lg-10 col-md-10 col-sm-10">
+    <div class="col-lg-10 col-md-10 col-sm-10 maingrid-container">
+        <!--  ITEMS GRID -->
         <div class="row">
         <div class="col-md-12 col-sm-12 restricter-dragdrop">
 
         </div>
+        <!--  CATEGORY GRID -->
         </div>
         <div class="row">
-        <div class="col-md-12 col-sm-12">
-            <h4 class="">Category grid</h4>
+        <div class="col-md-12 col-sm-12" style="padding-right: 0!important;padding-left: 0!important;">
+            <!--  <h4 class="">Category grid</h4>-->
             <div id="categories-container">
                 <category-cell-grid category-title="{{uno.CategoryName}}">
                 </category-cell-grid>

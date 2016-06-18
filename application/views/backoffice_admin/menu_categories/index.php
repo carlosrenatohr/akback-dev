@@ -130,9 +130,12 @@ jqxthemes();
         padding: 0!important;
     }
     .restricter-dragdrop .row {
-        margin-right: 0!important;margin-left: 0!important;
+        margin-right: 0!important;
+        margin-left: 0!important;
     }
-    .restricter-dragdrop .col-md-*, .restricter-dragdrop .col-sm-*  {
+    .restricter-dragdrop .col-md-*, .restricter-dragdrop .col-sm-*,
+    .maingrid-container .col-md-*
+    {
         margin-right: 0!important;margin-left: 0!important;
     }
     .restricter-dragdrop .draggable {
