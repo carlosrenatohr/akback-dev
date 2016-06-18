@@ -3,12 +3,8 @@
  */
 $(function() {
     $('#add_username').focus();
-    changetabtile();
+    $("#tabtitle").html("Users");
     watchingInputs();
-
-    function changetabtile(){
-        $("#tabtitle").html("Users");
-    }
 
     // Watch any change on user inputs
     function watchingInputs() {

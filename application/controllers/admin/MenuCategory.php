@@ -28,7 +28,7 @@ class MenuCategory extends AK_Controller
     }
 
     /**
-     * @method POST
+     * @method GET
      * @param null $status Filter by status
      * @description Load all registered menus
      * @returnType json
@@ -45,7 +45,7 @@ class MenuCategory extends AK_Controller
     }
 
     /**
-     * @method POST
+     * @method GET
      * @description Load all registered categories
      * @returnType json
      */
