@@ -916,7 +916,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     $scope.editQuestionItemWin = function(e) {
         var row = e.args.row;
-        console.log(row);
         var statusCombo = $('#itemq_Status').jqxDropDownList('getItemByValue', row.Status);
         $('#itemq_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
 
@@ -1008,7 +1007,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'data': data,
                 'success': function(data) {
                     if (data.status == 'success') {
-                        updateQuestionItemTable();
                         if ($scope.addOrEditqItem == 'create') {
                             msg = 'Question saved successfully!';
                         } else {
@@ -1020,6 +1018,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         setTimeout(function(){
                             questionOnItemGridWindow.close();
                         }, 2000);
+                        updateQuestionItemTable();
                     } else if (data.status == 'error') {
                         $('#qitemNotificationsErrorSettings #notification-content')
                             .html('There was an error');
@@ -1034,16 +1033,43 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         }
     };
 
-    $scope.deleteQuestionItem = function() {
-        $.ajax({
-            'url': SiteRoot + 'admin/MenuItem/deleteQuestionMenuItems/' + $scope.qItemIdChosen,
-            'method': 'post',
-            'dataType': 'json',
-            'success': function (data) {
-                updateQuestionItemTable();
-                questionOnItemGridWindow.close();
-            }
-        });
+    $scope.deleteQuestionItem = function(option) {
+        if (option == 0) {
+            $.ajax({
+                'url': SiteRoot + 'admin/MenuItem/deleteQuestionMenuItems/' + $scope.qItemIdChosen,
+                'method': 'post',
+                'dataType': 'json',
+                'success': function (data) {
+                    if (data.status == 'success') {
+                        updateQuestionItemTable();
+                        questionOnItemGridWindow.close();
+                        $('#mainButtonsQitem').show();
+                        $('#promptToCloseQitem').hide();
+                        $('#promptToDeleteQItem').hide();
+                    } else if (data.status == 'error') {
+                        $('#qitemNotificationsErrorSettings #notification-content')
+                            .html('There was an error');
+                        $scope.qitemNotificationsErrorSettings.apply('open');
+                    }
+                    else {
+                        console.info('Ajax error');
+                    }
+                }
+            });
+        } else if (option == 1) {
+            $('#mainButtonsQitem').show();
+            $('#promptToCloseQitem').hide();
+            $('#promptToDeleteQItem').hide();
+            questionOnItemGridWindow.close();
+        } else if (option == 2) {
+            $('#mainButtonsQitem').show();
+            $('#promptToCloseQitem').hide();
+            $('#promptToDeleteQItem').hide();
+        } else {
+            $('#mainButtonsQitem').hide();
+            $('#promptToCloseQitem').hide();
+            $('#promptToDeleteQItem').show();
+        }
     };
 
 });

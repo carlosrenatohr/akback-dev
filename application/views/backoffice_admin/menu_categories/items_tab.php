@@ -242,6 +242,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Prompt before delete an item on grid -->
+                            <div class="col-md-12 col-md-offset-0">
+                                <div class="row">
+                                    <div id="promptToDeleteQItem" class="" style="display: none">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                Do you really want to delete it?
+                                                <button type="button" ng-click="deleteQuestionItem(0)" class="btn btn-primary">Yes</button>
+                                                <button type="button" ng-click="deleteQuestionItem(1)" class="btn btn-warning">No</button>
+                                                <button type="button" ng-click="deleteQuestionItem(2)" class="btn btn-info">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- NOTIFICATIONS AREA -->
                             <div class="col-md-12 col-md-offset-0">
                                 <div class="row">
