@@ -564,7 +564,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         if (e.args.item) {
             $scope.changingItemOnSelect = e.args.item.originalItem;
         }
-        console.log($scope.countChangesOnSelectingItemCbx);
         $scope.countChangesOnSelectingItemCbx++;
         $('#saveItemGridBtn').prop('disabled', false);
     });
