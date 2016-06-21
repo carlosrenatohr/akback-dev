@@ -70,7 +70,7 @@
                       id="jqxTabsMenuItemWindows">
                 <ul>
                     <li>Menu Item</li>
-                    <li>Questions Tab</li>
+                    <li id="questionsTabOnMenuItemWindow">Questions</li>
                 </ul>
                 <!-- Menu Item subtab -->
                 <div class="">

@@ -25,16 +25,27 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         }
     });
 
-    $('#jqxTabsMenuItemWindows').on('tabclick', function(e) {
+    $('#jqxTabsMenuItemWindows').on('selecting', function(e) { // tabclick
         var tabclicked = e.args.item;
         if (tabclicked == 0) {
             $('#deleteItemGridBtn').show();
         } else {
-            $('#deleteItemGridBtn').hide();
-            if($scope.itemCellSelectedOnGrid != null) {
-                $scope.$apply(function() {
-                    updateQuestionItemTable();
-                });
+            //
+            if ($scope.countChangesOnSelectingItemCbx > 1) {
+                e.cancel = true;
+                $('#promptToCloseItemGrid').show();
+                $('#mainButtonsOnItemGrid').hide();
+                $scope.tryToChangeQuestionTab = true;
+            } else {
+                e.cancel = false;
+                $('#deleteItemGridBtn').hide();
+                $scope.tryToChangeQuestionTab = false;
+                //
+                if ($scope.changingItemOnSelect != null) {
+                    $scope.$apply(function() {
+                        updateQuestionItemTable();
+                    });
+                }
             }
         }
     });
@@ -241,8 +252,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     $scope.itemsComboboxSelecting = function(e) {
-        var item = e.args.item.originalItem;
-        $('#editItem_label').val(item.Description);
+        if (e.args.item != null) {
+            var item = e.args.item.originalItem;
+            $('#editItem_label').val(item.Description);
+        }
     };
 
     $scope.itemsListboxSettings =
@@ -351,7 +364,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         if (option == 0) {
             $scope.saveItemGridBtn();
         } else if (option == 1) {
-            itemsMenuWindow.close();
+            if ($scope.tryToChangeQuestionTab) {
+                $scope.settingTab(1);
+                $('#mainButtonsOnItemGrid').show();
+                $('#promptToCloseItemGrid').hide();
+            } else {
+                itemsMenuWindow.close();
+                //$scope.tryToChangeQuestionTab = false;
+            }
+            $scope.tryToChangeQuestionTab = false;
+            $scope.countChangesOnSelectingItemCbx = 1;
         }
         else if (option == 2) {}
         else {
@@ -363,6 +385,23 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 $('#mainButtonsOnItemGrid').hide();
             }
         }
+    };
+
+    $scope.settingTab = function(tab) {
+        $.ajax({
+            'method': 'get',
+            url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique,
+            success: function() {
+                $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem:tab});
+                //
+                var selectedIndexItem;
+                var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.itemCellSelectedOnGrid.ItemUnique);
+                if (itemCombo != undefined) {
+                    selectedIndexItem = itemCombo.index | 0;
+                } else selectedIndexItem = 0;
+                $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+            }
+        });
     };
 
     var validationDataOnItemGrid = function() {
@@ -426,10 +465,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         $('#menuitemNotificationsSuccessSettings #notification-content')
                             .html('Menu item was updated successfully!');
                         $scope.menuitemNotificationsSuccessSettings.apply('open');
-                        setTimeout(function() {
-                            itemsMenuWindow.close();
-                        }, 2000);
+                        //setTimeout(function() {
+                        //    itemsMenuWindow.close();
+                        //}, 2000);
                         updateQuestionItemTable();
+                        $('#saveItemGridBtn').prop('disabled', true);
+                        // if was changed item combobox and was selected the question tab
+                        // to prompt save changes
+                        $scope.countChangesOnSelectingItemCbx = 1;
+                        if ($scope.tryToChangeQuestionTab) {
+                            $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 1});
+                            $scope.tryToChangeQuestionTab = false;
+                        }
                     } else if (data.status == 'error') {
                         $.each(data.message, function(i, value){
                             $('#menuitemNotificationsErrorSettings #notification-content')
@@ -442,7 +489,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 }
             });
         }
-
     };
 
     $scope.deleteItemGridBtn = function(option) {
@@ -484,7 +530,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             $('.RowOptionButtonsOnItemGrid').hide();
             $('#promptToDeleteItemGrid').show();
             //}
-
         }
     };
 
@@ -514,7 +559,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         $('#saveItemGridBtn').prop('disabled', false);
     });
 
-    $('#editItem_ItemSelected').on('select', function(){
+    $scope.countChangesOnSelectingItemCbx = 0;
+    $('#editItem_ItemSelected').on('select', function(e) {
+        if (e.args.item) {
+            $scope.changingItemOnSelect = e.args.item.originalItem;
+        }
+        console.log($scope.countChangesOnSelectingItemCbx);
+        $scope.countChangesOnSelectingItemCbx++;
         $('#saveItemGridBtn').prop('disabled', false);
     });
 
@@ -523,9 +574,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var itemWindow = itemsMenuWindow;
         $('.draggable')
             .on('dblclick', function(e) {
+            $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
+            $('#questionsTabOnMenuItemWindow').show();
+            $('#questionsTabOnMenuItemWindow .jqx-tabs-titleContentWrapper').css('margin-top', '0');
             $('#promptToCloseItemGrid').hide();
             $('#mainButtonsOnItemGrid').show();
-            $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
+            //
+            $scope.countChangesOnSelectingItemCbx = 0;
+            $scope.tryToChangeQuestionTab = false;
+            //
             var $this = $(e.currentTarget);
             if ($this.hasClass('filled')) {
                 var data = {
@@ -581,9 +638,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     var resetMenuItemForm = function() {
         var itemCombo, selectedIndexItem;
             itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.selectedItemInfo.Unique);
+        $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
         if (itemCombo != undefined) {
-            selectedIndexItem = itemCombo.index | -1;
-        } //else selectedIndexItem = 0;
+            selectedIndexItem = itemCombo.index | 0;
+            $scope.countChangesOnSelectingItemCbx = 0;
+        } else {
+            selectedIndexItem = -1;
+            $scope.countChangesOnSelectingItemCbx = 1;
+        }
+        $scope.tryToChangeQuestionTab = false;
         $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
         $('#editItem_Status').jqxDropDownList({'selectedIndex': 0});
         //$('#editItem_label').val('');
@@ -609,7 +672,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
         $('#deleteItemGridBtn').hide();
         $('#NewMenuItemBtn').prop('disabled', false);
-        $('#saveItemGridBtn').prop('disabled', false);
+        //$('#saveItemGridBtn').prop('disabled', false);
+        $('#questionsTabOnMenuItemWindow').hide();
         itemsMenuWindow.setTitle('Add New Menu Item');
         itemsMenuWindow.open();
     };
@@ -809,12 +873,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     {name: 'Sort', type: 'number'},
                 ],
                 id: 'Unique',
-                url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.itemCellSelectedOnGrid.ItemUnique
+                //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.itemCellSelectedOnGrid.ItemUnique
+                url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'},
                 {text: 'Item', dataField: 'ItemUnique', type: 'int', hidden: true},
-                {text: 'Item', dataField: 'ItemName', type: 'string'},
+                {text: 'Item', dataField: 'ItemName', type: 'string', hidden: true},
                 {text: 'Question', dataField: 'QuestionUnique', type: 'int', hidden: true},
                 {text: 'Question', dataField: 'QuestionName', type: 'string'},
                 {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
@@ -836,7 +901,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             questionOnItemGridWindow = args.instance;
         },
         resizable: false,
-        width: "40%", height: "40%",
+        width: "40%", height: "45%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -1015,9 +1080,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         $('#qitemNotificationsSuccessSettings #notification-content')
                             .html(msg);
                         $scope.qitemNotificationsSuccessSettings.apply('open');
-                        setTimeout(function(){
-                            questionOnItemGridWindow.close();
-                        }, 2000);
+                        //setTimeout(function(){
+                        //    questionOnItemGridWindow.close();
+                        //}, 2000);
+                        $('#saveQuestionItemBtn').prop('disabled', true);
                         updateQuestionItemTable();
                     } else if (data.status == 'error') {
                         $('#qitemNotificationsErrorSettings #notification-content')
