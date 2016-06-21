@@ -157,7 +157,7 @@
                                             <div id="mainQItemButtons">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <button type="button" id="saveQuestionItemBtn"
+                                                        <button type="button" id="saveQuestionItemBtnOnQuestionTab"
                                                                 ng-click="saveItemByQuestion()"
                                                                 class="btn btn-primary" disabled>
                                                             Save
@@ -167,9 +167,9 @@
                                                                 class="btn btn-warning">
                                                             Close
                                                         </button>
-                                                        <button type="button" id="deleteQuestionItemBtn"
+                                                        <button type="button" id="deleteQuestionItemBtnOnQuestionTab"
                                                                 ng-click="deleteItemByQuestion()"
-                                                                class="btn btn-danger " style="display:none; overflow:auto;">
+                                                                class="btn btn-danger" style="overflow:auto;">
                                                             Delete
                                                         </button>
                                                     </div>

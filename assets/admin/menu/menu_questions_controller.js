@@ -321,10 +321,10 @@ app.controller('menuQuestionController', function ($scope) {
                 url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + $scope.questionId
             },
             columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int'},
-                {text: 'Name', dataField: 'Description', type: 'string'},
-                {text: 'Label', dataField: 'Label', type: 'string'},
-                {text: 'Sort', dataField: 'Sort', type: 'string'}
+                {text: 'ID', dataField: 'Unique', type: 'int', width: '5%'},
+                {text: 'Name', dataField: 'Description', type: 'string', width: '45%'},
+                {text: 'Label', dataField: 'Label', type: 'string', width: '45%'},
+                {text: 'Sort', dataField: 'Sort', type: 'string', width: '5%'}
             ],
             created: function (args) {
                 args.instance.updateBoundData();
@@ -360,8 +360,8 @@ app.controller('menuQuestionController', function ($scope) {
 
     $scope.openQuestionItemWin = function (e) {
         $scope.newOrEditQItemOption = 'create';
-        $('#deleteQuestionItemBtn').hide();
-        $('#saveQuestionItemBtn').prop('disabled', true);
+        $('#deleteQuestionItemBtnOnQuestionTab').hide();
+        $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
         question_item_window.setTitle('Add New Question Item');
         question_item_window.open();
     };
@@ -380,8 +380,8 @@ app.controller('menuQuestionController', function ($scope) {
 
         $('#qItem_sort').val(row.Sort);
         $('#qItem_Label').val(row.Label);
-        $('#deleteQuestionItemBtn').show();
-        $('#saveQuestionItemBtn').prop('disabled', true);
+        $('#deleteQuestionItemBtnOnQuestionTab').show();
+        $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
         question_item_window.setTitle('Edit Question Item: ' + $scope.qitemId + ' | Question ID: ' + $scope.questionId);
         question_item_window.open();
     };
@@ -396,10 +396,10 @@ app.controller('menuQuestionController', function ($scope) {
             $('#mainQItemButtons').show();
             $('#promptToCloseQItemForm').hide();
         } else {
-            if ($('#saveQuestionItemBtn').is(':disabled')) {
+            if ($('#saveQuestionItemBtnOnQuestionTab').is(':disabled')) {
                 resetQuestionItemForm();
                 question_item_window.close();
-                //$('#saveQuestionItemBtn').prop('disabled', true);
+                //$('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
             }
             else {
                 $('#mainQItemButtons').hide();
@@ -441,7 +441,7 @@ app.controller('menuQuestionController', function ($scope) {
         var item = e.args.item;
         if (item) {
             $('#qItem_Label').val(item.label);
-            $('#saveQuestionItemBtn').prop('disabled', false);
+            $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         }
     };
 
@@ -462,7 +462,7 @@ app.controller('menuQuestionController', function ($scope) {
                 return false;
             }
         }
-        $('#saveQuestionItemBtn').prop('disabled', false);
+        $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
     });
 
     var beforeValidationsSaveItemQuestion = function() {
@@ -514,7 +514,7 @@ app.controller('menuQuestionController', function ($scope) {
                 success: function(response) {
                     if (response.status == 'success') {
                         updateItemQuestiontable();
-                        $('#saveQuestionItemBtn').prop('disabled', true);
+                        $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
                         if ($scope.newOrEditQItemOption == 'create') {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question item created successfully!');
@@ -549,7 +549,7 @@ app.controller('menuQuestionController', function ($scope) {
             success: function(response) {
                 if (response.status == 'success') {
                     updateItemQuestiontable();
-                    $('#saveQuestionItemBtn').prop('disabled', true);
+                    $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
                     $('#qItemSuccessNotif #notification-content')
                         .html('Question item was deleted!');
                     $scope.qItemSuccessNotif.apply('open');
