@@ -429,8 +429,10 @@ app.controller('menuCategoriesController', function($scope, $http){
             //'async': false
         });
 
-        $scope.settingsMenuSelect =
+        $scope.$apply(function(){
+            $scope.settingsMenuSelect =
             { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
+        });
     }
 
     // Status select
