@@ -20,7 +20,7 @@ class MenuQuestion extends AK_Controller
         $result = $this->question->getAllQuestions();
         $return = [];
         foreach ($result as $row) {
-            $row['Sort'] = $row['sort'];
+//            $row['Sort'] = $row['sort'];
             $return[] = $row;
         }
         echo json_encode($return);
@@ -31,7 +31,7 @@ class MenuQuestion extends AK_Controller
         $result = $this->question->getQuestionItemData($id);
         $return = [];
         foreach ($result as $row) {
-            $row['Sort'] = $row['sort'];
+//            $row['Sort'] = $row['sort'];
             $return[] = $row;
         }
         echo json_encode($return);

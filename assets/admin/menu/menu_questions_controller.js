@@ -217,7 +217,7 @@ app.controller('menuQuestionController', function ($scope) {
             var values = {
                 'Question': $('#qt_Question').val(),
                 'QuestionName': $('#qt_QuestionName').val(),
-                'sort': $('#qt_sort').val()
+                'Sort': $('#qt_sort').val()
             };
             var url = '';
             if ($scope.newOrEditQuestionOption == 'edit') {
@@ -322,10 +322,11 @@ app.controller('menuQuestionController', function ($scope) {
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '5%'},
-                {text: 'Name', dataField: 'Description', type: 'string', width: '45%'},
-                {text: 'Label', dataField: 'Label', type: 'string', width: '45%'},
-                {text: 'Sort', dataField: 'Sort', type: 'string', width: '5%'}
+                {text: 'Name', dataField: 'Description', type: 'string', width: '43%'},
+                {text: 'Label', dataField: 'Label', type: 'string', width: '43%'},
+                {text: 'Sort', dataField: 'Sort', type: 'string', width: '8%'}
             ],
+            width: "100%",
             created: function (args) {
                 args.instance.updateBoundData();
             }
@@ -497,7 +498,7 @@ app.controller('menuQuestionController', function ($scope) {
             var data = {
                 'QuestionUnique': $scope.questionId,
                 'ItemUnique': $('#qItem_ItemUnique').jqxComboBox('getSelectedItem').value,
-                'sort': $('#qItem_sort').val(),
+                'Sort': $('#qItem_sort').val(),
                 'Label': $('#qItem_Label').val()
             };
             var url;
