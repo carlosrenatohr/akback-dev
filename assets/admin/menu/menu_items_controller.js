@@ -701,6 +701,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         .bind('dragEnd', function (event) {
             $('.restricter-dragdrop').css({'border': '#202020 solid 2px'});
             if (ItemOnAboveGrid) {
+                $('.draggable').css('border', 'black 1px solid');
                 //
                 var $this = $(event.args.target);
                 var data = {
@@ -740,9 +741,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         })
         .bind('dropTargetEnter', function (event) {
             ItemOnAboveGrid = true;
+            $(event.args.target).css('border', '5px solid #eeb706');
         })
         .bind('dropTargetLeave', function (event) {
             ItemOnAboveGrid = false;
+            $(event.args.target).css('border', 'black 1px solid');
         });
     }
 
@@ -750,7 +753,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     function draggableEvents() {
         if ($('body .itemOnGrid').length) {
             var onCellAboveGrid = false;
-            var color;
             $('.itemOnGrid').jqxDragDrop(
                 {
                     dropTarget: $('.draggable'),
@@ -802,13 +804,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 var element_row = $(event.args.element).data('row');
                 $scope.onGridTargetMoved = {'Column': target_col, 'Row': target_row};
                 $scope.onGridElementMoved = {'Column': element_col, 'Row': element_row};
-                color = $(event.args.target).css('border');
                 $(event.args.target).css('border', '5px solid #eeb706');
             })
             .bind('dragging', function (event) {})
             .bind('dropTargetLeave', function (event) {
                 onCellAboveGrid = false;
-                $(event.args.target).css('border', color);
+                $(event.args.target).css('border', 'black 1px solid');
             });
 
             // Helper: FirstObject.isEqual(OtherObject)
