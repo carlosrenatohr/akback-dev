@@ -8,6 +8,7 @@ customerangular();
 jqxangularjs();
 jqxthemes();
 ?>
+<?php $this->load->view('backoffice_admin/customers/custom_controls'); ?>
 <!-- JS-->
 <script>
     // --Global Variable
@@ -15,6 +16,12 @@ jqxthemes();
     $("#tabtitle").html("Customer administrator");
 </script>
 <script type="application/javascript" src="../../assets/admin/customer/customer_controller.js"></script>
+<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
+<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxnumberinput.js"></script>
+<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxdatetimeinput.js"></script>
+<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxcalendar.js"></script>
+<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxscrollbar.js"></script>
+<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxlistbox.js"></script>
 <!-- -->
 
 <div ng-controller="customerController" ng-cloak>
@@ -32,7 +39,7 @@ jqxthemes();
                                     </a>
                                 </li>
                                 <li>
-                                    <a style="outline:0;" ng-click="">
+                                    <a style="outline:0;" ng-click="openAddCustomerWind()">
                                         <span class="icon-32-new"></span>
                                         New
                                     </a>
@@ -48,6 +55,59 @@ jqxthemes();
                                 jqx-create="customerTableSettings"
                                 jqx-on-row-double-click="">
                 </jqx-data-table>
+                <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings">
+                    <div class="">
+                        Add New Customer
+                    </div>
+                    <div class="">
+                        <div class="col-md-12 col-md-offset-0">
+                            <div class="row itemQuestionFormContainer">
+                                <div style=" width:100%;float:left;">
+                                    <?php foreach($customerFields as $row) { ?>
+                                        <div style=" float:left; padding:2px; width:650px; ">
+                                            <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">
+                                                <?php echo $row['Label'] ?>:
+                                            </div>
+                                            <div style=" float:left; /*min-width:250px;*/">
+                                                <?php setControl($row); ?>
+                                                <?php //input_text('customer_' . $row['Field'], true, $row['Label']) ?>
+                                            </div>
+                                            <?php
+                                            if ($row['Required'] > 0)
+                                                required_control();
+                                            ?>
+                                        </div>
+                                    <? } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-md-offset-0">
+                            <div class="row">
+                                <div id="">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button type="button" id=""
+                                                    ng-click=""
+                                                    class="btn btn-primary" disabled>
+                                                Save
+                                            </button>
+                                            <button type="button" id=""
+                                                    ng-click=""
+                                                    class="btn btn-warning">
+                                                Close
+                                            </button>
+                                            <button type="button" id=""
+                                                    ng-click=""
+                                                    class="btn btn-danger" style="overflow:auto;">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </jqx-window>
             </div>
 
         </div>

@@ -8,10 +8,12 @@
  */
 class Customer extends AK_Controller
 {
+    private $customerFields;
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Customer_model', 'customer');
+//        $this->customerFields = $this->customer->getFieldsForCustomer();
     }
 
     public function index()
@@ -19,6 +21,7 @@ class Customer extends AK_Controller
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['page_title'] = "Customer Dashboard";
         $data['storename'] = $this->displaystore();
+        $data['customerFields'] = $this->customer->getFieldsForCustomer();
         $data['main_content'] = "backoffice_admin/customers/index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }

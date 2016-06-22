@@ -5,6 +5,7 @@ var demoApp = angular.module("demoApp", ['jqwidgets']);
 
 demoApp.controller("customerController", function ($scope) {
 
+    var customerWind;
     $scope.customerTableSettings = {
         source: {
             dataType: 'json',
@@ -48,5 +49,51 @@ demoApp.controller("customerController", function ($scope) {
         altRows: true,
         filterable: true,
         filterMode: 'simple'
+    };
+
+    $scope.addCustomerWindSettings = {
+        created: function (args) {
+            customerWind = args.instance;
+        },
+        resizable: false,
+        width: "60%", height: "80%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    // Setting buttons
+    $('.jqxRadio').jqxRadioButton({
+        //width: '250px',
+        height: 25,
+        checked: false,
+        theme: 'artic'
+    });
+
+    $('.jqxDecimalNumber').jqxNumberInput({
+        //width: '250px',
+        height: '25px',
+        min: 0,
+        spinButtons: true,
+        digits: 3,
+        decimalDigits: 2
+    });
+
+    $('.jqxDate').jqxDateTimeInput({
+        //width: '300px',
+        height: '25px'
+    });
+
+    $('.jqxDatalist').jqxListBox({
+        selectedIndex: -1,
+        source: ["first", "second", "third"],
+        width: 200,
+        height: 75
+    });
+
+    $scope.openAddCustomerWind = function() {
+        customerWind.open();
     }
+
 });
