@@ -448,7 +448,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'posCol': $scope.itemCellSelectedOnGrid.Column
             };
             if ($('#editItem_sort').val() != '') {
-                data['sort'] = $('#editItem_sort').val();
+                data['Sort'] = $('#editItem_sort').val();
             }
 
             $.ajax({
@@ -611,7 +611,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                                     ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
                                     : data['Label'];
                         $('#editItem_label').val(label);
-                        $('#editItem_sort').val((data['sort']) == '' || data['sort'] == null ? 1 : data['sort']);
+                        $('#editItem_sort').val((data['Sort']) == '' || data['Sort'] == null ? 1 : data['Sort']);
                         $('#editItem_Row').val(data.Row);
                         $('#editItem_Column').val(data.Column);
                         //
@@ -710,7 +710,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     'Row': $(event.args.target).data('row'),
                     'Column': $(event.args.target).data('col'),
                     'Status': 1,
-                    'sort': 1
+                    'Sort': 1
                 };
                 $.ajax({
                     'url': SiteRoot + 'admin/MenuItem/postMenuItems',
@@ -853,10 +853,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         sortable: true,
         pageable: true,
         pageSize: 15
-        //pagerMode: 'default',
-        //altRows: true,
-        //filterable: true,
-        //filterMode: 'simple'
     };
 
     var updateQuestionItemTable = function() {
