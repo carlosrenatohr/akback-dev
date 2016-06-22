@@ -1,10 +1,7 @@
 <script type="text/javascript">
     $(function(){
-        changetabtile();
-    });
-    function changetabtile(){
         $("#tabtitle").html("Dashboard");
-    }
+    });
 </script>
 <div class="container-fluid">
     <div class="col-md-12 col-md-offset-0">
@@ -44,7 +41,7 @@
                                 </a>
                             </div>
                             <div class="icon">
-                                <a href="<?php echo base_url("dashboard/admin/categories")?>">
+                                <a href="<?php echo base_url("dashboard/admin/menu")?>">
                                     <img width="48" alt="" src="<?php echo base_url()?>assets/img/kahon.png">
                                     <span class="mlabel">MENU</span>
                                 </a>

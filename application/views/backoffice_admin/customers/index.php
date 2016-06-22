@@ -9,7 +9,8 @@ jqxangularjs();
 jqxthemes();
 ?>
 <?php $this->load->view('backoffice_admin/customers/custom_controls'); ?>
-<!-- JS-->
+<!-- Assets -->
+<link rel="stylesheet" href="../../assets/admin/styles.css">
 <script>
     // --Global Variable
     var SiteRoot = "<?php echo base_url()?>";
@@ -32,6 +33,12 @@ jqxthemes();
                     <div class="col-md-12">
                         <div id="toolbar" class="toolbar-list">
                             <ul class="nav navbar-nav navbar-left">
+                                <li>
+                                    <a href="<?php echo base_url("backoffice/dashboard") ?>" style="outline:0;">
+                                        <span class="icon-32-home"></span>
+                                        Home
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="<?php echo base_url("dashboard/admin") ?>" style="outline:0;">
                                         <span class="icon-32-back"></span>
@@ -113,33 +120,3 @@ jqxthemes();
         </div>
     </div>
 </div>
-
-<style type="text/css">
-    body {
-        padding: 0;
-        margin: 0;
-    }
-
-    div.toolbar-list a {
-        cursor: pointer;
-        display: block;
-        float: left;
-        padding: 1px 10px;
-        white-space: nowrap;
-    }
-
-    div.toolbar-list span {
-        display: block;
-        float: none;
-        height: 32px;
-        margin: 0 auto;
-        width: 32px;
-    }
-    .icon-32-new {
-        background-image: url("../../assets/img/addnew.png");
-    }
-
-    .icon-32-back {
-        background-image: url("../../assets/img/back.png");
-    }
-</style>

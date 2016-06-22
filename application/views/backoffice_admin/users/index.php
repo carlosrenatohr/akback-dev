@@ -9,6 +9,7 @@ jqxangularjs();
 jqxthemes();
 ?>
 <!-- JS-->
+<link rel="stylesheet" href="../../assets/admin/styles.css">
 <script>
     // --Global Variable
     var SiteRoot = "<?php echo base_url()?>";
@@ -31,6 +32,12 @@ jqxthemes();
                     <div class="col-md-12">
                         <div id="toolbar" class="toolbar-list">
                             <ul class="nav navbar-nav navbar-left">
+                                <li>
+                                    <a href="<?php echo base_url("backoffice/dashboard")?>" style="outline:0;">
+                                        <span class="icon-32-home"></span>
+                                        Home
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="<?php echo base_url("dashboard/admin")?>" style="outline:0;">
                                         <span class="icon-32-back"></span>
@@ -309,55 +316,3 @@ jqxthemes();
         </div>
     </div>
 </div>
-
-
-<style type="text/css">
-    body{
-        padding: 0;
-        margin: 0;
-    }
-
-    .required{
-        color: #F00;
-    }
-
-    .new-form-control {
-        font-size: 14px !important;
-        line-height: 1.42857143!important;
-        color: #555!important;
-        background: #fff none !important;
-        border: 1px solid #ccc!important;
-        border-radius: 4px!important"
-    }
-
-    div.toolbar-list a {
-        cursor: pointer;
-        display: block;
-        float: left;
-        padding: 1px 10px;
-        white-space: nowrap;
-    }
-
-    div.toolbar-list span {
-        display: block;
-        float: none;
-        height: 32px;
-        margin: 0 auto;
-        width: 32px;
-    }
-    .icon-32-new {
-        background-image: url("../../assets/img/addnew.png");
-    }
-
-    /*.icon-32-edit{*/
-        /*background-image: url("../assets/img/edit.png");*/
-    /*}*/
-
-    /*.icon-32-trash{*/
-        /*background-image: url("../assets/img/remove3.png");*/
-    /*}*/
-
-    .icon-32-back {
-        background-image: url("../../assets/img/back.png");
-    }
-</style>

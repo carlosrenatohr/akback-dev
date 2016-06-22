@@ -1,16 +1,17 @@
-<?php $this->load->view('backoffice_templates/backoffice_template.inc.php'); ?>
-
-<?php $this->load->view('backoffice_includes/backoffice_mainmenu_header'); ?>
-
-<?php $this->load->view('backoffice_templates/backoffice_category_menubar'); ?>
-
 <?php
+$this->load->view('backoffice_templates/backoffice_template.inc.php');
+$this->load->view('backoffice_includes/backoffice_mainmenu_header');
+//$this->load->view('backoffice_templates/backoffice_category_menubar');
+$this->load->view('backoffice_templates/backoffice_menubar');
+
+categoryjs();
 jqxangularjs();
 jqxthemes();
 ?>
+
 <script type="text/javascript">
     var SiteRoot ="<?php echo base_url() ?>";
-    $("#tabtitle").text("Category");
+    $("#tabtitle").text("Menu");
 </script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/jqwidgets/jqxdragdrop.js"></script>
 
@@ -18,6 +19,7 @@ jqxthemes();
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_questions_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_directives.js"></script>
+<link rel="stylesheet" href="../../assets/admin/styles.css">
 <div class="parent-container" ng-controller="menuCategoriesController">
     <div ng-cloak class=" ng-cloak">
         <div class="container-fluid">
@@ -27,6 +29,12 @@ jqxthemes();
                 <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
                     <div id="toolbar" class="toolbar-list">
                         <ul class="nav navbar-nav navbar-left" style="color: #000;">
+                            <li>
+                                <a href="<?php echo base_url("backoffice/dashboard")?>" style="outline:0;">
+                                    <span class="icon-32-home"></span>
+                                    Home
+                                </a>
+                            </li>
                             <li>
                                 <a href="<?php echo base_url("dashboard/admin")?>" style="outline:0;">
                                     <span class="icon-32-back"></span>
@@ -81,114 +89,5 @@ jqxthemes();
     </div>
     <input type="hidden" id="userid" ng-model="userid" />
 </div>
-<style type="text/css">
-    body{
-        margin: 0;
-        padding: 0;
-        overflow:hidden;
-    }
-
-        div.toolbar-list a {
-        cursor: pointer;
-        display: block;
-        float: left;
-        padding: 1px 10px;
-        white-space: nowrap;
-    }
-
-    div.toolbar-list span {
-        display: block;
-        float: none;
-        height: 32px;
-        margin: 0 auto;
-        width: 32px;
-    }
-    .icon-32-new {
-        background-image: url("../../assets/img/addnew.png");
-    }
-
-    .icon-32-back {
-        background-image: url("../../assets/img/back.png");
-    }
-
-    /* ITEMS */
-    @media (max-width: 768px) {
-        .restricter-dragdrop {
-            height: 320px!important;
-        }
-        #categories-container {
-            height: 120px;
-        }
-    }
-    .restricter-dragdrop {
-        /*max-height: 450px;*/
-        height: 420px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        background-color: lightgrey;
-        border: #202020 2px solid;
-        padding: 0!important;
-    }
-    .restricter-dragdrop .row {
-        margin-right: 0!important;
-        margin-left: 0!important;
-    }
-    .restricter-dragdrop .col-md-*, .restricter-dragdrop .col-sm-*,
-    .maingrid-container .col-md-*
-    {
-        margin-right: 0!important;margin-left: 0!important;
-    }
-    .restricter-dragdrop .draggable {
-        height: 120px;
-        background-color: #f0f0f0;
-        border: black 1px solid;
-        color: #fff;
-        padding: 2px!important;
-    }
-    .restricter-dragdrop .draggable.selectedItemOnGrid {
-        /*background-color: #f0f0f0;*/
-        border: #2F2F2F 4px solid;
-    }
-    #categories-container {
-        /*max-height: 300px;*/
-        /*min-height: 100%;*/
-        height: 200px;
-        overflow-y: scroll;
-        background-color: lightgrey;
-        border: black 2px dotted;
-        padding: 0!important;
-        overflow-x: hidden;
-    }
-
-    #selectedItemInfo {
-        background-color: lightblue;
-        -webkit-border-radius:3px;
-        -moz-border-radius:3px;
-        border-radius:3px;
-        min-height: 40px;
-        width: 100%;
-        margin: 15px 0 0;
-        padding: 8px;
-        text-align: center;
-    }
-
-    .category-cell-grid {
-        height: 90px;
-        background-color: #f0f0f0;
-        color: #fff;
-        border: black 1px solid;
-        text-align: center;
-        padding-top: 35px;
-    }
-    .category-cell-grid.valued {
-        background-color: #bc0530;
-    }
-    .category-cell-grid.clicked {
-        background-color: #ee063d;
-        border: black 2px solid;
-        box-shadow: 3px 3px 2px #888888;
-    }
-
-</style>
 
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>
