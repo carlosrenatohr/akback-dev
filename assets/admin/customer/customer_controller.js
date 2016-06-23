@@ -3,7 +3,7 @@
  */
 var demoApp = angular.module("demoApp", ['jqwidgets']);
 
-demoApp.controller("customerController", function ($scope) {
+demoApp.controller("customerController", function ($scope, $http) {
 
     var customerWind;
     $scope.customerTableSettings = {
@@ -64,36 +64,74 @@ demoApp.controller("customerController", function ($scope) {
     };
 
     // Setting buttons
-    $('.jqxRadio').jqxRadioButton({
-        //width: '250px',
-        height: 25,
-        checked: false,
-        theme: 'artic'
+    $scope.dateSettings = {
+        //selectionMode: 'range'
+        //min: new Date(2016, 5, 10),
+        max: new Date(),
+        width: '250px', height: '25px'
+    };
+
+    $('body').on('select', '.customer-datalist', function (e) {
+        console.log(e.args.item);
     });
 
-    $('.jqxDecimalNumber').jqxNumberInput({
-        //width: '250px',
-        height: '25px',
-        min: 0,
-        spinButtons: true,
-        digits: 3,
-        decimalDigits: 2
-    });
+    $scope.changeDatalist = function(e) {
+        //console.log(e);
+    };
 
-    $('.jqxDate').jqxDateTimeInput({
-        //width: '300px',
-        height: '25px'
-    });
+    $scope.radioCollection = {};
+    $scope.changeRadio = function(e) {
+        var el = $(e.target).parent();
+        var field = el.data('field');
+        console.log($(e.target));
+        $scope.radioCollection[field] = '';
+    };
 
-    $('.jqxDatalist').jqxListBox({
-        selectedIndex: -1,
-        source: ["first", "second", "third"],
-        width: 200,
-        height: 75
+    $http({
+        'method': 'GET',
+        'url': SiteRoot + 'admin/Customer/load_customerAttributes'
+    }).then(function(response) {
+            console.log(response.data);
+            $scope.customerControls = response.data;
+        }, function(){}
+    ).then(function(){
+
     });
 
     $scope.openAddCustomerWind = function() {
         customerWind.open();
+    };
+
+    var validationBeforeCustomer = function() {
+        var needValidation = false;
+
+        return needValidation;
+    };
+
+    $scope.saveCustomerBtn = function() {
+        if (!validationBeforeCustomer()) {
+            var data = {};
+            $('.customer-field').each(function(i, value) {
+                var el = $(value);
+                var type = el.data('control-type');
+                var inputValue;
+                if (type == 'text') {
+                    inputValue = el.find('input').val();
+                    data[el.data('field')] = inputValue;
+                } else if (type == 'number' || type == 'number2Decimal') {
+                    inputValue = el.find('.customer-number').val();
+                    data[el.data('field')] = inputValue;
+                } else if (type == 'datalist') {
+                    inputValue = el.find('.customer-datalist').jqxListBox('getSelectedItem').value;
+                    data[el.data('field')] = inputValue;
+                }
+                else {
+                    data[el.data('field')] = '';
+                }
+
+            });
+            console.log(data);
+        }
     }
 
 });

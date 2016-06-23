@@ -68,7 +68,10 @@ function input_date($name)
     echo "<div class='jqxDate' id='{$name}'></div>";
 }
 
-function input_datalist($name)
+function input_datalist($name, $options = [])
 {
+    if (!empty($options)) {
+
+    }
     echo "<div class='jqxDatalist' id='{$name}'></div>";
 }
