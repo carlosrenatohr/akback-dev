@@ -38,6 +38,11 @@ class Customer extends AK_Controller
         echo json_encode($customers);
     }
 
+    /**
+     * @helper
+     * @description group fields with their sub-fields
+     * @returnType array
+     */
     private function customerFieldsWithOptions()
     {
         $new_fields = [];
@@ -52,9 +57,59 @@ class Customer extends AK_Controller
         return $new_fields;
     }
 
+    /**
+     * @method GET
+     * @description Load all customers attributes
+     * @returnType json
+     */
     public function load_customerAttributes()
     {
         echo json_encode($this->customerFieldsWithOptions());
+    }
+
+    /**
+     * @method POST
+     * @description Create new customer by custom attributes
+     * @returnType json
+     */
+    public function createCustomer()
+    {
+        $request = $_POST;
+        $status = $this->customer->postCustomer($request);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Customer success: ' . $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Database error' . $status
+            ];
+        }
+        echo json_encode($response);
+    }
+
+    /**
+     * @method POST
+     * @description Create new customer by custom attributes
+     * @returnType json
+     */
+    public function deleteCustomer($id)
+    {
+        $status = $this->customer->deleteCustomer($id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Customer deleted!'
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Database error'
+            ];
+        }
+        echo json_encode($response);
     }
 
 }

@@ -11,6 +11,12 @@ class Customer_model extends CI_Model
 
     private $customerTable = 'customer';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('session');
+    }
+
     public function getAllCustomers($select = null)
     {
         $fields = ['Unique', 'FirstName'];
@@ -18,7 +24,7 @@ class Customer_model extends CI_Model
         $fields_select = array_unique($fields_select);
         //
         $this->db->select($fields_select);
-        $query = $this->db->get_where($this->customerTable, []);
+        $query = $this->db->get_where($this->customerTable, ['Status' => 1]);
         return $query->result_array();
     }
 
@@ -41,6 +47,31 @@ class Customer_model extends CI_Model
             $values[] = $row[$field];
         }
         return $values;
+    }
+
+    public function postCustomer($request)
+    {
+        $extraFields = [
+            'Status' => 1,
+            'Created' => date('Y-m-d H:i:s'),
+            'CreatedBy' => $this->session->userdata('userid')
+        ];
+        $data = array_merge($request, $extraFields);
+        $status = $this->db->insert($this->customerTable, $data);
+        $insert_id = $this->db->insert_id();
+        return $status;
+    }
+
+    public function deleteCustomer($id)
+    {
+        $extraFields = [
+            'Status' => 0,
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
+        $this->db->where('Unique', $id);
+        $status = $this->db->update($this->customerTable, $extraFields);
+        return $status;
     }
 
 }

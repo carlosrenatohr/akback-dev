@@ -61,7 +61,7 @@ jqxthemes();
             <div class="row">
                 <jqx-data-table jqx-settings="customerTableSettings"
                                 jqx-create="customerTableSettings"
-                                jqx-on-row-double-click="">
+                                jqx-on-row-double-click="openEditCustomerWind(event)">
                 </jqx-data-table>
                 <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings">
                     <div class="">
@@ -95,7 +95,7 @@ jqxthemes();
                                              data-field="{{ attr.Field }}"
                                              style=" float:left;"
                                         >
-                                            <input type=\"text\" class="form-control"
+                                            <input type=\"text\" class="form-control customer-textcontrol"
                                                    ng-class="{req : attr.Required}"
                                                    id="customer_{{attr.Field}}" name="customer_{{attr.Field}}"
                                                    placeholder="{{attr.Label}}"/>
@@ -128,7 +128,7 @@ jqxthemes();
                                              data-field="{{ attr.Field }}"
                                              style="float:left;"
                                         >
-                                            <jqx-date-time-input jqx-settings="dateSettings"></jqx-date-time-input>
+                                            <jqx-date-time-input class="customer-date" jqx-settings="dateSettings"></jqx-date-time-input>
                                         </div>
                                         <!-- RADIO  -->
                                         <div ng-if="attr.Control == 'radio'" class="customer-field"
@@ -139,8 +139,10 @@ jqxthemes();
                                             <jqx-radio-button ng-repeat="option in attr.options"
                                                               jqx-checked="{{$index == 0 && 'true' || 'false' }}" jqx-height="25"
                                                               jqx-on-change="changeRadio(event)" jqx-width="250"
-                                                              jqx-theme="artic"
                                                               jqx-group-name="{{ attr.Field }}"
+                                                              jqx-data="{{ option.Label }}"
+                                                              jqx-theme="artic"
+                                                              class="customer-radio"
                                                               style='margin-top: 10px;display: inherit;'>
                                                     <span>{{option.Label }}</span>
                                             </jqx-radio-button>
@@ -158,18 +160,18 @@ jqxthemes();
                                 <div id="">
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button type="button" id=""
-                                                    ng-click="saveCustomerBtn()"
-                                                    class="btn btn-primary" >
+                                            <button type="button" id="saveCustomerBtn"
+                                                    ng-click="saveCustomerAction()"
+                                                    class="btn btn-primary" disabled>
                                                 Save
                                             </button>
-                                            <button type="button" id=""
-                                                    ng-click=""
+                                            <button type="button" id="closeCustomerBtn"
+                                                    ng-click="closeCustomerAction()"
                                                     class="btn btn-warning">
                                                 Close
                                             </button>
-                                            <button type="button" id=""
-                                                    ng-click=""
+                                            <button type="button" id="deleteCustomerBtn"
+                                                    ng-click="deleteCustomerAction()"
                                                     class="btn btn-danger" style="overflow:auto;">
                                                 Delete
                                             </button>
