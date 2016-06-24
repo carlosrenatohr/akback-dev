@@ -71,8 +71,8 @@ jqxthemes();
                         <div class="col-md-12 col-md-offset-0">
                             <div class="row itemQuestionFormContainer">
                                 <div style=" width:100%;float:left;" ng-repeat="attr in customerControls">
-                                    <div style=" float:left; padding:2px; width:650px;">
-                                        <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">
+                                    <div style="float:left; padding:2px; width:650px;margin: 5px 0 0;">
+                                        <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">
                                             {{ attr.Label }}
                                         </div>
                                         <!-- DATALIST -->
@@ -84,7 +84,8 @@ jqxthemes();
                                             <jqx-list-box data-control-type="{{ attr.Control }}"
                                                 jqx-on-select="changeDatalist(event)"
                                                 class="customer-datalist"
-                                                id="customer_{{ attr.Label}}">
+                                                id="customer_{{ attr.Label}}"
+                                                >
                                                 <option ng-repeat="option in attr.options"
                                                         value="{{ option.Label }}">{{ option.Label }}</option>
                                             </jqx-list-box>
@@ -93,7 +94,7 @@ jqxthemes();
                                         <div ng-if="attr.Control == 'text'" class="customer-field"
                                              data-control-type="{{ attr.Control }}"
                                              data-field="{{ attr.Field }}"
-                                             style=" float:left;"
+                                             style="float:left;width: 200px;"
                                         >
                                             <input type=\"text\" class="form-control customer-textcontrol"
                                                    ng-class="{req : attr.Required}"
@@ -104,10 +105,11 @@ jqxthemes();
                                         <div ng-if="attr.Control == 'number'" class="customer-field"
                                              data-control-type="{{ attr.Control }}"
                                              data-field="{{ attr.Field }}"
-                                             style=" float:left;"
+                                             style="float:left;"
                                         >
                                             <jqx-number-input
-                                                jqx-width="100" jqx-height="25" style='margin-top: 3px;' jqx-min="1"
+                                                ng-class="{req : attr.Required}"
+                                                jqx-width="200" jqx-height="25" style='margin-top: 3px;' jqx-min="1" jqx-spin-buttons="true"
                                                 jqx-digits="3" jqx-decimal-digits="0" jqx-value="1" class="customer-number"
                                             ></jqx-number-input>
                                         </div>
@@ -118,7 +120,8 @@ jqxthemes();
                                              style=" float:left;"
                                         >
                                             <jqx-number-input
-                                                jqx-width="100" jqx-height="25" jqx-spin-buttons="true" style='margin-top: 3px;'
+                                                ng-class="{req : attr.Required}"
+                                                jqx-width="200" jqx-height="25" jqx-spin-buttons="true" style='margin-top: 3px;'
                                                 jqx-min="0" jqx-digits="3" jqx-decimal-digits="2" class="customer-number"
                                             ></jqx-number-input>
                                         </div>
@@ -128,22 +131,27 @@ jqxthemes();
                                              data-field="{{ attr.Field }}"
                                              style="float:left;"
                                         >
-                                            <jqx-date-time-input class="customer-date" jqx-settings="dateSettings"></jqx-date-time-input>
+                                            <jqx-date-time-input class="customer-date" jqx-settings="dateSettings"
+                                                                 ng-class="{req : attr.Required}"
+                                            ></jqx-date-time-input>
                                         </div>
                                         <!-- RADIO  -->
                                         <div ng-if="attr.Control == 'radio'" class="customer-field"
                                              data-control-type="{{ attr.Control }}"
                                              data-field="{{ attr.Field }}"
-                                             style=" float:left;"
+                                             style="display: inline-block;"
                                         >
                                             <jqx-radio-button ng-repeat="option in attr.options"
-                                                              jqx-checked="{{$index == 0 && 'true' || 'false' }}" jqx-height="25"
+                                                              jqx-checked="{{$index == 0 && 'true' || 'false' }}"
+                                                              jqx-height="25"
+                                                              jqx-width="50"
                                                               jqx-on-change="changeRadio(event)" jqx-width="250"
                                                               jqx-group-name="{{ attr.Field }}"
                                                               jqx-data="{{ option.Label }}"
                                                               jqx-theme="artic"
+                                                              data-val="{{ option.Label }}"
                                                               class="customer-radio"
-                                                              style='margin-top: 10px;display: inherit;'>
+                                                              style='margin-top: 10px;margin-left: 10px;display: inherit;'>
                                                     <span>{{option.Label }}</span>
                                             </jqx-radio-button>
                                         </div>
@@ -187,3 +195,10 @@ jqxthemes();
         </div>
     </div>
 </div>
+
+<style>
+    .customer-datalist {
+        height:100px!important;
+        width:200px!important;
+    }
+</style>

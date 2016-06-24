@@ -153,7 +153,7 @@ demoApp.controller("customerController", function ($scope, $http) {
         //selectionMode: 'range'
         //min: new Date(2016, 5, 10),
         max: new Date(),
-        width: '250px', height: '25px'
+        width: '200px', height: '25px'
     };
 
     $('body')
@@ -182,25 +182,65 @@ demoApp.controller("customerController", function ($scope, $http) {
     }).then(function(response) {
             console.log(response.data);
             $scope.customerControls = response.data;
-        }, function(){}
-    ).then(function(){
+        }, function() {}
+    ).then(function() {
 
     });
+
+    $scope.customerID = null;
+    $scope.newOrEditCustomerAction = null;
 
     $scope.openAddCustomerWind = function() {
         $('#deleteCustomerBtn').hide();
         $('#saveCustomerBtn').prop('disabled', true);
+        //
+        $scope.newOrEditCustomerAction = 'new';
+        $scope.customerID = null;
+        //
+        setTimeout(function(){
+            //$('.customer-field:first input').focus();
+            $('.customer-field[data-control-type=text]:first input').focus();
+        }, 100);
+        customerWind.setTitle('Add New Customer');
         customerWind.open();
     };
 
-    $scope.customerID = null;
-    $scope.newOrEditCustomerAction = null;
     $scope.openEditCustomerWind = function(e) {
         var row = e.args.row;
+        //
         $scope.customerID = row.Unique;
         $scope.newOrEditCustomerAction = 'edit';
+        //
+        $('.customer-field').each(function(i, value) {
+            var el = $(value);
+            var type = el.data('control-type');
+            var field = el.data('field');
+            if (type == 'text') {
+                el.find('input').val(row[field]);
+            } else if (type == 'number' || type == 'number2Decimal') {
+                el.find('.customer-number').val(row[field]);
+            } else if (type == 'date') {
+                //el.find('.customer-date').val(new Date());
+                el.find('.customer-date').val(row[field]);
+            } else if (type == 'radio') {
+                el.find('.customer-radio[data-val=' + row[field]+ ']').jqxRadioButton({ checked:true });
+            } else if (type == 'datalist') {
+                var itemByValue = el.find('.customer-datalist').jqxListBox('getItemByValue', row[field]);
+                el.find('.customer-datalist').jqxListBox({'selectedIndex': itemByValue.index});
+            }
+            else {
+                console.info('NOT FOUND');
+            }
+        });
+        //
         $('#deleteCustomerBtn').show();
         $('#saveCustomerBtn').prop('disabled', true);
+        //
+        setTimeout(function(){
+            $('.customer-field[data-control-type=text]:first input').focus();
+        }, 100);
+        var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
+        customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
         customerWind.open();
     };
 
@@ -213,7 +253,7 @@ demoApp.controller("customerController", function ($scope, $http) {
             } else if (type == 'number' || type == 'number2Decimal') {
                 el.find('.customer-number').val('');
             } else if (type == 'date') {
-                el.find('.customer-date').val(new Date());
+                el.find('.customer-date').jqxDateTimeInput({ value: new Date() });
             } else if (type == 'radio') {
                 el.find('.customer-radio:first-child').jqxRadioButton({ checked:true });
             } else if (type == 'datalist') {
@@ -255,18 +295,30 @@ demoApp.controller("customerController", function ($scope, $http) {
                 }
                 data[el.data('field')] = inputValue;
             });
+            //
+            var url = ($scope.newOrEditCustomerAction == 'edit')
+                        ? 'admin/Customer/updateCustomer/' + $scope.customerID
+                        : 'admin/Customer/createCustomer';
             $.ajax({
-                url: SiteRoot + 'admin/Customer/createCustomer',
+                url: SiteRoot + url,
                 method: 'post',
                 dataType: 'json',
                 data: data,
                 success: function(data) {
-                    console.log(data);
                     if (data.status == 'success') {
                         updateCustomerTableData();
                         customerWind.close();
                         resetCustomerForm();
-                        console.info(data.message)
+                        //
+                        var msg;
+                        if ($scope.newOrEditCustomerAction == 'edit') {
+                            msg = 'Customer updated successfully';
+                            console.info(msg);
+                            //console.info(data.message);
+                        } else if ($scope.newOrEditCustomerAction == 'create') {
+                            msg = 'Customer created successfully';
+                            console.info(msg);
+                        }
                     } else if (data.status == 'error'){
                         console.log(data.message);
                     } else {

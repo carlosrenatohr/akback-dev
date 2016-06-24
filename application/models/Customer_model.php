@@ -62,6 +62,20 @@ class Customer_model extends CI_Model
         return $status;
     }
 
+    public function updateCustomer($request, $id)
+    {
+        $extraFields = [
+            'Status' => 1,
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
+        $data = array_merge($request, $extraFields);
+        //
+        $this->db->where('Unique', $id);
+        $status = $this->db->update($this->customerTable, $data);
+        return $status;
+    }
+
     public function deleteCustomer($id)
     {
         $extraFields = [

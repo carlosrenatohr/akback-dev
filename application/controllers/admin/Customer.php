@@ -95,6 +95,29 @@ class Customer extends AK_Controller
      * @description Create new customer by custom attributes
      * @returnType json
      */
+    public function updateCustomer($id)
+    {
+        $request = $_POST;
+        $status = $this->customer->updateCustomer($request, $id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Customer update: ' . $status
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Database error' . $status
+            ];
+        }
+        echo json_encode($response);
+    }
+
+    /**
+     * @method POST
+     * @description Create new customer by custom attributes
+     * @returnType json
+     */
     public function deleteCustomer($id)
     {
         $status = $this->customer->deleteCustomer($id);
