@@ -39,7 +39,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             } else {
                 e.cancel = false;
                 $('#deleteItemGridBtn').hide();
-                $scope.tryToChangeQuestionTab = false;
                 //
                 if ($scope.changingItemOnSelect != null) {
                     $scope.$apply(function() {
@@ -362,18 +361,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             //$('.RowOptionButtonsOnItemGrid').hide();
         }
         if (option == 0) {
-            $scope.saveItemGridBtn();
-        } else if (option == 1) {
             if ($scope.tryToChangeQuestionTab) {
+                $scope.saveItemGridBtn();
                 $scope.settingTab(1);
                 $('#mainButtonsOnItemGrid').show();
                 $('#promptToCloseItemGrid').hide();
             } else {
+                $scope.saveItemGridBtn();
+            }
+        } else if (option == 1) {
+            if (!$scope.tryToChangeQuestionTab) {
                 itemsMenuWindow.close();
                 //$scope.tryToChangeQuestionTab = false;
             }
             $scope.tryToChangeQuestionTab = false;
             $scope.countChangesOnSelectingItemCbx = 1;
+            $scope.changingItemOnSelect = null;
         }
         else if (option == 2) {}
         else {
@@ -391,15 +394,19 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         $.ajax({
             'method': 'get',
             url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique,
-            success: function() {
+            success: function() {;
+                $scope.$apply(function(){
+                    $scope.tryToChangeQuestionTab = false;
+                    $scope.countChangesOnSelectingItemCbx = 1;
+                });
                 $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem:tab});
                 //
-                var selectedIndexItem;
-                var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.itemCellSelectedOnGrid.ItemUnique);
-                if (itemCombo != undefined) {
-                    selectedIndexItem = itemCombo.index | 0;
-                } else selectedIndexItem = 0;
-                $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+                //var selectedIndexItem;
+                //var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.itemCellSelectedOnGrid.ItemUnique);
+                //if (itemCombo != undefined) {
+                //    selectedIndexItem = itemCombo.index | 0;
+                //} else selectedIndexItem = 0;
+                //    $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
             }
         });
     };
@@ -434,7 +441,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     $scope.saveItemGridBtn = function() {
         if (!validationDataOnItemGrid()) {
-            var data = {
+            var dataToSend = {
                 'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
                 'Row': $('#editItem_Row').val(),
                 //'Row': $scope.itemCellSelectedOnGrid.Row,
@@ -448,13 +455,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'posCol': $scope.itemCellSelectedOnGrid.Column
             };
             if ($('#editItem_sort').val() != '') {
-                data['Sort'] = $('#editItem_sort').val();
+                dataToSend['Sort'] = $('#editItem_sort').val();
             }
 
             $.ajax({
                 'url': SiteRoot + 'admin/MenuItem/postMenuItems',
                 'method': 'post',
-                'data': data,
+                'data': dataToSend,
                 'dataType': 'json',
                 'success': function(data) {
                     if (data.status == 'success') {
@@ -470,6 +477,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         //}, 2000);
                         updateQuestionItemTable();
                         $('#saveItemGridBtn').prop('disabled', true);
+                        itemsMenuWindow.setTitle(
+                            'Edit Menu Item: ' + $scope.itemCellSelectedOnGrid.Unique + ' | Item: ' +
+                            dataToSend.ItemUnique +
+                            ' | Label: ' + dataToSend.Label);
                         // if was changed item combobox and was selected the question tab
                         // to prompt save changes
                         $scope.countChangesOnSelectingItemCbx = 1;
@@ -872,7 +883,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 ],
                 id: 'Unique',
                 //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.itemCellSelectedOnGrid.ItemUnique
-                url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique
+                //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique
+                url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'},
