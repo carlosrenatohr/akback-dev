@@ -46,7 +46,7 @@ demoApp.controller("customerController", function ($scope, $http) {
             url: SiteRoot + 'admin/Customer/load_allCustomers'
         },
         columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int'},
+            {text: 'ID', dataField: 'Unique', type: 'int', filterable: false},
             {text: 'First Name', dataField: 'FirstName', type: 'string'},
             {text: 'Middle Name', dataField: 'MiddleName', type: 'string'},
             {text: 'Last Name', dataField: 'LastName', type: 'string'},
@@ -82,10 +82,11 @@ demoApp.controller("customerController", function ($scope, $http) {
         sortable: true,
         pageable: true,
         pageSize: 20,
-        pagerMode: 'default',
+        //pagerMode: 'default',
         altRows: true,
         filterable: true,
-        filterMode: 'simple'
+        //filterMode: 'simple',
+        showfilterrow: true,
     };
 
     var updateCustomerTableData = function() {
@@ -226,8 +227,9 @@ demoApp.controller("customerController", function ($scope, $http) {
         customerWind.open();
     };
 
-    $scope.openEditCustomerWind = function(e) {
-        var row = e.args.row;
+    $('#gridCustomer').on('rowdoubleclick', function(e) {
+    //$scope.openEditCustomerWind = function(e) {
+        var row = e.args.row.bounddata;
         //
         $scope.customerID = row.Unique;
         $scope.newOrEditCustomerAction = 'edit';
@@ -263,7 +265,8 @@ demoApp.controller("customerController", function ($scope, $http) {
         var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
         customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
         customerWind.open();
-    };
+    //};
+    });
 
     var resetCustomerForm = function() {
         $('.customer-field').each(function(i, value) {
