@@ -106,7 +106,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#deleteCustomerBtn').hide();
         $('#saveCustomerBtn').prop('disabled', true);
         //
-        $scope.newOrEditCustomerAction = 'new';
+        $scope.newOrEditCustomerAction = 'create';
         $scope.customerID = null;
         //
         setTimeout(function(){
@@ -243,7 +243,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         return needValidation;
     };
 
-    $scope.saveCustomerAction = function() {
+    $scope.saveCustomerAction = function(fromPrompt) {
         if (!validationBeforeCustomer()) {
             var data = {};
             $('.customer-field').each(function(i, value) {
@@ -279,20 +279,25 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 success: function(data) {
                     if (data.status == 'success') {
                         updateCustomerTableData();
-                        //customerWind.close();
-                        resetCustomerForm();
                         //
                         var msg;
                         if ($scope.newOrEditCustomerAction == 'edit') {
                             msg = 'Customer updated successfully';
-                            console.info(msg);
-                            $('#customerNoticeSuccessSettings #notification-content')
-                                .html(msg);
-                            $scope.customerNoticeSuccessSettings.apply('open');
                             //console.info(data.message);
                         } else if ($scope.newOrEditCustomerAction == 'create') {
                             msg = 'Customer created successfully';
-                            console.info(msg);
+                            $scope.newOrEditCustomerAction = 'edit';
+                            $scope.customerID = data.new_id;
+                        }
+                        //
+                        if (fromPrompt) {
+                            customerWind.close();
+                            resetCustomerForm();
+                        } else {
+                            $('#saveCustomerBtn').prop('disabled', true);
+                            $('#customerNoticeSuccessSettings #notification-content')
+                                .html(msg);
+                            $scope.customerNoticeSuccessSettings.apply('open');
                         }
                     } else if (data.status == 'error'){
                         console.log(data.message);
@@ -304,28 +309,65 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
-    $scope.deleteCustomerAction = function() {
-        $.ajax({
-            url: SiteRoot + 'admin/Customer/deleteCustomer/' + $scope.customerID,
-            method: 'post',
-            dataType: 'json',
-            success: function(data) {
-                if (data.status == 'success') {
-                    updateCustomerTableData();
-                    $scope.closeCustomerAction();
-                    console.info(data.message);
-                } else if (data.status == 'error'){
-                    console.log(data.message);
-                } else {
-                    console.error('Error from ajax');
+    $scope.deleteCustomerAction = function(option) {
+        if (option != undefined) {
+            $('#mainButtonsCustomerForm').show();
+            $('#promptToCloseCustomerForm').hide();
+            $('#promptToDeleteCustomerForm').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                url: SiteRoot + 'admin/Customer/deleteCustomer/' + $scope.customerID,
+                method: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        updateCustomerTableData();
+                        $scope.closeCustomerAction();
+                        //$('#customerNoticeSuccessSettings #notification-content')
+                        //    .html(msg);
+                        //$scope.customerNoticeSuccessSettings.apply('open');
+                    } else if (data.status == 'error') {
+                        console.log(data.message);
+                    } else {
+                        console.error('Error from ajax');
+                    }
                 }
-            }
-        })
+            });
+        } else if (option == 1) {
+            customerWind.close();
+            resetCustomerForm();
+        } else if (option == 2) {
+
+        } else {
+            $('#mainButtonsCustomerForm').hide();
+            $('#promptToCloseCustomerForm').hide();
+            $('#promptToDeleteCustomerForm').show();
+        }
     };
 
-    $scope.closeCustomerAction = function() {
-        customerWind.close();
-        resetCustomerForm();
+    $scope.closeCustomerAction = function(option) {
+        if (option != undefined) {
+            $('#mainButtonsCustomerForm').show();
+            $('#promptToCloseCustomerForm').hide();
+            $('#promptToDeleteCustomerForm').hide();
+        }
+        if (option == 0) {
+            $scope.saveCustomerAction(true);
+        } else if (option == 1) {
+            customerWind.close();
+        } else if (option == 2) {
+
+        } else {
+            if ($('#saveCustomerBtn').is(':disabled')) {
+                customerWind.close();
+                resetCustomerForm();
+            } else {
+                $('#mainButtonsCustomerForm').hide();
+                $('#promptToCloseCustomerForm').show();
+                $('#promptToDeleteCustomerForm').hide();
+            }
+        }
     };
 
 });

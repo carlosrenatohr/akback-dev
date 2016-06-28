@@ -61,7 +61,7 @@ class Customer_model extends CI_Model
         $data = array_merge($request, $extraFields);
         $status = $this->db->insert($this->customerTable, $data);
         $insert_id = $this->db->insert_id();
-        return $status;
+        return $insert_id;
     }
 
     public function updateCustomer($request, $id)

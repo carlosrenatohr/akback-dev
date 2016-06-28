@@ -75,16 +75,17 @@ class Customer extends AK_Controller
     public function createCustomer()
     {
         $request = $_POST;
-        $status = $this->customer->postCustomer($request);
-        if ($status) {
+        $newId = $this->customer->postCustomer($request);
+        if ($newId) {
             $response = [
                 'status' => 'success',
-                'message' => 'Customer success: ' . $status
+                'message' => 'Customer success!',
+                'new_id' => $newId
             ];
         } else {
             $response = [
                 'status' => 'error',
-                'message' => 'Database error' . $status
+                'message' => 'Database error'
             ];
         }
         echo json_encode($response);

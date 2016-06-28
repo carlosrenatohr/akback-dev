@@ -136,7 +136,7 @@ jqxthemes();
                         <!-- -->
                         <div class="col-md-12 col-md-offset-0">
                             <div class="row">
-                                <div id="">
+                                <div id="mainButtonsCustomerForm">
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             <button type="button" id="saveCustomerBtn"
@@ -162,13 +162,13 @@ jqxthemes();
                         <!-- Prompt before saving item on grid -->
                         <div class="col-md-12 col-md-offset-0">
                             <div class="row">
-                                <div id="promptToCloseItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
+                                <div id="promptToCloseCustomerForm" class="" style="display: none">
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             Do you want to save your changes?
-                                            <button type="button" ng-click="" class="btn btn-primary">Yes</button>
-                                            <button type="button" ng-click="" class="btn btn-warning">No</button>
-                                            <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                            <button type="button" ng-click="closeCustomerAction(0)" class="btn btn-primary">Yes</button>
+                                            <button type="button" ng-click="closeCustomerAction(1)" class="btn btn-warning">No</button>
+                                            <button type="button" ng-click="closeCustomerAction(2)" class="btn btn-info">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -178,13 +178,13 @@ jqxthemes();
                         <!-- Prompt before delete an item on grid -->
                         <div class="col-md-12 col-md-offset-0">
                             <div class="row">
-                                <div id="promptToDeleteItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
+                                <div id="promptToDeleteCustomerForm" class="" style="display: none">
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             Do you really want to delete it?
-                                            <button type="button" ng-click="" class="btn btn-primary">Yes</button>
-                                            <button type="button" ng-click="" class="btn btn-warning">No</button>
-                                            <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                            <button type="button" ng-click="deleteCustomerAction(0)" class="btn btn-primary">Yes</button>
+                                            <button type="button" ng-click="deleteCustomerAction(1)" class="btn btn-warning">No</button>
+                                            <button type="button" ng-click="deleteCustomerAction(2)" class="btn btn-info">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
