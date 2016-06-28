@@ -59,12 +59,8 @@ jqxthemes();
             </div>
 
             <div class="row">
-<!--                <jqx-data-table jqx-settings="customerTableSettings"-->
-<!--                                jqx-create="customerTableSettings"-->
-<!--                                jqx-on-row-double-click="openEditCustomerWind(event)">-->
-<!--                </jqx-data-table>-->
                 <jqx-grid jqx-settings="customerTableSettings"
-                            id="gridCustomer"
+                          id="gridCustomer"
                           jqx-create="customerTableSettings"
                           jqx-on-row-double-click="openEditCustomerWind($event)"
                 ></jqx-grid>
