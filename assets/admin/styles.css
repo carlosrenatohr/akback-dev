@@ -42,9 +42,10 @@ div.toolbar-list span {
 }
 
 .icon-32-home {
-    background-image: url("../../assets/img/back_icon.png");
-    background-position: 32px 0;
-    background-size: 100%;
+    /*background-image: url("../../assets/img/back_icon.png");*/
+    background-image: url("../../assets/img/home_icon.png");
+    /*background-position: 32px 0;*/
+    /*background-size: 100%;*/
 }
 
 /* ITEMS */

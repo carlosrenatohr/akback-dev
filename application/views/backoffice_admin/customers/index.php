@@ -37,7 +37,7 @@ jqxthemes();
                                 <li>
                                     <a href="<?php echo base_url("backoffice/dashboard") ?>" style="outline:0;">
                                         <span class="icon-32-home"></span>
-                                        Home
+                                        Dashboard
                                     </a>
                                 </li>
                                 <li>

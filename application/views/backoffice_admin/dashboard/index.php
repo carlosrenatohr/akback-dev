@@ -3,6 +3,7 @@
         $("#tabtitle").html("Dashboard");
     });
 </script>
+<link rel="stylesheet" href="../assets/admin/styles.css">
 <div class="container-fluid">
     <div class="col-md-12 col-md-offset-0">
 
@@ -18,8 +19,8 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li>
                             <a href="<?php echo base_url("backoffice/dashboard")?>" style="outline:0;">
-                                <span class="icon-32-back"></span>
-                                Home
+                                <span class="icon-32-home"></span>
+                                Dashboard
                             </a>
                         </li>
                     </ul>
