@@ -55,7 +55,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             itemsMenuWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "70%",
+        width: "60%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -367,7 +367,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 $('#mainButtonsOnItemGrid').show();
                 $('#promptToCloseItemGrid').hide();
             } else {
-                $scope.saveItemGridBtn();
+                $scope.saveItemGridBtn(true);
             }
         } else if (option == 1) {
             if (!$scope.tryToChangeQuestionTab) {
@@ -439,7 +439,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         return needValidation;
     };
 
-    $scope.saveItemGridBtn = function() {
+    $scope.saveItemGridBtn = function(fromPrompt) {
         if (!validationDataOnItemGrid()) {
             var dataToSend = {
                 'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
@@ -469,24 +469,29 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         setTimeout(function() {
                             angular.element('.category-cell-grid.clicked').triggerHandler('click');
                         }, 100);
-                        $('#menuitemNotificationsSuccessSettings #notification-content')
-                            .html('Menu item was updated successfully!');
-                        $scope.menuitemNotificationsSuccessSettings.apply('open');
-                        //setTimeout(function() {
-                        //    itemsMenuWindow.close();
-                        //}, 2000);
                         updateQuestionItemTable();
                         $('#saveItemGridBtn').prop('disabled', true);
-                        itemsMenuWindow.setTitle(
-                            'Edit Menu Item: ' + $scope.itemCellSelectedOnGrid.Unique + ' | Item: ' +
-                            dataToSend.ItemUnique +
-                            ' | Label: ' + dataToSend.Label);
+
                         // if was changed item combobox and was selected the question tab
                         // to prompt save changes
                         $scope.countChangesOnSelectingItemCbx = 1;
                         if ($scope.tryToChangeQuestionTab) {
                             $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 1});
                             $scope.tryToChangeQuestionTab = false;
+                        }
+                        //
+                        if (fromPrompt) {
+                            //setTimeout(function() {
+                            itemsMenuWindow.close();
+                            //}, 2000);
+                        } else {
+                            $('#menuitemNotificationsSuccessSettings #notification-content')
+                                .html('Menu item was updated successfully!');
+                            $scope.menuitemNotificationsSuccessSettings.apply('open');
+                            itemsMenuWindow.setTitle(
+                                'Edit Menu Item: ' + $scope.itemCellSelectedOnGrid.Unique + ' | Item: ' +
+                                dataToSend.ItemUnique +
+                                ' | Label: ' + dataToSend.Label);
                         }
                     } else if (data.status == 'error') {
                         $.each(data.message, function(i, value){
@@ -860,7 +865,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             {text: 'Sort', dataField: 'Sort', type: 'number'},
         ],
         columnsResize: true,
-        width: "99.7%",
+        width: "99%",
+        height: "300px",
         theme: 'arctic',
         sortable: true,
         pageable: true,
