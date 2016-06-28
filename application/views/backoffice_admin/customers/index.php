@@ -108,9 +108,9 @@ jqxthemes();
                                              style="float:left;"
                                         >
                                             <jqx-number-input
-                                                ng-class="{req : attr.Required}"
-                                                jqx-width="200" jqx-height="25" style='margin-top: 3px;' jqx-min="1" jqx-spin-buttons="true"
-                                                jqx-digits="3" jqx-decimal-digits="0" jqx-value="1" class="customer-number"
+                                                style='margin-top: 3px;'
+                                                ng-class="{req : attr.Required}" class="customer-number"
+                                                jqx-settings="numberIntSettings"
                                             ></jqx-number-input>
                                         </div>
                                         <!-- DECIMAL -->
@@ -120,9 +120,9 @@ jqxthemes();
                                              style=" float:left;"
                                         >
                                             <jqx-number-input
-                                                ng-class="{req : attr.Required}"
-                                                jqx-width="200" jqx-height="25" jqx-spin-buttons="true" style='margin-top: 3px;'
-                                                jqx-min="0" jqx-digits="3" jqx-decimal-digits="2" class="customer-number"
+                                                ng-class="{req : attr.Required}" style='margin-top: 3px;'
+                                                class="customer-number"
+                                                jqx-settings="numberDecimalSettings"
                                             ></jqx-number-input>
                                         </div>
                                         <!-- DATE -->

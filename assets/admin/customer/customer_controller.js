@@ -149,10 +149,31 @@ demoApp.controller("customerController", function ($scope, $http) {
     };
 
     // Setting buttons
+    $scope.numberIntSettings = {
+        //'allowNull': true,
+        inputMode: 'simple',
+        decimalDigits: 0,
+        digits: 3,
+        spinButtons: true,
+        width: 200,
+        height: 25,
+    };
+
+    $scope.numberDecimalSettings = {
+        inputMode: 'simple',
+        decimalDigits: 2,
+        digits: 3,
+        spinButtons: true,
+        width: 200,
+        height: 25,
+        min: ''
+    };
+
     $scope.dateSettings = {
         //selectionMode: 'range'
         //min: new Date(2016, 5, 10),
         max: new Date(),
+        formatString: 'd',
         width: '200px', height: '25px'
     };
 
