@@ -1,0 +1,93 @@
+<div style="float:left; padding:2px; width:650px;margin: 5px 0 0;">
+    <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">
+        {{ attr.Label }}
+    </div>
+    <!-- DATALIST -->
+    <div ng-if="attr.Control == 'datalist'" class="customer-field"
+         data-control-type="{{ attr.Control }}"
+         data-field="{{ attr.Field }}"
+         style=" float:left;"
+    >
+        <jqx-list-box data-control-type="{{ attr.Control }}"
+                      jqx-on-select="changeDatalist(event)"
+                      ng-class="{req : attr.Required}"
+                      class="customer-datalist"
+                      id="customer_{{ attr.Label}}"
+                      data-placeholder="{{attr.Label}}"
+        >
+            <option ng-repeat="option in attr.options"
+                    value="{{ option.Label }}">{{ option.Label }}
+            </option>
+        </jqx-list-box>
+    </div>
+    <!-- TEXT -->
+    <div ng-if="attr.Control == 'text'" class="customer-field"
+         data-control-type="{{ attr.Control }}"
+         data-field="{{ attr.Field }}"
+         style="float:left;width: 200px;"
+    >
+        <input type=\"text\" class="form-control customer-textcontrol"
+               ng-class="{req : attr.Required}"
+               id="customer_{{attr.Field}}" name="customer_{{attr.Field}}"
+               placeholder="{{attr.Label}}"/>
+    </div>
+    <!-- INTEGER -->
+    <div ng-if="attr.Control == 'number'" class="customer-field"
+         data-control-type="{{ attr.Control }}"
+         data-field="{{ attr.Field }}"
+         style="float:left;"
+    >
+        <jqx-number-input
+                style='margin-top: 3px;'
+                ng-class="{req : attr.Required}" class="customer-number"
+                jqx-settings="numberIntSettings"
+        ></jqx-number-input>
+    </div>
+    <!-- DECIMAL -->
+    <div ng-if="attr.Control == 'number2Decimal'" class="customer-field"
+         data-control-type="{{ attr.Control }}"
+         data-field="{{ attr.Field }}"
+         style=" float:left;"
+    >
+        <jqx-number-input
+                ng-class="{req : attr.Required}" style='margin-top: 3px;'
+                class="customer-number"
+                jqx-settings="numberDecimalSettings"
+        ></jqx-number-input>
+    </div>
+    <!-- DATE -->
+    <div ng-if="attr.Control == 'date'" class="customer-field"
+         data-control-type="{{ attr.Control }}"
+         data-field="{{ attr.Field }}"
+         style="float:left;"
+    >
+        <jqx-date-time-input class="customer-date" jqx-settings="dateSettings"
+                             ng-class="{req : attr.Required}"
+                             data-placeholder="{{attr.Label}}"
+        ></jqx-date-time-input>
+    </div>
+    <!-- RADIO  -->
+    <div ng-if="attr.Control == 'radio'" class="customer-field"
+         data-control-type="{{ attr.Control }}"
+         data-field="{{ attr.Field }}"
+         style="display: inline-block;"
+    >
+        <jqx-radio-button ng-repeat="option in attr.options"
+                          jqx-checked="{{$index == 0 && 'true' || 'false' }}"
+                          jqx-height="25"
+                          jqx-width="50"
+                          jqx-on-change="changeRadio(event)" jqx-width="250"
+                          jqx-group-name="{{ attr.Field }}"
+                          jqx-data="{{ option.Label }}"
+                          jqx-theme="artic"
+                          data-val="{{ option.Label }}"
+                          class="customer-radio"
+                          style='margin-top: 10px;margin-left: 10px;display: inherit;'>
+            <span>{{option.Label }}</span>
+        </jqx-radio-button>
+    </div>
+    <!-- REQUIRED ASTERISK -->
+    <div style="float:left;" ng-if="attr.Required > 0">
+        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+    </div>
+</div>

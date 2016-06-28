@@ -24,6 +24,7 @@ class Customer_model extends CI_Model
         $fields_select = array_unique($fields_select);
         //
         $this->db->select($fields_select);
+        $this->db->order_by('Unique, FirstName');
         $query = $this->db->get_where($this->customerTable, ['Status' => 1]);
         return $query->result_array();
     }

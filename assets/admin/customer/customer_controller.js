@@ -3,145 +3,20 @@
  */
 var demoApp = angular.module("demoApp", ['jqwidgets']);
 
-demoApp.controller("customerController", function ($scope, $http) {
-
-    var setNotificationInit = function (type) {
-        return {
-            width: "auto",
-            appendContainer: "#customerNoticeContainer",
-            opacity: 0.9,
-            closeOnClick: true,
-            autoClose: true,
-            showCloseButton: false,
-            template: (type == 1) ? 'success' : 'error'
-        }
-    };
-    $scope.customerNoticeSuccessSettings = setNotificationInit(1);
-    $scope.customerNoticeErrorSettings = setNotificationInit(0);
+demoApp.controller("customerController", function ($scope, $http, customerService) {
 
     var customerWind;
-    $scope.customerTableSettings = {
-        source: {
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'FirstName', type: 'string'},
-                {name: 'MiddleName', type: 'string'},
-                {name: 'LastName', type: 'string'},
-                {name: 'Company', type: 'string'},
-                {name: 'Address1', type: 'string'},
-                {name: 'Address2', type: 'string'},
-                {name: 'City', type: 'string'},
-                {name: 'Country', type: 'string'},
-                {name: 'State', type: 'string'},
-                {name: 'Zip', type: 'string'},
-                {name: 'Phone1', type: 'string'},
-                {name: 'Phone2', type: 'string'},
-                {name: 'Email', type: 'string'},
-                {name: 'Custom1', type: 'string'},
-                {name: 'Custom2', type: 'string'},
-                {name: 'Custom3', type: 'string'},
-                {name: 'Custom4', type: 'string'},
-                {name: 'Custom5', type: 'string'},
-                {name: 'Custom6', type: 'string'},
-                {name: 'Custom7', type: 'string'},
-                {name: 'Custom8', type: 'string'},
-                {name: 'Custom9', type: 'string'},
-                {name: 'Custom10', type: 'string'},
-                {name: 'Custom11', type: 'string'},
-                {name: 'Custom12', type: 'string'},
-                {name: 'Custom13', type: 'string'},
-                {name: 'Custom14', type: 'string'},
-                {name: 'Custom15', type: 'string'},
-                {name: 'Status', type: 'string'},
-
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/Customer/load_allCustomers'
-        },
-        columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int', filterable: false},
-            {text: 'First Name', dataField: 'FirstName', type: 'string'},
-            {text: 'Middle Name', dataField: 'MiddleName', type: 'string'},
-            {text: 'Last Name', dataField: 'LastName', type: 'string'},
-            {text: 'Company', dataField: 'Company', type: 'string'},
-            {text: 'Address', dataField: 'Address1', type: 'string'},
-            {text: 'Address2', dataField: 'Address2', type: 'string', hidden: true},
-            {text: 'City', dataField: 'City', type: 'string'},
-            {text: 'State', dataField: 'State', type: 'string'},
-            {text: 'Zip', dataField: 'Zip', type: 'string'},
-            {text: 'Phone', dataField: 'Phone1', type: 'string'},
-            {text: 'Phone2', dataField: 'Phone2', type: 'string', hidden: true},
-            {text: 'Email', dataField: 'Email', type: 'string'},
-            {text: 'Full Identification', dataField: 'Custom1', type: 'string', hidden: true},
-            {text: 'Date of Birth', dataField: 'Custom2', type: 'string', hidden: true},
-            {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
-            {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
-            {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
-            {text: 'Are you 18?', dataField: 'Custom6', type: 'string', hidden: true},
-            {text: 'Disabled', dataField: 'Custom7', type: 'string', hidden: true},
-            {text: 'Retired', dataField: 'Custom8', type: 'string', hidden: true},
-            {text: 'How many working?', dataField: 'Custom9', type: 'string', hidden: true},
-            {text: 'Work Status', dataField: 'Custom10', type: 'string', hidden: true},
-            {text: 'Income', dataField: 'Custom11', type: 'string', hidden: true},
-            {text: 'FS', dataField: 'Custom12', type: 'string', hidden: true},
-            {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
-            {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
-            {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
-
-        ],
-        columnsResize: true,
-        width: "100%",
-        theme: 'arctic',
-        sortable: true,
-        pageable: true,
-        pageSize: 20,
-        //pagerMode: 'default',
-        altRows: true,
-        filterable: true,
-        //filterMode: 'simple',
-        showfilterrow: true,
-    };
+    $scope.customerTableSettings = customerService.getTableSettings;
 
     var updateCustomerTableData = function() {
-        $scope.$apply(function(){
+        var source = customerService.getTableSettings.source;
+        $scope.$apply(function() {
             $scope.customerTableSettings = {
                 source: {
-                    dataType: 'json',
-                    dataFields: [
-                        {name: 'Unique', type: 'int'},
-                        {name: 'FirstName', type: 'string'},
-                        {name: 'MiddleName', type: 'string'},
-                        {name: 'LastName', type: 'string'},
-                        {name: 'Company', type: 'string'},
-                        {name: 'Address1', type: 'string'},
-                        {name: 'Address2', type: 'string'},
-                        {name: 'City', type: 'string'},
-                        {name: 'Country', type: 'string'},
-                        {name: 'State', type: 'string'},
-                        {name: 'Zip', type: 'string'},
-                        {name: 'Phone1', type: 'string'},
-                        {name: 'Phone2', type: 'string'},
-                        {name: 'Email', type: 'string'},
-                        {name: 'Custom1', type: 'string'},
-                        {name: 'Custom2', type: 'string'},
-                        {name: 'Custom3', type: 'string'},
-                        {name: 'Custom4', type: 'string'},
-                        {name: 'Custom5', type: 'string'},
-                        {name: 'Custom6', type: 'string'},
-                        {name: 'Custom7', type: 'string'},
-                        {name: 'Custom8', type: 'string'},
-                        {name: 'Custom9', type: 'string'},
-                        {name: 'Custom10', type: 'string'},
-                        {name: 'Custom11', type: 'string'},
-                        {name: 'Custom12', type: 'string'},
-                        {name: 'Custom13', type: 'string'},
-                        {name: 'Custom14', type: 'string'},
-                        {name: 'Custom15', type: 'string'},
-                        {name: 'Status', type: 'string'},
-                    ],
-                    id: 'Unique',
-                    url: SiteRoot + 'admin/Customer/load_allCustomers'
+                    dataFields: source.dataFields,
+                    dataType: source.dataType,
+                    id: source.id,
+                    url: source.url
                 },
                 created: function (args) {
                     var instance = args.instance;
@@ -162,6 +37,18 @@ demoApp.controller("customerController", function ($scope, $http) {
         isModal: true,
         showCloseButton: false
     };
+
+    // Notifications settings
+    $scope.customerNoticeSuccessSettings = customerService.setNotificationSettings(1);
+    $scope.customerNoticeErrorSettings = customerService.setNotificationSettings(0);
+
+    // Getting all attributes
+    customerService.getCustomerAttributes()
+        .then(function (response) {
+                $scope.customerControls = response.data;
+            }, function () {}
+            // at end of request
+        ).then(function () {});
 
     // Setting buttons
     $scope.numberIntSettings = {
@@ -212,17 +99,6 @@ demoApp.controller("customerController", function ($scope, $http) {
         $scope.radioCollection[field] = e.data;
     };
 
-    $http({
-        'method': 'GET',
-        'url': SiteRoot + 'admin/Customer/load_customerAttributes'
-    }).then(function(response) {
-            console.log(response.data);
-            $scope.customerControls = response.data;
-        }, function() {}
-    ).then(function() {
-
-    });
-
     $scope.customerID = null;
     $scope.newOrEditCustomerAction = null;
 
@@ -260,10 +136,12 @@ demoApp.controller("customerController", function ($scope, $http) {
                 //el.find('.customer-date').val(new Date());
                 el.find('.customer-date').val(row[field]);
             } else if (type == 'radio') {
-                el.find('.customer-radio[data-val=' + row[field]+ ']').jqxRadioButton({ checked:true });
+                var radio = el.find('.customer-radio[data-val=' + row[field]+ ']');
+                if (radio.length)
+                    radio.jqxRadioButton({ checked:true });
             } else if (type == 'datalist') {
                 var itemByValue = el.find('.customer-datalist').jqxListBox('getItemByValue', row[field]);
-                el.find('.customer-datalist').jqxListBox({'selectedIndex': itemByValue.index});
+                el.find('.customer-datalist').jqxListBox({'selectedIndex': (itemByValue) ? itemByValue.index : -1});
             }
             else {
                 console.info('NOT FOUND');
@@ -293,13 +171,17 @@ demoApp.controller("customerController", function ($scope, $http) {
             } else if (type == 'date') {
                 el.find('.customer-date').jqxDateTimeInput({ value: new Date() });
             } else if (type == 'radio') {
-                el.find('.customer-radio:first-child').jqxRadioButton({ checked:true });
+                var radio = el.find('.customer-radio:first-child');
+                if (radio.length)
+                    radio.jqxRadioButton({ checked:true });
             } else if (type == 'datalist') {
                 el.find('.customer-datalist').jqxListBox({'selectedIndex': 0});
+                el.find('.customer-datalist').css({'border-color': '#CCC'});
             }
             else {
                 console.info('Control was not found');
             }
+            el.find(':first-child').css({'border-color': '#CCC'});
         });
     };
 
@@ -311,9 +193,9 @@ demoApp.controller("customerController", function ($scope, $http) {
             var type = el.data('control-type');
             var current;
             if (type == 'text') {
-                needValidation = true;
                 current = el.find('input.req');
                 if (current.length && current.val() == '') {
+                    needValidation = true;
                     $('#customerNoticeErrorSettings #notification-content')
                         .html(current.attr('placeholder') + ' can not be empty!');
                     $scope.customerNoticeErrorSettings.apply('open');
@@ -322,9 +204,9 @@ demoApp.controller("customerController", function ($scope, $http) {
                     current.css({'border-color': '#CCC'});
                 }
             } else if (type == 'number' || type == 'number2Decimal') {
-                needValidation = true;
                 current = el.find('.customer-number.req');
                 if (current.length && current.val() == '') {
+                    needValidation = true;
                     $('#customerNoticeErrorSettings #notification-content')
                         .html(current.attr('placeholder') + ' can not be empty!');
                     $scope.customerNoticeErrorSettings.apply('open');
@@ -335,6 +217,7 @@ demoApp.controller("customerController", function ($scope, $http) {
             } else if (type == 'date') {
                 current = el.find('.customer-date.req');
                 if (current.val() == undefined && current.val() == '') {
+                    needValidation = true;
                     $('#customerNoticeErrorSettings #notification-content')
                         .html(current.data('placeholder') + ' needs to be a valid date!');
                     $scope.customerNoticeErrorSettings.apply('open');
@@ -345,7 +228,8 @@ demoApp.controller("customerController", function ($scope, $http) {
             } else if (type == 'datalist') {
                 current = el.find('.customer-datalist');
                 var listboxSelected = current.jqxListBox('getSelectedItem');
-                if (!listboxSelected) {
+                if (!listboxSelected && current.hasClass('req')) {
+                    needValidation = true;
                     $('#customerNoticeErrorSettings #notification-content')
                         .html('Select an item on ' + current.data('placeholder'));
                     $scope.customerNoticeErrorSettings.apply('open');
@@ -395,13 +279,16 @@ demoApp.controller("customerController", function ($scope, $http) {
                 success: function(data) {
                     if (data.status == 'success') {
                         updateCustomerTableData();
-                        customerWind.close();
+                        //customerWind.close();
                         resetCustomerForm();
                         //
                         var msg;
                         if ($scope.newOrEditCustomerAction == 'edit') {
                             msg = 'Customer updated successfully';
                             console.info(msg);
+                            $('#customerNoticeSuccessSettings #notification-content')
+                                .html(msg);
+                            $scope.customerNoticeSuccessSettings.apply('open');
                             //console.info(data.message);
                         } else if ($scope.newOrEditCustomerAction == 'create') {
                             msg = 'Customer created successfully';
