@@ -5,6 +5,20 @@ var demoApp = angular.module("demoApp", ['jqwidgets']);
 
 demoApp.controller("customerController", function ($scope, $http) {
 
+    var setNotificationInit = function (type) {
+        return {
+            width: "auto",
+            appendContainer: "#customerNoticeContainer",
+            opacity: 0.9,
+            closeOnClick: true,
+            autoClose: true,
+            showCloseButton: false,
+            template: (type == 1) ? 'success' : 'error'
+        }
+    };
+    $scope.customerNoticeSuccessSettings = setNotificationInit(1);
+    $scope.customerNoticeErrorSettings = setNotificationInit(0);
+
     var customerWind;
     $scope.customerTableSettings = {
         source: {
@@ -291,6 +305,56 @@ demoApp.controller("customerController", function ($scope, $http) {
 
     var validationBeforeCustomer = function() {
         var needValidation = false;
+
+        $('.customer-field').each(function(i, value){
+            var el = $(value);
+            var type = el.data('control-type');
+            var current;
+            if (type == 'text') {
+                needValidation = true;
+                current = el.find('input.req');
+                if (current.length && current.val() == '') {
+                    $('#customerNoticeErrorSettings #notification-content')
+                        .html(current.attr('placeholder') + ' can not be empty!');
+                    $scope.customerNoticeErrorSettings.apply('open');
+                    current.css({'border-color': '#F00'});
+                } else {
+                    current.css({'border-color': '#CCC'});
+                }
+            } else if (type == 'number' || type == 'number2Decimal') {
+                needValidation = true;
+                current = el.find('.customer-number.req');
+                if (current.length && current.val() == '') {
+                    $('#customerNoticeErrorSettings #notification-content')
+                        .html(current.attr('placeholder') + ' can not be empty!');
+                    $scope.customerNoticeErrorSettings.apply('open');
+                    current.css({'border-color': '#F00'});
+                } else {
+                    current.css({'border-color': '#CCC'});
+                }
+            } else if (type == 'date') {
+                current = el.find('.customer-date.req');
+                if (current.val() == undefined && current.val() == '') {
+                    $('#customerNoticeErrorSettings #notification-content')
+                        .html(current.data('placeholder') + ' needs to be a valid date!');
+                    $scope.customerNoticeErrorSettings.apply('open');
+                    current.css({'border-color': '#F00'});
+                } else {
+                    current.css({'border-color': '#CCC'});
+                }
+            } else if (type == 'datalist') {
+                current = el.find('.customer-datalist');
+                var listboxSelected = current.jqxListBox('getSelectedItem');
+                if (!listboxSelected) {
+                    $('#customerNoticeErrorSettings #notification-content')
+                        .html('Select an item on ' + current.data('placeholder'));
+                    $scope.customerNoticeErrorSettings.apply('open');
+                    current.css({'border-color': '#F00'});
+                } else {
+                    current.css({'border-color': '#CCC'});
+                }
+            }
+        });
 
         return needValidation;
     };

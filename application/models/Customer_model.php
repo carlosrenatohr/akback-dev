@@ -34,7 +34,8 @@ class Customer_model extends CI_Model
 //        $this->db->join('config_attribute as ca_parent', 'config_attribute.Unique = ca_parent.ParentUnique');
 //        $this->db->where('ParentUnique', 0);
         $this->db->where('Status', 1);
-        $this->db->order_by('ParentUnique, Sort');
+        $this->db->where('Form', 'Customer');
+        $this->db->order_by('Tab, Row, Column');
         $query = $this->db->get('config_attribute');
         return $query->result_array();
         // select * from config_attribute where "ParentUnique" = 0 and "Status" = 1 order by "Sort"

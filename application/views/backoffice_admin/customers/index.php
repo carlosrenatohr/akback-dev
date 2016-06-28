@@ -86,6 +86,7 @@ jqxthemes();
                                                 jqx-on-select="changeDatalist(event)"
                                                 class="customer-datalist"
                                                 id="customer_{{ attr.Label}}"
+                                                data-placeholder="{{attr.Label}}"
                                                 >
                                                 <option ng-repeat="option in attr.options"
                                                         value="{{ option.Label }}">{{ option.Label }}</option>
@@ -134,6 +135,7 @@ jqxthemes();
                                         >
                                             <jqx-date-time-input class="customer-date" jqx-settings="dateSettings"
                                                                  ng-class="{req : attr.Required}"
+                                                                 data-placeholder="{{attr.Label}}"
                                             ></jqx-date-time-input>
                                         </div>
                                         <!-- RADIO  -->
@@ -164,6 +166,7 @@ jqxthemes();
                                 </div>
                             </div>
                         </div>
+                        <!-- -->
                         <div class="col-md-12 col-md-offset-0">
                             <div class="row">
                                 <div id="">
@@ -187,6 +190,49 @@ jqxthemes();
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <!-- Prompt before saving item on grid -->
+                        <div class="col-md-12 col-md-offset-0">
+                            <div class="row">
+                                <div id="promptToCloseItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            Do you want to save your changes?
+                                            <button type="button" ng-click="" class="btn btn-primary">Yes</button>
+                                            <button type="button" ng-click="" class="btn btn-warning">No</button>
+                                            <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Prompt before delete an item on grid -->
+                        <div class="col-md-12 col-md-offset-0">
+                            <div class="row">
+                                <div id="promptToDeleteItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            Do you really want to delete it?
+                                            <button type="button" ng-click="" class="btn btn-primary">Yes</button>
+                                            <button type="button" ng-click="" class="btn btn-warning">No</button>
+                                            <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- NOTIFICATIONS AREA -->
+                        <div class="col-md-12 col-md-offset-0">
+                            <div class="row">
+                                <jqx-notification jqx-settings="customerNoticeSuccessSettings" id="customerNoticeSuccessSettings">
+                                    <div id="notification-content"></div>
+                                </jqx-notification>
+                                <jqx-notification jqx-settings="customerNoticeErrorSettings" id="customerNoticeErrorSettings">
+                                    <div id="notification-content"></div>
+                                </jqx-notification>
+                                <div id="customerNoticeContainer" style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                             </div>
                         </div>
                     </div>
