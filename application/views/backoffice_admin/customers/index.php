@@ -11,6 +11,7 @@ jqxthemes();
 <?php $this->load->view('backoffice_admin/customers/custom_controls'); ?>
 <!-- Assets -->
 <link rel="stylesheet" href="../../assets/admin/styles.css">
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />
 <script>
     // --Global Variable
     var SiteRoot = "<?php echo base_url()?>";
