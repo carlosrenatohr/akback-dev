@@ -80,7 +80,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         digits: 3,
         spinButtons: true,
         width: 200,
-        height: 25,
+        height: 25
     };
 
     $scope.numberDecimalSettings = {
@@ -99,6 +99,18 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         max: new Date(),
         formatString: 'd',
         width: '200px', height: '25px'
+    };
+
+    // Events
+    $scope.changingCustomerTab = function(e) {
+        var tabclick = e.args.item;
+        var deleteBtn = angular.element('#deleteCustomerBtn');
+        if ($scope.newOrEditCustomerAction == 'edit') {
+            if (tabclick == 0)
+                deleteBtn.show();
+            else
+                deleteBtn.hide();
+        }
     };
 
     $('body')
@@ -183,6 +195,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     });
 
     var resetCustomerForm = function() {
+        $('#customerTabs').jqxTabs('select', 0);
         $('.customer-field').each(function(i, value) {
             var el = $(value);
             var type = el.data('control-type');

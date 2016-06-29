@@ -8,7 +8,6 @@
  */
 class Customer extends AK_Controller
 {
-    private $customerFields;
 
     public function __construct()
     {
@@ -21,7 +20,8 @@ class Customer extends AK_Controller
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['page_title'] = "Customer Dashboard";
         $data['storename'] = $this->displaystore();
-        $data['customerFields'] = $this->customerFieldsWithOptions();
+//        $data['customerFields'] = $this->customerFieldsWithOptions();
+        $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
         $data['main_content'] = "backoffice_admin/customers/index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
