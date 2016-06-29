@@ -14,7 +14,6 @@ class Customer extends AK_Controller
     {
         parent::__construct();
         $this->load->model('Customer_model', 'customer');
-//        $this->customerFields = $this->customer->getFieldsForCustomer();
     }
 
     public function index()
@@ -34,7 +33,8 @@ class Customer extends AK_Controller
      */
     public function load_allCustomers()
     {
-        $customers = $this->customer->getAllCustomers();
+        $parentUnique = (isset($_GET['parent'])) ? $_GET['parent'] : null;
+        $customers = $this->customer->getAllCustomers($parentUnique);
         echo json_encode($customers);
     }
 
@@ -46,7 +46,7 @@ class Customer extends AK_Controller
     private function customerFieldsWithOptions()
     {
         $new_fields = [];
-        $fields = $this->customer->getFieldsForCustomer();
+        $fields = $this->customer->getAttributesByForm('Customer', 'Tab, Sort, Row, Column');
         foreach ($fields as $field) {
             if ($field['ParentUnique'] == 0) {
                 $new_fields[$field['Unique']] = $field;
@@ -134,6 +134,37 @@ class Customer extends AK_Controller
             ];
         }
         echo json_encode($response);
+    }
+
+    //
+
+    /**
+     * @method GET
+     * @description Load all customers attributes
+     * @returnType json
+     */
+    public function load_customerContactsAttributes()
+    {
+        echo json_encode($this->customerContactsAttrsWithOptions());
+    }
+
+    /**
+     * @helper
+     * @description group fields with their sub-fields
+     * @returnType array
+     */
+    private function customerContactsAttrsWithOptions()
+    {
+        $new_fields = [];
+        $fields = $this->customer->getAttributesByForm('CustomerContact', 'Sort');
+        foreach ($fields as $field) {
+            if ($field['ParentUnique'] == 0) {
+                $new_fields[$field['Unique']] = $field;
+            } else {
+                $new_fields[$field['ParentUnique']]['options'][] = $field;
+            }
+        }
+        return $new_fields;
     }
 
 }

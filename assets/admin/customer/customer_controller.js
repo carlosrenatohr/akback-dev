@@ -5,8 +5,9 @@ var demoApp = angular.module("demoApp", ['jqwidgets']);
 
 demoApp.controller("customerController", function ($scope, $http, customerService) {
 
-    var customerWind;
+    var customerWind, customerContactWin;
     $scope.customerTableSettings = customerService.getTableSettings;
+    $scope.customerContactTableSettings = customerService.getContactsTableSettings(1);
 
     var updateCustomerTableData = function() {
         var source = customerService.getTableSettings.source;
@@ -26,12 +27,26 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         });
     };
 
+    // Customer window
     $scope.addCustomerWindSettings = {
         created: function (args) {
             customerWind = args.instance;
         },
         resizable: false,
         width: "80%", height: "100%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    // Customer contact window
+    $scope.addCustomerContactWinSettings = {
+        created: function (args) {
+            customerContactWin = args.instance;
+        },
+        resizable: false,
+        width: "35%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -49,6 +64,13 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             }, function () {}
             // at end of request
         ).then(function () {});
+
+    customerService.getCustomerContactsAttributes()
+        .then(function (response) {
+                $scope.customerContactsControls = response.data;
+            }, function () {}
+            // at end of request
+        );
 
     // Setting buttons
     $scope.numberIntSettings = {
@@ -368,6 +390,17 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 $('#promptToDeleteCustomerForm').hide();
             }
         }
+    };
+
+    /**
+     * CONTACT TAB
+     */
+    $scope.openContactWindow = function() {
+        customerContactWin.open();
+    };
+
+    $scope.closeCustomerContact = function() {
+        customerContactWin.close();
     };
 
 });
