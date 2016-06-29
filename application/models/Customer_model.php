@@ -28,6 +28,8 @@ class Customer_model extends CI_Model
         $where = ['Status' => 1];
         if (!is_null($parentUnique)) {
             $where['ParentUnique'] = $parentUnique;
+        } else {
+            $where['ParentUnique'] = null;
         }
         $query = $this->db->get_where($this->customerTable, $where);
         return $query->result_array();
@@ -55,7 +57,7 @@ class Customer_model extends CI_Model
         return $values;
     }
 
-    public function postCustomer($request)
+    public function postCustomer($request, $parentUnique = null)
     {
         $extraFields = [
             'Status' => 1,

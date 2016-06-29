@@ -27,6 +27,25 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         });
     };
 
+    var updateCustomerContactTableData = function() {
+        if ($scope.customerID != undefined) {
+            var source = customerService.getContactsTableSettings($scope.customerID).source;
+            $scope.$apply(function() {
+                $scope.customerContactTableSettings = {
+                    source: {
+                        dataFields: source.dataFields,
+                        dataType: source.dataType,
+                        id: source.id,
+                        url: source.url
+                    },
+                    created: function (args) {
+                        args.instance.updateBoundData();
+                    }
+                };
+            });
+        }
+    };
+
     // Customer window
     $scope.addCustomerWindSettings = {
         created: function (args) {
@@ -106,10 +125,14 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         var tabclick = e.args.item;
         var deleteBtn = angular.element('#deleteCustomerBtn');
         if ($scope.newOrEditCustomerAction == 'edit') {
-            if (tabclick == 0)
+            if (tabclick > 0)
                 deleteBtn.show();
             else
                 deleteBtn.hide();
+            // Contacts tab
+            if(tabclick == 2) {
+                updateCustomerContactTableData();
+            }
         }
     };
 
@@ -158,7 +181,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.customerID = row.Unique;
         $scope.newOrEditCustomerAction = 'edit';
         //
-        $('.customer-field').each(function(i, value) {
+        $('.customerForm .customer-field').each(function(i, value) {
             var el = $(value);
             var type = el.data('control-type');
             var field = el.data('field');
@@ -196,7 +219,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
 
     var resetCustomerForm = function() {
         $('#customerTabs').jqxTabs('select', 0);
-        $('.customer-field').each(function(i, value) {
+        $('.customerForm .customer-field').each(function(i, value) {
             var el = $(value);
             var type = el.data('control-type');
             if (type == 'text') {
@@ -220,10 +243,22 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         });
     };
 
-    var validationBeforeCustomer = function() {
+    var validationBeforeCustomer = function(formContainer, notifSection) {
         var needValidation = false;
 
-        $('.customer-field').each(function(i, value){
+        var openNotification = function(msg, current) {
+            if (notifSection == 'contacts') {
+                $('#customerContactErrorSettings #notification-content')
+                    .html(msg);
+                $scope.customerContactErrorSettings.apply('open');
+            } else {
+                $('#customerNoticeErrorSettings #notification-content')
+                    .html(msg);
+                $scope.customerNoticeErrorSettings.apply('open');
+            }
+            current.css({'border-color': '#F00'});
+        };
+        formContainer.each(function(i, value) {
             var el = $(value);
             var type = el.data('control-type');
             var current;
@@ -231,10 +266,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 current = el.find('input.req');
                 if (current.length && current.val() == '') {
                     needValidation = true;
-                    $('#customerNoticeErrorSettings #notification-content')
-                        .html(current.attr('placeholder') + ' can not be empty!');
-                    $scope.customerNoticeErrorSettings.apply('open');
-                    current.css({'border-color': '#F00'});
+                    openNotification(current.attr('placeholder') + ' can not be empty!', current);
                 } else {
                     current.css({'border-color': '#CCC'});
                 }
@@ -242,10 +274,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 current = el.find('.customer-number.req');
                 if (current.length && current.val() == '') {
                     needValidation = true;
-                    $('#customerNoticeErrorSettings #notification-content')
-                        .html(current.attr('placeholder') + ' can not be empty!');
-                    $scope.customerNoticeErrorSettings.apply('open');
-                    current.css({'border-color': '#F00'});
+                    openNotification(current.attr('placeholder') + ' can not be empty!', current);
                 } else {
                     current.css({'border-color': '#CCC'});
                 }
@@ -253,10 +282,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 current = el.find('.customer-date.req');
                 if (current.val() == undefined && current.val() == '') {
                     needValidation = true;
-                    $('#customerNoticeErrorSettings #notification-content')
-                        .html(current.data('placeholder') + ' needs to be a valid date!');
-                    $scope.customerNoticeErrorSettings.apply('open');
-                    current.css({'border-color': '#F00'});
+                    openNotification(current.data('placeholder') + ' needs to be a valid date!', current);
                 } else {
                     current.css({'border-color': '#CCC'});
                 }
@@ -265,10 +291,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 var listboxSelected = current.jqxListBox('getSelectedItem');
                 if (!listboxSelected && current.hasClass('req')) {
                     needValidation = true;
-                    $('#customerNoticeErrorSettings #notification-content')
-                        .html('Select an item on ' + current.data('placeholder'));
-                    $scope.customerNoticeErrorSettings.apply('open');
-                    current.css({'border-color': '#F00'});
+                    openNotification('Select an item on ' + current.data('placeholder'), current);
                 } else {
                     current.css({'border-color': '#CCC'});
                 }
@@ -278,31 +301,37 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         return needValidation;
     };
 
-    $scope.saveCustomerAction = function(fromPrompt) {
-        if (!validationBeforeCustomer()) {
-            var data = {};
-            $('.customer-field').each(function(i, value) {
-                var el = $(value);
-                var type = el.data('control-type');
-                var inputValue;
-                if (type == 'text') {
-                    inputValue = el.find('input.customer-textcontrol').val();
-                } else if (type == 'number' || type == 'number2Decimal') {
-                    inputValue = el.find('.customer-number').val();
-                } else if (type == 'date') {
-                    inputValue = el.find('.customer-date').val();
-                } else if (type == 'radio') {
-                    inputValue = $scope.radioCollection[el.data('field')];
-                    data[el.data('field')] = inputValue;
-                } else if (type == 'datalist') {
-                    inputValue = el.find('.customer-datalist').jqxListBox('getSelectedItem').value;
-                }
-                else {
-                    data[el.data('field')] = '-';
-                }
+    var gettingCustomerValues = function(formContainer) {
+        var data = {};
+        formContainer.each(function(i, value) {
+            var el = $(value);
+            var type = el.data('control-type');
+            var inputValue;
+            if (type == 'text') {
+                inputValue = el.find('input.customer-textcontrol').val();
+            } else if (type == 'number' || type == 'number2Decimal') {
+                inputValue = el.find('.customer-number').val();
+            } else if (type == 'date') {
+                inputValue = el.find('.customer-date').val();
+            } else if (type == 'radio') {
+                inputValue = $scope.radioCollection[el.data('field')];
                 data[el.data('field')] = inputValue;
-            });
-            //
+            } else if (type == 'datalist') {
+                inputValue = el.find('.customer-datalist').jqxListBox('getSelectedItem').value;
+            }
+            else {
+                data[el.data('field')] = '-';
+            }
+            data[el.data('field')] = inputValue;
+        });
+
+        return data;
+    };
+
+    $scope.saveCustomerAction = function(fromPrompt) {
+        var formContainer = $('.customerForm .customer-field');
+        if (!validationBeforeCustomer(formContainer)) {
+            var data = gettingCustomerValues(formContainer);
             var url = ($scope.newOrEditCustomerAction == 'edit')
                         ? 'admin/Customer/updateCustomer/' + $scope.customerID
                         : 'admin/Customer/createCustomer';
@@ -408,12 +437,67 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     /**
      * CONTACT TAB
      */
+        // Notifications settings
+    $scope.customerContactSuccessSettings = customerService.setNotificationSettings(1, 'contacts');
+    $scope.customerContactErrorSettings = customerService.setNotificationSettings(0, 'contacts');
+
+    $scope.newOrEditCustomerContacts = null;
+    $scope.customerContactID = null;
     $scope.openContactWindow = function() {
+        $scope.newOrEditCustomerContacts = 'create';
+        $('#saveCustomerContactBtn').prop('disabled', false);
         customerContactWin.open();
     };
 
     $scope.closeCustomerContact = function() {
         customerContactWin.close();
+    };
+
+    $scope.saveCustomerContactsAction = function(fromPrompt) {
+        var formContainer = $('.customerContactsForm .customer-field');
+        if (!validationBeforeCustomer(formContainer, 'contacts')) {
+            var data = gettingCustomerValues(formContainer);
+            data['ParentUnique'] = $scope.customerID;
+            //
+            var url = ($scope.newOrEditCustomerContacts == 'edit')
+                ? 'admin/Customer/updateCustomer/' + $scope.customerID
+                : 'admin/Customer/createCustomer';
+            $.ajax({
+                url: SiteRoot + url,
+                method: 'post',
+                dataType: 'json',
+                data: data,
+                success: function(data) {
+                    if (data.status == 'success') {
+                        updateCustomerContactTableData();
+                        //
+                        var msg;
+                        if ($scope.newOrEditCustomerContacts == 'edit') {
+                            msg = 'Customer contact updated successfully';
+                            //console.info(data.message);
+                        } else if ($scope.newOrEditCustomerContacts == 'create') {
+                            msg = 'Customer Contact created successfully';
+                            $scope.newOrEditCustomerContacts = 'edit';
+                            $scope.customerContactID = data.new_id;
+                        }
+                        //
+                        if (fromPrompt) {
+                            customerContactWin.close();
+                            //resetCustomerForm();
+                        } else {
+                            $('#saveCustomerContactBtn').prop('disabled', true);
+                            $('#customerContactSuccessSettings #notification-content')
+                                .html(msg);
+                            $scope.customerContactSuccessSettings.apply('open');
+                        }
+                    } else if (data.status == 'error'){
+                        console.log(data.message);
+                    } else {
+                        console.error('Error from ajax');
+                    }
+                }
+            });
+        }
     };
 
 });

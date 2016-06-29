@@ -49,6 +49,7 @@ class Customer extends AK_Controller
         $fields = $this->customer->getAttributesByForm('Customer', 'Tab, Sort, Row, Column');
         foreach ($fields as $field) {
             if ($field['ParentUnique'] == 0) {
+                $field['classForm'] = strtolower($field['Form']);
                 $new_fields[$field['Unique']] = $field;
             } else {
                 $new_fields[$field['ParentUnique']]['options'][] = $field;

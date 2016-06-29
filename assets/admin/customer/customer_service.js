@@ -96,7 +96,7 @@ demoApp.service('customerService', function ($http) {
         altRows: true,
         filterable: true,
         //filterMode: 'simple',
-        showfilterrow: true,
+        showfilterrow: true
     };
 
     this.getContactsTableSettings = function (parentUnique) {
@@ -133,6 +133,7 @@ demoApp.service('customerService', function ($http) {
                     {name: 'Custom13', type: 'string'},
                     {name: 'Custom14', type: 'string'},
                     {name: 'Custom15', type: 'string'},
+                    {name: 'Custom15', type: 'string'},
                     {name: 'Status', type: 'string'}
 
                 ],
@@ -145,16 +146,16 @@ demoApp.service('customerService', function ($http) {
                 {text: 'Middle Name', dataField: 'MiddleName', type: 'string'},
                 {text: 'Last Name', dataField: 'LastName', type: 'string'},
                 {text: 'Company', dataField: 'Company', type: 'string'},
-                {text: 'Address', dataField: 'Address1', type: 'string'},
+                {text: 'Address', dataField: 'Address1', type: 'string', hidden: true},
                 {text: 'Address2', dataField: 'Address2', type: 'string', hidden: true},
-                {text: 'City', dataField: 'City', type: 'string'},
-                {text: 'State', dataField: 'State', type: 'string'},
-                {text: 'Zip', dataField: 'Zip', type: 'string'},
-                {text: 'Phone', dataField: 'Phone1', type: 'string'},
+                {text: 'City', dataField: 'City', type: 'string', hidden: true},
+                {text: 'State', dataField: 'State', type: 'string', hidden: true},
+                {text: 'Zip', dataField: 'Zip', type: 'string', hidden: true},
+                {text: 'Phone', dataField: 'Phone1', type: 'string', hidden: true},
                 {text: 'Phone2', dataField: 'Phone2', type: 'string', hidden: true},
-                {text: 'Email', dataField: 'Email', type: 'string'},
-                {text: 'Full Identification', dataField: 'Custom1', type: 'string', hidden: true},
-                {text: 'Date of Birth', dataField: 'Custom2', type: 'string', hidden: true},
+                {text: 'Email', dataField: 'Email', type: 'string', hidden: true},
+                {text: 'Full Identification', dataField: 'Custom1', type: 'string'},
+                {text: 'Date of Birth', dataField: 'Custom2', type: 'string', filtertype: 'date', columntype: 'datetimeinput'},
                 {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
                 {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
                 {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
@@ -168,6 +169,7 @@ demoApp.service('customerService', function ($http) {
                 {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
                 {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
                 {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
+                {text: 'Relationship', dataField: 'Custom16', type: 'string'},
             ],
             columnsResize: true,
             width: "100%",
@@ -183,10 +185,16 @@ demoApp.service('customerService', function ($http) {
         }
     };
 
-    this.setNotificationSettings = function (type) {
+    this.setNotificationSettings = function (type, container) {
+        var containerSelect;
+        if (container == 'contacts') {
+            containerSelect = '#customerContactNoticeContainer';
+        } else {
+            containerSelect = "#customerNoticeContainer";
+        }
         return {
             width: "auto",
-            appendContainer: "#customerNoticeContainer",
+            appendContainer: containerSelect,
             opacity: 0.9,
             closeOnClick: true,
             autoClose: true,

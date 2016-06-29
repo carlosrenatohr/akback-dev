@@ -87,7 +87,7 @@ jqxthemes();
                             <div class="">
                                 <div class="col-md-12 col-md-offset-0">
                                     <div class="row">
-                                        <div style=" width:100%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'">
+                                        <div style=" width:100%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'" class="customerForm">
                                             <multiple-controls></multiple-controls>
                                         </div>
                                     </div>
@@ -97,7 +97,7 @@ jqxthemes();
                             <div>
                                 <div class="col-md-12 col-md-offset-0">
                                     <div class="row">
-                                        <div style=" width:100%;float:left;" ng-repeat="attr in customerControls | ByTab:'2'">
+                                        <div style=" width:100%;float:left;" ng-repeat="attr in customerControls | ByTab:'2'" class="customerForm">
                                             <multiple-controls></multiple-controls>
                                         </div>
                                     </div>

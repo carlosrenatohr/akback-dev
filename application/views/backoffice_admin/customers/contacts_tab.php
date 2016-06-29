@@ -19,7 +19,7 @@
             </div>
             <div class="">
                 <div style=" width:100%;float:left;">
-                    <div style=" width:100%;float:left;" ng-repeat="attr in customerContactsControls">
+                    <div style=" width:100%;float:left;" ng-repeat="attr in customerContactsControls" class="customerContactsForm">
                         <multiple-controls></multiple-controls>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <button type="button" id="saveCustomerContactBtn"
-                                            ng-click=""
+                                            ng-click="saveCustomerContactsAction()"
                                             class="btn btn-primary">
                                         Save
                                     </button>
@@ -47,6 +47,49 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <!-- Prompt before saving item on grid -->
+                <div class="col-md-12 col-md-offset-0">
+                    <div class="row">
+                        <div id="promptToCloseCustomerForm" class="" style="display: none">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    Do you want to save your changes?
+                                    <button type="button" ng-click="closeCustomerAction(0)" class="btn btn-primary">Yes</button>
+                                    <button type="button" ng-click="closeCustomerAction(1)" class="btn btn-warning">No</button>
+                                    <button type="button" ng-click="closeCustomerAction(2)" class="btn btn-info">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prompt before delete an item on grid -->
+                <div class="col-md-12 col-md-offset-0">
+                    <div class="row">
+                        <div id="promptToDeleteCustomerForm" class="" style="display: none">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    Do you really want to delete it?
+                                    <button type="button" ng-click="deleteCustomerAction(0)" class="btn btn-primary">Yes</button>
+                                    <button type="button" ng-click="deleteCustomerAction(1)" class="btn btn-warning">No</button>
+                                    <button type="button" ng-click="deleteCustomerAction(2)" class="btn btn-info">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- NOTIFICATIONS AREA -->
+                <div class="col-md-12 col-md-offset-0">
+                    <div class="row">
+                        <jqx-notification jqx-settings="customerContactSuccessSettings" id="customerContactSuccessSettings">
+                            <div id="notification-content"></div>
+                        </jqx-notification>
+                        <jqx-notification jqx-settings="customerContactErrorSettings" id="customerContactErrorSettings">
+                            <div id="notification-content"></div>
+                        </jqx-notification>
+                        <div id="customerContactNoticeContainer" style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                     </div>
                 </div>
             </div>
