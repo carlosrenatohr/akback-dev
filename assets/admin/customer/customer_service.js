@@ -192,10 +192,49 @@ demoApp.service('customerService', function ($http) {
         }
     };
 
+    this.getNotesTableSettings = function (parentUnique) {
+        if (parentUnique == undefined)
+            parentUnique = '';
+        return {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ReferenceUnique', type: 'int'},
+                    {name: 'Note', type: 'string'},
+                    {name: 'Status', type: 'string'},
+                    {name: 'Type', type: 'string'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/Customer/load_customerNotes/' + parentUnique
+            },
+            columns: [
+                {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
+                {text: 'CustomerID', dataField: 'ReferenceUnique', type: 'int', hidden: true}, //filterable: false
+                {text: 'Note', dataField: 'Note', type: 'text'},
+                {text: 'Status', dataField: 'Status', type: 'text', hidden: true},
+                {text: 'Type', dataField: 'Type', type: 'string', hidden: true}
+            ],
+            columnsResize: true,
+            width: "100%",
+            theme: 'arctic',
+            sortable: true,
+            pageable: true,
+            pageSize: 20,
+            //pagerMode: 'default',
+            altRows: true,
+            filterable: true,
+            //filterMode: 'simple',
+            showfilterrow: true,
+        }
+    };
+
     this.setNotificationSettings = function (type, container) {
         var containerSelect;
         if (container == 'contacts') {
             containerSelect = '#customerContactNoticeContainer';
+        } else if ('notes') {
+            containerSelect = '#customerNotesNoticeContainer';
         } else {
             containerSelect = "#customerNoticeContainer";
         }

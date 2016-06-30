@@ -13,6 +13,7 @@ class Customer extends AK_Controller
     {
         parent::__construct();
         $this->load->model('Customer_model', 'customer');
+        $this->load->model('Note_model', 'notes');
     }
 
     public function index()
@@ -22,6 +23,7 @@ class Customer extends AK_Controller
         $data['storename'] = $this->displaystore();
 //        $data['customerFields'] = $this->customerFieldsWithOptions();
         $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
+        $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";
         $data['main_content'] = "backoffice_admin/customers/index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
@@ -142,7 +144,7 @@ class Customer extends AK_Controller
 
     /**
      * @method GET
-     * @description Load all customers attributes
+     * @description Load all customers Contacts attributes
      * @returnType json
      */
     public function load_customerContactsAttributes()
@@ -167,6 +169,17 @@ class Customer extends AK_Controller
             }
         }
         return $new_fields;
+    }
+
+    /**
+     * @method GET
+     * @description Load all customers attributes
+     * @returnType json
+     */
+    public function load_customerNotes($customerID = null)
+    {
+
+        echo json_encode($this->notes->getNotesByType('customer', $customerID));
     }
 
 }

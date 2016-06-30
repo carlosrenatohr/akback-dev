@@ -21,12 +21,17 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             if(tabclick == 2) {
                 updateCustomerContactTableData();
             }
+            // Notes tab
+            if(tabclick == 3) {
+                updateCustomerNotesTableData();
+            }
         }
     };
 
-    var customerWind, customerContactWin;
+    var customerWind, customerContactWin, customerNotesWin;
     $scope.customerTableSettings = customerService.getTableSettings;
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
+    $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
 
     var updateCustomerTableData = function() {
         var source = customerService.getTableSettings.source;
@@ -44,6 +49,25 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 }
             };
         });
+    };
+
+    var updateCustomerNotesTableData = function() {
+        if ($scope.customerID != undefined) {
+            var source = customerService.getNotesTableSettings($scope.customerID).source;
+            $scope.$apply(function() {
+                $scope.customerNotesTableSettings = {
+                    source: {
+                        dataFields: source.dataFields,
+                        dataType: source.dataType,
+                        id: source.id,
+                        url: source.url
+                    },
+                    created: function (args) {
+                        args.instance.updateBoundData();
+                    }
+                };
+            });
+        }
     };
 
     var updateCustomerContactTableData = function() {
@@ -82,6 +106,19 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.addCustomerContactWinSettings = {
         created: function (args) {
             customerContactWin = args.instance;
+        },
+        resizable: false,
+        width: "35%", height: "75%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    // Customer notes window
+    $scope.CustomerNotesWinSettings = {
+        created: function (args) {
+            customerNotesWin = args.instance;
         },
         resizable: false,
         width: "35%", height: "75%",
@@ -604,5 +641,46 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             $('#beforeDeleteBtnCustomerContact').show();
         }
     };
+
+
+    /**
+     * NOTES TAB
+     */
+    $scope.customerNotesSuccessSettings = customerService.setNotificationSettings(1, 'notes');
+    $scope.customerNotesErrorSettings = customerService.setNotificationSettings(0, 'notes');
+
+    $scope.newOrEditCustomerNotes = null;
+    $scope.customerNoteID = null;
+
+    $scope.openNoteWindow = function() {
+        $scope.newOrEditCustomerNotes = 'create';
+        $('#deleteCustomerNoteBtn').hide();
+        $('#saveCustomerNoteBtn').prop('disabled', false);
+        customerNotesWin.open();
+    };
+
+    $('#customerNotesGrid').on('rowdoubleclick', function(e) {
+        var row = e.args.row.bounddata;
+        $scope.customerNoteID = row.Unique;
+        $scope.newOrEditCustomerNotes = 'edit';
+        //
+        //fillCustomerFieldsWithValues($('.customerContactsForm .customer-field'), row);
+        //
+        $('#deleteCustomerNoteBtn').show();
+        $('#saveCustomerNoteBtn').prop('disabled', true);
+        //
+        //setTimeout(function(){
+        //    $('.customerContactsForm .customer-field[data-control-type=text]:first input').focus();
+        //}, 100);
+
+        customerNotesWin.setTitle('Edit Note: ' + row.Unique + ' | Customer: ' + row.ReferenceUnique);
+        customerNotesWin.open();
+    });
+
+    $scope.closeCustomerNotesWind = function() {
+        customerNotesWin.close();
+    };
+
+    //updateCustomerNotesTableData();
 
 });
