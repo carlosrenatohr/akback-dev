@@ -16,7 +16,6 @@ jqxthemes();
 </script>
 <script type="application/javascript" src="../../assets/admin/user/user_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/user/user_helpers.js"></script>
-<script type="application/javascript" src="../../assets/admin/user/position_controller.js"></script>
 <!-- -->
 
 <div ng-controller="userController" ng-cloak>
