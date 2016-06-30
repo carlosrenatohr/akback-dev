@@ -17,10 +17,11 @@ class Customer_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getAllCustomers($parentUnique = null)
+    public function getAllCustomers($parentUnique = null, $formName = null)
     {
-        $fields = ['Unique', 'FirstName'];
-        $fields_select = array_merge($fields, $this->getAllByField($this->getAttributesByForm('Customer', 'Tab, Sort, Row, Column'), 'Field'));
+        $fields = ['Unique', 'ParentUnique'];
+        $formName = (!is_null($formName)) ? $formName : 'Customer';
+        $fields_select = array_merge($fields, $this->getAllByField($this->getAttributesByForm($formName, 'Tab, Sort, Row, Column'), 'Field'));
         $fields_select = array_unique($fields_select);
         //
         $this->db->select($fields_select);

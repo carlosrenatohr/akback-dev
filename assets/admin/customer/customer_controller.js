@@ -5,9 +5,28 @@ var demoApp = angular.module("demoApp", ['jqwidgets']);
 
 demoApp.controller("customerController", function ($scope, $http, customerService) {
 
+    /**
+     * TABS
+     * @param e
+     */
+    $scope.changingCustomerTab = function(e) {
+        var tabclick = e.args.item;
+        var deleteBtn = angular.element('#deleteCustomerBtn');
+        if ($scope.newOrEditCustomerAction == 'edit') {
+            if (tabclick > 0)
+                deleteBtn.show();
+            else
+                deleteBtn.hide();
+            // Contacts tab
+            if(tabclick == 2) {
+                updateCustomerContactTableData();
+            }
+        }
+    };
+
     var customerWind, customerContactWin;
     $scope.customerTableSettings = customerService.getTableSettings;
-    $scope.customerContactTableSettings = customerService.getContactsTableSettings(1);
+    $scope.customerContactTableSettings = customerService.getContactsTableSettings();
 
     var updateCustomerTableData = function() {
         var source = customerService.getTableSettings.source;
@@ -120,34 +139,32 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         width: '200px', height: '25px'
     };
 
-    // Events
-    $scope.changingCustomerTab = function(e) {
-        var tabclick = e.args.item;
-        var deleteBtn = angular.element('#deleteCustomerBtn');
-        if ($scope.newOrEditCustomerAction == 'edit') {
-            if (tabclick > 0)
-                deleteBtn.show();
-            else
-                deleteBtn.hide();
-            // Contacts tab
-            if(tabclick == 2) {
-                updateCustomerContactTableData();
-            }
-        }
-    };
-
+    // --- Customer Control Events
     $('body')
-        .on('select', '.customer-datalist', function (e) {
+        .on('select', '.customerForm .customer-datalist', function (e) {
         //console.log(e.args.item);
         $('#saveCustomerBtn').prop('disabled', false);
     })
-        .on('change', '.customer-date', function (e) {
+        .on('change', '.customerForm .customer-date', function (e) {
         //console.log(e.args.date);
         $('#saveCustomerBtn').prop('disabled', false);
     })
-        .on('keypress keyup paste change', '.customer-textcontrol, .customer-number', function (e) {
+        .on('keypress keyup paste change', '.customerForm .customer-textcontrol, .customerForm .customer-number', function (e) {
             $('#saveCustomerBtn').prop('disabled', false);
+    })
+    // Customer contacts Events
+    .on('select', '.customerContactsForm .customer-datalist', function (e) {
+        //console.log(e.args.item);
+        $('#saveCustomerContactBtn').prop('disabled', false);
+    })
+        .on('change', '.customerContactsForm .customer-date', function (e) {
+        //console.log(e.args.date);
+        $('#saveCustomerContactBtn').prop('disabled', false);
+    })
+        .on('keypress keyup paste change', '.customerContactsForm .customer-textcontrol, .customerContactsForm .customer-number', function (e) {
+            $('#saveCustomerContactBtn').prop('disabled', false);
     });
+    // ---
 
     $scope.radioCollection = {};
     $scope.changeRadio = function(e) {
@@ -181,7 +198,28 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.customerID = row.Unique;
         $scope.newOrEditCustomerAction = 'edit';
         //
-        $('.customerForm .customer-field').each(function(i, value) {
+        fillCustomerFieldsWithValues($('.customerForm .customer-field'), row);
+
+        //
+        $('#deleteCustomerBtn').show();
+        $('#saveCustomerBtn').prop('disabled', true);
+        //
+        setTimeout(function(){
+            $('.customer-field[data-control-type=text]:first input').focus();
+        }, 100);
+        var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
+        customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
+        customerWind.open();
+    //};
+    });
+
+    /**
+     * HELPERS TO FILL CONTROLS ON CUSTOMER
+     * @param element
+     * @param row
+     */
+    var fillCustomerFieldsWithValues = function(element, row) {
+        element.each(function(i, value) {
             var el = $(value);
             var type = el.data('control-type');
             var field = el.data('field');
@@ -204,22 +242,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 console.info('NOT FOUND');
             }
         });
-        //
-        $('#deleteCustomerBtn').show();
-        $('#saveCustomerBtn').prop('disabled', true);
-        //
-        setTimeout(function(){
-            $('.customer-field[data-control-type=text]:first input').focus();
-        }, 100);
-        var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
-        customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
-        customerWind.open();
-    //};
-    });
+    };
 
-    var resetCustomerForm = function() {
-        $('#customerTabs').jqxTabs('select', 0);
-        $('.customerForm .customer-field').each(function(i, value) {
+    var resetCustomerForm = function(container) {
+        container.each(function(i, value) {
             var el = $(value);
             var type = el.data('control-type');
             if (type == 'text') {
@@ -356,7 +382,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                         //
                         if (fromPrompt) {
                             customerWind.close();
-                            resetCustomerForm();
+                            resetCustomerForm(formContainer);
                         } else {
                             $('#saveCustomerBtn').prop('disabled', true);
                             $('#customerNoticeSuccessSettings #notification-content')
@@ -400,7 +426,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             });
         } else if (option == 1) {
             customerWind.close();
-            resetCustomerForm();
+            resetCustomerForm($('.customerForm .customer-field'));
         } else if (option == 2) {
 
         } else {
@@ -425,7 +451,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         } else {
             if ($('#saveCustomerBtn').is(':disabled')) {
                 customerWind.close();
-                resetCustomerForm();
+                resetCustomerForm($('.customerForm .customer-field'));
+                $('#customerTabs').jqxTabs('select', 0);
             } else {
                 $('#mainButtonsCustomerForm').hide();
                 $('#promptToCloseCustomerForm').show();
@@ -437,21 +464,40 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     /**
      * CONTACT TAB
      */
-        // Notifications settings
+    // Notifications settings
     $scope.customerContactSuccessSettings = customerService.setNotificationSettings(1, 'contacts');
     $scope.customerContactErrorSettings = customerService.setNotificationSettings(0, 'contacts');
 
     $scope.newOrEditCustomerContacts = null;
     $scope.customerContactID = null;
+
     $scope.openContactWindow = function() {
         $scope.newOrEditCustomerContacts = 'create';
+        $('#deleteCustomerContactBtn').hide();
         $('#saveCustomerContactBtn').prop('disabled', false);
         customerContactWin.open();
     };
 
-    $scope.closeCustomerContact = function() {
-        customerContactWin.close();
-    };
+    $('#customerContactsGrid').on('rowdoubleclick', function(e) {
+    //$scope.editCustomerContactWindow = function(e) {
+        var row = e.args.row.bounddata;
+        $scope.customerContactID = row.Unique;
+        $scope.newOrEditCustomerContacts = 'edit';
+        //
+        fillCustomerFieldsWithValues($('.customerContactsForm .customer-field'), row);
+        //
+        $('#deleteCustomerContactBtn').show();
+        $('#saveCustomerContactBtn').prop('disabled', true);
+        //
+        setTimeout(function(){
+            $('.customerContactsForm .customer-field[data-control-type=text]:first input').focus();
+        }, 100);
+        //var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
+
+        customerContactWin.setTitle('Edit Contact: ' + row.Unique + ' | Customer: ' + row.ParentUnique);
+        customerContactWin.open();
+    //};
+    });
 
     $scope.saveCustomerContactsAction = function(fromPrompt) {
         var formContainer = $('.customerContactsForm .customer-field');
@@ -460,7 +506,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             data['ParentUnique'] = $scope.customerID;
             //
             var url = ($scope.newOrEditCustomerContacts == 'edit')
-                ? 'admin/Customer/updateCustomer/' + $scope.customerID
+                ? 'admin/Customer/updateCustomer/' + $scope.customerContactID
                 : 'admin/Customer/createCustomer';
             $.ajax({
                 url: SiteRoot + url,
@@ -483,7 +529,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                         //
                         if (fromPrompt) {
                             customerContactWin.close();
-                            //resetCustomerForm();
+                            resetCustomerForm($('.customerContactsForm .customer-field'));
                         } else {
                             $('#saveCustomerContactBtn').prop('disabled', true);
                             $('#customerContactSuccessSettings #notification-content')
@@ -497,6 +543,65 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     }
                 }
             });
+        }
+    };
+
+    $scope.closeCustomerContact = function(option) {
+        if (option != undefined) {
+            $('#mainBtnCustomerContact').show();
+            $('#promptBtnCustomerContact').hide();
+            $('#beforeDeleteBtnCustomerContact').hide();
+        }
+        if (option == 0) {
+            $scope.saveCustomerContactsAction(true);
+        } else if (option == 1) {
+            customerContactWin.close();
+        } else if (option == 2) {
+
+        } else {
+            if ($('#saveCustomerContactBtn').is(':disabled')) {
+                customerContactWin.close();
+                resetCustomerForm($('.customerContactsForm .customer-field'));
+                $('#customerTabs').jqxTabs('select', 2);
+            } else {
+                $('#mainBtnCustomerContact').hide();
+                $('#promptBtnCustomerContact').show();
+                $('#beforeDeleteBtnCustomerContact').hide();
+            }
+        }
+    };
+
+    $scope.deleteCustomerContact = function(option) {
+        if (option != undefined) {
+            $('#mainBtnCustomerContact').show();
+            $('#promptBtnCustomerContact').hide();
+            $('#beforeDeleteBtnCustomerContact').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                url: SiteRoot + 'admin/Customer/deleteCustomer/' + $scope.customerContactID,
+                method: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        updateCustomerContactTableData();
+                        $scope.closeCustomerContact();
+                    } else if (data.status == 'error') {
+                        console.log(data.message);
+                    } else {
+                        console.error('Error from ajax');
+                    }
+                }
+            });
+        } else if (option == 1) {
+            customerContactWin.close();
+            resetCustomerForm($('.customerContactsForm .customer-field'));
+        } else if (option == 2) {
+
+        } else {
+            $('#mainBtnCustomerContact').hide();
+            $('#promptBtnCustomerContact').hide();
+            $('#beforeDeleteBtnCustomerContact').show();
         }
     };
 

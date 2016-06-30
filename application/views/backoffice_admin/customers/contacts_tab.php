@@ -7,9 +7,7 @@
         </div>
         <div class="col-md-12">
             <jqx-grid jqx-settings="customerContactTableSettings"
-                      id=""
-                      jqx-create="customerContactTableSettings"
-                      jqx-on-row-double-click=""
+                      id="customerContactsGrid"
             ></jqx-grid>
         </div>
         <jqx-window jqx-settings="addCustomerContactWinSettings"
@@ -26,7 +24,7 @@
                 <!-- MAIN BUTTONS   -->
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row">
-                        <div id="">
+                        <div id="mainBtnCustomerContact">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <button type="button" id="saveCustomerContactBtn"
@@ -40,7 +38,7 @@
                                         Close
                                     </button>
                                     <button type="button" id="deleteCustomerContactBtn"
-                                            ng-click=""
+                                            ng-click="deleteCustomerContact()"
                                             class="btn btn-danger" style="overflow:auto;display: none;">
                                         Delete
                                     </button>
@@ -52,13 +50,13 @@
                 <!-- Prompt before saving item on grid -->
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row">
-                        <div id="promptToCloseCustomerForm" class="" style="display: none">
+                        <div id="promptBtnCustomerContact" class="" style="display: none">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     Do you want to save your changes?
-                                    <button type="button" ng-click="closeCustomerAction(0)" class="btn btn-primary">Yes</button>
-                                    <button type="button" ng-click="closeCustomerAction(1)" class="btn btn-warning">No</button>
-                                    <button type="button" ng-click="closeCustomerAction(2)" class="btn btn-info">Cancel</button>
+                                    <button type="button" ng-click="closeCustomerContact(0)" class="btn btn-primary">Yes</button>
+                                    <button type="button" ng-click="closeCustomerContact(1)" class="btn btn-warning">No</button>
+                                    <button type="button" ng-click="closeCustomerContact(2)" class="btn btn-info">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -68,13 +66,13 @@
                 <!-- Prompt before delete an item on grid -->
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row">
-                        <div id="promptToDeleteCustomerForm" class="" style="display: none">
+                        <div id="beforeDeleteBtnCustomerContact" class="" style="display: none">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     Do you really want to delete it?
-                                    <button type="button" ng-click="deleteCustomerAction(0)" class="btn btn-primary">Yes</button>
-                                    <button type="button" ng-click="deleteCustomerAction(1)" class="btn btn-warning">No</button>
-                                    <button type="button" ng-click="deleteCustomerAction(2)" class="btn btn-info">Cancel</button>
+                                    <button type="button" ng-click="deleteCustomerContact(0)" class="btn btn-primary">Yes</button>
+                                    <button type="button" ng-click="deleteCustomerContact(1)" class="btn btn-warning">No</button>
+                                    <button type="button" ng-click="deleteCustomerContact(2)" class="btn btn-info">Cancel</button>
                                 </div>
                             </div>
                         </div>

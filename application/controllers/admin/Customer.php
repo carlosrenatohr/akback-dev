@@ -34,7 +34,8 @@ class Customer extends AK_Controller
     public function load_allCustomers()
     {
         $parentUnique = (isset($_GET['parent'])) ? $_GET['parent'] : null;
-        $customers = $this->customer->getAllCustomers($parentUnique);
+        $formName = (isset($_GET['form'])) ? $_GET['form'] : null;
+        $customers = $this->customer->getAllCustomers($parentUnique, $formName);
         echo json_encode($customers);
     }
 

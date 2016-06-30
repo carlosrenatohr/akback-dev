@@ -100,6 +100,11 @@ demoApp.service('customerService', function ($http) {
     };
 
     this.getContactsTableSettings = function (parentUnique) {
+        var queryParams;
+        if (parentUnique == undefined)
+            queryParams = '';
+        else
+            queryParams = '?parent=' + parentUnique + '&form=CustomerContact';
         return {
             source: {
                 dataType: 'json',
@@ -134,11 +139,12 @@ demoApp.service('customerService', function ($http) {
                     {name: 'Custom14', type: 'string'},
                     {name: 'Custom15', type: 'string'},
                     {name: 'Custom15', type: 'string'},
-                    {name: 'Status', type: 'string'}
+                    {name: 'Status', type: 'string'},
+                    {name: 'ParentUnique', type: 'int'}
 
                 ],
                 id: 'Unique',
-                url: SiteRoot + 'admin/Customer/load_allCustomers/?parent=' + parentUnique
+                url: SiteRoot + 'admin/Customer/load_allCustomers/' + queryParams
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
@@ -155,7 +161,7 @@ demoApp.service('customerService', function ($http) {
                 {text: 'Phone2', dataField: 'Phone2', type: 'string', hidden: true},
                 {text: 'Email', dataField: 'Email', type: 'string', hidden: true},
                 {text: 'Full Identification', dataField: 'Custom1', type: 'string'},
-                {text: 'Date of Birth', dataField: 'Custom2', type: 'string', filtertype: 'date', columntype: 'datetimeinput'},
+                {text: 'Date of Birth', dataField: 'Custom2', type: 'string'}, //filtertype: 'date'
                 {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
                 {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
                 {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
@@ -170,6 +176,7 @@ demoApp.service('customerService', function ($http) {
                 {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
                 {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
                 {text: 'Relationship', dataField: 'Custom16', type: 'string'},
+                {text: 'ParentUnique', dataField: 'ParentUnique', type: 'int', hidden: true}
             ],
             columnsResize: true,
             width: "100%",
