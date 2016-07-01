@@ -225,7 +225,7 @@ demoApp.service('customerService', function ($http) {
             altRows: true,
             filterable: true,
             //filterMode: 'simple',
-            showfilterrow: true,
+            //showfilterrow: true,
         }
     };
 
