@@ -18,27 +18,38 @@
             <div class="">
                 <div style=" width:100%;float:left;">
                     <div style=" width:100%;float:left;" class="customerNotesForm">
-                        Notes fields..
+                        <div style="float:left; padding:2px; width:600px;">
+                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Note:</div>
+                            <div style="float:left; width:400px; ">
+                                <textarea name="customerNote_note" id="customerNote_note"
+                                          class="form-control req" placeholder="Note"
+                                          cols="30" rows="5"
+                                ></textarea>
+                            </div>
+                            <div style="float:left;">
+                                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- MAIN BUTTONS   -->
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row">
-                        <div id="mainBtnCustomerContact">
+                        <div id="mainBtnCustomerNote">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <button type="button" id="saveCustomerNoteBtn"
-                                            ng-click=""
+                                            ng-click="saveCustomerNotes()"
                                             class="btn btn-primary">
                                         Save
                                     </button>
                                     <button type="button" id="closeCustomerNoteBtn"
-                                            ng-click="closeCustomerNotesWind()"
+                                            ng-click="closeCustomerNotes()"
                                             class="btn btn-warning">
                                         Close
                                     </button>
                                     <button type="button" id="deleteCustomerNoteBtn"
-                                            ng-click=""
+                                            ng-click="deleteCustomerContact()"
                                             class="btn btn-danger" style="overflow:auto;display: none;">
                                         Delete
                                     </button>
@@ -50,13 +61,13 @@
                 <!-- Prompt before saving item on grid -->
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row">
-                        <div id="promptBtnCustomerContact" class="" style="display: none">
+                        <div id="promptToCloseCustomerNote" class="" style="display: none">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     Do you want to save your changes?
-                                    <button type="button" ng-click="" class="btn btn-primary">Yes</button>
-                                    <button type="button" ng-click="" class="btn btn-warning">No</button>
-                                    <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                    <button type="button" ng-click="closeCustomerNotes(0)" class="btn btn-primary">Yes</button>
+                                    <button type="button" ng-click="closeCustomerNotes(1)" class="btn btn-warning">No</button>
+                                    <button type="button" ng-click="closeCustomerNotes(2)" class="btn btn-info">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -66,13 +77,13 @@
                 <!-- Prompt before delete an item on grid -->
                 <div class="col-md-12 col-md-offset-0">
                     <div class="row">
-                        <div id="beforeDeleteBtnCustomerContact" class="" style="display: none">
+                        <div id="promptToDeleteCustomerNote" class="" style="display: none">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     Do you really want to delete it?
-                                    <button type="button" ng-click="" class="btn btn-primary">Yes</button>
-                                    <button type="button" ng-click="" class="btn btn-warning">No</button>
-                                    <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                    <button type="button" ng-click="deleteCustomerContact(0)" class="btn btn-primary">Yes</button>
+                                    <button type="button" ng-click="deleteCustomerContact(1)" class="btn btn-warning">No</button>
+                                    <button type="button" ng-click="deleteCustomerContact(2)" class="btn btn-info">Cancel</button>
                                 </div>
                             </div>
                         </div>

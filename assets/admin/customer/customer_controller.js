@@ -51,25 +51,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         });
     };
 
-    var updateCustomerNotesTableData = function() {
-        if ($scope.customerID != undefined) {
-            var source = customerService.getNotesTableSettings($scope.customerID).source;
-            $scope.$apply(function() {
-                $scope.customerNotesTableSettings = {
-                    source: {
-                        dataFields: source.dataFields,
-                        dataType: source.dataType,
-                        id: source.id,
-                        url: source.url
-                    },
-                    created: function (args) {
-                        args.instance.updateBoundData();
-                    }
-                };
-            });
-        }
-    };
-
     var updateCustomerContactTableData = function() {
         if ($scope.customerID != undefined) {
             var source = customerService.getContactsTableSettings($scope.customerID).source;
@@ -82,7 +63,29 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                         url: source.url
                     },
                     created: function (args) {
-                        args.instance.updateBoundData();
+                        var instance = args.instance;
+                        instance.updateBoundData();
+                    }
+                };
+            });
+        }
+    };
+
+    var updateCustomerNotesTableData = function() {
+        if ($scope.customerID != undefined) {
+            var source = customerService.getNotesTableSettings($scope.customerID).source;
+            $scope.$apply(function() {
+                $scope.customerNotesTableSettings = {
+                    source: {
+                        dataFields: source.dataFields,
+                        dataType: source.dataType,
+                        id: source.id,
+                        url: source.url
+                    },
+                    created: function (args) {
+                        console.log(args);
+                        var instance = args.instance;
+                        instance.updateBoundData();
                     }
                 };
             });
@@ -220,9 +223,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerAction = 'create';
         $scope.customerID = null;
         //
-        setTimeout(function(){
-            //$('.customer-field:first input').focus();
-            $('.customer-field[data-control-type=text]:first input').focus();
+        setTimeout(function() {
+            $('.customerForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
         customerWind.setTitle('Add New Customer');
         customerWind.open();
@@ -242,7 +244,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#saveCustomerBtn').prop('disabled', true);
         //
         setTimeout(function(){
-            $('.customer-field[data-control-type=text]:first input').focus();
+            $('.customerForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
         var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
         customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
@@ -642,7 +644,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
-
     /**
      * NOTES TAB
      */
@@ -652,10 +653,18 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.newOrEditCustomerNotes = null;
     $scope.customerNoteID = null;
 
+    $('#customerNote_note').on('keypress keyup paste change', function (e) {
+        $('#saveCustomerNoteBtn').prop('disabled', false);
+    });
+
     $scope.openNoteWindow = function() {
         $scope.newOrEditCustomerNotes = 'create';
+        resetCustomerNote();
+        setTimeout(function() {
+            $('#customerNote_note').focus();
+        }, 100);
         $('#deleteCustomerNoteBtn').hide();
-        $('#saveCustomerNoteBtn').prop('disabled', false);
+        $('#saveCustomerNoteBtn').prop('disabled', true);
         customerNotesWin.open();
     };
 
@@ -663,24 +672,135 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         var row = e.args.row.bounddata;
         $scope.customerNoteID = row.Unique;
         $scope.newOrEditCustomerNotes = 'edit';
-        //
-        //fillCustomerFieldsWithValues($('.customerContactsForm .customer-field'), row);
-        //
+        setTimeout(function() {
+            $('#customerNote_note').focus();
+        }, 100);
+
+        $('.customerNotesForm #customerNote_note').val(row.Note);
         $('#deleteCustomerNoteBtn').show();
         $('#saveCustomerNoteBtn').prop('disabled', true);
         //
-        //setTimeout(function(){
-        //    $('.customerContactsForm .customer-field[data-control-type=text]:first input').focus();
-        //}, 100);
-
         customerNotesWin.setTitle('Edit Note: ' + row.Unique + ' | Customer: ' + row.ReferenceUnique);
         customerNotesWin.open();
     });
 
-    $scope.closeCustomerNotesWind = function() {
-        customerNotesWin.close();
+    var resetCustomerNote = function() {
+        $('.customerNotesForm #customerNote_note').val('');
     };
 
-    //updateCustomerNotesTableData();
+    $scope.saveCustomerNotes = function(fromPrompt) {
+        var el = $('#customerNote_note');
+        if (el.val() == '') {
+                //needValidation = true;
+                $('#customerNotesErrorSettings #notification-content')
+                    .html(el.attr('placeholder') + ' can not be empty!');
+                $scope.customerNotesErrorSettings.apply('open');
+                el.css({'border-color': '#F00'});
+        } else {
+            el.css({'border-color': '#CCC'});
+            var data = {
+                'Note': $('#customerNote_note').val(),
+                'ReferenceUnique': $scope.customerID,
+                'Type': 'customer'
+            };
+            //
+            var url = ($scope.newOrEditCustomerNotes == 'edit')
+                ? 'admin/Customer/updateCustomerNote/' + $scope.customerNoteID
+                : 'admin/Customer/createCustomerNote';
+            $.ajax({
+                url: SiteRoot + url,
+                method: 'post',
+                dataType: 'json',
+                data: data,
+                success: function(data) {
+                    if (data.status == 'success') {
+                        updateCustomerNotesTableData();
+                        //
+                        var msg;
+                        if ($scope.newOrEditCustomerNotes == 'edit') {
+                            msg = 'Note updated successfully';
+                        } else if ($scope.newOrEditCustomerNotes == 'create') {
+                            msg = 'Note created successfully';
+                            $scope.newOrEditCustomerNotes = 'edit';
+                            $scope.customerNoteID = data.new_id;
+                        }
+                        //
+                        if (fromPrompt) {
+                            customerNotesWin.close();
+                            $('#customerNote_note').val('');
+                        } else {
+                            $('#saveCustomerNoteBtn').prop('disabled', true);
+                            $('#customerNotesSuccessSettings #notification-content')
+                                .html(msg);
+                            $scope.customerNotesSuccessSettings.apply('open');
+                        }
+                    } else if (data.status == 'error'){
+                        console.log(data.message);
+                    } else {
+                        console.error('Error from ajax');
+                    }
+                }
+            });
+        }
+    };
+
+    $scope.closeCustomerNotes = function(option) {
+        if (option != undefined) {
+            $('#mainBtnCustomerNote').show();
+            $('#promptToCloseCustomerNote').hide();
+            $('#promptToDeleteCustomerNote').hide();
+        }
+        if (option == 0) {
+            $scope.saveCustomerNotes(true);
+        } else if (option == 1) {
+            customerNotesWin.close();
+        } else if (option == 2) {
+
+        } else {
+            if ($('#saveCustomerNoteBtn').is(':disabled')) {
+                customerNotesWin.close();
+                resetCustomerNote();
+                $('#customerTabs').jqxTabs('select', 3);
+            } else {
+                $('#mainBtnCustomerNote').hide();
+                $('#promptToCloseCustomerNote').show();
+                $('#promptToDeleteCustomerNote').hide();
+            }
+        }
+    };
+
+    $scope.deleteCustomerContact = function(option) {
+        if (option != undefined) {
+            $('#mainBtnCustomerNote').show();
+            $('#promptToCloseCustomerNote').hide();
+            $('#promptToDeleteCustomerNote').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                url: SiteRoot + 'admin/Customer/deleteCustomerNote/' + $scope.customerNoteID,
+                method: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        updateCustomerNotesTableData();
+                        $scope.closeCustomerNotes();
+                    } else if (data.status == 'error') {
+                        console.log(data.message);
+                    } else {
+                        console.error('Error from ajax');
+                    }
+                }
+            });
+        } else if (option == 1) {
+            customerNotesWin.close();
+            resetCustomerNote();
+        } else if (option == 2) {
+
+        } else {
+            $('#mainBtnCustomerNote').hide();
+            $('#promptToCloseCustomerNote').hide();
+            $('#promptToDeleteCustomerNote').show();
+        }
+    };
 
 });

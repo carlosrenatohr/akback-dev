@@ -87,17 +87,14 @@ class Customer extends AK_Controller
                 'new_id' => $newId
             ];
         } else {
-            $response = [
-                'status' => 'error',
-                'message' => 'Database error'
-            ];
+            $response = $this->dbErrorMsg();
         }
         echo json_encode($response);
     }
 
     /**
      * @method POST
-     * @description Create new customer by custom attributes
+     * @description Update customer
      * @returnType json
      */
     public function updateCustomer($id)
@@ -110,17 +107,14 @@ class Customer extends AK_Controller
                 'message' => 'Customer update: ' . $status
             ];
         } else {
-            $response = [
-                'status' => 'error',
-                'message' => 'Database error' . $status
-            ];
+            $response = $this->dbErrorMsg();
         }
         echo json_encode($response);
     }
 
     /**
      * @method POST
-     * @description Create new customer by custom attributes
+     * @description Delete customer
      * @returnType json
      */
     public function deleteCustomer($id)
@@ -132,16 +126,12 @@ class Customer extends AK_Controller
                 'message' => 'Customer deleted!'
             ];
         } else {
-            $response = [
-                'status' => 'error',
-                'message' => 'Database error'
-            ];
+            $response = $this->dbErrorMsg();
         }
         echo json_encode($response);
     }
 
     //
-
     /**
      * @method GET
      * @description Load all customers Contacts attributes
@@ -171,6 +161,7 @@ class Customer extends AK_Controller
         return $new_fields;
     }
 
+    // --- CUSTOMER NOTES
     /**
      * @method GET
      * @description Load all customers attributes
@@ -178,8 +169,81 @@ class Customer extends AK_Controller
      */
     public function load_customerNotes($customerID = null)
     {
-
         echo json_encode($this->notes->getNotesByType('customer', $customerID));
+    }
+
+    /**
+     * @method POST
+     * @description Create Customer note
+     * @returnType json
+     */
+    public function createCustomerNote()
+    {
+        $request = $_POST;
+        $newId = $this->notes->postNote($request);
+        if ($newId) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Customer Note success!',
+                'new_id' => $newId
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+        echo json_encode($response);
+    }
+
+    /**
+     * @method POST
+     * @description Update Customer note
+     * @returnType json
+     */
+    public function updateCustomerNote($id)
+    {
+        $request = $_POST;
+        $newId = $this->notes->updateNote($id, $request);
+        if ($newId) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Customer Note success!',
+                'new_id' => $newId
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+        echo json_encode($response);
+    }
+
+    /**
+     * @method POST
+     * @description Delete customer note
+     * @returnType json
+     */
+    public function deleteCustomerNote($id)
+    {
+        $status = $this->notes->deleteNote($id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Customer Note deleted!'
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+        echo json_encode($response);
+    }
+
+    /**
+     * @helper
+     * @description in error case
+     * @returnType array
+     */
+    private function dbErrorMsg()
+    {
+        return $response = [
+            'status' => 'error',
+            'message' => 'Database error'
+        ];
     }
 
 }
