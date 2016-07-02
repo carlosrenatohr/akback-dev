@@ -209,11 +209,14 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $('body')
         .on('select', '.customerForm .customer-datalist', function (e) {
         //console.log(e.args.item);
-        $('#saveCustomerBtn').prop('disabled', false);
+            $('#saveCustomerBtn').prop('disabled', false);
     })
         .on('change', '.customerForm .customer-date', function (e) {
         //console.log(e.args.date);
-        $('#saveCustomerBtn').prop('disabled', false);
+            $('#saveCustomerBtn').prop('disabled', false);
+    })
+        .on('change', '.customerForm .customer-radio', function (e) {
+            $('#saveCustomerBtn').prop('disabled', false);
     })
         .on('keypress keyup paste change', '.customerForm .customer-textcontrol, .customerForm .customer-number', function (e) {
             $('#saveCustomerBtn').prop('disabled', false);
@@ -222,13 +225,14 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             $(this).find('input').select();
         })
     // Customer contacts Events
-    .on('select', '.customerContactsForm .customer-datalist', function (e) {
-        //console.log(e.args.item);
-        $('#saveCustomerContactBtn').prop('disabled', false);
+        .on('select', '.customerContactsForm .customer-datalist', function (e) {
+            $('#saveCustomerContactBtn').prop('disabled', false);
     })
         .on('change', '.customerContactsForm .customer-date', function (e) {
-        //console.log(e.args.date);
-        $('#saveCustomerContactBtn').prop('disabled', false);
+            $('#saveCustomerContactBtn').prop('disabled', false);
+    })
+        .on('change', '.customerForm .customer-radio', function (e) {
+            $('#saveCustomerContactBtn').prop('disabled', false);
     })
         .on('keypress keyup paste change', '.customerContactsForm .customer-textcontrol, .customerContactsForm .customer-number', function (e) {
             $('#saveCustomerContactBtn').prop('disabled', false);
@@ -271,7 +275,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#deleteCustomerBtn').show();
         $('#saveCustomerBtn').prop('disabled', true);
         //
-        setTimeout(function(){
+        setTimeout(function() {
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
         var fName = (row.FirstName != null) ? row.FirstName : '';

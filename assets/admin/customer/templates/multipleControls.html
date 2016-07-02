@@ -15,8 +15,8 @@
                       id="customer_{{ attr.Label}}"
                       data-placeholder="{{attr.Label}}"
         >
-            <option ng-repeat="option in attr.options"
-                    value="{{ option.Label }}">{{ option.Label }}
+            <option ng-repeat="option in attr.options" selected="{{ (option.Default==1) ? 'true' : 'false'}}"
+                    value="{{ option.Label }}">{{ option.Label }} - {{$index}} -- {{ option.Default}}
             </option>
         </jqx-list-box>
     </div>
@@ -73,7 +73,7 @@
          style="display: inline-block;"
     >
         <jqx-radio-button ng-repeat="option in attr.options"
-                          jqx-checked="{{$index == 0 && 'true' || 'false' }}"
+                          jqx-checked="{{ (option.Default == 1) ? 'true' : 'false' }}"
                           jqx-height="25"
                           jqx-width="50"
                           jqx-on-change="changeRadio(event)" jqx-width="250"
