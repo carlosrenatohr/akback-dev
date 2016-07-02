@@ -25,6 +25,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             if(tabclick == 3) {
                 updateCustomerNotesTableData();
             }
+            // Purchases tab
+            if(tabclick == 4) {
+                updateCustomerPurchasesTableData();
+            }
         }
     };
 
@@ -32,6 +36,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerTableSettings = customerService.getTableSettings;
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
+    $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
 
     var updateCustomerTableData = function() {
         var source = customerService.getTableSettings.source;
@@ -92,13 +97,34 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
+    var updateCustomerPurchasesTableData = function() {
+        if ($scope.customerID != undefined) {
+            var source = customerService.getPurchasesTableSettings($scope.customerID).source;
+            $scope.$apply(function() {
+                $scope.customerPurchasesTableSettings = {
+                    source: {
+                        dataFields: source.dataFields,
+                        dataType: source.dataType,
+                        id: source.id,
+                        url: source.url
+                    },
+                    created: function (args) {
+                        console.log(args);
+                        var instance = args.instance;
+                        instance.refreshdata();
+                    }
+                };
+            });
+        }
+    };
+
     // Customer window
     $scope.addCustomerWindSettings = {
         created: function (args) {
             customerWind = args.instance;
         },
         resizable: false,
-        width: "80%", height: "100%",
+        width: "100%", height: "100%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -238,7 +264,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerAction = 'edit';
         //
         fillCustomerFieldsWithValues($('.customerForm .customer-field'), row);
-
         //
         $('#deleteCustomerBtn').show();
         $('#saveCustomerBtn').prop('disabled', true);
@@ -246,7 +271,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         setTimeout(function(){
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
-        var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
+        var fName = (row.FirstName != null) ? row.FirstName : '';
+        var lName = (row.LastName != null) ? row.LastName : '';
+        var fullName = fName + ' ' + lName;
         customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
         customerWind.open();
     //};

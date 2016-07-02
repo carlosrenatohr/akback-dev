@@ -109,4 +109,23 @@ class Customer_model extends CI_Model
         return $query->result_array();
     }
 
+    /**
+     * CUSTOMER PURCHASES
+     */
+    public function purchasesBasedByCustomer($customerID = null) {
+        $where = (!is_null($customerID)) ?
+            'where receipt_header."CustomerUnique" = ' . $customerID . ' order by "ReceiptNumber" desc ': '';
+        //
+        $query = 'select receipt_header."Unique", receipt_header."ReceiptNumber", customer."FirstName",customer."LastName",customer."Company",
+        receipt_details."Item",receipt_details."Description",receipt_details."Quantity",round(receipt_details."SellPrice",2) as "SellPrice",
+        round(receipt_details."SellPrice" * receipt_details."Quantity",2) as "ExtSell", receipt_header."CustomerUnique"
+        from receipt_header
+        left join customer on receipt_header."CustomerUnique" = customer."Unique"
+        left join receipt_details on receipt_header."Unique" = receipt_details."ReceiptHeaderUnique" and receipt_header."Status" = 4' . $where;
+
+        $result = $this->db->query($query)->result_array();
+        return  $result;
+    }
+
+
 }

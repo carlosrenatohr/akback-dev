@@ -113,13 +113,7 @@ jqxthemes();
                             </div>
                             <!-- Customer Purchases subtab -->
                             <div>
-                                <div class="col-md-12 col-md-offset-0">
-                                    <div class="row">
-                                        <div style=" width:100%;float:left;">
-                                            Purchases
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php $this->load->view($purchases_tab_view); ?>
                             </div>
                         </jqx-tabs>
 

@@ -229,6 +229,79 @@ demoApp.service('customerService', function ($http) {
         }
     };
 
+    var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+        var description = (datarecord.Description != null) ? datarecord.Description : '';
+        var company = (datarecord.Company != null) ? datarecord.Company : '';
+        var moreDetails = "<span>Description: <b>" + description + "</b></span><br><br><span>Company: <b>" + company + "</b><span><br>";
+        //
+        var rowDetailsContainer = $($(parentElement).children()[0]);
+        rowDetailsContainer.html(moreDetails);
+    };
+
+    var purchaseGrid = $('#customerPurchasesGrid');
+    purchaseGrid.on('rowexpand', function(e) {
+        var current = e.args.rowindex;
+        var rows = purchaseGrid.jqxGrid('getrows');
+        for(var i = 0;i < rows.length;i++) {
+            if (i != current)
+                purchaseGrid.jqxGrid('hiderowdetails', i);
+        }
+    });
+
+    this.getPurchasesTableSettings = function (parentUnique) {
+        if (parentUnique == undefined)
+            parentUnique = '';
+        return {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ReceiptNumber', type: 'string'},
+                    {name: 'FirstName', type: 'string'},
+                    {name: 'LastName', type: 'string'},
+                    {name: 'Company', type: 'string'},
+                    {name: 'Item', type: 'string'},
+                    {name: 'Description', type: 'string'},
+                    {name: 'Quantity', type: 'string'},
+                    {name: 'SellPrice', type: 'string'},
+                    {name: 'ExtSell', type: 'string'},
+                    {name: 'CustomerUnique', type: 'string'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/Customer/load_purchasesCustomer/' + parentUnique
+            },
+            columns: [
+                {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
+                {text: 'Receipt Number', dataField: 'ReceiptNumber', type: 'string', width: '15%'}, //filterable: false
+                {text: 'First Name', dataField: 'FirstName', type: 'text', hidden: true},
+                {text: 'Last Name', dataField: 'LastName', type: 'text', hidden: true},
+                {text: 'Company', dataField: 'Company', type: 'text', hidden: true},
+                {text: 'Item', dataField: 'Item', type: 'text', width: '20%'},
+                {text: 'Description', dataField: 'Description', type: 'text', hidden: true},
+                {text: 'Quantity', dataField: 'Quantity', type: 'text', width: '25%'},
+                {text: 'Sell Price', dataField: 'SellPrice', type: 'text', width: '20%'},
+                {text: 'Ext Sell', dataField: 'ExtSell', type: 'text', width: '20%'},
+                {text: 'CustomerUnique', dataField: 'CustomerUnique', type: 'string', hidden: true}
+            ],
+            columnsResize: true,
+            width: "99%",
+            theme: 'artic',
+            sortable: true,
+            pageable: true,
+            pageSize: 20,
+            altRows: true,
+            filterable: true,
+            showfilterrow: true,
+            enablehover: true,
+            rowdetails: true,
+            rowdetailstemplate: {
+                rowdetails: "<div style='margin: 10px 0;'>No description</div>",
+                rowdetailsheight: 75
+            },
+            initrowdetails: initrowdetails
+        }
+    };
+
     this.setNotificationSettings = function (type, container) {
         var containerSelect;
         if (container == 'contacts') {
