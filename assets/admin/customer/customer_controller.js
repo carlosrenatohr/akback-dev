@@ -218,6 +218,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         .on('keypress keyup paste change', '.customerForm .customer-textcontrol, .customerForm .customer-number', function (e) {
             $('#saveCustomerBtn').prop('disabled', false);
     })
+        .on('focus', '.customerForm .customer-number', function(e) {
+            $(this).find('input').select();
+        })
     // Customer contacts Events
     .on('select', '.customerContactsForm .customer-datalist', function (e) {
         //console.log(e.args.item);
