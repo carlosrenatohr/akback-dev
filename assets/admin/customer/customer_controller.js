@@ -13,7 +13,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         var tabclick = e.args.item;
         var deleteBtn = angular.element('#deleteCustomerBtn');
         if ($scope.newOrEditCustomerAction == 'edit') {
-            if (tabclick > 0)
+            if (tabclick == 0)
                 deleteBtn.show();
             else
                 deleteBtn.hide();
