@@ -77,11 +77,11 @@ jqxthemes();
                                   jqx-on-tabclick="changingCustomerTab($event)"
                                   id="customerTabs">
                             <ul>
-                                <li>Info</li>
-                                <li>Custom</li>
-                                <li>Contacts</li>
-                                <li>Notes</li>
-                                <li>Purchases</li>
+                                <li id="customertabInfo" class="mainTabInfo">Info</li>
+                                <li id="customertabCustom" class="mainTabInfo">Custom</li>
+                                <li id="customertabContact" class="SecTabInfo">Contacts</li>
+                                <li id="customertabNote" class="SecTabInfo">Notes</li>
+                                <li id="customertabPurchase" class="SecTabInfo">Purchases</li>
                             </ul>
                             <!-- Customer info subtab -->
                             <div class="">

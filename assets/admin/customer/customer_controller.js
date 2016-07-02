@@ -256,6 +256,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerAction = 'create';
         $scope.customerID = null;
         //
+        toggleTabs(false);
         setTimeout(function() {
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
@@ -275,6 +276,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#deleteCustomerBtn').show();
         $('#saveCustomerBtn').prop('disabled', true);
         //
+        toggleTabs(true);
         setTimeout(function() {
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
@@ -287,10 +289,18 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     });
 
     /**
-     * HELPERS TO FILL CONTROLS ON CUSTOMER
-     * @param element
-     * @param row
+     * --- HELPERS TO FILL CONTROLS ON CUSTOMER
      */
+    var toggleTabs = function(toShow) {
+        var elements = '#customertabContact, #customertabNote, #customertabPurchase';
+        if (toShow) {
+            $(elements).find('.jqx-tabs-titleContentWrapper').css('margin-top', '0');
+            $(elements).show();
+        } else {
+            $(elements).hide();
+        }
+    };
+
     var fillCustomerFieldsWithValues = function(element, row) {
         element.each(function(i, value) {
             var el = $(value);
