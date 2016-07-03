@@ -8,3 +8,8 @@
 vendor
 composer.lock
 .idea
+
+/application/config/database.php
+/application/config/constants.php
+/assets/img/signature/
+/assets/download/
