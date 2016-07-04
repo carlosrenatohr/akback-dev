@@ -86,25 +86,23 @@ demoApp.service('customerService', function ($http) {
             {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
             {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
         ],
-        columnsResize: true,
         width: "100%",
         theme: 'arctic',
         sortable: true,
         pageable: true,
         pageSize: 20,
-        //pagerMode: 'default',
-        altRows: true,
+        pagerMode: 'simple',
         filterable: true,
-        //filterMode: 'simple',
         showfilterrow: true
     };
 
     this.getContactsTableSettings = function (parentUnique) {
-        var queryParams;
-        if (parentUnique == undefined)
-            queryParams = '';
-        else
-            queryParams = '?parent=' + parentUnique + '&form=CustomerContact';
+        var urlToRequest = '';
+        if (parentUnique != undefined) {
+            var queryParams = '?parent=' + parentUnique + '&form=CustomerContact';
+            urlToRequest = SiteRoot + 'admin/Customer/load_allCustomers/' + queryParams;
+        }
+        //else queryParams = '?form=CustomerContact';
         return {
             source: {
                 dataType: 'json',
@@ -138,13 +136,12 @@ demoApp.service('customerService', function ($http) {
                     {name: 'Custom13', type: 'string'},
                     {name: 'Custom14', type: 'string'},
                     {name: 'Custom15', type: 'string'},
-                    {name: 'Custom15', type: 'string'},
+                    {name: 'Custom16', type: 'string'},
                     {name: 'Status', type: 'string'},
                     {name: 'ParentUnique', type: 'int'}
-
                 ],
                 id: 'Unique',
-                url: SiteRoot + 'admin/Customer/load_allCustomers/' + queryParams
+                url: urlToRequest
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
@@ -161,7 +158,7 @@ demoApp.service('customerService', function ($http) {
                 {text: 'Phone2', dataField: 'Phone2', type: 'string', hidden: true},
                 {text: 'Email', dataField: 'Email', type: 'string', hidden: true},
                 {text: 'Full Identification', dataField: 'Custom1', type: 'string'},
-                {text: 'Date of Birth', dataField: 'Custom2', type: 'string'}, //filtertype: 'date'
+                {text: 'Date of Birth', dataField: 'Custom2', type: 'string'},
                 {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
                 {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
                 {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
@@ -178,23 +175,23 @@ demoApp.service('customerService', function ($http) {
                 {text: 'Relationship', dataField: 'Custom16', type: 'string'},
                 {text: 'ParentUnique', dataField: 'ParentUnique', type: 'int', hidden: true}
             ],
-            columnsResize: true,
+            //columnsResize: true,
             width: "100%",
             theme: 'arctic',
             sortable: true,
             pageable: true,
             pageSize: 20,
-            //pagerMode: 'default',
-            altRows: true,
+            pagerMode: 'simple',
             filterable: true,
-            //filterMode: 'simple',
-            showfilterrow: true,
+            showfilterrow: (parentUnique) ? true : false
         }
     };
 
     this.getNotesTableSettings = function (parentUnique) {
-        if (parentUnique == undefined)
-            parentUnique = '';
+        var urlToRequest = '';
+        if (parentUnique != undefined) {
+            urlToRequest = SiteRoot + 'admin/Customer/load_customerNotes/' + parentUnique;
+        }
         return {
             source: {
                 dataType: 'json',
@@ -206,7 +203,7 @@ demoApp.service('customerService', function ($http) {
                     {name: 'Type', type: 'string'}
                 ],
                 id: 'Unique',
-                url: SiteRoot + 'admin/Customer/load_customerNotes/' + parentUnique
+                url: urlToRequest
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
@@ -219,13 +216,11 @@ demoApp.service('customerService', function ($http) {
             width: "100%",
             theme: 'arctic',
             sortable: true,
-            pageable: true,
-            pageSize: 20,
-            //pagerMode: 'default',
-            altRows: true,
+            //pageable: true,
+            //pageSize: 20,
+            //pagerMode: 'simple',
             filterable: true,
-            //filterMode: 'simple',
-            //showfilterrow: true,
+            showfilterrow: (parentUnique) ? true : false
         }
     };
 
@@ -249,8 +244,10 @@ demoApp.service('customerService', function ($http) {
     });
 
     this.getPurchasesTableSettings = function (parentUnique) {
-        if (parentUnique == undefined)
-            parentUnique = '';
+        var urlToRequest = '';
+        if (parentUnique != undefined) {
+            urlToRequest = SiteRoot + 'admin/Customer/load_purchasesCustomer/' + parentUnique;
+        }
         return {
             source: {
                 dataType: 'json',
@@ -268,7 +265,7 @@ demoApp.service('customerService', function ($http) {
                     {name: 'CustomerUnique', type: 'string'}
                 ],
                 id: 'Unique',
-                url: SiteRoot + 'admin/Customer/load_purchasesCustomer/' + parentUnique
+                url: urlToRequest
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
@@ -289,10 +286,10 @@ demoApp.service('customerService', function ($http) {
             sortable: true,
             pageable: true,
             pageSize: 20,
+            pagerMode: 'simple',
             altRows: true,
             filterable: true,
-            showfilterrow: true,
-            enablehover: true,
+            //showfilterrow: (parentUnique) ? true : false
             rowdetails: true,
             rowdetailstemplate: {
                 rowdetails: "<div style='margin: 10px 0;'>No description</div>",
@@ -306,7 +303,7 @@ demoApp.service('customerService', function ($http) {
         var containerSelect;
         if (container == 'contacts') {
             containerSelect = '#customerContactNoticeContainer';
-        } else if ('notes') {
+        } else if ((container == 'notes')) {
             containerSelect = '#customerNotesNoticeContainer';
         } else {
             containerSelect = "#customerNoticeContainer";

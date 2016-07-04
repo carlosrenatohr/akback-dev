@@ -16,7 +16,7 @@
                       data-placeholder="{{attr.Label}}"
         >
             <option ng-repeat="option in attr.options" selected="{{ (option.Default==1) ? 'true' : 'false'}}"
-                    value="{{ option.Label }}">{{ option.Label }} - {{$index}} -- {{ option.Default}}
+                    value="{{ option.Label }}">{{ option.Label }}
             </option>
         </jqx-list-box>
     </div>

@@ -25,7 +25,7 @@ class Customer_model extends CI_Model
         $fields_select = array_unique($fields_select);
         //
         $this->db->select($fields_select);
-        $this->db->order_by('Unique, FirstName');
+        $this->db->order_by('Unique', 'DESC');
         $where = ['Status' => 1];
         if (!is_null($parentUnique)) {
             $where['ParentUnique'] = $parentUnique;

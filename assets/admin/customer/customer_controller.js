@@ -61,15 +61,19 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             var source = customerService.getContactsTableSettings($scope.customerID).source;
             $scope.$apply(function() {
                 $scope.customerContactTableSettings = {
-                    source: {
+                    source: new $.jqx.dataAdapter(
+                        {
                         dataFields: source.dataFields,
                         dataType: source.dataType,
-                        id: source.id,
+                        //id: source.id,
                         url: source.url
-                    },
+                        }
+                    ),
                     created: function (args) {
                         var instance = args.instance;
-                        instance.updateBoundData();
+                        instance.updatebounddata();
+                        //instance.refreshdata();
+                        //var completed = $("#customerNotesGrid").jqxGrid('IsBindingCompleted');
                     }
                 };
             });
@@ -81,17 +85,18 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             var source = customerService.getNotesTableSettings($scope.customerID).source;
             $scope.$apply(function() {
                 $scope.customerNotesTableSettings = {
-                    source: {
+                    source: new $.jqx.dataAdapter(
+                        {
                         dataFields: source.dataFields,
                         dataType: source.dataType,
                         id: source.id,
                         url: source.url
-                    },
+                        }
+                    ),
                     created: function (args) {
-                        console.log(args);
                         var instance = args.instance;
-                        instance.updateBoundData();
-                    }
+                        instance.updatebounddata();
+                    },
                 };
             });
         }
@@ -102,16 +107,15 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             var source = customerService.getPurchasesTableSettings($scope.customerID).source;
             $scope.$apply(function() {
                 $scope.customerPurchasesTableSettings = {
-                    source: {
+                    source: new $.jqx.dataAdapter({
                         dataFields: source.dataFields,
                         dataType: source.dataType,
                         id: source.id,
                         url: source.url
-                    },
+                    }),
                     created: function (args) {
-                        console.log(args);
                         var instance = args.instance;
-                        instance.refreshdata();
+                        instance.updatebounddata();
                     }
                 };
             });
@@ -285,6 +289,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         var fullName = fName + ' ' + lName;
         customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
         customerWind.open();
+        //
+        //updateCustomerContactTableData();
+        //updateCustomerNotesTableData();
+        //updateCustomerPurchasesTableData();
     //};
     });
 
