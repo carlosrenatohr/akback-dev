@@ -79,7 +79,7 @@ jqxthemes();
                                     <!-- ------------  -->
                                     <!-- INFO TAB  -->
                                     <!-- ------------  -->
-                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab1" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab1" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px; ">
                                         <div class="row">
                                             <div style="width:330px;float:left;">
 <!--                                                <input type="hidden" name="submitted" id="submitted" value="1">-->
@@ -306,7 +306,7 @@ jqxthemes();
                         <jqx-notification jqx-settings="notificationErrorSettings" id="notificationErrorSettings">
                             <div id="notification-content"></div>
                         </jqx-notification>
-                        <div id="add_container" style="width: 650px; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto; ">
+                        <div id="add_container" style="width: 100%; height:60px; margin-top:15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;">
                         </div>
                     </div>
                 </jqx-window>

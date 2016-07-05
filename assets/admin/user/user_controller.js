@@ -175,7 +175,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#addUserButtons').show();
         if (selected == 0) {
             $scope.submitUserForm(selected);
-            $('#addUserConfirm').hide();
+            //$('#addUserConfirm').hide();
         } else if (selected == 1) {
             resetWindowAddUserForm();
             addUserDialog.close();
@@ -263,6 +263,7 @@ demoApp.controller("userController", function($scope, $http) {
             opacity: 0.9,
             closeOnClick: true,
             autoClose: true,
+            autoCloseDelay: 1750,
             showCloseButton: false,
             //blink: true,
             template: (type == 1) ? 'success' : 'error'
@@ -659,7 +660,8 @@ demoApp.controller("userController", function($scope, $http) {
                             // CLOSE
                             if (closed == 0) {
                                 $('#savePositionuserBtn').prop('disabled', true);
-                                $scope.closeUserWindows();
+                                //$scope.closeUserWindows();
+                                addUserDialog.close();
                             } else {
                                 $('#addUserAnotherRow').show();
                                 $('#addUserButtons').hide();
