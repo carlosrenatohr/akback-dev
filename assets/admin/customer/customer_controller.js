@@ -209,17 +209,51 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         width: '200px', height: '25px'
     };
 
+    $scope.dropdownlistSettings = {
+        width: '200px', height: '30px',
+        created: function(args) {
+            var el = $(args.element);
+            //console.log(el.attr('id'));
+            setDropdownlistSettings(el);
+        }
+    };
+
+    // Helper to reset jqxDropDownLists
+    function setDropdownlistSettings(el) {
+        var indexSelected = -1;
+        $.each(el.jqxDropDownList('getItems'), function(i, val){
+            var option = $(val.originalItem.originalItem);
+            //console.log(option.html());
+            var isDefault = option.data('defa');
+            if (isDefault == 1)
+                indexSelected = val.index;
+        });
+        el.jqxDropDownList({
+            selectedIndex: indexSelected,
+            placeHolder: 'Select ' + el.data('placeholder').toLowerCase() + '..'
+        });
+    }
+
+    // Helper to reset jqxRadioButtons
+    function setRadioButtonsSettings(el) {
+        //console.log(el.data('field'));
+        el.find('.customer_radio').each(function(i, val){
+            //console.log($(val).find('span.text-rb').html());
+            var isDefault = $(val).data('defa');
+            $(val).jqxRadioButton({ checked: (isDefault == 1) });
+        });
+    }
+
     // --- Customer Control Events
     $('body')
         .on('select', '.customerForm .customer-datalist', function (e) {
-        //console.log(e.args.item);
             $('#saveCustomerBtn').prop('disabled', false);
     })
         .on('change', '.customerForm .customer-date', function (e) {
         //console.log(e.args.date);
             $('#saveCustomerBtn').prop('disabled', false);
     })
-        .on('change', '.customerForm .customer-radio', function (e) {
+        .on('change', '.customerForm .customer_radio', function (e) {
             $('#saveCustomerBtn').prop('disabled', false);
     })
         .on('keypress keyup paste change', '.customerForm .customer-textcontrol, .customerForm .customer-number', function (e) {
@@ -235,7 +269,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         .on('change', '.customerContactsForm .customer-date', function (e) {
             $('#saveCustomerContactBtn').prop('disabled', false);
     })
-        .on('change', '.customerForm .customer-radio', function (e) {
+        .on('change', '.customerForm .customer_radio', function (e) {
             $('#saveCustomerContactBtn').prop('disabled', false);
     })
         .on('keypress keyup paste change', '.customerContactsForm .customer-textcontrol, .customerContactsForm .customer-number', function (e) {
@@ -322,12 +356,17 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 //el.find('.customer-date').val(new Date());
                 el.find('.customer-date').val(row[field]);
             } else if (type == 'radio') {
-                var radio = el.find('.customer-radio[data-val=' + row[field]+ ']');
+                el.find('.customer_radio').each(function(i, val) {
+                    $(val).jqxRadioButton({ checked:false });
+                });
+                var radio = el.find('.customer_radio[data-val=' + row[field]+ ']');
                 if (radio.length)
                     radio.jqxRadioButton({ checked:true });
             } else if (type == 'datalist') {
-                var itemByValue = el.find('.customer-datalist').jqxListBox('getItemByValue', row[field]);
-                el.find('.customer-datalist').jqxListBox({'selectedIndex': (itemByValue) ? itemByValue.index : -1});
+                //var itemByValue = el.find('.customer-datalist').jqxListBox('getItemByValue', row[field]);
+                //el.find('.customer-datalist').jqxListBox({'selectedIndex': (itemByValue) ? itemByValue.index : -1});
+                var itemByValue = el.find('.customer-datalist').jqxDropDownList('getItemByValue', row[field]);
+                el.find('.customer-datalist').jqxDropDownList({'selectedIndex': (itemByValue) ? itemByValue.index : -1});
             }
             else {
                 console.info('NOT FOUND');
@@ -346,12 +385,15 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             } else if (type == 'date') {
                 el.find('.customer-date').jqxDateTimeInput({ value: new Date() });
             } else if (type == 'radio') {
-                var radio = el.find('.customer-radio:first-child');
-                if (radio.length)
-                    radio.jqxRadioButton({ checked:true });
+                var radio = el.find('.customer_radio:first-child');
+                setRadioButtonsSettings(el);
+                //if (radio.length)
+                //    radio.jqxRadioButton({ checked:true });
             } else if (type == 'datalist') {
-                el.find('.customer-datalist').jqxListBox({'selectedIndex': 0});
-                el.find('.customer-datalist').css({'border-color': '#CCC'});
+                //el.find('.customer-datalist').jqxListBox({'selectedIndex': 0});
+                var el2 = el.find('.customer-datalist');
+                setDropdownlistSettings(el2);
+                el2.css({'border-color': '#CCC'});
             }
             else {
                 console.info('Control was not found');
@@ -405,7 +447,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 }
             } else if (type == 'datalist') {
                 current = el.find('.customer-datalist');
-                var listboxSelected = current.jqxListBox('getSelectedItem');
+                //var listboxSelected = current.jqxListBox('getSelectedItem');
+                var listboxSelected = current.jqxDropDownList('getSelectedItem');
                 if (!listboxSelected && current.hasClass('req')) {
                     needValidation = true;
                     openNotification('Select an item on ' + current.data('placeholder'), current);
@@ -434,7 +477,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 inputValue = $scope.radioCollection[el.data('field')];
                 data[el.data('field')] = inputValue;
             } else if (type == 'datalist') {
-                inputValue = el.find('.customer-datalist').jqxListBox('getSelectedItem').value;
+                //inputValue = el.find('.customer-datalist').jqxListBox('getSelectedItem').value;
+                inputValue = el.find('.customer-datalist').jqxDropDownList('getSelectedItem').value;
             }
             else {
                 data[el.data('field')] = '-';
@@ -565,7 +609,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.openContactWindow = function() {
         $scope.newOrEditCustomerContacts = 'create';
         $('#deleteCustomerContactBtn').hide();
-        $('#saveCustomerContactBtn').prop('disabled', false);
+        $('#saveCustomerContactBtn').prop('disabled', true);
         customerContactWin.open();
     };
 

@@ -193,10 +193,3 @@ jqxthemes();
         </div>
     </div>
 </div>
-
-<style>
-    .customer-datalist {
-        height:100px!important;
-        width:200px!important;
-    }
-</style>

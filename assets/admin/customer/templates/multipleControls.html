@@ -2,24 +2,6 @@
     <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">
         {{ attr.Label }}
     </div>
-    <!-- DATALIST -->
-    <div ng-if="attr.Control == 'datalist'" class="customer-field"
-         data-control-type="{{ attr.Control }}"
-         data-field="{{ attr.Field }}"
-         style=" float:left;"
-    >
-        <jqx-list-box data-control-type="{{ attr.Control }}"
-                      jqx-on-select="changeDatalist(event)"
-                      ng-class="{req : attr.Required}"
-                      class="customer-datalist"
-                      id="customer_{{ attr.Label}}"
-                      data-placeholder="{{attr.Label}}"
-        >
-            <option ng-repeat="option in attr.options" selected="{{ (option.Default==1) ? 'true' : 'false'}}"
-                    value="{{ option.Label }}">{{ option.Label }}
-            </option>
-        </jqx-list-box>
-    </div>
     <!-- TEXT -->
     <div ng-if="attr.Control == 'text'" class="customer-field"
          data-control-type="{{ attr.Control }}"
@@ -66,6 +48,27 @@
                              data-placeholder="{{attr.Label}}"
         ></jqx-date-time-input>
     </div>
+    <!-- DATALIST -->
+    <div ng-if="attr.Control == 'datalist'" class="customer-field"
+         data-control-type="{{ attr.Control }}"
+         data-field="{{ attr.Field }}"
+         style=" float:left;"
+    >
+
+        <jqx-drop-down-list
+                data-control-type="{{ attr.Control }}"
+                jqx-settings="dropdownlistSettings"
+                ng-class="{req : attr.Required}"
+                class="customer-datalist"
+                id="customer_{{ attr.Field }}"
+                data-placeholder="{{attr.Label}}"
+        >
+            <option ng-repeat="option in attr.options" selected="{{ (option.Default && option.Default==1) ? 'true' : 'false'}}"
+                    data-defa="{{option.Default}}"
+                    value="{{ option.Label }}">{{ option.Label }}
+            </option>
+        </jqx-drop-down-list>
+    </div>
     <!-- RADIO  -->
     <div ng-if="attr.Control == 'radio'" class="customer-field"
          data-control-type="{{ attr.Control }}"
@@ -81,9 +84,10 @@
                           jqx-data="{{ option.Label }}"
                           jqx-theme="'summer'"
                           data-val="{{ option.Label }}"
-                          class="customer-radio"
+                          data-defa="{{option.Default}}"
+                          class="customer_radio"
                           style='margin-top: 10px;margin-left: 10px;display: inherit;'>
-            <span>{{option.Label }}</span>
+            <span class="text-rb">{{option.Label }}</span>
         </jqx-radio-button>
     </div>
     <!-- REQUIRED ASTERISK -->
