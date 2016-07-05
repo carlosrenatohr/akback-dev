@@ -16,8 +16,11 @@ class Note_model extends CI_Model
 
     public function getNotesByType($type, $referenceID)
     {
-        $where = ['Type' => $type, 'Status' => 1, 'ReferenceUnique' => $referenceID];
+        $this->db->select('notes.*, createdUser.UserName as CreatedUser, updatedUser.UserName as UpdatedUser');
+        $where = ['notes.Type' => $type, 'notes.Status' => 1, 'notes.ReferenceUnique' => $referenceID];
         $this->db->order_by('Unique');
+        $this->db->join('config_user createdUser', 'createdUser.Unique = notes.CreatedBy', 'left');
+        $this->db->join('config_user updatedUser', 'updatedUser.Unique = notes.UpdatedBy', 'left');
         return $this->db->get_where('notes', $where)->result_array();
     }
 

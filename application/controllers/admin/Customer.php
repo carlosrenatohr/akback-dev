@@ -169,7 +169,9 @@ class Customer extends AK_Controller
      */
     public function load_customerNotes($customerID = null)
     {
-        echo json_encode($this->notes->getNotesByType('customer', $customerID));
+        $notes = $this->notes->getNotesByType('customer', $customerID);
+
+        echo json_encode($notes);
     }
 
     /**

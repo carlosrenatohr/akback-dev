@@ -200,17 +200,28 @@ demoApp.service('customerService', function ($http) {
                     {name: 'ReferenceUnique', type: 'int'},
                     {name: 'Note', type: 'string'},
                     {name: 'Status', type: 'string'},
-                    {name: 'Type', type: 'string'}
+                    {name: 'Type', type: 'string'},
+                    {name: 'Created', type: 'string'},
+                    {name: 'CreatedBy', type: 'string'},
+                    {name: 'CreatedUser', type: 'string'},
+                    {name: 'Updated', type: 'string'},
+                    {name: 'UpdatedBy', type: 'string'},
+                    {name: 'UpdatedUser', type: 'string'},
+
                 ],
                 id: 'Unique',
                 url: urlToRequest
             },
             columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
+                {text: 'ID', dataField: 'Unique', type: 'int', width: '5%'}, //filterable: false
                 {text: 'CustomerID', dataField: 'ReferenceUnique', type: 'int', hidden: true}, //filterable: false
                 {text: 'Note', dataField: 'Note', type: 'text'},
                 {text: 'Status', dataField: 'Status', type: 'text', hidden: true},
-                {text: 'Type', dataField: 'Type', type: 'string', hidden: true}
+                {text: 'Type', dataField: 'Type', type: 'string', hidden: true},
+                {text: 'Created', dataField: 'Created', type: 'string', hidden: true},
+                {text: 'CreatedUser', dataField: 'CreatedUser', type: 'string', hidden: true},
+                {text: 'Updated', dataField: 'Updated', type: 'string', hidden: true},
+                {text: 'UpdatedUser', dataField: 'UpdatedUser', type: 'string', hidden: true}
             ],
             columnsResize: true,
             width: "100%",

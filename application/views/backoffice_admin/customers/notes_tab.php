@@ -30,6 +30,19 @@
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                             </div>
                         </div>
+                        <div style="float:left; padding:2px; width:600px;">
+                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Note:</div>
+                            <div style="float:left; width:400px;padding: 8px 2px;">
+                                <p id="CreatedSection">
+                                    Created by: <b><span id="createdBy"></span></b>
+                                    at <b><span id="createdAt"></span></b>
+                                </p>
+                                <p id="UpdatedSection" style="display: none;">
+                                    Updated by: <b><span id="updatedBy"></span></b>
+                                    at <b><span id="updatedAt"></span></b>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- MAIN BUTTONS   -->
