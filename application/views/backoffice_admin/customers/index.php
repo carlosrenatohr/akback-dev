@@ -68,7 +68,8 @@ jqxthemes();
                           jqx-create="customerTableSettings"
                           jqx-on-row-double-click="openEditCustomerWind($event)"
                 ></jqx-grid>
-                <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings">
+                <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings"
+                    id="addCustomerWindow">
                     <div class="">
                         Add New Customer
                     </div>
@@ -86,9 +87,21 @@ jqxthemes();
                             <!-- Customer info subtab -->
                             <div class="">
                                 <div class="col-md-12 col-md-offset-0">
-                                    <div class="row">
-                                        <div style=" width:100%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'" class="customerForm">
-                                            <multiple-controls></multiple-controls>
+                                    <div class="row" style="padding: 15px 0;">
+                                        <div style=" width:30%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'| ByCol:'1' " class="customerForm">
+                                            <div style="float:left; padding:2px 0; width:500px;margin: 5px 0 0;">
+                                                <multiple-controls></multiple-controls>
+                                            </div>
+                                        </div>
+                                        <div style=" width:30%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'| ByCol:'2' " class="customerForm">
+                                            <div style="float:left; padding:2px 0; width:500px;margin: 5px 0 0;">
+                                                <multiple-controls></multiple-controls>
+                                            </div>
+                                        </div>
+                                        <div style=" width:30%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'| ByCol:'3' " class="customerForm">
+                                            <div style="float:left; padding:2px 0; width:500px;margin: 5px 0 0;">
+                                                <multiple-controls></multiple-controls>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -97,8 +110,15 @@ jqxthemes();
                             <div>
                                 <div class="col-md-12 col-md-offset-0">
                                     <div class="row">
-                                        <div style=" width:100%;float:left;" ng-repeat="attr in customerControls | ByTab:'2'" class="customerForm">
-                                            <multiple-controls></multiple-controls>
+                                        <div style=" width:45%;float:left;" ng-repeat="attr in customerControls | ByTab:'2' | ByCol:'1'" class="customerForm">
+                                            <div style="float:left; padding:2px 0; width:500px;margin:5px 0 0;">
+                                                <multiple-controls></multiple-controls>
+                                            </div>
+                                        </div>
+                                        <div style=" width:45%;float:left;" ng-repeat="attr in customerControls | ByTab:'2' | ByCol:'2'" class="customerForm">
+                                            <div style="float:left; padding:2px 0; width:500px;margin:5px 0 0;">
+                                                <multiple-controls></multiple-controls>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -193,3 +213,9 @@ jqxthemes();
         </div>
     </div>
 </div>
+
+<style>
+    #addCustomerWindow {
+        max-width: 1200px!important;
+    }
+</style>
