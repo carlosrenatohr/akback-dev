@@ -33,13 +33,36 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     };
 
     var customerWind, customerContactWin, customerNotesWin;
-    $scope.customerTableSettings = customerService.getTableSettings;
+    $scope.customerTableSettings = customerService.getTableSettings();
+    customerService.getCustomerGridAttrs()
+        .then(function(response) {
+            var fieldsNames = [], labelNames = [], sizes = [];
+            for(var i in response.data) {
+                fieldsNames.push(response.data[i].Field);
+                labelNames.push(response.data[i].Label);
+                sizes.push(response.data[i].Size);
+            }
+            var cols = $scope.customerTableSettings.columns;
+            $.each(cols, function(i, el) {
+                var idx = $.inArray(el.dataField, fieldsNames);
+                if (idx < 0) {
+                    el['hidden'] = true;
+                    //$('#gridCustomer').jqxGrid('hidecolumn', el.dataField);
+                } else {
+                    el['hidden'] = false;
+                    el['text'] = labelNames[idx];
+                    el['width'] = sizes[idx] + '%';
+                    //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
+                    //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
+                }
+            });
+        });
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
 
     var updateCustomerTableData = function() {
-        var source = customerService.getTableSettings.source;
+        var source = customerService.getTableSettings().source;
         $scope.$apply(function() {
             $scope.customerTableSettings = {
                 source: {

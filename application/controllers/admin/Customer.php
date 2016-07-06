@@ -72,6 +72,16 @@ class Customer extends AK_Controller
     }
 
     /**
+     * @method GET
+     * @description Load customers attributes to show on grid
+     * @returnType json
+     */
+    public function load_customerGridAttributes()
+    {
+        echo json_encode($this->customer->getAttributesByForm('CustomerGrid', 'Sort ASC'));
+    }
+
+    /**
      * @method POST
      * @description Create new customer by custom attributes
      * @returnType json
