@@ -244,9 +244,11 @@ demoApp.service('customerService', function ($http) {
     };
 
     var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+        var receiptnumber = (datarecord.ReceiptNumber != null) ? datarecord.ReceiptNumber : '';
         var description = (datarecord.Description != null) ? datarecord.Description : '';
         var company = (datarecord.Company != null) ? datarecord.Company : '';
-        var moreDetails = "<span>Description: <b>" + description + "</b></span><br><br><span>Company: <b>" + company + "</b><span><br>";
+        var moreDetails =
+            "<span>Receipt number: <b>" + receiptnumber + "</b></span><br><br><span>Description: <b>" + description + "</b></span><br><br><span>Company: <b>" + company + "</b></span><br>";
         //
         var rowDetailsContainer = $($(parentElement).children()[0]);
         rowDetailsContainer.html(moreDetails);
@@ -273,6 +275,7 @@ demoApp.service('customerService', function ($http) {
                 dataFields: [
                     {name: 'Unique', type: 'int'},
                     {name: 'ReceiptNumber', type: 'string'},
+                    {name: 'ReceiptDate_', type: 'string'},
                     {name: 'FirstName', type: 'string'},
                     {name: 'LastName', type: 'string'},
                     {name: 'Company', type: 'string'},
@@ -288,15 +291,15 @@ demoApp.service('customerService', function ($http) {
             },
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
-                {text: 'Receipt Number', dataField: 'ReceiptNumber', type: 'string', width: '15%'}, //filterable: false
+                {text: 'Receipt Date', dataField: 'ReceiptDate_', type: 'string', width: '15%'}, //filterable: false
                 {text: 'First Name', dataField: 'FirstName', type: 'text', hidden: true},
                 {text: 'Last Name', dataField: 'LastName', type: 'text', hidden: true},
                 {text: 'Company', dataField: 'Company', type: 'text', hidden: true},
-                {text: 'Item', dataField: 'Item', type: 'text', width: '20%'},
-                {text: 'Description', dataField: 'Description', type: 'text', hidden: true},
-                {text: 'Quantity', dataField: 'Quantity', type: 'text', width: '25%'},
-                {text: 'Sell Price', dataField: 'SellPrice', type: 'text', width: '20%'},
-                {text: 'Ext Sell', dataField: 'ExtSell', type: 'text', width: '20%'},
+                {text: 'Item', dataField: 'Item', type: 'text', width: '10%'},
+                {text: 'Description', dataField: 'Description', type: 'text', width: '45%'},
+                {text: 'Quantity', dataField: 'Quantity', type: 'text', width: '10%'},
+                {text: 'Sell Price', dataField: 'SellPrice', type: 'text', width: '10%'},
+                {text: 'Ext Sell', dataField: 'ExtSell', type: 'text', width: '10%'},
                 {text: 'CustomerUnique', dataField: 'CustomerUnique', type: 'string', hidden: true}
             ],
             columnsResize: true,
@@ -306,13 +309,14 @@ demoApp.service('customerService', function ($http) {
             pageable: true,
             pageSize: 20,
             pagerMode: 'simple',
-            altRows: true,
-            filterable: true,
+            //altRows: true,
+            //filterable: true,
+            autorowheight: true,
             //showfilterrow: (parentUnique) ? true : false
             rowdetails: true,
             rowdetailstemplate: {
-                rowdetails: "<div style='margin: 10px 0;'>No description</div>",
-                rowdetailsheight: 75
+                rowdetails: "<div style='margin-top: 5px;'></div>",
+                rowdetailsheight: 100
             },
             initrowdetails: initrowdetails
         }

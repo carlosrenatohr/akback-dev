@@ -116,7 +116,7 @@ class Customer_model extends CI_Model
         $where = (!is_null($customerID)) ?
             'where receipt_header."CustomerUnique" = ' . $customerID . ' order by "ReceiptNumber" desc ': '';
         //
-        $query = 'select receipt_header."Unique", receipt_header."ReceiptNumber", customer."FirstName",customer."LastName",customer."Company",
+        $query = 'select receipt_header."Unique", receipt_header."ReceiptNumber",receipt_header."ReceiptDate", customer."FirstName",customer."LastName",customer."Company",
         receipt_details."Item",receipt_details."Description",receipt_details."Quantity",round(receipt_details."SellPrice",2) as "SellPrice",
         round(receipt_details."SellPrice" * receipt_details."Quantity",2) as "ExtSell", receipt_header."CustomerUnique"
         from receipt_header

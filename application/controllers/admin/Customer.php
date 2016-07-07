@@ -266,7 +266,14 @@ class Customer extends AK_Controller
      */
     public function load_purchasesCustomer($customerID = null)
     {
-        echo json_encode($this->customer->purchasesBasedByCustomer($customerID));
+        $formatPurchases = [];
+        $purchases = $this->customer->purchasesBasedByCustomer($customerID);
+        foreach($purchases as $purchase) {
+            $purchase['ReceiptDate_'] = date('d/m/Y H:i:s', strtotime($purchase['ReceiptDate'])); //d-m-Y H:i:sA
+            $purchase['Quantity'] = number_format($purchase['Quantity'], $this->session->userdata('DecimalsQuantity'));
+            $formatPurchases[] = $purchase;
+        }
+        echo json_encode($formatPurchases);
     }
 
 }
