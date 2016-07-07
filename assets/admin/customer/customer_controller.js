@@ -199,7 +199,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 }
             }
         }
-        console.log(rows);
         return rows;
     };
 
