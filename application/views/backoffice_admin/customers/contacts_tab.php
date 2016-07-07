@@ -17,7 +17,7 @@
             </div>
             <div class="">
                 <div style=" width:100%;float:left;">
-                    <div style=" width:100%;float:left;" ng-repeat="attr in customerContactsControls" class="customerContactsForm">
+                    <div style=" width:100%;float:left;padding:2px 0;margin: 5px 0 0;" ng-repeat="attr in customerContactsControls" class="customerContactsForm">
                         <multiple-controls></multiple-controls>
                     </div>
                 </div>

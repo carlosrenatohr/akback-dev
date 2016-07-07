@@ -189,9 +189,31 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerNoticeErrorSettings = customerService.setNotificationSettings(0);
 
     // Getting all attributes
+    $scope.gettingRows = function(tabSent) {
+        var rows = [];
+        for(var i in $scope.customerControls) {
+            var row = $scope.customerControls[i].Row;
+            if ($scope.customerControls[i].Tab == tabSent) {
+                if (rows.indexOf(row) < 0) {
+                    rows.push(row);
+                }
+            }
+        }
+        console.log(rows);
+        return rows;
+    };
+
+    $scope.customerControlsRows = [];
     customerService.getCustomerAttributes()
         .then(function (response) {
-                $scope.customerControls = response.data;
+            $scope.customerControls = response.data;
+                //for(var i in response.data) {
+                //    var row = response.data[i].Row;
+                //    if (rows.indexOf(row) < 0) {
+                //        rows.push(row);
+                //    }
+                //}
+                //$scope.customerControlsRows = rows;
             }, function () {}
             // at end of request
         ).then(function () {});

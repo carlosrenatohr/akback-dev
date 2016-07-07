@@ -49,7 +49,7 @@ class Customer extends AK_Controller
     private function customerFieldsWithOptions()
     {
         $new_fields = [];
-        $fields = $this->customer->getAttributesByForm('Customer', 'Tab, Sort, Row, Column');
+        $fields = $this->customer->getAttributesByForm('Customer', 'Column'); //Tab, Sort, Row, Column
         foreach ($fields as $field) {
             if ($field['ParentUnique'] == 0) {
                 $field['classForm'] = strtolower($field['Form']);

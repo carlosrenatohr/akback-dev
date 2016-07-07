@@ -87,19 +87,10 @@ jqxthemes();
                             <!-- Customer info subtab -->
                             <div class="">
                                 <div class="col-md-12 col-md-offset-0">
-                                    <div class="row" style="padding: 15px 0;">
-                                        <div style=" width:30%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'| ByCol:'1' " class="customerForm">
-                                            <div style="float:left; padding:2px 0; width:500px;margin: 5px 0 0;">
-                                                <multiple-controls></multiple-controls>
-                                            </div>
-                                        </div>
-                                        <div style=" width:30%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'| ByCol:'2' " class="customerForm">
-                                            <div style="float:left; padding:2px 0; width:500px;margin: 5px 0 0;">
-                                                <multiple-controls></multiple-controls>
-                                            </div>
-                                        </div>
-                                        <div style=" width:30%;float:left;" ng-repeat="attr in customerControls | ByTab:'1'| ByCol:'3' " class="customerForm">
-                                            <div style="float:left; padding:2px 0; width:500px;margin: 5px 0 0;">
+
+                                    <div class="row" style="padding: 15px 0;" ng-repeat="el in gettingRows(1)">
+                                        <div style="float:left;" ng-repeat="attr in customerControls | ByTab:'1' | ByRow:el" class="customerForm col-md-4">
+                                            <div style="float:left; padding:2px 0;margin: 5px 0 0;">
                                                 <multiple-controls></multiple-controls>
                                             </div>
                                         </div>
@@ -109,14 +100,9 @@ jqxthemes();
                             <!-- Customer Custom subtab -->
                             <div>
                                 <div class="col-md-12 col-md-offset-0">
-                                    <div class="row">
-                                        <div style=" width:45%;float:left;" ng-repeat="attr in customerControls | ByTab:'2' | ByCol:'1'" class="customerForm">
-                                            <div style="float:left; padding:2px 0; width:500px;margin:5px 0 0;">
-                                                <multiple-controls></multiple-controls>
-                                            </div>
-                                        </div>
-                                        <div style=" width:45%;float:left;" ng-repeat="attr in customerControls | ByTab:'2' | ByCol:'2'" class="customerForm">
-                                            <div style="float:left; padding:2px 0; width:500px;margin:5px 0 0;">
+                                    <div class="row" style="padding: 15px 0;" ng-repeat="el in gettingRows(2)">
+                                        <div style="float:left;" ng-repeat="attr in customerControls | ByTab:'2' | ByRow:el" class="customerForm col-md-6">
+                                            <div style="float:left; padding:2px 0;margin: 5px 0 0;">
                                                 <multiple-controls></multiple-controls>
                                             </div>
                                         </div>
@@ -216,6 +202,6 @@ jqxthemes();
 
 <style>
     #addCustomerWindow {
-        max-width: 1200px!important;
+        max-width: 1000px!important;
     }
 </style>

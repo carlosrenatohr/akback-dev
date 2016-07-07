@@ -16,13 +16,13 @@ demoApp.filter('ByTab', function () {
     };
 });
 
-demoApp.filter('ByCol', function () {
+demoApp.filter('ByRow', function () {
 
     return function (items, name) {
 
         var arrayToReturn = [];
         for (var i in items) {
-            if (items[i].Column == name) {
+            if (items[i].Row == name) {
                 arrayToReturn.push(items[i]);
             }
         }
