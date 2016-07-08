@@ -76,7 +76,7 @@ jqxthemes();
                     <div class="">
                         <jqx-tabs jqx-width="'100%'"
                                   jqx-on-tabclick="changingCustomerTab($event)"
-                                  id="customerTabs">
+                                  id="customerTabs" jqx-theme="articTheme">
                             <ul>
                                 <li id="customertabInfo" class="mainTabInfo">Info</li>
                                 <li id="customertabCustom" class="mainTabInfo">Custom</li>
@@ -88,7 +88,7 @@ jqxthemes();
                             <div class="">
                                 <div class="col-md-12 col-md-offset-0">
 
-                                    <div class="row" style="padding: 15px 0;" ng-repeat="el in gettingRowsCustomer(1)">
+                                    <div class="row" style="padding:0;" ng-repeat="el in gettingRowsCustomer(1)">
                                         <div style="float:left;" ng-repeat="attr in customerControls | ByTab:'1' | ByRow:el" class="customerForm col-md-4">
                                             <div style="float:left; padding:2px 0;margin: 5px 0 0;">
                                                 <multiple-controls></multiple-controls>

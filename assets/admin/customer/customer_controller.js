@@ -4,7 +4,7 @@
 var demoApp = angular.module("demoApp", ['jqwidgets']);
 
 demoApp.controller("customerController", function ($scope, $http, customerService) {
-
+    $scope.articTheme = 'darkblue';
     /**
      * TABS
      * @param e
@@ -217,7 +217,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         decimalDigits: 0,
         digits: 3,
         spinButtons: true,
-        width: 200,
+        width: 180,
         height: 25
     };
 
@@ -226,7 +226,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         decimalDigits: 2,
         digits: 3,
         spinButtons: true,
-        width: 200,
+        width: 180,
         height: 25,
         min: ''
     };
@@ -236,11 +236,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         //min: new Date(2016, 5, 10),
         max: new Date(),
         formatString: 'd',
-        width: '200px', height: '25px'
+        width: '180px', height: '25px'
     };
 
     $scope.dropdownlistSettings = {
-        width: '200px', height: '30px',
+        width: '180px', height: '30px',
         created: function(args) {
             var el = $(args.element);
             //console.log(el.attr('id'));
