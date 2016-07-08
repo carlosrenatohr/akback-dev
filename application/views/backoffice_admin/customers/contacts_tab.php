@@ -16,10 +16,20 @@
                 New Customer Contact
             </div>
             <div class="">
-                <div style=" width:100%;float:left;">
-                    <div style=" width:100%;float:left;padding:2px 0;margin: 5px 0 0;" ng-repeat="attr in customerContactsControls" class="customerContactsForm">
-                        <multiple-controls></multiple-controls>
+                <div class="col-md-12 col-md-offset-0">
+                    <div class="row" style="padding: 15px 0;" ng-repeat="el in gettingRowsCustomerContact(1)">
+                        <div style="float:left;" ng-repeat="attr in customerContactsControls | orderBy: 'attr.Column' | ByTab:'1' | ByRow:el" class="customerContactsForm col-md-6">
+                            <div style="float:left; padding:2px 0;margin: 5px 0 0;">
+                                <multiple-controls></multiple-controls>
+                            </div>
+                        </div>
+<!--                        <div style="float:left;" ng-repeat="attr in customerControls | ByTab:'1' | ByRow:el" class="customerForm col-md-4">-->
+<!--                            <div style="float:left; padding:2px 0;margin: 5px 0 0;">-->
+<!--                                <multiple-controls></multiple-controls>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
+
                 </div>
                 <!-- MAIN BUTTONS   -->
                 <div class="col-md-12 col-md-offset-0">
