@@ -23,10 +23,25 @@ demoApp.service('customerService', function ($http) {
             'url': SiteRoot + 'admin/Customer/load_customerGridAttributes'
         });
     };
-
+    var _this = this;
     this.getTableSettings = function () {
+        // create contacts nested grid
+        var initrowdetails = function (index, parentElement, gridElement, record) {
+            var contactsDatagrid = _this.getContactsTableSettings(record.Unique);
+            var grid = $($(parentElement).children()[0]);
+            //
+            var nestedGridAdapter = contactsDatagrid.source;
+            if (grid != null) {
+                grid.jqxGrid({
+                    source: nestedGridAdapter,
+                    width: '50%', height: 250,
+                    columns: contactsDatagrid.columns
+                });
+            }
+        };
+
         return {
-            source: {
+            source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -62,7 +77,7 @@ demoApp.service('customerService', function ($http) {
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/Customer/load_allCustomers'
-            },
+            }),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
                 {text: 'First Name', dataField: 'FirstName', type: 'string'},
@@ -100,7 +115,14 @@ demoApp.service('customerService', function ($http) {
             pageSize: 20,
             pagerMode: 'simple',
             filterable: true,
-            showfilterrow: true
+            showfilterrow: true,
+            rowdetails: true,
+            initrowdetails: initrowdetails,
+            rowdetailstemplate: {
+                rowdetails: "<div id='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetailsheight: 275,
+                rowdetailshidden: true
+            }
         };
     };
 
@@ -112,7 +134,7 @@ demoApp.service('customerService', function ($http) {
         }
         //else queryParams = '?form=CustomerContact';
         return {
-            source: {
+            source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -150,7 +172,7 @@ demoApp.service('customerService', function ($http) {
                 ],
                 id: 'Unique',
                 url: urlToRequest
-            },
+            }),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
                 {text: 'First Name', dataField: 'FirstName', type: 'string'},
@@ -201,7 +223,7 @@ demoApp.service('customerService', function ($http) {
             urlToRequest = SiteRoot + 'admin/Customer/load_customerNotes/' + parentUnique;
         }
         return {
-            source: {
+            source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -219,7 +241,7 @@ demoApp.service('customerService', function ($http) {
                 ],
                 id: 'Unique',
                 url: urlToRequest
-            },
+            }),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '5%'}, //filterable: false
                 {text: 'CustomerID', dataField: 'ReferenceUnique', type: 'int', hidden: true}, //filterable: false
@@ -243,17 +265,6 @@ demoApp.service('customerService', function ($http) {
         }
     };
 
-    var initrowdetails = function (index, parentElement, gridElement, datarecord) {
-        var receiptnumber = (datarecord.ReceiptNumber != null) ? datarecord.ReceiptNumber : '';
-        var description = (datarecord.Description != null) ? datarecord.Description : '';
-        var company = (datarecord.Company != null) ? datarecord.Company : '';
-        var moreDetails =
-            "<span>Receipt number: <b>" + receiptnumber + "</b></span><br><br><span>Description: <b>" + description + "</b></span><br><br><span>Company: <b>" + company + "</b></span><br>";
-        //
-        var rowDetailsContainer = $($(parentElement).children()[0]);
-        rowDetailsContainer.html(moreDetails);
-    };
-
     var purchaseGrid = $('#customerPurchasesGrid');
     purchaseGrid.on('rowexpand', function (e) {
         var current = e.args.rowindex;
@@ -269,8 +280,18 @@ demoApp.service('customerService', function ($http) {
         if (parentUnique != undefined) {
             urlToRequest = SiteRoot + 'admin/Customer/load_purchasesCustomer/' + parentUnique;
         }
+        var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+            var receiptnumber = (datarecord.ReceiptNumber != null) ? datarecord.ReceiptNumber : '';
+            var description = (datarecord.Description != null) ? datarecord.Description : '';
+            var company = (datarecord.Company != null) ? datarecord.Company : '';
+            var moreDetails =
+                "<span>Receipt number: <b>" + receiptnumber + "</b></span><br><br><span>Description: <b>" + description + "</b></span><br><br><span>Company: <b>" + company + "</b></span><br>";
+            //
+            var rowDetailsContainer = $($(parentElement).children()[0]);
+            rowDetailsContainer.html(moreDetails);
+        };
         return {
-            source: {
+            source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -288,7 +309,7 @@ demoApp.service('customerService', function ($http) {
                 ],
                 id: 'Unique',
                 url: urlToRequest
-            },
+            }),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
                 {text: 'Receipt Date', dataField: 'ReceiptDate_', type: 'string', width: '15%'}, //filterable: false

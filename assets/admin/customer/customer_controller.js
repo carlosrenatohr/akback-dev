@@ -81,17 +81,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
 
     var updateCustomerContactTableData = function() {
         if ($scope.customerID != undefined) {
-            var source = customerService.getContactsTableSettings($scope.customerID).source;
+            var tableSettings = customerService.getContactsTableSettings($scope.customerID);
             $scope.$apply(function() {
                 $scope.customerContactTableSettings = {
-                    source: new $.jqx.dataAdapter(
-                        {
-                        dataFields: source.dataFields,
-                        dataType: source.dataType,
-                        //id: source.id,
-                        url: source.url
-                        }
-                    ),
+                    source: tableSettings.source,
                     created: function (args) {
                         var instance = args.instance;
                         instance.updatebounddata();
@@ -105,17 +98,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
 
     var updateCustomerNotesTableData = function() {
         if ($scope.customerID != undefined) {
-            var source = customerService.getNotesTableSettings($scope.customerID).source;
+            var tableSettings = customerService.getNotesTableSettings($scope.customerID);
             $scope.$apply(function() {
                 $scope.customerNotesTableSettings = {
-                    source: new $.jqx.dataAdapter(
-                        {
-                        dataFields: source.dataFields,
-                        dataType: source.dataType,
-                        id: source.id,
-                        url: source.url
-                        }
-                    ),
+                    source: tableSettings.source,
                     created: function (args) {
                         var instance = args.instance;
                         instance.updatebounddata();
@@ -127,15 +113,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
 
     var updateCustomerPurchasesTableData = function() {
         if ($scope.customerID != undefined) {
-            var source = customerService.getPurchasesTableSettings($scope.customerID).source;
+            var tablesettings = customerService.getPurchasesTableSettings($scope.customerID);
             $scope.$apply(function() {
                 $scope.customerPurchasesTableSettings = {
-                    source: new $.jqx.dataAdapter({
-                        dataFields: source.dataFields,
-                        dataType: source.dataType,
-                        id: source.id,
-                        url: source.url
-                    }),
+                    source: tablesettings.source,
                     created: function (args) {
                         var instance = args.instance;
                         instance.updatebounddata();
@@ -353,6 +334,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
 
     $('#gridCustomer').on('rowdoubleclick', function(e) {
     //$scope.openEditCustomerWind = function(e) {
+        var parent = $(e.args.originalEvent.target).parents('.jqx-grid')[0];
+        if ($(parent).attr('id') != 'gridCustomer')
+            return;
         var row = e.args.row.bounddata;
         //
         $scope.customerID = row.Unique;
