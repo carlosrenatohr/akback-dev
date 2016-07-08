@@ -36,11 +36,12 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerTableSettings = customerService.getTableSettings();
     customerService.getCustomerGridAttrs()
         .then(function(response) {
-            var fieldsNames = [], labelNames = [], sizes = [];
+            var fieldsNames = [], labelNames = [], sizes = [], defaultValues = [];
             for(var i in response.data) {
                 fieldsNames.push(response.data[i].Field);
                 labelNames.push(response.data[i].Label);
                 sizes.push(response.data[i].Size);
+                defaultValues.push(response.data[i].Default);
             }
             var cols = $scope.customerTableSettings.columns;
             $.each(cols, function(i, el) {
