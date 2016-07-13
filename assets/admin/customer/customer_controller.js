@@ -180,7 +180,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             customerNotesWin = args.instance;
         },
         resizable: false,
-        width: "35%", height: "75%",
+        width: "35%", height: "50%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -813,7 +813,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         resetCustomerNote();
         setTimeout(function() {
             $('#customerNote_note').focus();
-        }, 100);
+        }, 150);
+        //
+        $('#userNotesDataContent').hide();
         $('#deleteCustomerNoteBtn').hide();
         $('#saveCustomerNoteBtn').prop('disabled', true);
         customerNotesWin.open();
@@ -825,12 +827,12 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerNotes = 'edit';
         setTimeout(function() {
             $('#customerNote_note').focus();
-        }, 100);
-
+        }, 150);
+        //
+        $('#userNotesDataContent').show();
         $('.customerNotesForm #customerNote_note').val(row.Note);
         $('.customerNotesForm #createdBy').html(row.CreatedUser);
         $('.customerNotesForm #createdAt').html(row.Created); // .format('M jS, Y \\i\\s')
-        console.log(row);
         if (row.Updated != null && row.UpdatedUser != null) {
             $('.customerNotesForm #UpdatedSection').show();
             $('.customerNotesForm #updatedBy').html(row.UpdatedUser);

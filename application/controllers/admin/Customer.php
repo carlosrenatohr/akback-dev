@@ -180,9 +180,15 @@ class Customer extends AK_Controller
      */
     public function load_customerNotes($customerID = null)
     {
+        $newNotes = [];
         $notes = $this->notes->getNotesByType('customer', $customerID);
+        foreach($notes as $note) {
+            $note['Created'] = date('d-m-Y h:iA', strtotime($note['Created']));
+            $note['Updated'] = date('d-m-Y h:iA', strtotime($note['Updated']));
+            $newNotes[] = $note;
+        }
 
-        echo json_encode($notes);
+        echo json_encode($newNotes);
     }
 
     /**
