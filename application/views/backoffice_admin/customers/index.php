@@ -18,18 +18,17 @@ jqxthemes();
     var SiteRoot = "<?php echo base_url()?>";
     $("#tabtitle").html("Customer administrator");
 </script>
-<script type="application/javascript" src="../../assets/admin/customer/customer_controller.js"></script>
-<script type="application/javascript" src="../../assets/admin/customer/customer_service.js"></script>
-<script type="application/javascript" src="../../assets/admin/customer/customer_filter.js"></script>
-<script type="application/javascript" src="../../assets/admin/customer/customer_directive.js"></script>
-<!--<script type="application/javascript" src="../../assets/admin/customer/customer_directive.js"></script>-->
-<!--<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxgrid.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.pager.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.selection.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.edit.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.columnsresize.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.columnsreorder.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.export.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.storage.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.grouping.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.pager.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.filter.js"></script>
@@ -40,6 +39,13 @@ jqxthemes();
 <script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxcalendar.js"></script>
 <script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxscrollbar.js"></script>
 <script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxlistbox.js"></script>
+<!---->
+<script type="application/javascript" src="../../assets/admin/customer/customer_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/customer/customer_service.js"></script>
+<script type="application/javascript" src="../../assets/admin/customer/customer_filter.js"></script>
+<script type="application/javascript" src="../../assets/admin/customer/customer_directive.js"></script>
+<!--<script type="application/javascript" src="../../assets/admin/customer/customer_directive.js"></script>-->
+<!--<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxgrid.js"></script>-->
 <!-- -->
 
 <div ng-controller="customerController" ng-cloak>

@@ -1,7 +1,7 @@
 /**
  * Created by carlosrenato on 06-17-16.
  */
-var demoApp = angular.module("demoApp", ['jqwidgets']);
+var demoApp = angular.module("demoApp", ['jqwidgets', 'jqwidgets-amd']);
 
 demoApp.controller("customerController", function ($scope, $http, customerService) {
     $scope.articTheme = 'darkblue';
@@ -46,16 +46,19 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 sortValues.push(response.data[i].Sort);
             }
             var cols = $scope.customerTableSettings.columns;
+            console.log(fieldsNames);
             $.each(cols, function(i, el) {
                 var idx = $.inArray(el.dataField, fieldsNames);
                 if (idx < 0) {
                     el['hidden'] = true;
                 } else {
+                    console.log(sortValues[idx]);
                     el['hidden'] = false;
                     el['text'] = labelNames[idx];
                     el['width'] = sizes[idx] + '%';
                     //el['index'] = sortValues[idx];
-                    $('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
+                    //$scope.customerTableSettings.apply('setcolumnindex', el.dataField, sortValues[idx] - 1);
+                    //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx] - 1);
                     //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
                     //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
                 }
@@ -72,7 +75,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     }
                 });
                 //setTimeout(function() {
-                    $(filterInputs[defaultSelectInput]).focus();
+                $(filterInputs[defaultSelectInput]).focus();
                 //}, 150);
                 //for (var a in filterInputs) {
                 //    $(filterInputs[a]).attr('placeholder',labelNames[a]);
