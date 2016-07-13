@@ -14,6 +14,7 @@ class Customer extends AK_Controller
         parent::__construct();
         $this->load->model('Customer_model', 'customer');
         $this->load->model('Note_model', 'notes');
+        $this->load->model('User_model', 'user');
     }
 
     public function index()
@@ -276,8 +277,20 @@ class Customer extends AK_Controller
         $formatPurchases = [];
         $purchases = $this->customer->purchasesBasedByCustomer($customerID);
         foreach($purchases as $purchase) {
-            $purchase['ReceiptDate_'] = date('d/m/Y H:i:s', strtotime($purchase['ReceiptDate'])); //d-m-Y H:i:sA
+            $createdUser = $this->user->getUsernameByUser($purchase['created_by']);
+            $updatedUser = $this->user->getUsernameByUser($purchase['updated_by']);
+            $locationName = $this->customer->getLocationName($purchase['location_unique']);
+            $purchase['ReceiptDate_'] = date('d/m/Y h:iA', strtotime($purchase['ReceiptDate'])); //d-m-Y H:i:sA
+            $purchase['created'] = date('d/m/Y h:iA', strtotime($purchase['created'])); //d-m-Y H:i:sA
+            $purchase['created_by'] = !empty($createdUser) ? $createdUser[0]['UserName'] : '' ;
+            $purchase['updated'] = date('d/m/Y h:iA', strtotime($purchase['updated'])); //d-m-Y H:i:sA
+            $purchase['updated_by'] = !empty($updatedUser) ? $updatedUser[0]['UserName'] : '';
+            $purchase['location_unique'] = !empty($locationName) ? $locationName[0]['Name'] : '';
             $purchase['Quantity'] = number_format($purchase['Quantity'], $this->session->userdata('DecimalsQuantity'));
+            $purchase['ListPrice'] = number_format($purchase['ListPrice'], $this->session->userdata('DecimalsQuantity'));
+            $purchase['Discount'] = number_format($purchase['Discount'], $this->session->userdata('DecimalsQuantity'));
+            $purchase['Tax'] = number_format($purchase['Tax'], $this->session->userdata('DecimalsQuantity'));
+            $purchase['Total'] = number_format($purchase['Total'], $this->session->userdata('DecimalsQuantity'));
             $formatPurchases[] = $purchase;
         }
         echo json_encode($formatPurchases);

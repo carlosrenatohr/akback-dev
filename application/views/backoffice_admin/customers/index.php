@@ -6,6 +6,7 @@
 //jqxplugindatetime();
 customerangular();
 jqxangularjs();
+//jqxplugins();
 jqxthemes();
 ?>
 <?php $this->load->view('backoffice_admin/customers/custom_controls'); ?>
@@ -22,6 +23,17 @@ jqxthemes();
 <script type="application/javascript" src="../../assets/admin/customer/customer_filter.js"></script>
 <script type="application/javascript" src="../../assets/admin/customer/customer_directive.js"></script>
 <!--<script type="application/javascript" src="../../assets/admin/customer/customer_directive.js"></script>-->
+<!--<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxgrid.js"></script>-->
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.selection.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.edit.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.columnsresize.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.pager.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.filter.js"></script>
+<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxgrid.aggregates.js"></script>
 <script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
 <script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxnumberinput.js"></script>
 <script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxdatetimeinput.js"></script>

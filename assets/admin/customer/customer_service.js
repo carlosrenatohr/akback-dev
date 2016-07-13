@@ -285,12 +285,48 @@ demoApp.service('customerService', function ($http) {
             var receiptnumber = (datarecord.ReceiptNumber != null) ? datarecord.ReceiptNumber : '';
             var description = (datarecord.Description != null) ? datarecord.Description : '';
             var company = (datarecord.Company != null) ? datarecord.Company : '';
+            var quantity = (datarecord.Quantity != null) ? datarecord.Quantity : '';
+            var listPrice = (datarecord.ListPrice != null) ? datarecord.ListPrice : '';
+            var sellprice = (datarecord.ListPrice != null) ? datarecord.ListPrice : '';
+            var discount = (datarecord.Discount != null) ? datarecord.Discount : '';
+            var tax = (datarecord.Tax != null) ? datarecord.Tax : '';
+            var total = (datarecord.Total != null) ? datarecord.Total : '';
+            var created = (datarecord.created != null) ? datarecord.created : '-';
+            var createdby = (datarecord.created_by != null) ? datarecord.created_by : '-';
+            var updated = (datarecord.updated != null) ? datarecord.updated : '-';
+            var updatedby = (datarecord.updated_by != null) ? datarecord.updated_by : '-';
+            var location = (datarecord.location_unique != null) ? datarecord.location_unique : '-';
             var moreDetails =
-                "<span>Receipt number: <b>" + receiptnumber + "</b></span><br><br><span>Description: <b>" + description + "</b></span><br><br><span>Company: <b>" + company + "</b></span><br>";
+                "<span>Receipt number: <b>" + receiptnumber + "</b></span><br>" +
+                "<span>Location name: <b>" + location + "</b></span><br>" +
+                "<span>Description: <b>" + description + "</b></span><br>" +
+                "<span>Quantity: <b>" + quantity + "</b></span><br>" +
+                "<span>List Price: <b>" + listPrice + "</b></span><br>" +
+                "<span>Sell Price: <b>" + sellprice + "</b></span><br>" +
+                "<span>Discount: <b>" + discount + "</b></span><br>" +
+                "<span>Tax: <b>" + tax + "</b></span><br>" +
+                "<span>Total: <b>" + total + "</b></span><br>" +
+                "<span>Created By: <b>" + createdby + "</b> at <b>" + created + "</b></span><br>" +
+                "<span>Updated By: <b>" + updatedby + "</b> at <b>" + updated + "</b></span><br>"
+                ;
             //
             var rowDetailsContainer = $($(parentElement).children()[0]);
             rowDetailsContainer.html(moreDetails);
         };
+
+        var aggregates = function (aggregatedValue, currentValue, column, record) {
+            return aggregatedValue + currentValue;
+        };
+
+        var aggregatesrender = function (aggregates, column, element, summaryData) {
+            var renderstring = "<div style='float: left; width: 100%; height: 100%;'>";
+            $.each(aggregates, function (key, value) {
+                renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;"><b>' + key + ': ' + value + '</b></div>';
+            });
+            renderstring += "</div>";
+            return renderstring;
+        };
+
         return {
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
@@ -305,8 +341,17 @@ demoApp.service('customerService', function ($http) {
                     {name: 'Description', type: 'string'},
                     {name: 'Quantity', type: 'string'},
                     {name: 'SellPrice', type: 'string'},
+                    {name: 'Discount', type: 'string'},
+                    {name: 'ListPrice', type: 'string'},
+                    {name: 'Tax', type: 'string'},
+                    {name: 'Total', type: 'string'},
                     {name: 'ExtSell', type: 'string'},
-                    {name: 'CustomerUnique', type: 'string'}
+                    {name: 'CustomerUnique', type: 'string'},
+                    {name: 'location_unique', type: 'string'},
+                    {name: 'created', type: 'string'},
+                    {name: 'created_by', type: 'string'},
+                    {name: 'updated', type: 'string'},
+                    {name: 'updated_by', type: 'string'},
                 ],
                 id: 'Unique',
                 url: urlToRequest
@@ -319,10 +364,25 @@ demoApp.service('customerService', function ($http) {
                 {text: 'Company', dataField: 'Company', type: 'text', hidden: true},
                 {text: 'Item', dataField: 'Item', type: 'text', width: '10%'},
                 {text: 'Description', dataField: 'Description', type: 'text', width: '45%'},
-                {text: 'Quantity', dataField: 'Quantity', type: 'text', width: '10%'},
                 {text: 'Sell Price', dataField: 'SellPrice', type: 'text', width: '10%'},
-                {text: 'Ext Sell', dataField: 'ExtSell', type: 'text', width: '10%'},
-                {text: 'CustomerUnique', dataField: 'CustomerUnique', type: 'string', hidden: true}
+                {text: 'Quantity', dataField: 'Quantity', type: 'text', width: '10%',
+                    aggregates: [{ 'Total': aggregates }],
+                    aggregatesrenderer: aggregatesrender
+                },
+                {text: 'Ext Sell', dataField: 'ExtSell', type: 'text', width: '10%',
+                    aggregates: [{ '<b>Total</b>': aggregates}],
+                    aggregatesrenderer: aggregatesrender
+                },
+                {dataField: 'Discount', type: 'string',hidden: true},
+                {dataField: 'ListPrice', type: 'string',hidden: true},
+                {dataField: 'Tax', type: 'string', hidden: true},
+                {dataField: 'Total', type: 'string',hidden: true},
+                {text: 'CustomerUnique', dataField: 'CustomerUnique', type: 'string', hidden: true},
+                {dataField: 'location_unique', type: 'string', hidden: true},
+                {text: 'Created', dataField: 'created', type: 'text', hidden: true},
+                {text: 'CreatedBy', dataField: 'created_by', type: 'text', hidden: true},
+                {text: 'Updated', dataField: 'updated', type: 'text', hidden: true},
+                {text: 'UpdatedBy', dataField: 'updated_by', type: 'text', hidden: true},
             ],
             columnsResize: true,
             width: "99%",
@@ -331,16 +391,24 @@ demoApp.service('customerService', function ($http) {
             pageable: true,
             pageSize: 20,
             pagerMode: 'simple',
-            //altRows: true,
-            //filterable: true,
             autorowheight: true,
-            //showfilterrow: (parentUnique) ? true : false
+            filterable: true,
+            showfilterrow: true,
             rowdetails: true,
             rowdetailstemplate: {
                 rowdetails: "<div style='margin-top: 5px;'></div>",
-                rowdetailsheight: 100
+                rowdetailsheight: 200
             },
-            initrowdetails: initrowdetails
+            initrowdetails: initrowdetails,
+            showaggregates: true,
+            showstatusbar: true,
+            statusbarheight: 50,
+            ready: function() {
+                $('#row00customerPurchasesGrid .jqx-grid-cell-pinned input[type="textarea"]').each(function(i, el){
+                    if($(el).css('width') != '0px')
+                        $(el).focus();
+                });
+            }
         }
     };
 
