@@ -118,8 +118,8 @@ jqxthemes();
                             <!-- Customer Custom subtab -->
                             <div>
                                 <div class="col-md-12 col-md-offset-0">
-                                    <div class="row" style="padding: 15px 0;" ng-repeat="el in gettingRowsCustomer(2)">
-                                        <div style="float:left;" ng-repeat="attr in customerControls | ByTab:'2' | ByRow:el" class="customerForm col-md-6">
+                                    <div class="row" style="padding:0;" ng-repeat="el in gettingRowsCustomer(2)">
+                                        <div style="float:left;" ng-repeat="attr in customerControls | ByTab:'2' | ByRow:el" class="customerForm col-md-4">
                                             <div style="float:left; padding:2px 0;margin: 5px 0 0;">
                                                 <multiple-controls></multiple-controls>
                                             </div>
