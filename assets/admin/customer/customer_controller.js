@@ -36,27 +36,48 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerTableSettings = customerService.getTableSettings();
     customerService.getCustomerGridAttrs()
         .then(function(response) {
-            var fieldsNames = [], labelNames = [], sizes = [], defaultValues = [];
+            var fieldsNames = [], labelNames = [], sizes = [], defaultValues = [], sortValues = [];
+            console.log(response.data);
             for(var i in response.data) {
                 fieldsNames.push(response.data[i].Field);
                 labelNames.push(response.data[i].Label);
                 sizes.push(response.data[i].Size);
                 defaultValues.push(response.data[i].Default);
+                sortValues.push(response.data[i].Sort);
             }
             var cols = $scope.customerTableSettings.columns;
             $.each(cols, function(i, el) {
                 var idx = $.inArray(el.dataField, fieldsNames);
                 if (idx < 0) {
                     el['hidden'] = true;
-                    //$('#gridCustomer').jqxGrid('hidecolumn', el.dataField);
                 } else {
                     el['hidden'] = false;
                     el['text'] = labelNames[idx];
                     el['width'] = sizes[idx] + '%';
+                    //el['index'] = sortValues[idx];
+                    $('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
                     //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
                     //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
                 }
             });
+            //
+            $scope.customerTableSettings.rendered = function() {
+                var filterInputs = [];
+                var rowFilterInputs = $('#row00gridCustomer .jqx-grid-cell-pinned input[type="textarea"]');
+                //console.log(rowFilterInputs);
+                var defaultSelectInput = defaultValues.indexOf(1);
+                rowFilterInputs.each(function(i, el) {
+                    if ($(el).css('width') != '0px') {
+                        filterInputs.push(el);
+                    }
+                });
+                //setTimeout(function() {
+                    $(filterInputs[defaultSelectInput]).focus();
+                //}, 150);
+                //for (var a in filterInputs) {
+                //    $(filterInputs[a]).attr('placeholder',labelNames[a]);
+                //}
+            }
         });
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
