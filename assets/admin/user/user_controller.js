@@ -92,6 +92,12 @@ demoApp.controller("userController", function($scope, $http) {
         showCloseButton: false
     };
 
+    // Close event for user windows
+    $scope.onCloseUserWindowsEvent = function(e) {
+        $('#notificationErrorSettings').jqxNotification('closeLast');
+        $('#notificationSuccessSettings').jqxNotification('closeLast');
+    };
+
     // Open the window form to add user
     $scope.openAddUserWindows = function () {
         $scope.newOrEditSelected = 'new';
@@ -157,7 +163,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#submitAddUserForm').prop('disabled', true);
         $('#deleteAddUserForm').hide();
 
-        $('.addUserField.required-field').css({"border-color": "#ccc"});
+        $('.addUserField').css({"border-color": "#ccc"});
         $scope.userId = null;
         //
         $('#userPositionsTable').hide();
@@ -172,14 +178,16 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     $scope.closeUserWindows = function (selected) {
-        $('#addUserButtons').show();
+
         if (selected == 0) {
             $scope.submitUserForm(selected);
             //$('#addUserConfirm').hide();
         } else if (selected == 1) {
+            $('#addUserButtons').show();
             resetWindowAddUserForm();
             addUserDialog.close();
         } else if (selected == 2) {
+            $('#addUserButtons').show();
             $('#addUserConfirm').hide();
         }
         else {
@@ -563,9 +571,6 @@ demoApp.controller("userController", function($scope, $http) {
         // VALIDATION Not empty fields
         $('.new-user-form input.required-field').each(function (i, el) {
             if (el.value == '') {
-                /**
-                 *  PENDING, SKIPPING code & password FOR EDITING USER
-                 */
                 //if ($scope.newOrEditSelected != 'edit') {
                 //    if ($(el).attr('id') != 'add_code' || $(el).attr('id') != 'add_password') {
                         $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
@@ -662,6 +667,7 @@ demoApp.controller("userController", function($scope, $http) {
                                 $('#savePositionuserBtn').prop('disabled', true);
                                 //$scope.closeUserWindows();
                                 addUserDialog.close();
+                                $('#addUserButtons').show();
                             } else {
                                 $('#addUserAnotherRow').show();
                                 $('#addUserButtons').hide();

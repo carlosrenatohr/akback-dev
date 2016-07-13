@@ -59,7 +59,7 @@ jqxthemes();
                 <jqx-data-table jqx-settings="userTableSettings"
                                 jqx-on-row-double-click="openEditUserWindows(event)">
                 </jqx-data-table>
-                <jqx-window jqx-on-close="close()" jqx-settings="addUserWindowSettings"
+                <jqx-window jqx-on-close="onCloseUserWindowsEvent($event)" jqx-settings="addUserWindowSettings"
                             jqx-create="addUserWindowSettings" class="userJqxwindows">
                     <div>
 
