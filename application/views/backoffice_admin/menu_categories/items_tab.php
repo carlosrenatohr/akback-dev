@@ -178,7 +178,6 @@
                                             <div style="float:left; width:300px;">
                                                 <jqx-combo-box
                                                     jqx-on-select=""
-                                                    jqx-on-unselect=""
                                                     jqx-settings="questionItemsCbxSettings"
                                                     id="itemq_Question">
                                                 </jqx-combo-box>

@@ -9,6 +9,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var tabclicked = e.args.item;
         // ITEMS TAB - Reload queries
         if (tabclicked == 2) {
+            updateQuestionsCbx();
             $scope.menuListBoxSettings.apply('refresh');
             $('.draggable').removeClass('selectedItemOnGrid');
             $('#NewMenuItemBtn').prop('disabled', true)
@@ -278,36 +279,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         //allowDrag: true,
         //dragEnd: function(dragItem, dropItem) {}
     };
-
-    //$('#itemListboxSearch').on('dragEnd', function(e){
-    //    console.log(e);
-    //    if (e.args.label) {
-    //        var ev = e.args.originalEvent;
-    //        var x = ev.pageX;
-    //        var y = ev.pageY;
-    //        if (e.args.originalEvent
-    //            && e.args.originalEvent.originalEvent
-    //            && e.args.originalEvent.originalEvent.touches) {
-    //            var touch = e.args.originalEvent.originalEvent.changedTouches[0];
-    //            x = touch.pageX;
-    //            y = touch.pageY;
-    //        }
-    //        var offset = $(".restricter-dragdrop").offset();
-    //        var width = $(".restricter-dragdrop").width();
-    //        var height = $(".restricter-dragdrop").height();
-    //        var right = parseInt(offset.left) + width;
-    //        var bottom = parseInt(offset.top) + height;
-    //        if (x >= parseInt(offset.left) && x <= right) {
-    //            if (y >= parseInt(offset.top) && y <= bottom) {
-    //                console.log('IN');
-    //                //$("#textarea").val(event.args.label);
-    //            }
-    //            else {
-    //                console.log('OUT');
-    //            }
-    //        }
-    //    }
-    //});
 
     $scope.selectedItemInfo = {};
     $scope.itemListBoxOnSelect = function(e) {
@@ -930,9 +901,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             dataFields: [
                 {name: 'Unique', type: 'int'},
                 {name: 'QuestionName', type: 'string'},
-                {name: 'Question', type: 'string'},
-                {name: 'Status', type: 'number'},
-                {name: 'Sort', type: 'number'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
@@ -944,13 +912,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             cbxQuestionsItem = args.instance;
         },
         placeHolder: 'Select a question',
-        displayMember: "QuestionName",
-        valueMember: "Unique",
+        source: dataAdapterQuestionItems,
+        displayMember: 'QuestionName',
+        valueMember: 'Unique',
         width: "100%",
         itemHeight: 30,
-        source: dataAdapterQuestionItems,
         theme: 'arctic'
     };
+
+    function updateQuestionsCbx() {
+        $('#itemq_Question').jqxComboBox({source: dataAdapterQuestionItems});
+        //$scope.$apply(function() {
+        //    $scope.questionItemsCbxSettings = { source: dataAdapterQuestionItems };
+        //});
+    }
 
     $('#itemq_Status').jqxDropDownList({autoDropDownHeight: true});
 
@@ -983,6 +958,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.addOrEditqItem = null;
     $scope.qItemIdChosen = null;
     $scope.openQuestionItemWin = function() {
+        //updateQuestionsCbx();
         //
         $('#itemq_Status').jqxDropDownList({'selectedIndex': 0});
         $('#itemq_Question').jqxComboBox({'selectedIndex': -1});
@@ -996,6 +972,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     $scope.editQuestionItemWin = function(e) {
+        //updateQuestionsCbx();
+        //
         var row = e.args.row;
         var statusCombo = $('#itemq_Status').jqxDropDownList('getItemByValue', row.Status);
         $('#itemq_Status').jqxDropDownList({'selectedIndex': statusCombo.index});

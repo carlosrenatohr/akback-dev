@@ -278,7 +278,6 @@ app.controller('menuQuestionController', function ($scope) {
             url: SiteRoot + 'admin/MenuQuestion/deleteQuestion/' + $scope.questionId,
             dataType: 'json',
             success: function(data) {
-                console.log(data);
                 $scope.questionTableSettings = {
                     source: {
                         dataType: 'json',
@@ -532,7 +531,6 @@ app.controller('menuQuestionController', function ($scope) {
                             }
                         }
                     } else {
-                        console.log(response);
                         $('#qItemErrorNotif #notification-content')
                             .html('There was an error!');
                         $scope.qItemErrorNotif.apply('open');
@@ -558,7 +556,6 @@ app.controller('menuQuestionController', function ($scope) {
                         $scope.closeQuestionItemWin();
                     }, 1500);
                 } else {
-                    console.log(response);
                     $('#qItemErrorNotif #notification-content')
                         .html('There was an error!');
                     $scope.qItemErrorNotif.apply('open');
