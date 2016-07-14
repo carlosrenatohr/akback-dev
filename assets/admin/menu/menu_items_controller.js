@@ -967,7 +967,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         $('#saveQuestionItemBtn').prop('disabled', true);
         $('#deleteQuestionItemBtn').hide();
         $scope.addOrEditqItem = 'create';
-        questionOnItemGridWindow.setTitle('Add New Question | Item: ' + $scope.itemCellSelectedOnGrid.ItemUnique);
+        questionOnItemGridWindow.setTitle('Add New Question | Item: ' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value);
         questionOnItemGridWindow.open();
     };
 

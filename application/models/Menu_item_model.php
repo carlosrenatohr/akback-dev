@@ -158,6 +158,8 @@ class Menu_item_model extends CI_Model
         $request['CreatedBy'] = $this->session->userdata('userid');
         $status = $this->db->insert($this->questionsItemTable, $request);
         $insert_id = $this->db->insert_id();
+        //
+        $this->countQuestionsByItem($request['ItemUnique']);
         return $status;
     }
 
@@ -167,14 +169,39 @@ class Menu_item_model extends CI_Model
         $request['UpdatedBy'] = $this->session->userdata('userid');
         $this->db->where('Unique', $id);
         $query = $this->db->update($this->questionsItemTable, $request);
+        //
+        $this->countQuestionsByItem($request['ItemUnique']);
         return $query;
     }
 
     public function deleteItemQuestion($id)
     {
+        $this->db->trans_start();
+        $questionItem = $this->db->get_where($this->questionsItemTable, ['Unique' => $id])->result_array();
+        $this->db->trans_complete();
+        $itemUnique = $questionItem[0]['ItemUnique'];
+        //
+        $this->db->trans_start();
         $this->db->where('Unique', $id);
         $query = $this->db->delete($this->questionsItemTable);
+        $this->db->trans_complete();
+        //
+        $this->countQuestionsByItem($itemUnique);
         return $query;
+    }
+
+    private function countQuestionsByItem($itemId) {
+        $this->db->where('ItemUnique', $itemId);
+        $count = $this->db->get($this->questionsItemTable)->result_array();
+        if (count($count)) {
+            $hasQuestions = ['Question' => '1'];
+        } else {
+            $hasQuestions = ['Question' => null];
+        }
+        $this->db->trans_start();
+        $this->db->where('Unique', $itemId);
+        $this->db->update($this->itemTable, $hasQuestions);
+        $this->db->trans_complete();
     }
 
 }
