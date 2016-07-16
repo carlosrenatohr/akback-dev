@@ -37,7 +37,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     customerService.getCustomerGridAttrs()
         .then(function(response) {
             var fieldsNames = [], labelNames = [], sizes = [], defaultValues = [], sortValues = [];
-            console.log(response.data);
             for(var i in response.data) {
                 fieldsNames.push(response.data[i].Field);
                 labelNames.push(response.data[i].Label);
@@ -46,13 +45,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 sortValues.push(response.data[i].Sort);
             }
             var cols = $scope.customerTableSettings.columns;
-            console.log(fieldsNames);
             $.each(cols, function(i, el) {
                 var idx = $.inArray(el.dataField, fieldsNames);
                 if (idx < 0) {
                     el['hidden'] = true;
                 } else {
-                    console.log(sortValues[idx]);
                     el['hidden'] = false;
                     el['text'] = labelNames[idx];
                     el['width'] = sizes[idx] + '%';

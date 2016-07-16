@@ -17,7 +17,7 @@ class Customer_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getAllCustomers($parentUnique = null, $formName = null)
+    public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null)
     {
         $fields = ['Unique', 'ParentUnique'];
         $formName = (!is_null($formName)) ? $formName : 'Customer';
@@ -32,8 +32,19 @@ class Customer_model extends CI_Model
         } else {
             $where['ParentUnique'] = null;
         }
-        $query = $this->db->get_where($this->customerTable, $where);
-        return $query->result_array();
+        // Paging results
+//        $pageNum = 1;
+//        $perPage = 5;
+        if (!is_null($pageNum) && !is_null($perPage)) {
+            $offset = ($pageNum) * $perPage; // -1
+            $this->db->limit($perPage, $offset);
+        }
+        $query = $this->db->get_where($this->customerTable, $where)->result_array();
+        if ($isCount) {
+            return count($query);
+        } else {
+            return $query;
+        }
     }
 
     public function getAttributesByForm($form, $orderBy = 'Sort')

@@ -38,8 +38,26 @@ class Customer extends AK_Controller
     {
         $parentUnique = (isset($_GET['parent'])) ? $_GET['parent'] : null;
         $formName = (isset($_GET['form'])) ? $_GET['form'] : null;
-        $customers = $this->customer->getAllCustomers($parentUnique, $formName);
-        echo json_encode($customers);
+        // pagination
+        $pageNum = (isset($_GET['pagenum'])) ? $_GET['pagenum'] : null;
+        $perPage = (isset($_GET['pagesize'])) ? $_GET['pagesize'] : null;
+
+//        $customers = $this->customer->getAllCustomers($parentUnique, $formName);
+        $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage);
+        $total = $this->customer->getAllCustomers($parentUnique, $formName, true);
+        echo json_encode([
+            'Rows' => $customers,
+            'TotalRows' => $total
+        ]);
+    }
+
+    public function total_allCustomers() {
+        $parentUnique = (isset($_GET['parent'])) ? $_GET['parent'] : null;
+        $formName = (isset($_GET['form'])) ? $_GET['form'] : null;
+        echo json_encode([
+            'total' => $this->customer->getAllCustomers($parentUnique, $formName, true)
+            ]
+        );
     }
 
     /**
