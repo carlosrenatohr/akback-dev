@@ -109,7 +109,7 @@ demoApp.service('customerService', function ($http) {
             if (grid != null) {
                 grid.jqxGrid({
                     source: nestedGridAdapter,
-                    width: '50%', height: 250,
+                    width: '98.7%', height: 250,
                     columns: contactsDatagrid.columns
                 });
             }
@@ -229,7 +229,8 @@ demoApp.service('customerService', function ($http) {
             pageSize: 20,
             pagerMode: 'simple',
             filterable: true,
-            showfilterrow: (parentUnique) ? true : false
+            showfilterrow: (parentUnique) ? true : false,
+            columnsautoresize: true
         }
     };
 
