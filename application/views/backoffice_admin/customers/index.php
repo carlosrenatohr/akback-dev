@@ -87,7 +87,7 @@ jqxthemes();
                           jqx-on-row-double-click="openEditCustomerWind($event)"
                 ></jqx-grid>
                 <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings"
-                    id="addCustomerWindow">
+                    id="addCustomerWindow" style="">
                     <div class="">
                         Add New Customer
                     </div>
@@ -220,6 +220,8 @@ jqxthemes();
 
 <style>
     #addCustomerWindow {
-        max-width: 1000px!important;
+        /*max-width: 1000px !important;*/
+        max-width: 99%!important;
+        max-height: 99%!important;
     }
 </style>

@@ -39,8 +39,8 @@ class Customer extends AK_Controller
         $parentUnique = (isset($_GET['parent'])) ? $_GET['parent'] : null;
         $formName = (isset($_GET['form'])) ? $_GET['form'] : null;
         // pagination
-        $pageNum = (isset($_GET['pagenum'])) ? $_GET['pagenum'] : null;
-        $perPage = (isset($_GET['pagesize'])) ? $_GET['pagesize'] : null;
+        $pageNum = (isset($_GET['pagenum'])) ? $_GET['pagenum'] : 1;
+        $perPage = (isset($_GET['pagesize'])) ? $_GET['pagesize'] : 20;
 
 //        $customers = $this->customer->getAllCustomers($parentUnique, $formName);
         $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage);
