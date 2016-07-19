@@ -115,8 +115,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 newSource.totalrecords = data.TotalRows ;
             },
             filter: function () {
-            $("#gridCustomer").jqxGrid('updatebounddata');
-        }
+                $("#gridCustomer").jqxGrid('updatebounddata');
+            },
+            sort: function () {
+                $("#gridCustomer").jqxGrid('updatebounddata');
+            }
         };
 
         $('#gridCustomer').jqxGrid({

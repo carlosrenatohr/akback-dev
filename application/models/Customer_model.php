@@ -17,7 +17,7 @@ class Customer_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null)
+    public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null)
     {
         $fields = ['Unique', 'ParentUnique'];
         $formName = (!is_null($formName)) ? $formName : 'Customer';
@@ -27,7 +27,6 @@ class Customer_model extends CI_Model
         $this->db->select($fields_select);
         $this->db->from($this->customerTable);
 
-        $this->db->order_by('Unique', 'DESC');
         $where = ['Status' => 1];
         if (!is_null($parentUnique)) {
             $where['ParentUnique'] = $parentUnique;
@@ -43,7 +42,17 @@ class Customer_model extends CI_Model
         if (!empty($filterQuery)) {
             $this->db->where($filterQuery, NULL, false);
         }
-
+        // Sorting
+        if (!is_null($sortData))
+        {
+            if ($sortData['sortorder'] == "desc")
+                $this->db->order_by($sortData['sortdatafield'], 'DESC');
+            else if ($sortData['sortorder'] == "asc")
+                $this->db->order_by($sortData['sortdatafield'], 'ASC');
+             else
+                $this->db->order_by('Unique', 'DESC');
+        } else
+            $this->db->order_by('Unique', 'DESC');
         $this->db->where($where);
         $query = $this->db->get()->result_array();
 //        var_dump($this->db->last_query());

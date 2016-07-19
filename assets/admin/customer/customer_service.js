@@ -101,6 +101,9 @@ demoApp.service('customerService', function ($http) {
         },
         filter: function () {
             $("#gridCustomer").jqxGrid('updatebounddata');
+        },
+        sort: function () {
+            $("#gridCustomer").jqxGrid('updatebounddata');
         }
     };
 

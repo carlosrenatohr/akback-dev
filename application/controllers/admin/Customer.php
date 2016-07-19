@@ -42,6 +42,16 @@ class Customer extends AK_Controller
         $pageNum = (isset($_GET['pagenum'])) ? $_GET['pagenum'] : 1;
         $perPage = (isset($_GET['pagesize'])) ? $_GET['pagesize'] : 20;
 
+        // Sorting
+        $sortData = null;
+        if (isset($_GET['sortdatafield']))
+        {
+            $sortData = [
+                'sortdatafield' => $_GET['sortdatafield'],
+                'sortorder' => $_GET['sortorder'],
+            ];
+        }
+        // Filtering
         $whereQuery = '';
         if (isset($_GET['filterscount']))
         {
@@ -52,8 +62,9 @@ class Customer extends AK_Controller
             }
         }
 //        $customers = $this->customer->getAllCustomers($parentUnique, $formName);
-        $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery);
-        $total = $this->customer->getAllCustomers($parentUnique, $formName, true, null, null, $whereQuery);
+        $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery, $sortData);
+        // Counting
+        $total = $this->customer->getAllCustomers($parentUnique, $formName, true, null, null, $whereQuery, $sortData);
         echo json_encode([
             'Rows' => $customers,
             'TotalRows' => $total
