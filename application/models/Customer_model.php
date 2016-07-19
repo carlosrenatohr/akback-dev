@@ -17,7 +17,7 @@ class Customer_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null)
+    public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null)
     {
         $fields = ['Unique', 'ParentUnique'];
         $formName = (!is_null($formName)) ? $formName : 'Customer';
@@ -25,6 +25,8 @@ class Customer_model extends CI_Model
         $fields_select = array_unique($fields_select);
         //
         $this->db->select($fields_select);
+        $this->db->from($this->customerTable);
+
         $this->db->order_by('Unique', 'DESC');
         $where = ['Status' => 1];
         if (!is_null($parentUnique)) {
@@ -32,14 +34,19 @@ class Customer_model extends CI_Model
         } else {
             $where['ParentUnique'] = null;
         }
-        // Paging results
-//        $pageNum = 1;
-//        $perPage = 5;
+        // Paging
         if (!is_null($pageNum) && !is_null($perPage)) {
             $offset = ($pageNum) * $perPage; // -1
             $this->db->limit($perPage, $offset);
         }
-        $query = $this->db->get_where($this->customerTable, $where)->result_array();
+        // Filtering
+        if (!empty($filterQuery)) {
+            $this->db->where($filterQuery, NULL, false);
+        }
+
+        $this->db->where($where);
+        $query = $this->db->get()->result_array();
+//        var_dump($this->db->last_query());
         if ($isCount) {
             return count($query);
         } else {

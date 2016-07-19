@@ -42,9 +42,18 @@ class Customer extends AK_Controller
         $pageNum = (isset($_GET['pagenum'])) ? $_GET['pagenum'] : 1;
         $perPage = (isset($_GET['pagesize'])) ? $_GET['pagesize'] : 20;
 
+        $whereQuery = '';
+        if (isset($_GET['filterscount']))
+        {
+            $filterscount = $_GET['filterscount'];
+            if ($filterscount > 0)
+            {
+                $whereQuery = $this->filterCustomerTable($_GET);
+            }
+        }
 //        $customers = $this->customer->getAllCustomers($parentUnique, $formName);
-        $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage);
-        $total = $this->customer->getAllCustomers($parentUnique, $formName, true);
+        $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery);
+        $total = $this->customer->getAllCustomers($parentUnique, $formName, true, null, null, $whereQuery);
         echo json_encode([
             'Rows' => $customers,
             'TotalRows' => $total
@@ -58,6 +67,84 @@ class Customer extends AK_Controller
             'total' => $this->customer->getAllCustomers($parentUnique, $formName, true)
             ]
         );
+    }
+
+    private function filterCustomerTable($filterData) {
+        $where = null;
+        if (!is_null($filterData['filterscount'])) {
+            $filterscount = $filterData['filterscount'];
+
+            if ($filterscount > 0) {
+                $where = "(";
+                $tmpdatafield = "";
+                $tmpfilteroperator = "";
+                $filterscount = $filterData['filterscount'];
+                for ($i = 0; $i < $filterscount; $i++) {
+                    // get the filter's value.
+                    $filtervalue = $filterData["filtervalue" . $i];
+                    // get the filter's condition.
+                    $filtercondition = $filterData["filtercondition" . $i];
+                    // get the filter's column.
+                    $filterdatafield = $filterData["filterdatafield" . $i];
+                    // get the filter's operator.
+                    $filteroperator = $filterData["filteroperator" . $i];
+                    if ($tmpdatafield == "") {
+                        $tmpdatafield = $filterdatafield;
+                    } else {
+                        if ($tmpdatafield <> $filterdatafield) {
+                            $where .= ") AND (";
+                        } else {
+                            if ($tmpdatafield == $filterdatafield) {
+                                if ($tmpfilteroperator == 0) {
+                                    $where .= " AND ";
+                                } else {
+                                    $where .= " OR ";
+                                }
+                            }
+                        }
+                    }
+                    // build the "WHERE" clause depending on the filter's condition, value and datafield.
+                    switch ($filtercondition) {
+                        case "CONTAINS":
+                            $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "DOES_NOT_CONTAIN":
+                            $where .= " \"" . $filterdatafield . "\" NOT LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "EQUAL":
+                            $where .= " \"" . $filterdatafield . "\" = '" . $filtervalue . "'";
+                            break;
+                        case "NOT_EQUAL":
+                            $where .= " " . $filterdatafield . " <> '" . $filtervalue . "'";
+                            break;
+                        case "GREATER_THAN":
+                            $where .= " " . $filterdatafield . " > '" . $filtervalue . "'";
+                            break;
+                        case "LESS_THAN":
+                            $where .= " " . $filterdatafield . " < '" . $filtervalue . "'";
+                            break;
+                        case "GREATER_THAN_OR_EQUAL":
+                            $where .= " " . $filterdatafield . " >= '" . $filtervalue . "'";
+                            break;
+                        case "LESS_THAN_OR_EQUAL":
+                            $where .= " " . $filterdatafield . " <= '" . $filtervalue . "'";
+                            break;
+                        case "STARTS_WITH":
+                            $where .= " \"" . $filterdatafield . "\" LIKE '" . $filtervalue . "%'";
+                            break;
+                        case "ENDS_WITH":
+                            $where .= " " . $filterdatafield . " LIKE '%" . $filtervalue . "'";
+                            break;
+                    }
+                    if ($i == $filterscount - 1) {
+                        $where .= ")";
+                    }
+                    $tmpfilteroperator = $filteroperator;
+                    $tmpdatafield = $filterdatafield;
+                }
+            }
+        }
+        return $where;
     }
 
     /**

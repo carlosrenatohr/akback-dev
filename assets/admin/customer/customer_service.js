@@ -55,51 +55,58 @@ demoApp.service('customerService', function ($http) {
         {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
     ];
 
+    // Source from customer table
+    this.sourceCustomerGrid = {
+        dataType: 'json',
+        dataFields: [
+            {name: 'Unique', type: 'int'},
+            {name: 'FirstName', type: 'string'},
+            {name: 'MiddleName', type: 'string'},
+            {name: 'LastName', type: 'string'},
+            {name: 'Company', type: 'string'},
+            {name: 'Address1', type: 'string'},
+            {name: 'Address2', type: 'string'},
+            {name: 'City', type: 'string'},
+            {name: 'Country', type: 'string'},
+            {name: 'State', type: 'string'},
+            {name: 'Zip', type: 'string'},
+            {name: 'Phone1', type: 'string'},
+            {name: 'Phone2', type: 'string'},
+            {name: 'Email', type: 'string'},
+            {name: 'Custom1', type: 'string'},
+            {name: 'Custom2', type: 'string'},
+            {name: 'Custom3', type: 'string'},
+            {name: 'Custom4', type: 'string'},
+            {name: 'Custom5', type: 'string'},
+            {name: 'Custom6', type: 'string'},
+            {name: 'Custom7', type: 'string'},
+            {name: 'Custom8', type: 'string'},
+            {name: 'Custom9', type: 'string'},
+            {name: 'Custom10', type: 'string'},
+            {name: 'Custom11', type: 'string'},
+            {name: 'Custom12', type: 'string'},
+            {name: 'Custom13', type: 'string'},
+            {name: 'Custom14', type: 'string'},
+            {name: 'Custom15', type: 'string'},
+            {name: 'Status', type: 'string'}
+        ],
+        id: 'Unique',
+        url: SiteRoot + 'admin/Customer/load_allCustomers',
+        root: 'Rows',
+        beforeprocessing: function(data) {
+            _this.sourceCustomerGrid.totalrecords = data.TotalRows;
+        },
+        processData: function(data) {
+            //console.log('loadComplete', $.param(data));
+        },
+        filter: function () {
+            $("#gridCustomer").jqxGrid('updatebounddata');
+        }
+    };
+
     this.getTableSettings = function () {
-        // Source from customer table
-        var sourceCustomerGrid = {
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'FirstName', type: 'string'},
-                {name: 'MiddleName', type: 'string'},
-                {name: 'LastName', type: 'string'},
-                {name: 'Company', type: 'string'},
-                {name: 'Address1', type: 'string'},
-                {name: 'Address2', type: 'string'},
-                {name: 'City', type: 'string'},
-                {name: 'Country', type: 'string'},
-                {name: 'State', type: 'string'},
-                {name: 'Zip', type: 'string'},
-                {name: 'Phone1', type: 'string'},
-                {name: 'Phone2', type: 'string'},
-                {name: 'Email', type: 'string'},
-                {name: 'Custom1', type: 'string'},
-                {name: 'Custom2', type: 'string'},
-                {name: 'Custom3', type: 'string'},
-                {name: 'Custom4', type: 'string'},
-                {name: 'Custom5', type: 'string'},
-                {name: 'Custom6', type: 'string'},
-                {name: 'Custom7', type: 'string'},
-                {name: 'Custom8', type: 'string'},
-                {name: 'Custom9', type: 'string'},
-                {name: 'Custom10', type: 'string'},
-                {name: 'Custom11', type: 'string'},
-                {name: 'Custom12', type: 'string'},
-                {name: 'Custom13', type: 'string'},
-                {name: 'Custom14', type: 'string'},
-                {name: 'Custom15', type: 'string'},
-                {name: 'Status', type: 'string'}
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/Customer/load_allCustomers',
-            root: 'Rows',
-            beforeprocessing: function(data) {
-                sourceCustomerGrid.totalrecords = data.TotalRows;
-            }
-        };
         // Customer dataadatper
-        var dataAdapterCustomerGrid = new $.jqx.dataAdapter(sourceCustomerGrid);
+        var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCustomerGrid);
         // Row Details - Create contacts nested grid
         var initrowdetails = function (index, parentElement, gridElement, record) {
             var contactsDatagrid = _this.getContactsTableSettings(record.Unique);
