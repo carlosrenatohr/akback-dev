@@ -96,6 +96,7 @@ demoApp.controller("userController", function($scope, $http) {
     $scope.onCloseUserWindowsEvent = function(e) {
         $('#notificationErrorSettings').jqxNotification('closeLast');
         $('#notificationSuccessSettings').jqxNotification('closeLast');
+        resetWindowAddUserForm();
     };
 
     // Open the window form to add user
@@ -162,7 +163,6 @@ demoApp.controller("userController", function($scope, $http) {
         //
         $('#submitAddUserForm').prop('disabled', true);
         $('#deleteAddUserForm').hide();
-
         $('.addUserField').css({"border-color": "#ccc"});
         $scope.userId = null;
         //
