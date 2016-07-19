@@ -33,14 +33,14 @@ class Customer_model extends CI_Model
         } else {
             $where['ParentUnique'] = null;
         }
+        // Filtering
+        if (!empty($filterQuery)) {
+            $this->db->where($filterQuery, NULL, false);
+        }
         // Paging
         if (!is_null($pageNum) && !is_null($perPage)) {
             $offset = ($pageNum) * $perPage; // -1
             $this->db->limit($perPage, $offset);
-        }
-        // Filtering
-        if (!empty($filterQuery)) {
-            $this->db->where($filterQuery, NULL, false);
         }
         // Sorting
         if (!is_null($sortData))

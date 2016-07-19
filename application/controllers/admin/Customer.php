@@ -114,7 +114,7 @@ class Customer extends AK_Controller
                             }
                         }
                     }
-                    // build the "WHERE" clause depending on the filter's condition, value and datafield.
+                    // Build the "WHERE" clause depending on the filter's condition, value and datafield.
                     switch ($filtercondition) {
                         case "CONTAINS":
                             $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "%'";
@@ -144,7 +144,7 @@ class Customer extends AK_Controller
                             $where .= " \"" . $filterdatafield . "\" LIKE '" . $filtervalue . "%'";
                             break;
                         case "ENDS_WITH":
-                            $where .= " " . $filterdatafield . " LIKE '%" . $filtervalue . "'";
+                            $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "'";
                             break;
                     }
                     if ($i == $filterscount - 1) {
