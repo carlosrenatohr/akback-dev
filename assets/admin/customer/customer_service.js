@@ -315,29 +315,30 @@ demoApp.service('customerService', function ($http) {
             var receiptnumber = (datarecord.ReceiptNumber != null) ? datarecord.ReceiptNumber : '';
             var description = (datarecord.Description != null) ? datarecord.Description : '';
             var company = (datarecord.Company != null) ? datarecord.Company : '';
-            var quantity = (datarecord.Quantity != null) ? datarecord.Quantity : '';
-            var listPrice = (datarecord.ListPrice != null) ? datarecord.ListPrice : '';
-            var sellprice = (datarecord.ListPrice != null) ? datarecord.ListPrice : '';
-            var discount = (datarecord.Discount != null) ? datarecord.Discount : '';
-            var tax = (datarecord.Tax != null) ? datarecord.Tax : '';
-            var total = (datarecord.Total != null) ? datarecord.Total : '';
-            var created = (datarecord.created != null) ? datarecord.created : '-';
-            var createdby = (datarecord.created_by != null) ? datarecord.created_by : '-';
-            var updated = (datarecord.updated != null) ? datarecord.updated : '-';
-            var updatedby = (datarecord.updated_by != null) ? datarecord.updated_by : '-';
-            var location = (datarecord.location_unique != null) ? datarecord.location_unique : '-';
+            var quantity = datarecord.Quantity;
+            var listPrice = datarecord.ListPrice;
+            var sellprice = datarecord.SellPrice;
+            var discount =  datarecord.Discount;
+            var tax = datarecord.Tax ;
+            var total = datarecord.Total;
+            var created = datarecord.created;
+            var createdby = datarecord.created_by;
+            var updated = datarecord.updated;
+            var updatedby = datarecord.updated_by;
+            var location = datarecord.location_unique;
             var moreDetails =
-                "<span>Receipt number: <b>" + receiptnumber + "</b></span><br>" +
-                "<span>Location name: <b>" + location + "</b></span><br>" +
-                "<span>Description: <b>" + description + "</b></span><br>" +
-                "<span>Quantity: <b>" + quantity + "</b></span><br>" +
-                "<span>List Price: <b>" + listPrice + "</b></span><br>" +
-                "<span>Sell Price: <b>" + sellprice + "</b></span><br>" +
-                "<span>Discount: <b>" + discount + "</b></span><br>" +
-                "<span>Tax: <b>" + tax + "</b></span><br>" +
-                "<span>Total: <b>" + total + "</b></span><br>" +
-                "<span>Created By: <b>" + createdby + "</b> at <b>" + created + "</b></span><br>" +
-                "<span>Updated By: <b>" + updatedby + "</b> at <b>" + updated + "</b></span><br>"
+                "<span>Location: <b>" + location + " </b></span> " +
+                "<span>Receipt: <b>" + receiptnumber + " </b></span> " +
+                "<span>Created By: <b>" + createdby + " </b> at <b>" + created + "</b></span> " +
+                "<span>Updated By: <b>" + updatedby + " </b> at <b>" + updated + "</b></span><br>" +
+                "<span>ID: <b>" + datarecord.Unique + " </b></span> " +
+                "<span>Description: <b>" + description + " </b></span><br>" +
+                "<span>List: <b>" + listPrice + " </b></span> " +
+                "<span>Discount: <b>" + discount + " </b></span> " +
+                "<span>Sell: <b>" + sellprice + " </b></span>" +
+                "<span>Quantity: <b>" + quantity + " </b></span>" +
+                "<span>Tax: <b>" + tax + " </b></span>" +
+                "<span>Total: <b>" + total + " </b></span><br>"
                 ;
             //
             var rowDetailsContainer = $($(parentElement).children()[0]);
@@ -427,7 +428,7 @@ demoApp.service('customerService', function ($http) {
             rowdetails: true,
             rowdetailstemplate: {
                 rowdetails: "<div style='margin-top: 5px;'></div>",
-                rowdetailsheight: 200
+                rowdetailsheight: 75
             },
             initrowdetails: initrowdetails,
             showaggregates: true,

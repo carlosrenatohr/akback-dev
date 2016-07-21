@@ -392,21 +392,25 @@ class Customer extends AK_Controller
     {
         $formatPurchases = [];
         $purchases = $this->customer->purchasesBasedByCustomer($customerID);
+        $decimalSetting = $this->session->userdata('DecimalsQuantity');
         foreach($purchases as $purchase) {
             $createdUser = $this->user->getUsernameByUser($purchase['created_by']);
             $updatedUser = $this->user->getUsernameByUser($purchase['updated_by']);
             $locationName = $this->customer->getLocationName($purchase['location_unique']);
-            $purchase['ReceiptDate_'] = date('d/m/Y h:iA', strtotime($purchase['ReceiptDate'])); //d-m-Y H:i:sA
-            $purchase['created'] = date('d/m/Y h:iA', strtotime($purchase['created'])); //d-m-Y H:i:sA
+            $purchase['ReceiptDate_'] = (!is_null($purchase['ReceiptDate'])) ? date('m/d/Y h:iA', strtotime($purchase['ReceiptDate'])) : ''; //d-m-Y H:i:sA
+            //
+            $purchase['created'] = (!is_null($purchase['created'])) ? date('m/d/Y h:iA', strtotime($purchase['created'])) : '';
             $purchase['created_by'] = !empty($createdUser) ? $createdUser[0]['UserName'] : '' ;
-            $purchase['updated'] = date('d/m/Y h:iA', strtotime($purchase['updated'])); //d-m-Y H:i:sA
+            $purchase['updated'] = (!is_null($purchase['updated'])) ? date('m/d/Y h:iA', strtotime($purchase['updated'])) : ''; //d-m-Y H:i:sA
             $purchase['updated_by'] = !empty($updatedUser) ? $updatedUser[0]['UserName'] : '';
             $purchase['location_unique'] = !empty($locationName) ? $locationName[0]['Name'] : '';
-            $purchase['Quantity'] = number_format($purchase['Quantity'], $this->session->userdata('DecimalsQuantity'));
-            $purchase['ListPrice'] = number_format($purchase['ListPrice'], $this->session->userdata('DecimalsQuantity'));
-            $purchase['Discount'] = number_format($purchase['Discount'], $this->session->userdata('DecimalsQuantity'));
-            $purchase['Tax'] = number_format($purchase['Tax'], $this->session->userdata('DecimalsQuantity'));
-            $purchase['Total'] = number_format($purchase['Total'], $this->session->userdata('DecimalsQuantity'));
+            //
+            $purchase['SellPrice'] = (!is_null($purchase['SellPrice'])) ? number_format($purchase['SellPrice'], $decimalSetting) : '';
+            $purchase['Quantity'] = (!is_null($purchase['Quantity'])) ? number_format($purchase['Quantity'], $decimalSetting) : '';
+            $purchase['ListPrice'] = (!is_null($purchase['ListPrice'])) ? number_format($purchase['ListPrice'], $decimalSetting) : '';
+            $purchase['Discount'] = (!is_null($purchase['Discount'])) ? number_format($purchase['Discount'], $decimalSetting) : '';
+            $purchase['Tax'] = (!is_null($purchase['Tax'])) ? number_format($purchase['Discount'], $decimalSetting) : '';
+            $purchase['Total'] = (!is_null($purchase['Total'])) ? number_format($purchase['Total'], $decimalSetting) : '';
             $formatPurchases[] = $purchase;
         }
         echo json_encode($formatPurchases);

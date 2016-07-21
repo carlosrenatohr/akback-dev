@@ -147,7 +147,7 @@ class Customer_model extends CI_Model
         'select receipt_header."Unique", receipt_header."ReceiptNumber",receipt_header."ReceiptDate", customer."FirstName",customer."LastName",customer."Company",
         receipt_details."Item",receipt_details."Description",receipt_details."Quantity",receipt_details."ListPrice",receipt_details."Discount",
         receipt_details."created",receipt_details."created_by",receipt_details."updated",receipt_details."updated_by",receipt_details."location_unique",
-        receipt_details."Tax",receipt_details."Total",round(receipt_details."SellPrice",2) as "SellPrice",
+        receipt_details."Tax",receipt_details."Total", receipt_details."SellPrice", round(receipt_details."SellPrice",2) as "_SellPrice",
         round(receipt_details."SellPrice" * receipt_details."Quantity",2) as "ExtSell", receipt_header."CustomerUnique"
         from receipt_header
         left join customer on receipt_header."CustomerUnique" = customer."Unique"
