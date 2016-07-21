@@ -53,6 +53,8 @@ demoApp.service('customerService', function ($http) {
         {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
         {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
         {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
+        {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden: true},
+        {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden: true}
     ];
 
     // Source from customer table
@@ -88,7 +90,9 @@ demoApp.service('customerService', function ($http) {
             {name: 'Custom13', type: 'string'},
             {name: 'Custom14', type: 'string'},
             {name: 'Custom15', type: 'string'},
-            {name: 'Status', type: 'string'}
+            {name: 'Status', type: 'string'},
+            {name: 'CheckIn1', type: 'string'},
+            {name: 'CheckIn2', type: 'string'}
         ],
         id: 'Unique',
         url: SiteRoot + 'admin/Customer/load_allCustomers',

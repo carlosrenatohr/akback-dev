@@ -9,7 +9,7 @@
          style="float:left;width: 180px;"
     >
         <input type=\"text\" class="form-control customer-textcontrol"
-               ng-class="{req : attr.Required}"
+               ng-class="{req : attr.Required, defaultVal: attr.Default == 1}"
                id="customer_{{attr.Field}}" name="customer_{{attr.Field}}"
                placeholder="{{attr.Label}}"/>
     </div>

@@ -53,31 +53,41 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     el['hidden'] = false;
                     el['text'] = labelNames[idx];
                     el['width'] = sizes[idx] + '%';
-                    //el['index'] = sortValues[idx];
-                    //$scope.customerTableSettings.apply('setcolumnindex', el.dataField, sortValues[idx] - 1);
-                    //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx] - 1);
+                    //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
                     //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
                     //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
                 }
             });
             //
-            $scope.customerTableSettings.rendered = function() {
+            var isBindingComplete = true;
+            $scope.customerTableSettings.bindingcomplete = function(e) {
+                $.each(cols, function(i, el) {
+                    var idx = $.inArray(el.dataField, fieldsNames);
+                    if (idx >= 0) {
+                        $scope.customerTableSettings.apply('setcolumnindex', el.dataField, sortValues[idx]);
+                        //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
+                    }
+                });
+                //
                 var filterInputs = [];
                 var rowFilterInputs = $('#row00gridCustomer .jqx-grid-cell-pinned input[type="textarea"]');
-                //console.log(rowFilterInputs);
                 var defaultSelectInput = defaultValues.indexOf(1);
-                rowFilterInputs.each(function(i, el) {
+                rowFilterInputs.each(function (i, el) {
                     if ($(el).css('width') != '0px') {
                         filterInputs.push(el);
                     }
                 });
-                //setTimeout(function() {
+
+                if (isBindingComplete) {
+                    $('#gridCustomer').jqxGrid('applyfilters');
+                    $scope.customerTableSettings.apply('applyfilters');
+                    isBindingComplete = false;
+                }
                 $(filterInputs[defaultSelectInput]).focus();
-                //}, 150);
-                //for (var a in filterInputs) {
-                //    $(filterInputs[a]).attr('placeholder',labelNames[a]);
-                //}
-            }
+                //console.log('binding complete');
+            };
+
+            $scope.customerTableSettings.rendered = function() {}
         });
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
@@ -128,16 +138,16 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         updatingCustomerGrid = true;
     };
 
-    $('#gridCustomer').on('bindingcomplete', function(e) {
-        if (updatingCustomerGrid) {
-            //$('#gridCustomer').jqxGrid('updatebounddata');
-            updatingCustomerGrid = false;
-        }
-        //$('#gridCustomer').jqxGrid('refresh');
-        //$('#gridCustomer').jqxGrid('refreshdata');
-        //$('#gridCustomer').jqxGrid('refreshfilterrow');
-        ////$('#gridCustomer').jqxGrid('gotopage', 1);
-    });
+    //$('#gridCustomer').on('bindingcomplete', function(e) {
+    //    if (updatingCustomerGrid) {
+    //        //$('#gridCustomer').jqxGrid('updatebounddata');
+    //        updatingCustomerGrid = false;
+    //    }
+    //    //$('#gridCustomer').jqxGrid('refresh');
+    //    //$('#gridCustomer').jqxGrid('refreshdata');
+    //    //$('#gridCustomer').jqxGrid('refreshfilterrow');
+    //    ////$('#gridCustomer').jqxGrid('gotopage', 1);
+    //});
 
     var updateCustomerContactTableData = function() {
         if ($scope.customerID != undefined) {
@@ -703,6 +713,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerContacts = 'create';
         $('#deleteCustomerContactBtn').hide();
         $('#saveCustomerContactBtn').prop('disabled', true);
+        setTimeout(function(){
+            $('.customerContactsForm .defaultVal').focus();
+        }, 100);
         customerContactWin.open();
     };
 
@@ -721,7 +734,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             $('.customerContactsForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
         //var fullName = (row.FirstName != null) ? row.FirstName: ''  + ' ' + row.LastName;
-
+        setTimeout(function(){
+            $('.customerContactsForm .defaultVal').focus();
+        }, 100);
         customerContactWin.setTitle('Edit Contact: ' + row.Unique + ' | Customer: ' + row.ParentUnique);
         customerContactWin.open();
     //};
