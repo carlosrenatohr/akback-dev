@@ -32,6 +32,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
+    $scope.customerCheckIn1GridleSettings = customerService.getCheckin1GridSettings();
+
     var customerWind, customerContactWin, customerNotesWin;
     $scope.customerTableSettings = customerService.getTableSettings();
     customerService.getCustomerGridAttrs()

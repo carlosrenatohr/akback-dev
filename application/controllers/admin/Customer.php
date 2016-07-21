@@ -34,6 +34,11 @@ class Customer extends AK_Controller
      * @description Load all customers
      * @returnType json
      */
+    public function load_checkInCustomersByLocation($status, $location) {
+        echo json_encode($this->customer->getCustomersWithVisits($status, $location));
+    }
+
+
     public function load_allCustomers()
     {
         $parentUnique = (isset($_GET['parent'])) ? $_GET['parent'] : null;

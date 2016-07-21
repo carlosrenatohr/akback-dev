@@ -156,6 +156,63 @@ demoApp.service('customerService', function ($http) {
         };
     };
 
+    this.sourceCheckInGrid =  {
+        dataType: 'json',
+        dataFields: _this.sourceCustomerGrid.dataFields,
+        //id: 'Unique',
+        url: SiteRoot + 'admin/Customer/load_checkInCustomersByLocation/1/1',
+        //root: 'Rows',
+        //beforeprocessing: function(data) {
+        //    _this.sourceCustomerGrid.totalrecords = data.TotalRows;
+        //},
+
+    };
+
+    this.getCheckin1GridSettings = function () {
+        // Customer dataadatper
+        var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCheckInGrid);
+        // Row Details - Create contacts nested grid
+        var initrowdetails = function (index, parentElement, gridElement, record) {
+            var contactsDatagrid = _this.getContactsTableSettings(record.Unique);
+            var grid = $($(parentElement).children()[0]);
+            //
+            var nestedGridAdapter = contactsDatagrid.source;
+            if (grid != null) {
+                grid.jqxGrid({
+                    source: nestedGridAdapter,
+                    width: '98.7%', height: 250,
+                    columns: contactsDatagrid.columns
+                });
+            }
+        };
+
+        return {
+            source: dataAdapterCustomerGrid,
+            columns: _this.customerGridsCols,
+            width: "100%",
+            theme: 'arctic',
+            sortable: true,
+            filterable: true,
+            pageable: true,
+            pageSize: 20,
+            pagesizeoptions: ['10', '20', '50', '100'],
+            //pagerMode: 'simple',
+            //virtualmode: true,
+            rendergridrows: function()
+            {
+                return dataAdapterCustomerGrid.records;
+            },
+            showfilterrow: true,
+            rowdetails: true,
+            initrowdetails: initrowdetails,
+            rowdetailstemplate: {
+                rowdetails: "<div id='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetailsheight: 275,
+                rowdetailshidden: true
+            }
+        };
+    };
+
     this.getContactsTableSettings = function (parentUnique) {
         var urlToRequest = '';
         if (parentUnique != undefined) {

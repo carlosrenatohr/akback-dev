@@ -160,5 +160,20 @@ class Customer_model extends CI_Model
         return $this->db->get_where('config_location', ['Unique'=> $id])->result_array();
     }
 
+    /**
+     * CHECK IN - CHECK OUT
+     */
+
+    public function getCustomersWithVisits($status, $location) {
+
+        $this->db->select('customer.*, customer_visit, customer_visit.Status as StatusCheckIn, LocationUnique, customer_visit.LocationUnique, customer_visit.CheckInDate, customer_visit.CheckInBy, customer_visit.CheckOutDate, customer_visit.CheckOutBy, customer_visit.Quantity');
+        $this->db->from('customer_visit');
+        $this->db->join('customer', 'customer.Unique = customer_visit.CustomerUnique', 'left');
+        $this->db->where('customer_visit.Status', $status);
+        $this->db->where('LocationUnique', $location);
+        $result = $this->db->get();
+        return $result->result_array();
+    }
+
 
 }
