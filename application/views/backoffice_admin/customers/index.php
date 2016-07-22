@@ -80,7 +80,7 @@ jqxthemes();
         <div class="row" ng-controller="customerController" ng-cloak>
             <jqx-tabs jqx-width="'100%'"
                       jqx-on-tabclick=""
-                      id="" jqx-theme="articTheme">
+                      id="mainCustomerTabs" jqx-theme="articTheme" style="">
                 <ul>
                     <li id="" class="">Customer</li>
                     <li id="" class="">Location 1</li>
@@ -227,10 +227,9 @@ jqxthemes();
                 </div>
                 <!-- Check in customers by location 1-->
                 <div class="">
-                    Location 1
                     <div class="row">
                         <jqx-grid jqx-settings="customerCheckIn1GridleSettings"
-                                  id="gridCustomer"
+                                  id="customerCheckIn1"
                                   jqx-create="customerCheckIn1GridleSettings"
                                   jqx-on-row-double-click=""
                         ></jqx-grid>
@@ -238,11 +237,23 @@ jqxthemes();
                 </div>
                 <!-- Check in customers by location 2 -->
                 <div class="">
-                    Location 2
+                    <div class="row">
+                        <jqx-grid jqx-settings="customerCheckIn2GridSettings"
+                                  id="customerCheckIn2"
+                                  jqx-create="customerCheckIn2GridSettings"
+                                  jqx-on-row-double-click=""
+                        ></jqx-grid>
+                    </div>
                 </div>
                 <!-- Check in customers complete -->
                 <div class="">
-                    Complete
+                    <div class="row">
+                        <jqx-grid jqx-settings="customerCheckInCompleteGridSettings"
+                                  id="customerCheckInComplete"
+                                  jqx-create="customerCheckInCompleteGridSettings"
+                                  jqx-on-row-double-click=""
+                        ></jqx-grid>
+                    </div>
                 </div>
             </jqx-tabs>
         </div>

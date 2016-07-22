@@ -421,4 +421,10 @@ class Customer extends AK_Controller
         echo json_encode($formatPurchases);
     }
 
+    public function getLocationName($unique)
+    {
+        $location = $this->customer->getLocationName($unique);
+        echo $location[0]['Name'];
+    }
+
 }

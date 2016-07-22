@@ -32,65 +32,85 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
-    $scope.customerCheckIn1GridleSettings = customerService.getCheckin1GridSettings();
+    customerService.getLocationName(1)
+        .then(function(response) {
+             $('#mainCustomerTabs').jqxTabs('setTitleAt', 1, response.data);
+        });
+
+    customerService.getLocationName(2)
+        .then(function(response) {
+             $('#mainCustomerTabs').jqxTabs('setTitleAt', 2, response.data);
+        });
 
     var customerWind, customerContactWin, customerNotesWin;
     $scope.customerTableSettings = customerService.getTableSettings();
+    $scope.customerCheckIn1GridleSettings = customerService.getCheckin1GridSettings();
+    $scope.customerCheckIn2GridSettings = customerService.getCheckin2GridSettings();
+    $scope.customerCheckInCompleteGridSettings = customerService.getCheckinCompleteGridSettings();
     customerService.getCustomerGridAttrs()
         .then(function(response) {
-            var fieldsNames = [], labelNames = [], sizes = [], defaultValues = [], sortValues = [];
-            for(var i in response.data) {
-                fieldsNames.push(response.data[i].Field);
-                labelNames.push(response.data[i].Label);
-                sizes.push(response.data[i].Size);
-                defaultValues.push(response.data[i].Default);
-                sortValues.push(response.data[i].Sort);
+            setNewSettingsOnTable(response, $scope.customerTableSettings, '#gridCustomer', '#row00gridCustomer');
+            setNewSettingsOnTable(response, $scope.customerCheckIn1GridleSettings, '#customerCheckIn1', '#row00customerCheckIn1');
+            setNewSettingsOnTable(response, $scope.customerCheckIn2GridSettings, '#customerCheckIn2', '#row00customerCheckIn2');
+            setNewSettingsOnTable(response, $scope.customerCheckInCompleteGridSettings, '#customerCheckInComplete', '#row00customerCheckInComplete');
+        });
+
+    // @helper: new settings on customer grids rendering
+    function setNewSettingsOnTable(response, gridSettings, gridID, rowParentElement) {
+        var fieldsNames = [], labelNames = [], sizes = [], defaultValues = [], sortValues = [];
+        for(var i in response.data) {
+            fieldsNames.push(response.data[i].Field);
+            labelNames.push(response.data[i].Label);
+            sizes.push(response.data[i].Size);
+            defaultValues.push(response.data[i].Default);
+            sortValues.push(response.data[i].Sort);
+        }
+        var cols = gridSettings.columns;
+        $.each(cols, function(i, el) {
+            var idx = $.inArray(el.dataField, fieldsNames);
+            if (idx < 0) {
+                el['hidden'] = true;
+            } else {
+                el['hidden'] = false;
+                el['text'] = labelNames[idx];
+                el['width'] = sizes[idx] + '%';
+                //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
+                //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
+                //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
             }
-            var cols = $scope.customerTableSettings.columns;
+        });
+        //
+        var isBindingComplete = true;
+        gridSettings.bindingcomplete = function(e) {
             $.each(cols, function(i, el) {
                 var idx = $.inArray(el.dataField, fieldsNames);
-                if (idx < 0) {
-                    el['hidden'] = true;
-                } else {
-                    el['hidden'] = false;
-                    el['text'] = labelNames[idx];
-                    el['width'] = sizes[idx] + '%';
+                if (idx >= 0) {
+                    gridSettings.apply('setcolumnindex', el.dataField, sortValues[idx]);
                     //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
-                    //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
-                    //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
                 }
             });
             //
-            var isBindingComplete = true;
-            $scope.customerTableSettings.bindingcomplete = function(e) {
-                $.each(cols, function(i, el) {
-                    var idx = $.inArray(el.dataField, fieldsNames);
-                    if (idx >= 0) {
-                        $scope.customerTableSettings.apply('setcolumnindex', el.dataField, sortValues[idx]);
-                        //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
-                    }
-                });
-                //
-                var filterInputs = [];
-                var rowFilterInputs = $('#row00gridCustomer .jqx-grid-cell-pinned input[type="textarea"]');
-                var defaultSelectInput = defaultValues.indexOf(1);
-                rowFilterInputs.each(function (i, el) {
-                    if ($(el).css('width') != '0px') {
-                        filterInputs.push(el);
-                    }
-                });
-
-                if (isBindingComplete) {
-                    $('#gridCustomer').jqxGrid('applyfilters');
-                    $scope.customerTableSettings.apply('applyfilters');
-                    isBindingComplete = false;
+            var filterInputs = [];
+            var rowFilterInputs = $(rowParentElement + ' .jqx-grid-cell-pinned input[type="textarea"]');
+            var defaultSelectInput = defaultValues.indexOf(1);
+            rowFilterInputs.each(function (i, el) {
+                if ($(el).css('width') != '0px') {
+                    filterInputs.push(el);
                 }
-                $(filterInputs[defaultSelectInput]).focus();
-                //console.log('binding complete');
-            };
+            });
 
-            $scope.customerTableSettings.rendered = function() {}
-        });
+            if (isBindingComplete) {
+                $(gridID).jqxGrid('applyfilters');
+                gridSettings.apply('applyfilters');
+                isBindingComplete = false;
+            }
+            $(filterInputs[defaultSelectInput]).focus();
+            //console.log('binding complete');
+        };
+
+        gridSettings.rendered = function() {}
+    }
+
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();

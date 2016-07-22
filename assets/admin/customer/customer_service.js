@@ -23,6 +23,14 @@ demoApp.service('customerService', function ($http) {
             'url': SiteRoot + 'admin/Customer/load_customerGridAttributes'
         });
     };
+
+    this.getLocationName = function (id) {
+        return $http({
+            'method': 'get',
+            'url': SiteRoot + 'admin/Customer/getLocationName/' + id
+        });
+    };
+
     var _this = this;
     this.customerGridsCols =  [
         {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
@@ -53,8 +61,16 @@ demoApp.service('customerService', function ($http) {
         {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
         {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
         {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
-        {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden: true},
-        {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden: true}
+        {text: 'Check in 1', dataField: 'CheckIn1', type: 'string',
+            columntype: 'template',
+            createeditor: function() {
+                return '<a href="#" class="btn btn-info">Check In 1</a>'
+            },
+            geteditorvalue: function() {
+                    return '<a href="#" class="btn btn-info">Check In 1</a>'
+                }
+        },
+        {text: 'CheckIn 2', dataField: 'CheckIn2', columntype: 'numberinput'}
     ];
 
     // Source from customer table
@@ -156,7 +172,11 @@ demoApp.service('customerService', function ($http) {
         };
     };
 
-    this.sourceCheckInGrid =  {
+    /**
+     * CHECK IN TAB 1
+     * @type {{dataType: string, dataFields: Array, url: string}}
+     */
+    this.sourceCheckIn1Grid =  {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields,
         //id: 'Unique',
@@ -165,12 +185,11 @@ demoApp.service('customerService', function ($http) {
         //beforeprocessing: function(data) {
         //    _this.sourceCustomerGrid.totalrecords = data.TotalRows;
         //},
-
     };
 
     this.getCheckin1GridSettings = function () {
         // Customer dataadatper
-        var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCheckInGrid);
+        var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCheckIn1Grid);
         // Row Details - Create contacts nested grid
         var initrowdetails = function (index, parentElement, gridElement, record) {
             var contactsDatagrid = _this.getContactsTableSettings(record.Unique);
@@ -206,7 +225,115 @@ demoApp.service('customerService', function ($http) {
             rowdetails: true,
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
-                rowdetails: "<div id='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetailsheight: 275,
+                rowdetailshidden: true
+            }
+        };
+    };
+
+    /**
+     *  CHECK IN TAB 2
+     * @type {{dataType: string, dataFields: Array, url: string}}
+     */
+    this.sourceCheckIn2Grid =  {
+        dataType: 'json',
+        dataFields: _this.sourceCustomerGrid.dataFields,
+        url: SiteRoot + 'admin/Customer/load_checkInCustomersByLocation/1/2',
+    };
+
+    this.getCheckin2GridSettings = function () {
+        var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCheckIn2Grid);
+        // Row Details - Create contacts nested grid
+        var initrowdetails = function (index, parentElement, gridElement, record) {
+            var contactsDatagrid = _this.getContactsTableSettings(record.Unique);
+            var grid = $($(parentElement).children()[0]);
+            //
+            var nestedGridAdapter = contactsDatagrid.source;
+            if (grid != null) {
+                grid.jqxGrid({
+                    source: nestedGridAdapter,
+                    width: '98.7%', height: 250,
+                    columns: contactsDatagrid.columns
+                });
+            }
+        };
+
+        return {
+            source: dataAdapterCustomerGrid,
+            columns: _this.customerGridsCols,
+            width: "100%",
+            theme: 'arctic',
+            sortable: true,
+            filterable: true,
+            pageable: true,
+            pageSize: 20,
+            pagesizeoptions: ['10', '20', '50', '100'],
+            //pagerMode: 'simple',
+            //virtualmode: true,
+            rendergridrows: function()
+            {
+                return dataAdapterCustomerGrid.records;
+            },
+            showfilterrow: true,
+            rowdetails: true,
+            initrowdetails: initrowdetails,
+            rowdetailstemplate: {
+                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetailsheight: 275,
+                rowdetailshidden: true
+            }
+        };
+    };
+
+    /**
+     *  CHECK IN COMPLETE TAB 3
+     * @type {{dataType: string, dataFields: Array, url: string}}
+     */
+    this.sourceCheckInCompleteGrid =  {
+        dataType: 'json',
+        dataFields: _this.sourceCustomerGrid.dataFields,
+        url: SiteRoot + 'admin/Customer/load_checkInCustomersByLocation/2/0'
+    };
+
+    this.getCheckinCompleteGridSettings = function () {
+        var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCheckInCompleteGrid);
+        // Row Details - Create contacts nested grid
+        var initrowdetails = function (index, parentElement, gridElement, record) {
+            var contactsDatagrid = _this.getContactsTableSettings(record.Unique);
+            var grid = $($(parentElement).children()[0]);
+            //
+            var nestedGridAdapter = contactsDatagrid.source;
+            if (grid != null) {
+                grid.jqxGrid({
+                    source: nestedGridAdapter,
+                    width: '98.7%', height: 250,
+                    columns: contactsDatagrid.columns
+                });
+            }
+        };
+
+        return {
+            source: dataAdapterCustomerGrid,
+            columns: _this.customerGridsCols,
+            width: "100%",
+            theme: 'arctic',
+            sortable: true,
+            filterable: true,
+            pageable: true,
+            pageSize: 20,
+            pagesizeoptions: ['10', '20', '50', '100'],
+            //pagerMode: 'simple',
+            //virtualmode: true,
+            rendergridrows: function()
+            {
+                return dataAdapterCustomerGrid.records;
+            },
+            showfilterrow: true,
+            rowdetails: true,
+            initrowdetails: initrowdetails,
+            rowdetailstemplate: {
+                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
             }
