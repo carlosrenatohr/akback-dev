@@ -47,7 +47,7 @@ jqxthemes();
 <!--<script type="application/javascript" src="../../assets/admin/customer/customer_directive.js"></script>-->
 <!--<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxgrid.js"></script>-->
 <!-- -->
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="customerController" ng-cloak>
     <div class="col-md-12 col-md-offset-0">
         <div class="row">
             <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
@@ -77,7 +77,7 @@ jqxthemes();
                 </div>
             </nav>
         </div>
-        <div class="row" ng-controller="customerController" ng-cloak>
+        <div class="row">
             <jqx-tabs jqx-width="'100%'"
                       jqx-on-tabclick=""
                       id="mainCustomerTabs" jqx-theme="articTheme" style="">
