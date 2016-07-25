@@ -91,6 +91,9 @@
         </jqx-radio-button>
     </div>
     <!-- REQUIRED ASTERISK -->
-    <div style="float:left;" ng-if="attr.Required > 0">
+    <div style="float:left;" ng-if="attr.Required > 0 && attr.Control != 'radio'">
+        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+    </div>
+    <div style="float:right;" ng-if="attr.Required > 0 && attr.Control == 'radio'">
         <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
     </div>
