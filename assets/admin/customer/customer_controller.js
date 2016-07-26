@@ -432,6 +432,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         var row = e.args.row.bounddata;
         //
         $scope.customerID = row.Unique;
+        $scope.customerNameSelected = row.FirstName + ' ' + row.LastName;
         $scope.newOrEditCustomerAction = 'edit';
         //
         fillCustomerFieldsWithValues($('.customerForm .customer-field'), row);
@@ -893,6 +894,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#userNotesDataContent').hide();
         $('#deleteCustomerNoteBtn').hide();
         $('#saveCustomerNoteBtn').prop('disabled', true);
+        customerNotesWin.setTitle("New Note | Customer ID: " + $scope.customerID +" | Name: " + $scope.customerNameSelected);
         customerNotesWin.open();
     };
 
@@ -906,17 +908,17 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         //
         $('#userNotesDataContent').show();
         $('.customerNotesForm #customerNote_note').val(row.Note);
-        $('.customerNotesForm #createdBy').html(row.CreatedUser);
+        //$('.customerNotesForm #createdBy').html(row.CreatedUser);
         $('.customerNotesForm #createdAt').html(row.Created); // .format('M jS, Y \\i\\s')
         if (row.Updated != null && row.UpdatedUser != null) {
             $('.customerNotesForm #UpdatedSection').show();
-            $('.customerNotesForm #updatedBy').html(row.UpdatedUser);
+            //$('.customerNotesForm #updatedBy').html(row.UpdatedUser);
             $('.customerNotesForm #updatedAt').html(row.Updated);
         }
         $('#deleteCustomerNoteBtn').show();
         $('#saveCustomerNoteBtn').prop('disabled', true);
         //
-        customerNotesWin.setTitle('Edit Note: ' + row.Unique + ' | Customer: ' + row.ReferenceUnique);
+        customerNotesWin.setTitle('Edit Note: ' + row.Unique + ' | Customer ID: ' + row.ReferenceUnique + ' | Name: ' + $scope.customerNameSelected);
         customerNotesWin.open();
     });
 

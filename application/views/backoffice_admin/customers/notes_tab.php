@@ -33,12 +33,12 @@
                         <div style="float:left; padding:2px; width:600px;display: none;" id="userNotesDataContent">
                             <div style="float:left; width:400px;padding: 8px 2px;">
                                 <p id="CreatedSection">
-                                    Created by: <b><span id="createdBy"></span></b>
-                                    at <b><span id="createdAt"></span></b>
+<!--                                    Created by: <b><span id="createdBy"></span></b>-->
+<!--                                    at <b><span id="createdAt"></span></b>-->
+                                    Created: <b><span id="createdAt"></span></b>
                                 </p>
                                 <p id="UpdatedSection" style="display: none;">
-                                    Updated by: <b><span id="updatedBy"></span></b>
-                                    at <b><span id="updatedAt"></span></b>
+                                    Updated: <b><span id="updatedAt"></span></b>
                                 </p>
                             </div>
                         </div>

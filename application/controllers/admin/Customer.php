@@ -305,8 +305,8 @@ class Customer extends AK_Controller
         $newNotes = [];
         $notes = $this->notes->getNotesByType('customer', $customerID);
         foreach($notes as $note) {
-            $note['Created'] = date('d/m/Y h:iA', strtotime($note['Created']));
-            $note['Updated'] = date('d/m/Y h:iA', strtotime($note['Updated']));
+            $note['Created'] = date('m/d/Y', strtotime($note['Created'])); //m/d/Y h:iA
+            $note['Updated'] = date('m/d/Y', strtotime($note['Updated']));
             $newNotes[] = $note;
         }
 
