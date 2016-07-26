@@ -414,7 +414,7 @@ class Customer extends AK_Controller
             $purchase['Quantity'] = (!is_null($purchase['Quantity'])) ? number_format($purchase['Quantity'], $decimalSetting) : '';
             $purchase['ListPrice'] = (!is_null($purchase['ListPrice'])) ? number_format($purchase['ListPrice'], $decimalSetting) : '';
             $purchase['Discount'] = (!is_null($purchase['Discount'])) ? number_format($purchase['Discount'], $decimalSetting) : '';
-            $purchase['Tax'] = (!is_null($purchase['Tax'])) ? number_format($purchase['Discount'], $decimalSetting) : '';
+            $purchase['Tax'] = (!is_null($purchase['Tax'])) ? number_format($purchase['Tax'], $decimalSetting) : '';
             $purchase['Total'] = (!is_null($purchase['Total'])) ? number_format($purchase['Total'], $decimalSetting) : '';
             $formatPurchases[] = $purchase;
         }

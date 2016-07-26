@@ -530,7 +530,7 @@ demoApp.service('customerService', function ($http) {
         };
 
         var aggregates = function (aggregatedValue, currentValue, column, record) {
-            return aggregatedValue + currentValue;
+            return Math.floor(aggregatedValue) + Math.floor(currentValue);
         };
 
         var aggregatesrender = function (aggregates, column, element, summaryData) {
@@ -579,14 +579,17 @@ demoApp.service('customerService', function ($http) {
                 {text: 'Company', dataField: 'Company', type: 'text', hidden: true},
                 {text: 'Item', dataField: 'Item', type: 'text', width: '10%'},
                 {text: 'Description', dataField: 'Description', type: 'text', width: '45%'},
-                {text: 'Sell Price', dataField: 'SellPrice', type: 'text', width: '10%'},
+                {text: 'Sell Price', dataField: 'SellPrice', type: 'text', width: '10%',
+                    cellsalign: 'right', align: 'right'},
                 {text: 'Quantity', dataField: 'Quantity', type: 'text', width: '10%',
                     aggregates: [{ 'Total': aggregates }],
-                    aggregatesrenderer: aggregatesrender
+                    aggregatesrenderer: aggregatesrender,
+                    cellsalign: 'right', align: 'right'
                 },
                 {text: 'Ext Sell', dataField: 'ExtSell', type: 'text', width: '10%',
                     aggregates: [{ '<b>Total</b>': aggregates}],
-                    aggregatesrenderer: aggregatesrender
+                    aggregatesrenderer: aggregatesrender,
+                    cellsalign: 'right', align: 'right'
                 },
                 {dataField: 'Discount', type: 'string',hidden: true},
                 {dataField: 'ListPrice', type: 'string',hidden: true},
