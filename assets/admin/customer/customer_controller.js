@@ -115,61 +115,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
 
-    var updatingCustomerGrid = false;
     var updateCustomerTableData = function() {
-        //var source = customerService.getTableSettings().source;
-        var source = customerService.sourceCustomerGrid;
-        //$scope.$apply(function() {
-        //    $scope.customerTableSettings = {
-        //        source: new $.jqx.dataAdapter({
-        //            dataFields: source.dataFields,
-        //            dataType: source.dataType,
-        //            id: source.id,
-        //            url: source.url,
-        //            root: 'Rows',
-        //            beforeprocessing: function(data) {
-        //                source.totalrecords = data.TotalRows;
-        //            }
-        //        }),
-        //        //created: function (args) {
-        //        //    var instance = args.instance;
-        //        //    instance.updateBoundData();
-        //        //}
-        //    };
-        //});
-        var newSource = {
-            dataFields: source.dataFields,
-            dataType: source.dataType,
-            //id: source.id,
-            url: source.url,
-            root: 'Rows',
-            beforeprocessing: function(data) {
-                newSource.totalrecords = data.TotalRows ;
-            },
-            filter: function () {
-                $("#gridCustomer").jqxGrid('updatebounddata');
-            },
-            sort: function () {
-                $("#gridCustomer").jqxGrid('updatebounddata');
-            }
-        };
-
-        $('#gridCustomer').jqxGrid({
-            source: new $.jqx.dataAdapter(newSource),
-        });
-        updatingCustomerGrid = true;
+        $('#gridCustomer').jqxGrid('applyfilters');
+        $("#gridCustomer").jqxGrid('updatebounddata');
     };
-
-    //$('#gridCustomer').on('bindingcomplete', function(e) {
-    //    if (updatingCustomerGrid) {
-    //        //$('#gridCustomer').jqxGrid('updatebounddata');
-    //        updatingCustomerGrid = false;
-    //    }
-    //    //$('#gridCustomer').jqxGrid('refresh');
-    //    //$('#gridCustomer').jqxGrid('refreshdata');
-    //    //$('#gridCustomer').jqxGrid('refreshfilterrow');
-    //    ////$('#gridCustomer').jqxGrid('gotopage', 1);
-    //});
 
     var updateCustomerContactTableData = function() {
         if ($scope.customerID != undefined) {
@@ -604,7 +553,13 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 data[el.data('field')] = inputValue;
             } else if (type == 'datalist') {
                 //inputValue = el.find('.customer-datalist').jqxListBox('getSelectedItem').value;
-                inputValue = el.find('.customer-datalist').jqxDropDownList('getSelectedItem').value;
+                var listbox = el.find('.customer-datalist').jqxDropDownList('getSelectedItem');
+                if(!listbox) {
+                    inputValue = null;
+                } else {
+                    inputValue = listbox.value;
+                }
+
             }
             else {
                 data[el.data('field')] = '-';
