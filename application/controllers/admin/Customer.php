@@ -135,7 +135,7 @@ class Customer extends AK_Controller
                             $where .= " \"" . $filterdatafield . "\" = '" . $filtervalue . "'";
                             break;
                         case "NOT_EQUAL":
-                            $where .= " " . $filterdatafield . " <> '" . $filtervalue . "'";
+                            $where .= " \"" . $filterdatafield . " <> '" . $filtervalue . "'";
                             break;
                         case "GREATER_THAN":
                             $where .= " " . $filterdatafield . " > '" . $filtervalue . "'";
@@ -144,10 +144,14 @@ class Customer extends AK_Controller
                             $where .= " " . $filterdatafield . " < '" . $filtervalue . "'";
                             break;
                         case "GREATER_THAN_OR_EQUAL":
-                            $where .= " " . $filterdatafield . " >= '" . $filtervalue . "'";
+                            if ($filterdatafield == 'LastVisit')
+                                $filtervalue = date('Y-m-d', strtotime($filtervalue));
+                            $where .= " \"" . $filterdatafield . "\" >= '" . $filtervalue . "'";
                             break;
                         case "LESS_THAN_OR_EQUAL":
-                            $where .= " " . $filterdatafield . " <= '" . $filtervalue . "'";
+                            if ($filterdatafield == 'LastVisit')
+                                $filtervalue = date('Y-m-d', strtotime($filtervalue));
+                            $where .= " \"". $filterdatafield . "\" <= '" . $filtervalue . "'";
                             break;
                         case "STARTS_WITH":
                             $where .= " \"" . $filterdatafield . "\" LIKE '" . $filtervalue . "%'";
@@ -403,9 +407,9 @@ class Customer extends AK_Controller
             $purchase['SellPrice'] = (!is_null($purchase['SellPrice'])) ? number_format($purchase['SellPrice'], $this->decimalPrice) : '';
             $purchase['Quantity'] = (!is_null($purchase['Quantity'])) ? number_format($purchase['Quantity'], $this->decimalQuantity) : '';
             $purchase['ListPrice'] = (!is_null($purchase['ListPrice'])) ? number_format($purchase['ListPrice'], $this->decimalPrice) : '';
-            $purchase['Discount'] = (!is_null($purchase['Discount'])) ? number_format($purchase['Discount'], $this->decimalQuantity) : '';
+            $purchase['Discount'] = (!is_null($purchase['Discount'])) ? number_format($purchase['Discount'], $this->decimalPrice) : '';
             $purchase['Tax'] = (!is_null($purchase['Tax'])) ? number_format($purchase['Tax'], $this->decimalTax) : '';
-            $purchase['Total'] = (!is_null($purchase['Total'])) ? number_format($purchase['Total'], $this->decimalQuantity) : '';
+            $purchase['Total'] = (!is_null($purchase['Total'])) ? number_format($purchase['Total'], $this->decimalPrice) : '';
             $formatPurchases[] = $purchase;
         }
         echo json_encode($formatPurchases);

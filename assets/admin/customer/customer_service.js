@@ -48,6 +48,7 @@ demoApp.service('customerService', function ($http) {
         {text: 'Email', dataField: 'Email', type: 'string'},
         {text: 'Full Identification', dataField: 'Custom1', type: 'string', hidden: true},
         {text: 'Date of Birth', dataField: 'Custom2', type: 'string', hidden: true},
+        {text: 'LastVisit', dataField: 'LastVisit', type: 'date', filtertype:'range', filtercondition: 'contains', format: 'Y'},
         {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
         {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
         {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
@@ -64,8 +65,10 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string',
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                // 'ng-click="setCheckInCustomer('+ data.Unique +', 1)" ' +
-                return '<button class="btn btn-success checkInBtn" ' +
+                var disabled = '';
+                if (data.LastVisit !== null)
+                    disabled = 'disabled = disabled';
+                return '<button class="btn btn-success checkInBtn" '+ disabled +
                         'data-unique="'+ data.Unique + '" data-location="1" '+
                         'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
                         'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
@@ -74,11 +77,15 @@ demoApp.service('customerService', function ($http) {
         {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string',
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                return '<button class="btn btn-success checkInBtn" ' +
+                var disabled = '';
+                if (data.LastVisit !== null)
+                    disabled = 'disabled = disabled';
+                return '<button class="btn btn-success checkInBtn" '+ disabled +
                     'data-unique="'+ data.Unique + '" data-location="2" '+
+                    'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
                     'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
             }
-        }
+        },
     ];
 
     // Source from customer table
@@ -116,7 +123,8 @@ demoApp.service('customerService', function ($http) {
             {name: 'Custom15', type: 'string'},
             {name: 'Status', type: 'string'},
             {name: 'CheckIn1', type: 'string'},
-            {name: 'CheckIn2', type: 'string'}
+            {name: 'CheckIn2', type: 'string'},
+            {name: 'LastVisit', type: 'date'}
         ],
         id: 'Unique',
         url: SiteRoot + 'admin/Customer/load_allCustomers',

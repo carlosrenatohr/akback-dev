@@ -19,7 +19,7 @@ class Customer_model extends CI_Model
 
     public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null)
     {
-        $fields = ['Unique', 'ParentUnique'];
+        $fields = ['Unique', 'ParentUnique', 'LastVisit'];
         $formName = (!is_null($formName)) ? $formName : 'Customer';
         $fields_select = array_merge($fields, $this->getAllByField($this->getAttributesByForm($formName, 'Tab, Sort, Row, Column'), 'Field'));
         $fields_select = array_unique($fields_select);
