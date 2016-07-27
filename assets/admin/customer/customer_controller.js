@@ -919,11 +919,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         //
         $('#userNotesDataContent').show();
         $('.customerNotesForm #customerNote_note').val(row.Note);
-        //$('.customerNotesForm #createdBy').html(row.CreatedUser);
+        $('.customerNotesForm #createdBy').html(row.CreatedUser);
         $('.customerNotesForm #createdAt').html(row.Created); // .format('M jS, Y \\i\\s')
         if (row.Updated != null && row.UpdatedUser != null) {
             $('.customerNotesForm #UpdatedSection').show();
-            //$('.customerNotesForm #updatedBy').html(row.UpdatedUser);
+            $('.customerNotesForm #updatedBy').html(row.UpdatedUser);
             $('.customerNotesForm #updatedAt').html(row.Updated);
         }
         $('#deleteCustomerNoteBtn').show();
