@@ -538,14 +538,11 @@ demoApp.service('customerService', function ($http) {
         };
 
         var aggregates = function (aggregatedValue, currentValue, column, record) {
-            console.log(column);
             var decimals;
             if (column == 'ExtSell') {
                 decimals = $('#decimalPriceValue').val();
-                console.log($('#decimalPriceValue').val());
             } else if (column == 'Quantity') {
                 decimals = $('#decimalQuantityValue').val();
-                console.log($('#decimalQuantityValue').val());
             }
             return (Math.floor(aggregatedValue) + Math.floor(currentValue)).toFixed(decimals);
         };
