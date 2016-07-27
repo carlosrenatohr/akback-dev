@@ -25,6 +25,7 @@ class Customer extends AK_Controller
         $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
         $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";
         $data['purchases_tab_view'] = "backoffice_admin/customers/purchases_tab";
+        $data['checkout_form'] = "backoffice_admin/customers/checkout_form";
         $data['main_content'] = "backoffice_admin/customers/index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
@@ -34,11 +35,6 @@ class Customer extends AK_Controller
      * @description Load all customers
      * @returnType json
      */
-    public function load_checkInCustomersByLocation($status, $location) {
-        echo json_encode($this->customer->getCustomersWithVisits($status, $location));
-    }
-
-
     public function load_allCustomers()
     {
         $parentUnique = (isset($_GET['parent'])) ? $_GET['parent'] : null;
@@ -372,19 +368,6 @@ class Customer extends AK_Controller
             $response = $this->dbErrorMsg();
         }
         echo json_encode($response);
-    }
-
-    /**
-     * @helper
-     * @description in error case
-     * @returnType array
-     */
-    private function dbErrorMsg()
-    {
-        return $response = [
-            'status' => 'error',
-            'message' => 'Database error'
-        ];
     }
 
     // --- CUSTOMER PURCHASES

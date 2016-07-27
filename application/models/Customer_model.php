@@ -176,5 +176,19 @@ class Customer_model extends CI_Model
         return $result->result_array();
     }
 
+    public function setCheckIn($request) {
+        $extraFields = [
+            'Status' => 1,
+            'CheckInDate' => date('Y-m-d H:i:s'),
+            'CheckInBy' => $this->session->userdata('userid'),
+            'Created' => date('Y-m-d H:i:s'),
+            'CreatedBy' => $this->session->userdata('userid')
+        ];
+        $data = array_merge($request, $extraFields);
+        $status = $this->db->insert('customer_visit', $data);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
 
 }

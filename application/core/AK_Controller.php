@@ -35,4 +35,12 @@ class AK_Controller extends \CI_Controller
         }
     }
 
+    public function dbErrorMsg()
+    {
+        return $response = [
+            'status' => 'error',
+            'message' => 'Database error'
+        ];
+    }
+
 }

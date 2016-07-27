@@ -62,15 +62,23 @@ demoApp.service('customerService', function ($http) {
         {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
         {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string',
-            columntype: 'template',
-            createeditor: function() {
-                return '<a href="#" class="btn btn-info">Check In 1</a>'
-            },
-            geteditorvalue: function() {
-                    return '<a href="#" class="btn btn-info">Check In 1</a>'
-                }
+            cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                var data = $('#gridCustomer').jqxGrid('getrowdata', row);
+                // 'ng-click="setCheckInCustomer('+ data.Unique +', 1)" ' +
+                return '<button class="btn btn-success checkInBtn" ' +
+                        'data-unique="'+ data.Unique + '" data-location="1" '+
+                        'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
+                        'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
+            }
         },
-        {text: 'CheckIn 2', dataField: 'CheckIn2', columntype: 'numberinput'}
+        {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string',
+            cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                var data = $('#gridCustomer').jqxGrid('getrowdata', row);
+                return '<button class="btn btn-success checkInBtn" ' +
+                    'data-unique="'+ data.Unique + '" data-location="2" '+
+                    'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
+            }
+        }
     ];
 
     // Source from customer table
@@ -180,7 +188,7 @@ demoApp.service('customerService', function ($http) {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields,
         //id: 'Unique',
-        url: SiteRoot + 'admin/Customer/load_checkInCustomersByLocation/1/1',
+        url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/1/1',
         //root: 'Rows',
         //beforeprocessing: function(data) {
         //    _this.sourceCustomerGrid.totalrecords = data.TotalRows;
@@ -239,7 +247,7 @@ demoApp.service('customerService', function ($http) {
     this.sourceCheckIn2Grid =  {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields,
-        url: SiteRoot + 'admin/Customer/load_checkInCustomersByLocation/1/2',
+        url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/1/2',
     };
 
     this.getCheckin2GridSettings = function () {
@@ -293,7 +301,7 @@ demoApp.service('customerService', function ($http) {
     this.sourceCheckInCompleteGrid =  {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields,
-        url: SiteRoot + 'admin/Customer/load_checkInCustomersByLocation/2/0'
+        url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/2/0'
     };
 
     this.getCheckinCompleteGridSettings = function () {

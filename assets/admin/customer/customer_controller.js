@@ -42,7 +42,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
              $('#mainCustomerTabs').jqxTabs('setTitleAt', 2, response.data);
         });
 
-    var customerWind, customerContactWin, customerNotesWin;
     $scope.customerTableSettings = customerService.getTableSettings();
     $scope.customerCheckIn1GridleSettings = customerService.getCheckin1GridSettings();
     $scope.customerCheckIn2GridSettings = customerService.getCheckin2GridSettings();
@@ -111,13 +110,53 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         gridSettings.rendered = function() {}
     }
 
+    // @helper: Set customers as checked in
+    $('body').on('click', '.checkInBtn', function(e) {
+        e.stopPropagation();
+        var data = {
+            'CustomerUnique': $(this).data('unique'),
+            'LocationUnique': $(this).data('location'),
+            'FirstName': $(this).data('fname'),
+            'LastName': $(this).data('lname')
+        };
+        $.ajax({
+            url: SiteRoot + 'admin/CustomerCheckin/setCustomerAsCheckin',
+            method: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status == 'success') {
+                    updateCustomerTableData($(this).data('location'));
+                } else if(data.status == 'error') {
+                    console.info(data.message);
+                } else {
+                    console.error(data);
+                }
+            }
+
+        })
+    });
+
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
 
-    var updateCustomerTableData = function() {
-        $('#gridCustomer').jqxGrid('applyfilters');
-        $("#gridCustomer").jqxGrid('updatebounddata');
+    var updateCustomerTableData = function(location) {
+        var grid = '#gridCustomer';
+        // checked in, location 1
+        if (location == 1) {
+            grid = '#customerCheckIn1';
+        // checked in, location 2
+        } else if(location == 2) {
+            grid = '#customerCheckIn2';
+        // checked out
+        } else if(location == 3) {
+            grid = '#customerCheckInComplete';
+        } else {
+            grid = '#gridCustomer';
+        }
+        $(grid).jqxGrid('applyfilters');
+        $(grid).jqxGrid('updatebounddata');
     };
 
     var updateCustomerContactTableData = function() {
@@ -167,6 +206,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
+    var customerWind, customerContactWin, customerNotesWin, checkoutCustomerWin;
     // Customer window
     $scope.addCustomerWindSettings = {
         created: function (args) {
@@ -205,6 +245,22 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         isModal: true,
         showCloseButton: false
     };
+
+    $scope.checkoutFormWindowSettings = {
+        created: function (args) {
+            checkoutCustomerWin = args.instance;
+        },
+        resizable: false,
+        width: "35%", height: "80%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    $('#customerCheckIn1, #customerCheckIn2').on('rowdoubleclick', function(e) {
+        checkoutCustomerWin.open();
+    });
 
     // Notifications settings
     $scope.customerNoticeSuccessSettings = customerService.setNotificationSettings(1);
