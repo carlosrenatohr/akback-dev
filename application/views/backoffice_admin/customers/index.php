@@ -261,7 +261,8 @@ jqxthemes();
     </div>
 </div>
 
-
+<input type="hidden" id="decimalQuantityValue" value="<?php echo $decimalQuantitySetting;?>">
+<input type="hidden" id="decimalPriceValue" value="<?php echo $decimalPriceSetting;?>">
 <style>
     #addCustomerWindow {
         /*max-width: 1000px !important;*/

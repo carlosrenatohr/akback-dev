@@ -9,19 +9,27 @@
 class Customer extends AK_Controller
 {
 
+    protected $decimalQuantity, $decimalPrice, $decimalTax;
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Customer_model', 'customer');
         $this->load->model('Note_model', 'notes');
         $this->load->model('User_model', 'user');
+        $this->decimalQuantity = (int)$this->session->userdata('DecimalsQuantity');
+        $this->decimalPrice = (int)$this->session->userdata("DecimalsPrice");
+        $this->decimalTax = (int)$this->session->userdata("DecimalsTax");
     }
 
     public function index()
     {
+        // data to send
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['page_title'] = "Customer Dashboard";
         $data['storename'] = $this->displaystore();
+        $data['decimalQuantitySetting'] = $this->decimalQuantity;
+        $data['decimalPriceSetting'] = $this->decimalPrice;
+        // partials
         $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
         $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";
         $data['purchases_tab_view'] = "backoffice_admin/customers/purchases_tab";
@@ -380,7 +388,6 @@ class Customer extends AK_Controller
     {
         $formatPurchases = [];
         $purchases = $this->customer->purchasesBasedByCustomer($customerID);
-        $decimalSetting = $this->session->userdata('DecimalsQuantity');
         foreach($purchases as $purchase) {
             $createdUser = $this->user->getUsernameByUser($purchase['created_by']);
             $updatedUser = $this->user->getUsernameByUser($purchase['updated_by']);
@@ -393,12 +400,12 @@ class Customer extends AK_Controller
             $purchase['updated_by'] = !empty($updatedUser) ? $updatedUser[0]['UserName'] : '';
             $purchase['location_unique'] = !empty($locationName) ? $locationName[0]['Name'] : '';
             //
-            $purchase['SellPrice'] = (!is_null($purchase['SellPrice'])) ? number_format($purchase['SellPrice'], $decimalSetting) : '';
-            $purchase['Quantity'] = (!is_null($purchase['Quantity'])) ? number_format($purchase['Quantity'], $decimalSetting) : '';
-            $purchase['ListPrice'] = (!is_null($purchase['ListPrice'])) ? number_format($purchase['ListPrice'], $decimalSetting) : '';
-            $purchase['Discount'] = (!is_null($purchase['Discount'])) ? number_format($purchase['Discount'], $decimalSetting) : '';
-            $purchase['Tax'] = (!is_null($purchase['Tax'])) ? number_format($purchase['Tax'], $decimalSetting) : '';
-            $purchase['Total'] = (!is_null($purchase['Total'])) ? number_format($purchase['Total'], $decimalSetting) : '';
+            $purchase['SellPrice'] = (!is_null($purchase['SellPrice'])) ? number_format($purchase['SellPrice'], $this->decimalPrice) : '';
+            $purchase['Quantity'] = (!is_null($purchase['Quantity'])) ? number_format($purchase['Quantity'], $this->decimalQuantity) : '';
+            $purchase['ListPrice'] = (!is_null($purchase['ListPrice'])) ? number_format($purchase['ListPrice'], $this->decimalPrice) : '';
+            $purchase['Discount'] = (!is_null($purchase['Discount'])) ? number_format($purchase['Discount'], $this->decimalQuantity) : '';
+            $purchase['Tax'] = (!is_null($purchase['Tax'])) ? number_format($purchase['Tax'], $this->decimalTax) : '';
+            $purchase['Total'] = (!is_null($purchase['Total'])) ? number_format($purchase['Total'], $this->decimalQuantity) : '';
             $formatPurchases[] = $purchase;
         }
         echo json_encode($formatPurchases);
