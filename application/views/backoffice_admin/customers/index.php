@@ -228,10 +228,10 @@ jqxthemes();
                 <!-- Check in customers by location 1-->
                 <div class="">
                     <div class="row">
+                        <!-- checkoutCustomerWin -->
                         <jqx-grid jqx-settings="customerCheckIn1GridleSettings"
                                   id="customerCheckIn1"
                                   jqx-create="customerCheckIn1GridleSettings"
-                                  jqx-on-row-double-click="openCheckoutFormWind()"
                         ></jqx-grid>
                     </div>
                 </div>
@@ -241,7 +241,6 @@ jqxthemes();
                         <jqx-grid jqx-settings="customerCheckIn2GridSettings"
                                   id="customerCheckIn2"
                                   jqx-create="customerCheckIn2GridSettings"
-                                  jqx-on-row-double-click="openCheckoutFormWind()"
                         ></jqx-grid>
                     </div>
                 </div>
@@ -251,7 +250,6 @@ jqxthemes();
                         <jqx-grid jqx-settings="customerCheckInCompleteGridSettings"
                                   id="customerCheckInComplete"
                                   jqx-create="customerCheckInCompleteGridSettings"
-                                  jqx-on-row-double-click="openCheckoutFormWind()"
                         ></jqx-grid>
                     </div>
                 </div>

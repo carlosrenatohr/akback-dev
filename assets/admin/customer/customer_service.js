@@ -62,7 +62,7 @@ demoApp.service('customerService', function ($http) {
         {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
         {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
         {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
-        {text: 'Check in 1', dataField: 'CheckIn1', type: 'string',
+        {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
                 var disabled = '';
@@ -74,7 +74,7 @@ demoApp.service('customerService', function ($http) {
                         'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
             }
         },
-        {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string',
+        {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden:false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
                 var disabled = '';
@@ -228,10 +228,18 @@ demoApp.service('customerService', function ($http) {
                 });
             }
         };
+        // Exclude checkin buttons columns
+        var checkInCols = _this.customerGridsCols.slice(0);
+        var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
+        checkInCols.splice(checkin1Id, 1);
+        var checkin2Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn2');
+        checkInCols.splice(checkin2Id, 1);
 
         return {
             source: dataAdapterCustomerGrid,
-            columns: _this.customerGridsCols,
+            columns: checkInCols.concat(
+                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date'}
+            ),
             width: "100%",
             theme: 'arctic',
             sortable: true,
@@ -262,7 +270,9 @@ demoApp.service('customerService', function ($http) {
      */
     this.sourceCheckIn2Grid =  {
         dataType: 'json',
-        dataFields: _this.sourceCustomerGrid.dataFields,
+        dataFields: _this.sourceCustomerGrid.dataFields.concat(
+            [{name: 'CheckInDate', type: 'date'}]
+        ),
         url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/1/2',
         root: 'Rows',
         beforeprocessing: function(data) {
@@ -293,9 +303,18 @@ demoApp.service('customerService', function ($http) {
             }
         };
 
+        // Exclude checkin buttons columns
+        var checkInCols = _this.customerGridsCols.slice(0);
+        var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
+        checkInCols.splice(checkin1Id, 1);
+        var checkin2Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn2');
+        checkInCols.splice(checkin2Id, 1);
+
         return {
             source: dataAdapterCustomerGrid,
-            columns: _this.customerGridsCols,
+            columns: checkInCols.concat(
+                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date'}
+            ),
             width: "100%",
             theme: 'arctic',
             sortable: true,
@@ -326,7 +345,10 @@ demoApp.service('customerService', function ($http) {
      */
     this.sourceCheckInCompleteGrid =  {
         dataType: 'json',
-        dataFields: _this.sourceCustomerGrid.dataFields,
+        dataFields: _this.sourceCustomerGrid.dataFields.concat(
+            [{name: 'LocationUnique', type: 'string'},
+            {name: 'CheckOutDate', type: 'date'}]
+        ),
         url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/2/0',
         root: 'Rows',
         beforeprocessing: function(data) {
@@ -356,10 +378,19 @@ demoApp.service('customerService', function ($http) {
                 });
             }
         };
+        // Exclude checkin buttons columns
+        var checkInCols = _this.customerGridsCols.slice(0);
+        var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
+        checkInCols.splice(checkin1Id, 1);
+        var checkin2Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn2');
+        checkInCols.splice(checkin2Id, 1);
 
         return {
             source: dataAdapterCustomerGrid,
-            columns: _this.customerGridsCols,
+            columns: checkInCols.concat(
+                {text: 'Location name', dataField: 'LocationUnique', type: 'string'},
+                {text: 'Check out date', dataField: 'CheckOutDate', type: 'string'}
+            ),
             width: "100%",
             theme: 'arctic',
             sortable: true,

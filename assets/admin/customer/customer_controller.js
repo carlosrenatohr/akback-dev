@@ -77,6 +77,20 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
                 //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
             }
+            // Check in tabs
+            if (gridID == '#customerCheckIn1' || gridID == '#customerCheckIn2') {
+                if (el.dataField == 'CheckInDate') {
+                    el['hidden'] = false;
+                    el['width'] = '10%';
+                }
+            }
+            // Check out tab
+            if (gridID == '#customerCheckInComplete') {
+                if (el.dataField == 'CheckOutDate' || el.dataField == 'LocationUnique') {
+                    el['hidden'] = false;
+                    el['width'] = '10%';
+                }
+            }
         });
         //
         var isBindingComplete = true;
@@ -246,6 +260,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         showCloseButton: false
     };
 
+    /**
+     * CHECKOUT FORM ACTIONS
+     * @type {{created: $scope.checkoutFormWindowSettings.created, resizable: boolean, width: string, height: string, autoOpen: boolean, theme: string, isModal: boolean, showCloseButton: boolean}}
+     */
     $scope.checkoutFormWindowSettings = {
         created: function (args) {
             checkoutCustomerWin = args.instance;
@@ -258,7 +276,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         showCloseButton: false
     };
 
-    $('#customerCheckIn1, #customerCheckIn2').on('rowdoubleclick', function(e) {
+    $('#customerCheckIn1, #customerCheckIn2, #customerCheckInComplete').on('rowdoubleclick', function(e) {
         checkoutCustomerWin.open();
     });
 

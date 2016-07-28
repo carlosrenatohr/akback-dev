@@ -111,6 +111,8 @@ class CustomerCheckin extends AK_Controller
                         $filterdatafield = "customer_visit\".\"FirstName";
                     if ($filterdatafield == 'LastName')
                         $filterdatafield = "customer_visit\".\"LastName";
+                    if ($filterdatafield == 'Unique')
+                        $filterdatafield = "customer\".\"Unique";
                     switch ($filtercondition) {
                         case "CONTAINS":
                             $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "%'";
