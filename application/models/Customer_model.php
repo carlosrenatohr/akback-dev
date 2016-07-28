@@ -163,17 +163,45 @@ class Customer_model extends CI_Model
     /**
      * CHECK IN - CHECK OUT
      */
-    public function getCustomersWithVisits($status, $location) {
+    public function getCustomersWithVisits($status, $location, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null) {
 
-        $this->db->select('customer.*, customer_visit, customer_visit.Status as StatusCheckIn, LocationUnique, customer_visit.LocationUnique, customer_visit.CheckInDate, customer_visit.CheckInBy, customer_visit.CheckOutDate, customer_visit.CheckOutBy, customer_visit.Quantity');
+        $this->db->select('customer.*, customer_visit, customer_visit.Status as StatusCheckIn,
+                        LocationUnique, customer_visit.LocationUnique, customer_visit.CheckInDate,
+                        customer_visit.CheckInBy, customer_visit.CheckOutDate, customer_visit.CheckOutBy,
+                        customer_visit.Quantity, customer_visit.LastName as lname, customer_visit.FirstName as fname');
         $this->db->from('customer_visit');
         $this->db->join('customer', 'customer.Unique = customer_visit.CustomerUnique', 'left');
         $this->db->where('customer_visit.Status', $status);
         if ($location > 0) {
             $this->db->where('LocationUnique', $location);
         }
-        $result = $this->db->get();
-        return $result->result_array();
+        // Filtering
+        if (!empty($filterQuery)) {
+            $this->db->where($filterQuery, NULL, false);
+        }
+        // Paging
+        if (!is_null($pageNum) && !is_null($perPage)) {
+            $offset = ($pageNum) * $perPage; // -1
+            $this->db->limit($perPage, $offset);
+        }
+        // Sorting
+        if (!is_null($sortData))
+        {
+            if ($sortData['sortorder'] == "desc")
+                $this->db->order_by($sortData['sortdatafield'], 'DESC');
+            else if ($sortData['sortorder'] == "asc")
+                $this->db->order_by($sortData['sortdatafield'], 'ASC');
+            else
+                $this->db->order_by('Unique', 'DESC');
+        } else
+            $this->db->order_by('Unique', 'DESC');
+
+        $result = $this->db->get()->result_array();
+
+        if ($isCount)
+            return count($result);
+        else
+            return $result;
     }
 
     public function setCheckIn($request) {

@@ -194,13 +194,21 @@ demoApp.service('customerService', function ($http) {
      */
     this.sourceCheckIn1Grid =  {
         dataType: 'json',
-        dataFields: _this.sourceCustomerGrid.dataFields,
+        dataFields: _this.sourceCustomerGrid.dataFields.concat(
+            [{name: 'CheckInDate', type: 'date'}]
+        ),
         //id: 'Unique',
         url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/1/1',
-        //root: 'Rows',
-        //beforeprocessing: function(data) {
-        //    _this.sourceCustomerGrid.totalrecords = data.TotalRows;
-        //},
+        root: 'Rows',
+        beforeprocessing: function(data) {
+            _this.sourceCheckIn1Grid.totalrecords = data.TotalRows;
+        },
+        filter: function () {
+            $("#customerCheckIn1").jqxGrid('updatebounddata');
+        },
+        sort: function () {
+            $("#customerCheckIn1").jqxGrid('updatebounddata');
+        }
     };
 
     this.getCheckin1GridSettings = function () {
@@ -231,8 +239,8 @@ demoApp.service('customerService', function ($http) {
             pageable: true,
             pageSize: 20,
             pagesizeoptions: ['10', '20', '50', '100'],
-            //pagerMode: 'simple',
-            //virtualmode: true,
+            pagerMode: 'simple',
+            virtualmode: true,
             rendergridrows: function()
             {
                 return dataAdapterCustomerGrid.records;
@@ -256,6 +264,16 @@ demoApp.service('customerService', function ($http) {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields,
         url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/1/2',
+        root: 'Rows',
+        beforeprocessing: function(data) {
+            _this.sourceCheckIn2Grid.totalrecords = data.TotalRows;
+        },
+        filter: function () {
+            $("#customerCheckIn2").jqxGrid('updatebounddata');
+        },
+        sort: function () {
+            $("#customerCheckIn2").jqxGrid('updatebounddata');
+        }
     };
 
     this.getCheckin2GridSettings = function () {
@@ -285,8 +303,8 @@ demoApp.service('customerService', function ($http) {
             pageable: true,
             pageSize: 20,
             pagesizeoptions: ['10', '20', '50', '100'],
-            //pagerMode: 'simple',
-            //virtualmode: true,
+            pagerMode: 'simple',
+            virtualmode: true,
             rendergridrows: function()
             {
                 return dataAdapterCustomerGrid.records;
@@ -309,7 +327,17 @@ demoApp.service('customerService', function ($http) {
     this.sourceCheckInCompleteGrid =  {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields,
-        url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/2/0'
+        url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/2/0',
+        root: 'Rows',
+        beforeprocessing: function(data) {
+            _this.sourceCheckInCompleteGrid.totalrecords = data.TotalRows;
+        },
+        filter: function () {
+            $("#customerCheckInComplete").jqxGrid('updatebounddata');
+        },
+        sort: function () {
+            $("#customerCheckInComplete").jqxGrid('updatebounddata');
+        }
     };
 
     this.getCheckinCompleteGridSettings = function () {
@@ -339,8 +367,8 @@ demoApp.service('customerService', function ($http) {
             pageable: true,
             pageSize: 20,
             pagesizeoptions: ['10', '20', '50', '100'],
-            //pagerMode: 'simple',
-            //virtualmode: true,
+            pagerMode: 'simple',
+            virtualmode: true,
             rendergridrows: function()
             {
                 return dataAdapterCustomerGrid.records;
