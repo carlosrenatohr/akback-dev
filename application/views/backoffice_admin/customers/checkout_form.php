@@ -73,7 +73,7 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             <button type="button" id="checkoutCloseBtn"
-                                    ng-click=""
+                                    ng-click="checkoutCloseBtn()"
                                     class="btn btn-warning">
                                 Close
                             </button>

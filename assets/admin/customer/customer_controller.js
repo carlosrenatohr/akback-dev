@@ -282,16 +282,21 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         console.log(row);
         $('#checkOutForm #customerNameP').html(row.fname + ' ' + row.lname);
         $('#checkOutForm #checkInP').html(row.CheckInBy + ' at ' + row.CheckInDate);
-        if (row.CheckOutBy != 'null')
+        if (row.CheckOutBy !== null) {
             $('#checkOutForm #checkOutP').html(row.CheckOutBy + ' at ' + row.CheckOutDate);
-        if (row.LocationUnique != 'null')
-            $('#checkOutForm #checkOutP').html(row.CheckOutBy + ' at ' + row.CheckOutDate);
-        $('#checkOutForm #LocationP').html(row.LocationUnique);
+        }
+        if (row.LocationUnique !== null) {
+            $('#checkOutForm #LocationP').html(row.LocationUnique);
+        }
         $('#checkOutForm #QuantityControl').val(row.Quantity);
         $('#checkOutForm #CommentControl').val(row.Comment);
 
         checkoutCustomerWin.open();
     });
+
+    $scope.checkoutCloseBtn = function() {
+        checkoutCustomerWin.close();
+    };
 
     // Notifications settings
     $scope.customerNoticeSuccessSettings = customerService.setNotificationSettings(1);
