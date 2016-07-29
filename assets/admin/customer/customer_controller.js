@@ -277,6 +277,19 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     };
 
     $('#customerCheckIn1, #customerCheckIn2, #customerCheckInComplete').on('rowdoubleclick', function(e) {
+        var row = e.args.row.bounddata;
+
+        console.log(row);
+        $('#checkOutForm #customerNameP').html(row.fname + ' ' + row.lname);
+        $('#checkOutForm #checkInP').html(row.CheckInBy + ' at ' + row.CheckInDate);
+        if (row.CheckOutBy != 'null')
+            $('#checkOutForm #checkOutP').html(row.CheckOutBy + ' at ' + row.CheckOutDate);
+        if (row.LocationUnique != 'null')
+            $('#checkOutForm #checkOutP').html(row.CheckOutBy + ' at ' + row.CheckOutDate);
+        $('#checkOutForm #LocationP').html(row.LocationUnique);
+        $('#checkOutForm #QuantityControl').val(row.Quantity);
+        $('#checkOutForm #CommentControl').val(row.Comment);
+
         checkoutCustomerWin.open();
     });
 

@@ -165,8 +165,8 @@ class Customer_model extends CI_Model
      */
     public function getCustomersWithVisits($status, $location, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null) {
 
-        $this->db->select('customer.*, customer_visit, customer_visit.Status as StatusCheckIn,
-                        LocationUnique, customer_visit.LocationUnique, customer_visit.CheckInDate,
+        $this->db->select('customer.*, customer_visit.Status as StatusCheckIn, LocationUnique, customer_visit.LocationUnique,
+                        customer_visit.CheckInDate, customer_visit.Note,
                         customer_visit.CheckInBy, customer_visit.CheckOutDate, customer_visit.CheckOutBy,
                         customer_visit.Quantity, customer_visit.LastName as lname, customer_visit.FirstName as fname');
         $this->db->from('customer_visit');

@@ -9,60 +9,41 @@
             <div class="row menuFormContainer">
                 <div style=" width:330px;float:left;">
                     <div style="float:left; padding:2px; width:450px;">
-                        <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">First Name and Last Name:</div>
-                        <div style="float:left; width:180px;">
-                            <input type="text" class="form-control required-field" id="CheckOut_fname" name="CheckOut_fname" placeholder="First and Last Name" autofocus>
-                        </div>
-                        <div style="float:left;">
-                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                        <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Name:</div>
+                        <div style="float:left; width:180px;margin-top: 0.6em;">
+                            <p id="customerNameP"></p>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Check In By:</div>
-                        <div style="float:left; width:180px;">
-                            ---
-                        </div>
-                        <div style="float:left;">
-                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                        <div style="float:left; width:180px;margin-top: 0.6em;">
+                            <p id="checkInP"></p>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Check Out By:</div>
-                        <div style="float:left; width:180px;">
-                            ---
-                        </div>
-                        <div style="float:left;">
-                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                        <div style="float:left; width:180px;margin-top: 0.6em;">
+                            <p id="checkOutP"></p>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Location:</div>
                         <div style="float:left; width:180px;">
-                            ---
-                        </div>
-                        <div style="float:left;">
-                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                        </div>
-                    </div>
-
-                    <div style="float:left; padding:2px; width:450px;">
-                        <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Note:</div>
-                        <div style="float:left; width:180px;">
-                                            <textarea name="CheckOut_note" id="CheckOut_note" cols="10" rows="5"
-                                                      class="form-control required-field" placeholder="Note"></textarea>
-                        </div>
-                        <div style="float:left;">
-                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                            <p id="LocationP"></p>
+                            <select name="" id="">
+                                <option value="">Location1</option>
+                                <option value="">Location2</option>
+                            </select>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Quantity:</div>
                         <div style="float:left; width:180px;">
-                            <input type="number" class="form-control required-field" id="CheckOut_quantity"
+                            <input type="number" class="form-control required-field" id="QuantityControl"
                                    name="CheckOut_quantity" placeholder="Quantity"
                                    step="1" min="1" pattern="\d*"
                             >
@@ -75,8 +56,8 @@
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Comment:</div>
                         <div style="float:left; width:180px;">
-                                            <textarea name="CheckOut_comment" id="CheckOut_comment" cols="10" rows="5"
-                                                      class="form-control required-field" placeholder="Comment"></textarea>
+                            <textarea name="CheckOut_comment" id="CommentControl" cols="10" rows="5"
+                                      class="form-control required-field" placeholder="Comment"></textarea>
                         </div>
                         <div style="float:left;">
                             <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -91,20 +72,20 @@
                 <div id="mainButtonsCustomerForm">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="button" id="saveCustomerBtn"
-                                    ng-click=""
-                                    class="btn btn-primary" disabled>
-                                Save
-                            </button>
-                            <button type="button" id="closeCustomerBtn"
+                            <button type="button" id="checkoutCloseBtn"
                                     ng-click=""
                                     class="btn btn-warning">
                                 Close
                             </button>
-                            <button type="button" id="deleteCustomerBtn"
+                            <button type="button" id="checkoutDeleteBtn"
                                     ng-click=""
                                     class="btn btn-danger" style="overflow:auto;">
                                 Delete
+                            </button>
+                            <button type="button" id="checkoutCompleteBtn"
+                                    ng-click=""
+                                    class="btn btn-success" style="overflow:auto;">
+                                Check out
                             </button>
                         </div>
                     </div>
