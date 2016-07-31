@@ -83,8 +83,8 @@ jqxthemes();
                       id="mainCustomerTabs" jqx-theme="articTheme" style="">
                 <ul>
                     <li id="" class="">Customer</li>
-                    <li id="" class="">Location 1</li>
-                    <li id="" class="">Location 2</li>
+                    <li id="" class=""><?php echo $locations[0]['Name']; ?></li>
+                    <li id="" class=""><?php echo $locations[1]['Name']; ?></li>
                     <li id="" class="">Complete</li>
                 </ul>
                 <!-- All customer list tab -->

@@ -7,61 +7,68 @@
     <div class="">
         <div class="col-md-12 col-md-offset-0" id="checkOutForm">
             <div class="row menuFormContainer">
-                <div style=" width:330px;float:left;">
+                <div style="float:left;">
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Name:</div>
-                        <div style="float:left; width:180px;margin-top: 0.6em;">
+                        <div style="float:left; width:250px;margin-top: 0.6em;">
                             <p id="customerNameP"></p>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Check In By:</div>
-                        <div style="float:left; width:180px;margin-top: 0.6em;">
+                        <div style="float:left; width:250px;margin-top: 0.6em;">
                             <p id="checkInP"></p>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Check Out By:</div>
-                        <div style="float:left; width:180px;margin-top: 0.6em;">
+                        <div style="float:left; width:250px;margin-top: 0.6em;">
                             <p id="checkOutP"></p>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Location:</div>
-                        <div style="float:left; width:180px;">
-                            <p id="LocationP"></p>
-                            <select name="" id="">
-                                <option value="">Location1</option>
-                                <option value="">Location2</option>
-                            </select>
+                        <div style="float:left; width:250px;">
+<!--                            <p id="LocationP"></p>-->
+                            <jqx-drop-down-list jqx-width="250" jqx-height="30" id="locationSelect">
+                                <?php foreach($locations as $location): ?>
+                                <option value="<?php echo $location['Unique']; ?>"
+                                    ><?php echo $location['Name']; ?></option>
+                                <?php endforeach; ?>
+                            </jqx-drop-down-list>
                         </div>
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Quantity:</div>
-                        <div style="float:left; width:180px;">
-                            <input type="number" class="form-control required-field" id="QuantityControl"
-                                   name="CheckOut_quantity" placeholder="Quantity"
-                                   step="1" min="1" pattern="\d*"
-                            >
+                        <div style="float:left; width:250px;">
+<!--                            <input type="number" class="form-control required-field" id="QuantityControl"-->
+<!--                                   name="CheckOut_quantity" placeholder="Quantity"-->
+<!--                                   step="1" min="1" pattern="\d*"-->
+<!--                            >-->
+                            <jqx-number-input
+                                class="" id="QuantityControl"
+                                jqx-settings="numberDecimalSettings"
+                                jqx-text-align="left"
+                            ></jqx-number-input>
                         </div>
-                        <div style="float:left;">
-                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                        </div>
+<!--                        <div style="float:left;">-->
+<!--                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>-->
+<!--                        </div>-->
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
-                        <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Comment:</div>
-                        <div style="float:left; width:180px;">
-                            <textarea name="CheckOut_comment" id="CommentControl" cols="10" rows="5"
-                                      class="form-control required-field" placeholder="Comment"></textarea>
+                        <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Note:</div>
+                        <div style="float:left; width:250px;">
+                            <textarea name="CheckOut_note" id="NoteControl" cols="10" rows="5"
+                                      class="form-control required-field" placeholder="Note"></textarea>
                         </div>
-                        <div style="float:left;">
-                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                        </div>
+<!--                        <div style="float:left;">-->
+<!--                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -69,21 +76,21 @@
         <!-- -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <div id="mainButtonsCustomerForm">
+                <div id="mainButtonsCheckoutForm">
                     <div class="form-group">
                         <div class="col-sm-12">
                             <button type="button" id="checkoutCloseBtn"
-                                    ng-click="checkoutCloseBtn()"
+                                    ng-click="checkoutCloseBtn(undefined, 1, checkinType)"
                                     class="btn btn-warning">
                                 Close
                             </button>
                             <button type="button" id="checkoutDeleteBtn"
-                                    ng-click=""
+                                    ng-click="checkoutCloseBtn(undefined, 0, checkinType)"
                                     class="btn btn-danger" style="overflow:auto;">
                                 Delete
                             </button>
                             <button type="button" id="checkoutCompleteBtn"
-                                    ng-click=""
+                                    ng-click="checkoutCloseBtn(undefined, 2, checkinType)"
                                     class="btn btn-success" style="overflow:auto;">
                                 Check out
                             </button>
@@ -95,34 +102,19 @@
         <!-- Prompt before saving item on grid -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <div id="promptToCloseCustomerForm" class="" style="display: none">
+                <div id="promptToCloseCheckoutForm" class="" style="display: none">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            Do you want to save your changes?
-                            <button type="button" ng-click="closeCustomerAction(0)" class="btn btn-primary">Yes</button>
-                            <button type="button" ng-click="closeCustomerAction(1)" class="btn btn-warning">No</button>
-                            <button type="button" ng-click="closeCustomerAction(2)" class="btn btn-info">Cancel</button>
+                            <p>---</p>
+                            <button type="button" ng-click="checkoutCloseBtn(0, selectedCheckinStatus, checkinType)" class="btn btn-primary">Yes</button>
+                            <button type="button" ng-click="checkoutCloseBtn(1, selectedCheckinStatus, checkinType)" class="btn btn-warning">No</button>
+                            <button type="button" ng-click="checkoutCloseBtn(2, selectedCheckinStatus, checkinType)" class="btn btn-info">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Prompt before delete an item on grid -->
-        <div class="col-md-12 col-md-offset-0">
-            <div class="row">
-                <div id="promptToDeleteCustomerForm" class="" style="display: none">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            Do you really want to delete it?
-                            <button type="button" ng-click="deleteCustomerAction(0)" class="btn btn-primary">Yes</button>
-                            <button type="button" ng-click="deleteCustomerAction(1)" class="btn btn-warning">No</button>
-                            <button type="button" ng-click="deleteCustomerAction(2)" class="btn btn-info">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- NOTIFICATIONS AREA -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
@@ -138,3 +130,9 @@
     </div>
     </div>
 </jqx-window>
+
+<style>
+    #QuantityControl{
+        width:250px!important;
+    }
+</style>

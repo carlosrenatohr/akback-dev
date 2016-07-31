@@ -29,6 +29,7 @@ class Customer extends AK_Controller
         $data['storename'] = $this->displaystore();
         $data['decimalQuantitySetting'] = $this->decimalQuantity;
         $data['decimalPriceSetting'] = $this->decimalPrice;
+        $data['locations'] = $this->customer->getLocations();
         // partials
         $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
         $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";

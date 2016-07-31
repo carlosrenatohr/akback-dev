@@ -13,6 +13,7 @@ class CustomerCheckin extends AK_Controller
     {
         parent::__construct();
         $this->load->model('Customer_model', 'customer');
+        $this->load->model('User_model', 'user');
     }
 
     public function setCustomerAsCheckin() {
@@ -54,11 +55,20 @@ class CustomerCheckin extends AK_Controller
                 $whereQuery = $this->filterCustomerTable($_GET);
             }
         }
+        $newCustomers = [];
         // Counting
         $total = $this->customer->getCustomersWithVisits($status, $location, true, null, null, $whereQuery, $sortData);
         $customers = $this->customer->getCustomersWithVisits($status, $location, false, $pageNum, $perPage, $whereQuery, $sortData);
+        foreach($customers as $customer) {
+            $locationName = $this->customer->getLocationName($customer['LocationUnique']);
+            $customer['LocationName'] = !empty($locationName) ? $locationName[0]['Name'] : '';
+            $customer['CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
+            $customer['CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';
+            $newCustomers[] = $customer;
+        }
+
         echo json_encode([
-            'Rows' => $customers,
+            'Rows' => $newCustomers,
             'TotalRows' => $total
         ]);
     }
@@ -158,6 +168,22 @@ class CustomerCheckin extends AK_Controller
             }
         }
         return $where;
+    }
+
+    public function updateStatusCheckin($id) {
+        $request = $_POST;
+        $status = $this->customer->updateCustomerVisit($id, $request);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Customer visit success!',
+//                'status' => $status
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+        echo json_encode($response);
+
     }
 
 }

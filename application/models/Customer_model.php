@@ -156,6 +156,12 @@ class Customer_model extends CI_Model
         return  $result;
     }
 
+    public function getLocations() {
+        $this->db->select('Unique, Name');
+        $this->db->order_by('Unique', 'ASC');
+        return $this->db->get('config_location')->result_array();
+    }
+
     public function getLocationName($id) {
         return $this->db->get_where('config_location', ['Unique'=> $id])->result_array();
     }
@@ -166,11 +172,15 @@ class Customer_model extends CI_Model
     public function getCustomersWithVisits($status, $location, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null) {
 
         $this->db->select('customer.*, customer_visit.Status as StatusCheckIn, LocationUnique, customer_visit.LocationUnique,
-                        customer_visit.CheckInDate, customer_visit.Note,
+                        customer_visit.Unique as VisitUnique, customer_visit.CheckInDate, customer_visit.Note,
                         customer_visit.CheckInBy, customer_visit.CheckOutDate, customer_visit.CheckOutBy,
-                        customer_visit.Quantity, customer_visit.LastName as lname, customer_visit.FirstName as fname');
+                        customer_visit.Quantity, customer_visit.LastName as lname, customer_visit.FirstName as fname,
+                        checkInUser.UserName as CheckInUser, checkOutUser.UserName as CheckOutUser
+                        ');
         $this->db->from('customer_visit');
         $this->db->join('customer', 'customer.Unique = customer_visit.CustomerUnique', 'left');
+        $this->db->join('config_user checkInUser', 'checkInUser.Unique = customer_visit.CheckInBy', 'left');
+        $this->db->join('config_user checkOutUser', 'checkOutUser.Unique = customer_visit.CheckOutBy', 'left');
         $this->db->where('customer_visit.Status', $status);
         if ($location > 0) {
             $this->db->where('LocationUnique', $location);
@@ -205,6 +215,11 @@ class Customer_model extends CI_Model
     }
 
     public function setCheckIn($request) {
+        $this->db->trans_start();
+        $this->db->where('Unique', $request['CustomerUnique']);
+        $this->db->update('customer', ['LastVisit' => date('Y-m-d H:i:s')]);
+        $this->db->trans_complete();
+
         $extraFields = [
             'Status' => 1,
             'CheckInDate' => date('Y-m-d H:i:s'),
@@ -216,6 +231,25 @@ class Customer_model extends CI_Model
         $status = $this->db->insert('customer_visit', $data);
         $insert_id = $this->db->insert_id();
         return $insert_id;
+    }
+
+    public function updateCustomerVisit($id, $request) {
+        $extraFields = [
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
+        if (isset($request['Status']) && $request['Status'] == 2) {
+            $extraFields['CheckOutDate'] = date('Y-m-d H:i:s');
+            $extraFields['CheckOutBy'] = $this->session->userdata('userid');
+        }
+        if (isset($request['Quantity'])) {
+            $request['Quantity'] = (int)$request['Quantity'];
+        }
+        $data = array_merge($request, $extraFields);
+
+        $this->db->where('CustomerUnique', $id);
+        $status = $this->db->update('customer_visit', $data);
+        return $status;
     }
 
 

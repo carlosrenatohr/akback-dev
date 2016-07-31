@@ -32,15 +32,15 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
-    customerService.getLocationName(1)
-        .then(function(response) {
-             $('#mainCustomerTabs').jqxTabs('setTitleAt', 1, response.data);
-        });
-
-    customerService.getLocationName(2)
-        .then(function(response) {
-             $('#mainCustomerTabs').jqxTabs('setTitleAt', 2, response.data);
-        });
+    //customerService.getLocationName(1)
+    //    .then(function(response) {
+    //         $('#mainCustomerTabs').jqxTabs('setTitleAt', 1, response.data);
+    //    });
+    //
+    //customerService.getLocationName(2)
+    //    .then(function(response) {
+    //         $('#mainCustomerTabs').jqxTabs('setTitleAt', 2, response.data);
+    //    });
 
     $scope.customerTableSettings = customerService.getTableSettings();
     $scope.customerCheckIn1GridleSettings = customerService.getCheckin1GridSettings();
@@ -86,7 +86,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             }
             // Check out tab
             if (gridID == '#customerCheckInComplete') {
-                if (el.dataField == 'CheckOutDate' || el.dataField == 'LocationUnique') {
+                if (el.dataField == 'CheckOutDate' || el.dataField == 'LocationName') {
                     el['hidden'] = false;
                     el['width'] = '10%';
                 }
@@ -124,38 +124,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         gridSettings.rendered = function() {}
     }
 
-    // @helper: Set customers as checked in
-    $('body').on('click', '.checkInBtn', function(e) {
-        e.stopPropagation();
-        var data = {
-            'CustomerUnique': $(this).data('unique'),
-            'LocationUnique': $(this).data('location'),
-            'FirstName': $(this).data('fname'),
-            'LastName': $(this).data('lname')
-        };
-        $.ajax({
-            url: SiteRoot + 'admin/CustomerCheckin/setCustomerAsCheckin',
-            method: 'POST',
-            data: data,
-            dataType: 'JSON',
-            success: function(data) {
-                if (data.status == 'success') {
-                    updateCustomerTableData($(this).data('location'));
-                } else if(data.status == 'error') {
-                    console.info(data.message);
-                } else {
-                    console.error(data);
-                }
-            }
-
-        })
-    });
-
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
 
-    var updateCustomerTableData = function(location) {
+    var updateCustomerTableData = function(location, nofilters) {
         var grid = '#gridCustomer';
         // checked in, location 1
         if (location == 1) {
@@ -169,7 +142,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         } else {
             grid = '#gridCustomer';
         }
-        $(grid).jqxGrid('applyfilters');
+        if (nofilters === 'undefined')
+            $(grid).jqxGrid('applyfilters');
         $(grid).jqxGrid('updatebounddata');
     };
 
@@ -276,26 +250,146 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         showCloseButton: false
     };
 
+    // @helper: Set customers as checked in
+    $('body').on('click', '.checkInBtn', function(e) {
+        e.stopPropagation();
+        var data = {
+            'CustomerUnique': $(this).data('unique'),
+            'LocationUnique': $(this).data('location'),
+            'FirstName': $(this).data('fname'),
+            'LastName': $(this).data('lname')
+        };
+        $.ajax({
+            url: SiteRoot + 'admin/CustomerCheckin/setCustomerAsCheckin',
+            method: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status == 'success') {
+                    updateCustomerTableData();
+                    //updateCustomerTableData($(this).data('location'),  true);
+                    updateCustomerTableData(1,  true);
+                    updateCustomerTableData(2,  true);
+                } else if(data.status == 'error') {
+                    console.info(data.message);
+                } else {
+                    console.error(data);
+                }
+            }
+        })
+    });
+
+    $scope.customervisitID = null;
+    $scope.checkinType = 1;
+    var checkoutControlChanged = false;
+    $('#QuantityControl, #NoteControl').on('keypress keyup paste', function(e) { // change
+        checkoutControlChanged = true;
+    });
+    $('body').on('change select', '#locationSelect, #locationSelect_jqxDropDownList', function(e) {
+        checkoutControlChanged = true;
+    });
+
     $('#customerCheckIn1, #customerCheckIn2, #customerCheckInComplete').on('rowdoubleclick', function(e) {
         var row = e.args.row.bounddata;
-
-        console.log(row);
-        $('#checkOutForm #customerNameP').html(row.fname + ' ' + row.lname);
-        $('#checkOutForm #checkInP').html(row.CheckInBy + ' at ' + row.CheckInDate);
+        $scope.customervisitID = row.Unique;
+        if($(e.target).attr('id') == 'customerCheckIn1')
+            $scope.checkinType = 1;
+        else if($(e.target).attr('id') == 'customerCheckIn2')
+            $scope.checkinType = 2;
+        else if($(e.target).attr('id') == 'customerCheckInComplete')
+            $scope.checkinType = 3;
+        //console.log(row);
+        var fullname = row.fname + ' ' + row.lname;
+        $('#checkOutForm #customerNameP').html(fullname);
+        $('#checkOutForm #checkInP').html(row.CheckInUser + ' at ' + row.CheckInDate);
         if (row.CheckOutBy !== null) {
-            $('#checkOutForm #checkOutP').html(row.CheckOutBy + ' at ' + row.CheckOutDate);
+            $('#checkOutForm #checkOutP').html(row.CheckOutUser + ' at ' + row.CheckOutDate);
         }
         if (row.LocationUnique !== null) {
-            $('#checkOutForm #LocationP').html(row.LocationUnique);
+            $('#checkOutForm #LocationP').html('ID: ' + row.LocationUnique + ' | ' + row.LocationName);
         }
+        var statusCombo = $('#locationSelect').jqxDropDownList('getItemByValue', row.LocationUnique);
+        $('#locationSelect').jqxDropDownList({'selectedIndex': statusCombo.index});
         $('#checkOutForm #QuantityControl').val(row.Quantity);
-        $('#checkOutForm #CommentControl').val(row.Comment);
-
+        $('#checkOutForm #NoteControl').val(row.Note);
+        //
+        if(row.StatusCheckIn == 2)
+            $('#mainButtonsCheckoutForm #checkoutCompleteBtn').hide();
+        else
+            $('#mainButtonsCheckoutForm #checkoutCompleteBtn').show();
+        checkoutControlChanged = false;
+        checkoutCustomerWin.setTitle('Check Out Form | Customer ID: ' + row.Unique + ' | ' + fullname);
         checkoutCustomerWin.open();
     });
 
-    $scope.checkoutCloseBtn = function() {
-        checkoutCustomerWin.close();
+    $scope.checkoutCloseBtn = function(option, status, type) {
+        if (option != undefined) {
+            $('#mainButtonsCheckoutForm').show();
+            $('#promptToCloseCheckoutForm').hide();
+        }
+        if (option == 0) {
+            $scope.updateCheckInCustomer(status, type);
+        } else if (option == 1) {
+            checkoutCustomerWin.close();
+            $('#mainButtonsCheckoutForm').show();
+            $('#promptToCloseCheckoutForm').hide();
+        } else if (option == 2) {
+        } else {
+            $scope.selectedCheckinStatus = status;
+            if (status == 0)
+                $('#promptToCloseCheckoutForm p').html('Do you really want to delete it?');
+            else if(status == 2)
+                $('#promptToCloseCheckoutForm p').html('Do you want to check it out?');
+            else {
+                if(!checkoutControlChanged) {
+                    checkoutControlChanged = false;
+                    checkoutCustomerWin.close();
+                    return;
+                } else {
+                    $('#promptToCloseCheckoutForm p').html('Do you want to save your changes?');
+                }
+            }
+            $('#mainButtonsCheckoutForm').hide();
+            $('#promptToCloseCheckoutForm').show();
+        }
+    };
+
+    $scope.updateCheckInCustomer = function(status, type) {
+        var data = {};
+        var location = $('#locationSelect').jqxDropDownList('getSelectedItem').value;
+        if(type == 1 || type == 2 || type == 3) {
+            if(status == 1 || status == 2){
+                data = {
+                    'LocationUnique': location,
+                    'Quantity': $('#checkOutForm #QuantityControl').val(),
+                    'Note': $('#checkOutForm #NoteControl').val()
+                };
+            }
+            if(status == 0 || status == 2)
+                data['Status'] = status;
+        }
+        $.ajax({
+            'method': 'POST',
+            'url': SiteRoot + 'admin/CustomerCheckin/updateStatusCheckin/' + $scope.customervisitID,
+            'data': data,
+            'dataType': 'json',
+            'success': function(response) {
+                if (response.status == 'success') {
+                    checkoutCustomerWin.close();
+                    checkoutControlChanged = false;
+                    updateCustomerTableData(location);
+                    if(location == 1)
+                        updateCustomerTableData(2, true);
+                    else
+                        updateCustomerTableData(1, true);
+                    updateCustomerTableData(3, true);
+                } else if (response.status == 'error') {
+                    console.log(response.message);
+                } else {
+                    console.log('There was an error!');
+                }
+            }
+        });
     };
 
     // Notifications settings
