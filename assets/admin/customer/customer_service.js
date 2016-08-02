@@ -243,12 +243,30 @@ demoApp.service('customerService', function ($http) {
                 });
             }
         };
+        //
+        var aggregates = function (aggregatedValue, currentValue, column, record) {
+            return _this.sourceCheckIn1Grid.totalrecords ;
+        };
+
+        var aggregatesrender = function (aggregates, column, element, summaryData) {
+            var renderstring = "<div style='float: left; width: 100%; height: 100%;'>";
+            $.each(aggregates, function (key, value) {
+                renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;color:red;"><b>' + key + ': ' + value + '</b></div>';
+            });
+            renderstring += "</div>";
+            return renderstring;
+        };
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
         checkInCols.splice(checkin1Id, 1);
         var checkin2Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn2');
         checkInCols.splice(checkin2Id, 1);
+        checkInCols.shift();
+        checkInCols.unshift({text: '', type: 'string', dataField: 'Unique',
+            aggregates: [{ 'Count': aggregates }],
+            aggregatesrenderer: aggregatesrender
+        });
 
         return {
             source: dataAdapterCustomerGrid,
@@ -277,6 +295,8 @@ demoApp.service('customerService', function ($http) {
             pagesizeoptions: ['10', '20', '50', '100'],
             pagerMode: 'simple',
             virtualmode: true,
+            showaggregates: true,
+            showstatusbar: true,
             rendergridrows: function()
             {
                 return dataAdapterCustomerGrid.records;
@@ -343,13 +363,30 @@ demoApp.service('customerService', function ($http) {
                 });
             }
         };
+        //
+        var aggregates = function (aggregatedValue, currentValue, column, record) {
+            return _this.sourceCheckIn2Grid.totalrecords ;
+        };
 
+        var aggregatesrender = function (aggregates, column, element, summaryData) {
+            var renderstring = "<div style='float: left; width: 100%; height: 100%;'>";
+            $.each(aggregates, function (key, value) {
+                renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;color:red;"><b>' + key + ': ' + value + '</b></div>';
+            });
+            renderstring += "</div>";
+            return renderstring;
+        };
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
         checkInCols.splice(checkin1Id, 1);
         var checkin2Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn2');
         checkInCols.splice(checkin2Id, 1);
+        checkInCols.shift();
+        checkInCols.unshift({text: '', type: 'string', dataField: 'Unique',
+            aggregates: [{ 'Count': aggregates }],
+            aggregatesrenderer: aggregatesrender
+        });
 
         return {
             source: dataAdapterCustomerGrid,
@@ -378,6 +415,8 @@ demoApp.service('customerService', function ($http) {
             pagesizeoptions: ['10', '20', '50', '100'],
             pagerMode: 'simple',
             virtualmode: true,
+            showaggregates: true,
+            showstatusbar: true,
             rendergridrows: function()
             {
                 return dataAdapterCustomerGrid.records;
@@ -469,7 +508,6 @@ demoApp.service('customerService', function ($http) {
             aggregates: [{ 'Total': aggregates }],
             aggregatesrenderer: aggregatesrender
         });
-        console.log(checkInCols);
 
         return {
             source: dataAdapterCustomerGrid,
