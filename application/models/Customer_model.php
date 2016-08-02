@@ -243,7 +243,7 @@ class Customer_model extends CI_Model
             $extraFields['CheckOutBy'] = $this->session->userdata('userid');
         }
         if (isset($request['Quantity'])) {
-            $request['Quantity'] = (int)$request['Quantity'];
+            $request['Quantity'] = (float)$request['Quantity'];
         }
         $data = array_merge($request, $extraFields);
 
