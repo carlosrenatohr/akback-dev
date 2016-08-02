@@ -402,7 +402,8 @@ demoApp.service('customerService', function ($http) {
         dataFields: _this.sourceCustomerGrid.dataFields.concat([
             {name: 'LocationUnique', type: 'string'},
             {name: 'LocationName', type: 'string'},
-            {name: 'CheckOutDate', type: 'string'},
+            {name: 'CheckOutDate', type: 'date'},
+            {name: '_CheckOutDate', type: 'string'},
             {name: 'CheckOutBy', type: 'string'},
             {name: 'CheckInDate', type: 'string'},
             {name: 'CheckInBy', type: 'string'},
@@ -444,18 +445,38 @@ demoApp.service('customerService', function ($http) {
                 });
             }
         };
+        //
+        var aggregates = function (aggregatedValue, currentValue, column, record) {
+            return _this.sourceCheckInCompleteGrid.totalrecords ;
+        };
+
+        var aggregatesrender = function (aggregates, column, element, summaryData) {
+            var renderstring = "<div style='float: left; width: 100%; height: 100%;'>";
+            $.each(aggregates, function (key, value) {
+                renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;color:red;"><b>' + key + ': ' + value + '</b></div>';
+            });
+            renderstring += "</div>";
+            return renderstring;
+        };
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
         checkInCols.splice(checkin1Id, 1);
         var checkin2Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn2');
         checkInCols.splice(checkin2Id, 1);
+        checkInCols.shift();
+        checkInCols.unshift({text: '', type: 'string', dataField: 'Unique',
+            aggregates: [{ 'Total': aggregates }],
+            aggregatesrenderer: aggregatesrender
+        });
+        console.log(checkInCols);
 
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
                 {text: 'Location name', dataField: 'LocationName', type: 'string'},
-                {text: 'Check out date', dataField: 'CheckOutDate', type: 'string'},
+                {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'yyyy-MM-dd'}, //yyyy-MM-dd
+                {text: '', dataField: '_CheckOutDate', type: 'string'},
                 {text: '', dataField: 'LocationUnique', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckInDate', type: 'string', hidden:true},
@@ -478,6 +499,8 @@ demoApp.service('customerService', function ($http) {
             pagesizeoptions: ['10', '20', '50', '100'],
             pagerMode: 'simple',
             virtualmode: true,
+            showaggregates: true,
+            showstatusbar: true,
             rendergridrows: function()
             {
                 return dataAdapterCustomerGrid.records;

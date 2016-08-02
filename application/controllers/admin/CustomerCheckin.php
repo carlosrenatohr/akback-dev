@@ -55,6 +55,24 @@ class CustomerCheckin extends AK_Controller
             {
                 $whereQuery = $this->filterCustomerTable($_GET);
             }
+            // *Default showing only checked out customers
+            else {
+                if ($status == 2 && $location == 0) {
+                    $today = date('Y-m-d');
+                    $tomorrow = date('Y-m-d H:i:s', strtotime($today . ' +1 day'));
+                    $_GET["CheckOutDateoperator"] =  "and";
+                    $_GET["filtervalue0"] = $today;
+                    $_GET["filtercondition0"] =  "GREATER_THAN_OR_EQUAL";
+                    $_GET["filteroperator0"] = "0";
+                    $_GET["filterdatafield0"] = "CheckOutDate";
+                    $_GET["filtervalue1"] =  $tomorrow;
+                    $_GET["filtercondition1"] = "LESS_THAN_OR_EQUAL";
+                    $_GET["filteroperator1"] = "0";
+                    $_GET["filterdatafield1"]= "CheckOutDate";
+                    $_GET["filterscount"] = "2";
+                    $whereQuery = $this->filterCustomerTable($_GET);
+                }
+            }
         }
         $newCustomers = [];
         // Counting
@@ -64,7 +82,7 @@ class CustomerCheckin extends AK_Controller
             $locationName = $this->customer->getLocationName($customer['LocationUnique']);
             $customer['LocationName'] = !empty($locationName) ? $locationName[0]['Name'] : '';
             $customer['CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
-            $customer['CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';
+            $customer['_CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';
             $newCustomers[] = $customer;
         }
 
@@ -85,6 +103,7 @@ class CustomerCheckin extends AK_Controller
 
     private function filterCustomerTable($filterData) {
         $where = null;
+//        var_dump($filterData);exit;
         if (!is_null($filterData['filterscount'])) {
             $filterscount = $filterData['filterscount'];
 
@@ -124,6 +143,8 @@ class CustomerCheckin extends AK_Controller
                         $filterdatafield = "customer_visit\".\"LastName";
                     if ($filterdatafield == 'Unique')
                         $filterdatafield = "customer\".\"Unique";
+                    if ($filterdatafield == 'CheckOutDate')
+                        $filterdatafield = "customer_visit\".\"CheckOutDate";
                     switch ($filtercondition) {
                         case "CONTAINS":
                             $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "%'";

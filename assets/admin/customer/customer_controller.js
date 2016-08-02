@@ -303,7 +303,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#checkOutForm #customerNameP').html(fullname);
         $('#checkOutForm #checkInP').html(row.CheckInUser + ' at ' + row.CheckInDate);
         if (row.CheckOutBy !== null) {
-            $('#checkOutForm #checkOutP').html(row.CheckOutUser + ' at ' + row.CheckOutDate);
+            $('#checkOutForm #checkOutP').html(row.CheckOutUser + ' at ' + row._CheckOutDate);
         }
         if (row.LocationUnique !== null) {
             $('#checkOutForm #LocationP').html('ID: ' + row.LocationUnique + ' | ' + row.LocationName);
