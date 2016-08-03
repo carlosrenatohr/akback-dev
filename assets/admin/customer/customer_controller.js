@@ -442,8 +442,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         //'allowNull': true,
         inputMode: 'simple',
         decimalDigits: 0,
-        digits: 3,
+        digits: 6,
         spinButtons: true,
+        groupSize: 2,
+        groupSeparator: ',',
         width: 180,
         height: 25
     };
@@ -451,12 +453,41 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.numberDecimalSettings = {
         inputMode: 'simple',
         decimalDigits: 2,
-        digits: 3,
+        digits: 6,
         spinButtons: true,
+        groupSize: 2,
+        groupSeparator: ',',
         width: 180,
         height: 25,
         min: ''
     };
+
+    $('body').on('valueChanged', '.customer-number', function (event)
+    {
+        //var nStr = event.args.text;
+        //nStr += '';
+        //var x = nStr.split('.');
+        //var x1 = x[0];
+        //var x2 = x.length > 1 ? '.' + x[1] : '';
+        //var rgx = /(\d+)(\d{3})/;
+        //if (rgx.test(x1)) {
+        //    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        //}
+        //console.log(x1 + x2);
+        //$(this).jqxNumberInput('val', x1 + x2);
+        ////$(this).focus();
+        //$(this).focus(function() {
+        //    setTimeout((function(el) {
+        //        var strLength = el.value.length;
+        //        return function() {
+        //            if(el.setSelectionRange !== undefined) {
+        //                el.setSelectionRange(strLength - 2 , strLength - 2);
+        //            } else {
+        //                $(el).val(el.value - 2);
+        //            }
+        //        }}(this)), 0);
+        //});
+    });
 
     $scope.dateSettings = {
         //selectionMode: 'range'
