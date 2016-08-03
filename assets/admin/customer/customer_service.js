@@ -520,7 +520,7 @@ demoApp.service('customerService', function ($http) {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
                 {text: 'Location name', dataField: 'LocationName', type: 'string'},
-                {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'yyyy-MM-dd'}, //yyyy-MM-dd
+                {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'MM-dd-yyyy'}, //yyyy-MM-dd
                 {text: '', dataField: '_CheckOutDate', type: 'string'},
                 {text: '', dataField: 'LocationUnique', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutBy', type: 'string', hidden: true},
