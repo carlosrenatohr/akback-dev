@@ -48,7 +48,7 @@ jqxthemes();
 <!--<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxgrid.js"></script>-->
 <!-- -->
 <div class="container-fluid" ng-controller="customerController" ng-cloak>
-    <div class="col-md-12 col-md-offset-0">
+    <div class="col-md-12 col-md-offset-0" style="">
         <div class="row">
             <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
                 <div class="col-md-12">
@@ -77,6 +77,11 @@ jqxthemes();
                 </div>
             </nav>
         </div>
+        <style>
+            #mainCustomerTabs .jqx-tabs-content-element {
+                /*overflow: inherit;!important;*/
+            }
+        </style>
         <div class="row">
             <jqx-tabs jqx-width="'100%'"
                       jqx-on-tabclick=""
@@ -95,6 +100,7 @@ jqxthemes();
                                       id="gridCustomer"
                                       jqx-create="customerTableSettings"
                                       jqx-on-row-double-click="openEditCustomerWind($event)"
+                                      style="overflow: inherit;"
                             ></jqx-grid>
                             <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings"
                                         id="addCustomerWindow" style="">

@@ -252,12 +252,12 @@ class Customer_model extends CI_Model
         return $status;
     }
 
-    public function getCheckinDaysSetting($location) {
+    public function getCheckinDaysSetting($value, $field = 'LocationUnique') {
 //        $this->session->unset_userdata('checkinDays');
 //        if ($this->session->has_userdata('checkinDays')) {
 //        if (is_null($this->session->userdata('checkinDays'))) {
             $query = $this->db->get_where('config_location_settings',
-                        ['LocationUnique' => $location, 'Setting' => 'CheckInDays'])
+                        [$field => $value, 'Setting' => 'CheckInDays','Status' => 1])
                         ->result_array();
             $this->session->set_userdata(['checkinDays' => $query[0]['Value']]);
             return $query[0]['Value'];

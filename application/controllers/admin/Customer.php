@@ -71,12 +71,35 @@ class Customer extends AK_Controller
                 $whereQuery = $this->filterCustomerTable($_GET);
             }
         }
-//        $customers = $this->customer->getAllCustomers($parentUnique, $formName);
+
+        //
+        $days = $this->customer->getCheckinDaysSetting(0, 'stationunique');
+//        $days[2] = $this->customer->getCheckinDaysSetting(2);
+        $newCustomers = [];
+
         $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery, $sortData);
+        foreach($customers as $customer) {
+            if (!is_null($customer['LastVisit'])){
+                $lv = $customer['LastVisit'];
+                $now = new DateTime();
+
+                $customer['strtotimeToday'] = date('Y-m-d h:i:sA', time());
+                $customer['strtotime7Days'] = date('Y-m-d h:i:sA', strtotime($lv . " +{$days} day"));
+                $checkInDaysLimit = new DateTime(date('Y-m-d', strtotime($lv . "+{$days} day")));
+//                $customer['now'] = $now;
+//                $customer['DateAfterLastVisit'] = $checkInDaysLimit;
+                $customer['diffSinceLastVisit'] = $checkInDaysLimit->diff($now)->format("%d");
+
+                $customer['readyToCheckIn'] = (time() >= strtotime($lv . " +{$days} day") || $customer['diffSinceLastVisit'] == 0);
+            } else {
+                $customer['readyToCheckIn'] = null;
+            }
+            $newCustomers[] = $customer;
+        }
         // Counting
         $total = $this->customer->getAllCustomers($parentUnique, $formName, true, null, null, $whereQuery, $sortData);
         echo json_encode([
-            'Rows' => $customers,
+            'Rows' => $newCustomers,
             'TotalRows' => $total
         ]);
     }

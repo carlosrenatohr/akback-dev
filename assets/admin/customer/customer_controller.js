@@ -88,7 +88,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             if (gridID == '#customerCheckInComplete') {
                 if (el.dataField == 'CheckOutDate' || el.dataField == 'LocationName') {
                     el['hidden'] = false;
-                    el['width'] = '10%';
+                    el['width'] = '7%';
                 }
             }
         });

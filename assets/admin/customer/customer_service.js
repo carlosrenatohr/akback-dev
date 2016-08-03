@@ -65,9 +65,11 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
+                console.log(data.readyToCheckIn);
                 var disabled = '';
                 if (data.LastVisit !== null)
-                    disabled = 'disabled = disabled';
+                    if(!data.readyToCheckIn)
+                        disabled = 'disabled = disabled';
                 return '<button class="btn btn-success checkInBtn" '+ disabled +
                         'data-unique="'+ data.Unique + '" data-location="1" '+
                         'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
@@ -79,13 +81,15 @@ demoApp.service('customerService', function ($http) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
                 var disabled = '';
                 if (data.LastVisit !== null)
-                    disabled = 'disabled = disabled';
+                    if(!data.readyToCheckIn)
+                        disabled = 'disabled = disabled';
                 return '<button class="btn btn-success checkInBtn" '+ disabled +
                     'data-unique="'+ data.Unique + '" data-location="2" '+
                     'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
                     'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
             }
         },
+        {text: '', dataField: 'readyToCheckIn', type: 'bool', hidden: true}
     ];
 
     // Source from customer table
@@ -124,7 +128,8 @@ demoApp.service('customerService', function ($http) {
             {name: 'Status', type: 'string'},
             {name: 'CheckIn1', type: 'string'},
             {name: 'CheckIn2', type: 'string'},
-            {name: 'LastVisit', type: 'date'}
+            {name: 'LastVisit', type: 'date'},
+            {name: 'readyToCheckIn', type: 'bool'}
         ],
         id: 'Unique',
         url: SiteRoot + 'admin/Customer/load_allCustomers',
@@ -164,7 +169,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: _this.customerGridsCols,
-            width: "100%",
+            width: "98.7%",
             theme: 'arctic',
             sortable: true,
             filterable: true,
@@ -408,7 +413,7 @@ demoApp.service('customerService', function ($http) {
                 {text: '', dataField: 'fname', type: 'string', hidden: true},
                 {text: '', dataField: 'VisitUnique', type: 'int', hidden: true}
             ),
-            width: "100%",
+            width: "98%",
             theme: 'arctic',
             sortable: true,
             filterable: true,
@@ -530,7 +535,7 @@ demoApp.service('customerService', function ($http) {
                 {text: '', dataField: 'fname', type: 'string', hidden: true},
                 {text: '', dataField: 'VisitUnique', type: 'int', hidden: true}
             ),
-            width: "100%",
+            width: "98.7%",
             theme: 'arctic',
             sortable: true,
             filterable: true,
