@@ -81,7 +81,7 @@ class CustomerCheckin extends AK_Controller
         foreach($customers as $customer) {
             $locationName = $this->customer->getLocationName($customer['LocationUnique']);
             $customer['LocationName'] = !empty($locationName) ? $locationName[0]['Name'] : '';
-            $customer['CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
+            $customer['_CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
             $customer['_CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';
             $newCustomers[] = $customer;
         }

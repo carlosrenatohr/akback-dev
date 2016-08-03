@@ -48,7 +48,7 @@ demoApp.service('customerService', function ($http) {
         {text: 'Email', dataField: 'Email', type: 'string'},
         {text: 'Full Identification', dataField: 'Custom1', type: 'string', hidden: true},
         {text: 'Date of Birth', dataField: 'Custom2', type: 'string', hidden: true},
-        {text: 'LastVisit', dataField: 'LastVisit', type: 'date', filtertype:'range', filtercondition: 'contains', format: 'Y'},
+        {text: 'LastVisit', dataField: 'LastVisit', type: 'date', filtertype:'range', filtercondition: 'contains', cellsformat: "MMM dd yyyy hh:mmtt"},
         {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
         {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
         {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
@@ -196,7 +196,8 @@ demoApp.service('customerService', function ($http) {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields.concat(
             [
-                {name: 'CheckInDate', type: 'string'},
+                {name: '_CheckInDate', type: 'string'},
+                {name: 'CheckInDate', type: 'date'},
                 {name: 'CheckInBy', type: 'string'},
                 {name: 'CheckOutDate', type: 'string'},
                 {name: 'CheckOutBy', type: 'string'},
@@ -271,7 +272,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Check in Date', dataField: 'CheckInDate', type: 'string'},
+                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutBy', type: 'string', hidden: true},
@@ -319,7 +320,8 @@ demoApp.service('customerService', function ($http) {
     this.sourceCheckIn2Grid =  {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields.concat(
-            {name: 'CheckInDate', type: 'string'},
+            {name: '_CheckInDate', type: 'string'},
+            {name: 'CheckInDate', type: 'date'},
             {name: 'CheckInBy', type: 'string'},
             {name: 'CheckOutDate', type: 'string'},
             {name: 'CheckOutBy', type: 'string'},
@@ -391,7 +393,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Check in Date', dataField: 'CheckInDate', type: 'string'},
+                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutBy', type: 'string', hidden: true},
