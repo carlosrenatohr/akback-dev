@@ -56,7 +56,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             itemsMenuWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "75%",
+        width: "60%", height: "80%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -1130,6 +1130,41 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             $('#promptToCloseQitem').hide();
             $('#promptToDeleteQItem').show();
         }
+    };
+
+    /**
+     * PRINTER TAB ACTIONS
+     */
+    $scope.printerTableOnMenuItemsSettings = {
+        source: {
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'ItemUnique', type: 'int'},
+                {name: 'PrinterUnique', type: 'int'},
+                {name: 'name', type: 'string'},
+                {name: 'description', type: 'string'},
+                {name: 'Item', type: 'string'},
+                {name: 'Status', type: 'number'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters'
+        },
+        columns: [
+            {text: 'ID', dataField: 'Unique', type: 'int'},
+            {text: 'Item', dataField: 'Item', type: 'string'},
+            {text: 'Name', dataField: 'name', type: 'string'},
+            {text: 'Description', dataField: 'description', type: 'string'},
+            {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
+            {text: '', dataField: 'Status', type: 'int', hidden: true},
+        ],
+        columnsResize: true,
+        width: "99%",
+        height: "300px",
+        theme: 'arctic',
+        sortable: true,
+        pageable: true,
+        pageSize: 15
     };
 
 });

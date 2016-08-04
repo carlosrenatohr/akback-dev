@@ -71,6 +71,7 @@
                 <ul>
                     <li>Menu Item</li>
                     <li id="questionsTabOnMenuItemWindow">Questions</li>
+                    <li>Printers</li>
                 </ul>
                 <!-- Menu Item subtab -->
                 <div class="">
@@ -272,6 +273,20 @@
                             </div>
                         </div>
                     </jqx-window>
+                </div>
+                <!-- Question subtab -->
+                <div class="">
+                    <div class="col-md-12">
+                        <button class="btn btn-info" ng-click="" style="margin: 10px 0;">
+                            New Printer
+                        </button>
+                    </div>
+                    <div class="col-md-12">
+                        <jqx-data-table jqx-settings="printerTableOnMenuItemsSettings"
+                                        jqx-on-row-double-click=""
+                                        jqx-create="printerTableOnMenuItemsSettings">
+                        </jqx-data-table>
+                    </div>
                 </div>
             </jqx-tabs>
 
