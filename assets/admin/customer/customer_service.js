@@ -511,7 +511,7 @@ demoApp.service('customerService', function ($http) {
         checkInCols.splice(checkin2Id, 1);
         checkInCols.shift();
         checkInCols.unshift({text: '', type: 'string', dataField: 'Unique',
-            aggregates: [{ 'Total': aggregates }],
+            aggregates: [{ 'Count': aggregates }],
             aggregatesrenderer: aggregatesrender
         });
 
