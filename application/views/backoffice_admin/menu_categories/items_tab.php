@@ -274,19 +274,76 @@
                         </div>
                     </jqx-window>
                 </div>
-                <!-- Question subtab -->
+                <!-- Printer subtab -->
                 <div class="">
                     <div class="col-md-12">
-                        <button class="btn btn-info" ng-click="" style="margin: 10px 0;">
+                        <button class="btn btn-info" ng-click="openPrinterItemWin()" style="margin: 10px 0;">
                             New Printer
                         </button>
                     </div>
                     <div class="col-md-12">
-                        <jqx-data-table jqx-settings="printerTableOnMenuItemsSettings"
-                                        jqx-on-row-double-click=""
-                                        jqx-create="printerTableOnMenuItemsSettings">
+                        <jqx-data-table id="printerItemTable"
+                                    jqx-settings="printerTableOnMenuItemsSettings"
+                                    jqx-on-row-double-click=""
+                                    jqx-create="printerTableOnMenuItemsSettings">
                         </jqx-data-table>
                     </div>
+                    <jqx-window jqx-on-close="close()" jqx-settings="printerItemWindowSettings"
+                                jqx-create="printerItemWindowSettings" class="">
+                        <div>
+                            New Printer
+                        </div>
+                        <div>
+                            <div class="col-md-12 col-md-offset-0">
+                                <div class="row itemqFormContainer">
+                                    <div style=" width:100%;float:left;">
+                                        <div style="float:left; padding:2px; width:650px;">
+                                            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Printer:</div>
+                                            <div style="float:left; width:350px;">
+                                                <jqx-drop-down-list id="printerItemList"
+                                                                    jqx-settings="printerItemList"
+                                                                    jqx-width="'100%'"
+                                                                    jqx-on-select="">
+                                                </jqx-drop-down-list>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Main buttons before saving questions on current item -->
+                            <div class="col-md-12 col-md-offset-0">
+                                <div class="row">
+                                    <div id="">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <button type="button" id="saveBtnPrinterItem" ng-click="saveItemPrinter()" class="btn btn-primary" disabled>
+                                                    Save
+                                                </button>
+                                                <button	type="button" id="" ng-click="closePrinterItemWin()" class="btn btn-warning">
+                                                    Close
+                                                </button>
+<!--                                                <button	type="button" id="" ng-click="" class="btn btn-danger " style="overflow:auto;">-->
+<!--                                                    Delete-->
+<!--                                                </button>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- NOTIFICATIONS AREA -->
+                            <div class="col-md-12 col-md-offset-0">
+                                <div class="row">
+                                    <jqx-notification jqx-settings="" id="">
+                                        <div id="notification-content"></div>
+                                    </jqx-notification>
+                                    <jqx-notification jqx-settings="" id="">
+                                        <div id="notification-content"></div>
+                                    </jqx-notification>
+                                    <div id="notification_container_pmenuitem" style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </jqx-window>
                 </div>
             </jqx-tabs>
 
