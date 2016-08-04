@@ -65,7 +65,6 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                console.log(data.readyToCheckIn);
                 var disabled = '';
                 if (data.LastVisit !== null)
                     if(!data.readyToCheckIn)

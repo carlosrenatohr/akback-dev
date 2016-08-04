@@ -747,6 +747,20 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 } else {
                     current.css({'border-color': '#CCC'});
                 }
+            } else if (type == 'radio') {
+                if (el.hasClass('req')) {
+                    var hasValue;
+                    $(el).find('.customer_radio').each(function(i, ele) {
+                        hasValue = $(ele).val();
+                    });
+                    if (!hasValue) {
+                        needValidation = true;
+                        openNotification('"' + el.parent().find('.labelContent').html() + '" checkbox required!' , el);
+                        el.css({border: 'solid 1px red', padding: '2px'});
+                    } else {
+                        el.css({border: 'solid 1px #FFF'});
+                    }
+                }
             }
         });
 
