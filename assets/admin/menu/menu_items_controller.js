@@ -31,6 +31,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         if (tabclicked == 0) {
             $('#deleteItemGridBtn').show();
         } else if (tabclicked == 2) {
+            // Fill all printers
+            if (allPrintersArray == '') {
+                var rows = $("#printerItemList").jqxDropDownList('getItems');
+                for(var j in rows) {
+                    allPrintersArray.push(rows[j]['value']);
+                }
+            }
+            //
             $('#deleteItemGridBtn').hide();
             $scope.$apply(function() {
                 updatePrinterItemGrid();
@@ -1164,7 +1172,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-            {text: 'Actions', type: 'string', hidden:false, width: '20%',
+            {text: 'Actions', type: 'string', hidden:false, width: '20%', align: 'center',
                 cellsrenderer: function (row, column, value, rowData) {
                     return '<button class="btn btn-danger deletePrinterItemBtn" '+
                         'data-unique="'+ rowData.Unique +'" '+
@@ -1181,6 +1189,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         pageSize: 15
     };
 
+    var allPrintersArray = [];
     var printerStoredArray = [];
     var updatePrinterItemGrid = function() {
         $scope.printerTableOnMenuItemsSettings = {
@@ -1206,7 +1215,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
                 {text: '', dataField: 'Status', type: 'int', hidden: true},
                 {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-                {text: 'Actions', type: 'string', hidden:false, width: '20%',
+                {text: 'Actions', type: 'string', hidden:false, width: '20%', align: 'center',
                     cellsrenderer: function (row, column, value, rowData) {
                         return '<button class="btn btn-danger deletePrinterItemBtn" '+
                             'data-unique="'+ rowData.Unique +'" '+
@@ -1259,20 +1268,17 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.printerItemList = { source: dataAdapter, displayMember: "fullDescription", valueMember: "unique" };
 
     function setPrinterStoredArray() {
+        // Fill with printers by item
+        printerStoredArray = [];
         var rows = $('#printerItemTable').jqxDataTable('getRows');
         for(var j in rows) {
             printerStoredArray.push(rows[j]['PrinterUnique']);
         }
-        console.log(printerStoredArray);
-        for (var i in printerStoredArray) {
-            var item = $("#printerItemList").jqxDropDownList('getItemByValue', printerStoredArray[i]);
-            console.log(item);
-            if (item !== undefined) {
-                if (printerStoredArray.indexOf(item.value) > -1) {
-                    $("#printerItemList").jqxDropDownList('disableItem', item);
-                } else {
-                    $("#printerItemList").jqxDropDownList('enableItem', item);
-                }
+        // Check existing printers on stored by item
+        for (var i in allPrintersArray) {
+            var item = $("#printerItemList").jqxDropDownList('getItemByValue', allPrintersArray[i]);
+            if (printerStoredArray.indexOf(allPrintersArray[i]) > -1) {
+                $("#printerItemList").jqxDropDownList('disableItem', item);
             } else {
                 $("#printerItemList").jqxDropDownList('enableItem', item);
             }
@@ -1285,6 +1291,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         setPrinterStoredArray();
         //
         $("#printerItemList").jqxDropDownList({selectedIndex: -1});
+        $('#saveBtnPrinterItem').prop('disabled', true);
         printerItemWind.open();
     };
 
@@ -1332,7 +1339,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         $scope.$apply(function() {
                             updatePrinterItemGrid();
                         });
-                        printerStoredArray = [];
                         setPrinterStoredArray();
                     } else if (response.status == 'error'){
                         console.log('there was an error db');
