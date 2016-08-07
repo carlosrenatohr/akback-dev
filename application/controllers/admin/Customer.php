@@ -184,6 +184,7 @@ class Customer extends AK_Controller
                             $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "'";
                             break;
                     }
+// Select * from customer where "customer"."LastName" LIKE '%Collado%' AND ("ParentUnique" IS NULL OR "ParentUnique" IN (SELECT "Unique" FROM customer where "customer"."LastName" LIKE '%Collado%'))
                     if ($i == $filterscount - 1) {
                         $where .= ")";
                     }

@@ -143,8 +143,16 @@ class CustomerCheckin extends AK_Controller
                         $filterdatafield = "customer_visit\".\"LastName";
                     if ($filterdatafield == 'Unique')
                         $filterdatafield = "customer\".\"Unique";
+                    if ($filterdatafield == 'LastVisit') {
+                        $filterdatafield = "customer\".\"LastVisit";
+                        $filtervalue = date('Y-m-d', strtotime(str_replace('-', '/', $filtervalue)));
+                    }
+                    if ($filterdatafield == 'CheckInDate') {
+                        $filterdatafield = "customer_visit\".\"CheckInDate";
+                        $filtervalue = date('Y-m-d', strtotime(str_replace('-', '/', $filtervalue)));
+                    }
                     if ($filterdatafield == 'CheckOutDate') {
-                        $filterdatafield = "customer_visit\".\"CheckOutDate";
+                        $filterdatafield = "customer\".\"CheckOutDate";
                         $filtervalue = date('Y-m-d', strtotime(str_replace('-', '/', $filtervalue)));
                     }
                     switch ($filtercondition) {

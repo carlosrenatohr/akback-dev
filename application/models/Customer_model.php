@@ -27,16 +27,22 @@ class Customer_model extends CI_Model
         $this->db->select($fields_select);
         $this->db->from($this->customerTable);
 
-        $where = ['Status' => 1];
-        if (!is_null($parentUnique)) {
-            $where['ParentUnique'] = $parentUnique;
-        } else {
-            $where['ParentUnique'] = null;
-        }
         // Filtering
         if (!empty($filterQuery)) {
             $this->db->where($filterQuery, NULL, false);
         }
+        $where = ['Status' => 1];
+        if (!is_null($parentUnique)) {
+            $where['ParentUnique'] = $parentUnique;
+            $this->db->where($where);
+        } else {
+            $where['ParentUnique'] = null;
+            $this->db->where($where);
+            //Query to Search In Contacts
+            if (!empty($filterQuery))
+                $this->db->or_where("\"ParentUnique\" IS NULL AND \"Unique\" IN (select \"ParentUnique\" from customer WHERE " . $filterQuery . ")" , NULL, false);
+        }
+
         // Paging
         if (!is_null($pageNum) && !is_null($perPage)) {
             $offset = ($pageNum) * $perPage; // -1
@@ -53,9 +59,10 @@ class Customer_model extends CI_Model
                 $this->db->order_by('Unique', 'DESC');
         } else
             $this->db->order_by('Unique', 'DESC');
-        $this->db->where($where);
+
         $query = $this->db->get()->result_array();
-//        var_dump($this->db->last_query());
+//        var_dump($this->db->last_query());exit;
+
         if ($isCount) {
             return count($query);
         } else {

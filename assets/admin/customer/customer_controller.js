@@ -73,6 +73,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 el['hidden'] = false;
                 el['text'] = labelNames[idx];
                 el['width'] = sizes[idx] + '%';
+                el['classname'] = 'headercolumncustomer-' + fieldsNames[idx];
+                //el['rendered'] = function(columnheader,second, third, fif) {};
                 //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
                 //$('#gridCustomer').jqxGrid('setcolumnproperty', el.dataField, 'text', el.Label);
                 //$('#gridCustomer').jqxGrid('showcolumn', el.dataField);
@@ -103,22 +105,26 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 }
             });
             //
-            var filterInputs = [];
-            var rowFilterInputs = $(rowParentElement + ' .jqx-grid-cell-pinned input[type="textarea"]');
+            //var filterInputs = [];
+            //var rowFilterInputs = $(rowParentElement + ' .jqx-grid-cell-pinned input[type="textarea"]');
             var defaultSelectInput = defaultValues.indexOf(1);
-            rowFilterInputs.each(function (i, el) {
-                if ($(el).css('width') != '0px') {
-                    filterInputs.push(el);
-                }
-            });
+            //rowFilterInputs.each(function (i, el) {
+            //    if ($(el).css('width') != '0px')
+            //        filterInputs.push(el);
+            //});
 
+            // bindingcomplete only once
             if (isBindingComplete) {
-                $(gridID).jqxGrid('applyfilters');
-                gridSettings.apply('applyfilters');
-                isBindingComplete = false;
+                if (gridID == '#gridCustomer') {
+                    $(gridID).jqxGrid('applyfilters');
+                    $(gridID).jqxGrid('applyfilters');
+                    //gridSettings.apply('applyfilters');
+                    isBindingComplete = false;
+                }
             }
-            $(filterInputs[defaultSelectInput]).focus();
-            //console.log('binding complete');
+            //$(filterInputs[defaultSelectInput]).focus();
+            var columnHeaderSelected = $(gridID + ' .jqx-grid-column-header.headercolumncustomer-' + fieldsNames[defaultSelectInput]).index();
+            $(rowParentElement + ' .jqx-grid-cell-pinned').eq(columnHeaderSelected).find('input[type="textarea"]').focus();
         };
 
         gridSettings.rendered = function() {}

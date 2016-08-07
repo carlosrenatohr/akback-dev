@@ -48,7 +48,7 @@ demoApp.service('customerService', function ($http) {
         {text: 'Email', dataField: 'Email', type: 'string'},
         {text: 'Full Identification', dataField: 'Custom1', type: 'string', hidden: true},
         {text: 'Date of Birth', dataField: 'Custom2', type: 'string', hidden: true},
-        {text: 'LastVisit', dataField: 'LastVisit', type: 'date', filtertype:'range', filtercondition: 'contains', cellsformat: "MMM dd yyyy hh:mmtt"},
+        {text: 'LastVisit', dataField: 'LastVisit', type: 'date', filtertype:'range', cellsformat: "MMM dd yyyy hh:mmtt"},
         {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
         {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
         {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
@@ -62,7 +62,7 @@ demoApp.service('customerService', function ($http) {
         {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
         {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
         {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
-        {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false,
+        {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
                 var disabled = '';
@@ -75,7 +75,7 @@ demoApp.service('customerService', function ($http) {
                         'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
             }
         },
-        {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden:false,
+        {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
                 var disabled = '';
@@ -182,10 +182,11 @@ demoApp.service('customerService', function ($http) {
                 return dataAdapterCustomerGrid.records;
             },
             showfilterrow: true,
+            // TODO: Apparently Row details generates 'still loading..' issue
             rowdetails: true,
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
-                rowdetails: "<div id='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
             }
@@ -276,7 +277,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', cellsformat: "MMM dd yyyy hh:mmtt"},
+                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutBy', type: 'string', hidden: true},
@@ -397,7 +398,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', cellsformat: "MMM dd yyyy hh:mmtt"},
+                {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutBy', type: 'string', hidden: true},
@@ -519,7 +520,7 @@ demoApp.service('customerService', function ($http) {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
                 {text: 'Location name', dataField: 'LocationName', type: 'string'},
-                {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'MM-dd-yyyy'}, //yyyy-MM-dd
+                {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'MM-dd-yyyy'}, //MM-dd-yyyy,     yyyy-MM-dd
                 {text: '', dataField: '_CheckOutDate', type: 'string'},
                 {text: '', dataField: 'LocationUnique', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutBy', type: 'string', hidden: true},
@@ -604,7 +605,7 @@ demoApp.service('customerService', function ($http) {
                     {name: 'Status', type: 'string'},
                     {name: 'ParentUnique', type: 'int'}
                 ],
-                id: 'Unique',
+                //id: 'Unique',
                 url: urlToRequest
             }),
             columns: [
@@ -647,8 +648,8 @@ demoApp.service('customerService', function ($http) {
             pageSize: 20,
             pagerMode: 'simple',
             filterable: true,
-            showfilterrow: (parentUnique) ? true : false,
-            columnsautoresize: true
+            //showfilterrow: (parentUnique) ? true : false,
+            //columnsautoresize: true
         }
     };
 
