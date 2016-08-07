@@ -57,21 +57,21 @@ class CustomerCheckin extends AK_Controller
             }
             // *Default showing only checked out customers
             else {
-//                if ($status == 2 && $location == 0) {
-//                    $today = date('Y-m-d');
-//                    $tomorrow = date('Y-m-d H:i:s', strtotime($today . ' +1 day'));
-//                    $_GET["CheckOutDateoperator"] =  "and";
-//                    $_GET["filtervalue0"] = $today;
-//                    $_GET["filtercondition0"] =  "GREATER_THAN_OR_EQUAL";
-//                    $_GET["filteroperator0"] = "0";
-//                    $_GET["filterdatafield0"] = "CheckOutDate";
-//                    $_GET["filtervalue1"] =  $tomorrow;
-//                    $_GET["filtercondition1"] = "LESS_THAN_OR_EQUAL";
-//                    $_GET["filteroperator1"] = "0";
-//                    $_GET["filterdatafield1"]= "CheckOutDate";
-//                    $_GET["filterscount"] = "2";
-//                    $whereQuery = $this->filterCustomerTable($_GET);
-//                }
+                if ($status == 2 && $location == 0) {
+                    $today = date('Y-m-d');
+                    $tomorrow = date('Y-m-d H:i:s', strtotime($today . ' +1 day'));
+                    $_GET["CheckOutDateoperator"] =  "and";
+                    $_GET["filtervalue0"] = $today;
+                    $_GET["filtercondition0"] =  "GREATER_THAN_OR_EQUAL";
+                    $_GET["filteroperator0"] = "0";
+                    $_GET["filterdatafield0"] = "CheckOutDate";
+                    $_GET["filtervalue1"] =  $tomorrow;
+                    $_GET["filtercondition1"] = "LESS_THAN_OR_EQUAL";
+                    $_GET["filteroperator1"] = "0";
+                    $_GET["filterdatafield1"]= "CheckOutDate";
+                    $_GET["filterscount"] = "2";
+                    $whereQuery = $this->filterCustomerTable($_GET);
+                }
             }
         }
         $newCustomers = [];
@@ -152,7 +152,7 @@ class CustomerCheckin extends AK_Controller
                         $filtervalue = date('Y-m-d', strtotime(str_replace('-', '/', $filtervalue)));
                     }
                     if ($filterdatafield == 'CheckOutDate') {
-                        $filterdatafield = "customer\".\"CheckOutDate";
+                        $filterdatafield = "customer_visit\".\"CheckOutDate";
                         $filtervalue = date('Y-m-d', strtotime(str_replace('-', '/', $filtervalue)));
                     }
                     switch ($filtercondition) {

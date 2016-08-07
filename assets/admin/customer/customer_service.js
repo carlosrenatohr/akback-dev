@@ -311,7 +311,7 @@ demoApp.service('customerService', function ($http) {
             rowdetails: true,
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
-                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetails: "<div class='contactsNestedGridCheckin2' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
             }
@@ -432,7 +432,7 @@ demoApp.service('customerService', function ($http) {
             rowdetails: true,
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
-                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetails: "<div class='contactsNestedGridCheckin1' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
             }
@@ -473,6 +473,31 @@ demoApp.service('customerService', function ($http) {
         sort: function () {
             $("#customerCheckInComplete").jqxGrid('updatebounddata');
         }
+    };
+
+    this.addDefaultfilter = function()
+    {
+        var datefiltergroup = new $.jqx.filter();
+        var operator = 0;
+        var today = new Date();
+
+        var weekago = new Date();
+
+        weekago.setDate((today.getDate() - 10));
+
+        var  filtervalue = weekago;
+        var  filtercondition = 'GREATER_THAN_OR_EQUAL';
+        var filter4 = datefiltergroup.createfilter('datefilter', filtervalue, filtercondition);
+
+        filtervalue = today;
+        filtercondition = 'LESS_THAN_OR_EQUAL';
+        var filter5 = datefiltergroup.createfilter('datefilter', filtervalue, filtercondition);
+
+        datefiltergroup.addfilter(operator, filter4);
+        datefiltergroup.addfilter(operator, filter5);
+        console.log('check out filter today!');
+        $("#customerCheckInComplete").jqxGrid('addfilter', 'CheckOutDate', datefiltergroup);
+        $("#customerCheckInComplete").jqxGrid('applyfilters');
     };
 
     this.getCheckinCompleteGridSettings = function () {
@@ -554,9 +579,13 @@ demoApp.service('customerService', function ($http) {
             rowdetails: true,
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
-                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
+                rowdetails: "<div class='contactsNestedGridCheckout' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
+            },
+            ready: function() {
+                _this.addDefaultfilter();
+                //$("#customerCheckInComplete").jqxGrid('sortby', 'LastName', 'asc');
             }
         };
     };
