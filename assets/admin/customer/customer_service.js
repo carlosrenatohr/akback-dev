@@ -481,15 +481,15 @@ demoApp.service('customerService', function ($http) {
         var operator = 0;
         var today = new Date();
 
-        var weekago = new Date();
+        var tomorrow = new Date();
 
-        weekago.setDate((today.getDate() - 10));
+        tomorrow.setDate((today.getDate() + 1));
 
-        var  filtervalue = weekago;
+        var  filtervalue = today;
         var  filtercondition = 'GREATER_THAN_OR_EQUAL';
         var filter4 = datefiltergroup.createfilter('datefilter', filtervalue, filtercondition);
 
-        filtervalue = today;
+        filtervalue = tomorrow;
         filtercondition = 'LESS_THAN_OR_EQUAL';
         var filter5 = datefiltergroup.createfilter('datefilter', filtervalue, filtercondition);
 
