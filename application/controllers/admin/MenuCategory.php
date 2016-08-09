@@ -20,11 +20,16 @@ class MenuCategory extends AK_Controller
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
-        $data['menu_tab_view'] = "backoffice_admin/menu_categories/menu_tab";
-        $data['category_tab_view'] = "backoffice_admin/menu_categories/categories_tab";
-        $data['items_tab_view'] = "backoffice_admin/menu_categories/items_tab";
-        $data['questions_tab_view'] = "backoffice_admin/menu_categories/questions_tab";
-        $this->load->view("backoffice_admin/menu_categories/index", $data);
+        // partials and views
+        $menu_path = 'backoffice_admin/menu_categories/';
+        $data['menu_tab_view'] = $menu_path . "menu_tab";
+        $data['category_tab_view'] = $menu_path . "categories_tab";
+        $data['items_tab_view'] = $menu_path . "items_tab";
+        $data['items_menuitem_subtab_view'] = $menu_path . "items_menuitem_subtab";
+        $data['items_questions_subtab_view'] = $menu_path . "items_question_subtab";
+        $data['items_printers_subtab_view'] = $menu_path . "items_printer_subtab";
+        $data['questions_tab_view'] = $menu_path . "questions_tab";
+        $this->load->view($menu_path . "index", $data);
     }
 
     /**

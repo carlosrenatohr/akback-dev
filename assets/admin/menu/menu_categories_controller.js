@@ -29,7 +29,8 @@ app.controller('menuCategoriesController', function($scope, $http){
                 {name: 'Column', type: 'number'},
                 {name: 'Row', type: 'number'},
                 {name: 'MenuItemRow', type: 'number'},
-                {name: 'MenuItemColumn', type: 'number'}
+                {name: 'MenuItemColumn', type: 'number'},
+                {name: 'ItemLength', type: 'number'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -39,10 +40,11 @@ app.controller('menuCategoriesController', function($scope, $http){
             {text: 'Menu Name', dataField: 'MenuName', type: 'number'},
             {text: 'Status', dataField: 'Status', type: 'int', hidden:true},
             {text: 'Status', dataField: 'StatusName', type: 'string'},
-            {text: 'Column', dataField: 'Column', type: 'number', hidden: true},
-            {text: 'Row', dataField: 'Row', type: 'number', hidden: true},
-            {text: 'MenuItemRow', dataField: 'MenuItemRow', type: 'number', hidden: true},
-            {text: 'MenuItemColumn', dataField: 'MenuItemColumn', type: 'number', hidden: true}
+            {text: 'Column', dataField: 'Column', type: 'number'},
+            {text: 'Row', dataField: 'Row', type: 'number'},
+            {text: 'Menu Item Row', dataField: 'MenuItemRow', type: 'number', hidden: true},
+            {text: 'Menu Item Column', dataField: 'MenuItemColumn', type: 'number', hidden: true},
+            {text: 'Item Length', dataField: 'ItemLength', type: 'number'}
         ],
         columnsResize: true,
         width: "100%",
@@ -89,7 +91,6 @@ app.controller('menuCategoriesController', function($scope, $http){
     $('.menuFormContainer .required-field').on('keypress keyup paste change', function (e) {
         var idsRestricted = ['add_MenuRow', 'add_MenuColumn', 'add_MenuItemRow', 'add_MenuItemColumn'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        console.log(inarray);
         if (inarray >= 0) {
             var charCode = (e.which) ? e.which : e.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -133,6 +134,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_MenuRow').val(values['Row']);
         $('#add_MenuItemRow').val(values['MenuItemRow']);
         $('#add_MenuItemColumn').val(values['MenuItemColumn']);
+        $('#add_ItemLength').val(values['ItemLength']);
 
         $('#deleteMenuBtn').show();
         $scope.newOrEditOption = 'edit';
@@ -188,6 +190,7 @@ app.controller('menuCategoriesController', function($scope, $http){
             'Column': $('#add_MenuColumn').val(),
             'MenuItemRow': $('#add_MenuItemRow').val(),
             'MenuItemColumn': $('#add_MenuItemColumn').val(),
+            'ItemLength': $('#add_ItemLength').val(),
             'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value
         };
         if (!validationMenuItem(values)) {
@@ -202,7 +205,6 @@ app.controller('menuCategoriesController', function($scope, $http){
                 'url': url,
                 'data': values
             }).then(function(response) {
-                console.log(response);
                 if(response.data.status == "success") {
                     $scope.menuTableSettings = {
                         source: {
@@ -215,7 +217,8 @@ app.controller('menuCategoriesController', function($scope, $http){
                                 {name: 'Column', type: 'number'},
                                 {name: 'Row', type: 'number'},
                                 {name: 'MenuItemRow', type: 'number'},
-                                {name: 'MenuItemColumn', type: 'number'}
+                                {name: 'MenuItemColumn', type: 'number'},
+                                {name: 'ItemLength', type: 'number'}
                             ],
                             id: 'Unique',
                             url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -273,6 +276,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#add_MenuColumn').val('');
         $('#add_MenuItemColumn').val('');
         $('#add_MenuItemRow').val('');
+        $('#add_ItemLength').val('');
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
 
@@ -311,7 +315,8 @@ app.controller('menuCategoriesController', function($scope, $http){
                             {name: 'Column', type: 'number'},
                             {name: 'Row', type: 'number'},
                             {name: 'MenuItemRow', type: 'number'},
-                            {name: 'MenuItemColumn', type: 'number'}
+                            {name: 'MenuItemColumn', type: 'number'},
+                            {name: 'ItemLength', type: 'number'}
                         ],
                         id: 'Unique',
                         url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -396,7 +401,7 @@ app.controller('menuCategoriesController', function($scope, $http){
     $scope.categoryNotificationsErrorSettings = setNotificationCategoryInit(0);
 
     // Menu select
-    var source =
+    var dataAdapter = new $.jqx.dataAdapter(
     {
         datatype: "json",
         datafields: [
@@ -406,33 +411,28 @@ app.controller('menuCategoriesController', function($scope, $http){
         ],
         id: 'Unique',
         url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
-    };
+    });
 
-    var dataAdapter = new $.jqx.dataAdapter(source);
     $scope.settingsMenuSelect =
-            { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
+        { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
 
     function reloadMenuSelectOnCategories() {
-        var source =
-        {
-            datatype: "json",
-            datafields: [
-                { name: 'MenuName' },
-                { name: 'Status' },
-                { name: 'Unique' }
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
-        };
+        var source = new $.jqx.dataAdapter(
+            {
+                datatype: "json",
+                datafields: [
+                    { name: 'MenuName' },
+                    { name: 'Status' },
+                    { name: 'Unique' }
+                ],
+                //id: 'Unique',
+                url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
+            }, {});
 
-        var dataAdapter = new $.jqx.dataAdapter(source, {
-            //'async': false
-        });
-
-        $scope.$apply(function(){
+        //$scope.$apply(function() {
             $scope.settingsMenuSelect =
-            { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
-        });
+            { source: source, displayMember: "MenuName", valueMember: "Unique" };
+        //});
     }
 
     // Status select
@@ -480,7 +480,7 @@ app.controller('menuCategoriesController', function($scope, $http){
     });
 
     $('#add_CategoryStatus, #add_MenuUnique').on('select', function() {
-    //$('#add_CategoryStatus').on('select', function() {
+        //$('#add_CategoryStatus').on('select', function() {
         $('#saveCategoryBtn').prop('disabled', false);
     });
 
@@ -517,7 +517,7 @@ app.controller('menuCategoriesController', function($scope, $http){
         $('#deleteCategoryBtn').show();
         $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Edit Menu Category: ' + values['Unique'] + ' | Category: <b>' +
-                                 values['CategoryName'] + '</b>');
+            values['CategoryName'] + '</b>');
         categoryWindow.open();
     };
 

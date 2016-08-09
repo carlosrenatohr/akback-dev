@@ -79,6 +79,18 @@
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                             </div>
                         </div>
+                        <div style="float:left; padding:2px; width:450px;">
+                            <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Item Length</div>
+                            <div style="float:left; width:180px;">
+                                <input type="number" class="form-control required-field" id="add_ItemLength"
+                                       name="add_MenuItemLength" placeholder="Item Length"
+                                       step="1" min="1" max="99" pattern="\d*"
+                                >
+                            </div>
+                            <div style="float:left;">
+                                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                            </div>
+                        </div>
 
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Status:</div>

@@ -92,6 +92,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 {name: 'Row', type: 'number'},
                 {name: 'MenuItemColumn', type: 'number'},
                 {name: 'MenuItemRow', type: 'number'},
+                {name: 'ItemLength', type: 'number'},
                 {name: 'CategoryName', type: 'string'},
                 {name: 'categories', type: 'json'}
             ],
@@ -550,6 +551,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 return false;
             }
         }
+        if ($(this).attr('id') == 'editItem_label') {
+            var characters = this.value.length;
+            if (characters >= $scope.itemLengthOfMenuSelected) {
+                $('#menuitemNotificationsErrorSettings #notification-content')
+                    .html('You have exceeded limit of characters!');
+                $scope.menuitemNotificationsErrorSettings.apply('open');
+                return false;
+            }
+        }
         $('#saveItemGridBtn').prop('disabled', false);
     });
 
@@ -581,6 +591,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             //
             $scope.countChangesOnSelectingItemCbx = 0;
             $scope.tryToChangeQuestionTab = false;
+            $scope.itemLengthOfMenuSelected = $scope.menuSelectedWithCategories.ItemLength;
             //
             var $this = $(e.currentTarget);
             if ($this.hasClass('filled')) {
@@ -610,6 +621,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         var label = (data['Label'] == '' || data['Label'] == null)
                                     ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
                                     : data['Label'];
+                        // Item length limit applied (Taken from menu selected)
+                        label = label.substring(0, $scope.itemLengthOfMenuSelected);
                         $('#editItem_label').val(label);
                         $('#editItem_sort').val((data['Sort']) == '' || data['Sort'] == null ? 1 : data['Sort']);
                         $('#editItem_Row').val(data.Row);
@@ -692,7 +705,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 opacity: 0.9
             }
         );
-
         var ItemOnAboveGrid = false;
         $('#selectedItemInfo, .jqx-listitem-element')
         .bind('dragStart', function (event) {
