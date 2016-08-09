@@ -1172,13 +1172,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-            {text: 'Actions', type: 'string', hidden:false, width: '20%', align: 'center',
-                cellsrenderer: function (row, column, value, rowData) {
-                    return '<button class="btn btn-danger deletePrinterItemBtn" '+
-                        'data-unique="'+ rowData.Unique +'" '+
-                        'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Delete</button>';
-                }
-            }
+            //{text: 'Actions', type: 'string', hidden:false, width: '20%', align: 'center',
+            //    cellsrenderer: function (row, column, value, rowData) {
+            //        return '<button class="btn btn-danger deletePrinterItemBtn" '+
+            //            'data-unique="'+ rowData.Unique +'" '+
+            //            'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Delete</button>';
+            //    }
+            //}
         ],
         //columnsResize: true,
         width: "99%",
@@ -1211,17 +1211,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '20%'},
                 {text: 'Item', dataField: 'Item', type: 'string', hidden: true},
                 {text: 'Name', dataField: 'name', type: 'string', width: '20%'},
-                {text: 'Description', dataField: 'description', type: 'string', width: '40%'},
+                {text: 'Description', dataField: 'description', type: 'string', width: '60%'},
                 {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
                 {text: '', dataField: 'Status', type: 'int', hidden: true},
-                {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-                {text: 'Actions', type: 'string', hidden:false, width: '20%', align: 'center',
-                    cellsrenderer: function (row, column, value, rowData) {
-                        return '<button class="btn btn-danger deletePrinterItemBtn" '+
-                            'data-unique="'+ rowData.Unique +'" '+
-                            'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Delete</button>';
-                    }
-                }
+                {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
             ],
             created: function (args) {
                 args.instance.updateBoundData();
@@ -1285,18 +1278,41 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         }
     }
 
+    $scope.itemPrinterID = null;
+    $scope.createOrEditPitem = null;
     $scope.openPrinterItemWin = function(e) {
         $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
+        $scope.createOrEditPitem = 'create';
+        $scope.itemPrinterID = null;
         // Printers saved by Item
         setPrinterStoredArray();
         //
         $("#printerItemList").jqxDropDownList({selectedIndex: -1});
+        $('#deleteBtnPrinterItem').hide();
         $('#saveBtnPrinterItem').prop('disabled', true);
+        printerItemWind.setTitle('New Item Printer');
         printerItemWind.open();
     };
 
-    $scope.closePrinterItemWin = function(e) {
+    $scope.updateItemPrinter = function(e) {
+        var row = e.args.row;
+        $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
+        $scope.openPrinterItemWin();
+        printerItemWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
+        //
+        $scope.createOrEditPitem = 'edit';
+        $scope.itemPrinterID = row.Unique;
+        $('#deleteBtnPrinterItem').show();
+        var item = $("#printerItemList").jqxDropDownList('getItemByValue', row.PrinterUnique);
+        $("#printerItemList").jqxDropDownList('enableItem', item);
+        $("#printerItemList").jqxDropDownList({selectedIndex: item.index});
+    };
+
+    $scope.closePrinterItemWin = function() {
         printerItemWind.close();
+        $('#mainButtonsPitem').show();
+        $('#promptDeletePitem').hide();
+        setPrinterStoredArray();
     };
 
     // Saving Item printer
@@ -1305,17 +1321,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             'ItemUnique': $scope.itemSelectedChangedID,
             'PrinterUnique': $('#printerItemList').jqxDropDownList('getSelectedItem').value
         };
+        var url;
+        if ($scope.createOrEditPitem == 'create') {
+            url = SiteRoot + 'admin/MenuPrinter/post_item_printer'
+        } else if ($scope.createOrEditPitem == 'edit')
+            url = SiteRoot + 'admin/MenuPrinter/update_item_printer/' + $scope.itemPrinterID;
         $.ajax({
-            url: SiteRoot + 'admin/MenuPrinter/post_item_printer',
+            url: url,
             method: 'post',
             data: data,
             dataType: 'json',
             success: function(response) {
                 if (response.status == 'success') {
-                    printerItemWind.close();
                     $scope.$apply(function() {
                         updatePrinterItemGrid();
                     });
+                    $scope.closePrinterItemWin();
                 } else if (response.status == 'error')
                     console.log('Database error!');
                 else
@@ -1325,10 +1346,45 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     // Deleting Item printer
+    $scope.beforeDeleteItemPrinter = function(option) {
+        if (option == 0) {
+            $.ajax({
+                url: SiteRoot + 'admin/MenuPrinter/delete_item_printer/' + $scope.itemPrinterID,
+                method: 'post',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.status == 'success') {
+                        $scope.$apply(function() {
+                            updatePrinterItemGrid();
+                        });
+                        $scope.closePrinterItemWin();
+                    } else if (response.status == 'error'){
+                        console.log('there was an error db');
+                    } else {
+                        console.log('there was an error');
+                    }
+                }
+            });
+        } else if (option == 1) {
+            $('#mainButtonsPitem').show();
+            //$('#promptToCloseQitem').hide();
+            $('#promptDeletePitem').hide();
+            printerItemWind.close();
+        } else if (option == 2) {
+            $('#mainButtonsPitem').show();
+            //$('#promptToCloseQitem').hide();
+            $('#promptDeletePitem').hide();
+        } else {
+            $('#mainButtonsPitem').hide();
+            //$('#promptToCloseQitem').hide();
+            $('#promptDeletePitem').show();
+        }
+    };
+
     $('body').on('click', '.deletePrinterItemBtn', function(e){
         e.preventDefault();
-        var request = confirm('Do you really want to delete it?');
-        if(request) {
+        //var request = confirm('Do you really want to delete it?');
+        //if(request) {
             var id = ($(this).data('unique'));
             $.ajax({
                 url: SiteRoot + 'admin/MenuPrinter/delete_item_printer/' + id,
@@ -1347,9 +1403,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     }
                 }
             });
-        } else {
-            return false;
-        }
+        //} else {
+        //    return false;
+        //}
     });
 
 });

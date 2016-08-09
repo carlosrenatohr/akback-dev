@@ -284,7 +284,7 @@
                     <div class="col-md-12">
                         <jqx-data-table id="printerItemTable"
                                     jqx-settings="printerTableOnMenuItemsSettings"
-                                    jqx-on-row-double-click=""
+                                    jqx-on-row-double-click="updateItemPrinter()"
                                     jqx-create="printerTableOnMenuItemsSettings">
                         </jqx-data-table>
                     </div>
@@ -313,7 +313,7 @@
                             <!-- Main buttons before saving questions on current item -->
                             <div class="col-md-12 col-md-offset-0">
                                 <div class="row">
-                                    <div id="">
+                                    <div id="mainButtonsPitem">
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <button type="button" id="saveBtnPrinterItem" ng-click="saveItemPrinter()" class="btn btn-primary" disabled>
@@ -322,9 +322,24 @@
                                                 <button	type="button" id="" ng-click="closePrinterItemWin()" class="btn btn-warning">
                                                     Close
                                                 </button>
-<!--                                                <button	type="button" id="" ng-click="" class="btn btn-danger " style="overflow:auto;">-->
-<!--                                                    Delete-->
-<!--                                                </button>-->
+                                                <button	type="button" id="deleteBtnPrinterItem" ng-click="beforeDeleteItemPrinter()" class="btn btn-danger" style="overflow:auto;">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Prompt to delete itemp printer -->
+                            <div class="col-md-12 col-md-offset-0">
+                                <div class="row">
+                                    <div id="promptDeletePitem" style="display: none;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                Are you sure you want to delete it?
+                                                <button type="button" ng-click="beforeDeleteItemPrinter(0)" class="btn btn-primary">Yes</button>
+                                                <button type="button" ng-click="beforeDeleteItemPrinter(1)" class="btn btn-warning">No</button>
+                                                <button type="button" ng-click="beforeDeleteItemPrinter(2)" class="btn btn-info">Cancel</button>
                                             </div>
                                         </div>
                                     </div>

@@ -52,6 +52,7 @@ class Item_printer_model extends CI_Model
             'UpdatedBy' => $this->session->userdata('userid')
         ];
         $data = array_merge($request, $extra_fields);
+        $this->db->where('Unique', $id);
         $status = $this->db->update('item_printer', $data);
         return $status;
     }
