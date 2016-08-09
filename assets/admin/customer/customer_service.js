@@ -159,7 +159,7 @@ demoApp.service('customerService', function ($http) {
             if (grid != null) {
                 grid.jqxGrid({
                     source: nestedGridAdapter,
-                    width: '98.7%', height: 250,
+                    width: '98.7%', height: '200',
                     columns: contactsDatagrid.columns
                 });
             }
@@ -186,8 +186,8 @@ demoApp.service('customerService', function ($http) {
             rowdetails: true,
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
-                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px;'></div>",
-                rowdetailsheight: 275,
+                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px 0;'></div>",
+                rowdetailsheight: 200,
                 rowdetailshidden: true
             }
         };

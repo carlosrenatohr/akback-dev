@@ -95,7 +95,7 @@ jqxthemes();
                 <!-- All customer list tab -->
                 <div class="">
                     <div>
-                        <div class="row">
+<!--                        <div class="row">-->
                             <jqx-grid jqx-settings="customerTableSettings"
                                       id="gridCustomer"
                                       jqx-create="customerTableSettings"
@@ -228,7 +228,7 @@ jqxthemes();
                                     </div>
                                 </div>
                             </jqx-window>
-                        </div>
+<!--                        </div>-->
                     </div>
                 </div>
                 <!-- Check in customers by location 1-->
