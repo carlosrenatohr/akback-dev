@@ -21,7 +21,7 @@ app.controller('menuPrintersController', function($scope) {
         },
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
-            {text: 'Item', dataField: 'Item', type: 'string', hidden: true},
+            {text: 'Item', dataField: 'Item', type: 'string'},
             {text: 'Name', dataField: 'name', type: 'string'},
             {text: 'Description', dataField: 'description', type: 'string'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
