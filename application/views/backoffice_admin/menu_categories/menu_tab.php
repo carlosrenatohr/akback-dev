@@ -165,5 +165,4 @@
             </div>
         </div>
     </jqx-window>
-</div
->
+</div>

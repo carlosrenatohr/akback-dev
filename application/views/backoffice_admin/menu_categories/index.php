@@ -18,6 +18,7 @@ jqxthemes();
 <script type="application/javascript" src="../../assets/admin/menu/menu_categories_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_questions_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/menu/menu_printers_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_directives.js"></script>
 <link rel="stylesheet" href="../../assets/admin/styles.css">
 <div class="parent-container" ng-controller="menuCategoriesController">
@@ -55,6 +56,7 @@ jqxthemes();
                         <li>Categories</li>
                         <li>Items</li>
                         <li>Questions</li>
+                        <li>Printers</li>
                     </ul>
                     <!-- -------------- -->
                     <!-- MENU TAB       -->
@@ -74,16 +76,20 @@ jqxthemes();
                     <div class="" ng-controller="menuItemController">
                         <?php $this->load->view($items_tab_view); ?>
                     </div>
-
                     <!-- -------------- -->
                     <!-- QUESTIONS TAB  -->
                     <!-- -------------- -->
                     <div class="" ng-controller="menuQuestionController">
                         <?php $this->load->view($questions_tab_view); ?>
                     </div>
-
+                    <!-- -------------- -->
+                    <!-- PRINTERS TAB  -->
+                    <!-- -------------- -->
+                    <div class="" ng-controller="menuPrintersController">
+                        <?php $this->load->view($printers_tab_view); ?>
+                    </div>
                 </jqx-tabs>
-            </div>
+                </div>
             </div>
         </div>
     </div>
