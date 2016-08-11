@@ -26,8 +26,10 @@ class MenuCategory extends AK_Controller
         $data['category_tab_view'] = $menu_path . "categories_tab";
         $data['items_tab_view'] = $menu_path . "items_tab";
         $data['items_menuitem_subtab_view'] = $menu_path . "items_menuitem_subtab";
+        $data['items_price_subtab_view'] = $menu_path . "items_price_subtab";
         $data['items_questions_subtab_view'] = $menu_path . "items_question_subtab";
         $data['items_printers_subtab_view'] = $menu_path . "items_printer_subtab";
+        $data['items_extra_subtab_view'] = $menu_path . "items_extra_subtab";
         $data['questions_tab_view'] = $menu_path . "questions_tab";
         $data['printers_tab_view'] = $menu_path . "printer_tab";
         $this->load->view($menu_path . "index", $data);

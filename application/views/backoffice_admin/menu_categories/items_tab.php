@@ -70,12 +70,18 @@
                       id="jqxTabsMenuItemWindows">
                 <ul>
                     <li>Menu Item</li>
+                    <li id="">Prices</li>
                     <li id="questionsTabOnMenuItemWindow">Questions</li>
                     <li>Printers</li>
+                    <li>Extra</li>
                 </ul>
                 <!-- Menu Item subtab -->
                 <div class="">
                     <?php $this->load->view($items_menuitem_subtab_view);?>
+                </div>
+                <!-- Prices subtab -->
+                <div class="">
+                    <?php $this->load->view($items_price_subtab_view);?>
                 </div>
                 <!-- Question subtab -->
                 <div class="">
@@ -84,6 +90,10 @@
                 <!-- Printer subtab -->
                 <div class="">
                     <?php $this->load->view($items_printers_subtab_view);?>
+                </div>
+                <!-- Extra subtab -->
+                <div class="">
+                    <?php $this->load->view($items_extra_subtab_view);?>
                 </div>
             </jqx-tabs>
 
