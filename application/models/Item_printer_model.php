@@ -17,7 +17,7 @@ class Item_printer_model extends CI_Model
     public function getAllItemPrinters($itemUnique = null)
     {
         $this->db->select('item_printer.*, config_station_printers.name, config_station_printers.description,
-                    config_station_printers.printer_port, item.Item
+                    config_station_printers.printer_port, item.Item, item.Description as ItemDescription
                 ');
         $this->db->from('item_printer');
         if(!is_null($itemUnique)) {
@@ -33,7 +33,6 @@ class Item_printer_model extends CI_Model
     public function getPrinters() {
         return $this->db->get('config_station_printers')->result_array();
     }
-
 
     public function postPrinter($request) {
         $extra_fields = [
