@@ -12,6 +12,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             updateQuestionsCbx();
             $scope.menuListBoxSettings.apply('refresh');
             $('.draggable').removeClass('selectedItemOnGrid');
+            //$('.category-cell-grid').removeClass('valued');
+            var menuSelected = $('#menuListBox').jqxListBox('selectedIndex');
+            $('#menuListBox').jqxListBox({selectedIndex: menuSelected });
             $('#NewMenuItemBtn').prop('disabled', true)
         }
     });
@@ -268,7 +271,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.itemsComboboxSelecting = function(e) {
         if (e.args.item != null) {
             var item = e.args.item.originalItem;
-            $('#editItem_label').val(item.Description);
+            var description = item.Description;
+            if ($scope.itemLengthOfMenuSelected != null)
+                description = description.substring(0, $scope.itemLengthOfMenuSelected);
+            $('#editItem_label').val(description);
         }
     };
 
@@ -420,6 +426,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         } else {
             itemCombo.css({"border-color": "#CCC"});
         }
+        // Restriction label length: Menu.ItemLength
+        if ($scope.itemLengthOfMenuSelected != null) {
+            var labelField = $('.editItemFormContainer #editItem_label');
+            if (labelField.val().length > $scope.itemLengthOfMenuSelected) {
+                needValidation = true;
+                $('#menuitemNotificationsErrorSettings #notification-content')
+                    .html('You have exceeded limit of characters!');
+                $scope.menuitemNotificationsErrorSettings.apply('open');
+                labelField.css({"border-color": "#F00"});
+            } else
+                labelField.css({"border-color": "#CCC"});
+        }
 
         return needValidation;
     };
@@ -569,14 +587,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             }
         }
         if ($(this).attr('id') == 'editItem_label') {
-            var characters = this.value.length;
-            if (characters >= $scope.itemLengthOfMenuSelected) {
-                $('#menuitemNotificationsErrorSettings #notification-content')
-                    .html('You have exceeded limit of characters!');
-                $scope.menuitemNotificationsErrorSettings.apply('open');
-                return false;
+            if ($scope.itemLengthOfMenuSelected != null) {
+                var characters = this.value.length;
+                if (characters > $scope.itemLengthOfMenuSelected) {
+                    $('#menuitemNotificationsErrorSettings #notification-content')
+                        .html('You have exceeded limit of characters!');
+                    $scope.menuitemNotificationsErrorSettings.apply('open');
+                    $(this).css({"border-color": "#F00"});
+                    return false;
+                } else
+                    $(this).css({"border-color": "#CCC"});
+                }
             }
-        }
         $('#saveItemGridBtn').prop('disabled', false);
     });
 
@@ -608,7 +630,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             //
             $scope.countChangesOnSelectingItemCbx = 0;
             $scope.tryToChangeQuestionTab = false;
-            $scope.itemLengthOfMenuSelected = $scope.menuSelectedWithCategories.ItemLength;
+            var itemlengthMenu = $scope.menuSelectedWithCategories.ItemLength;
+            if (itemlengthMenu == null || itemlengthMenu == 0)
+                $scope.$apply(function(){
+                    $scope.itemLengthOfMenuSelected = null;
+                });
+            else
+                $scope.$apply(function(){
+                    $scope.itemLengthOfMenuSelected = itemlengthMenu;
+                });
             //
             var $this = $(e.currentTarget);
             if ($this.hasClass('filled')) {
@@ -639,7 +669,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                                     ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
                                     : data['Label'];
                         // Item length limit applied (Taken from menu selected)
-                        label = label.substring(0, $scope.itemLengthOfMenuSelected);
+                        if ($scope.itemLengthOfMenuSelected != null)
+                            label = label.substring(0, $scope.itemLengthOfMenuSelected);
+                        // Fill form controls
                         $('#editItem_label').val(label);
                         $('#editItem_sort').val((data['Sort']) == '' || data['Sort'] == null ? 1 : data['Sort']);
                         $('#editItem_Row').val(data.Row);

@@ -25,8 +25,8 @@
                 <div style="float:left;">
                     <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                 </div>
-                <div class="">
-                    <label for="">Max of Characters: <br>{{ itemLengthOfMenuSelected }}</label>
+                <div class="" ng-if="itemLengthOfMenuSelected != null">
+                    <label for="">Maximum Characters: {{ itemLengthOfMenuSelected }}</label>
                 </div>
             </div>
 

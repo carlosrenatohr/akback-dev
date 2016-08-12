@@ -89,7 +89,7 @@ app.controller('menuCategoriesController', function($scope, $http){
 
     // Events menu controls
     $('.menuFormContainer .required-field').on('keypress keyup paste change', function (e) {
-        var idsRestricted = ['add_MenuRow', 'add_MenuColumn', 'add_MenuItemRow', 'add_MenuItemColumn'];
+        var idsRestricted = ['add_MenuRow', 'add_MenuColumn', 'add_MenuItemRow', 'add_MenuItemColumn', 'add_ItemLength'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
         if (inarray >= 0) {
             var charCode = (e.which) ? e.which : e.keyCode;

@@ -84,7 +84,7 @@
                             <div style="float:left; width:180px;">
                                 <input type="number" class="form-control required-field" id="add_ItemLength"
                                        name="add_MenuItemLength" placeholder="Item Length"
-                                       step="1" min="1" max="99" pattern="\d*"
+                                       step="1" min="0" max="99" pattern="\d*"
                                 >
                             </div>
                             <div style="float:left;">
