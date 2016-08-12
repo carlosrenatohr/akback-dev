@@ -33,7 +33,7 @@ demoApp.service('customerService', function ($http) {
 
     var _this = this;
     this.customerGridsCols =  [
-        {text: 'ID', dataField: 'Unique', columntype: 'number', filtertype: 'input'}, //filterable: false
+        {text: 'ID', dataField: 'Unique', filtertype: 'input'}, //filterable: false
         {text: 'First Name', dataField: 'FirstName', columntype: 'textbox', filtertype: 'input'},
         {text: 'Middle Name', dataField: 'MiddleName', type: 'string', filtertype: 'input'},
         {text: 'Last Name', dataField: 'LastName', type: 'string', filtertype: 'input'},
@@ -277,7 +277,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Unique', dataField: 'VisitUnique', hidden: true, filtertype: 'input'},
+                {text: 'Visit ID', dataField: 'VisitUnique', hidden: false, filtertype: 'input'},
                 {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
@@ -398,7 +398,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: false, filtertype: 'input'},
+                {text: 'Visit ID', dataField: 'VisitUnique', type: 'int', hidden: false, filtertype: 'input'},
                 {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
@@ -544,7 +544,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: false, filtertype: 'input'},
+                {text: 'Visit ID', dataField: 'VisitUnique', type: 'int', hidden: false, filtertype: 'input'},
                 {text: 'Location name', dataField: 'LocationName', type: 'string', filtertype: 'input'},
                 {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'MM-dd-yyyy'}, //MM-dd-yyyy,     yyyy-MM-dd
                 {text: '', dataField: '_CheckOutDate', type: 'string'},
