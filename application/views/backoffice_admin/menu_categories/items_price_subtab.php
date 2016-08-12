@@ -1,5 +1,5 @@
 <div class="col-md-12 col-md-offset-0">
-    <div class="row editItemFormContainer">
+    <div class="row">
         <div style=" width:100%;float:left;margin: 15px 0;">
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">List Price:</div>

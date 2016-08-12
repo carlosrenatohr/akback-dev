@@ -118,10 +118,13 @@ class MenuItem extends AK_Controller
         // Posting
         else {
             $pricesValues = $request['pricesValues'];
+            $extraValues = $request['extraValues'];
             unset($request['pricesValues']);
+            unset($request['extraValues']);
             $status = $this->menuItem->postItemByMenu($request);
             if ($status) {
-                $this->item->update($request['ItemUnique'], $pricesValues);
+                $itemFields = array_merge($pricesValues, $extraValues);
+                $this->item->update($request['ItemUnique'], $itemFields);
                 $response = [
                     'status' => 'success',
                     'message' => 'Item success: ' . $status

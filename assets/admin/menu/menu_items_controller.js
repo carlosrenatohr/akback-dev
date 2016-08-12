@@ -446,6 +446,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     'price3': $('#menuitem_price3').val(),
                     'price4': $('#menuitem_price4').val(),
                     'price5': $('#menuitem_price5').val()
+                },
+                'extraValues': {
+                    'GiftCard': $('#itemcontrol_giftcard [aria-checked="true"]').data('val'),
+                    'PromptPrice': $('#itemcontrol_promptprice [aria-checked="true"]').data('val'),
+                    'PromptDescription': $('#itemcontrol_promptdescription [aria-checked="true"]').data('val'),
+                    'EBT': $('#itemcontrol_EBT [aria-checked="true"]').data('val'),
+                    'MinimumAge': $('#itemcontrol_minimumage').val(),
+                    'CountDown': $('#itemcontrol_countdown').val()
                 }
             };
             if ($('#editItem_sort').val() != '') {
@@ -544,7 +552,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     // Events item form controls
-    $('.editItemFormContainer .required-field, .menuitem_pricesControls')
+    $('.editItemFormContainer .required-field, .menuitem_pricesControls, .cbxExtraTab')
         .on('keypress keyup paste change', function (e) {
         var idsRestricted = ['editItem_sort', 'editItem_Row', 'editItem_Column'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
@@ -643,6 +651,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         $('#menuitem_price3').val(data.price3 != null ? data.price3 : 0);
                         $('#menuitem_price4').val(data.price4 != null ? data.price4 : 0);
                         $('#menuitem_price5').val(data.price5 != null ? data.price5 : 0);
+                        // Extra tab values
+                        var gc;
+                        gc = $('#itemcontrol_giftcard .cbxExtraTab[data-val=' +
+                            ((data.GiftCard == 0 || data.GiftCard == null) ? '0' : '1') +']');
+                        gc.jqxRadioButton({ checked:true });
+                        gc = $('#itemcontrol_promptprice .cbxExtraTab[data-val=' +
+                            ((data.PromptPrice == 0 || data.PromptPrice == null) ? 0 : 1) +']');
+                        gc.jqxRadioButton({ checked:true });
+                        gc = $('#itemcontrol_promptdescription .cbxExtraTab[data-val=' +
+                            (data.PromptDescription == 0 || data.PromptDescription == null ? 0 : 1) +']');
+                        gc.jqxRadioButton({ checked:true });
+                        gc = $('#itemcontrol_EBT .cbxExtraTab[data-val=' +
+                            ((data.EBT == 0 || data.EBT == null) ? 0 : 1) +']');
+                        gc.jqxRadioButton({ checked:true });
+                        $('#itemcontrol_minimumage').val(data.MinimumAge != null ? data.MinimumAge : 0);
+                        $('#itemcontrol_countdown').val(data.CountDown != null ? data.CountDown : 0);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();
@@ -1424,6 +1448,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         min: '',
         symbol: "$",
         symbolPosition: "left"
+    };
+
+    $scope.numberExtraSet = {
+        inputMode: 'simple',
+        decimalDigits: 0,
+        digits: 2,
+        spinButtons: false,
+        width: 100,
+        height: 25,
+        min: ''
+    };
+
+    $scope.checkboxExtraSet = {
+        width: '10%',
+        height: '25',
+        theme: 'summer'
     };
 
 });
