@@ -33,10 +33,10 @@ demoApp.service('customerService', function ($http) {
 
     var _this = this;
     this.customerGridsCols =  [
-        {text: 'ID', dataField: 'Unique', type: 'int'}, //filterable: false
-        {text: 'First Name', dataField: 'FirstName', type: 'string'},
-        {text: 'Middle Name', dataField: 'MiddleName', type: 'string'},
-        {text: 'Last Name', dataField: 'LastName', type: 'string'},
+        {text: 'ID', dataField: 'Unique', columntype: 'number', filtertype: 'input'}, //filterable: false
+        {text: 'First Name', dataField: 'FirstName', columntype: 'textbox', filtertype: 'input'},
+        {text: 'Middle Name', dataField: 'MiddleName', type: 'string', filtertype: 'input'},
+        {text: 'Last Name', dataField: 'LastName', type: 'string', filtertype: 'input'},
         {text: 'Company', dataField: 'Company', type: 'string'},
         {text: 'Address', dataField: 'Address1', type: 'string'},
         {text: 'Address2', dataField: 'Address2', type: 'string', hidden: true},
@@ -46,22 +46,22 @@ demoApp.service('customerService', function ($http) {
         {text: 'Phone', dataField: 'Phone1', type: 'string'},
         {text: 'Phone2', dataField: 'Phone2', type: 'string', hidden: true},
         {text: 'Email', dataField: 'Email', type: 'string'},
-        {text: 'Full Identification', dataField: 'Custom1', type: 'string', hidden: true},
-        {text: 'Date of Birth', dataField: 'Custom2', type: 'string', hidden: true},
+        {text: 'Full Identification', dataField: 'Custom1', type: 'string', filtertype: 'input',hidden: true},
+        {text: 'Date of Birth', dataField: 'Custom2', type: 'string', hidden: true,filtertype: 'input'},
         {text: 'LastVisit', dataField: 'LastVisit', type: 'date', filtertype:'range', cellsformat: "MMM dd yyyy hh:mmtt"},
-        {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
-        {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
-        {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
-        {text: 'Are you 18?', dataField: 'Custom6', type: 'string', hidden: true},
-        {text: 'How many working?', dataField: 'Custom9', type: 'string', hidden: true},
-        {text: 'Disabled', dataField: 'Custom7', type: 'string', hidden: true},
-        {text: 'Retired', dataField: 'Custom8', type: 'string', hidden: true},
-        {text: 'Work Status', dataField: 'Custom10', type: 'string', hidden: true},
-        {text: 'Income', dataField: 'Custom11', type: 'string', hidden: true},
-        {text: 'FS', dataField: 'Custom12', type: 'string', hidden: true},
-        {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
-        {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
-        {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
+        {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'Are you 18?', dataField: 'Custom6', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'How many working?', dataField: 'Custom9', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'Disabled', dataField: 'Custom7', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'Retired', dataField: 'Custom8', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'Work Status', dataField: 'Custom10', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'Income', dataField: 'Custom11', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'FS', dataField: 'Custom12', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true,filtertype: 'input'},
+        {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true,filtertype: 'input'},
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
@@ -95,7 +95,7 @@ demoApp.service('customerService', function ($http) {
     this.sourceCustomerGrid = {
         dataType: 'json',
         dataFields: [
-            {name: 'Unique', type: 'int'},
+            {name: 'Unique', type: 'number'},
             {name: 'FirstName', type: 'string'},
             {name: 'MiddleName', type: 'string'},
             {name: 'LastName', type: 'string'},
@@ -130,7 +130,7 @@ demoApp.service('customerService', function ($http) {
             {name: 'LastVisit', type: 'date'},
             {name: 'readyToCheckIn', type: 'bool'}
         ],
-        id: 'Unique',
+        //id: 'Unique',
         url: SiteRoot + 'admin/Customer/load_allCustomers',
         root: 'Rows',
         beforeprocessing: function(data) {
@@ -269,7 +269,7 @@ demoApp.service('customerService', function ($http) {
         var checkin2Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn2');
         checkInCols.splice(checkin2Id, 1);
         checkInCols.shift();
-        checkInCols.unshift({text: '', type: 'string', dataField: 'Unique',
+        checkInCols.unshift({text: '', type: 'string', dataField: 'Unique', filtertype: 'input',
             aggregates: [{ 'Count': aggregates }],
             aggregatesrenderer: aggregatesrender
         });
@@ -277,7 +277,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: true},
+                {text: 'Unique', dataField: 'VisitUnique', hidden: true, filtertype: 'input'},
                 {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
@@ -398,7 +398,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: true},
+                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: false, filtertype: 'input'},
                 {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
@@ -495,7 +495,7 @@ demoApp.service('customerService', function ($http) {
 
         datefiltergroup.addfilter(operator, filter4);
         datefiltergroup.addfilter(operator, filter5);
-        console.log('check out filter today!');
+        //console.log('check out filter today!');
         $("#customerCheckInComplete").jqxGrid('addfilter', 'CheckOutDate', datefiltergroup);
         $("#customerCheckInComplete").jqxGrid('applyfilters');
     };
@@ -544,8 +544,8 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
-                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: false},
-                {text: 'Location name', dataField: 'LocationName', type: 'string'},
+                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: false, filtertype: 'input'},
+                {text: 'Location name', dataField: 'LocationName', type: 'string', filtertype: 'input'},
                 {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'MM-dd-yyyy'}, //MM-dd-yyyy,     yyyy-MM-dd
                 {text: '', dataField: '_CheckOutDate', type: 'string'},
                 {text: '', dataField: 'LocationUnique', type: 'string', hidden: true},

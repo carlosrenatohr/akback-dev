@@ -148,24 +148,34 @@ class Customer extends AK_Controller
                         }
                     }
                     // Build the "WHERE" clause depending on the filter's condition, value and datafield.
+                    // $filterdatafield = "\"".$filterdatafield."\"";
                     switch ($filtercondition) {
                         case "CONTAINS":
+                            $where .= " LOWER(\"" . $filterdatafield . "\") LIKE LOWER('%" . $filtervalue . "%')";
+                            break;
+                        case "CONTAINS_CASE_SENSITIVE":
                             $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "%'";
                             break;
                         case "DOES_NOT_CONTAIN":
+                            $where .= " LOWER(\"" . $filterdatafield . "\") NOT LIKE LOWER('%" . $filtervalue . "%')";
+                            break;
+                        case "DOES_NOT_CONTAIN_CASE_SENSITIVE":
                             $where .= " \"" . $filterdatafield . "\" NOT LIKE '%" . $filtervalue . "%'";
                             break;
                         case "EQUAL":
+                            $where .= " LOWER(\"" . $filterdatafield . "\") = LOWER('" . $filtervalue . "')";
+                            break;
+                        case "EQUAL_CASE_SENSITIVE":
                             $where .= " \"" . $filterdatafield . "\" = '" . $filtervalue . "'";
                             break;
                         case "NOT_EQUAL":
-                            $where .= " \"" . $filterdatafield . " <> '" . $filtervalue . "'";
+                            $where .= " \"" . $filterdatafield . "\" <> '" . $filtervalue . "'";
                             break;
                         case "GREATER_THAN":
-                            $where .= " " . $filterdatafield . " > '" . $filtervalue . "'";
+                            $where .= " \"" . $filterdatafield . "\" > '" . $filtervalue . "'";
                             break;
                         case "LESS_THAN":
-                            $where .= " " . $filterdatafield . " < '" . $filtervalue . "'";
+                            $where .= " \"" . $filterdatafield . "\" < '" . $filtervalue . "'";
                             break;
                         case "GREATER_THAN_OR_EQUAL":
                             if ($filterdatafield == 'LastVisit')
@@ -178,13 +188,30 @@ class Customer extends AK_Controller
                             $where .= " \"". $filterdatafield . "\" <= '" . $filtervalue . "'";
                             break;
                         case "STARTS_WITH":
+                            $where .= " LOWER(\"" . $filterdatafield . "\") LIKE LOWER('" . $filtervalue . "%')";
+                            break;
+                        case "STARTS_WITH_CASE_SENSITIVE":
                             $where .= " \"" . $filterdatafield . "\" LIKE '" . $filtervalue . "%'";
                             break;
                         case "ENDS_WITH":
+                            $where .= " LOWER(\"" . $filterdatafield . "\") LIKE ('%" . $filtervalue . "')";
+                            break;
+                        case "ENDS_WITH_CASE_SENSITIVE":
                             $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "'";
                             break;
+                        case "EMPTY":
+                            $where .= " \"" . $filterdatafield . "\" = ''";
+                            break;
+                        case "NOT_EMPTY":
+                            $where .= " \"" . $filterdatafield . "\" <> ''";
+                            break;
+                        case "NULL":
+                            $where .= " \"" . $filterdatafield . "\" IS NULL";
+                            break;
+                        case "NOT_NULL":
+                            $where .= " \"" . $filterdatafield . "\" IS NOT NULL";
+                            break;
                     }
-// Select * from customer where "customer"."LastName" LIKE '%Collado%' AND ("ParentUnique" IS NULL OR "ParentUnique" IN (SELECT "Unique" FROM customer where "customer"."LastName" LIKE '%Collado%'))
                     if ($i == $filterscount - 1) {
                         $where .= ")";
                     }
