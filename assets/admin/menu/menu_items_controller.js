@@ -437,7 +437,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'Label': $('#editItem_label').val(),
                 //
                 'posRow': $scope.itemCellSelectedOnGrid.Row,
-                'posCol': $scope.itemCellSelectedOnGrid.Column
+                'posCol': $scope.itemCellSelectedOnGrid.Column,
+                // ---- PRICES TAB, Save data
+                'pricesValues': {
+                    'ListPrice': $('#menuitem_listPrice').val(),
+                    'price1': $('#menuitem_price1').val(),
+                    'price2': $('#menuitem_price2').val(),
+                    'price3': $('#menuitem_price3').val(),
+                    'price4': $('#menuitem_price4').val(),
+                    'price5': $('#menuitem_price5').val()
+                }
             };
             if ($('#editItem_sort').val() != '') {
                 dataToSend['Sort'] = $('#editItem_sort').val();
@@ -535,7 +544,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     // Events item form controls
-    $('.editItemFormContainer .required-field')
+    $('.editItemFormContainer .required-field, .menuitem_pricesControls')
         .on('keypress keyup paste change', function (e) {
         var idsRestricted = ['editItem_sort', 'editItem_Row', 'editItem_Column'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
@@ -627,6 +636,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         $('#editItem_sort').val((data['Sort']) == '' || data['Sort'] == null ? 1 : data['Sort']);
                         $('#editItem_Row').val(data.Row);
                         $('#editItem_Column').val(data.Column);
+                        // Prices values
+                        $('#menuitem_listPrice').val(data.ListPrice);
+                        $('#menuitem_price1').val(data.price1 != null ? data.price1 : 0);
+                        $('#menuitem_price2').val(data.price2 != null ? data.price2 : 0);
+                        $('#menuitem_price3').val(data.price3 != null ? data.price3 : 0);
+                        $('#menuitem_price4').val(data.price4 != null ? data.price4 : 0);
+                        $('#menuitem_price5').val(data.price5 != null ? data.price5 : 0);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();
@@ -1379,7 +1395,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             });
         } else if (option == 1) {
             $('#mainButtonsPitem').show();
-            //$('#promptToCloseQitem').hide();
+            //$('#pro-mptToCloseQitem').hide();
             $('#promptDeletePitem').hide();
             printerItemWind.close();
         } else if (option == 2) {
@@ -1393,31 +1409,21 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         }
     };
 
-    $('body').on('click', '.deletePrinterItemBtn', function(e){
-        e.preventDefault();
-        //var request = confirm('Do you really want to delete it?');
-        //if(request) {
-            var id = ($(this).data('unique'));
-            $.ajax({
-                url: SiteRoot + 'admin/MenuPrinter/delete_item_printer/' + id,
-                method: 'post',
-                dataType: 'json',
-                success: function(response) {
-                    if(response.status == 'success') {
-                        $scope.$apply(function() {
-                            updatePrinterItemGrid();
-                        });
-                        setPrinterStoredArray();
-                    } else if (response.status == 'error'){
-                        console.log('there was an error db');
-                    } else {
-                        console.log('there was an error');
-                    }
-                }
-            });
-        //} else {
-        //    return false;
-        //}
-    });
+    /**
+     * PRICES TAB ACTION
+     */
+    $scope.numberPricesSet = {
+        inputMode: 'simple',
+        decimalDigits: 2,
+        digits: 6,
+        spinButtons: false,
+        groupSize: 2,
+        groupSeparator: ',',
+        width: 180,
+        height: 25,
+        min: '',
+        symbol: "$",
+        symbolPosition: "left"
+    };
 
 });

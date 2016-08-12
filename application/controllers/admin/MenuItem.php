@@ -14,6 +14,7 @@ class MenuItem extends AK_Controller
         parent::__construct();
         $this->load->model('Menu_item_model', 'menuItem');
         $this->load->model('Menu_model', 'menu');
+        $this->load->model('Item_model', 'item');
     }
 
     /**
@@ -107,7 +108,6 @@ class MenuItem extends AK_Controller
     public function postMenuItems()
     {
         $request = $_POST;
-
         $ready = $this->validatePostingItemsOnMenu($request);
         if ($ready['needValidation']) {
             $response = [
@@ -117,8 +117,11 @@ class MenuItem extends AK_Controller
         }
         // Posting
         else {
+            $pricesValues = $request['pricesValues'];
+            unset($request['pricesValues']);
             $status = $this->menuItem->postItemByMenu($request);
             if ($status) {
+                $this->item->update($request['ItemUnique'], $pricesValues);
                 $response = [
                     'status' => 'success',
                     'message' => 'Item success: ' . $status

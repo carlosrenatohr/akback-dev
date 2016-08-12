@@ -28,8 +28,13 @@ class Menu_item_model extends CI_Model
 
     public function getItemByPosition($request)
     {
-        $this->db->where('Status>', 0);
-        $result = $this->db->get_where($this->menuItemTable, $request)->result_array();
+        $this->db->select('*');
+        $this->db->from('config_menu_items');
+        $this->db->where('config_menu_items.Status>', 0);
+        $this->db->where($request);
+        $this->db->join('item', 'config_menu_items.ItemUnique = item.Unique');
+
+        $result = $this->db->get()->result_array();
         return $result;
     }
 
