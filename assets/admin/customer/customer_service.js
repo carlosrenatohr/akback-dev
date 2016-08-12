@@ -277,6 +277,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
+                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: true},
                 {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
@@ -289,8 +290,7 @@ demoApp.service('customerService', function ($http) {
                 {text: '', dataField: 'CheckInUser', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutUser', type: 'string', hidden: true},
                 {text: '', dataField: 'lname', type: 'string', hidden: true},
-                {text: '', dataField: 'fname', type: 'string', hidden: true},
-                {text: '', dataField: 'VisitUnique', type: 'int', hidden: true}
+                {text: '', dataField: 'fname', type: 'string', hidden: true}
             ),
             width: "100%",
             theme: 'arctic',
@@ -325,6 +325,7 @@ demoApp.service('customerService', function ($http) {
     this.sourceCheckIn2Grid =  {
         dataType: 'json',
         dataFields: _this.sourceCustomerGrid.dataFields.concat(
+            {name: 'VisitUnique', type: 'int'},
             {name: '_CheckInDate', type: 'string'},
             {name: 'CheckInDate', type: 'date'},
             {name: 'CheckInBy', type: 'string'},
@@ -338,8 +339,7 @@ demoApp.service('customerService', function ($http) {
             {name: 'CheckInUser', type: 'string'},
             {name: 'CheckOutUser', type: 'string'},
             {name: 'lname', type: 'string'},
-            {name: 'fname', type: 'string'},
-            {name: 'VisitUnique', type: 'int'}
+            {name: 'fname', type: 'string'}
         ),
         url: SiteRoot + 'admin/CustomerCheckin/load_checkInCustomersByLocation/1/2',
         root: 'Rows',
@@ -398,6 +398,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
+                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: true},
                 {text: 'Check in Date', dataField: 'CheckInDate', type: 'date', filtertype: 'range', cellsformat: "MMM dd yyyy hh:mmtt"},
                 {text: '', dataField: 'CheckInBy', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutDate', type: 'string', hidden: true},
@@ -410,8 +411,7 @@ demoApp.service('customerService', function ($http) {
                 {text: '', dataField: 'CheckInUser', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutUser', type: 'string', hidden: true},
                 {text: '', dataField: 'lname', type: 'string', hidden: true},
-                {text: '', dataField: 'fname', type: 'string', hidden: true},
-                {text: '', dataField: 'VisitUnique', type: 'int', hidden: true}
+                {text: '', dataField: 'fname', type: 'string', hidden: true}
             ),
             width: "98%",
             theme: 'arctic',
@@ -544,6 +544,7 @@ demoApp.service('customerService', function ($http) {
         return {
             source: dataAdapterCustomerGrid,
             columns: checkInCols.concat(
+                {text: 'Unique', dataField: 'VisitUnique', type: 'int', hidden: false},
                 {text: 'Location name', dataField: 'LocationName', type: 'string'},
                 {text: 'Check out date', dataField: 'CheckOutDate', type: 'date', filtertype:'range', cellsformat: 'MM-dd-yyyy'}, //MM-dd-yyyy,     yyyy-MM-dd
                 {text: '', dataField: '_CheckOutDate', type: 'string'},
@@ -557,8 +558,7 @@ demoApp.service('customerService', function ($http) {
                 {text: '', dataField: 'CheckInUser', type: 'string', hidden: true},
                 {text: '', dataField: 'CheckOutUser', type: 'string', hidden: true},
                 {text: '', dataField: 'lname', type: 'string', hidden: true},
-                {text: '', dataField: 'fname', type: 'string', hidden: true},
-                {text: '', dataField: 'VisitUnique', type: 'int', hidden: true}
+                {text: '', dataField: 'fname', type: 'string', hidden: true}
             ),
             width: "98.7%",
             theme: 'arctic',

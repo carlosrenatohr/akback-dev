@@ -85,12 +85,20 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     el['hidden'] = false;
                     el['width'] = '10%';
                 }
+                if(el.dataField == 'VisitUnique') {
+                    el['hidden'] = false;
+                    el['width'] = '5%';
+                }
             }
             // Check out tab
             if (gridID == '#customerCheckInComplete') {
                 if (el.dataField == 'CheckOutDate' || el.dataField == 'LocationName') {
                     el['hidden'] = false;
                     el['width'] = '7%';
+                }
+                if(el.dataField == 'VisitUnique') {
+                    el['hidden'] = false;
+                    el['width'] = '5%';
                 }
             }
         });
@@ -297,7 +305,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
 
     $('#customerCheckIn1, #customerCheckIn2, #customerCheckInComplete').on('rowdoubleclick', function(e) {
         var row = e.args.row.bounddata;
-        $scope.customervisitID = row.Unique;
+        $scope.customervisitID = row.VisitUnique;
         if($(e.target).attr('id') == 'customerCheckIn1')
             $scope.checkinType = 1;
         else if($(e.target).attr('id') == 'customerCheckIn2')

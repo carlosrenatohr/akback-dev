@@ -254,7 +254,7 @@ class Customer_model extends CI_Model
         }
         $data = array_merge($request, $extraFields);
 
-        $this->db->where('CustomerUnique', $id);
+        $this->db->where('Unique', $id);
         $status = $this->db->update('customer_visit', $data);
         return $status;
     }
