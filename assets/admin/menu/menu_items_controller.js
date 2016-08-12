@@ -33,7 +33,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var tabclicked = e.args.item;
         if (tabclicked == 0) {
             $('#deleteItemGridBtn').show();
-        } else if (tabclicked == 2) {
+        } else if (tabclicked == 3) {
             // Fill all printers
             if (allPrintersArray == '') {
                 var rows = $("#printerItemList").jqxDropDownList('getItems');
@@ -934,7 +934,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         ],
         columnsResize: true,
         width: "99%",
-        height: "300px",
         theme: 'arctic',
         sortable: true,
         pageable: true,
@@ -1266,7 +1265,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         ],
         //columnsResize: true,
         width: "99%",
-        height: "300px",
         theme: 'arctic',
         sortable: true,
         pageable: true,
