@@ -1095,7 +1095,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     $scope.closeQuestionItemWin = function (option) {
-        //questionOnItemGridWindow.close();
         if(option != undefined) {
             $('#mainButtonsQitem').show();
             $('#promptToCloseQitem').hide();
@@ -1391,6 +1390,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var item = $("#printerItemList").jqxDropDownList('getItemByValue', row.PrinterUnique);
         $("#printerItemList").jqxDropDownList('enableItem', item);
         $("#printerItemList").jqxDropDownList({selectedIndex: item.index});
+        $('#saveBtnPrinterItem').prop('disabled', true);
     };
 
     $scope.closePrinterItemWin = function() {
@@ -1428,6 +1428,30 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     console.log('There was an error!');
             }
         })
+    };
+
+    $scope.promptClosePrinterItemWin = function (option) {
+        if(option != undefined) {
+            $('#mainButtonsPitem').show();
+            $('#promptToClosePitem').hide();
+            $('#promptDeletePitem').hide();
+        }
+        if (option == 0) {
+            $scope.saveItemPrinter();
+        } else if (option == 1) {
+            $scope.closePrinterItemWin();
+        }
+        else if (option == 2) {}
+        else {
+            if ($('#saveBtnPrinterItem').is(':disabled')) {
+                $scope.closePrinterItemWin();
+            }
+            else {
+                $('#promptToClosePitem').show();
+                $('#mainButtonsPitem').hide();
+                $('#promptDeletePitem').hide();
+            }
+        }
     };
 
     // Deleting Item printer

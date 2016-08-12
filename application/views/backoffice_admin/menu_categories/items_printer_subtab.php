@@ -41,11 +41,28 @@
                             <button type="button" id="saveBtnPrinterItem" ng-click="saveItemPrinter()" class="btn btn-primary" disabled>
                                 Save
                             </button>
-                            <button	type="button" id="" ng-click="closePrinterItemWin()" class="btn btn-warning">
+                            <button	type="button" id="" ng-click="promptClosePrinterItemWin()" class="btn btn-warning">
                                 Close
                             </button>
                             <button	type="button" id="deleteBtnPrinterItem" ng-click="beforeDeleteItemPrinter()" class="btn btn-danger" style="overflow:auto;">
                                 Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Prompt before saving printers by item -->
+        <div class="col-md-12 col-md-offset-0">
+            <div class="row">
+                <div id="promptToClosePitem" class="" style="display: none">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            Do you want to save your changes?
+                            <button type="button" ng-click="promptClosePrinterItemWin(0)" class="btn btn-primary">Yes
+                            </button>
+                            <button type="button" ng-click="promptClosePrinterItemWin(1)" class="btn btn-warning">No</button>
+                            <button type="button" ng-click="promptClosePrinterItemWin(2)" class="btn btn-info">Cancel
                             </button>
                         </div>
                     </div>
