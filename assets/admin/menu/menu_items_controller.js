@@ -471,6 +471,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     'PromptDescription': $('#itemcontrol_promptdescription [aria-checked="true"]').data('val'),
                     'EBT': $('#itemcontrol_EBT [aria-checked="true"]').data('val'),
                     'MinimumAge': $('#itemcontrol_minimumage').val(),
+                    'Points': $('#itemcontrol_points').val(),
                     'CountDown': $('#itemcontrol_countdown').val()
                 }
             };
@@ -570,7 +571,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     // Events item form controls
-    $('.editItemFormContainer .required-field, .menuitem_pricesControls, .cbxExtraTab')
+    $('.editItemFormContainer .required-field,' +
+        ' .menuitem_pricesControls, .cbxExtraTab, .menuitem_extraControls')
         .on('keypress keyup paste change', function (e) {
         var idsRestricted = ['editItem_sort', 'editItem_Row', 'editItem_Column'];
         var inarray = $.inArray($(this).attr('id'), idsRestricted);
@@ -698,6 +700,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                             ((data.EBT == 0 || data.EBT == null) ? 0 : 1) +']');
                         gc.jqxRadioButton({ checked:true });
                         $('#itemcontrol_minimumage').val(data.MinimumAge != null ? data.MinimumAge : 0);
+                        $('#itemcontrol_points').val(data.Points != null ? data.Points : 0);
                         $('#itemcontrol_countdown').val(data.CountDown != null ? data.CountDown : 0);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
@@ -1484,6 +1487,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         inputMode: 'simple',
         decimalDigits: 0,
         digits: 2,
+        spinButtons: false,
+        width: 100,
+        height: 25,
+        min: ''
+    };
+
+    $scope.decimalsExtraSet = {
+        inputMode: 'simple',
+        decimalDigits: 2,
+        digits: 3,
         spinButtons: false,
         width: 100,
         height: 25,

@@ -86,10 +86,20 @@
                 </div>
             </div>
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Minimum Age</div>
-                <div style=" float:left; width:300px;">
+                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;"
+                    >Points</div>
+                <div style=" float:left; width:120px;">
                     <jqx-number-input
-                        style='margin-top: 3px;' class=""
+                        style='margin-top: 3px;' class="menuitem_extraControls"
+                        id="itemcontrol_points" name="itemcontrol_points"
+                        jqx-settings="decimalsExtraSet"
+                    ></jqx-number-input>
+                </div>
+                <div style="float:left; padding:8px; text-align:right; width:120px; font-weight:bold;"
+                    >Minimum Age</div>
+                <div style=" float:left; width:120px;">
+                    <jqx-number-input
+                        style='margin-top: 3px;' class="menuitem_extraControls"
                         id="itemcontrol_minimumage" name="itemcontrol_minimumage"
                         jqx-settings="numberExtraSet"
                     ></jqx-number-input>
@@ -99,7 +109,7 @@
                 <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Countdown</div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
-                        style='margin-top: 3px;' class=""
+                        style='margin-top: 3px;' class="menuitem_extraControls"
                         id="itemcontrol_countdown" name="itemcontrol_countdown"
                         jqx-settings="numberExtraSet"
                     ></jqx-number-input>
