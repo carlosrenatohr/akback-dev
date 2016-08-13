@@ -94,6 +94,10 @@ class Customer extends AK_Controller
             } else {
                 $customer['readyToCheckIn'] = null;
             }
+//            $customer['LastVisit'] =
+//                (!is_null($customer['LastVisit'])) ?
+//                date('d/m/Y h:i:s', strtotime($customer['LastVisit'])) :
+//                null;
             $newCustomers[] = $customer;
         }
         // Counting

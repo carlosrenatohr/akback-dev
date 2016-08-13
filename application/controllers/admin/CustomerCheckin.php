@@ -83,6 +83,10 @@ class CustomerCheckin extends AK_Controller
             $customer['LocationName'] = !empty($locationName) ? $locationName[0]['Name'] : '';
             $customer['_CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
             $customer['_CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';
+//            $customer['LastVisit'] =
+//                (!is_null($customer['LastVisit'])) ?
+//                    date('d-m-Y H:i', strtotime($customer['LastVisit'])) :
+//                    null;
             $newCustomers[] = $customer;
         }
 
@@ -103,7 +107,6 @@ class CustomerCheckin extends AK_Controller
 
     private function filterCustomerTable($filterData) {
         $where = null;
-//        var_dump($filterData);exit;
         if (!is_null($filterData['filterscount'])) {
             $filterscount = $filterData['filterscount'];
 

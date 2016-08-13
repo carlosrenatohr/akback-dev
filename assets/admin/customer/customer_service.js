@@ -582,11 +582,11 @@ demoApp.service('customerService', function ($http) {
                 rowdetails: "<div class='contactsNestedGridCheckout' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
-            },
-            ready: function() {
-                _this.addDefaultfilter();
-                //$("#customerCheckInComplete").jqxGrid('sortby', 'LastName', 'asc');
             }
+            //ready: function() {
+            //    _this.addDefaultfilter();
+            //    //$("#customerCheckInComplete").jqxGrid('sortby', 'LastName', 'asc');
+            //}
         };
     };
 
