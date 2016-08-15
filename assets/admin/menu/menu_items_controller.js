@@ -611,19 +611,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 return false;
             }
         }
-        if ($(this).attr('id') == 'editItem_label') {
+        if ($(this).attr('id') == 'editItem_label' || e.type == 'keyup') {
             if ($scope.itemLengthOfMenuSelected != null) {
                 var characters = this.value.length;
-                if (characters > $scope.itemLengthOfMenuSelected) {
+                if (characters >= $scope.itemLengthOfMenuSelected) {
                     $('#menuitemNotificationsErrorSettings #notification-content')
                         .html('You have exceeded limit of characters!');
                     $scope.menuitemNotificationsErrorSettings.apply('open');
                     $(this).css({"border-color": "#F00"});
-                    return false;
+                    this.value = this.value.substring(0, $scope.itemLengthOfMenuSelected);
+                    //return false;
                 } else
                     $(this).css({"border-color": "#CCC"});
-                }
             }
+        }
         $('#saveItemGridBtn').prop('disabled', false);
     });
 

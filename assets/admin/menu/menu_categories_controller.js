@@ -99,10 +99,12 @@ app.controller('menuCategoriesController', function($scope, $http){
                         .html('Row and Column values must be numbers!');
                     $scope.menuNotificationsErrorSettings.apply('open');
                 }
-                return false;
+                this.value = this.value.substring(0, 2);
+                //return false;
             }
-            if (this.value.length > 2) {
-                return false;
+            if (this.value.length >= 2) {
+                this.value = this.value.substring(0, 2);
+                //return false;
             }
         }
         $('#saveMenuBtn').prop('disabled', false);
