@@ -458,21 +458,33 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'posCol': $scope.itemCellSelectedOnGrid.Column,
                 // ---- PRICES TAB, Save data
                 'pricesValues': {
-                    'ListPrice': $('#menuitem_listPrice').val(),
-                    'price1': $('#menuitem_price1').val(),
-                    'price2': $('#menuitem_price2').val(),
-                    'price3': $('#menuitem_price3').val(),
-                    'price4': $('#menuitem_price4').val(),
-                    'price5': $('#menuitem_price5').val()
+                    'ListPrice': parseFloat($('#menuitem_listPrice').val()),
+                    'price1': parseFloat($('#menuitem_price1').val()),
+                    'price2': parseFloat($('#menuitem_price2').val()),
+                    'price3': parseFloat($('#menuitem_price3').val()),
+                    'price4': parseFloat($('#menuitem_price4').val()),
+                    'price5': parseFloat($('#menuitem_price5').val())
                 },
                 'extraValues': {
-                    'GiftCard': $('#itemcontrol_giftcard [aria-checked="true"]').data('val'),
-                    'PromptPrice': $('#itemcontrol_promptprice [aria-checked="true"]').data('val'),
-                    'PromptDescription': $('#itemcontrol_promptdescription [aria-checked="true"]').data('val'),
-                    'EBT': $('#itemcontrol_EBT [aria-checked="true"]').data('val'),
-                    'MinimumAge': $('#itemcontrol_minimumage').val(),
-                    'Points': $('#itemcontrol_points').val(),
-                    'CountDown': $('#itemcontrol_countdown').val()
+                    'GiftCard':
+                        ($('#itemcontrol_giftcard [aria-checked="true"]').length > 0) ?
+                            $('#itemcontrol_giftcard [aria-checked="true"]').data('val') :
+                            0,
+                    'PromptPrice':
+                        ($('#itemcontrol_promptprice [aria-checked="true"]').length > 0) ?
+                            $('#itemcontrol_promptprice [aria-checked="true"]').data('val') :
+                            0,
+                    'PromptDescription':
+                        ($('#itemcontrol_promptdescription [aria-checked="true"]').length > 0)
+                            ? $('#itemcontrol_promptdescription [aria-checked="true"]').data('val')
+                            : 0,
+                    'EBT':
+                        ($('#itemcontrol_EBT [aria-checked="true"]').length > 0)
+                        ? $('#itemcontrol_EBT [aria-checked="true"]').data('val')
+                        : 0,
+                    'MinimumAge': parseInt($('#itemcontrol_minimumage').val()),
+                    'CountDown': parseInt($('#itemcontrol_countdown').val()),
+                    'Points': parseFloat($('#itemcontrol_points').val())
                 }
             };
             if ($('#editItem_sort').val() != '') {

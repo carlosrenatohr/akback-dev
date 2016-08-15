@@ -117,14 +117,18 @@ class MenuItem extends AK_Controller
         }
         // Posting
         else {
-            $pricesValues = $request['pricesValues'];
-            $extraValues = $request['extraValues'];
-            unset($request['pricesValues']);
-            unset($request['extraValues']);
+            if (isset($request['pricesValues']) && isset($request['extraValues'])) {
+                $pricesValues = $request['pricesValues'];
+                $extraValues = $request['extraValues'];
+                unset($request['pricesValues']);
+                unset($request['extraValues']);
+            }
             $status = $this->menuItem->postItemByMenu($request);
             if ($status) {
-                $itemFields = array_merge($pricesValues, $extraValues);
-                $this->item->update($request['ItemUnique'], $itemFields);
+                if(isset($extraValues) && isset($pricesValues)) {
+                    $itemFields = array_merge($pricesValues, $extraValues);
+                    $this->item->update($request['ItemUnique'], $itemFields);
+                }
                 $response = [
                     'status' => 'success',
                     'message' => 'Item success: ' . $status
@@ -149,6 +153,7 @@ class MenuItem extends AK_Controller
 
         if ($condition) {}
         else {
+
             $busy = $this->menuItem->verifyBusyPosition($data['Row'], $data['Column'], $data['MenuCategoryUnique']);
             if ($busy) {
                 $needValidation = true;

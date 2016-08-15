@@ -6,7 +6,7 @@
                 <li>Items</li>
             </ul>
             <div class="">
-                <div class="">
+                <div class=" ">
                     <jqx-list-box jqx-settings="menuListBoxSettings"
                                   jqx-on-select="menuListBoxSelecting(event)"
                                   id="menuListBox">
