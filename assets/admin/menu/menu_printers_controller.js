@@ -4,11 +4,11 @@
 
 app.controller('menuPrintersController', function($scope) {
 
-
+    // -- MenuCategories Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
-        // ITEMS TAB - Reload queries
-        if (tabclicked == 4) {
+        // PRINTERS TAB - Reload queries
+        if (tabclicked == 2) {
             updatePrinterTable();
             if (allPrintersArray == '') {
                 var rows = $("#printerItemList").jqxDropDownList('getItems');

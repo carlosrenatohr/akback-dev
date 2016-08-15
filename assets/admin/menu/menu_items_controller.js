@@ -8,7 +8,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
         // ITEMS TAB - Reload queries
-        if (tabclicked == 2) {
+        if (tabclicked == 0) {
             updateQuestionsCbx();
             $scope.menuListBoxSettings.apply('refresh');
             $('.draggable').removeClass('selectedItemOnGrid');

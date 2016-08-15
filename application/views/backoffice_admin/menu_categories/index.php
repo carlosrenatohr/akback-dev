@@ -54,24 +54,12 @@ jqxthemes();
                 <div class="col-md-12">
                 <jqx-tabs  jqx-width="" jqx-height="" id="MenuCategoriesTabs">
                     <ul>
-                        <li>Menu</li>
-                        <li>Categories</li>
-                        <li>Items</li>
-                        <li>Questions</li>
-                        <li>Printers</li>
+                        <li>Items</li> <?//2?>
+                        <li>Questions</li><?//3?>
+                        <li>Printers</li><? //4 ?>
+                        <li>Categories</li><? //1 ?>
+                        <li>Menu</li><?//0?>
                     </ul>
-                    <!-- -------------- -->
-                    <!-- MENU TAB       -->
-                    <!-- -------------- -->
-                    <div>
-                        <?php $this->load->view($menu_tab_view); ?>
-                    </div>
-                    <!-- -------------- -->
-                    <!-- CATEGORIES TAB -->
-                    <!-- -------------- -->
-                    <div>
-                        <?php $this->load->view($category_tab_view); ?>
-                    </div>
                     <!-- -------------- -->
                     <!-- ITEMS TAB      -->
                     <!-- -------------- -->
@@ -89,6 +77,18 @@ jqxthemes();
                     <!-- -------------- -->
                     <div class="" ng-controller="menuPrintersController">
                         <?php $this->load->view($printers_tab_view); ?>
+                    </div>
+                    <!-- -------------- -->
+                    <!-- CATEGORIES TAB -->
+                    <!-- -------------- -->
+                    <div>
+                        <?php $this->load->view($category_tab_view); ?>
+                    </div>
+                    <!-- -------------- -->
+                    <!-- MENU TAB       -->
+                    <!-- -------------- -->
+                    <div>
+                        <?php $this->load->view($menu_tab_view); ?>
                     </div>
                 </jqx-tabs>
                 </div>
