@@ -1,43 +1,42 @@
 <div class="">
     <div class="col-lg-2 col-md-2 col-sm-2">
-        <jqx-tabs jqx-width="'100%'" id="jqxTabsMenuItemSection">
-            <ul>
-                <li>Menu</li>
-                <li>Items</li>
-            </ul>
+<!--                <div class="">-->
+<!--                    <jqx-list-box jqx-settings="menuListBoxSettings"-->
+<!--                                  jqx-on-select="menuListBoxSelecting(event)"-->
+<!--                                  id="menuListBox">-->
+<!--                    </jqx-list-box>-->
+<!--                </div>-->
+        <div style="margin: 20px 0;">
             <div class="">
-                <div class=" ">
-                    <jqx-list-box jqx-settings="menuListBoxSettings"
-                                  jqx-on-select="menuListBoxSelecting(event)"
-                                  id="menuListBox">
-                    </jqx-list-box>
-                </div>
+                <label for="">Select a menu</label>
+                <jqx-drop-down-list
+                    id="menuListDropdown"
+                    jqx-settings="menudropdownSettings"
+                    jqx-on-change="menuListBoxSelecting(event)"
+                    >
+                </jqx-drop-down-list>
+            </div>
+            <div id="selectedItemInfo" class="col-md-12">
+                {{ selectedItemInfo.Description }}
+            </div>
+            <div id="" class="col-md-12">
+                <button class="btn btn-info" ng-click="newMenuItemBtn()" id="NewMenuItemBtn"
+                        style="margin: 10px 25%;">
+                    New Item
+                </button>
             </div>
             <div class="">
-                <div class="">
-                    <div id="selectedItemInfo" class="col-md-12">
-                        {{ selectedItemInfo.Description }}
-                    </div>
-                    <div id="" class="col-md-12">
-                        <button class="btn btn-info" ng-click="newMenuItemBtn()" id="NewMenuItemBtn"
-                                style="margin: 10px 25%;">
-                            New Item
-                        </button>
-                    </div>
-                    <div class="col-md-12">
-                        <span>Type an item to find:</span>
-                    </div>
-                    <jqx-list-box
-                        jqx-on-select="itemListBoxOnSelect(event)"
-                        jqx-on-unselect=""
-                        jqx-settings="itemsListboxSettings"
-                        id="itemListboxSearch"
-                        >
-                    </jqx-list-box>
-                    <div class="" style="min-height: 50px;"></div>
-                </div>
+                <span>Type an item to find:</span>
             </div>
-        </jqx-tabs>
+            <jqx-list-box
+                jqx-on-select="itemListBoxOnSelect(event)"
+                jqx-on-unselect=""
+                jqx-settings="itemsListboxSettings"
+                id="itemListboxSearch"
+                >
+            </jqx-list-box>
+            <div class="" style="min-height: 50px;"></div>
+        </div>
     </div>
 
     <div class="col-lg-10 col-md-10 col-sm-10 maingrid-container">

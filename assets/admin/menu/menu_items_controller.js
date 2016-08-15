@@ -10,22 +10,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         // ITEMS TAB - Reload queries
         if (tabclicked == 0) {
             updateQuestionsCbx();
-            $scope.menuListBoxSettings.apply('refresh');
+            //$scope.menuListBoxSettings.apply('refresh');
+            //var menuSelected = $('#menuListBox').jqxListBox('selectedIndex');
+            //$('#menuListBox').jqxListBox({selectedIndex: menuSelected });
+            $('#menuListDropdown').jqxDropDownList({source: dataAdapterMenu });
+            $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
+            // Redraw grid
             $('.draggable').removeClass('selectedItemOnGrid');
             //$('.category-cell-grid').removeClass('valued');
-            var menuSelected = $('#menuListBox').jqxListBox('selectedIndex');
-            $('#menuListBox').jqxListBox({selectedIndex: menuSelected });
-            $('#NewMenuItemBtn').prop('disabled', true)
-        }
-    });
 
-    $('#jqxTabsMenuItemSection').on('selecting', function(e) {
-        var tabclicked = e.args.item;
-        // ITEMS SUBTAB
-        if (tabclicked == 1) {
-            setTimeout(function(){
-                $('#itemListboxSearch .jqx-listbox-filter-input').focus();
-            }, 100);
+            $('#NewMenuItemBtn').prop('disabled', true)
         }
     });
 
@@ -99,7 +93,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 {name: 'CategoryName', type: 'string'},
                 {name: 'categories', type: 'json'}
             ],
-            id: 'Unique',
+            //id: 'Unique',
             url: SiteRoot + 'admin/MenuItem/load_allMenusWithCategories/1/on'
         }
     );
@@ -112,6 +106,23 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         width: '100%',
         height: "450px",
         theme: 'arctic'
+    };
+
+    $scope.menudropdownSettings =
+    {
+        source: dataAdapterMenu,
+        placeHolder: 'Select a Menu',
+        displayMember: "MenuName",
+        valueMember: "Unique",
+        width: '100%',
+        height: "25px",
+        theme: 'arctic',
+        bindingComplete: function() {
+            $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
+            setTimeout(function(){
+                $('#itemListboxSearch .jqx-listbox-filter-input').focus();
+            }, 250);
+        }
     };
 
     $scope.categoriesByMenu = [];
@@ -198,7 +209,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         //
         drawExistsItemsOnGrid();
         onClickDraggableItem();
-        $('#jqxTabsMenuItemSection').jqxTabs('select', 1);
+        //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
     };
 
     function drawExistsItemsOnGrid() {
