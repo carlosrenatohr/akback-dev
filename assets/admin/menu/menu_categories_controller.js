@@ -419,22 +419,37 @@ app.controller('menuCategoriesController', function($scope, $http){
         { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
 
     function reloadMenuSelectOnCategories() {
-        var source = new $.jqx.dataAdapter(
-            {
-                datatype: "json",
-                datafields: [
-                    { name: 'MenuName' },
-                    { name: 'Status' },
-                    { name: 'Unique' }
+        $('#add_MenuUnique').jqxDropDownList({
+            source: new $.jqx.dataAdapter({
+                    datatype: "json",
+                    datafields: [
+                        { name: 'MenuName' },
+                        { name: 'Status' },
+                        { name: 'Unique' }
+                    ],
+                    //id: 'Unique',
+                    url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
+                })
+        });
+        // Categories datatable!
+        $('#categoriesDataTable').jqxDataTable({
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'CategoryName', type: 'string'},
+                    {name: 'Sort', type: 'number'},
+                    {name: 'Row', type: 'number'},
+                    {name: 'Column', type: 'number'},
+                    {name: 'Status', type: 'number'},
+                    {name: 'StatusName', type: 'string'},
+                    {name: 'MenuUnique', type: 'number'},
+                    {name: 'MenuName', type: 'string'}
                 ],
-                //id: 'Unique',
-                url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
-            }, {});
-
-        //$scope.$apply(function() {
-            $scope.settingsMenuSelect =
-            { source: source, displayMember: "MenuName", valueMember: "Unique" };
-        //});
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuCategory/load_allcategories'
+            })
+        });
     }
 
     // Status select

@@ -3,7 +3,8 @@
         <span class="icon-32-new"></span>
         New
     </a>
-    <jqx-data-table jqx-settings="categoriesTableSettings"
+    <jqx-data-table id="categoriesDataTable"
+                    jqx-settings="categoriesTableSettings"
                     jqx-on-row-double-click="updateCategoryAction(e)">
     </jqx-data-table>
     <!-- -->
