@@ -61,6 +61,23 @@
                     </div>
                 </div>
             </div>
+            <!-- Prompt before saving printers by item -->
+            <div class="col-md-12 col-md-offset-0">
+                <div class="row">
+                    <div id="promptClosePrinter" class="" style="display: none">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                Do you want to save your changes?
+                                <button type="button" ng-click="closeBtnPrinter(0)" class="btn btn-primary">Yes
+                                </button>
+                                <button type="button" ng-click="closeBtnPrinter(1)" class="btn btn-warning">No</button>
+                                <button type="button" ng-click="closeBtnPrinter(2)" class="btn btn-info">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Prompt to delete itemp printer -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">

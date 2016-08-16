@@ -56,11 +56,11 @@ app.controller('menuPrintersController', function($scope) {
             url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
         }),
         columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int'},
-            {text: 'Item', dataField: 'Item', type: 'string'},
-            {text: 'Item Description', dataField: 'ItemDescription', type: 'string'},
-            {text: 'Name', dataField: 'name', type: 'string'},
-            {text: 'Printer Description', dataField: 'description', type: 'string'},
+            {text: 'ID', dataField: 'Unique', type: 'int', width: '8%'},
+            {text: 'Item', dataField: 'Item', type: 'string', width: '20%'},
+            {text: 'Item Description', dataField: 'ItemDescription', type: 'string', width: '26%'},
+            {text: 'Name', dataField: 'name', type: 'string', width: '20%'},
+            {text: 'Printer Description', dataField: 'description', type: 'string', width: '26%'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
@@ -164,6 +164,7 @@ app.controller('menuPrintersController', function($scope) {
     //$scope.updatePrinterWin = function(e) {
     //    var row = e.args.row;
         var row = e.args.row.bounddata;
+        console.log(row);
         $scope.createOrEditPrinter = 'edit';
         $scope.printerSelectedID = row.Unique;
         // Printers saved by Item
@@ -191,13 +192,6 @@ app.controller('menuPrintersController', function($scope) {
         printerWind.open();
     //};
     });
-
-    $scope.closeBtnPrinter = function() {
-        printerWind.close();
-        $('#mainButtonsPrinter').show();
-        $('#promptDeletePrinter').hide();
-        setPrinterStoredArray();
-    };
 
     var printerStoredArray = [], allPrintersArray = [];
     function setPrinterStoredArray() {
@@ -270,7 +264,7 @@ app.controller('menuPrintersController', function($scope) {
                 'PrinterUnique': printer.value
             };
             var url;
-            if ($scope.createOrEditPrinter == 'create') {
+            if ($scope.itemPrinterID == null) {
                 url = SiteRoot + 'admin/MenuPrinter/post_item_printer'
             } else if ($scope.createOrEditPrinter == 'edit')
                 url = SiteRoot + 'admin/MenuPrinter/update_item_printer/' + $scope.itemPrinterID;
@@ -281,16 +275,49 @@ app.controller('menuPrintersController', function($scope) {
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'success') {
-                        $scope.$apply(function() {
-                            updatePrinterTable();
-                        });
-                        $scope.closeBtnPrinter();
+                        $('#printerTable').jqxGrid('updatebounddata');
+                            //$scope.$apply(function() {
+                            //    updatePrinterTable();
+                            //});
+                        $scope.closingPrinterWind();
                     } else if (response.status == 'error')
                         console.log('Database error!');
                     else
                         console.log('There was an error!');
                 }
             })
+        }
+    };
+
+    $scope.closingPrinterWind = function() {
+        printerWind.close();
+        $('#mainButtonsPrinter').show();
+        $('#promptClosePrinter').hide();
+        $('#promptDeletePrinter').hide();
+        setPrinterStoredArray();
+    };
+
+    $scope.closeBtnPrinter = function (option) {
+        if(option != undefined) {
+            $('#mainButtonsPrinter').show();
+            $('#promptClosePrinter').hide();
+            $('#promptDeletePrinter').hide();
+        }
+        if (option == 0) {
+            $scope.savePrinterByItem();
+        } else if (option == 1) {
+            $scope.closingPrinterWind();
+        }
+        else if (option == 2) {}
+        else {
+            //if ($('#saveBtnPrinterItem').is(':disabled')) {
+            //    printerWind.close();
+            //}
+            //else {
+            $('#promptClosePrinter').show();
+            $('#mainButtonsPrinter').hide();
+            $('#promptDeletePrinter').hide();
+            //}
         }
     };
 
@@ -303,9 +330,7 @@ app.controller('menuPrintersController', function($scope) {
                 dataType: 'json',
                 success: function(response) {
                     if(response.status == 'success') {
-                        $scope.$apply(function() {
-                            updatePrinterTable();
-                        });
+                        $('#printerTable').jqxGrid('updatebounddata');
                         $scope.closeBtnPrinter();
                     } else if (response.status == 'error'){
                         console.log('there was an error db');
@@ -316,16 +341,16 @@ app.controller('menuPrintersController', function($scope) {
             });
         } else if (option == 1) {
             $('#mainButtonsPrinter').show();
-            //$('#promptToCloseQitem').hide();
+            $('#promptClosePrinter').hide();
             $('#promptDeletePrinter').hide();
-            printerItemWind.close();
+            $scope.closingPrinterWind();
         } else if (option == 2) {
             $('#mainButtonsPrinter').show();
-            //$('#promptToCloseQitem').hide();
+            $('#promptClosePrinter').hide();
             $('#promptDeletePrinter').hide();
         } else {
             $('#mainButtonsPrinter').hide();
-            //$('#promptToCloseQitem').hide();
+            $('#promptClosePrinter').hide();
             $('#promptDeletePrinter').show();
         }
     };
