@@ -61,7 +61,22 @@ class Item_printer_model extends CI_Model
         $status = $this->db->delete('item_printer');
         return $status;
     }
-
+    public function getCustomCompletePrinters() {
+        $this->db->select("item_printer.*, item.Description as ItemDescription, item.Item,
+                        item.price1 as Price, category_main.\"MainName\" as Category,
+                        category_sub.\"Name\" as \"SubCategory\",
+                        config_station_printers.\"name\",
+                        config_station_printers.\"description\""
+                        );
+        $this->db->from('item');
+        $this->db->where('item.Status', 1);
+        $this->db->order_by("item.\"Unique\" DESC, config_station_printers.\"description\" ASC");
+        $this->db->join('category_sub', 'item.CategoryUnique = category_sub.Unique', 'left');
+        $this->db->join('category_main', 'category_sub.CategoryMainUnique = category_main.Unique', 'left');
+        $this->db->join('item_printer', 'item.Unique = item_printer.ItemUnique', 'left');
+        $this->db->join('config_station_printers', 'config_station_printers.unique = item_printer.PrinterUnique', 'left');
+        return $this->db->get()->result_array();
+    }
 
 
 }

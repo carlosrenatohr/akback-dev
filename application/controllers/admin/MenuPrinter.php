@@ -21,6 +21,11 @@ class MenuPrinter extends AK_Controller
         echo json_encode($printers);
     }
 
+    public function load_completePrinters()
+    {
+        echo json_encode($this->menuPrinter->getCustomCompletePrinters());
+    }
+
     public function load_allPrintersFromConfig() {
         $newPrinters = [];
         $printers = $this->menuPrinter->getPrinters();

@@ -16,7 +16,8 @@ jqxthemes();
 </script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/jqwidgets/jqxdragdrop.js"></script>
 <script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
-
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.filter.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_categories_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_questions_controller.js"></script>

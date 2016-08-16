@@ -9,7 +9,8 @@ app.controller('menuPrintersController', function($scope) {
         var tabclicked = e.args.item;
         // PRINTERS TAB - Reload queries
         if (tabclicked == 2) {
-            updatePrinterTable();
+            //updatePrinterTable();
+            $('#printerTable').jqxGrid('updatebounddata');
             if (allPrintersArray == '') {
                 var rows = $("#printerItemList").jqxDropDownList('getItems');
                 for(var j in rows) {
@@ -19,41 +20,8 @@ app.controller('menuPrintersController', function($scope) {
         }
     });
 
-    function updatePrinterTable() {
-        $scope.printerTableSettings = {
-            source: {
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'ItemUnique', type: 'int'},
-                    {name: 'PrinterUnique', type: 'int'},
-                    {name: 'name', type: 'string'},
-                    {name: 'description', type: 'string'},
-                    {name: 'Item', type: 'string'},
-                    {name: 'Status', type: 'number'},
-                    {name: 'fullDescription', type: 'string'},
-                    {name: 'ItemDescription', type: 'string'}
-                ],
-                url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters'
-            },
-            columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int'},
-                {text: 'Item', dataField: 'Item', type: 'string'},
-                {text: 'Item Description', dataField: 'ItemDescription', type: 'string'},
-                {text: 'Name', dataField: 'name', type: 'string'},
-                {text: 'Printer Description', dataField: 'description', type: 'string'},
-                {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
-                {text: '', dataField: 'Status', type: 'int', hidden: true},
-                {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
-            ],
-            created: function (args) {
-                args.instance.updateBoundData();
-            }
-        }
-    };
-
-    $scope.printerTableSettings = {
-        source: {
+    $('#printerTable').on('bindingComplete', function() {
+        $(this).jqxGrid({source: new $.jqx.dataAdapter({
             dataType: 'json',
             dataFields: [
                 {name: 'Unique', type: 'int'},
@@ -66,8 +34,27 @@ app.controller('menuPrintersController', function($scope) {
                 {name: 'fullDescription', type: 'string'},
                 {name: 'ItemDescription', type: 'string'}
             ],
-            url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters'
-        },
+            url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
+            })
+        });
+    });
+
+    $scope.printerTableSettings = {
+        source: new $.jqx.dataAdapter({
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'ItemUnique', type: 'int'},
+                {name: 'PrinterUnique', type: 'int'},
+                {name: 'name', type: 'string'},
+                {name: 'description', type: 'string'},
+                {name: 'Item', type: 'string'},
+                {name: 'Status', type: 'number'},
+                {name: 'fullDescription', type: 'string'},
+                {name: 'ItemDescription', type: 'string'}
+            ],
+            url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
+        }),
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
             {text: 'Item', dataField: 'Item', type: 'string'},
@@ -80,9 +67,11 @@ app.controller('menuPrintersController', function($scope) {
         ],
         width: "100%",
         theme: 'arctic',
-        sortable: true,
+        filterable: true,
+        showfilterrow: true,
+        //sortable: true,
         pageable: true,
-        pageSize: 15
+        //pageSize: 15
     };
 
     var printerWind;
@@ -171,25 +160,37 @@ app.controller('menuPrintersController', function($scope) {
         printerWind.open();
     };
 
-    $scope.updatePrinterWin = function(e) {
-        var row = e.args.row;
+    $('#printerTable').on('rowdoubleclick', function(e) {
+    //$scope.updatePrinterWin = function(e) {
+    //    var row = e.args.row;
+        var row = e.args.row.bounddata;
         $scope.createOrEditPrinter = 'edit';
         $scope.printerSelectedID = row.Unique;
         // Printers saved by Item
         //setPrinterStoredArray();
         //setAllPrintersArray();
         ////
-        var printer = $("#printerMainList").jqxDropDownList('getItemByValue', row.PrinterUnique);
-        $("#printerMainList").jqxDropDownList('enableItem', printer);
-        $("#printerMainList").jqxDropDownList({selectedIndex: printer.index});
-        var item = $("#itemMainList").jqxComboBox('getItemByValue', row.ItemUnique);
-        $("#itemMainList").jqxComboBox({selectedIndex: item.index});
+        if (row.PrinterUnique != null) {
+            var printer = $("#printerMainList").jqxDropDownList('getItemByValue', row.PrinterUnique);
+            $("#printerMainList").jqxDropDownList('enableItem', printer);
+            $("#printerMainList").jqxDropDownList({selectedIndex: printer.index});
+        } else {
+            $("#printerMainList").jqxDropDownList({selectedIndex: -1});
+        }
+
+        if (row.ItemUnique != null) {
+            var item = $("#itemMainList").jqxComboBox('getItemByValue', row.ItemUnique);
+            $("#itemMainList").jqxComboBox({selectedIndex: item.index});
+        } else {
+            $("#itemMainList").jqxComboBox({selectedIndex: -1});
+        }
         $('#saveBtnPrinter').hide();
         //$('#saveBtnPrinter').prop('disabled', true);
         $('#deleteBtnPrinter').show();
         printerWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
         printerWind.open();
-    };
+    //};
+    });
 
     $scope.closeBtnPrinter = function() {
         printerWind.close();

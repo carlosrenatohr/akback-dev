@@ -5,11 +5,11 @@
         </button>
     </div>
     <div class="col-md-12">
-        <jqx-data-table id="printerTable"
-                        jqx-settings="printerTableSettings"
-                        jqx-on-row-double-click="updatePrinterWin()"
-                        jqx-create="printerTableSettings">
-        </jqx-data-table>
+        <jqx-grid id="printerTable"
+                jqx-settings="printerTableSettings"
+                jqx-on-row-double-click="updatePrinterWin()"
+                jqx-create="printerTableSettings">
+        </jqx-grid>
     </div>
     <jqx-window jqx-on-close="close()" jqx-settings="printerWindowSettings"
                 jqx-create="printerWindowSettings" class="">
