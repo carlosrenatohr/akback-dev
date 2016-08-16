@@ -316,6 +316,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         var fullname = row.fname + ' ' + row.lname;
         $('#checkOutForm #customerNameP').html(fullname);
         $('#checkOutForm #checkInP').html(row.CheckInUser + ' at ' + row._CheckInDate);
+        //
         if (row.CheckOutBy !== null) {
             $('#checkOutForm #checkOutP').html(row.CheckOutUser + ' at ' + row._CheckOutDate);
         }
