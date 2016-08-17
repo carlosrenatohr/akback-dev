@@ -1,5 +1,5 @@
 <div class="">
-    <div class="col-lg-2 col-md-2 col-sm-2">
+    <div class="col-lg-2-item col-md-2-item col-sm-2">
 <!--                <div class="">-->
 <!--                    <jqx-list-box jqx-settings="menuListBoxSettings"-->
 <!--                                  jqx-on-select="menuListBoxSelecting(event)"-->
@@ -38,8 +38,7 @@
             <div class="" style="min-height: 50px;"></div>
         </div>
     </div>
-
-    <div class="col-lg-10 col-md-10 col-sm-10 maingrid-container">
+    <div class="col-lg-10-item col-md-10-item col-sm-10 maingrid-container">
         <!--  ITEMS GRID -->
         <div class="row">
         <div class="col-md-12 col-sm-12 restricter-dragdrop">
