@@ -25,7 +25,7 @@
                             <jqx-combo-box id="itemMainList"
                                            jqx-settings="itemMainList"
                                            jqx-width="'100%'"
-                                           jqx-on-select="">
+                                            >
                             </jqx-combo-box>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                             <jqx-drop-down-list id="printerMainList"
                                                 jqx-settings="printerMainList"
                                                 jqx-width="'100%'"
-                                                jqx-on-select="">
+                                                >
                             </jqx-drop-down-list>
                         </div>
                     </div>

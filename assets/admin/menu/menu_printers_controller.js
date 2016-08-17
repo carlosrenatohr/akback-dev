@@ -69,7 +69,7 @@ app.controller('menuPrintersController', function($scope) {
         theme: 'arctic',
         filterable: true,
         showfilterrow: true,
-        //sortable: true,
+        sortable: true,
         pageable: true,
         //pageSize: 15
     };
@@ -102,6 +102,7 @@ app.controller('menuPrintersController', function($scope) {
     });
     $scope.printerMainList = { source: sourceMenuPrinter, displayMember: "fullDescription", valueMember: "unique" };
 
+    var anyChangePrompt = false;
     $('#itemMainList').on('select', function(e) {
         var itemSelectedUnique = (e.args.item);
         if (itemSelectedUnique != null) {
@@ -124,6 +125,7 @@ app.controller('menuPrintersController', function($scope) {
             }
             $("#printerMainList").jqxDropDownList({selectedIndex: -1});
         }
+        anyChangePrompt = true;
     });
 
     var sourceMenuItem = new $.jqx.dataAdapter(
@@ -141,6 +143,7 @@ app.controller('menuPrintersController', function($scope) {
 
     $('#printerMainList').on('select', function(e) {
         $('#saveBtnPrinter').prop('disabled', false);
+        anyChangePrompt = true;
     });
 
     $scope.printerSelectedID = null;
@@ -155,6 +158,7 @@ app.controller('menuPrintersController', function($scope) {
         $("#printerMainList").jqxDropDownList({selectedIndex: -1});
         $('#saveBtnPrinter').show();
         $('#saveBtnPrinter').prop('disabled', true);
+        anyChangePrompt = false;
         $('#deleteBtnPrinter').hide();
         printerWind.setTitle('New Item Printer');
         printerWind.open();
@@ -167,9 +171,16 @@ app.controller('menuPrintersController', function($scope) {
         $scope.createOrEditPrinter = 'edit';
         $scope.printerSelectedID = row.Unique;
         // Printers saved by Item
-        //setPrinterStoredArray();
+        setPrinterStoredArray();
         //setAllPrintersArray();
         ////
+        if (row.ItemUnique != null) {
+            var item = $("#itemMainList").jqxComboBox('getItemByValue', row.ItemUnique);
+            $("#itemMainList").jqxComboBox({selectedIndex: item.index});
+        } else {
+            $("#itemMainList").jqxComboBox({selectedIndex: -1});
+        }
+        //
         if (row.PrinterUnique != null) {
             var printer = $("#printerMainList").jqxDropDownList('getItemByValue', row.PrinterUnique);
             $("#printerMainList").jqxDropDownList('enableItem', printer);
@@ -177,15 +188,9 @@ app.controller('menuPrintersController', function($scope) {
         } else {
             $("#printerMainList").jqxDropDownList({selectedIndex: -1});
         }
-
-        if (row.ItemUnique != null) {
-            var item = $("#itemMainList").jqxComboBox('getItemByValue', row.ItemUnique);
-            $("#itemMainList").jqxComboBox({selectedIndex: item.index});
-        } else {
-            $("#itemMainList").jqxComboBox({selectedIndex: -1});
-        }
         $('#saveBtnPrinter').hide();
         //$('#saveBtnPrinter').prop('disabled', true);
+        anyChangePrompt = false;
         $('#deleteBtnPrinter').show();
         printerWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
         printerWind.open();
@@ -294,6 +299,7 @@ app.controller('menuPrintersController', function($scope) {
         $('#promptClosePrinter').hide();
         $('#promptDeletePrinter').hide();
         setPrinterStoredArray();
+        anyChangePrompt = false;
     };
 
     $scope.closeBtnPrinter = function (option) {
@@ -310,13 +316,14 @@ app.controller('menuPrintersController', function($scope) {
         else if (option == 2) {}
         else {
             //if ($('#saveBtnPrinterItem').is(':disabled')) {
-            //    printerWind.close();
-            //}
-            //else {
-            $('#promptClosePrinter').show();
-            $('#mainButtonsPrinter').hide();
-            $('#promptDeletePrinter').hide();
-            //}
+            if (!anyChangePrompt) {
+                printerWind.close();
+            }
+            else {
+                $('#promptClosePrinter').show();
+                $('#mainButtonsPrinter').hide();
+                $('#promptDeletePrinter').hide();
+            }
         }
     };
 
