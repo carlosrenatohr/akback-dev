@@ -40,9 +40,11 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Sort:</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field"
-                                       id="add_Sort" name="add_Sort" placeholder="Sort"
-                                       step="1" min="1" pattern="\d*" value="1">
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_Sort" name="add_Sort"
+                                    jqx-settings="number_mainmenuTab" jqx-min="0"
+                                ></jqx-number-input>
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -52,10 +54,11 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Row:</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field" id="add_CategoryRow"
-                                       name="add_CategoryRow" placeholder="Row"
-                                       step="1" min="1" pattern="\d*"
-                                >
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_CategoryRow" name="add_CategoryRow"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                ></jqx-number-input>
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -65,10 +68,11 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Column:</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field" id="add_CategoryColumn"
-                                       name="add_CategoryColumn" placeholder="Column"
-                                       step="1" min="1" max="12" pattern="\d*"
-                                >
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_CategoryColumn" name="add_CategoryColumn"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                ></jqx-number-input>
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -78,7 +82,7 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Status:</div>
                             <div style="float:left; width:180px;">
-                                <select name="Status" id="add_CategoryStatus">
+                                <select name="Status" id="add_CategoryStatus" style="width: 180px;">
                                     <option value="1">Enabled</option>
                                     <option value="2">Disabled</option>
                                 </select>

@@ -231,15 +231,15 @@ class MenuCategory extends AK_Controller
             $message['CategoryName'] = 'Category name must be unique. Please type a different one.';
         }
         //
-        if (!ctype_digit($request['Row'])) {
-            $sure = false;
-            $message['CategoryRow'] = 'Row must be an integer value.';
-        }
-
-        if (!ctype_digit($request['Column'])) {
-            $sure = false;
-            $message['CategoryColumn'] = 'Column must be an integer value.';
-        }
+//        if (!ctype_digit($request['Row'])) {
+//            $sure = false;
+//            $message['CategoryRow'] = 'Row must be an integer value.';
+//        }
+//
+//        if (!ctype_digit($request['Column'])) {
+//            $sure = false;
+//            $message['CategoryColumn'] = 'Column must be an integer value.';
+//        }
         $gridPosition = $this->menu->isCategoryPositionBusy($request);
         if ($gridPosition) {
             $sure = false;
@@ -306,15 +306,15 @@ class MenuCategory extends AK_Controller
             $sure = false;
             $message['CategoryName'] = 'Category name must be unique. Please type a different one.';
         }
-        if (!ctype_digit($request['Row'])) {
-            $sure = false;
-            $message['CategoryRow'] = 'Row must be an integer value.';
-        }
-
-        if (!ctype_digit($request['Column'])) {
-            $sure = false;
-            $message['CategoryColumn'] = 'Column must be an integer value.';
-        }
+//        if (!ctype_digit($request['Row'])) {
+//            $sure = false;
+//            $message['CategoryRow'] = 'Row must be an integer value.';
+//        }
+//
+//        if (!ctype_digit($request['Column'])) {
+//            $sure = false;
+//            $message['CategoryColumn'] = 'Column must be an integer value.';
+//        }
         $gridPosition = $this->menu->isCategoryPositionBusy($request, $id);
         if ($gridPosition) {
             $sure = false;

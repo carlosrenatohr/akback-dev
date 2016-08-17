@@ -416,7 +416,7 @@ app.controller('menuCategoriesController', function($scope, $http){
     });
 
     $scope.settingsMenuSelect =
-        { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique" };
+        { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique", width: 180};
 
     function reloadMenuSelectOnCategories() {
         $('#add_MenuUnique').jqxDropDownList({
@@ -478,21 +478,21 @@ app.controller('menuCategoriesController', function($scope, $http){
     // Events category controls
     $('.categoryFormContainer .required-field').on('keypress keyup paste change', function (e) {
         var idsRestricted = ['add_CategoryRow', 'add_CategoryColumn', 'add_Sort'];
-        var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        if (inarray >= 0) {
-            var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                if ($(this).val() == '') {
-                    $('#categoryNotificationsErrorSettings #notification-content')
-                        .html('Row, Sort and Column values must be numbers!');
-                    $scope.categoryNotificationsErrorSettings.apply('open');
-                }
-                return false;
-            }
-            if (this.value.length > 2) {
-                return false;
-            }
-        }
+        //var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        //if (inarray >= 0) {
+        //    var charCode = (e.which) ? e.which : e.keyCode;
+        //    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        //        if ($(this).val() == '') {
+        //            $('#categoryNotificationsErrorSettings #notification-content')
+        //                .html('Row, Sort and Column values must be numbers!');
+        //            $scope.categoryNotificationsErrorSettings.apply('open');
+        //        }
+        //        return false;
+        //    }
+        //    if (this.value.length > 2) {
+        //        return false;
+        //    }
+        //}
         $('#saveCategoryBtn').prop('disabled', false);
     });
 
