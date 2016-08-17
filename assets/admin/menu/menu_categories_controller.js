@@ -90,23 +90,23 @@ app.controller('menuCategoriesController', function($scope, $http){
     // Events menu controls
     $('.menuFormContainer .required-field').on('keypress keyup paste change', function (e) {
         var idsRestricted = ['add_MenuRow', 'add_MenuColumn', 'add_MenuItemRow', 'add_MenuItemColumn', 'add_ItemLength'];
-        var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        if (inarray >= 0) {
-            var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                if ($(this).val() == '') {
-                    $('#menuNotificationsErrorSettings #notification-content')
-                        .html('Row and Column values must be numbers!');
-                    $scope.menuNotificationsErrorSettings.apply('open');
-                }
-                this.value = this.value.substring(0, 2);
-                //return false;
-            }
-            if (this.value.length >= 2) {
-                this.value = this.value.substring(0, 2);
-                //return false;
-            }
-        }
+        //var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        //if (inarray >= 0) {
+        //    var charCode = (e.which) ? e.which : e.keyCode;
+        //    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        //        if ($(this).val() == '') {
+        //            $('#menuNotificationsErrorSettings #notification-content')
+        //                .html('Row and Column values must be numbers!');
+        //            $scope.menuNotificationsErrorSettings.apply('open');
+        //        }
+        //        this.value = this.value.substring(0, 2);
+        //        //return false;
+        //    }
+        //    if (this.value.length >= 2) {
+        //        this.value = this.value.substring(0, 2);
+        //        //return false;
+        //    }
+        //}
         $('#saveMenuBtn').prop('disabled', false);
     });
 
@@ -738,6 +738,16 @@ app.controller('menuCategoriesController', function($scope, $http){
             console.log('There was an error');
             console.log(response);
         });
+    };
+
+    $scope.number_mainmenuTab = {
+        inputMode: 'simple',
+        decimalDigits: 0,
+        digits: 2,
+        spinButtons: true,
+        width: 165,
+        height: 25,
+        textAlign: 'left'
     }
 
 

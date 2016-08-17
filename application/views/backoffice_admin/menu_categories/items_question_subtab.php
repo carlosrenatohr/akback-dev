@@ -4,7 +4,8 @@
     </button>
 </div>
 <div class="col-md-12">
-    <jqx-data-table jqx-settings="questionTableOnMenuItemsSettings"
+    <jqx-data-table id="questionItemTable"
+                    jqx-settings="questionTableOnMenuItemsSettings"
                     jqx-on-row-double-click="editQuestionItemWin(event)"
                     jqx-create="questionTableOnMenuItemsSettings">
     </jqx-data-table>

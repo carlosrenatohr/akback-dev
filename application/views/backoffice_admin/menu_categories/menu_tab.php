@@ -31,10 +31,12 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Category Row:</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field" id="add_MenuRow"
-                                       name="add_Row" placeholder="Row"
-                                       step="1" min="1" pattern="\d*"
-                                >
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_MenuRow" name="add_Row"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                ></jqx-number-input>
+
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -44,10 +46,11 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Category Column:</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field" id="add_MenuColumn"
-                                       name="add_Column" placeholder="Column"
-                                       step="1" min="1" pattern="\d*"
-                                >
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_MenuColumn" name="add_Column"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                ></jqx-number-input>
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -57,10 +60,11 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Item Row:</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field" id="add_MenuItemRow"
-                                       name="add_MenuItemRow" placeholder="Item Row"
-                                       step="1" min="1" pattern="\d*"
-                                >
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_MenuItemRow" name="add_MenuItemRow"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                ></jqx-number-input>
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -70,10 +74,15 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Item Column:</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field" id="add_MenuItemColumn"
-                                       name="add_MenuItemRowColumn" placeholder="Item Column"
-                                       step="1" min="1" pattern="\d*"
-                                >
+<!--                                <input type="number" class="form-control required-field" id="add_MenuItemColumn"-->
+<!--                                       name="add_MenuItemRowColumn" -->
+<!--                                       step="1" min="1" pattern="\d*"-->
+<!--                                >-->
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_MenuItemColumn" name="add_MenuItemRowColumn"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                ></jqx-number-input>
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -82,10 +91,11 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Item Length</div>
                             <div style="float:left; width:180px;">
-                                <input type="number" class="form-control required-field" id="add_ItemLength"
-                                       name="add_MenuItemLength" placeholder="Item Length"
-                                       step="1" min="0" max="99" pattern="\d*"
-                                >
+                                <jqx-number-input
+                                    style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
+                                    id="add_ItemLength" name="add_ItemLength"
+                                    jqx-settings="number_mainmenuTab"  jqx-min="0"
+                                ></jqx-number-input>
                             </div>
                             <div style="float:left;">
                                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>

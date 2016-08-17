@@ -37,9 +37,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             }
             //
             $('#deleteItemGridBtn').hide();
-            $scope.$apply(function() {
+            //$scope.$apply(function() {
                 updatePrinterItemGrid();
-            });
+            //});
         } else {
             //
             if ($scope.countChangesOnSelectingItemCbx > 1) {
@@ -52,9 +52,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 $('#deleteItemGridBtn').hide();
                 //
                 if ($scope.changingItemOnSelect != null) {
-                    $scope.$apply(function() {
+                    //$scope.$apply(function() {
                         updateQuestionItemTable();
-                    });
+                    //});
                 }
             }
         }
@@ -968,38 +968,25 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     };
 
     var updateQuestionItemTable = function() {
-        $scope.questionTableOnMenuItemsSettings = {
-            source: {
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'ItemUnique', type: 'int'},
-                    {name: 'QuestionUnique', type: 'int'},
-                    {name: 'QuestionName', type: 'string'},
-                    {name: 'ItemName', type: 'string'},
-                    {name: 'Status', type: 'number'},
-                    {name: 'StatusName', type: 'string'},
-                    {name: 'Sort', type: 'number'},
-                ],
-                id: 'Unique',
-                //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.itemCellSelectedOnGrid.ItemUnique
-                //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique
-                url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
-            },
-            columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int'},
-                {text: 'Item', dataField: 'ItemUnique', type: 'int', hidden: true},
-                {text: 'Item', dataField: 'ItemName', type: 'string', hidden: true},
-                {text: 'Question', dataField: 'QuestionUnique', type: 'int', hidden: true},
-                {text: 'Question', dataField: 'QuestionName', type: 'string'},
-                {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
-                {text: 'Status', dataField: 'StatusName', type: 'string'},
-                {text: 'Sort', dataField: 'Sort', type: 'number'}
-            ],
-            created: function (args) {
-                args.instance.updateBoundData();
-            }
-        }
+        $('#questionItemTable').jqxDataTable({
+            source: new $.jqx.dataAdapter({
+                    dataType: 'json',
+                    dataFields: [
+                        {name: 'Unique', type: 'int'},
+                        {name: 'ItemUnique', type: 'int'},
+                        {name: 'QuestionUnique', type: 'int'},
+                        {name: 'QuestionName', type: 'string'},
+                        {name: 'ItemName', type: 'string'},
+                        {name: 'Status', type: 'number'},
+                        {name: 'StatusName', type: 'string'},
+                        {name: 'Sort', type: 'number'},
+                    ],
+                    id: 'Unique',
+                    //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.itemCellSelectedOnGrid.ItemUnique
+                    //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique
+                    url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
+                })
+        });
     };
 
     $scope.qitemNotificationsSuccessSettings = setNotificationInit(1);
@@ -1300,8 +1287,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     var allPrintersArray = [];
     var printerStoredArray = [];
     var updatePrinterItemGrid = function() {
-        $scope.printerTableOnMenuItemsSettings = {
-            source: {
+        $('#printerItemTable').jqxDataTable({
+            source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -1314,20 +1301,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                     {name: 'fullDescription', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
-            },
-            columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int', width: '20%'},
-                {text: 'Item', dataField: 'Item', type: 'string', hidden: true},
-                {text: 'Name', dataField: 'name', type: 'string', width: '20%'},
-                {text: 'Description', dataField: 'description', type: 'string', width: '60%'},
-                {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
-                {text: '', dataField: 'Status', type: 'int', hidden: true},
-                {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
-            ],
-            created: function (args) {
-                args.instance.updateBoundData();
-            }
-        };
+            })
+        });
     };
 
     $scope.qitemNotificationsSuccessSettings = setNotificationInit(1);
