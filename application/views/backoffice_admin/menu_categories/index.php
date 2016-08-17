@@ -10,38 +10,6 @@ jqxthemes();
 ?>
 
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />
-<style>
-/* Question tab */
-#questionWindowForm .question-tabs {
-    padding-top: 10px;
-    padding-bottom: 5px;
-    background-color: #f5f5f5;
-    border: 1px solid #dddddd;
-    height: 390px;
-}
-
-.alertButtonsQuestionForm {
-    display: none;
-}
-/* Menu tab */
-.alertButtonsMenuCategories {
-    display:none;
-}
-/* Items tabs*/
-.cbxExtraTab {
-    margin-top: 15px;
-    margin-right: 1.5em;
-    display: inherit;
-}
-@media (min-width: 768px) {
-        .col-lg-2-item, .col-md-2-item {
-            width: 20%!important;
-        }
-        .col-lg-10-item, .col-md-10-item {
-            width: 80%!important;
-        }
-    }
-</style>
 <script type="text/javascript">
     var SiteRoot ="<?php echo base_url() ?>";
     $("#tabtitle").text("Menu");
