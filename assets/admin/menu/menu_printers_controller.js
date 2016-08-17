@@ -164,7 +164,6 @@ app.controller('menuPrintersController', function($scope) {
     //$scope.updatePrinterWin = function(e) {
     //    var row = e.args.row;
         var row = e.args.row.bounddata;
-        console.log(row);
         $scope.createOrEditPrinter = 'edit';
         $scope.printerSelectedID = row.Unique;
         // Printers saved by Item
@@ -324,21 +323,26 @@ app.controller('menuPrintersController', function($scope) {
     // Deleting Item printer
     $scope.beforeDeleteIPrinter = function(option) {
         if (option == 0) {
-            $.ajax({
-                url: SiteRoot + 'admin/MenuPrinter/delete_item_printer/' + $scope.printerSelectedID,
-                method: 'post',
-                dataType: 'json',
-                success: function(response) {
-                    if(response.status == 'success') {
-                        $('#printerTable').jqxGrid('updatebounddata');
-                        $scope.closeBtnPrinter();
-                    } else if (response.status == 'error'){
-                        console.log('there was an error db');
-                    } else {
-                        console.log('there was an error');
+            if ($scope.printerSelectedID == null) {
+                $scope.closingPrinterWind();
+            } else {
+                $.ajax({
+                    url: SiteRoot + 'admin/MenuPrinter/delete_item_printer/' + $scope.printerSelectedID,
+                    method: 'post',
+                    dataType: 'json',
+                    success: function(response) {
+                        if(response.status == 'success') {
+                            $scope.closingPrinterWind();
+                            //printerWind.close();
+                            $('#printerTable').jqxGrid('updatebounddata');
+                        } else if (response.status == 'error'){
+                            console.log('there was an error db');
+                        } else {
+                            console.log('there was an error');
+                        }
                     }
-                }
-            });
+                });
+            }
         } else if (option == 1) {
             $('#mainButtonsPrinter').show();
             $('#promptClosePrinter').hide();

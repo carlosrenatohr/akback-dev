@@ -57,10 +57,14 @@ class Item_printer_model extends CI_Model
     }
 
     public function deletePrinter($id) {
-        $this->db->where('Unique', $id);
-        $status = $this->db->delete('item_printer');
+        $status = true;
+        if (!is_null($id) && $id != 'null') {
+            $this->db->where('Unique', $id);
+            $status = $this->db->delete('item_printer');
+        }
         return $status;
     }
+
     public function getCustomCompletePrinters() {
         $this->db->select("item_printer.*, item.Description as ItemDescription, item.Item, item.Unique as ItemUnique,
                         item.price1 as Price, category_main.\"MainName\" as Category,
