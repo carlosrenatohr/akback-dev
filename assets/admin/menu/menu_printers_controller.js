@@ -70,8 +70,7 @@ app.controller('menuPrintersController', function($scope) {
         filterable: true,
         showfilterrow: true,
         sortable: true,
-        pageable: true,
-        //pageSize: 15
+        pageable: true
     };
 
     var printerWind;
