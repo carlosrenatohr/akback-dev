@@ -440,7 +440,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         // Restriction label length: Menu.ItemLength
         if ($scope.itemLengthOfMenuSelected != null) {
             var labelField = $('.editItemFormContainer #editItem_label');
-            if (labelField.val().length > $scope.itemLengthOfMenuSelected) {
+            if ($scope.itemLengthOfMenuSelected > labelField.val().length) {
                 needValidation = true;
                 $('#menuitemNotificationsErrorSettings #notification-content')
                     .html('You have exceeded limit of characters!');
@@ -598,23 +598,23 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         ' .menuitem_pricesControls, .cbxExtraTab, .menuitem_extraControls')
         .on('keypress keyup paste change', function (e) {
         var idsRestricted = ['editItem_sort', 'editItem_Row', 'editItem_Column'];
-        var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        if (inarray >= 0) {
-            var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
-                $('#menuitemNotificationsErrorSettings #notification-content')
-                    .html('Row, Column and Sort values must be numbers!');
-                $scope.menuitemNotificationsErrorSettings.apply('open');
-                return false;
-            }
-            if (this.value.length > 2) {
-                return false;
-            }
-        }
+        //var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        //if (inarray >= 0) {
+        //    var charCode = (e.which) ? e.which : e.keyCode;
+        //    if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
+        //        $('#menuitemNotificationsErrorSettings #notification-content')
+        //            .html('Row, Column and Sort values must be numbers!');
+        //        $scope.menuitemNotificationsErrorSettings.apply('open');
+        //        return false;
+        //    }
+        //    if (this.value.length > 2) {
+        //        return false;
+        //    }
+        //}
         if ($(this).attr('id') == 'editItem_label' || e.type == 'keyup') {
             if ($scope.itemLengthOfMenuSelected != null) {
-                var characters = this.value.length;
-                if (characters >= $scope.itemLengthOfMenuSelected) {
+                var characters = $(this).val().length;
+                if (characters > $scope.itemLengthOfMenuSelected) {
                     $('#menuitemNotificationsErrorSettings #notification-content')
                         .html('You have exceeded limit of characters!');
                     $scope.menuitemNotificationsErrorSettings.apply('open');
@@ -1504,6 +1504,17 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         min: '',
         symbol: "$",
         symbolPosition: "left"
+    };
+
+    $scope.numberMenuItem = {
+        inputMode: 'simple',
+        decimalDigits: 0,
+        digits: 2,
+        spinButtons: true,
+        width: 300,
+        height: 25,
+        min: 1,
+        textAlign: 'left'
     };
 
     $scope.numberExtraSet = {
