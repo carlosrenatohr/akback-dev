@@ -12,7 +12,7 @@ app.controller('menuQuestionController', function ($scope) {
             questionsWindow = args.instance;
         },
         resizable: false,
-        width: "50%", height: "100%",
+        width: "65%", height: "100%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,

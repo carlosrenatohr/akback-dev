@@ -19,7 +19,7 @@
         <div class="col-md-12 col-md-offset-0">
             <div class="row itemqFormContainer">
                 <div style=" width:100%;float:left;">
-                    <div style="float:left; padding:2px; width:650px;">
+                    <div style="float:left; padding:2px; width:500px;">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Printer:</div>
                         <div style="float:left; width:350px;">
                             <jqx-drop-down-list id="printerItemList"

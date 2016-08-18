@@ -66,7 +66,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             itemsMenuWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "80%",
+        width: "65%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -998,7 +998,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             questionOnItemGridWindow = args.instance;
         },
         resizable: false,
-        width: "40%", height: "45%",
+        width: "45%", height: "38%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -1314,7 +1314,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             printerItemWind = args.instance;
         },
         resizable: false,
-        width: "40%", height: "30%",
+        width: "52%", height: "28%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,

@@ -80,7 +80,7 @@ app.controller('menuPrintersController', function($scope) {
             printerWind = args.instance;
         },
         resizable: false,
-        width: "40%", height: "40%",
+        width: "50%", height: "35%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,

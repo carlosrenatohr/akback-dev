@@ -19,7 +19,7 @@
         <div class="col-md-12 col-md-offset-0">
             <div class="row itemqFormContainer">
                 <div style=" width:100%;float:left;">
-                    <div style="float:left; padding:2px; width:650px;">
+                    <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                             Question:
                         </div>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div style=" float:left; padding:2px; width:650px; ">
+                    <div style=" float:left; padding:2px; width:450px; ">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Sort:
                         </div>
                         <div style=" float:left; width:300px;">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div style=" float:left; padding:2px; width:650px; ">
+                    <div style=" float:left; padding:2px; width:450px; ">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:
                         </div>
                         <div style=" float:left; width:300px;">
