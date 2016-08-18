@@ -144,8 +144,20 @@ jqxthemes();
                                             </div>
                                         </div>
                                         <!-- Customer Contacts subtab -->
+
+<!--                                        <div ng-if="newOrEditCustomerAction == create">-->
+<!--                                            <div>-->
+<!--                                                asdasd-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                         <div>
-                                            <?php $this->load->view($contacts_tab_view); ?>
+                                            <div ng-show="newOrEditCustomerAction == 'edit'">
+                                                <?php $this->load->view($contacts_tab_view); ?>
+                                            </div>
+                                            <div ng-show="newOrEditCustomerAction == 'create'">
+                                                CREATE CONTACT
+                                                <?php $this->load->view($contacts_form); ?>
+                                            </div>
                                         </div>
                                         <!-- Customer Notes subtab -->
                                         <div>

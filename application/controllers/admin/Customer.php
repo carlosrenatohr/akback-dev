@@ -32,6 +32,7 @@ class Customer extends AK_Controller
         $data['locations'] = $this->customer->getLocations();
         // partials
         $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
+        $data['contacts_form'] = "backoffice_admin/customers/contacts_form";
         $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";
         $data['purchases_tab_view'] = "backoffice_admin/customers/purchases_tab";
         $data['checkout_form'] = "backoffice_admin/customers/checkout_form";

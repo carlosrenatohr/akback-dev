@@ -653,7 +653,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
      * --- HELPERS TO FILL CONTROLS ON CUSTOMER
      */
     var toggleTabs = function(toShow) {
-        var elements = '#customertabContact, #customertabNote, #customertabPurchase';
+        var elements = '#customertabNote, #customertabPurchase'; //#customertabContact,
         if (toShow) {
             $(elements).find('.jqx-tabs-titleContentWrapper').css('margin-top', '0');
             $(elements).show();
