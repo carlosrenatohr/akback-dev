@@ -11,7 +11,7 @@
 
     <!-- WINDOWS FOR ADD/EDIT QUESTIONS   -->
     <jqx-window jqx-on-close="close()" jqx-settings="questionWindowsFormSettings"
-                jqx-create="questionWindowsFormSettings" class="">
+                jqx-create="questionWindowsFormSettings" id="questionWindowsForm">
         <div>
             Add new Question
         </div>
@@ -19,7 +19,7 @@
         <div>
             <div id="questionWindowForm">
                 <div class="col-md-12 col-md-offset-0">
-                    <jqx-tabs jqx-width="'100%'" jqx-height="'100%'"
+                    <jqx-tabs jqx-width="'100%'" jqx-height="'200'"
                               jqx-settings="questionstabsSettings"
                               id="questionstabsWin">
                         <ul style=" margin-left: 10px;">
@@ -105,7 +105,7 @@
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row itemQuestionFormContainer">
                                             <div style=" width:100%;float:left;">
-                                                <div style="float:left; padding:2px; width:650px;">
+                                                <div style="float:left; padding:2px; width:500px;">
                                                     <div
                                                         style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                                                         Item:
@@ -123,7 +123,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div style="float:left; padding:2px; width:650px; ">
+                                                <div style="float:left; padding:2px; width:500px; ">
                                                     <div
                                                         style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                                                         Label:
@@ -139,7 +139,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div style=" float:left; padding:2px; width:650px; ">
+                                                <div style=" float:left; padding:2px; width:500px; ">
                                                     <div
                                                         style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                                                         Sort:

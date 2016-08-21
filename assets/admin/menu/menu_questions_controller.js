@@ -81,9 +81,11 @@ app.controller('menuQuestionController', function ($scope) {
         var tabclicked = event.args.item;
         //
         if (tabclicked == 0 ) {
+            $(this).jqxTabs({height:"200px"});
             $('#deleteQuestionBtn').show();
         }
         if (tabclicked == 1 ) {
+            $(this).jqxTabs({height:"100%"});
             $('#deleteQuestionBtn').hide();
             if($scope.questionId != null) {
                 $scope.$apply(function() {
@@ -320,10 +322,10 @@ app.controller('menuQuestionController', function ($scope) {
                 url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + $scope.questionId
             },
             columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int', width: '5%'},
-                {text: 'Name', dataField: 'Description', type: 'string', width: '43%'},
-                {text: 'Label', dataField: 'Label', type: 'string', width: '43%'},
-                {text: 'Sort', dataField: 'Sort', type: 'string', width: '8%'}
+                {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
+                {text: 'Name', dataField: 'Description', type: 'string', width: '40%'},
+                {text: 'Label', dataField: 'Label', type: 'string', width: '40%'},
+                {text: 'Sort', dataField: 'Sort', type: 'string', width: '10%'}
             ],
             width: "100%",
             created: function (args) {
@@ -338,7 +340,7 @@ app.controller('menuQuestionController', function ($scope) {
             question_item_window = args.instance;
         },
         resizable: false,
-        width: "40%", height: "60%",
+        width: "50%", height: "45%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,

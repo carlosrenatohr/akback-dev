@@ -998,7 +998,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             questionOnItemGridWindow = args.instance;
         },
         resizable: false,
-        width: "45%", height: "38%",
+        width: "50%", height: "40%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
