@@ -19,7 +19,7 @@
             <div class="">
                 <!-- Position fields -->
                 <form name="positionForm">
-                    <div style="float:left; padding:2px; width:350px;">
+                    <div style="float:left; padding:2px; width:300px;">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Position:</div>
                         <div style="float:left; width:180px;">
                             <jqx-combo-box id="positionByUserCombobox" class="new-form-control"
@@ -28,10 +28,10 @@
                         </div>
                     </div>
 
-                    <div style="float:left; padding:2px; width:350px;">
+                    <div style="float:left; padding:2px; width:300px;">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Pay Basis:</div>
                         <div style="float:left; width:180px;">
-                            <select id="payBasisSelect" name="PayBasis" class="userPositionField new-form-control"
+                            <select id="payBasisSelect" name="PayBasis" class="userPositionField new-form-control" style="width: 180px;"
                             >
                                 <option value="Hourly">Hourly</option>
                                 <option value="Salary">Salary</option>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
 
-                    <div style="float:left; padding:2px; width:350px;">
+                    <div style="float:left; padding:2px; width:300px;">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Pay Rate:</div>
                         <div style="float:left; width:180px;">
                             <input type="number" class="form-control userPositionField"
@@ -53,24 +53,20 @@
 
                 <input type="hidden" id="idPositionUserWin">
 
-                <div id="buttonsGroupsPositions" class="row">
-                    <div class="form-group">
-                        <div class="col-sm-12" style="margin: 40px 0 0 10px;">
-                            <button type="button" id="savePositionuserBtn" ng-click="submitUserpositionsWindows()" class="btn btn-primary" disabled>Save</button>
-                            <button	type="button" id="" ng-click="closeUserpositionsWindows()" class="btn btn-warning cancelUserBtn">Close</button>
-                            <button	type="button" id="deletePositionuserBtn" ng-click="deletePositionByUser()" class="btn btn-danger">Delete</button>
-                        </div>
+                <div id="buttonsGroupsPositions">
+                    <div style="margin: 20px 0;display: inline-block;">
+                        <button type="button" id="savePositionuserBtn" ng-click="submitUserpositionsWindows()" class="btn btn-primary" disabled>Save</button>
+                        <button	type="button" id="" ng-click="closeUserpositionsWindows()" class="btn btn-warning cancelUserBtn">Close</button>
+                        <button	type="button" id="deletePositionuserBtn" ng-click="deletePositionByUser()" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
 
                 <div id="sureToCancelPosition" style="display: none;">
-                    <div class="form-group">
-                        <div class="col-sm-12" style="margin: 40px 10px;">
-                            Would you like to save your changes?<br>
-                            <button type="button" ng-click="closeUserpositionsWindows(1)" class="btn btn-primary">Yes</button>
-                            <button	type="button" ng-click="closeUserpositionsWindows(2)" class="btn btn-warning">No</button>
-                            <button	type="button" ng-click="closeUserpositionsWindows(3)" class="btn btn-danger">Cancel</button>
-                        </div>
+                    <div class="" style="margin: 20px 0;display: inline-block;">
+                        Would you like to save your changes?<br>
+                        <button type="button" ng-click="closeUserpositionsWindows(1)" class="btn btn-primary">Yes</button>
+                        <button	type="button" ng-click="closeUserpositionsWindows(2)" class="btn btn-warning">No</button>
+                        <button	type="button" ng-click="closeUserpositionsWindows(3)" class="btn btn-danger">Cancel</button>
                     </div>
                 </div>
 

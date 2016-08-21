@@ -285,13 +285,13 @@ demoApp.controller("userController", function($scope, $http) {
      * USER-POSITIONS tab
      */
     // Position tab window settings
-    $('#payBasisSelect').jqxDropDownList({autoDropDownHeight: true});
+    $('#payBasisSelect').jqxDropDownList({autoDropDownHeight: true, width: '180px'});
     $scope.userPositionsWindowSettings = {
         created: function (args) {
             userPositionWindow = args.instance;
         },
         resizable: false,
-        width: "30%", height: "40%",
+        width: "30%", height: "35%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
