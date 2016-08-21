@@ -117,6 +117,7 @@ jqxthemes();
                                             <li id="customertabContact" class="SecTabInfo">Contacts</li>
                                             <li id="customertabNote" class="SecTabInfo">Notes</li>
                                             <li id="customertabPurchase" class="SecTabInfo">Purchases</li>
+                                            <li id="customertabOptions" class="SecTabInfo">Options</li>
                                         </ul>
                                         <!-- Customer info subtab -->
                                         <div class="">
@@ -144,18 +145,12 @@ jqxthemes();
                                             </div>
                                         </div>
                                         <!-- Customer Contacts subtab -->
-
-<!--                                        <div ng-if="newOrEditCustomerAction == create">-->
-<!--                                            <div>-->
-<!--                                                asdasd-->
-<!--                                            </div>-->
-<!--                                        </div>-->
                                         <div>
                                             <div ng-show="newOrEditCustomerAction == 'edit'">
                                                 <?php $this->load->view($contacts_tab_view); ?>
                                             </div>
                                             <div ng-show="newOrEditCustomerAction == 'create'">
-                                                CREATE CONTACT
+                                                CREATE CONTACT..
                                                 <?php $this->load->view($contacts_form); ?>
                                             </div>
                                         </div>
@@ -166,6 +161,10 @@ jqxthemes();
                                         <!-- Customer Purchases subtab -->
                                         <div>
                                             <?php $this->load->view($purchases_tab_view); ?>
+                                        </div>
+                                        <!-- Customer Options subtab -->
+                                        <div>
+                                            <?php $this->load->view($options_tab_view); ?>
                                         </div>
                                     </jqx-tabs>
 

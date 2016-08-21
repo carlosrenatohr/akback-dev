@@ -604,6 +604,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerAction = 'create';
         $scope.customerID = null;
         //
+        $('#customer_VisitDays').val(7);
         toggleTabs(false);
         setTimeout(function() {
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
@@ -624,6 +625,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerAction = 'edit';
         //
         fillCustomerFieldsWithValues($('.customerForm .customer-field'), row);
+        $('#customer_VisitDays').val(
+            (row['VisitDays'] != null)
+                ? row['VisitDays']
+                : 0
+        );
         //
         $('#deleteCustomerBtn').show();
         $('#saveCustomerBtn').prop('disabled', true);
@@ -830,6 +836,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             var url = ($scope.newOrEditCustomerAction == 'edit')
                         ? 'admin/Customer/updateCustomer/' + $scope.customerID
                         : 'admin/Customer/createCustomer';
+            // Extra static fields
+            data['VisitDays'] = $('#customer_VisitDays').val();
             $.ajax({
                 url: SiteRoot + url,
                 method: 'post',
