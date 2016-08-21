@@ -140,11 +140,12 @@ demoApp.service('customerService', function ($http) {
             //console.log('loadComplete', $.param(data));
         },
         filter: function () {
-            $("#gridCustomer").jqxGrid('updatebounddata');
+            $("#gridCustomer").jqxGrid('updatebounddata', 'filter');
         },
         sort: function () {
-            $("#gridCustomer").jqxGrid('updatebounddata');
-        }
+            $("#gridCustomer").jqxGrid('updatebounddata', 'filter');
+        },
+        cache: false
     };
 
     this.getTableSettings = function () {
@@ -225,11 +226,12 @@ demoApp.service('customerService', function ($http) {
             _this.sourceCheckIn1Grid.totalrecords = data.TotalRows;
         },
         filter: function () {
-            $("#customerCheckIn1").jqxGrid('updatebounddata');
+            $("#customerCheckIn1").jqxGrid('updatebounddata', 'filter');
         },
         sort: function () {
-            $("#customerCheckIn1").jqxGrid('updatebounddata');
-        }
+            $("#customerCheckIn1").jqxGrid('updatebounddata', 'filter');
+        },
+        cache: false
     };
 
     this.getCheckin1GridSettings = function () {
@@ -347,11 +349,12 @@ demoApp.service('customerService', function ($http) {
             _this.sourceCheckIn2Grid.totalrecords = data.TotalRows;
         },
         filter: function () {
-            $("#customerCheckIn2").jqxGrid('updatebounddata');
+            $("#customerCheckIn2").jqxGrid('updatebounddata', 'filter');
         },
         sort: function () {
-            $("#customerCheckIn2").jqxGrid('updatebounddata');
-        }
+            $("#customerCheckIn2").jqxGrid('updatebounddata', 'filter');
+        },
+        cache: false
     };
 
     this.getCheckin2GridSettings = function () {
@@ -469,11 +472,12 @@ demoApp.service('customerService', function ($http) {
             _this.sourceCheckInCompleteGrid.totalrecords = data.TotalRows;
         },
         filter: function () {
-            $("#customerCheckInComplete").jqxGrid('updatebounddata');
+            $("#customerCheckInComplete").jqxGrid('updatebounddata', 'filter');
         },
         sort: function () {
-            $("#customerCheckInComplete").jqxGrid('updatebounddata');
-        }
+            $("#customerCheckInComplete").jqxGrid('updatebounddata', 'filter');
+        },
+        cache: false
     };
 
     this.addDefaultfilter = function()
