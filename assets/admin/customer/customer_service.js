@@ -65,10 +65,10 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
+                console.log(data.readyToCheckIn, 1);
                 var disabled = '';
-                if (data.LastVisit !== null)
-                    if(!data.readyToCheckIn)
-                        disabled = 'disabled = disabled';
+                if(data.readyToCheckIn == false)
+                    disabled = 'disabled = disabled';
                 return '<button class="btn btn-success checkInBtn" '+ disabled +
                         'data-unique="'+ data.Unique + '" data-location="1" '+
                         'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
@@ -78,16 +78,17 @@ demoApp.service('customerService', function ($http) {
         {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
+                console.log(data.readyToCheckIn, 2);
                 var disabled = '';
-                if (data.LastVisit !== null)
-                    if(!data.readyToCheckIn)
-                        disabled = 'disabled = disabled';
+                if(data.readyToCheckIn == false)
+                    disabled = 'disabled = disabled';
                 return '<button class="btn btn-success checkInBtn" '+ disabled +
                     'data-unique="'+ data.Unique + '" data-location="2" '+
                     'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
                     'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
             }
         },
+        {text: '', dataField: 'VisitDays', type: 'string', hidden: true},
         {text: '', dataField: 'readyToCheckIn', type: 'bool', hidden: true}
     ];
 
@@ -128,6 +129,7 @@ demoApp.service('customerService', function ($http) {
             {name: 'CheckIn1', type: 'string'},
             {name: 'CheckIn2', type: 'string'},
             {name: 'LastVisit', type: 'date'},
+            {name: 'VisitDays', type: 'string'},
             {name: 'readyToCheckIn', type: 'bool'}
         ],
         //id: 'Unique',

@@ -74,26 +74,27 @@ class Customer extends AK_Controller
         }
 
         //
-        $days = $this->customer->getCheckinDaysSetting(0, 'stationunique');
-//        $days[2] = $this->customer->getCheckinDaysSetting(2);
+//        $days = $this->customer->getCheckinDaysSetting(0, 'stationunique');
         $newCustomers = [];
 
         $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery, $sortData);
         foreach($customers as $customer) {
-            if (!is_null($customer['LastVisit'])){
-                $lv = $customer['LastVisit'];
-                $now = new DateTime();
+            $customer['readyToCheckIn'] = true;
+            if (!is_null($customer['LastVisit'])) {
+                if (!is_null($customer['VisitDays']) && $customer['VisitDays'] > 0) {
+                    $lv = $customer['LastVisit'];
+                    $now = new DateTime();
+                    $days = $customer['VisitDays'];
 
-                $customer['strtotimeToday'] = date('Y-m-d h:i:sA', time());
-                $customer['strtotime7Days'] = date('Y-m-d h:i:sA', strtotime($lv . " +{$days} day"));
-                $checkInDaysLimit = new DateTime(date('Y-m-d', strtotime($lv . "+{$days} day")));
-//                $customer['now'] = $now;
-//                $customer['DateAfterLastVisit'] = $checkInDaysLimit;
-                $customer['diffSinceLastVisit'] = $checkInDaysLimit->diff($now)->format("%d");
+                    $customer['strtotimeToday'] = date('Y-m-d h:i:sA', time());
+                    $customer['strtotime7Days'] = date('Y-m-d h:i:sA', strtotime($lv . " +{$days} day"));
+                    $checkInDaysLimit = new DateTime(date('Y-m-d', strtotime($lv . "+{$days} day")));
+    //                $customer['now'] = $now;
+    //                $customer['DateAfterLastVisit'] = $checkInDaysLimit;
+                    $customer['diffSinceLastVisit'] = $checkInDaysLimit->diff($now)->format("%d");
 
-                $customer['readyToCheckIn'] = (time() >= strtotime($lv . " +{$days} day") || $customer['diffSinceLastVisit'] == 0);
-            } else {
-                $customer['readyToCheckIn'] = null;
+                    $customer['readyToCheckIn'] = (time() >= strtotime($lv . " +{$days} day") || $customer['diffSinceLastVisit'] == 0);
+                }
             }
 //            $customer['LastVisit'] =
 //                (!is_null($customer['LastVisit'])) ?
