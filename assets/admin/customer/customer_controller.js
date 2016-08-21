@@ -771,10 +771,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 }
             } else if (type == 'radio') {
                 if (el.hasClass('req')) {
-                    var hasValue;
-                    $(el).find('.customer_radio').each(function(i, ele) {
-                        hasValue = $(ele).val();
-                    });
+                    var hasValue = false;
+                    if ($(el).find('.customer_radio[aria-checked="true"]').length > 0) {
+                        hasValue = true;
+                    }
                     if (!hasValue) {
                         needValidation = true;
                         openNotification('"' + el.parent().find('.labelContent').html() + '" checkbox required!' , el);
