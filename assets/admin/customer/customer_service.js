@@ -62,6 +62,11 @@ demoApp.service('customerService', function ($http) {
         {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true,filtertype: 'input'},
         {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true,filtertype: 'input'},
         {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true,filtertype: 'input'},
+        {text: '', dataField: 'Custom16', type: 'string', hidden: true, filtertype: 'input'},
+        {text: '', dataField: 'Custom17', type: 'string', hidden: true, filtertype: 'input'},
+        {text: '', dataField: 'Custom18', type: 'string', hidden: true, filtertype: 'input'},
+        {text: '', dataField: 'Custom19', type: 'string', hidden: true, filtertype: 'input'},
+        {text: '', dataField: 'Custom20', type: 'string', hidden: true, filtertype: 'input'},
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
@@ -123,6 +128,11 @@ demoApp.service('customerService', function ($http) {
             {name: 'Custom13', type: 'string'},
             {name: 'Custom14', type: 'string'},
             {name: 'Custom15', type: 'string'},
+            {name: 'Custom16', type: 'string'},
+            {name: 'Custom17', type: 'string'},
+            {name: 'Custom18', type: 'string'},
+            {name: 'Custom19', type: 'string'},
+            {name: 'Custom20', type: 'string'},
             {name: 'Status', type: 'string'},
             {name: 'CheckIn1', type: 'string'},
             {name: 'CheckIn2', type: 'string'},
