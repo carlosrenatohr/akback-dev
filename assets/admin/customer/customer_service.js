@@ -70,10 +70,12 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                var disabled = '';
-                if(data.readyToCheckIn == false)
+                var disabled = '', classname = 'success';
+                if(data.readyToCheckIn == false) {
                     disabled = 'disabled = disabled';
-                return '<button class="btn btn-success checkInBtn" '+ disabled +
+                    classname = 'danger';
+                }
+                return '<button class="btn btn-'+ classname + ' checkInBtn" '+ disabled +
                         'data-unique="'+ data.Unique + '" data-location="1" '+
                         'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
                         'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
@@ -82,10 +84,12 @@ demoApp.service('customerService', function ($http) {
         {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                var disabled = '';
-                if(data.readyToCheckIn == false)
+                var disabled = '', classname = 'success';
+                if(data.readyToCheckIn == false) {
                     disabled = 'disabled = disabled';
-                return '<button class="btn btn-success checkInBtn" '+ disabled +
+                    classname = 'danger';
+                }
+                return '<button class="btn btn-'+ classname +' checkInBtn" '+ disabled +
                     'data-unique="'+ data.Unique + '" data-location="2" '+
                     'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
                     'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
