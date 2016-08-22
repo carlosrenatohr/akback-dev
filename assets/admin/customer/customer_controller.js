@@ -104,12 +104,13 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         });
         //
         var isBindingComplete = true;
-        gridSettings.bindingcomplete = function(e) {
+        $(gridID).on('bindingcomplete', function(e) {
+        //gridSettings.bindingcomplete = function(e) {
             $.each(cols, function(i, el) {
                 var idx = $.inArray(el.dataField, fieldsNames);
                 if (idx >= 0) {
-                    gridSettings.apply('setcolumnindex', el.dataField, sortValues[idx]);
-                    //$('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
+                    //gridSettings.apply('setcolumnindex', el.dataField, sortValues[idx]);
+                    $('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
                 }
             });
             //
@@ -134,7 +135,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     isBindingComplete = false;
                 }
             }
-        };
+        });
 
         gridSettings.rendered = function() {}
     }

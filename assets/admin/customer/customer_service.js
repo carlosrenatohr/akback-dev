@@ -65,7 +65,6 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                console.log(data.readyToCheckIn, 1);
                 var disabled = '';
                 if(data.readyToCheckIn == false)
                     disabled = 'disabled = disabled';
@@ -78,7 +77,6 @@ demoApp.service('customerService', function ($http) {
         {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                console.log(data.readyToCheckIn, 2);
                 var disabled = '';
                 if(data.readyToCheckIn == false)
                     disabled = 'disabled = disabled';
