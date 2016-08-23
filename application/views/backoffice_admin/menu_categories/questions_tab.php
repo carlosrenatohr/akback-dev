@@ -127,7 +127,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <jqx-data-table jqx-settings="questionItemTableSettings"
+                                    <jqx-data-table id="questionMainTable"
+                                                    jqx-settings="questionItemTableSettings"
                                                     jqx-on-row-double-click="editQuestionItemTable($event)">
                                     </jqx-data-table>
                                 </div>

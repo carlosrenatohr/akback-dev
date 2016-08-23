@@ -59,7 +59,7 @@ app.controller('menuPrintersController', function($scope) {
             {text: 'ID', dataField: 'Unique', type: 'int', width: '8%'},
             {text: 'Item', dataField: 'Item', type: 'string', width: '20%'},
             {text: 'Item Description', dataField: 'ItemDescription', type: 'string', width: '26%'},
-            {text: 'Name', dataField: 'name', type: 'string', width: '20%'},
+            {text: 'Printer Name', dataField: 'name', type: 'string', width: '20%'},
             {text: 'Printer Description', dataField: 'description', type: 'string', width: '26%'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
@@ -184,13 +184,14 @@ app.controller('menuPrintersController', function($scope) {
             var printer = $("#printerMainList").jqxDropDownList('getItemByValue', row.PrinterUnique);
             $("#printerMainList").jqxDropDownList('enableItem', printer);
             $("#printerMainList").jqxDropDownList({selectedIndex: printer.index});
+            $('#deleteBtnPrinter').show();
         } else {
             $("#printerMainList").jqxDropDownList({selectedIndex: -1});
+            $('#deleteBtnPrinter').hide();
         }
         $('#saveBtnPrinter').hide();
         //$('#saveBtnPrinter').prop('disabled', true);
         anyChangePrompt = false;
-        $('#deleteBtnPrinter').show();
         printerWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
         printerWind.open();
     //};
