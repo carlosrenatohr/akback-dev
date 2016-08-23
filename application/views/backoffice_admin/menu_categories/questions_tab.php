@@ -19,7 +19,7 @@
         <div>
             <div id="questionWindowForm">
                 <div class="col-md-12 col-md-offset-0">
-                    <jqx-tabs jqx-width="'100%'" jqx-height="'200'"
+                    <jqx-tabs jqx-width="'100%'" jqx-height="'300'"
                               jqx-settings="questionstabsSettings"
                               id="questionstabsWin">
                         <ul style=" margin-left: 10px;">
@@ -65,13 +65,50 @@
                                             Sort:
                                         </div>
                                         <div style=" float:left; width:300px;">
-                                            <input type="number" class="form-control required-field"
-                                                   id="qt_sort" name="qt_sort" placeholder="Sort"
-                                                   step="1" min="1" value="1" pattern="\d*">
+                                            <jqx-number-input
+                                                style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
+                                                id="qt_sort" name="qt_sort"
+                                                jqx-settings="numberQuestion"
+                                            ></jqx-number-input>
                                         </div>
                                         <div style="float:left;">
                                             <span
                                                 style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                        </div>
+                                    </div>
+
+                                    <div style=" float:left; padding:2px; width:500px; ">
+                                        <div
+                                            style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                                            Minimum:
+                                        </div>
+                                        <div style=" float:left; width:300px;">
+                                            <jqx-number-input
+                                                style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
+                                                id="qt_min" name="qt_min"
+                                                jqx-settings="numberQuestion"
+                                            ></jqx-number-input>
+                                        </div>
+                                        <div style="float:left;">
+                                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                        </div>
+                                    </div>
+
+                                    <div style=" float:left; padding:2px; width:500px; ">
+                                        <div
+                                            style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                                            Maximum:
+                                        </div>
+                                        <div style=" float:left; width:300px;">
+                                            <jqx-number-input
+                                                style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
+                                                id="qt_max" name="qt_max"
+                                                jqx-settings="numberQuestion"
+                                            ></jqx-number-input>
+                                        </div>
+                                        <div style="float:left;">
+                                                        <span
+                                                            style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                                         </div>
                                     </div>
                                 </div>
