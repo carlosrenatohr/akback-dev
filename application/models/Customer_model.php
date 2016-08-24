@@ -19,19 +19,23 @@ class Customer_model extends CI_Model
 
     public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null)
     {
-        $fields = ['Unique', 'ParentUnique', 'LastVisit', 'VisitDays'];
+        $fields = ['customer.Unique', 'ParentUnique', 'LastVisit', 'VisitDays',
+//                    'customer_visit.Unique as VisitUnique', 'customer_visit.FirstName as VisitFirstName'
+                ];
         $formName = (!is_null($formName)) ? $formName : 'Customer';
-        $fields_select = array_merge($fields, $this->getAllByField($this->getAttributesByForm($formName, 'Tab, Sort, Row, Column'), 'Field'));
+        $fields_select = array_merge($fields, $this->getAllByField($this->getAttributesByForm($formName, 'Tab, Sort, Row, Column'), 'Field', 'customer'));
         $fields_select = array_unique($fields_select);
         //
         $this->db->select($fields_select);
         $this->db->from($this->customerTable);
+//        $this->db->join('customer_visit', 'customer_visit.CustomerUnique = customer.Unique');
+
 
         // Filtering
         if (!empty($filterQuery)) {
             $this->db->where($filterQuery, NULL, false);
         }
-        $where = ['Status' => 1];
+        $where = ['customer.Status' => 1];
         if (!is_null($parentUnique)) {
             $where['ParentUnique'] = $parentUnique;
             $this->db->where($where);
@@ -40,7 +44,7 @@ class Customer_model extends CI_Model
             $this->db->where($where);
             //Query to Search In Contacts
             if (!empty($filterQuery))
-                $this->db->or_where("\"ParentUnique\" IS NULL AND \"Unique\" IN (select \"ParentUnique\" from customer WHERE " . $filterQuery . ")" , NULL, false);
+                $this->db->or_where("customer.\"ParentUnique\" IS NULL AND \"customer\".\"Unique\" IN (select \"ParentUnique\" from customer WHERE " . $filterQuery . ")" , NULL, false);
         }
 
         // Paging
@@ -52,13 +56,13 @@ class Customer_model extends CI_Model
         if (!is_null($sortData))
         {
             if ($sortData['sortorder'] == "desc")
-                $this->db->order_by($sortData['sortdatafield'], 'DESC');
+                $this->db->order_by("customer.\"".$sortData['sortdatafield'] . "\"", 'DESC');
             else if ($sortData['sortorder'] == "asc")
-                $this->db->order_by($sortData['sortdatafield'], 'ASC');
+                $this->db->order_by("customer.\"".$sortData['sortdatafield'] . "\"", 'ASC');
              else
-                $this->db->order_by('Unique', 'DESC');
+                $this->db->order_by("customer.\"Unique\"", 'DESC');
         } else
-            $this->db->order_by('Unique', 'DESC');
+            $this->db->order_by("customer.\"Unique\"", 'DESC');
 
         $query = $this->db->get()->result_array();
 //        var_dump($this->db->last_query());exit;
@@ -83,11 +87,13 @@ class Customer_model extends CI_Model
         // select * from config_attribute where "ParentUnique" = 0 and "Status" = 1 order by "Sort"
     }
 
-    private function getAllByField($array, $field)
+    private function getAllByField($array, $field, $table = null)
     {
         $values = [];
+        $tablename = (!is_null($table)) ? "\"" . $table . "\"." : '';
         foreach ($array as $index => $row) {
-            $values[] = $row[$field];
+            if (!empty($row[$field]))
+                $values[] = $tablename . $row[$field];
         }
         return $values;
     }
@@ -259,16 +265,9 @@ class Customer_model extends CI_Model
         return $status;
     }
 
-    public function getCheckinDaysSetting($value, $field = 'LocationUnique') {
-//        $this->session->unset_userdata('checkinDays');
-//        if ($this->session->has_userdata('checkinDays')) {
-//        if (is_null($this->session->userdata('checkinDays'))) {
-            $query = $this->db->get_where('config_location_settings',
-                        [$field => $value, 'Setting' => 'CheckInDays','Status' => 1])
-                        ->result_array();
-            $this->session->set_userdata(['checkinDays' => $query[0]['Value']]);
-            return $query[0]['Value'];
-//        }
+    public function isCustomerCheckedOut($id) {
+        $query = $this->db->get_where('customer_visit', ['CustomerUnique' => $id, 'Status' => 2])->result_array();
+        return count($query);
     }
 
 

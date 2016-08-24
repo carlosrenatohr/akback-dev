@@ -89,6 +89,7 @@ class Customer extends AK_Controller
         $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery, $sortData);
         foreach($customers as $customer) {
             $customer['readyToCheckIn'] = true;
+            $customer['checkedOut'] = $this->customer->isCustomerCheckedOut($customer['Unique']);
             if (!is_null($customer['LastVisit'])) {
                 if (!is_null($customer['VisitDays']) && $customer['VisitDays'] > 0) {
                     $lv = $customer['LastVisit'];
@@ -103,6 +104,11 @@ class Customer extends AK_Controller
                     $customer['diffSinceLastVisit'] = $checkInDaysLimit->diff($now)->format("%d");
 
                     $customer['readyToCheckIn'] = (time() >= strtotime($lv . " +{$days} day") || $customer['diffSinceLastVisit'] == 0);
+                } else {
+                    if ($customer['checkedOut'] > 0) {
+                        $customer['readyToCheckIn'] = true;
+                    } else
+                        $customer['readyToCheckIn'] = false;
                 }
             }
 //            $customer['LastVisit'] =
@@ -166,65 +172,65 @@ class Customer extends AK_Controller
                     // $filterdatafield = "\"".$filterdatafield."\"";
                     switch ($filtercondition) {
                         case "CONTAINS":
-                            $where .= " LOWER(\"" . $filterdatafield . "\") LIKE LOWER('%" . $filtervalue . "%')";
+                            $where .= " LOWER(customer.\"" . $filterdatafield . "\") LIKE LOWER('%" . $filtervalue . "%')";
                             break;
                         case "CONTAINS_CASE_SENSITIVE":
-                            $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "%'";
+                            $where .= " customer.\"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "%'";
                             break;
                         case "DOES_NOT_CONTAIN":
-                            $where .= " LOWER(\"" . $filterdatafield . "\") NOT LIKE LOWER('%" . $filtervalue . "%')";
+                            $where .= " LOWER(customer.\"" . $filterdatafield . "\") NOT LIKE LOWER('%" . $filtervalue . "%')";
                             break;
                         case "DOES_NOT_CONTAIN_CASE_SENSITIVE":
-                            $where .= " \"" . $filterdatafield . "\" NOT LIKE '%" . $filtervalue . "%'";
+                            $where .= " customer.\"" . $filterdatafield . "\" NOT LIKE '%" . $filtervalue . "%'";
                             break;
                         case "EQUAL":
-                            $where .= " LOWER(\"" . $filterdatafield . "\") = LOWER('" . $filtervalue . "')";
+                            $where .= " LOWER(customer.\"" . $filterdatafield . "\") = LOWER('" . $filtervalue . "')";
                             break;
                         case "EQUAL_CASE_SENSITIVE":
-                            $where .= " \"" . $filterdatafield . "\" = '" . $filtervalue . "'";
+                            $where .= " customer.\"" . $filterdatafield . "\" = '" . $filtervalue . "'";
                             break;
                         case "NOT_EQUAL":
-                            $where .= " \"" . $filterdatafield . "\" <> '" . $filtervalue . "'";
+                            $where .= " customer.\"" . $filterdatafield . "\" <> '" . $filtervalue . "'";
                             break;
                         case "GREATER_THAN":
-                            $where .= " \"" . $filterdatafield . "\" > '" . $filtervalue . "'";
+                            $where .= " customer.\"" . $filterdatafield . "\" > '" . $filtervalue . "'";
                             break;
                         case "LESS_THAN":
-                            $where .= " \"" . $filterdatafield . "\" < '" . $filtervalue . "'";
+                            $where .= " customer.\"" . $filterdatafield . "\" < '" . $filtervalue . "'";
                             break;
                         case "GREATER_THAN_OR_EQUAL":
                             if ($filterdatafield == 'LastVisit')
                                 $filtervalue = date('Y-m-d', strtotime($filtervalue));
-                            $where .= " \"" . $filterdatafield . "\" >= '" . $filtervalue . "'";
+                            $where .= " customer.\"" . $filterdatafield . "\" >= '" . $filtervalue . "'";
                             break;
                         case "LESS_THAN_OR_EQUAL":
                             if ($filterdatafield == 'LastVisit')
                                 $filtervalue = date('Y-m-d', strtotime($filtervalue));
-                            $where .= " \"". $filterdatafield . "\" <= '" . $filtervalue . "'";
+                            $where .= " customer.\"". $filterdatafield . "\" <= '" . $filtervalue . "'";
                             break;
                         case "STARTS_WITH":
-                            $where .= " LOWER(\"" . $filterdatafield . "\") LIKE LOWER('" . $filtervalue . "%')";
+                            $where .= " LOWER(customer.\"" . $filterdatafield . "\") LIKE LOWER('" . $filtervalue . "%')";
                             break;
                         case "STARTS_WITH_CASE_SENSITIVE":
-                            $where .= " \"" . $filterdatafield . "\" LIKE '" . $filtervalue . "%'";
+                            $where .= " customer.\"" . $filterdatafield . "\" LIKE '" . $filtervalue . "%'";
                             break;
                         case "ENDS_WITH":
-                            $where .= " LOWER(\"" . $filterdatafield . "\") LIKE ('%" . $filtervalue . "')";
+                            $where .= " LOWER(customer.\"" . $filterdatafield . "\") LIKE ('%" . $filtervalue . "')";
                             break;
                         case "ENDS_WITH_CASE_SENSITIVE":
-                            $where .= " \"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "'";
+                            $where .= " customer.\"" . $filterdatafield . "\" LIKE '%" . $filtervalue . "'";
                             break;
                         case "EMPTY":
-                            $where .= " \"" . $filterdatafield . "\" = ''";
+                            $where .= " customer.\"" . $filterdatafield . "\" = ''";
                             break;
                         case "NOT_EMPTY":
-                            $where .= " \"" . $filterdatafield . "\" <> ''";
+                            $where .= " customer.\"" . $filterdatafield . "\" <> ''";
                             break;
                         case "NULL":
-                            $where .= " \"" . $filterdatafield . "\" IS NULL";
+                            $where .= " customer.\"" . $filterdatafield . "\" IS NULL";
                             break;
                         case "NOT_NULL":
-                            $where .= " \"" . $filterdatafield . "\" IS NOT NULL";
+                            $where .= " customer.\"" . $filterdatafield . "\" IS NOT NULL";
                             break;
                     }
                     if ($i == $filterscount - 1) {

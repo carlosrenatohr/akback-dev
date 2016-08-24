@@ -166,7 +166,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
         if (nofilters === 'undefined')
             $(grid).jqxGrid('applyfilters');
-        $(grid).jqxGrid('updatebounddata', 'filter');
+        $(grid).jqxGrid('updatebounddata');
     };
 
     var updateCustomerContactTableData = function() {
@@ -288,7 +288,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             dataType: 'JSON',
             success: function(data) {
                 if (data.status == 'success') {
-                    updateCustomerTableData();
+                    updateCustomerTableData(0, true);
                     //updateCustomerTableData($(this).data('location'),  true);
                     updateCustomerTableData(1,  true);
                     updateCustomerTableData(2,  true);
