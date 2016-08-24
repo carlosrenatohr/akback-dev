@@ -18,7 +18,6 @@ class CustomerCheckin extends AK_Controller
 
     public function setCustomerAsCheckin() {
         $request = $_POST;
-        $days = $this->customer->getCheckinDaysSetting($request['LocationUnique']);
         $newId = $this->customer->setCheckin($request);
         if ($newId) {
             $response = [

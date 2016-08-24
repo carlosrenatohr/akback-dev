@@ -88,9 +88,11 @@ jqxthemes();
                       id="mainCustomerTabs" jqx-theme="articTheme" style="">
                 <ul>
                     <li id="" class="">Customer</li>
+                    <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
                     <li id="" class=""><?php echo (isset($locations[0])) ? $locations[0]['Name'] : 'Check in 1'; ?></li>
                     <li id="" class=""><?php echo (isset($locations[1])) ? $locations[1]['Name'] : 'Check in 2'; ?></li>
                     <li id="" class="">Complete</li>
+                    <?php } ?>
                 </ul>
                 <!-- All customer list tab -->
                 <div class="">
@@ -242,6 +244,7 @@ jqxthemes();
 <!--                        </div>-->
                     </div>
                 </div>
+                <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
                 <!-- Check in customers by location 1-->
                 <div class="">
                     <div class="row">
@@ -271,6 +274,7 @@ jqxthemes();
                     </div>
                 </div>
                 <?php $this->load->view($checkout_form); ?>
+                <?php } ?>
             </jqx-tabs>
         </div>
     </div>

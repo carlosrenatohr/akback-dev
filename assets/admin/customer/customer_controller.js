@@ -166,7 +166,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
         if (nofilters === 'undefined')
             $(grid).jqxGrid('applyfilters');
-        $(grid).jqxGrid('updatebounddata');
+        $(grid).jqxGrid('updatebounddata', 'filter');
     };
 
     var updateCustomerContactTableData = function() {
