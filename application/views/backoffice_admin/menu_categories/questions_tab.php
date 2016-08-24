@@ -5,7 +5,8 @@
             New
         </a>
     </div>
-    <jqx-data-table jqx-settings="questionTableSettings"
+    <jqx-data-table id="questionMainTable"
+                    jqx-settings="questionTableSettings"
                     jqx-on-row-double-click="editQuestionWindow($event)">
     </jqx-data-table>
 
@@ -127,7 +128,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <jqx-data-table id="questionMainTable"
+                                    <jqx-data-table id="_questionItemTable"
                                                     jqx-settings="questionItemTableSettings"
                                                     jqx-on-row-double-click="editQuestionItemTable($event)">
                                     </jqx-data-table>
@@ -137,7 +138,7 @@
                             <jqx-window jqx-on-close="close()" jqx-settings="questionItemWindowsSettings"
                                         jqx-create="questionItemWindowsSettings" class="">
                                 <div>
-                                    Add New Question
+                                    Add New Question Item
                                 </div>
                                 <div>
                                     <div class="col-md-12 col-md-offset-0">
@@ -243,6 +244,27 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- PROMPT TO DELETE QUESTION ITEM -->
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <div class="row">
+                                            <div id="promptToDeleteQItemForm" class="alertButtonsQuestionForm">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        Do you want to save your changes?
+                                                        <button type="button" ng-click="deleteItemByQuestion(0)"
+                                                                class="btn btn-primary">Yes
+                                                        </button>
+                                                        <button type="button" ng-click="deleteItemByQuestion(1)"
+                                                                class="btn btn-warning">No
+                                                        </button>
+                                                        <button type="button" ng-click="deleteItemByQuestion(2)"
+                                                                class="btn btn-info">Cancel
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- NOTIFICATIONS AREA -->
                                     <div class="col-md-12 col-md-offset-0">
                                         <div class="row">
@@ -297,6 +319,24 @@
                                 <button type="button" ng-click="closeQuestionWindow(1)" class="btn btn-warning">No
                                 </button>
                                 <button type="button" ng-click="closeQuestionWindow(2)" class="btn btn-info">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PROMPT DELETE -->
+            <div class="col-md-12 col-md-offset-0 QuestionWindowsRow">
+                <div class="row">
+                    <div id="promptToDeleteQuestionForm" class="alertButtonsQuestionForm">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                Do you want to delete it?
+                                <button type="button" ng-click="beforeDeleteQuestion(0)" class="btn btn-primary">Yes
+                                </button>
+                                <button type="button" ng-click="beforeDeleteQuestion(1)" class="btn btn-warning">No
+                                </button>
+                                <button type="button" ng-click="beforeDeleteQuestion(2)" class="btn btn-info">Cancel
                                 </button>
                             </div>
                         </div>

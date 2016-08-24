@@ -55,16 +55,61 @@ app.controller('menuQuestionController', function ($scope) {
         filterMode: 'simple',
     };
 
+    var updateQuestionMainTable = function() {
+        $('#questionMainTable').jqxDataTable({
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'QuestionName', type: 'string'},
+                    {name: 'Question', type: 'string'},
+                    {name: 'Status', type: 'number'},
+                    {name: 'Sort', type: 'number'},
+                    {name: 'Min', type: 'string'},
+                    {name: 'Max', type: 'string'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
+            })
+        });
+        //$scope.questionTableSettings = {
+        //    source: { dataType: 'json',
+        //        dataFields: [
+        //            {name: 'Unique', type: 'int'},
+        //            {name: 'QuestionName', type: 'string'},
+        //            {name: 'Question', type: 'string'},
+        //            {name: 'Status', type: 'number'},
+        //            {name: 'Sort', type: 'number'},
+        //            {name: 'Min', type: 'string'},
+        //            {name: 'Max', type: 'string'}
+        //        ],
+        //        id: 'Unique', url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
+        //    },
+        //    created: function (args) { args.instance.updateBoundData(); }
+        //};
+    };
+
     // -- Question Item table settings
     $scope.questionItemTableSettings = {
         source: {
-            columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int'},
-                {text: 'Name', dataField: 'Description', type: 'string'},
-                {text: 'Label', dataField: 'Label', type: 'string'},
-                {text: 'Sort', dataField: 'Sort', type: 'number'}
-            ]
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'QuestionUnique', type: 'string'},
+                {name: 'ItemUnique', type: 'string'},
+                {name: 'Description', type: 'string'},
+                {name: 'Label', type: 'string'},
+                {name: 'Sort', type: 'number'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuQuestion/load_questions_items/'
         },
+        columns: [
+            {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
+            {text: 'Name', dataField: 'Description', type: 'string', width: '40%'},
+            {text: 'Label', dataField: 'Label', type: 'string', width: '40%'},
+            {text: 'Sort', dataField: 'Sort', type: 'string', width: '10%'}
+        ],
         width: "100%",
         columnsResize: true,
         theme: 'arctic',
@@ -242,33 +287,15 @@ app.controller('menuQuestionController', function ($scope) {
                 data: values,
                 success: function(data) {
                     $('#saveQuestionBtn').prop('disabled', true);
-                    $scope.questionTableSettings = {
-                        source: {
-                            dataType: 'json',
-                            dataFields: [
-                                {name: 'Unique', type: 'int'},
-                                {name: 'QuestionName', type: 'string'},
-                                {name: 'Question', type: 'string'},
-                                {name: 'Status', type: 'number'},
-                                {name: 'Sort', type: 'number'},
-                                {name: 'Min', type: 'string'},
-                                {name: 'Max', type: 'string'}
-                            ],
-                            id: 'Unique',
-                            url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
-                        },
-                        created: function (args) {
-                            args.instance.updateBoundData();
-                        }
-                    };
+                    updateQuestionMainTable();
                     //
                     if ($scope.newOrEditQuestionOption == 'new') {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question created successfully!');
                         $scope.questionNotificationsSuccessSettings.apply('open');
-                        setTimeout(function() {
+                        //setTimeout(function() {
                             $scope.closeQuestionWindow();
-                        }, 1500);
+                        //}, 1500);
                     } else if ($scope.newOrEditQuestionOption == 'edit') {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question updated successfully!');
@@ -285,34 +312,30 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     // -- Question Delete actions
-    $scope.beforeDeleteQuestion = function() {
-        $.ajax({
-            method: 'post',
-            url: SiteRoot + 'admin/MenuQuestion/deleteQuestion/' + $scope.questionId,
-            dataType: 'json',
-            success: function(data) {
-                $scope.questionTableSettings = {
-                    source: {
-                        dataType: 'json',
-                        dataFields: [
-                            {name: 'Unique', type: 'int'},
-                            {name: 'QuestionName', type: 'string'},
-                            {name: 'Question', type: 'string'},
-                            {name: 'Status', type: 'number'},
-                            {name: 'Sort', type: 'number'},
-                            {name: 'Min', type: 'string'},
-                            {name: 'Max', type: 'string'}
-                        ],
-                        id: 'Unique',
-                        url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
-                    },
-                    created: function (args) {
-                        args.instance.updateBoundData();
-                    }
-                };
-                questionsWindow.close();
-            }
-        });
+    $scope.beforeDeleteQuestion = function(option) {
+        if (option != undefined) {
+            $('#mainButtonsQuestionForm').show();
+            $('#promptToCloseQuestionForm').hide();
+            $('#promptToDeleteQuestionForm').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/MenuQuestion/deleteQuestion/' + $scope.questionId,
+                dataType: 'json',
+                success: function (data) {
+                    updateQuestionMainTable();
+                    questionsWindow.close();
+                }
+            });
+        } else if (option == 1) {
+            $scope.closeQuestionWindow();
+        } else if (option == 2) {
+        } else {
+            $('#mainButtonsQuestionForm').hide();
+            $('#promptToCloseQuestionForm').hide();
+            $('#promptToDeleteQuestionForm').show();
+        }
     };
 
     /**
@@ -320,8 +343,8 @@ app.controller('menuQuestionController', function ($scope) {
      */
 
     var updateItemQuestiontable = function() {
-        $scope.questionItemTableSettings = {
-            source: {
+        $('#_questionItemTable').jqxDataTable({
+            source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -333,18 +356,8 @@ app.controller('menuQuestionController', function ($scope) {
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + $scope.questionId
-            },
-            columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
-                {text: 'Name', dataField: 'Description', type: 'string', width: '40%'},
-                {text: 'Label', dataField: 'Label', type: 'string', width: '40%'},
-                {text: 'Sort', dataField: 'Sort', type: 'string', width: '10%'}
-            ],
-            width: "100%",
-            created: function (args) {
-                args.instance.updateBoundData();
-            }
-        }
+            })
+        });
     };
 
     var question_item_window, cbxItems;
@@ -461,22 +474,6 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $('.itemQuestionFormContainer .required-in').on('keypress keyup paste change', function(e) {
-        var idsRestricted = ['qItem_sort'];
-        //var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        //if (inarray >= 0) {
-        //    var charCode = (e.which) ? e.which : e.keyCode;
-        //    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        //        if (this.value == '') {
-        //            $('#qItemErrorNotif #notification-content')
-        //                .html('Sort value must be number!');
-        //            $scope.qItemErrorNotif.apply('open');
-        //        }
-        //        return false;
-        //    }
-        //    if (this.value.length > 2) {
-        //        return false;
-        //    }
-        //}
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
     });
 
@@ -534,9 +531,9 @@ app.controller('menuQuestionController', function ($scope) {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question item created successfully!');
                             $scope.qItemSuccessNotif.apply('open');
-                            setTimeout(function() {
+                            //setTimeout(function() {
                                 $scope.closeQuestionItemWin();
-                            }, 1500);
+                            //}, 1500);
                         } else if ($scope.newOrEditQItemOption == 'edit') {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question Item updated!');
@@ -555,28 +552,40 @@ app.controller('menuQuestionController', function ($scope) {
         }
     };
 
-    $scope.deleteItemByQuestion = function() {
-        $.ajax({
-            method: 'POST',
-            url:  SiteRoot + 'admin/MenuQuestion/delete_question_item/' + $scope.qitemId,
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 'success') {
-                    updateItemQuestiontable();
-                    $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
-                    $('#qItemSuccessNotif #notification-content')
-                        .html('Question item was deleted!');
-                    $scope.qItemSuccessNotif.apply('open');
-                    setTimeout(function() {
+    $scope.deleteItemByQuestion = function(option) {
+        if (option != undefined) {
+            $('#mainQItemButtons').show();
+            $('#promptToCloseQItemForm').hide();
+            $('#promptToDeleteQItemForm').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                method: 'POST',
+                url:  SiteRoot + 'admin/MenuQuestion/delete_question_item/' + $scope.qitemId,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        updateItemQuestiontable();
+                        $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
+                        $('#qItemSuccessNotif #notification-content')
+                            .html('Question item was deleted!');
+                        $scope.qItemSuccessNotif.apply('open');
                         $scope.closeQuestionItemWin();
-                    }, 1500);
-                } else {
-                    $('#qItemErrorNotif #notification-content')
-                        .html('There was an error!');
-                    $scope.qItemErrorNotif.apply('open');
+                    } else {
+                        $('#qItemErrorNotif #notification-content')
+                            .html('There was an error!');
+                        $scope.qItemErrorNotif.apply('open');
+                    }
                 }
-            }
-        })
+            })
+        } else if (option == 1) {
+            $scope.closeQuestionItemWin();
+        } else if (option == 2) {
+        } else {
+            $('#mainQItemButtons').hide();
+            $('#promptToCloseQItemForm').hide();
+            $('#promptToDeleteQItemForm').show();
+        }
     };
 
     $scope.numberQuestion = {
