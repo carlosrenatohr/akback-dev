@@ -150,6 +150,8 @@ app.controller('menuQuestionController', function ($scope) {
         $('#qt_QuestionName').val('');
         $('#qt_Question').val('');
         $('#qt_sort').val(1);
+        $('#qt_min').val(0);
+        $('#qt_max').val(0);
         //
         $('#questionstabsWin').jqxTabs({selectedItem: 0});
         $('#questionWindowForm .required-field').css({"border-color": "#ccc"});
@@ -183,21 +185,21 @@ app.controller('menuQuestionController', function ($scope) {
     // -- Question Events controls
     $('#questionWindowForm .required-field').on('keypress keyup paste change', function (e) {
         var idsRestricted = ['qt_sort'];
-        var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        if (inarray >= 0) {
-            var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                if (this.value == '' || this.value == 1) {
-                    $('#questionNotificationsErrorSettings #notification-content')
-                        .html($(this).attr('placeholder') + ' must be number!');
-                    $scope.questionNotificationsErrorSettings.apply('open');
-                }
-                return false;
-            }
-            if (this.value.length > 2) {
-                return false;
-            }
-        }
+        //var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        //if (inarray >= 0) {
+        //    var charCode = (e.which) ? e.which : e.keyCode;
+        //    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        //        if (this.value == '' || this.value == 1) {
+        //            $('#questionNotificationsErrorSettings #notification-content')
+        //                .html($(this).attr('placeholder') + ' must be number!');
+        //            $scope.questionNotificationsErrorSettings.apply('open');
+        //        }
+        //        return false;
+        //    }
+        //    if (this.value.length > 2) {
+        //        return false;
+        //    }
+        //}
         $('#saveQuestionBtn').prop('disabled', false);
     });
 
@@ -248,7 +250,9 @@ app.controller('menuQuestionController', function ($scope) {
                                 {name: 'QuestionName', type: 'string'},
                                 {name: 'Question', type: 'string'},
                                 {name: 'Status', type: 'number'},
-                                {name: 'Sort', type: 'number'}
+                                {name: 'Sort', type: 'number'},
+                                {name: 'Min', type: 'string'},
+                                {name: 'Max', type: 'string'}
                             ],
                             id: 'Unique',
                             url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
@@ -295,7 +299,9 @@ app.controller('menuQuestionController', function ($scope) {
                             {name: 'QuestionName', type: 'string'},
                             {name: 'Question', type: 'string'},
                             {name: 'Status', type: 'number'},
-                            {name: 'Sort', type: 'number'}
+                            {name: 'Sort', type: 'number'},
+                            {name: 'Min', type: 'string'},
+                            {name: 'Max', type: 'string'}
                         ],
                         id: 'Unique',
                         url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
@@ -583,6 +589,16 @@ app.controller('menuQuestionController', function ($scope) {
         height: 25,
         min: 0,
         value: 0
+    };
+
+    $scope.numberItemQuestion = {
+        inputMode: 'simple',
+        decimalDigits: 0,
+        digits: 2,
+        spinButtons: true,
+        textAlign: 'left',
+        width: '290px',
+        height: 25,
     };
 
 });

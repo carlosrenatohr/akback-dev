@@ -183,9 +183,11 @@
                                                         Sort:
                                                     </div>
                                                     <div style=" float:left; width:300px;">
-                                                        <input type="number" class="form-control required-in"
-                                                               id="qItem_sort" name="qItem_sort" placeholder="Sort"
-                                                               step="1" min="1" value="1" pattern="\d*">
+                                                        <jqx-number-input
+                                                            style='margin-top: 3px;padding-left: 10px;' class="form-control required-in"
+                                                            id="qItem_sort" name="qItem_sort"
+                                                            jqx-settings="numberItemQuestion" jqx-min="1" jqx-value="1"
+                                                        ></jqx-number-input>
                                                     </div>
                                                     <div style="float:left;">
                                                         <span
