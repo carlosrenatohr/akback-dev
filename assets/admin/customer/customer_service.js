@@ -658,11 +658,11 @@ demoApp.service('customerService', function ($http) {
                 url: urlToRequest
             }),
             columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int', width: '12%'}, //filterable: false
+                {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'}, //filterable: false
                 {text: 'First Name', dataField: 'FirstName', type: 'string', width: '15%'},
                 {text: 'Middle Name', dataField: 'MiddleName', type: 'string', width: '15%'},
                 {text: 'Last Name', dataField: 'LastName', type: 'string', width: '15%'},
-                {text: 'Company', dataField: 'Company', type: 'string', width: '10%'},
+                {text: 'Company', dataField: 'Company', type: 'string', hidden: true},
                 {text: 'Address', dataField: 'Address1', type: 'string', hidden: true},
                 {text: 'Address2', dataField: 'Address2', type: 'string', hidden: true},
                 {text: 'City', dataField: 'City', type: 'string', hidden: true},
@@ -671,8 +671,8 @@ demoApp.service('customerService', function ($http) {
                 {text: 'Phone', dataField: 'Phone1', type: 'string', hidden: true},
                 {text: 'Phone2', dataField: 'Phone2', type: 'string', hidden: true},
                 {text: 'Email', dataField: 'Email', type: 'string', hidden: true},
-                {text: 'Full Identification', dataField: 'Custom1', type: 'string', width: '11%'},
-                {text: 'Date of Birth', dataField: 'Custom2', type: 'string', width: '11%'},
+                {text: 'Full Identification', dataField: 'Custom1', type: 'string', width: '15%'},
+                {text: 'Date of Birth', dataField: 'Custom2', type: 'string', width: '15%'},
                 {text: 'Gender', dataField: 'Custom3', type: 'string', hidden: true},
                 {text: 'Marital Status', dataField: 'Custom4', type: 'string', hidden: true},
                 {text: 'Ethnicity', dataField: 'Custom5', type: 'string', hidden: true},
@@ -686,7 +686,7 @@ demoApp.service('customerService', function ($http) {
                 {text: 'WA', dataField: 'Custom13', type: 'string', hidden: true},
                 {text: 'SS', dataField: 'Custom14', type: 'string', hidden: true},
                 {text: 'SSD', dataField: 'Custom15', type: 'string', hidden: true},
-                {text: 'Relationship', dataField: 'Custom16', type: 'string', width: '11%'},
+                {text: 'Relationship', dataField: 'Custom16', type: 'string', width: '15%'},
                 {text: 'ParentUnique', dataField: 'ParentUnique', type: 'int', hidden: true}
             ],
             //columnsResize: true,
