@@ -22,8 +22,12 @@ class Config_location_model extends CI_Model
             [$field => $value, 'Setting' => $setting, 'Status' => 1]
         )->result_array();
 
-        $this->session->set_userdata(['admin_' . $setting => $query[0]['Value']]);
-        return $query[0]['Value'];
+        if (count($query) > 0)
+            $value = $query[0]['Value'];
+        else
+            $value = null;
+        $this->session->set_userdata(['admin_' . $setting => $value]);
+        return $value;
     }
 
 }
