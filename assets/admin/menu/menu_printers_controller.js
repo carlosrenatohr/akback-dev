@@ -63,14 +63,14 @@ app.controller('menuPrintersController', function($scope) {
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int', width: '8%'},
             {text: 'Item', dataField: 'Item', type: 'string', width: '15%'},
+            {text: 'Category', dataField: 'Category', type: 'string', width: '11%', filtertype: 'list'},
+            {text: 'SubCategory', dataField: 'SubCategory', type: 'string', width: '11%', filtertype: 'list'},
             {text: 'Item Description', dataField: 'ItemDescription', type: 'string', width: '20%'},
             {text: 'Printer Name', dataField: 'name', type: 'string', width: '15%'},
             {text: 'Printer Description', dataField: 'description', type: 'string', width: '20%'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
-            {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-            {text: 'Category', dataField: 'Category', type: 'string', width: '11%', filtertype: 'list'},
-            {text: 'SubCategory', dataField: 'SubCategory', type: 'string', width: '11%', filtertype: 'list'}
+            {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
         ],
         width: "100%",
         theme: 'arctic',
