@@ -204,7 +204,8 @@ class User extends AK_Controller
         $sure = true;
         $message = [];
         //
-        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName']);
+//        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName']);
+        $usernameUsed = $this->user_model->validateUsername($data['UserName']);
         if($usernameUsed) {
             $sure = false;
             $message['username'] = 'Selected User Name already in use.  Please input different user name';
@@ -238,8 +239,9 @@ class User extends AK_Controller
         // -- Username validation
         $user = $this->user_model->getUsernameByUser($id);
 
-        $whereNot = ['UserName !=' => $user[0]['UserName']];
-        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName'], $whereNot);
+        $whereNot = ['Unique !=' => $id];
+//        $usernameUsed = $this->user_model->validateField('UserName', $data['UserName'], $whereNot);
+        $usernameUsed = $this->user_model->validateUsername($data['UserName'], $whereNot);
         if($usernameUsed) {
             $sure = false;
             $message['username'] = 'Selected User Name already in use.  Please input different user name';

@@ -191,4 +191,13 @@ class User_model extends CI_Model
         return count($query);
     }
 
+    public function validateUsername($value, $whereNot = null) {
+        $this->db->where('Status', 1);
+        $this->db->where(" LOWER(\"UserName\") LIKE LOWER('%". $value . "%')", NULL, false);
+        if (!is_null($whereNot))
+            $this->db->where($whereNot);
+        $query = $this->db->get('config_user')->result_array();
+        return count($query);
+    }
+
 }
