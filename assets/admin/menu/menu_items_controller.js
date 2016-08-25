@@ -956,7 +956,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
             {text: 'Item', dataField: 'ItemUnique', type: 'int', hidden: true},
-            {text: 'Question id', dataField: 'QuestionUnique', type: 'int', width: '25%'},
+            {text: 'Question ID', dataField: 'QuestionUnique', type: 'int', width: '25%'},
             {text: 'Name', dataField: 'QuestionName', type: 'string', width: '50%'},
             {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
             {text: 'Sort', dataField: 'Sort', type: 'number', width: '25%'},
