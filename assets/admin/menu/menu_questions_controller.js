@@ -366,7 +366,7 @@ app.controller('menuQuestionController', function ($scope) {
             question_item_window = args.instance;
         },
         resizable: false,
-        width: "50%", height: "45%",
+        width: "60%", height: "55%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -570,7 +570,7 @@ app.controller('menuQuestionController', function ($scope) {
                         $('#qItemSuccessNotif #notification-content')
                             .html('Question item was deleted!');
                         $scope.qItemSuccessNotif.apply('open');
-                        $scope.closeQuestionItemWin();
+                            $scope.closeQuestionItemWin();
                     } else {
                         $('#qItemErrorNotif #notification-content')
                             .html('There was an error!');
