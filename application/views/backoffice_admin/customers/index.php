@@ -111,7 +111,7 @@ jqxthemes();
                                 </div>
                                 <div class="">
                                     <jqx-tabs jqx-width="'100%'"
-                                              jqx-on-tabclick="changingCustomerTab($event)"
+                                              jqx-on-selecting="changingCustomerTab($event)"
                                               id="customerTabs" jqx-theme="articTheme">
                                         <ul>
                                             <li id="customertabInfo" class="mainTabInfo">Info</li>

@@ -9,6 +9,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
      * TABS
      * @param e
      */
+    var customerIsSaved = false;
+    var tabSelectedBeforeSave = -1;
     $scope.changingCustomerTab = function(e) {
         var tabclick = e.args.item;
         var deleteBtn = angular.element('#deleteCustomerBtn');
@@ -28,6 +30,13 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             // Purchases tab
             if(tabclick == 4) {
                 updateCustomerPurchasesTableData();
+            }
+        // Behavior of create form
+        } else if ($scope.newOrEditCustomerAction == 'create') {
+            if(tabclick == 2 && !customerIsSaved) {
+                e.cancel = true;
+                $('#saveCustomerBtn').prop('disabled', false);
+                $scope.closeCustomerAction(-1, tabclick);
             }
         }
     };
@@ -485,33 +494,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         min: ''
     };
 
-    $('body').on('valueChanged', '.customer-number', function (event)
-    {
-        //var nStr = event.args.text;
-        //nStr += '';
-        //var x = nStr.split('.');
-        //var x1 = x[0];
-        //var x2 = x.length > 1 ? '.' + x[1] : '';
-        //var rgx = /(\d+)(\d{3})/;
-        //if (rgx.test(x1)) {
-        //    x1 = x1.replace(rgx, '$1' + ',' + '$2');
-        //}
-        //console.log(x1 + x2);
-        //$(this).jqxNumberInput('val', x1 + x2);
-        ////$(this).focus();
-        //$(this).focus(function() {
-        //    setTimeout((function(el) {
-        //        var strLength = el.value.length;
-        //        return function() {
-        //            if(el.setSelectionRange !== undefined) {
-        //                el.setSelectionRange(strLength - 2 , strLength - 2);
-        //            } else {
-        //                $(el).val(el.value - 2);
-        //            }
-        //        }}(this)), 0);
-        //});
-    });
-
     $scope.dateSettings = {
         //selectionMode: 'range'
         //min: new Date(2016, 5, 10),
@@ -604,6 +586,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         //
         $scope.newOrEditCustomerAction = 'create';
         $scope.customerID = null;
+        customerIsSaved = false;
         //
         $('#customer_VisitDays').val(7);
         toggleTabs(false);
@@ -833,17 +816,17 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.saveCustomerAction = function(fromPrompt) {
         var formContainer = $('.customerForm .customer-field');
         if (!validationBeforeCustomer(formContainer)) {
-            var data = gettingCustomerValues(formContainer);
+            var dataRequest = gettingCustomerValues(formContainer);
             var url = ($scope.newOrEditCustomerAction == 'edit')
                         ? 'admin/Customer/updateCustomer/' + $scope.customerID
                         : 'admin/Customer/createCustomer';
             // Extra static fields
-            data['VisitDays'] = $('#customer_VisitDays').val();
+            dataRequest['VisitDays'] = $('#customer_VisitDays').val();
             $.ajax({
                 url: SiteRoot + url,
                 method: 'post',
                 dataType: 'json',
-                data: data,
+                data: dataRequest,
                 success: function(data) {
                     if (data.status == 'success') {
                         updateCustomerTableData();
@@ -856,16 +839,27 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                             msg = 'Customer created successfully';
                             $scope.newOrEditCustomerAction = 'edit';
                             $scope.customerID = data.new_id;
+                            var fName = (dataRequest.FirstName != null) ? dataRequest.FirstName : '';
+                            var lName = (dataRequest.LastName != null) ? dataRequest.LastName : '';
+                            var fullName = fName + ' ' + lName;
+                            customerWind.setTitle('Edit Customer: ' + data.new_id + ' | Customer: ' + fullName);
                         }
                         //
-                        if (fromPrompt) {
-                            customerWind.close();
-                            resetCustomerForm(formContainer);
+                        if (tabSelectedBeforeSave > -1) {
+                            $('#customerTabs').jqxTabs({selectedItem: tabSelectedBeforeSave});
+                            customerIsSaved = true;
+                            tabSelectedBeforeSave = -1;
                         } else {
+                            if (fromPrompt) {
+                                customerWind.close();
+                                resetCustomerForm(formContainer);
+                                $('#customerTabs').jqxTabs({selectedItem: 0});
+                            } else {
+                                $('#customerNoticeSuccessSettings #notification-content')
+                                    .html(msg);
+                                $scope.customerNoticeSuccessSettings.apply('open');
+                            }
                             $('#saveCustomerBtn').prop('disabled', true);
-                            $('#customerNoticeSuccessSettings #notification-content')
-                                .html(msg);
-                            $scope.customerNoticeSuccessSettings.apply('open');
                         }
                     } else if (data.status == 'error'){
                         console.log(data.message);
@@ -914,7 +908,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
     };
 
-    $scope.closeCustomerAction = function(option) {
+    $scope.closeCustomerAction = function(option, tab) {
         if (option != undefined) {
             $('#mainButtonsCustomerForm').show();
             $('#promptToCloseCustomerForm').hide();
@@ -923,6 +917,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         if (option == 0) {
             $scope.saveCustomerAction(true);
         } else if (option == 1) {
+
             customerWind.close();
         } else if (option == 2) {
 
@@ -935,6 +930,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 $('#mainButtonsCustomerForm').hide();
                 $('#promptToCloseCustomerForm').show();
                 $('#promptToDeleteCustomerForm').hide();
+                if (tab != undefined) {
+                    tabSelectedBeforeSave = tab;
+                }
             }
         }
     };
