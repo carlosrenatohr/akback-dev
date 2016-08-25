@@ -32,7 +32,9 @@ app.controller('menuPrintersController', function($scope) {
                 {name: 'Item', type: 'string'},
                 {name: 'Status', type: 'number'},
                 {name: 'fullDescription', type: 'string'},
-                {name: 'ItemDescription', type: 'string'}
+                {name: 'ItemDescription', type: 'string'},
+                {name: 'Category', type: 'string'},
+                {name: 'SubCategory', type: 'string'}
             ],
             url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
             })
@@ -51,19 +53,24 @@ app.controller('menuPrintersController', function($scope) {
                 {name: 'Item', type: 'string'},
                 {name: 'Status', type: 'number'},
                 {name: 'fullDescription', type: 'string'},
-                {name: 'ItemDescription', type: 'string'}
+                {name: 'ItemDescription', type: 'string'},
+                {name: 'Category', type: 'string'},
+                {name: 'SubCategory', type: 'string'}
+
             ],
             url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
         }),
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int', width: '8%'},
-            {text: 'Item', dataField: 'Item', type: 'string', width: '20%'},
-            {text: 'Item Description', dataField: 'ItemDescription', type: 'string', width: '26%'},
-            {text: 'Printer Name', dataField: 'name', type: 'string', width: '20%'},
-            {text: 'Printer Description', dataField: 'description', type: 'string', width: '26%'},
+            {text: 'Item', dataField: 'Item', type: 'string', width: '15%'},
+            {text: 'Item Description', dataField: 'ItemDescription', type: 'string', width: '20%'},
+            {text: 'Printer Name', dataField: 'name', type: 'string', width: '15%'},
+            {text: 'Printer Description', dataField: 'description', type: 'string', width: '20%'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
-            {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
+            {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
+            {text: 'Category', dataField: 'Category', type: 'string', width: '11%', filtertype: 'list'},
+            {text: 'SubCategory', dataField: 'SubCategory', type: 'string', width: '11%', filtertype: 'list'}
         ],
         width: "100%",
         theme: 'arctic',
@@ -167,6 +174,7 @@ app.controller('menuPrintersController', function($scope) {
     //$scope.updatePrinterWin = function(e) {
     //    var row = e.args.row;
         var row = e.args.row.bounddata;
+        console.log(row);
         $scope.createOrEditPrinter = 'edit';
         $scope.printerSelectedID = row.Unique;
         // Printers saved by Item
@@ -279,10 +287,10 @@ app.controller('menuPrintersController', function($scope) {
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'success') {
-                        $('#printerTable').jqxGrid('updatebounddata');
-                            //$scope.$apply(function() {
-                            //    updatePrinterTable();
-                            //});
+                        if ($scope.createOrEditPrinter == 'edit')
+                            $('#printerTable').jqxGrid('updatebounddata', 'filter');
+                        else
+                            $('#printerTable').jqxGrid('updatebounddata');
                         $scope.closingPrinterWind();
                     } else if (response.status == 'error')
                         console.log('Database error!');
@@ -341,7 +349,7 @@ app.controller('menuPrintersController', function($scope) {
                         if(response.status == 'success') {
                             $scope.closingPrinterWind();
                             //printerWind.close();
-                            $('#printerTable').jqxGrid('updatebounddata');
+                            $('#printerTable').jqxGrid('updatebounddata', 'filter');
                         } else if (response.status == 'error'){
                             console.log('there was an error db');
                         } else {

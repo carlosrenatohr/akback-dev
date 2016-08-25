@@ -67,7 +67,7 @@ class Item_printer_model extends CI_Model
 
     public function getCustomCompletePrinters() {
         $this->db->select("item_printer.*, item.Description as ItemDescription, item.Item, item.Unique as ItemUnique,
-                        item.price1 as Price, category_main.\"MainName\" as Category,
+                        item.price1 as \"Price\", category_main.\"MainName\" as \"Category\",
                         category_sub.\"Name\" as \"SubCategory\",
                         config_station_printers.\"name\",
                         config_station_printers.\"description\""
