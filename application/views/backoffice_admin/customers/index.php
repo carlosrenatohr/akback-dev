@@ -105,7 +105,7 @@ jqxthemes();
                                       style="overflow: inherit;"
                             ></jqx-grid>
                             <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings"
-                                        id="addCustomerWindow" style="">
+                                        id="addCustomerWindow" jqx-on-close="closingCustomerWind($event)">
                                 <div class="">
                                     Add New Customer
                                 </div>

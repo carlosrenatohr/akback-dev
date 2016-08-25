@@ -859,6 +859,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                                     .html(msg);
                                 $scope.customerNoticeSuccessSettings.apply('open');
                             }
+
                             $('#saveCustomerBtn').prop('disabled', true);
                         }
                     } else if (data.status == 'error'){
@@ -924,8 +925,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         } else {
             if ($('#saveCustomerBtn').is(':disabled')) {
                 customerWind.close();
-                resetCustomerForm($('.customerForm .customer-field'));
-                $('#customerTabs').jqxTabs('select', 0);
+                //resetCustomerForm($('.customerForm .customer-field'));
+                //$('#customerTabs').jqxTabs('select', 0);
             } else {
                 $('#mainButtonsCustomerForm').hide();
                 $('#promptToCloseCustomerForm').show();
@@ -935,6 +936,14 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 }
             }
         }
+    };
+
+    $scope.closingCustomerWind = function(e) {
+        resetCustomerForm($('.customerForm .customer-field'));
+        $('#customerTabs').jqxTabs({selectedItem: 0});
+        $('#saveCustomerBtn').prop('disabled', true);
+        $scope.customerNoticeSuccessSettings.apply('closeAll');
+        $scope.customerNoticeErrorSettings.apply('closeAll');
     };
 
     /**
