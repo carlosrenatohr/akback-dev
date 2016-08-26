@@ -582,9 +582,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $scope.newOrEditCustomerAction = 'create';
         $scope.customerID = null;
         customerIsSaved = false;
-        //
+        // Static fields
         $('#customer_VisitDays').val(7);
         $("#customer_AccountStatus").jqxDropDownList('val', 'Active');
+        //
         toggleTabs(false);
         setTimeout(function() {
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
