@@ -44,6 +44,7 @@ class Customer extends AK_Controller
         $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";
         $data['purchases_tab_view'] = "backoffice_admin/customers/purchases_tab";
         $data['options_tab_view'] = "backoffice_admin/customers/options_tab";
+        $data['visits_tab_view'] = "backoffice_admin/customers/visits_tab";
         $data['checkout_form'] = "backoffice_admin/customers/checkout_form";
         $data['main_content'] = "backoffice_admin/customers/index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);

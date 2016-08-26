@@ -494,31 +494,6 @@ demoApp.service('customerService', function ($http) {
         cache: false
     };
 
-    this.addDefaultfilter = function()
-    {
-        var datefiltergroup = new $.jqx.filter();
-        var operator = 0;
-        var today = new Date();
-
-        var tomorrow = new Date();
-
-        tomorrow.setDate((today.getDate() + 1));
-
-        var  filtervalue = today;
-        var  filtercondition = 'GREATER_THAN_OR_EQUAL';
-        var filter4 = datefiltergroup.createfilter('datefilter', filtervalue, filtercondition);
-
-        filtervalue = tomorrow;
-        filtercondition = 'LESS_THAN_OR_EQUAL';
-        var filter5 = datefiltergroup.createfilter('datefilter', filtervalue, filtercondition);
-
-        datefiltergroup.addfilter(operator, filter4);
-        datefiltergroup.addfilter(operator, filter5);
-        //console.log('check out filter today!');
-        $("#customerCheckInComplete").jqxGrid('addfilter', 'CheckOutDate', datefiltergroup);
-        $("#customerCheckInComplete").jqxGrid('applyfilters');
-    };
-
     this.getCheckinCompleteGridSettings = function () {
         var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCheckInCompleteGrid);
         // Row Details - Create contacts nested grid
@@ -904,6 +879,63 @@ demoApp.service('customerService', function ($http) {
                 });
             }
         }
+    };
+
+
+    this.getVisitsTableTabSettings = function(unique) {
+        var urlToRequest = '';
+        if (unique != undefined)
+            urlToRequest = SiteRoot + 'admin/CustomerCheckin/load_checkedInCustomers/2/0/' + unique;
+        var dataAdapterCustomerGrid = new $.jqx.dataAdapter({ //_this.sourceCheckInCompleteGrid
+            dataType: 'json',
+            dataFields: [
+                {name: 'LocationUnique', type: 'string'},
+                {name: 'LocationName', type: 'string'},
+                {name: 'CheckOutDate', type: 'date'},
+                {name: '_CheckOutDate', type: 'string'},
+                {name: 'CheckOutBy', type: 'string'},
+                {name: 'CheckInDate', type: 'string'},
+                {name: '_CheckInDate', type: 'string'},
+                {name: 'CheckInBy', type: 'string'},
+                {name: 'Quantity', type: 'string'},
+                {name: 'StatusCheckIn', type: 'string'},
+                {name: 'Note', type: 'string'},
+                {name: 'CheckInUser', type: 'string'},
+                {name: 'CheckOutUser', type: 'string'},
+                {name: 'lname', type: 'string'},
+                {name: 'fname', type: 'string'},
+                {name: 'VisitUnique', type: 'int'}
+            ],
+            url: urlToRequest
+        });
+        return {
+            source: dataAdapterCustomerGrid,
+            columns: [
+                {text: 'Location', dataField: 'LocationName', type: 'string', width: '10%'},
+                {text: 'Check In Date', dataField: '_CheckInDate', type: 'date', width: '15%'},
+                {text: '', dataField: 'CheckInDate', type: 'string', hidden:true},
+                {text: 'Check In By', dataField: 'CheckInBy', type: 'string', width: '7%'},
+                {text: 'Check Out date', dataField: '_CheckOutDate', type: 'date', width: '15%'},
+                {text: '', dataField: 'CheckOutDate', type: 'string', hidden:true},
+                {text: 'Check Out By', dataField: 'CheckOutBy', type: 'string', width: '7%'},
+                {text: 'Quantity', dataField: 'Quantity', type: 'string', width: '15%'},
+                {text: 'Note', dataField: 'Note', type: 'string', width: '30%'},
+                {text: 'Visit ID', dataField: 'VisitUnique', type: 'int', hidden: true},
+                {text: '', dataField: 'LocationUnique', type: 'string', hidden: true},
+                {text: '', dataField: 'StatusCheckIn', type: 'string', hidden: true},
+                {text: '', dataField: 'CheckInUser', type: 'string', hidden: true},
+                {text: '', dataField: 'CheckOutUser', type: 'string', hidden: true},
+                {text: '', dataField: 'lname', type: 'string', hidden: true},
+                {text: '', dataField: 'fname', type: 'string', hidden: true}
+            ],
+            width: "98.7%",
+            theme: 'arctic',
+            sortable: true,
+            filterable: true,
+            pageable: true,
+            pageSize: 20,
+            pagerMode: 'simple'
+        };
     };
 
     this.setNotificationSettings = function (type, container) {

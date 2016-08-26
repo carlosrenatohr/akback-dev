@@ -31,6 +31,24 @@ class CustomerCheckin extends AK_Controller
         echo json_encode($response);
     }
 
+    public function load_checkedInCustomers($status, $location, $uniquefilter = null) {
+        $query = " customer_visit.\"CustomerUnique\" = '{$uniquefilter}' ";
+        $customers = $this->customer->getCustomersWithVisits($status, $location, false, $query);
+        foreach($customers as $customer) {
+            $locationName = $this->customer->getLocationName($customer['LocationUnique']);
+            $customer['LocationName'] = !empty($locationName) ? $locationName[0]['Name'] : '';
+            $customer['_CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
+            $customer['_CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';
+//            $customer['LastVisit'] =
+//                (!is_null($customer['LastVisit'])) ?
+//                    date('d-m-Y H:i', strtotime($customer['LastVisit'])) :
+//                    null;
+            $newCustomers[] = $customer;
+        }
+
+        echo json_encode($newCustomers);
+    }
+
     public function load_checkInCustomersByLocation($status, $location) {
         // pagination
         $pageNum = (isset($_GET['pagenum'])) ? $_GET['pagenum'] : 1;
@@ -75,8 +93,8 @@ class CustomerCheckin extends AK_Controller
         }
         $newCustomers = [];
         // Counting
-        $total = $this->customer->getCustomersWithVisits($status, $location, true, null, null, $whereQuery, $sortData);
-        $customers = $this->customer->getCustomersWithVisits($status, $location, false, $pageNum, $perPage, $whereQuery, $sortData);
+        $total = $this->customer->getCustomersWithVisits($status, $location, true, $whereQuery, null, null, $sortData);
+        $customers = $this->customer->getCustomersWithVisits($status, $location, false, $whereQuery, $pageNum, $perPage, $sortData);
         foreach($customers as $customer) {
             $locationName = $this->customer->getLocationName($customer['LocationUnique']);
             $customer['LocationName'] = !empty($locationName) ? $locationName[0]['Name'] : '';

@@ -31,6 +31,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             if(tabclick == 4) {
                 updateCustomerPurchasesTableData();
             }
+            // Visits tab
+            if(tabclick == 6) {
+                updateCustomerVisitsTableData();
+            }
         // Behavior of create form
         } else if ($scope.newOrEditCustomerAction == 'create') {
             if(tabclick == 2 && !customerIsSaved) {
@@ -159,6 +163,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
+    $scope.customerVisitsTabSettings = customerService.getVisitsTableTabSettings();
 
     var updateCustomerTableData = function(location, nofilters) {
         var grid = '#gridCustomer';
@@ -182,16 +187,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     var updateCustomerContactTableData = function() {
         if ($scope.customerID != undefined) {
             var tableSettings = customerService.getContactsTableSettings($scope.customerID);
-            $scope.$apply(function() {
-                $scope.customerContactTableSettings = {
-                    source: tableSettings.source,
-                    created: function (args) {
-                        var instance = args.instance;
-                        instance.updatebounddata();
-                        //instance.refreshdata();
-                        //var completed = $("#customerNotesGrid").jqxGrid('IsBindingCompleted');
-                    }
-                };
+            $('#customerContactsGrid').jqxGrid({
+                source: tableSettings.source
             });
         }
     };
@@ -199,14 +196,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     var updateCustomerNotesTableData = function() {
         if ($scope.customerID != undefined) {
             var tableSettings = customerService.getNotesTableSettings($scope.customerID);
-            $scope.$apply(function() {
-                $scope.customerNotesTableSettings = {
-                    source: tableSettings.source,
-                    created: function (args) {
-                        var instance = args.instance;
-                        instance.updatebounddata();
-                    },
-                };
+            $('#customerNotesGrid').jqxGrid({
+                source: tableSettings.source
             });
         }
     };
@@ -214,14 +205,17 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     var updateCustomerPurchasesTableData = function() {
         if ($scope.customerID != undefined) {
             var tablesettings = customerService.getPurchasesTableSettings($scope.customerID);
-            $scope.$apply(function() {
-                $scope.customerPurchasesTableSettings = {
-                    source: tablesettings.source,
-                    created: function (args) {
-                        var instance = args.instance;
-                        instance.updatebounddata();
-                    }
-                };
+            $('#customerPurchasesGrid').jqxGrid({
+                source: tablesettings.source
+            });
+        }
+    };
+
+    var updateCustomerVisitsTableData = function() {
+        if ($scope.customerID != undefined) {
+            var tablesettings = customerService.getVisitsTableTabSettings($scope.customerID);
+            $('#customerVisitsTabGrid').jqxGrid({
+                source: tablesettings.source
             });
         }
     };
@@ -639,7 +633,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
      * --- HELPERS TO FILL CONTROLS ON CUSTOMER
      */
     var toggleTabs = function(toShow) {
-        var elements = '#customertabNote, #customertabPurchase'; //#customertabContact,
+        var elements = '#customertabNote, #customertabPurchase, #customertabVisits'; //#customertabContact,
         if (toShow) {
             $(elements).find('.jqx-tabs-titleContentWrapper').css('margin-top', '0');
             $(elements).show();

@@ -120,6 +120,9 @@ jqxthemes();
                                             <li id="customertabNote" class="SecTabInfo">Notes</li>
                                             <li id="customertabPurchase" class="SecTabInfo">Purchases</li>
                                             <li id="customertabOptions" class="SecTabInfo">Options</li>
+                                            <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
+                                            <li id="customertabVisits" class="SecTabInfo">Visits</li>
+                                            <?php } ?>
                                         </ul>
                                         <!-- Customer info subtab -->
                                         <div class="">
@@ -148,13 +151,7 @@ jqxthemes();
                                         </div>
                                         <!-- Customer Contacts subtab -->
                                         <div>
-                                            <div ng-show="newOrEditCustomerAction == 'edit'">
-                                                <?php $this->load->view($contacts_tab_view); ?>
-                                            </div>
-                                            <div ng-show="newOrEditCustomerAction == 'create'">
-                                                CREATE CONTACT..
-                                                <?php $this->load->view($contacts_form); ?>
-                                            </div>
+                                            <?php $this->load->view($contacts_tab_view); ?>
                                         </div>
                                         <!-- Customer Notes subtab -->
                                         <div>
@@ -168,6 +165,12 @@ jqxthemes();
                                         <div>
                                             <?php $this->load->view($options_tab_view); ?>
                                         </div>
+                                        <!-- Customer Visits subtab -->
+                                        <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
+                                         <div>
+                                             <?php $this->load->view($visits_tab_view); ?>
+                                        </div>
+                                        <?php } ?>
                                     </jqx-tabs>
 
                                     <!-- -->

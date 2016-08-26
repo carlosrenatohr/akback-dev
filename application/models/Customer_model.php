@@ -182,7 +182,7 @@ class Customer_model extends CI_Model
     /**
      * CHECK IN - CHECK OUT
      */
-    public function getCustomersWithVisits($status, $location, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null) {
+    public function getCustomersWithVisits($status, $location, $isCount = false, $filterQuery = null, $pageNum = null, $perPage = null, $sortData = null) {
 
         $this->db->select('customer.*, customer_visit.Status as StatusCheckIn, LocationUnique, customer_visit.LocationUnique,
                         customer_visit.Unique as VisitUnique, customer_visit.CheckInDate, customer_visit.Note,
