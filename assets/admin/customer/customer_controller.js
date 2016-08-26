@@ -584,6 +584,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         customerIsSaved = false;
         //
         $('#customer_VisitDays').val(7);
+        $("#customer_AccountStatus").jqxDropDownList('val', 'Active');
         toggleTabs(false);
         setTimeout(function() {
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
@@ -608,6 +609,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             (row['VisitDays'] != null)
                 ? row['VisitDays']
                 : 0
+        );
+        $("#customer_AccountStatus").jqxDropDownList('val',
+            (row['AccountStatus'] != null)
+                ? row['AccountStatus']
+                : 'Active'
         );
         //
         $('#deleteCustomerBtn').show();
@@ -817,6 +823,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                         : 'admin/Customer/createCustomer';
             // Extra static fields
             dataRequest['VisitDays'] = $('#customer_VisitDays').val();
+            dataRequest['AccountStatus'] = $.trim($('#customer_AccountStatus').val());
             $.ajax({
                 url: SiteRoot + url,
                 method: 'post',

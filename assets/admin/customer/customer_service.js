@@ -96,6 +96,7 @@ demoApp.service('customerService', function ($http) {
             }
         },
         {text: '', dataField: 'VisitDays', type: 'string', hidden: true},
+        {text: '', dataField: 'AccountStatus', type: 'string', hidden: true},
         {text: '', dataField: 'readyToCheckIn', type: 'bool', hidden: true}
     ];
 
@@ -142,6 +143,7 @@ demoApp.service('customerService', function ($http) {
             {name: 'CheckIn2', type: 'string'},
             {name: 'LastVisit', type: 'date'},
             {name: 'VisitDays', type: 'string'},
+            {name: 'AccountStatus', type: 'string'},
             {name: 'readyToCheckIn', type: 'bool'}
         ],
         //id: 'Unique',

@@ -19,7 +19,7 @@ class Customer_model extends CI_Model
 
     public function getAllCustomers($parentUnique = null, $formName = null, $isCount = false, $pageNum = null, $perPage = null, $filterQuery = null, $sortData = null)
     {
-        $fields = ['customer.Unique', 'ParentUnique', 'LastVisit', 'VisitDays',
+        $fields = ['customer.Unique', 'ParentUnique', 'LastVisit', 'VisitDays', 'AccountStatus'
 //                    'customer_visit.Unique as VisitUnique', 'customer_visit.FirstName as VisitFirstName'
                 ];
         $formName = (!is_null($formName)) ? $formName : 'Customer';
