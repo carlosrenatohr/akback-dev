@@ -82,11 +82,8 @@ class Customer extends AK_Controller
                 $whereQuery = $this->filterCustomerTable($_GET);
             }
         }
-
         //
-//        $days = $this->customer->getCheckinDaysSetting(0, 'stationunique');
         $newCustomers = [];
-
         $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery, $sortData);
         foreach($customers as $customer) {
             $customer['AccountStatus'] = trim($customer['AccountStatus']);
