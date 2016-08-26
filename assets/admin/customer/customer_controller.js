@@ -37,6 +37,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 e.cancel = true;
                 $('#saveCustomerBtn').prop('disabled', false);
                 $scope.closeCustomerAction(-1, tabclick);
+                $('#promptToCloseMsg').html('To add contacts, you must first save this customer.');
             }
         }
     };
@@ -849,6 +850,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                             $('#customerTabs').jqxTabs({selectedItem: tabSelectedBeforeSave});
                             customerIsSaved = true;
                             tabSelectedBeforeSave = -1;
+                            $('#promptToCloseMsg').html('Do you want to save your changes?');
                         } else {
                             if (fromPrompt) {
                                 customerWind.close();
@@ -928,12 +930,15 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 //resetCustomerForm($('.customerForm .customer-field'));
                 //$('#customerTabs').jqxTabs('select', 0);
             } else {
+                if (tab != undefined) {
+                    tabSelectedBeforeSave = tab;
+                } else {
+                    tabSelectedBeforeSave = -1;
+                    $('#promptToCloseMsg').html('Do you want to save your changes?');
+                }
                 $('#mainButtonsCustomerForm').hide();
                 $('#promptToCloseCustomerForm').show();
                 $('#promptToDeleteCustomerForm').hide();
-                if (tab != undefined) {
-                    tabSelectedBeforeSave = tab;
-                }
             }
         }
     };

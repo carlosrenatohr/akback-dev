@@ -202,7 +202,7 @@ jqxthemes();
                                             <div id="promptToCloseCustomerForm" class="" style="display: none">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        Do you want to save your changes?
+                                                        <div id="promptToCloseMsg">Do you want to save your changes?</div>
                                                         <button type="button" ng-click="closeCustomerAction(0)" class="btn btn-primary">Yes</button>
                                                         <button type="button" ng-click="closeCustomerAction(1)" class="btn btn-warning">No</button>
                                                         <button type="button" ng-click="closeCustomerAction(2)" class="btn btn-info">Cancel</button>
