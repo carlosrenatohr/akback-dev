@@ -481,6 +481,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         ($('#itemcontrol_giftcard [aria-checked="true"]').length > 0) ?
                             $('#itemcontrol_giftcard [aria-checked="true"]').data('val') :
                             0,
+                    'Group':
+                        ($('#itemcontrol_group [aria-checked="true"]').length > 0) ?
+                            $('#itemcontrol_group [aria-checked="true"]').data('val') :
+                            0,
                     'PromptPrice':
                         ($('#itemcontrol_promptprice [aria-checked="true"]').length > 0) ?
                             $('#itemcontrol_promptprice [aria-checked="true"]').data('val') :
@@ -713,6 +717,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         var gc;
                         gc = $('#itemcontrol_giftcard .cbxExtraTab[data-val=' +
                             ((data.GiftCard == 0 || data.GiftCard == null) ? '0' : '1') +']');
+                        gc.jqxRadioButton({ checked:true });
+                        gc = $('#itemcontrol_group .cbxExtraTab[data-val=' +
+                            ((data.Group == 0 || data.Group == null) ? '0' : '1') +']');
                         gc.jqxRadioButton({ checked:true });
                         gc = $('#itemcontrol_promptprice .cbxExtraTab[data-val=' +
                             ((data.PromptPrice == 0 || data.PromptPrice == null) ? 0 : 1) +']');

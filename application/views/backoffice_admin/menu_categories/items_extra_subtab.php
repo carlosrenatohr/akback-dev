@@ -4,7 +4,7 @@
 
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Gift Card?</div>
-                <div style=" float:left; width:300px;">
+                <div style=" float:left; width:120px;">
                     <div id="itemcontrol_giftcard"
                          style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
                         <jqx-radio-button jqx-settings="checkboxExtraSet"
@@ -21,11 +21,29 @@
                         </jqx-radio-button>
                     </div>
                 </div>
+                <div style=" float:left; width: 165px;padding:8px; text-align:right; font-weight:bold;">Group?</div>
+                <div style="float:left; width:120px;">
+                    <div id="itemcontrol_group"
+                         style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
+                        <jqx-radio-button jqx-settings="checkboxExtraSet"
+                                          jqx-group-name="'item_group'"
+                                          data-val="1"
+                                          class="cbxExtraTab">
+                            <span class="text-rb">Yes</span>
+                        </jqx-radio-button>
+                        <jqx-radio-button jqx-settings="checkboxExtraSet"
+                                          jqx-group-name="'item_group'"
+                                          data-val="0"
+                                          class="cbxExtraTab">
+                            <span class="text-rb">No</span>
+                        </jqx-radio-button>
+                    </div>
+                </div>
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Ask for Price?</div>
-                <div style=" float:left; width:300px;">
+                <div style=" float:left; width:120px;">
                     <div id="itemcontrol_promptprice"
                          style="display: inline-block;margin: -8px 0 0 0;">
                         <jqx-radio-button jqx-settings="checkboxExtraSet"
@@ -42,11 +60,8 @@
                         </jqx-radio-button>
                     </div>
                 </div>
-            </div>
-
-            <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Ask for Description?</div>
-                <div style=" float:left; width:300px;">
+                <div style=" float:left; padding:8px; text-align:right; font-weight:bold;">Ask for Description?</div>
+                <div style=" float:left; width:120px;">
                     <div id="itemcontrol_promptdescription"
                          style="display: inline-block;margin: -8px 0 0 0;">
                         <jqx-radio-button jqx-settings="checkboxExtraSet"
@@ -86,8 +101,7 @@
                 </div>
             </div>
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;"
-                    >Points</div>
+                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Points</div>
                 <div style=" float:left; width:120px;">
                     <jqx-number-input
                         style='margin-top: 3px;' class="menuitem_extraControls"
