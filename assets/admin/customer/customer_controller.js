@@ -337,6 +337,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         }
         var statusCombo = $('#locationSelect').jqxDropDownList('getItemByValue', row.LocationUnique);
         $('#locationSelect').jqxDropDownList({'selectedIndex': statusCombo.index});
+        //$('#locationSelect').jqxComboBox({'selectedIndex': statusCombo.index});
         $('#checkOutForm #QuantityControl').val(row.Quantity);
         $('#checkOutForm #NoteControl').val(row.Note);
         //
@@ -509,14 +510,16 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     // Helper to reset jqxDropDownLists
     function setDropdownlistSettings(el) {
         var indexSelected = -1;
-        $.each(el.jqxDropDownList('getItems'), function(i, val){
+        //$.each(el.jqxDropDownList('getItems'), function(i, val){
+        $.each(el.jqxComboBox('getItems'), function(i, val){
             var option = $(val.originalItem.originalItem);
             //console.log(option.html());
             var isDefault = option.data('defa');
             if (isDefault == 1)
                 indexSelected = val.index;
         });
-        el.jqxDropDownList({
+        //el.jqxDropDownList({
+        el.jqxComboBox({
             selectedIndex: indexSelected,
             placeHolder: 'Select ' + el.data('placeholder').toLowerCase() + '..'
         });
@@ -671,8 +674,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             } else if (type == 'datalist') {
                 //var itemByValue = el.find('.customer-datalist').jqxListBox('getItemByValue', row[field]);
                 //el.find('.customer-datalist').jqxListBox({'selectedIndex': (itemByValue) ? itemByValue.index : -1});
-                var itemByValue = el.find('.customer-datalist').jqxDropDownList('getItemByValue', row[field]);
-                el.find('.customer-datalist').jqxDropDownList({'selectedIndex': (itemByValue) ? itemByValue.index : -1});
+                var itemByValue = el.find('.customer-datalist').jqxComboBox('getItemByValue', row[field]);
+                el.find('.customer-datalist').jqxComboBox({'selectedIndex': (itemByValue) ? itemByValue.index : -1});
             }
             else {
                 console.info('NOT FOUND');
@@ -754,7 +757,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             } else if (type == 'datalist') {
                 current = el.find('.customer-datalist');
                 //var listboxSelected = current.jqxListBox('getSelectedItem');
-                var listboxSelected = current.jqxDropDownList('getSelectedItem');
+                var listboxSelected = current.jqxComboBox('getSelectedItem');
                 if (!listboxSelected && current.hasClass('req')) {
                     needValidation = true;
                     openNotification('Select an item on ' + current.data('placeholder'), current);
@@ -798,7 +801,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 data[el.data('field')] = inputValue;
             } else if (type == 'datalist') {
                 //inputValue = el.find('.customer-datalist').jqxListBox('getSelectedItem').value;
-                var listbox = el.find('.customer-datalist').jqxDropDownList('getSelectedItem');
+                var listbox = el.find('.customer-datalist').jqxComboBox('getSelectedItem');
                 if(!listbox) {
                     inputValue = null;
                 } else {

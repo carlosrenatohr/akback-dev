@@ -54,20 +54,19 @@
          data-field="{{ attr.Field }}"
          style=" float:left;"
     >
-
-        <jqx-drop-down-list
-                data-control-type="{{ attr.Control }}"
-                jqx-settings="dropdownlistSettings"
-                ng-class="{req : attr.Required}"
-                class="customer-datalist"
-                id="customer_{{ attr.Field }}"
-                data-placeholder="{{attr.Label}}"
-        >
+        <jqx-combo-box data-control-type="{{ attr.Control }}"
+                       jqx-settings="dropdownlistSettings"
+                       ng-class="{req : attr.Required}"
+                       class="customer-datalist"
+                       id="customer_{{ attr.Field }}"
+                       data-placeholder="{{attr.Label}}"
+            >
             <option ng-repeat="option in attr.options" selected="{{ (option.Default && option.Default==1) ? 'true' : 'false'}}"
                     data-defa="{{option.Default}}"
                     value="{{ option.Label }}">{{ option.Label }}
             </option>
-        </jqx-drop-down-list>
+
+        </jqx-combo-box>
     </div>
     <!-- RADIO  -->
     <div ng-if="attr.Control == 'radio'" class="customer-field"
