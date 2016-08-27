@@ -587,7 +587,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         customerIsSaved = false;
         // Static fields
         $('#customer_VisitDays').val(7);
-        $("#customer_AccountStatus").jqxDropDownList('val', 'Active');
+        $("#customer_AccountStatus").jqxDropDownList('val', "Active");
         //
         toggleTabs(false);
         setTimeout(function() {
@@ -617,7 +617,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $("#customer_AccountStatus").jqxDropDownList('val',
             (row['AccountStatus'] != null)
                 ? row['AccountStatus']
-                : 'Active'
+                : "Active"
         );
         //
         $('#deleteCustomerBtn').show();
