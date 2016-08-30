@@ -42,6 +42,7 @@ app.controller('menuPrintersController', function($scope) {
     });
 
     $scope.printerTableSettings = {
+    //$('#printerTable').jqxGrid({
         source: new $.jqx.dataAdapter({
             dataType: 'json',
             dataFields: [
@@ -61,13 +62,13 @@ app.controller('menuPrintersController', function($scope) {
             url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
         }),
         columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int', width: '8%'},
-            {text: 'Item', dataField: 'Item', type: 'string', width: '15%'},
+            {text: 'ID', dataField: 'Unique', type: 'int', width: '8%', filtertype: 'textbox'},
+            {text: 'Item', dataField: 'Item', type: 'string', width: '15%', filtertype: 'textbox'},
             {text: 'Category', dataField: 'Category', type: 'string', width: '11%', filtertype: 'list'},
             {text: 'SubCategory', dataField: 'SubCategory', type: 'string', width: '11%', filtertype: 'list'},
-            {text: 'Item Description', dataField: 'ItemDescription', type: 'string', width: '20%'},
-            {text: 'Printer Name', dataField: 'name', type: 'string', width: '15%'},
-            {text: 'Printer Description', dataField: 'description', type: 'string', width: '20%'},
+            {text: 'Item Description', dataField: 'ItemDescription', type: 'string', width: '20%', filtertype: 'textbox'},
+            {text: 'Printer Name', dataField: 'name', type: 'string', width: '15%', filtertype: 'textbox'},
+            {text: 'Printer Description', dataField: 'description', type: 'string', width: '20%', filtertype: 'textbox'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
@@ -76,8 +77,12 @@ app.controller('menuPrintersController', function($scope) {
         theme: 'arctic',
         filterable: true,
         showfilterrow: true,
+        //filter: function() {
+        //
+        //}
         sortable: true,
         pageable: true
+    //});
     };
 
     var printerWind;
