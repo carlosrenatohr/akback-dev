@@ -147,7 +147,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     // only ONCE
                     isBindingComplete[gridID] = false;
                 } else {
-                    console.log('asdsa');
                     $('#gridCustomer').jqxGrid({rowdetails: true});
                 }
             });
