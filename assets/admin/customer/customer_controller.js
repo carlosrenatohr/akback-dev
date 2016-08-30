@@ -334,6 +334,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#locationSelect').jqxDropDownList({'selectedIndex': statusCombo.index});
         //$('#locationSelect').jqxComboBox({'selectedIndex': statusCombo.index});
         $('#checkOutForm #QuantityControl').val(row.Quantity);
+        setTimeout(function(){
+            $('#checkOutForm #QuantityControl').focus();
+        }, 100);
         $('#checkOutForm #NoteControl').val(row.Note);
         //
         if(row.StatusCheckIn == 2)

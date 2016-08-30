@@ -135,4 +135,7 @@
     #QuantityControl{
         width:250px!important;
     }
+    .icon-32-trash{
+        background-image: url("../assets/img/remove3.png");
+    }
 </style>
