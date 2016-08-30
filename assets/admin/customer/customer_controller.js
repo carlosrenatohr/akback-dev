@@ -28,7 +28,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 updateCustomerNotesTableData();
             }
             // Purchases tab
-            if(tabclick == 4) {
+            if(tabclick == 5) {
                 updateCustomerPurchasesTableData();
             }
             // Visits tab

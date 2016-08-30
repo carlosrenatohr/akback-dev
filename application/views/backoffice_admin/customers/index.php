@@ -118,8 +118,10 @@ jqxthemes();
                                             <li id="customertabCustom" class="mainTabInfo">Custom</li>
                                             <li id="customertabContact" class="SecTabInfo">Contacts</li>
                                             <li id="customertabNote" class="SecTabInfo">Notes</li>
-                                            <li id="customertabPurchase" class="SecTabInfo">Purchases</li>
                                             <li id="customertabOptions" class="SecTabInfo">Options</li>
+                                            <?php if (!is_null($checkinEnabled) && (int)$CustomerPurchasesEnabled > 0) { ?>
+                                            <li id="customertabPurchase" class="SecTabInfo">Purchases</li>
+                                            <?php } ?>
                                             <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
                                             <li id="customertabVisits" class="SecTabInfo">Visits</li>
                                             <?php } ?>
@@ -157,14 +159,16 @@ jqxthemes();
                                         <div>
                                             <?php $this->load->view($notes_tab_view); ?>
                                         </div>
-                                        <!-- Customer Purchases subtab -->
-                                        <div>
-                                            <?php $this->load->view($purchases_tab_view); ?>
-                                        </div>
                                         <!-- Customer Options subtab -->
                                         <div>
                                             <?php $this->load->view($options_tab_view); ?>
                                         </div>
+                                        <?php if (!is_null($CustomerPurchasesEnabled) && (int)$CustomerPurchasesEnabled > 0) { ?>
+                                        <!-- Customer Purchases subtab -->
+                                        <div>
+                                            <?php $this->load->view($purchases_tab_view); ?>
+                                        </div>
+                                        <?php } ?>
                                         <!-- Customer Visits subtab -->
                                         <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
                                          <div>

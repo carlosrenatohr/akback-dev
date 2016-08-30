@@ -33,7 +33,13 @@ class Customer extends AK_Controller
             $this->session->userdata("station_number"),
             'stationunique'
         );
+        $this->isCustomerCheckedInEnabled(
+            'CustomerPurchasesEnabled',
+            $this->session->userdata("station_number"),
+            'stationunique'
+        );
         $data['checkinEnabled'] = $this->session->userdata('admin_CustomerCheckInEnabled');
+        $data['CustomerPurchasesEnabled'] = $this->session->userdata('admin_CustomerPurchasesEnabled');
 //        }
         $data['decimalQuantitySetting'] = $this->decimalQuantity;
         $data['decimalPriceSetting'] = $this->decimalPrice;
