@@ -53,15 +53,16 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     //
     //customerService.getLocationName(2)
     //    .then(function(response) {
-    //         $('#mainCustomerTabs').jqxTabs('setTitleAt', 2, response.data);
+    //         $('#mainCustomerTabs').jqxTabs('setTitleAt' , 2, response.data);
     //    });
 
-    $scope.customerTableSettings = customerService.getTableSettings();
+    //$scope.customerTableSettings = customerService.getTableSettings();
     $scope.customerCheckIn1GridleSettings = customerService.getCheckin1GridSettings();
     $scope.customerCheckIn2GridSettings = customerService.getCheckin2GridSettings();
     $scope.customerCheckInCompleteGridSettings = customerService.getCheckinCompleteGridSettings();
     customerService.getCustomerGridAttrs()
         .then(function(response) {
+            $scope.customerTableSettings = customerService.getTableSettings();
             setNewSettingsOnTable(response, $scope.customerTableSettings, '#gridCustomer', '#row00gridCustomer');
             setNewSettingsOnTable(response, $scope.customerCheckIn1GridleSettings, '#customerCheckIn1', '#row00customerCheckIn1');
             setNewSettingsOnTable(response, $scope.customerCheckIn2GridSettings, '#customerCheckIn2', '#row00customerCheckIn2');
@@ -69,7 +70,11 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         });
 
     // @helper: new settings on customer grids rendering
+    var isBindingComplete = [];
     function setNewSettingsOnTable(response, gridSettings, gridID, rowParentElement) {
+        //if (gridSettings == '#gridCustomer')
+        //    $scope.customerTableSettings = customerService.getTableSettings();
+
         var fieldsNames = [], labelNames = [], sizes = [], defaultValues = [], sortValues = [];
         for(var i in response.data) {
             fieldsNames.push(response.data[i].Field);
@@ -116,29 +121,23 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 }
             }
         });
-        //
-        var isBindingComplete = true;
-        $(gridID).on('bindingcomplete', function(e) {
-        //gridSettings.bindingcomplete = function(e) {
-            $.each(cols, function(i, el) {
-                var idx = $.inArray(el.dataField, fieldsNames);
-                if (idx >= 0) {
-                    //gridSettings.apply('setcolumnindex', el.dataField, sortValues[idx]);
-                    $('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
-                }
-            });
-            //
-            //var filterInputs = [];
-            //var rowFilterInputs = $(rowParentElement + ' .jqx-grid-cell-pinned input[type="textarea"]');
-            var defaultSelectInput = defaultValues.indexOf(1);
-            //rowFilterInputs.each(function (i, el) {
-            //    if ($(el).css('width') != '0px')
-            //        filterInputs.push(el);
-            //});
+        // BINDING COMPLETE
+        if (gridID == '#gridCustomer') {
+            isBindingComplete[gridID] = true;
+            $(gridID).on('bindingcomplete', function(e) {
+                //gridSettings.bindingcomplete = function(e) {
+                if (isBindingComplete[gridID]) {
 
-            // bindingcomplete only once
-            if (isBindingComplete) {
-                if (gridID == '#gridCustomer') {
+                    $.each(cols, function(i, el) {
+                        var idx = $.inArray(el.dataField, fieldsNames);
+                        if (idx >= 0) {
+                            //gridSettings.apply('setcolumnindex', el.dataField, sortValues[idx]);
+                            $('#gridCustomer').jqxGrid('setcolumnindex', el.dataField, sortValues[idx]);
+                        }
+                    });
+                    var defaultSelectInput = defaultValues.indexOf(1);
+
+                    // bindingcomplete only once
                     $(gridID).jqxGrid('applyfilters');
                     $(gridID).jqxGrid('applyfilters');
                     //gridSettings.apply('applyfilters');
@@ -146,19 +145,39 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     var columnHeaderSelected = $(gridID + ' .jqx-grid-column-header.headercolumncustomer-' + fieldsNames[defaultSelectInput]).index();
                     $(rowParentElement + ' .jqx-grid-cell-pinned').eq(columnHeaderSelected).find('input[type="textarea"]').focus();
                     // only ONCE
-                    isBindingComplete = false;
+                    isBindingComplete[gridID] = false;
+                } else {
+                    var isCompleted = $(gridID).jqxGrid('isBindingCompleted');
+                    if (isCompleted) {
+                        $(gridID).jqxGrid({
+                            rowdetails: true,
+                            initrowdetails: function (index, parentElement, gridElement, record) {
+                                var contactsDatagrid = customerService.getContactsTableSettings(record.Unique);
+                                var grid = $($(parentElement).children()[0]);
+                                //
+                                var nestedGridAdapter = contactsDatagrid.source;
+                                if (grid != null) {
+                                    grid.jqxGrid({
+                                        source: nestedGridAdapter,
+                                        width: '98.7%', height: '200',
+                                        columns: contactsDatagrid.columns
+                                    });
+                                }
+                            },
+                            rowdetailstemplate: {
+                                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px 0;'></div>",
+                                rowdetailsheight: 200,
+                                rowdetailshidden: true
+                            }
+                        });
+                    }
+
                 }
-            }
-        });
+            });
+        }
 
         gridSettings.rendered = function() {}
     }
-
-    var defaultSearchCustomerGrid = {};
-    $('body').on('focus', '.jqx-grid .jqx-grid-cell input[type="textarea"]', function(e) {
-        //console.log('focusin', $(e.currentTarget));
-        defaultSearchCustomerGrid['#'+$(this).parents('.jqx-grid').attr('id')] = $($(this).parents('.jqx-grid-cell')).index();
-    });
 
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();

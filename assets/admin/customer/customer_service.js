@@ -161,8 +161,8 @@ demoApp.service('customerService', function ($http) {
         sort: function () {
             $("#gridCustomer").jqxGrid('updatebounddata', 'filter');
         },
-        cache: false
-    };
+        //cache: false
+    }   ;
 
     this.getTableSettings = function () {
         // Customer dataadatper
