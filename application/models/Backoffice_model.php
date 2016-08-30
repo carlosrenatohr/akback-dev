@@ -3,7 +3,7 @@
 * Created by AKPOS
 * Note: Please put your initial with date when change those existing functions.
 */
-class backoffice_model extends CI_Model {
+class Backoffice_model extends CI_Model {
 
 	public function __construct()
 	{

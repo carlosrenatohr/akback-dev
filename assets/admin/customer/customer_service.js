@@ -156,13 +156,16 @@ demoApp.service('customerService', function ($http) {
             //console.log('loadComplete', $.param(data));
         },
         filter: function () {
+            $("#gridCustomer").jqxGrid({'rowdetails': false});
             $("#gridCustomer").jqxGrid('updatebounddata', 'filter');
         },
         sort: function () {
+            $("#gridCustomer").jqxGrid({'rowdetails': false});
             $("#gridCustomer").jqxGrid('updatebounddata', 'filter');
         },
+        //ready: function () {},
         //cache: false
-    }   ;
+    };
 
     this.getTableSettings = function () {
         // Customer dataadatper

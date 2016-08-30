@@ -138,8 +138,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     var defaultSelectInput = defaultValues.indexOf(1);
 
                     // bindingcomplete only once
-                    $(gridID).jqxGrid('applyfilters');
-                    $(gridID).jqxGrid('applyfilters');
+                    //$(gridID).jqxGrid('applyfilters');
+                    //$(gridID).jqxGrid('applyfilters');
                     //gridSettings.apply('applyfilters');
                     // DEFAULT selecting input
                     var columnHeaderSelected = $(gridID + ' .jqx-grid-column-header.headercolumncustomer-' + fieldsNames[defaultSelectInput]).index();
@@ -147,31 +147,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                     // only ONCE
                     isBindingComplete[gridID] = false;
                 } else {
-                    var isCompleted = $(gridID).jqxGrid('isBindingCompleted');
-                    if (isCompleted) {
-                        $(gridID).jqxGrid({
-                            rowdetails: true,
-                            initrowdetails: function (index, parentElement, gridElement, record) {
-                                var contactsDatagrid = customerService.getContactsTableSettings(record.Unique);
-                                var grid = $($(parentElement).children()[0]);
-                                //
-                                var nestedGridAdapter = contactsDatagrid.source;
-                                if (grid != null) {
-                                    grid.jqxGrid({
-                                        source: nestedGridAdapter,
-                                        width: '98.7%', height: '200',
-                                        columns: contactsDatagrid.columns
-                                    });
-                                }
-                            },
-                            rowdetailstemplate: {
-                                rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px 0;'></div>",
-                                rowdetailsheight: 200,
-                                rowdetailshidden: true
-                            }
-                        });
-                    }
-
+                    console.log('asdsa');
+                    $('#gridCustomer').jqxGrid({rowdetails: true});
                 }
             });
         }
