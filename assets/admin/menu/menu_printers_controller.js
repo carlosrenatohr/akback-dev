@@ -4,13 +4,14 @@
 
 app.controller('menuPrintersController', function($scope) {
 
+    var isFiltered = false;
     // -- MenuCategories Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
         // PRINTERS TAB - Reload queries
         if (tabclicked == 2) {
-            //updatePrinterTable();
-            $('#printerTable').jqxGrid('updatebounddata');
+            updatePrinterTable();
+            //$('#printerTable').jqxGrid('updatebounddata', 'filter');
             if (allPrintersArray == '') {
                 var rows = $("#printerItemList").jqxDropDownList('getItems');
                 for(var j in rows) {
@@ -20,29 +21,32 @@ app.controller('menuPrintersController', function($scope) {
         }
     });
 
-    $('#printerTable').on('bindingComplete', function() {
-        $(this).jqxGrid({source: new $.jqx.dataAdapter({
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'ItemUnique', type: 'int'},
-                {name: 'PrinterUnique', type: 'int'},
-                {name: 'name', type: 'string'},
-                {name: 'description', type: 'string'},
-                {name: 'Item', type: 'string'},
-                {name: 'Status', type: 'number'},
-                {name: 'fullDescription', type: 'string'},
-                {name: 'ItemDescription', type: 'string'},
-                {name: 'Category', type: 'string'},
-                {name: 'SubCategory', type: 'string'}
-            ],
-            url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
+    //$('#printerTable').on('bindingComplete', function() {
+    var updatePrinterTable = function() {
+        $(this).jqxGrid({
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ItemUnique', type: 'int'},
+                    {name: 'PrinterUnique', type: 'int'},
+                    {name: 'name', type: 'string'},
+                    {name: 'description', type: 'string'},
+                    {name: 'Item', type: 'string'},
+                    {name: 'Status', type: 'number'},
+                    {name: 'fullDescription', type: 'string'},
+                    {name: 'ItemDescription', type: 'string'},
+                    {name: 'Category', type: 'string'},
+                    {name: 'SubCategory', type: 'string'}
+                ],
+                url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
             })
         });
-    });
+    }
+    //});
 
-    $scope.printerTableSettings = {
-    //$('#printerTable').jqxGrid({
+    //$scope.printerTableSettings = {
+    $('#printerTable').jqxGrid({
         source: new $.jqx.dataAdapter({
             dataType: 'json',
             dataFields: [
@@ -57,7 +61,6 @@ app.controller('menuPrintersController', function($scope) {
                 {name: 'ItemDescription', type: 'string'},
                 {name: 'Category', type: 'string'},
                 {name: 'SubCategory', type: 'string'}
-
             ],
             url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
         }),
@@ -70,6 +73,7 @@ app.controller('menuPrintersController', function($scope) {
             {text: 'Printer Name', dataField: 'name', type: 'string', width: '15%', filtertype: 'textbox'},
             {text: 'Printer Description', dataField: 'description', type: 'string', width: '20%', filtertype: 'textbox'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
+            {text: '', dataField: 'PrinterUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
         ],
@@ -77,13 +81,13 @@ app.controller('menuPrintersController', function($scope) {
         theme: 'arctic',
         filterable: true,
         showfilterrow: true,
-        //filter: function() {
-        //
-        //}
+        ready: function() {
+            $('#printerTable').jqxGrid('updatebounddata', 'filter');
+        },
         sortable: true,
         pageable: true
-    //});
-    };
+    });
+    //};
 
     var printerWind;
     $scope.printerWindowSettings = {
@@ -179,7 +183,6 @@ app.controller('menuPrintersController', function($scope) {
     //$scope.updatePrinterWin = function(e) {
     //    var row = e.args.row;
         var row = e.args.row.bounddata;
-        console.log(row);
         $scope.createOrEditPrinter = 'edit';
         $scope.printerSelectedID = row.Unique;
         // Printers saved by Item
@@ -354,7 +357,8 @@ app.controller('menuPrintersController', function($scope) {
                         if(response.status == 'success') {
                             $scope.closingPrinterWind();
                             //printerWind.close();
-                            $('#printerTable').jqxGrid('updatebounddata', 'filter');
+                            //$('#printerTable').jqxGrid('updatebounddata', 'filter');
+                            updatePrinterTable();
                         } else if (response.status == 'error'){
                             console.log('there was an error db');
                         } else {
