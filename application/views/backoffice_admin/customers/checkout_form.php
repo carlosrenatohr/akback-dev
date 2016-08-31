@@ -6,6 +6,11 @@
     </div>
     <div class="">
         <div class="col-md-12 col-md-offset-0" id="checkOutForm">
+            <!-- NEW DELETE BUTTON -->
+            <button class="icon-32-trash"
+                    id="checkoutDeleteBtn"
+                    ng-click="checkoutCloseBtn(undefined, 0, checkinType)"
+            ></button>
             <div class="row menuFormContainer">
                 <div style="float:left;">
                     <div style="float:left; padding:2px; width:450px;">
@@ -45,19 +50,12 @@
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Quantity:</div>
                         <div style="float:left; width:250px;">
-<!--                            <input type="number" class="form-control required-field" id="QuantityControl"-->
-<!--                                   name="CheckOut_quantity" placeholder="Quantity"-->
-<!--                                   step="1" min="1" pattern="\d*"-->
-<!--                            >-->
                             <jqx-number-input
                                 class="" id="QuantityControl"
                                 jqx-settings="numberDecimalSettings"
                                 jqx-text-align="left"
                             ></jqx-number-input>
                         </div>
-<!--                        <div style="float:left;">-->
-<!--                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>-->
-<!--                        </div>-->
                     </div>
 
                     <div style="float:left; padding:2px; width:450px;">
@@ -66,9 +64,6 @@
                             <textarea name="CheckOut_note" id="NoteControl" cols="10" rows="5"
                                       class="form-control required-field" placeholder="Note"></textarea>
                         </div>
-<!--                        <div style="float:left;">-->
-<!--                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -84,11 +79,11 @@
                                     class="btn btn-warning">
                                 Close
                             </button>
-                            <button type="button" id="checkoutDeleteBtn"
-                                    ng-click="checkoutCloseBtn(undefined, 0, checkinType)"
-                                    class="btn btn-danger" style="overflow:auto;">
-                                Delete
-                            </button>
+<!--                            <button type="button" id="checkoutDeleteBtn"-->
+<!--                                    ng-click="checkoutCloseBtn(undefined, 0, checkinType)"-->
+<!--                                    class="btn btn-danger" style="overflow:auto;">-->
+<!--                                Delete-->
+<!--                            </button>-->
                             <button type="button" id="checkoutCompleteBtn"
                                     ng-click="checkoutCloseBtn(undefined, 2, checkinType)"
                                     class="btn btn-success" style="overflow:auto;">
@@ -135,7 +130,13 @@
     #QuantityControl{
         width:250px!important;
     }
-    .icon-32-trash{
-        background-image: url("../assets/img/remove3.png");
+    .icon-32-trash {
+        position: absolute;
+        right:10%;
+        background: url("../../assets/img/icon-32-trash.png") no-repeat;
+        width:32px;
+        height:32px;
+        border:0;
+        outline: 0;
     }
 </style>

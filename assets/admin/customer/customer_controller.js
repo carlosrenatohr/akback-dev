@@ -264,7 +264,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             checkoutCustomerWin = args.instance;
         },
         resizable: false,
-        width: "35%", height: "80%",
+        width: "52%", height: "65%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
