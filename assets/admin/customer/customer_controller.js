@@ -1054,13 +1054,15 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             $scope.saveCustomerContactsAction(true);
         } else if (option == 1) {
             customerContactWin.close();
+            resetCustomerForm($('.customerContactsForm .customer-field'));
+            //$('#customerTabs').jqxTabs('select', 2);
         } else if (option == 2) {
 
         } else {
             if ($('#saveCustomerContactBtn').is(':disabled')) {
                 customerContactWin.close();
                 resetCustomerForm($('.customerContactsForm .customer-field'));
-                $('#customerTabs').jqxTabs('select', 2);
+                //$('#customerTabs').jqxTabs('select', 2);
             } else {
                 $('#mainBtnCustomerContact').hide();
                 $('#promptBtnCustomerContact').show();
