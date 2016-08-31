@@ -119,7 +119,7 @@ jqxthemes();
                                             <li id="customertabContact" class="SecTabInfo">Contacts</li>
                                             <li id="customertabNote" class="SecTabInfo">Notes</li>
                                             <li id="customertabOptions" class="SecTabInfo">Options</li>
-                                            <?php if (!is_null($checkinEnabled) && (int)$CustomerPurchasesEnabled > 0) { ?>
+                                            <?php if (!is_null($CustomerPurchasesEnabled) && (int)$CustomerPurchasesEnabled > 0) { ?>
                                             <li id="customertabPurchase" class="SecTabInfo">Purchases</li>
                                             <?php } ?>
                                             <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
