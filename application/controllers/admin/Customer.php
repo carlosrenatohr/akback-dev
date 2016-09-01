@@ -44,7 +44,7 @@ class Customer extends AK_Controller
         $data['decimalQuantitySetting'] = $this->decimalQuantity;
         $data['decimalPriceSetting'] = $this->decimalPrice;
         $data['locations'] = $this->customer->getLocations();
-        // partials
+        // Partial Views
         $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
         $data['contacts_form'] = "backoffice_admin/customers/contacts_form";
         $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";
@@ -53,6 +53,7 @@ class Customer extends AK_Controller
         $data['visits_tab_view'] = "backoffice_admin/customers/visits_tab";
         $data['checkout_form'] = "backoffice_admin/customers/checkout_form";
         $data['main_content'] = "backoffice_admin/customers/index";
+        // Main view
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 

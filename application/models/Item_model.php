@@ -9,4 +9,12 @@ class Item_model extends CI_Model
         return $this->db->update('item', $request);
     }
 
+    public function getItemsData() {
+        $this->db->select('*');
+        $this->db->from('item');
+        $this->db->where(['Status' => 1]);
+
+        return $this->db->get()->result_array();
+    }
+
 }

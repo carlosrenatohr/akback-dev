@@ -9,7 +9,7 @@ app.controller('menuCategoriesController', function($scope, $http){
     $('#MenuCategoriesTabs').on('tabclick', function (event) {
         var tabclicked = event.args.item;
         // Categories TAB - Reload queries
-        if(tabclicked == 3 || tabclicked == 4) {
+        if(tabclicked == 4 || tabclicked == 5) {
             reloadMenuSelectOnCategories();
         }
     });

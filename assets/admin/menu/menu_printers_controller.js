@@ -4,12 +4,11 @@
 
 app.controller('menuPrintersController', function($scope) {
 
-    var isFiltered = false;
     // -- MenuCategories Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
         // PRINTERS TAB - Reload queries
-        if (tabclicked == 2) {
+        if (tabclicked == 3) {
             updatePrinterTable();
             //$('#printerTable').jqxGrid('updatebounddata', 'filter');
             if (allPrintersArray == '') {

@@ -17,14 +17,16 @@ class MenuCategory extends AK_Controller
 
     public function index()
     {
+        // Data to send
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
-        // partials and views
+        // Partials Views
         $menu_path = 'backoffice_admin/menu_categories/';
         $data['menu_tab_view'] = $menu_path . "menu_tab";
         $data['category_tab_view'] = $menu_path . "categories_tab";
         $data['items_tab_view'] = $menu_path . "items_tab";
+        $data['inventory_tab_view'] = $menu_path . "inventory_tab";
         $data['items_menuitem_subtab_view'] = $menu_path . "items_menuitem_subtab";
         $data['items_price_subtab_view'] = $menu_path . "items_price_subtab";
         $data['items_questions_subtab_view'] = $menu_path . "items_question_subtab";
@@ -32,6 +34,7 @@ class MenuCategory extends AK_Controller
         $data['items_extra_subtab_view'] = $menu_path . "items_extra_subtab";
         $data['questions_tab_view'] = $menu_path . "questions_tab";
         $data['printers_tab_view'] = $menu_path . "printer_tab";
+        // Main page
         $this->load->view($menu_path . "index", $data);
     }
 

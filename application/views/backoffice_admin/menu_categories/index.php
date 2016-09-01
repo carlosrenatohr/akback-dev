@@ -20,6 +20,7 @@ jqxthemes();
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.filter.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_categories_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/menu/menu_inventory_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_questions_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_printers_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_directives.js"></script>
@@ -55,17 +56,24 @@ jqxthemes();
                 <div class="col-md-12">
                 <jqx-tabs  jqx-width="" jqx-height="" id="MenuCategoriesTabs">
                     <ul>
-                        <li>Items</li> <?//2?>
+                        <li>Menu</li> <?//2?>
+                        <li>Items</li> <?//2 INVENTORY?>
                         <li>Questions</li><?//3?>
                         <li>Printers</li><? //4 ?>
                         <li>Categories</li><? //1 ?>
                         <li>Menu</li><?//0?>
                     </ul>
                     <!-- -------------- -->
-                    <!-- ITEMS TAB      -->
+                    <!-- MENU ITEMS TAB      -->
                     <!-- -------------- -->
                     <div class="" ng-controller="menuItemController">
                         <?php $this->load->view($items_tab_view); ?>
+                    </div>
+                    <!-- ------------------------- -->
+                    <!-- NEW ITEMS TAB (INVENTORY) -->
+                    <!-- ------------------------- -->
+                    <div class="" ng-controller="menuItemsInventoryController">
+                        <?php $this->load->view($inventory_tab_view); ?>
                     </div>
                     <!-- -------------- -->
                     <!-- QUESTIONS TAB  -->

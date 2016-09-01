@@ -279,4 +279,13 @@ class MenuItem extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * INVENTORY MODULE ON ADMIN - Item table
+     */
+
+    public function getItemsData() {
+        $items = $this->item->getItemsData();
+        echo json_decode($items);
+    }
+
 }
