@@ -285,7 +285,7 @@ class MenuItem extends AK_Controller
 
     public function getItemsData() {
         $items = $this->item->getItemsData();
-        echo json_decode($items);
+        echo json_encode($items);
     }
 
 }
