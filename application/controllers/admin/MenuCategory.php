@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /**
  * Created by PhpStorm.
@@ -27,6 +27,12 @@ class MenuCategory extends AK_Controller
         $data['category_tab_view'] = $menu_path . "categories_tab";
         $data['items_tab_view'] = $menu_path . "items_tab";
         $data['inventory_tab_view'] = $menu_path . "inventory_tab";
+        $data['inventory_item_subtab_view'] = $menu_path . "inventory_item_subtab";
+        $data['inventory_cost_subtab_view'] = $menu_path . "inventory_cost_subtab";
+        $data['inventory_price_subtab_view'] = $menu_path . "inventory_price_subtab";
+        $data['inventory_stocklevel_subtab_view'] = $menu_path . "inventory_stocklevel_subtab";
+        $data['inventory_tax_subtab_view'] = $menu_path . "inventory_tax_subtab";
+        $data['inventory_barcode_subtab_view'] = $menu_path . "inventory_barcode_subtab";
         $data['items_menuitem_subtab_view'] = $menu_path . "items_menuitem_subtab";
         $data['items_price_subtab_view'] = $menu_path . "items_price_subtab";
         $data['items_questions_subtab_view'] = $menu_path . "items_question_subtab";

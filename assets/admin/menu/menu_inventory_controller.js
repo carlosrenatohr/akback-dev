@@ -1,74 +1,80 @@
 /**
  * Created by carlosrenato on 08-31-16.
  */
-app.controller('menuItemsInventoryController', function($scope, $http){
+app.controller('menuItemsInventoryController', function($scope, $http, itemInventoryService){
+
+    // Events added
+    itemInventoryService.onChangeEvents();
 
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
-        console.log(tabclicked);
         // Items Inventory TAB - Reload queries
         if (tabclicked == 1) {
             updateItemsInventoryGrid();
         }
     });
 
+    $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData;
     var updateItemsInventoryGrid = function() {
-        $(this).jqxGrid({
-            source: new $.jqx.dataAdapter({
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'Item', type: 'string'},
-                    {name: 'Description', type: 'string'},
-                    {name: 'Category', type: 'string'},
-                    {name: 'SubCategory', type: 'string'},
-                    {name: 'Supplier', type: 'string'},
-                    {name: 'SupplierUnique', type: 'int'},
-                    {name: 'CategoryUnique', type: 'int'},
-                    {name: 'price1', type: 'string'},
-
-                ],
-                url: SiteRoot + 'admin/MenuItem/getItemsData'
-            })
-        });
+        $(this).jqxGrid(itemInventoryService.getInventoryGridData.source);
     };
 
-    $scope.inventoryItemsGrid = {
-        source: new $.jqx.dataAdapter({
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'Item', type: 'string'},
-                {name: 'Description', type: 'string'},
-                {name: 'Category', type: 'string'},
-                {name: 'SubCategory', type: 'string'},
-                {name: 'Supplier', type: 'string'},
-                {name: 'SupplierUnique', type: 'int'},
-                {name: 'CategoryUnique', type: 'int'},
-                {name: 'price1', type: 'string'},
 
-            ],
-            url: SiteRoot + 'admin/MenuItem/getItemsData'
-        }),
-        columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int'},
-            {text: 'Item Number', dataField: 'Item', type: 'string'},
-            {text: 'Description', dataField: 'Description', type: 'string'},
-            {text: 'Category', dataField: 'Category', type: 'string', filtertype: 'list'},
-            {text: 'SubCategory', dataField: 'SubCategory', type: 'string', filtertype: 'list'},
-            {text: 'Supplier', datafield: 'Supplier', type: 'string'},
-            {text: 'Price', dataField: 'price1', type: 'string'},
-            {text: 'Quantity', dataField: '', type: 'string', hidden: true},
-            {text: '', dataField: 'Part', type: 'string', hidden: true}
-        ],
-        width: "100%",
-        theme: 'arctic',
-        filterable: true,
-        showfilterrow: true,
-        ready: function() {
-            $('#inventoryItemsGrid').jqxGrid('updatebounddata', 'filter');
+    var inventoryWind;
+    $scope.itemsInventoryWindowSettings = {
+        created: function (args) {
+            inventoryWind = args.instance;
         },
-        sortable: true,
-        pageable: true
-    }
+        resizable: false,
+        width: "50%", height: "100%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    $scope.closeInventoryWind = function(close) {
+        $('#inventoryTabs').jqxTabs('select', 0);
+        $('.inventory_tab .item_textcontrol').each(function(i, el) {
+            $(el).val('');
+        });
+        if (close == undefined)
+            inventoryWind.close();
+    };
+
+    $scope.openInventoryWind = function() {
+        inventoryWind.open();
+
+    };
+
+    var beforeSaveInventory = function() {
+        var needValidation = false;
+        $('.inventory_tab .req').each(function(i, el) {
+            if (el.value == '') {
+                console.log($(el).attr('placeholder') + " is required");
+                needValidation = true;
+            }
+        });
+        return needValidation;
+    };
+
+    var gettingInventoryValues = function() {
+        var data = {};
+        $('.inventory_tab .item_textcontrol').each(function(i, el) {
+            var field = $(el).data('field');
+            if (field != undefined) {
+                data[field] = $(el).val();
+            } else {
+                console.log('Not found', $(el).attr('id'));
+            }
+        });
+
+        return data;
+    };
+
+    $scope.saveInventoryAction = function() {
+        if (!beforeSaveInventory()) {
+            console.log(gettingInventoryValues());
+        }
+    };
 });

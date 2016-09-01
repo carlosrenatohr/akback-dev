@@ -71,7 +71,7 @@
                     <li id="">Prices</li>
                     <li id="questionsTabOnMenuItemWindow">Questions</li>
                     <li>Printers</li>
-                    <li>Extra</li>
+                    <li>Options</li>
                 </ul>
                 <!-- Menu Item subtab -->
                 <div class="">

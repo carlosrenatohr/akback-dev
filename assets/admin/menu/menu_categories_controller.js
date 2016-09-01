@@ -3,7 +3,7 @@
  */
 var app = angular.module("akamaiposApp", ['jqwidgets']);
 
-app.controller('menuCategoriesController', function($scope, $http){
+app.controller('menuCategoriesController', function($scope, $http, itemInventoryService){
 
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (event) {

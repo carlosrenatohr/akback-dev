@@ -30,9 +30,6 @@
             <div style=" float:left; padding:2px; width:650px; ">
                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Row:</div>
                 <div style=" float:left; width:300px;">
-<!--                    <input type="number" class="form-control required-field"-->
-<!--                           id="editItem_Row" name="editItem_Row" placeholder="Row"-->
-<!--                           step="1" min="1" value="1" pattern="\d*">-->
                     <jqx-number-input
                         style='margin-top: 3px;' class="form-control required-field"
                         id="editItem_Row" name="editItem_Row"
@@ -47,9 +44,6 @@
             <div style=" float:left; padding:2px; width:650px; ">
                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Column:</div>
                 <div style=" float:left; width:300px;">
-<!--                    <input type="number" class="form-control required-field"-->
-<!--                           id="editItem_Column" name="editItem_Column" placeholder="Column"-->
-<!--                           step="1" min="1" value="1" pattern="\d*">-->
                     <jqx-number-input
                         style='margin-top: 3px;' class="form-control required-field"
                         id="editItem_Column" name="editItem_Column"
@@ -64,9 +58,6 @@
             <div style=" float:left; padding:2px; width:650px; ">
                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Sort:</div>
                 <div style=" float:left; width:300px;">
-<!--                    <input type="number" class="form-control required-field"-->
-<!--                           id="editItem_sort" name="editItem_sort" placeholder="Sort"-->
-<!--                           step="1" min="1" value="1" pattern="\d*">-->
                     <jqx-number-input
                         style='margin-top: 3px;' class="form-control required-field"
                         id="editItem_sort" name="editItem_sort"
