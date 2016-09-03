@@ -61,7 +61,7 @@
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Note:</div>
                         <div style="float:left; width:250px;">
-                            <textarea name="CheckOut_note" id="NoteControl" cols="10" rows="5"
+                            <textarea name="CheckOut_note" id="NoteControl" cols="10" rows="2"
                                       class="form-control required-field" placeholder="Note"></textarea>
                         </div>
                     </div>
@@ -132,10 +132,11 @@
     }
     .icon-32-trash {
         position: absolute;
-        right:10%;
-        background: url("../../assets/img/icon-32-trash.png") no-repeat;
-        width:32px;
-        height:32px;
+        right:0;
+        background: url("../../assets/img/icon-32-trash.png") 0 5px no-repeat;
+        background-size: 80%;
+        width:25px;
+        height:25px;
         border:0;
         outline: 0;
     }

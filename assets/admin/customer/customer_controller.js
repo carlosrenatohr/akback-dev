@@ -264,7 +264,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             checkoutCustomerWin = args.instance;
         },
         resizable: false,
-        width: "52%", height: "65%",
+        width: "60%", height: "70%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -334,9 +334,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         $('#locationSelect').jqxDropDownList({'selectedIndex': statusCombo.index});
         //$('#locationSelect').jqxComboBox({'selectedIndex': statusCombo.index});
         $('#checkOutForm #QuantityControl').val(row.Quantity);
-        setTimeout(function(){
-            $('#checkOutForm #QuantityControl').focus();
-        }, 100);
         $('#checkOutForm #NoteControl').val(row.Note);
         //
         if(row.StatusCheckIn == 2)
@@ -346,6 +343,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         checkoutControlChanged = false;
         checkoutCustomerWin.setTitle('Check Out Form | Customer ID: ' + row.Unique + ' | ' + fullname);
         checkoutCustomerWin.open();
+        setTimeout(function(){
+            $('#checkOutForm #QuantityControl').jqxNumberInput('focus');
+        }, 100);
+        console.log('lel');
     });
 
     $scope.checkoutCloseBtn = function(option, status, type) {
