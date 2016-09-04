@@ -40,11 +40,18 @@ class AK_Controller extends \CI_Controller
         $this->Config_location_model->getConfigSetting($setting, $value, $field);
     }
 
-    public function dbErrorMsg()
+    public function dbErrorMsg($type = null)
     {
+        if(is_null($type))
+            $msg = 'Database error';
+        elseif ($type == 0)
+            $msg = 'Invalid request';
+        else
+            $msg = 'Unexpected error.';
+
         return $response = [
             'status' => 'error',
-            'message' => 'Database error'
+            'message' => $msg
         ];
     }
 

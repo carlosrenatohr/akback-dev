@@ -36,9 +36,10 @@
             <label for="inputType" class="col-sm-3 control-label">Supplier:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_supplier" jqx-on-select="" jqx-settings=""></jqx-combo-box>
+                <jqx-combo-box id="item_supplier" jqx-width="'220px'" jqx-height="'30px'"
+                               jqx-settings="supplierCbxSettings" jqx-on-select=""
+                ></jqx-combo-box>
             </div>
-            <span class="edit_sel_supplier_message" style="color:#F00;"></span>
         </div>
     </div>
     <div class="row">
@@ -56,7 +57,9 @@
             <label for="inputType" class="col-sm-3 control-label">Brand:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_brand" jqx-on-select="" jqx-settings=""></jqx-combo-box>
+                <jqx-combo-box id="item_brand" jqx-width="'220px'" jqx-height="'30px'"
+                               jqx-settings="brandCbxSettings" jqx-on-select=""
+                ></jqx-combo-box>
             </div>
             <span class="edit_sel_brand_message" style="color:#F00;"></span>
         </div>
@@ -66,7 +69,9 @@
             <label for="inputType" class="col-sm-3 control-label">Category:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_category" jqx-on-select="" jqx-settings=""></jqx-combo-box>
+                <jqx-combo-box id="item_category"  jqx-width="'220px'" jqx-height="'30px'"
+                               jqx-settings="categoryCbxSettings" jqx-on-select="onSelectCategoryCbx(event)"
+                ></jqx-combo-box>
             </div>
             <span class="edit_sel_category_message" style="color:#F00;"></span>
         </div>
@@ -76,9 +81,10 @@
             <label for="inputType" class="col-sm-3 control-label">Sub Category:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_subcategory" jqx-on-select="" jqx-settings=""></jqx-combo-box>
+                <jqx-combo-box id="item_subcategory" jqx-width="'220px'" jqx-height="'30px'"
+                               jqx-settings="subcategoryCbxSettings" jqx-on-select=""
+                ></jqx-combo-box>
             </div>
-            <span class="edit_sel_subcat_message" style="color:#F00;"></span>
         </div>
     </div>
     <div class="row">
@@ -89,10 +95,10 @@
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="item_ListPrice" class="item_textcontrol"
-                                      jqx-width="80" jqx-height="30"
+                                      jqx-width="'190px'" jqx-height="'30px'"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="EditInventoryChange()"
-                                      ng-model="price.amount" data-field="ListPrice"
+                                      jqx-symbol="''"
+                                      data-field="ListPrice"
                     ></jqx-number-input>
                 </div>
             </div>
@@ -107,10 +113,10 @@
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="item_Price1" class="item_textcontrol"
-                                      jqx-width="80" jqx-height="30"
+                                      jqx-width="'190px'" jqx-height="'30px'"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="EditInventoryChange()"
-                                      ng-model="saleprice.amount" data-field="price1"
+                                      jqx-symbol="''"
+                                      data-field="price1"
                     ></jqx-number-input>
                 </div>
             </div>

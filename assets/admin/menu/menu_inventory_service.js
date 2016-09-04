@@ -10,27 +10,60 @@ app.service('itemInventoryService', function ($http) {
             dataFields: [
                 {name: 'Unique', type: 'int'},
                 {name: 'Item', type: 'string'},
+                {name: 'Part', type: 'string'},
                 {name: 'Description', type: 'string'},
-                {name: 'Category', type: 'string'},
-                {name: 'SubCategory', type: 'string'},
                 {name: 'Supplier', type: 'string'},
-                {name: 'SupplierUnique', type: 'int'},
-                {name: 'CategoryUnique', type: 'int'},
-                {name: 'price1', type: 'string'},
+                {name: 'SupplierId', type: 'int'},
+                {name: 'SupplierPart', type: 'string'},
+                {name: 'BrandId', type: 'int'},
+                {name: 'Brand', type: 'string'},
+                {name: 'ListPrice', type: 'float'},
+                {name: 'price1', type: 'float'},
+                {name: 'price2', type: 'float'},
+                {name: 'price3', type: 'float'},
+                {name: 'price4', type: 'float'},
+                {name: 'price5', type: 'float'},
+                {name: 'Cost', type: 'float'},
+                {name: 'Cost_Extra', type: 'float'},
+                {name: 'Cost_Freight', type: 'float'},
+                {name: 'Cost_Duty', type: 'float'},
+                {name: 'Cost_Landed', type: 'float'},
+                {name: 'Quantity', type: 'float'},
+                {name: 'CategoryId', type: 'int'},
+                {name: 'Category', type: 'string'},
+                {name: 'SubCategoryId', type: 'int'},
+                {name: 'SubCategory', type: 'string'},
 
             ],
-            url: SiteRoot + 'admin/MenuItem/getItemsData'
+            url: SiteRoot + 'admin/MenuItem/getItemsData',
+            unique: 'Unique',
         }),
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
             {text: 'Item Number', dataField: 'Item', type: 'string'},
+            {text: '', dataField: 'Part', hidden:true},
             {text: 'Description', dataField: 'Description', type: 'string'},
             {text: 'Category', dataField: 'Category', type: 'string', filtertype: 'list'},
+            {text: '', dataField: 'CategoryId', type: 'string', hidden: true},
             {text: 'SubCategory', dataField: 'SubCategory', type: 'string', filtertype: 'list'},
+            {text: '', dataField: 'SubCategoryId', hidden: true},
             {text: 'Supplier', datafield: 'Supplier', type: 'string'},
+            {text: '', datafield: 'SupplierId', hidden: true},
+            {text: '', datafield: 'SupplierPart', hidden: true},
+            {text: '', datafield: 'Brand', hidden: true},
+            {text: '', datafield: 'BrandId', hidden: true},
             {text: 'Price', dataField: 'price1', type: 'string'},
-            {text: 'Quantity', dataField: '', type: 'string', hidden: true},
-            {text: '', dataField: 'Part', type: 'string', hidden: true}
+            {text: '', dataField: 'price2', hidden:true},
+            {text: '', dataField: 'price3', hidden:true},
+            {text: '', dataField: 'price4', hidden:true},
+            {text: '', dataField: 'price5', hidden:true},
+            {text: '', dataField: 'ListPrice', hidden:true},
+            {text: '', dataField: 'Cost', hidden:true},
+            {text: '', dataField: 'Cost_Extra', hidden:true},
+            {text: '', dataField: 'Cost_Freight', hidden:true},
+            {text: '', dataField: 'Cost_Duty', hidden:true},
+            {text: '', dataField: 'Cost_Landed', hidden:true},
+            {text: 'Quantity', dataField: 'Quantity', type: 'string'},
         ],
         width: "100%",
         theme: 'arctic',
@@ -59,5 +92,17 @@ app.service('itemInventoryService', function ($http) {
             //    $('#saveCustomerBtn').prop('disabled', false);
             //})
             //
+    };
+
+    this.setNotificationSettings = function (type) {
+        return {
+            width: "auto",
+            appendContainer: '#notification_container_inventory',
+            opacity: 0.9,
+            closeOnClick: true,
+            autoClose: true,
+            showCloseButton: false,
+            template: (type == 1) ? 'success' : 'error'
+        }
     };
 });

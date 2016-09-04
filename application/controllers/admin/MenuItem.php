@@ -288,4 +288,36 @@ class MenuItem extends AK_Controller
         echo json_encode($items);
     }
 
+    public function getSupplierList() {
+        echo json_encode($this->item->getSupplierList());
+    }
+    public function getBrandList() {
+        echo json_encode($this->item->getBrandList());
+    }
+    public function getCategoryList() {
+        echo json_encode($this->item->getCategoryList());
+    }
+    public function getSubcategoryList($id = null) {
+        echo json_encode($this->item->getSubcategoryList($id));
+    }
+
+    public function postItemInventory() {
+        $data = $_POST;
+        if (!empty($data) || is_null($_POST)) {
+            $status = $this->item->saveItem($data);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'id' => $status,
+                    'message' => 'Item created successfully!'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        }
+        else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
 }

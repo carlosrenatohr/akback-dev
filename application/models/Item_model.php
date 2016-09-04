@@ -10,11 +10,14 @@ class Item_model extends CI_Model
     }
 
     public function getItemsData() {
-        $this->db->select("item.Unique, item.Description, item.Item, item.Part, item.SupplierUnique AS SupplierId, supplier.Company AS Supplier, item.SupplierPart, item.BrandUnique AS BrandId, brand.Name AS Brand,
+        $this->db->select("item.Unique, item.Description, item.Item, item.Part,
+            item.SupplierUnique AS SupplierId, supplier.Company AS Supplier, item.SupplierPart,
+            item.BrandUnique AS BrandId, brand.Name AS Brand,
 			item.ListPrice, item.price1, item.price2, item.price3, item.price4, item.price5,
-			category_main.Unique AS CatMainId, category_sub.Name AS Category, category_sub.Unique AS SubCategory,
-			(item.\"Cost\" + item.\"Cost_Extra\" + item.\"Cost_Freight\" + item.\"Cost_Duty\"   ) AS \"CostLanded\",
+			category_main.Unique AS CategoryId, category_main.MainName AS Category,
+			category_sub.Name AS SubCategory, category_sub.Unique AS SubCategoryId,
 			item.Cost, item.Cost_Extra, item.Cost_Freight, item.Cost_Duty,
+			(item.\"Cost\" + item.\"Cost_Extra\" + item.\"Cost_Freight\" + item.\"Cost_Duty\") AS \"CostLanded\",
 			SUM(isl.\"Quantity\") AS Quantity");
         $this->db->from('item');
         $this->db->join("supplier", "item.SupplierUnique = supplier.Unique", 'left');
@@ -29,9 +32,12 @@ class Item_model extends CI_Model
         return $this->db->get()->result_array();
 
         $sql =
-            "SELECT item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\" AS \"SupplierId\", supplier.\"Company\" AS \"Supplier\", item.\"SupplierPart\", item.\"BrandUnique\" AS \"BrandId\", brand.\"Name\" AS \"Brand\",
+            "SELECT item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\",
+            item.\"SupplierUnique\" AS \"SupplierId\", supplier.\"Company\" AS \"Supplier\", item.\"SupplierPart\",
+            item.\"BrandUnique\" AS \"BrandId\", brand.\"Name\" AS \"Brand\",
 			item.\"ListPrice\", item.price1, item.price2, item.price3, item.price4, item.price5,
-			category_main.\"Unique\" AS \"CatMainId\", category_sub.\"Name\" AS \"Category\", category_sub.\"Unique\" AS \"SubCategory\",
+			category_main.\"Unique\" AS \"CategoryId\", category_sub.\"Unique\" AS \"SubCategoryId\",
+			category_main.\"MainName\" AS \"Category\", category_sub.\"Name\" AS \"SubCategory\",
 			item.\"Cost\" + item.\"Cost_Extra\" + item.\"Cost_Freight\" + item.\"Cost_Duty\" AS \"CostLanded\",
 			item.\"Cost\", item.\"Cost_Extra\", item.\"Cost_Freight\", item.\"Cost_Duty\",
 			SUM(isl.\"Quantity\") AS \"Quantity\"
@@ -42,11 +48,52 @@ class Item_model extends CI_Model
 			LEFT JOIN category_main on category_main.\"Unique\"=category_sub.\"CategoryMainUnique\"
 			LEFT JOIN item_stock_line isl ON isl.\"ItemUnique\"=item.\"Unique\"
 			WHERE item.\"Status\"=1
-			GROUP BY item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\", supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
-            category_main.\"Unique\", category_sub.\"Name\", category_sub.\"Unique\", \"CostLanded\", item.\"Cost_Duty\"
+			GROUP BY item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\",
+			  supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
+              category_main.\"Unique\", category_sub.\"Name\", category_sub.\"Unique\",
+              \"CostLanded\", item.\"Cost_Duty\"
 			ORDER BY item.\"Unique\" DESC ";
 
         return $this->db->query($sql)->result_array();
+    }
+
+    public function getSupplierList() {
+        $this->db->select("Unique, Company");
+        $this->db->from("supplier");
+        $this->db->where(["Company!=" => '', 'Status!=' => null]);
+        $this->db->order_by("Company ASC");
+        return $this->db->get()->result_array();
+    }
+
+    public function getBrandList() {
+        $this->db->select("Unique, Name");
+        $this->db->order_by("Name ASC");
+        return $this->db->get("brand")->result_array();
+    }
+
+    public function getCategoryList() {
+        $this->db->select("Unique, MainName");
+        $this->db->order_by("MainName asc");
+        return $this->db->get("category_main")->result_array();
+    }
+
+    public function getSubcategoryList($id = null) {
+        $this->db->select("Unique, Name");
+        if (!is_null($id))
+            $this->db->where("CategoryMainUnique", $id);
+        $this->db->order_by("Name asc");
+        return $this->db->get("category_sub")->result_array();
+    }
+
+    public function saveItem($request) {
+        $extra_fields = [
+            'Status' => 1,
+            'Created' => date('Y-m-d H:i:s'),
+            'CreatedBy' => $this->session->userdata('userid')
+        ];
+        $data = array_merge($request, $extra_fields);
+        $status = $this->db->insert('item', $data);
+        return $this->db->insert_id();
     }
 
 }

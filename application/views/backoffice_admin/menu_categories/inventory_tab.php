@@ -7,10 +7,11 @@
     <div class="col-md-12">
         <jqx-grid id="inventoryItemsGrid"
                   jqx-settings="inventoryItemsGrid"
+                  jqx-on-rowdoubleclick="editInventoryWind(e)"
                   jqx-create="inventoryItemsGrid"
         ></jqx-grid>
     </div>
-    <jqx-window jqx-on-close="closeInventoryWind()" jqx-settings="itemsInventoryWindowSettings"
+    <jqx-window jqx-on-close="closeInventoryWind(0)" jqx-settings="itemsInventoryWindowSettings"
                 jqx-create="itemsInventoryWindowSettings" class="">
         <div>
             New Item | Details
@@ -115,13 +116,13 @@
             <!-- NOTIFICATIONS AREA -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <!--                    <jqx-notification jqx-settings="menuitemNotificationsSuccessSettings" id="menuitemNotificationsSuccessSettings">-->
-                    <!--                        <div id="notification-content"></div>-->
-                    <!--                    </jqx-notification>-->
-                    <!--                    <jqx-notification jqx-settings="menuitemNotificationsErrorSettings" id="menuitemNotificationsErrorSettings">-->
-                    <!--                        <div id="notification-content"></div>-->
-                    <!--                    </jqx-notification>-->
-                    <div id="notification_container_menuitem"
+                    <jqx-notification jqx-settings="inventorySuccessMsg" id="inventorySuccessMsg">
+                        <div id="notification-content"></div>
+                    </jqx-notification>
+                    <jqx-notification jqx-settings="inventoryErrorMsg" id="inventoryErrorMsg">
+                        <div id="notification-content"></div>
+                    </jqx-notification>
+                    <div id="notification_container_inventory"
                          style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                 </div>
             </div>
