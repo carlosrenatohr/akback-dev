@@ -9,12 +9,16 @@
 class MenuItem extends AK_Controller
 {
 
+    protected $decimalQuantity, $decimalPrice, $decimalTax;
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Menu_item_model', 'menuItem');
         $this->load->model('Menu_model', 'menu');
         $this->load->model('Item_model', 'item');
+        $this->decimalQuantity = (int)$this->session->userdata('DecimalsQuantity');
+        $this->decimalPrice = (int)$this->session->userdata("DecimalsPrice");
+        $this->decimalTax = (int)$this->session->userdata("DecimalsTax");
     }
 
     /**
@@ -301,15 +305,56 @@ class MenuItem extends AK_Controller
         echo json_encode($this->item->getSubcategoryList($id));
     }
 
+    private function checkItemValues($data) {
+        $values = [];
+//        foreach($data as $field) {
+            $data['Cost'] = (isset($data['Cost'])) ? number_format($data['Cost'], $this->decimalPrice, '.', '') : 0;
+            $data['Cost_Extra'] = (isset($data['Cost_Extra'])) ? number_format($data['Cost_Extra'], $this->decimalPrice, '.', '') : 0;
+            $data['Cost_Freight'] = (isset($data['Cost_Freight'])) ? number_format($data['Cost_Freight'], $this->decimalPrice, '.', '') : 0;
+            $data['Cost_Duty'] = (isset($data['Cost_Duty'])) ? number_format($data['Cost_Duty'], $this->decimalPrice, '.', '') : 0;
+            $data['price1'] = (isset($data['price1'])) ? number_format($data['price1'], $this->decimalPrice, '.', '') : 0;
+            $data['price2'] = (isset($data['price2'])) ? number_format($data['price2'], $this->decimalPrice, '.', '') : 0;
+            $data['price3'] = (isset($data['price3'])) ? number_format($data['price3'], $this->decimalPrice, '.', '') : 0;
+            $data['price4'] = (isset($data['price4'])) ? number_format($data['price4'], $this->decimalPrice, '.', '') : 0;
+            $data['price5'] = (isset($data['price5'])) ? number_format($data['price5'], $this->decimalPrice, '.', '') : 0;
+            $data['ListPrice'] = (isset($data['ListPrice'])) ? number_format($data['ListPrice'], $this->decimalPrice, '.', '') : 0;
+            $data['PromptPrice'] = (isset($data['PromptPrice'])) ? number_format($data['PromptPrice'], $this->decimalPrice, '.', '') : null;
+            $data['SupplierUnique'] = (isset($data['SupplierUnique'])) ? (int)$data['SupplierUnique'] : null;
+            $data['BrandUnique'] = (isset($data['BrandUnique'])) ? (int)$data['BrandUnique'] : null;
+            $data['MainCategory'] = (isset($data['MainCategory'])) ? (int)$data['MainCategory'] : null;
+            $data['CategoryUnique'] = (isset($data['CategoryUnique'])) ? (int)$data['CategoryUnique'] : null;
+//        }
+        return $data;
+    }
+
     public function postItemInventory() {
         $data = $_POST;
         if (!empty($data) || is_null($_POST)) {
-            $status = $this->item->saveItem($data);
+            $status = $this->item->saveItem($this->checkItemValues($data));
             if ($status) {
                 $response = [
                     'status' => 'success',
                     'id' => $status,
                     'message' => 'Item created successfully!'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        }
+        else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function updateItemInventory($id) {
+        $data = $_POST;
+        if (!empty($data) || is_null($_POST)) {
+            $status = $this->item->updateItem($id, $this->checkItemValues($data));
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+//                    'id' => $status,
+                    'message' => 'Item updated successfully!'
                 ];
             } else
                 $response = $this->dbErrorMsg();

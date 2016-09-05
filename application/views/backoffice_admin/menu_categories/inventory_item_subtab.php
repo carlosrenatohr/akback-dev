@@ -57,11 +57,11 @@
             <label for="inputType" class="col-sm-3 control-label">Brand:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_brand" jqx-width="'220px'" jqx-height="'30px'"
+                <jqx-combo-box id="item_brand" jqx-width="'220px'" jqx-height="'30px'" class="item_combobox"
                                jqx-settings="brandCbxSettings" jqx-on-select=""
+                               data-field="Brand"
                 ></jqx-combo-box>
             </div>
-            <span class="edit_sel_brand_message" style="color:#F00;"></span>
         </div>
     </div>
     <div class="row">
@@ -69,11 +69,12 @@
             <label for="inputType" class="col-sm-3 control-label">Category:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_category"  jqx-width="'220px'" jqx-height="'30px'"
+                <jqx-combo-box id="item_category"  jqx-width="'220px'" jqx-height="'30px'" class="item_combobox req"
                                jqx-settings="categoryCbxSettings" jqx-on-select="onSelectCategoryCbx(event)"
+                               data-field="Category"
                 ></jqx-combo-box>
             </div>
-            <span class="edit_sel_category_message" style="color:#F00;"></span>
+            <span class="required-ast">*</span>
         </div>
     </div>
     <div class="row">
@@ -81,8 +82,9 @@
             <label for="inputType" class="col-sm-3 control-label">Sub Category:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_subcategory" jqx-width="'220px'" jqx-height="'30px'"
+                <jqx-combo-box id="item_subcategory" jqx-width="'220px'" jqx-height="'30px'" class="item_combobox"
                                jqx-settings="subcategoryCbxSettings" jqx-on-select=""
+                               data-field="Subcategory"
                 ></jqx-combo-box>
             </div>
         </div>

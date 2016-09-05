@@ -82,6 +82,9 @@ app.service('itemInventoryService', function ($http) {
             .on('keypress keyup paste change', '.inventory_tab .item_textcontrol', function (e) {
                 $('#saveInventoryBtn').prop('disabled', false);
             })
+            .on('change', '.item_combobox', function(e) {
+                $('#saveInventoryBtn').prop('disabled', false);
+            });
             //.on('select', '.customerForm .customer-datalist', function (e) {
             //    $('#saveCustomerBtn').prop('disabled', false);
             //})

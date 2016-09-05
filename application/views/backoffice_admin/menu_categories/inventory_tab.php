@@ -11,7 +11,7 @@
                   jqx-create="inventoryItemsGrid"
         ></jqx-grid>
     </div>
-    <jqx-window jqx-on-close="closeInventoryWind(0)" jqx-settings="itemsInventoryWindowSettings"
+    <jqx-window jqx-on-close="closeInventoryWind($event)" jqx-settings="itemsInventoryWindowSettings"
                 jqx-create="itemsInventoryWindowSettings" class="">
         <div>
             New Item | Details
@@ -65,14 +65,14 @@
             <!-- Main buttons before saving item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="mainButtonsOnItemGrid">
+                    <div id="mainButtonsOnItemInv">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <button type="button" id="saveInventoryBtn" ng-click="saveInventoryAction()"
                                         class="btn btn-primary" disabled>
                                     Save
                                 </button>
-                                <button type="button" id="" ng-click="closeInventoryWind(1)" class="btn btn-warning">Close</button>
+                                <button type="button" id="" ng-click="closeInventoryAction()" class="btn btn-warning">Close</button>
                                 <button type="button" id="deleteItemGridBtn" ng-click="" class="btn btn-danger "
                                         style="overflow:auto;">Delete
                                 </button>
@@ -85,13 +85,13 @@
             <!-- Prompt before saving item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="promptToCloseItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
+                    <div id="promptCloseItemInv" class="" style="display: none">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 Do you want to save your changes?
-                                <button type="button" ng-click="" class="btn btn-primary">Yes</button>
-                                <button type="button" ng-click="" class="btn btn-warning">No</button>
-                                <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                <button type="button" ng-click="closeInventoryAction(0)" class="btn btn-primary">Yes</button>
+                                <button type="button" ng-click="closeInventoryAction(1)" class="btn btn-warning">No</button>
+                                <button type="button" ng-click="closeInventoryAction(2)" class="btn btn-info">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
             <!-- Prompt before delete an item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="promptToDeleteItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
+                    <div id="promptToDeleteItemInv" class="RowOptionButtonsOnItemGrid" style="display: none">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 Do you really want to delete it?

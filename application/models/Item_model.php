@@ -96,4 +96,15 @@ class Item_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function updateItem($id, $request) {
+        $extra_fields = [
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
+        $data = array_merge($request, $extra_fields);
+        $this->db->where('Unique', $id);
+        $status = $this->db->update('item', $data);
+        return $status;
+    }
+
 }
