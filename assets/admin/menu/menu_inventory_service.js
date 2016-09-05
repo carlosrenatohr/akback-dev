@@ -33,6 +33,14 @@ app.service('itemInventoryService', function ($http) {
                 {name: 'Category', type: 'string'},
                 {name: 'SubCategoryId', type: 'int'},
                 {name: 'SubCategory', type: 'string'},
+                {name: 'PromptPrice', type: 'string'},
+                {name: 'PromptDescription', type: 'string'},
+                {name: 'EBT', type: 'string'},
+                {name: 'GiftCard', type: 'string'},
+                {name: 'Group', type: 'string'},
+                {name: 'MinimumAge', type: 'int'},
+                {name: 'CountDown', type: 'int'},
+                {name: 'Points', type: 'float'},
 
             ],
             url: SiteRoot + 'admin/MenuItem/getItemsData',
@@ -64,6 +72,14 @@ app.service('itemInventoryService', function ($http) {
             {text: '', dataField: 'Cost_Duty', hidden:true},
             {text: '', dataField: 'Cost_Landed', hidden:true},
             {text: 'Quantity', dataField: 'Quantity', type: 'string'},
+            {text: '', dataField: 'PromptPrice', hidden:true},
+            {text: '', dataField: 'PromptDescription', hidden:true},
+            {text: '', dataField: 'EBT', hidden:true},
+            {text: '', dataField: 'GiftCard', hidden:true},
+            {text: '', dataField: 'Group', hidden:true},
+            {text: '', dataField: 'MinimumAge', hidden:true},
+            {text: '', dataField: 'CountDown', hidden:true},
+            {text: '', dataField: 'Points', hidden:true},
         ],
         width: "100%",
         theme: 'arctic',
@@ -82,7 +98,7 @@ app.service('itemInventoryService', function ($http) {
             .on('keypress keyup paste change', '.inventory_tab .item_textcontrol', function (e) {
                 $('#saveInventoryBtn').prop('disabled', false);
             })
-            .on('change', '.item_combobox', function(e) {
+            .on('change', '.item_combobox, .inventory_tab .cbxExtraTab', function(e) {
                 $('#saveInventoryBtn').prop('disabled', false);
             });
             //.on('select', '.customerForm .customer-datalist', function (e) {

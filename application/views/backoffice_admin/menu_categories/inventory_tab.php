@@ -55,11 +55,17 @@
                     <?php $this->load->view($inventory_barcode_subtab_view); ?>
                 </div>
                 <!-- Question subtab -->
-                <div class=""></div>
+                <div class="">
+                    <?php $this->load->view($inventory_question_subtab_view); ?>
+                </div>
                 <!-- Printer subtab -->
-                <div class=""></div>
+                <div class="">
+                    <?php $this->load->view($inventory_printer_subtab_view); ?>
+                </div>
                 <!-- Options subtab -->
-                <div class=""></div>
+                <div class="">
+                    <?php $this->load->view($inventory_options_subtab_view); ?>
+                </div>
             </jqx-tabs>
 
             <!-- Main buttons before saving item on grid -->

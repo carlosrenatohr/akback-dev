@@ -323,6 +323,14 @@ class MenuItem extends AK_Controller
             $data['BrandUnique'] = (isset($data['BrandUnique'])) ? (int)$data['BrandUnique'] : null;
             $data['MainCategory'] = (isset($data['MainCategory'])) ? (int)$data['MainCategory'] : null;
             $data['CategoryUnique'] = (isset($data['CategoryUnique'])) ? (int)$data['CategoryUnique'] : null;
+            $data['GiftCard'] = (isset($data['GiftCard'])) ? (int)$data['GiftCard'] : null;
+            $data['Group'] = (isset($data['Group'])) ? (int)$data['Group'] : null;
+            $data['PromptPrice'] = (isset($data['PromptPrice'])) ? (int)$data['PromptPrice'] : null;
+            $data['PromptDescription'] = (isset($data['PromptDescription'])) ? (int)$data['PromptDescription'] : null;
+            $data['EBT'] = (isset($data['EBT'])) ? (int)$data['EBT'] : null;
+            $data['MinimumAge'] = (isset($data['MinimumAge'])) ? (int)$data['MinimumAge'] : null;
+            $data['CountDown'] = (isset($data['CountDown'])) ? (int)$data['CountDown'] : null;
+            $data['Points'] = (isset($data['Points'])) ? (float)$data['Points'] : null;
 //        }
         return $data;
     }

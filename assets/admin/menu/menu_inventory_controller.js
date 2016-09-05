@@ -41,7 +41,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.brandCbxSettings = inventoryExtraService.getBrandsSettings();
     $scope.categoryCbxSettings = inventoryExtraService.getCategoriesSettings();
     $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
-
+    //
+    $scope.checkBoxInventory = {
+        width: '10%',
+        height: '25',
+        theme: 'summer'
+    };
     $scope.onSelectCategoryCbx = function(e) {
         //var id = e.args.index;
         if (e.args.item != null) {
@@ -62,6 +67,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_category').jqxComboBox({'selectedIndex': -1});
         $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
         //
+        $('#iteminventory_giftcard .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        $('#iteminventory_group .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        $('#iteminventory_promptprice .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        $('#iteminventory_promptdescription .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        $('#iteminventory_EBT .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        //
         $('#saveInventoryBtn').prop('disabled', true);
         if (close == 1)
             inventoryWind.close();
@@ -78,7 +89,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         } else if (option == 1) {
             $scope.closeInventoryWind(1);
         } else if (option == 2) {
-
         } else {
             if ($('#saveInventoryBtn').is(':disabled')) {
                 $scope.closeInventoryWind(1);
@@ -107,13 +117,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //console.log(row);
         $scope.createOrEditItemInventory = 'edit';
         $scope.itemInventoryID = row.Unique;
-        //
+        // Item text controls
         $('.inventory_tab .item_textcontrol').each(function(i, el) {
             var field = $(el).data('field');
             if (field != undefined) {
                 $(el).val($.trim(row[field]));
             }
         });
+        // Item combobox controls
         var category = $('#item_category').jqxComboBox('getItemByValue', row['CategoryId']);
         $('#item_category').jqxComboBox({'selectedIndex': (category != null) ? category.index : -1});
         var supplier = $('#item_supplier').jqxComboBox('getItemByValue', row['SupplierId']);
@@ -122,6 +133,23 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_brand').jqxComboBox({'selectedIndex': (brand != null) ? brand.index : -1});
         var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
         $('#item_subcategory').jqxComboBox({'selectedIndex': (subcategory != null) ? subcategory.index : -1});
+        // Item checkbox controls
+        var gc;
+        gc = $('#iteminventory_giftcard .cbxExtraTab[data-val=' +
+            ((row.GiftCard == 0 || row.GiftCard == null) ? '0' : '1') +']');
+        gc.jqxRadioButton({ checked:true });
+        gc = $('#iteminventory_group .cbxExtraTab[data-val=' +
+            ((row.Group == 0 || row.Group == null) ? '0' : '1') +']');
+        gc.jqxRadioButton({ checked:true });
+        gc = $('#iteminventory_promptprice .cbxExtraTab[data-val=' +
+            ((row.PromptPrice == 0 || row.PromptPrice == null) ? 0 : 1) +']');
+        gc.jqxRadioButton({ checked:true });
+        gc = $('#iteminventory_promptdescription .cbxExtraTab[data-val=' +
+            (row.PromptDescription == 0 || row.PromptDescription == null ? 0 : 1) +']');
+        gc.jqxRadioButton({ checked:true });
+        gc = $('#iteminventory_EBT .cbxExtraTab[data-val=' +
+            ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
+        gc.jqxRadioButton({ checked:true });
         //
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('Edit Item '+ row.Item + ' | Unique: ' + row.Unique);
@@ -163,13 +191,34 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         });
         //
         var supplier = $('#item_supplier').jqxComboBox('getSelectedItem');
-        data['SupplierUnique'] = (supplier != null) ? supplier.value : null;
+        data['SupplierUnique'] = (supplier != null) ? $.trim(supplier.value) : null;
         var brand = $('#item_brand').jqxComboBox('getSelectedItem');
-        data['BrandUnique'] = (brand != null) ? brand.value : null;
+        data['BrandUnique'] = (brand != null) ? $.trim(brand.value) : null;
         var category = $('#item_category').jqxComboBox('getSelectedItem');
-        data['MainCategory'] = (category != null) ? category.value : null;
+        data['MainCategory'] = (category != null) ? $.trim(category.value) : null;
         var subcategory = $('#item_subcategory').jqxComboBox('getSelectedItem');
-        data['CategoryUnique'] = (subcategory != null) ? subcategory.value : null;
+        data['CategoryUnique'] = (subcategory != null) ? $.trim(subcategory.value) : null;
+        //
+        data['GiftCard'] =
+        ($('#iteminventory_giftcard [aria-checked="true"]').length > 0) ?
+            $('#iteminventory_giftcard [aria-checked="true"]').data('val') :
+            0;
+        data['Group'] =
+        ($('#iteminventory_group [aria-checked="true"]').length > 0) ?
+            $('#iteminventory_group [aria-checked="true"]').data('val') :
+            0;
+        data['PromptPrice'] =
+        ($('#iteminventory_promptprice [aria-checked="true"]').length > 0) ?
+            $('#iteminventory_promptprice [aria-checked="true"]').data('val') :
+            0;
+        data['PromptDescription'] =
+        ($('#iteminventory_promptdescription [aria-checked="true"]').length > 0)
+            ? $('#iteminventory_promptdescription [aria-checked="true"]').data('val')
+            : 0,
+        data['EBT'] =
+            ($('#iteminventory_EBT [aria-checked="true"]').length > 0)
+            ? $('#iteminventory_EBT [aria-checked="true"]').data('val')
+            : 0;
 
         return data;
     };
@@ -208,6 +257,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         }
                         //
                         updateItemsInventoryGrid();
+                        $('#saveInventoryBtn').prop('disabled', true);
                         //$scope.closeInventoryWind(1);
                     }
                     else if (data.status == 'error')
@@ -215,8 +265,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                     else
                         showingNotif(data.message, 0);
                 }
-            })
-
+            });
         }
     };
 });
