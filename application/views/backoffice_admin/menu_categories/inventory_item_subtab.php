@@ -5,6 +5,7 @@
 
             <div class="col-sm-4">
                 <input type="text" class="form-control item_textcontrol req" id="item_Item" name="item_Item"
+                       ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
                        data-field="Item" placeholder="Item Number" autofocus>
             </div>
             <span class="required-ast">*</span>
@@ -16,7 +17,7 @@
 
             <div class="col-sm-4">
                 <input type="text" class="form-control item_textcontrol req" id="item_Part" name="item_Part"
-                       data-field="Part" placeholder="Barcode">
+                       data-field="Part" placeholder="Barcode" ng-model="inventoryData.part">
             </div>
             <span class="required-ast">*</span>
         </div>
@@ -48,7 +49,8 @@
 
             <div class="col-sm-4">
                 <input type="text" class="form-control item_textcontrol" id="item_SupplierPart" name="supplierpart"
-                       data-field="SupplierPart" placeholder="Supplier Part Number">
+                       data-field="SupplierPart" placeholder="Supplier Part Number"
+                       ng-model="inventoryData.supplierPart">
             </div>
         </div>
     </div>

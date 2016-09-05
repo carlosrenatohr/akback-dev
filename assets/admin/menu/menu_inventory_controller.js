@@ -3,9 +3,10 @@
  */
 app.controller('menuItemsInventoryController', function($scope, $http, itemInventoryService, inventoryExtraService){
 
+    $scope.inventoryData = {};
+    $scope.inventoryDisabled = true;
     // Events added
     itemInventoryService.onChangeEvents();
-
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
         // Items Inventory TAB - Reload queries
@@ -41,12 +42,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.brandCbxSettings = inventoryExtraService.getBrandsSettings();
     $scope.categoryCbxSettings = inventoryExtraService.getCategoriesSettings();
     $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
-    //
+    // CheckBox settings
     $scope.checkBoxInventory = {
         width: '10%',
         height: '25',
         theme: 'summer'
     };
+
     $scope.onSelectCategoryCbx = function(e) {
         //var id = e.args.index;
         if (e.args.item != null) {
@@ -54,6 +56,31 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
             $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
         }
+    };
+
+    $scope.onChangeItemNumber = function() {
+        var itemNumber;
+        if ($scope.createOrEditItemInventory == 'create') {
+            itemNumber = $scope.inventoryData.item;
+            $scope.inventoryData.part = itemNumber;
+            $scope.inventoryData.supplierPart = itemNumber;
+        } else if ($scope.createOrEditItemInventory == 'edit') {
+
+        }
+    };
+
+    $scope.onChangeCostFields = function() {
+        var cost = ($scope.inventoryData.cost);
+        cost = (cost != undefined) ? parseFloat(cost) : 0.00;
+        var costDuty = ($scope.inventoryData.costDuty);
+        costDuty = (costDuty != undefined) ? parseFloat(costDuty) : 0.00;
+        var costFreight = ($scope.inventoryData.costFreight);
+        costFreight = (costFreight != undefined) ? parseFloat(costFreight) : 0.00;
+        var costExtra = ($scope.inventoryData.costExtra);
+        costExtra = (costExtra != undefined) ? parseFloat(costExtra) : 0.00;
+        //
+        var total = cost + costFreight  + costDuty + costExtra;
+        $scope.inventoryData.costLanded = total;
     };
 
     $scope.closeInventoryWind = function(close) {
@@ -117,6 +144,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //console.log(row);
         $scope.createOrEditItemInventory = 'edit';
         $scope.itemInventoryID = row.Unique;
+        $scope.inventoryData.listPrice = row.ListPrice;
+        $scope.inventoryData.price1 = row.price1;
+        $scope.inventoryData.costLanded =
+            parseFloat(row.Cost) + parseFloat(row.Cost_Duty) + parseFloat(row.Cost_Freight) + parseFloat(row.Cost_Extra);
         // Item text controls
         $('.inventory_tab .item_textcontrol').each(function(i, el) {
             var field = $(el).data('field');
@@ -152,7 +183,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         gc.jqxRadioButton({ checked:true });
         //
         $('#saveInventoryBtn').prop('disabled', true);
-        inventoryWind.setTitle('Edit Item '+ row.Item + ' | Unique: ' + row.Unique);
+        inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
         inventoryWind.open();
     };
 
@@ -249,8 +280,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                     if (data.status == 'success') {
                         if ($scope.createOrEditItemInventory == 'create') {
                             $scope.createOrEditItemInventory = 'edit';
-                            $scope.itemInventoryID = row.id;
+                            $scope.itemInventoryID = data.id;
                             showingNotif(data.message, 1);
+                            inventoryWind.setTitle('Edit Item ID: '+ data.id + ' | Item: ' + dataRequest.Item + '| ' + dataRequest.Description);
                         }
                         else if ($scope.createOrEditItemInventory = 'edit') {
                             showingNotif(data.message, 1);

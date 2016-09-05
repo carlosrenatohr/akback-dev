@@ -15,7 +15,7 @@
                         </jqx-radio-button>
                         <jqx-radio-button jqx-settings="checkBoxInventory"
                                           jqx-group-name="'item_gift'"
-                                          data-val="0"
+                                          data-val="0" jqx-checked="true"
                                           class="cbxExtraTab">
                             <span class="text-rb">No</span>
                         </jqx-radio-button>
@@ -33,7 +33,7 @@
                         </jqx-radio-button>
                         <jqx-radio-button jqx-settings="checkBoxInventory"
                                           jqx-group-name="'item_group'"
-                                          data-val="0"
+                                          data-val="0" jqx-checked="true"
                                           class="cbxExtraTab">
                             <span class="text-rb">No</span>
                         </jqx-radio-button>
@@ -54,7 +54,7 @@
                         </jqx-radio-button>
                         <jqx-radio-button jqx-settings="checkBoxInventory"
                                           jqx-group-name="'item_pprice'"
-                                          data-val="0"
+                                          data-val="0" jqx-checked="true"
                                           class="cbxExtraTab">
                             <span class="text-rb">No</span>
                         </jqx-radio-button>
@@ -72,7 +72,7 @@
                         </jqx-radio-button>
                         <jqx-radio-button jqx-settings="checkBoxInventory"
                                           jqx-group-name="'item_pdescription'"
-                                          data-val="0"
+                                          data-val="0" jqx-checked="true"
                                           class="cbxExtraTab">
                             <span class="text-rb">No</span>
                         </jqx-radio-button>
@@ -93,7 +93,7 @@
                         </jqx-radio-button>
                         <jqx-radio-button jqx-settings="checkBoxInventory"
                                           jqx-group-name="'item_ebt'"
-                                          data-val="0"
+                                          data-val="0" jqx-checked="true"
                                           class="cbxExtraTab">
                             <span class="text-rb">No</span>
                         </jqx-radio-button>

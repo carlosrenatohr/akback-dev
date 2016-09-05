@@ -101,16 +101,6 @@ app.service('itemInventoryService', function ($http) {
             .on('change', '.item_combobox, .inventory_tab .cbxExtraTab', function(e) {
                 $('#saveInventoryBtn').prop('disabled', false);
             });
-            //.on('select', '.customerForm .customer-datalist', function (e) {
-            //    $('#saveCustomerBtn').prop('disabled', false);
-            //})
-            //.on('change', '.customerForm .customer-date', function (e) {
-            //    $('#saveCustomerBtn').prop('disabled', false);
-            //})
-            //.on('change', '.customerForm .customer_radio', function (e) {
-            //    $('#saveCustomerBtn').prop('disabled', false);
-            //})
-            //
     };
 
     this.setNotificationSettings = function (type) {

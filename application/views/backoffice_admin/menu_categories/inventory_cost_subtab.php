@@ -8,7 +8,9 @@
                     <jqx-number-input id="item_cost" class="item_textcontrol"
                                       jqx-width="90" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="" ng-model="cost.amount"
+                                      jqx-symbol="''"
+                                      ng-change="onChangeCostFields()"
+                                      ng-model="inventoryData.cost"
                                       data-field="Cost"
                     ></jqx-number-input>
                 </div>
@@ -25,7 +27,8 @@
                                       jqx-width="90" jqx-height="30"
                                       jqx-spin-buttons="false"
                                       jqx-input-mode="simple" jqx-symbol="''"
-                                      ng-change="" ng-model="costextra.amount"
+                                      ng-change="onChangeCostFields()"
+                                      ng-model="inventoryData.costExtra"
                                       data-field="Cost_Extra"
                     ></jqx-number-input>
                 </div>
@@ -41,7 +44,8 @@
                     <jqx-number-input id="item_Cost_Freight" class="item_textcontrol"
                                       jqx-width="90" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="" ng-model="costfreight.amount"
+                                      jqx-symbol="''" ng-change="onChangeCostFields()"
+                                      ng-model="inventoryData.costFreight"
                                       data-field="Cost_Freight"
                     ></jqx-number-input>
                 </div>
@@ -57,7 +61,8 @@
                     <jqx-number-input id="item_Cost_Duty" class="item_textcontrol"
                                       jqx-width="90" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="" ng-model="costduty.amount"
+                                      jqx-symbol="''" ng-change="onChangeCostFields()"
+                                      ng-model="inventoryData.costDuty"
                                       data-field="Cost_Duty"
                     ></jqx-number-input>
                 </div>
@@ -73,8 +78,9 @@
                     <jqx-number-input id="item_Cost_Landed" class="item_textcontrol"
                                       jqx-width="90" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="" ng-disabled=""
-                                      ng-model="costlanded.amount"
+                                      jqx-symbol="''" ng-change="onChangeCostFields()"
+                                      ng-model="inventoryData.costLanded"
+                                      ng-disabled="inventoryDisabled"
                     ></jqx-number-input>
                 </div>
             </div>

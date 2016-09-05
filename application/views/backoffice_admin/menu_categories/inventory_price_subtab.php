@@ -9,8 +9,9 @@
                     <jqx-number-input id="itemp_listprice" class="item_textcontrol"
                                       jqx-width="90" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="EditInventoryChange()"
-                                      ng-disabled="coslandedDisabled" ng-model="listprice.amount"
+                                      jqx-symbol="''" ng-change=""
+                                      ng-model="inventoryData.listPrice"
+                                      ng-disabled="inventoryDisabled"
                     ></jqx-number-input>
                 </div>
             </div>
@@ -28,7 +29,8 @@
                                   jqx-width="90" jqx-height="30"
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
                                   jqx-symbol="''" ng-change="EditInventoryChange()"
-                                  ng-disabled="coslandedDisabled" ng-model="price1.amount"
+                                  ng-model="inventoryData.price1"
+                                  ng-disabled="inventoryDisabled"
                 ></jqx-number-input>
             </div>
         </div>
@@ -44,7 +46,8 @@
                 <jqx-number-input id="itemp_price2" class="item_textcontrol"
                                   jqx-width="90" jqx-height="30" jqx-spin-buttons="false" jqx-input-mode="simple"
                                   jqx-symbol="''" ng-change="EditInventoryChange()"
-                                  ng-model="price2.amount" data-field="price2"
+                                  data-field="price2"
+                                  ng-model="inventoryData.price2"
                 ></jqx-number-input>
             </div>
         </div>
@@ -60,7 +63,8 @@
                 <jqx-number-input id="itemp_price3" class="item_textcontrol"
                                   jqx-width="90" jqx-height="30" jqx-spin-buttons="false"
                                   jqx-input-mode="simple" jqx-symbol="''" ng-change="EditInventoryChange()"
-                                  ng-model="price3.amount" data-field="price3"
+                                  ng-model="inventoryData.price3"
+                                  data-field="price3"
                 ></jqx-number-input>
             </div>
         </div>
@@ -76,7 +80,8 @@
                 <jqx-number-input id="itemp_price4" class="item_textcontrol"
                                   jqx-width="90" jqx-height="30" jqx-spin-buttons="false"
                                   jqx-input-mode="simple" jqx-symbol="''" ng-change="EditInventoryChange()"
-                                  ng-model="price4.amount" data-field="price4"
+                                  ng-model="inventoryData.price4"
+                                  data-field="price4"
                 ></jqx-number-input>
             </div>
         </div>
@@ -92,7 +97,8 @@
                 <jqx-number-input id="itemp_price5" class="item_textcontrol"
                                   jqx-width="90" jqx-height="30" jqx-spin-buttons="false"
                                   jqx-input-mode="simple" jqx-symbol="''" ng-change="EditInventoryChange()"
-                                  ng-model="price5.amount" data-field="price5"
+                                  ng-model="inventoryData.price5"
+                                  data-field="price5"
                 ></jqx-number-input>
             </div>
         </div>
