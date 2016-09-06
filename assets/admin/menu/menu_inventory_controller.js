@@ -29,7 +29,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             inventoryWind = args.instance;
         },
         resizable: false,
-        width: "50%", height: "100%",
+        width: "100%", height: "100%",
+        //width: "50%", height: "100%",
+        keyboardCloseKey: 'none',
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
