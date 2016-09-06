@@ -52,11 +52,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.onSelectCategoryCbx = function(e) {
         //var id = e.args.index;
+        console.log(e.args.item);
+        var id;
         if (e.args.item != null) {
-            var id = e.args.item.value;
-            $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
-            $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
+            id = e.args.item.value;
+            //$scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
         }
+        $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
+        $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
     };
 
     $scope.onChangeItemNumber = function() {
@@ -100,6 +103,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#iteminventory_promptprice .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#iteminventory_promptdescription .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#iteminventory_EBT .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        //
+        $('.inventory_tab .req').css({'border-color': '#CCC'});
+        $('#item_category').css({'border-color': '#CCC'});
         //
         $('#saveInventoryBtn').prop('disabled', true);
         if (close == 1)
@@ -164,8 +170,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_supplier').jqxComboBox({'selectedIndex': (supplier != null) ? supplier.index : -1});
         var brand = $('#item_brand').jqxComboBox('getItemByValue', row['BrandId']);
         $('#item_brand').jqxComboBox({'selectedIndex': (brand != null) ? brand.index : -1});
-        var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
-        $('#item_subcategory').jqxComboBox({'selectedIndex': (subcategory != null) ? subcategory.index : -1});
+        setTimeout(function() {
+            var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
+            $('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
+            $('#saveInventoryBtn').prop('disabled', true);
+        }, 100);
         // Item checkbox controls
         var gc;
         gc = $('#iteminventory_giftcard .cbxExtraTab[data-val=' +

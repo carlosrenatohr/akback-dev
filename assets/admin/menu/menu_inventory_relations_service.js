@@ -57,8 +57,9 @@ app.service('inventoryExtraService', function ($http) {
 
     // Source for subcategories table
     this.getSubcategoriesSettings = function(parent) {
-        if (parent == undefined)
-            parent = '';
+        var url = '';
+        if (parent != undefined)
+            url = SiteRoot + 'admin/MenuItem/getSubcategoryList/' + parent;
         return {
             source: {
                 datatype: "json",
@@ -66,7 +67,7 @@ app.service('inventoryExtraService', function ($http) {
                     { name: 'Unique' },
                     { name: 'Name' }
                 ],
-                url: SiteRoot + 'admin/MenuItem/getSubcategoryList/' + parent,
+                url: url
             },
             valueMember: "Unique",
             displayMember: "Name",
