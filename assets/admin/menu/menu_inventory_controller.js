@@ -52,7 +52,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.onSelectCategoryCbx = function(e) {
         //var id = e.args.index;
-        console.log(e.args.item);
         var id;
         if (e.args.item != null) {
             id = e.args.item.value;
@@ -106,6 +105,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //
         $('.inventory_tab .req').css({'border-color': '#CCC'});
         $('#item_category').css({'border-color': '#CCC'});
+        $scope.inventoryErrorMsg.apply('closeLast');
+        $scope.inventorySuccessMsg.apply('closeLast');
         //
         $('#saveInventoryBtn').prop('disabled', true);
 
@@ -241,7 +242,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             if (field != undefined) {
                 data[field] = $.trim($(el).val());
             } else {
-                console.log('Not found', $(el).attr('id'));
+                //console.log('Not found', $(el).attr('id'));
             }
         });
         //
@@ -314,7 +315,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         //
                         updateItemsInventoryGrid();
                         $('#saveInventoryBtn').prop('disabled', true);
-                        //$scope.closeInventoryWind(1);
+                        if (toClose) {
+                            $scope.closeInventoryWind(1);
+                        }
                     }
                     else if (data.status == 'error')
                         showingNotif(data.message, 0);
