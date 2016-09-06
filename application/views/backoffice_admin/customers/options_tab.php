@@ -10,6 +10,7 @@
                         jqx-selected-index="0" jqx-height="25">
                         <option value="Active" selected>Active</option>
                         <option value="On Hold">On Hold</option>
+                        <option value="Suspended">Suspended</option>
                     </jqx-drop-down-list>
                 </div>
             </div>

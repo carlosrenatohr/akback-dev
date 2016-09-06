@@ -70,11 +70,17 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                var disabled = '', classname = 'success';
+                console.log(data.AccountStatus);
+                var disabled = '', classname = 'success', color = '#5cb85c';
                 if(data.readyToCheckIn == false) {
                     disabled = 'disabled = disabled';
-                    classname = 'danger';
                 }
+                if (data.AccountStatus == 'Active')
+                    classname = 'success';
+                else if (data.AccountStatus == 'On Hold')
+                    classname = 'warning';
+                else if (data.AccountStatus == 'Suspended')
+                    classname = 'danger';
                 return '<button class="btn btn-'+ classname + ' checkInBtn" '+ disabled +
                         'data-unique="'+ data.Unique + '" data-location="1" '+
                         'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
@@ -87,8 +93,13 @@ demoApp.service('customerService', function ($http) {
                 var disabled = '', classname = 'success';
                 if(data.readyToCheckIn == false) {
                     disabled = 'disabled = disabled';
-                    classname = 'danger';
                 }
+                if (data.AccountStatus == 'Active')
+                    classname = 'success';
+                else if (data.AccountStatus == 'On Hold')
+                    classname = 'warning';
+                else if (data.AccountStatus == 'Suspended')
+                    classname = 'danger';
                 return '<button class="btn btn-'+ classname +' checkInBtn" '+ disabled +
                     'data-unique="'+ data.Unique + '" data-location="2" '+
                     'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+

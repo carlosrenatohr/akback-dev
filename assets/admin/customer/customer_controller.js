@@ -921,6 +921,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             $('#promptToCloseCustomerForm').hide();
             $('#promptToDeleteCustomerForm').hide();
         }
+
         if (option == 0) {
             $scope.saveCustomerAction(true);
         } else if (option == 1) {

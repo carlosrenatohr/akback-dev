@@ -94,7 +94,7 @@ class Customer extends AK_Controller
         $customers = $this->customer->getAllCustomers($parentUnique, $formName, false, $pageNum, $perPage, $whereQuery, $sortData);
         foreach($customers as $customer) {
             $customer['AccountStatus'] = trim($customer['AccountStatus']);
-            if ($customer['AccountStatus'] == 'On Hold') {
+            if ($customer['AccountStatus'] == 'On Hold' || $customer['AccountStatus'] == 'Suspended') {
                 $customer['readyToCheckIn'] = false;
             } else {
                 $customer['readyToCheckIn'] = true;
