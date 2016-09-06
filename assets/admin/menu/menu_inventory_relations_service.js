@@ -89,6 +89,7 @@ app.service('inventoryExtraService', function ($http) {
                 url: url
             },
             filterable: true,
+            filterPlaceHolder:'Search',
             itemHeight: 25,
             displayMember: "Barcode",
             valueMember: "Unique",

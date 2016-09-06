@@ -15,7 +15,7 @@
             <br>
             <div class="form-group">
                 <div style="margin:10px 0; font-size:16px;">
-                    <strong>Barcode(s)</strong>
+                    <strong>Barcode</strong>
                 </div>
                 <div style="width:100%; border:2px solid #06F;">
                     <jqx-list-box id="inventory_barcodesList"

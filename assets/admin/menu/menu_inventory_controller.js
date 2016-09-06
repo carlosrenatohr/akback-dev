@@ -108,6 +108,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_category').css({'border-color': '#CCC'});
         //
         $('#saveInventoryBtn').prop('disabled', true);
+
+        // Barcode Cleaning
+        $scope.barcodeData.mainValue = '';
+        $('#item_barcodeinput').val("");
         if (close == 1)
             inventoryWind.close();
     };
@@ -140,8 +144,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.openInventoryWind = function() {
         $scope.createOrEditItemInventory = 'create';
         $scope.itemInventoryID = null;
-        //
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID)
+        //
+        setTimeout(function(){
+            $('.inventory_tab #item_Item').focus();
+        }, 100);
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('New Item');
         inventoryWind.open();
@@ -154,8 +161,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.itemInventoryID = row.Unique;
         $scope.inventoryData.listPrice = row.ListPrice;
         $scope.inventoryData.price1 = row.price1;
-        $scope.inventoryData.costLanded =
-            parseFloat(row.Cost) + parseFloat(row.Cost_Duty) + parseFloat(row.Cost_Freight) + parseFloat(row.Cost_Extra);
         // Item text controls
         $('.inventory_tab .item_textcontrol').each(function(i, el) {
             var field = $(el).data('field');
@@ -163,6 +168,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 $(el).val($.trim(row[field]));
             }
         });
+        var totalCost = parseFloat(row.Cost) + parseFloat(row.Cost_Duty) + parseFloat(row.Cost_Freight) + parseFloat(row.Cost_Extra);
+        $scope.inventoryData.costLanded = totalCost;
+        $('#item_Cost_Landed').val(totalCost);
         // Item combobox controls
         var category = $('#item_category').jqxComboBox('getItemByValue', row['CategoryId']);
         $('#item_category').jqxComboBox({'selectedIndex': (category != null) ? category.index : -1});
@@ -195,6 +203,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         //
+        setTimeout(function(){
+            $('.inventory_tab #item_Item').focus();
+        }, 100);
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
         inventoryWind.open();
@@ -348,6 +359,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                     if (data.status == 'success') {
                         $('#inventory_barcodesList').jqxListBox('refresh');
                         //$scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
+                        $scope.barcodeData.mainValue = '';
+                        $('#item_barcodeinput').val("");
+                        $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
                     }
                     else if (data.status == 'error')
                         showingNotif(data.message, 0);
@@ -368,6 +382,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 success: function(data) {
                     if (data.status == 'success') {
                         $('#inventory_barcodesList').jqxListBox('refresh');
+                        $scope.barcodeData.mainValue = '';
+                        $('#item_barcodeinput').val("");
+                        $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
                     }
                     else if (data.status == 'error')
                         showingNotif(data.message, 0);
