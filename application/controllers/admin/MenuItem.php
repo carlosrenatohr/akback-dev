@@ -337,7 +337,7 @@ class MenuItem extends AK_Controller
 
     public function postItemInventory() {
         $data = $_POST;
-        if (!empty($data) || is_null($_POST)) {
+        if (!empty($data) || !is_null($_POST)) {
             $status = $this->item->saveItem($this->checkItemValues($data));
             if ($status) {
                 $response = [
@@ -356,7 +356,7 @@ class MenuItem extends AK_Controller
 
     public function updateItemInventory($id) {
         $data = $_POST;
-        if (!empty($data) || is_null($_POST)) {
+        if (!empty($data) || !is_null($_POST)) {
             $status = $this->item->updateItem($id, $this->checkItemValues($data));
             if ($status) {
                 $response = [
@@ -368,6 +368,51 @@ class MenuItem extends AK_Controller
                 $response = $this->dbErrorMsg();
         }
         else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @param null $id
+     * @description Get barcodes by item
+     */
+    public function getBarcodesByItem($id = null) {
+        echo json_encode($this->item->getBarcodesByItem($id));
+    }
+
+    public function saveBarcodeItem($id = null) {
+        $data = $_POST;
+        if (!empty($data) || !is_null($_POST)) {
+            if (is_null($id))
+                $status = $this->item->saveItemBarcode($data);
+            else
+                $status = $this->item->updateItemBarcode($id, $data);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'id' => $status,
+                    'message' => 'Barcode updated!'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function deleteBarcodeItem($id) {
+        if (isset($id)) {
+            $status = $this->item->deleteItemBarcode($id);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Barcode deleted!'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
             $response = $this->dbErrorMsg(0);
 
         echo json_encode($response);

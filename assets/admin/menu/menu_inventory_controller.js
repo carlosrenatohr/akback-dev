@@ -11,13 +11,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var tabclicked = e.args.item;
         // Items Inventory TAB - Reload queries
         if (tabclicked == 1) {
-            updateItemsInventoryGrid();
+            updateItemsInventoryGrid(1);
         }
     });
 
     $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData;
-    var updateItemsInventoryGrid = function() {
-        $('#inventoryItemsGrid').jqxGrid({
+    var updateItemsInventoryGrid = function(init) {
+        var el = (init != undefined) ? this : '#inventoryItemsGrid';
+        $(el).jqxGrid({
             source: itemInventoryService.getInventoryGridData.source
         });
     };
@@ -134,6 +135,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.createOrEditItemInventory = 'create';
         $scope.itemInventoryID = null;
         //
+        $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID)
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('New Item');
         inventoryWind.open();
@@ -181,6 +183,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         gc = $('#iteminventory_EBT .cbxExtraTab[data-val=' +
             ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
         gc.jqxRadioButton({ checked:true });
+        //
+        $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         //
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
@@ -300,4 +304,69 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             });
         }
     };
+
+    // BARCODE SUBTAB
+    $scope.barcodeData = {};
+    $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
+
+    $scope.onSelectBarcodeList = function(e) {
+        if (e.args.item != null) {
+            var barcode = e.args.item.originalItem.Barcode;
+            $scope.barcodeData.idSelected = e.args.item.originalItem.Unique;
+            $('#item_barcodeinput').val(barcode);
+            $scope.barcodeData.mainValue = barcode;
+        }
+    };
+
+    $scope.saveItemBarcode = function(action) {
+        var input = $scope.barcodeData.mainValue;
+        if (input == '') {
+            alert('Please enter the barcode number!');
+            return;
+        }
+        if(input != undefined) {
+            var dataRequest = {
+                Barcode:input,
+                ItemUnique: $scope.itemInventoryID
+            };
+            var idParam = (action) ? $scope.barcodeData.idSelected : '';
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/MenuItem/saveBarcodeItem/' + idParam,
+                dataType: 'json',
+                data: dataRequest,
+                success: function(data) {
+                    if (data.status == 'success') {
+                        $('#inventory_barcodesList').jqxListBox('refresh');
+                        //$scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
+                    }
+                    else if (data.status == 'error')
+                        showingNotif(data.message, 0);
+                    else
+                        showingNotif(data.message, 0);
+                }
+            });
+        }
+    };
+
+    $scope.deleteItemBarcode = function() {
+        var id = $scope.barcodeData.idSelected;
+        if (id != undefined && id != null) {
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/MenuItem/deleteBarcodeItem/' + id,
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        $('#inventory_barcodesList').jqxListBox('refresh');
+                    }
+                    else if (data.status == 'error')
+                        showingNotif(data.message, 0);
+                    else
+                        showingNotif(data.message, 0);
+                }
+            });
+        }
+    }
+
 });

@@ -73,4 +73,26 @@ app.service('inventoryExtraService', function ($http) {
             placeHolder: 'Select Subcategory..'
         };
     }
+
+    this.getBarcodesListSettings = function(id) {
+        var url = '';
+        if (id != undefined)
+            url = SiteRoot + 'admin/MenuItem/getBarcodesByItem/' + id;
+        return {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'Barcode', type: 'string'}
+                ],
+                url: url
+            },
+            filterable: true,
+            itemHeight: 25,
+            displayMember: "Barcode",
+            valueMember: "Unique",
+            theme: 'arctic'
+        }
+    };
+
 });

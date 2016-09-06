@@ -109,4 +109,41 @@ class Item_model extends CI_Model
         return $status;
     }
 
+    public function getBarcodesByItem($id = null) {
+        $this->db->select('Unique, Barcode');
+        $this->db->from('item_barcode');
+        if (!is_null($id))
+            $this->db->where('ItemUnique', $id);
+        $this->db->where('Barcode!=', '');
+        $this->db->where('Status', 1);
+        $this->db->order_by('Created DESC');
+        return $this->db->get()->result_array();
+    }
+
+    public function saveItemBarcode($request) {
+        $extra_fields = [
+            'Status' => 1,
+            'Created' => date('Y-m-d H:i:s'),
+            'CreatedBy' => $this->session->userdata('userid')
+        ];
+        $data = array_merge($request, $extra_fields);
+        $status = $this->db->insert('item_barcode', $data);
+        return $this->db->insert_id();
+    }
+
+    public function updateItemBarcode($id, $request) {
+        $extra_fields = [
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+        ];
+        $data = array_merge($request, $extra_fields);
+        $this->db->where('Unique', $id);
+        return $this->db->update('item_barcode', $data);
+    }
+
+    public function deleteItemBarcode($id) {
+        $this->db->where('Unique', $id);
+        return $this->db->delete('item_barcode');
+    }
+
 }
