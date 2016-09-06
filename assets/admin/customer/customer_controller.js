@@ -13,26 +13,32 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     var tabSelectedBeforeSave = -1;
     $scope.changingCustomerTab = function(e) {
         var tabclick = e.args.item;
+        var tabTitle = $('#customerTabs').jqxTabs('getTitleAt', tabclick);
         var deleteBtn = angular.element('#deleteCustomerBtn');
         if ($scope.newOrEditCustomerAction == 'edit') {
-            if (tabclick == 0)
+            if (tabTitle == 'Info')
+            //if (tabclick == 0)
                 deleteBtn.show();
             else
                 deleteBtn.hide();
             // Contacts tab
-            if(tabclick == 2) {
+            if (tabTitle == 'Contacts') {
+            //if(tabclick == 2) {
                 updateCustomerContactTableData();
             }
             // Notes tab
-            if(tabclick == 3) {
+            if (tabTitle == 'Notes') {
+            //if(tabclick == 3) {
                 updateCustomerNotesTableData();
             }
             // Purchases tab
-            if(tabclick == 5) {
+            //if(tabclick == 5) {
+            if(tabTitle == 'Purchases') {
                 updateCustomerPurchasesTableData();
             }
             // Visits tab
-            if(tabclick == 6) {
+            if(tabTitle == 'Visits') {
+            //if(tabclick == 6) {
                 updateCustomerVisitsTableData();
             }
         // Behavior of create form
@@ -207,6 +213,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     };
 
     var updateCustomerVisitsTableData = function() {
+        console.log($scope.customerID);
         if ($scope.customerID != undefined) {
             var tablesettings = customerService.getVisitsTableTabSettings($scope.customerID);
             $('#customerVisitsTabGrid').jqxGrid({
