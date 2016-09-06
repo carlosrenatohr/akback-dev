@@ -92,14 +92,20 @@ class CustomerCheckin extends AK_Controller
         $total = $this->customer->getCustomersWithVisits($status, $location, true, $whereQuery, null, null, $sortData);
         $customers = $this->customer->getCustomersWithVisits($status, $location, false, $whereQuery, $pageNum, $perPage, $sortData);
         foreach($customers as $customer) {
+//            date_default_timezone_set('Pacific/Honolulu');
             $locationName = $this->customer->getLocationName($customer['LocationUnique']);
             $customer['LocationName'] = !empty($locationName) ? $locationName[0]['Name'] : '';
+            //------------
+            $checkin_exclude = (explode('-', $customer['CheckInDate']));
+            if(isset($checkin_exclude[3]))  unset($checkin_exclude[3]);
+            $customer['CheckInDate'] = (implode('-', $checkin_exclude));
+            $checkout_exclude = (explode('-', $customer['CheckOutDate']));
+            if(isset($checkout_exclude[3]))  unset($checkout_exclude[3]);
+            $customer['CheckOutDate'] = (implode('-', $checkout_exclude));
+            //------------
             $customer['_CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
             $customer['_CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';
-//            $customer['LastVisit'] =
-//                (!is_null($customer['LastVisit'])) ?
-//                    date('d-m-Y H:i', strtotime($customer['LastVisit'])) :
-//                    null;
+            $customer['_LastVisit'] = date('M d Y h:iA', strtotime($customer['LastVisit']));
             $newCustomers[] = $customer;
         }
 

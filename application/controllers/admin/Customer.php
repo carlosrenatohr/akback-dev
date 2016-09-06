@@ -102,7 +102,13 @@ class Customer extends AK_Controller
                 $customer['checkedOut'] = $this->customer->isCustomerCheckedOut($customer['Unique']);
                 if (!is_null($customer['LastVisit'])) {
                     if (!is_null($customer['VisitDays']) && $customer['VisitDays'] > 0) {
+                        //------------
+                        $lv_exclude = (explode('-', $customer['LastVisit']));
+                        if(isset($lv_exclude[3]))  unset($lv_exclude[3]);
+                        $customer['LastVisit'] = (implode('-', $lv_exclude));
+                        //------------
                         $lv = $customer['LastVisit'];
+                        $customer['_LastVisit'] = date('M d Y h:iA', strtotime($lv));
                         $now = new DateTime();
                         $days = $customer['VisitDays'];
 

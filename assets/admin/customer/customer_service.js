@@ -70,7 +70,6 @@ demoApp.service('customerService', function ($http) {
         {text: 'Check in 1', dataField: 'CheckIn1', type: 'string', hidden:false, filterable: false,
             cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
                 var data = $('#gridCustomer').jqxGrid('getrowdata', row);
-                console.log(data.AccountStatus);
                 var disabled = '', classname = 'success', color = '#5cb85c';
                 if(data.readyToCheckIn == false) {
                     disabled = 'disabled = disabled';
