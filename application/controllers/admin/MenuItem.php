@@ -293,16 +293,36 @@ class MenuItem extends AK_Controller
     }
 
     public function getSupplierList() {
-        echo json_encode($this->item->getSupplierList());
+        $newSuppliers = [];
+        foreach($this->item->getSupplierList() as $supplier) {
+            $supplier['Company'] = trim($supplier['Company']);
+            $newSuppliers[] = $supplier;
+        }
+        echo json_encode($newSuppliers);
     }
     public function getBrandList() {
-        echo json_encode($this->item->getBrandList());
+        $brands = [];
+        foreach($this->item->getBrandList() as $brand) {
+            $brand['Name'] = trim($brand['Name']);
+            $brands[] = $brand;
+        }
+        echo json_encode($brands);
     }
     public function getCategoryList() {
-        echo json_encode($this->item->getCategoryList());
+        $categories = [];
+        foreach($this->item->getCategoryList() as $category) {
+            $category['MainName'] = trim($category['MainName']);
+            $categories[] = $category;
+        }
+        echo json_encode($categories);
     }
     public function getSubcategoryList($id = null) {
-        echo json_encode($this->item->getSubcategoryList($id));
+        $subcategories = [];
+        foreach($this->item->getSubcategoryList($id) as $subcategory) {
+            $subcategory['Name'] = trim($subcategory['Name']);
+            $subcategories[] = $subcategory;
+        }
+        echo json_encode($subcategories);
     }
 
     private function checkItemValues($data) {

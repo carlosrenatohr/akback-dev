@@ -296,6 +296,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         return data;
     };
 
+    // TAXES GRID checkboxes change event
     var taxesValuesChanged = [];
     $("#taxesGrid").on('cellvaluechanged', function (event)
     {

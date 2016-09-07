@@ -73,7 +73,7 @@ app.service('inventoryExtraService', function ($http) {
             displayMember: "Name",
             placeHolder: 'Select Subcategory..'
         };
-    }
+    };
 
     // -- BARCODES LIST
     this.getBarcodesListSettings = function(id) {

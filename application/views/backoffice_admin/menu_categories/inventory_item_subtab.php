@@ -39,6 +39,7 @@
             <div class="col-sm-4">
                 <jqx-combo-box id="item_supplier" jqx-width="'220px'" jqx-height="'30px'"
                                jqx-settings="supplierCbxSettings" jqx-on-select=""
+                               data-field="Supplier" class="item_combobox"
                 ></jqx-combo-box>
             </div>
         </div>
@@ -59,9 +60,9 @@
             <label for="inputType" class="col-sm-3 control-label">Brand:</label>
 
             <div class="col-sm-4">
-                <jqx-combo-box id="item_brand" jqx-width="'220px'" jqx-height="'30px'" class="item_combobox"
+                <jqx-combo-box id="item_brand" jqx-width="'220px'" jqx-height="'30px'"
                                jqx-settings="brandCbxSettings" jqx-on-select=""
-                               data-field="Brand"
+                               data-field="Brand" class="item_combobox"
                 ></jqx-combo-box>
             </div>
         </div>

@@ -98,10 +98,11 @@ app.service('itemInventoryService', function ($http) {
             .on('keypress keyup paste change', '.inventory_tab .item_textcontrol', function (e) {
                 $('#saveInventoryBtn').prop('disabled', false);
             })
-            .on('change', '.item_combobox, .inventory_tab .cbxExtraTab', function(e) {
-                $('#saveInventoryBtn').prop('disabled', false);
-            })
-            .on('change', '.cbxItemTaxCell .jqx-checkbox', function(e) {
+            .on('change',
+                '.item_combobox, ' +
+                '.cbxItemTaxCell .jqx-checkbox, ' +
+                '.inventory_tab .cbxExtraTab',
+                function(e) {
                 $('#saveInventoryBtn').prop('disabled', false);
             })
         ;
