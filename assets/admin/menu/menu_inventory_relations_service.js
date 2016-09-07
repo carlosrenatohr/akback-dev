@@ -99,7 +99,9 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // -- TAXES LIST
-    this.getTaxesGridData = function() {
+    this.getTaxesGridData = function(itemId) {
+        if (itemId == undefined)
+            itemId = '';
         return {
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
@@ -110,14 +112,15 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'Rate', type: 'float'},
                     {name: 'Basis', type: 'string'},
                     {name: 'Status', type: 'string'},
-                    {name: 'Default', type: 'bool'}
+                    {name: 'Default', type: 'bool'},
+                    {name: 'taxed', type: 'bool'}
                 ],
-                url: SiteRoot + 'admin/MenuItem/getTaxesList'
+                url: SiteRoot + 'admin/MenuItem/getTaxesList/' + itemId
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text:'', dataField: 'Default', //threestatecheckbox: true,
-                    columntype: 'checkbox',  width: 70},
+                {text:'', dataField: 'taxed', //threestatecheckbox: true,
+                    columntype: 'checkbox', cellclassname:'cbxItemTaxCell', width: 70},
                 {text: 'Code', dataField: 'Code', type: 'string', editable: false},
                 {text: 'Description', dataField: 'Description', type: 'string', editable: false},
                 {text: 'Rate', dataField: 'Rate', editable: false},

@@ -100,7 +100,11 @@ app.service('itemInventoryService', function ($http) {
             })
             .on('change', '.item_combobox, .inventory_tab .cbxExtraTab', function(e) {
                 $('#saveInventoryBtn').prop('disabled', false);
-            });
+            })
+            .on('change', '.cbxItemTaxCell .jqx-checkbox', function(e) {
+                $('#saveInventoryBtn').prop('disabled', false);
+            })
+        ;
     };
 
     this.setNotificationSettings = function (type) {

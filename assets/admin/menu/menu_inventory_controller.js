@@ -115,6 +115,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // Barcode Cleaning
         $scope.barcodeData.mainValue = '';
         $('#item_barcodeinput').val("");
+        // Taxes cleaning
+        taxesValuesChanged = [];
         if (close == 1)
             inventoryWind.close();
     };
@@ -205,6 +207,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         gc.jqxRadioButton({ checked:true });
         //
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
+        $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         //
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
@@ -278,8 +281,34 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             ? $('#iteminventory_EBT [aria-checked="true"]').data('val')
             : 0;
 
+        // TAXES VALUES
+        var taxesByItem = [];
+        for(var i=0; i < $('#taxesGrid').jqxGrid('getrows').length; i++) {
+            if (taxesValuesChanged.indexOf(i) > -1) {
+                taxesByItem.push({
+                    TaxUnique: $('#taxesGrid').jqxGrid('getcellvalue', i, 'Unique'),
+                    ItemUnique: $scope.itemInventoryID,
+                    Status: $('#taxesGrid').jqxGrid('getcellvalue', i, 'taxed')
+                });
+            }
+        }
+        data['taxesValues'] = JSON.stringify(taxesByItem);
         return data;
     };
+
+    var taxesValuesChanged = [];
+    $("#taxesGrid").on('cellvaluechanged', function (event)
+    {
+        var args = event.args;
+        var datafield = event.args.datafield;
+        var rowBoundIndex = args.rowindex;
+        var value = args.newvalue;
+        var oldvalue = args.oldvalue;
+        if (datafield == 'taxed') {
+            if (taxesValuesChanged.indexOf(rowBoundIndex) == -1)
+            taxesValuesChanged.push(rowBoundIndex);
+        }
+    });
 
     var showingNotif = function(msg, type) {
         var title = (type == 0) ? 'Error' : 'Success';
@@ -401,7 +430,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     }
 
     // -- TAXES SUBTAB
-
     $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData();
 
 });

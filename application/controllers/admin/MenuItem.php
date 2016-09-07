@@ -338,8 +338,12 @@ class MenuItem extends AK_Controller
     public function postItemInventory() {
         $data = $_POST;
         if (!empty($data) || !is_null($_POST)) {
+            $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues'])) ? $_POST['taxesValues'] : [];
+            unset($_POST['taxesValues']);
+            $this->item->updateTaxesByItem($taxes);
             $status = $this->item->saveItem($this->checkItemValues($data));
             if ($status) {
+                $this->item->updateTaxesByItem($taxes);
                 $response = [
                     'status' => 'success',
                     'id' => $status,
@@ -357,6 +361,10 @@ class MenuItem extends AK_Controller
     public function updateItemInventory($id) {
         $data = $_POST;
         if (!empty($data) || !is_null($_POST)) {
+            $taxes = (isset($_POST['taxesValues']) && !empty($data['taxesValues'])) ? $_POST['taxesValues'] : [];
+            unset($_POST['taxesValues']);
+            unset($data['taxesValues']);
+            $this->item->updateTaxesByItem($taxes);
             $status = $this->item->updateItem($id, $this->checkItemValues($data));
             if ($status) {
                 $response = [
@@ -421,8 +429,17 @@ class MenuItem extends AK_Controller
     /**
      * @description Get taxes
      */
-    public function getTaxesList() {
-        echo json_encode($this->item->getTaxList());
+    public function getTaxesList($itemId = null) {
+        $taxes = $this->item->getTaxList();
+        if (!is_null($itemId)) {
+            $taxesWithItemData = [];
+            foreach($taxes as $tax) {
+                $tax['taxed'] = $this->item->verifyTaxByItem($itemId, $tax['Unique']);
+                $taxesWithItemData[] = $tax;
+            }
+            $taxes = $taxesWithItemData;
+        }
+        echo json_encode($taxes);
     }
 
 }

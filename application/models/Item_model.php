@@ -155,4 +155,41 @@ class Item_model extends CI_Model
         return $this->db->get_where("config_tax", ["Status" => "1"])->result_array();
     }
 
+    public function verifyTaxByItem($itemId, $taxId) {
+        $isTaxed = $this->db->get_where('item_tax',
+            ['ItemUnique' => $itemId, 'TaxUnique' => $taxId, 'Status' => 1])->result_array();
+
+        return count($isTaxed);
+    }
+
+    public function updateTaxesByItem($taxesArray = []) {
+        foreach($taxesArray as $group) {
+            $this->db->trans_start();
+            $itemTaxFound = $this->db->get_where('item_tax',
+                ['ItemUnique' => $group['ItemUnique'], 'TaxUnique' => $group['TaxUnique']])
+                ->row_array();
+            $this->db->trans_complete();
+            //
+            $this->db->trans_start();
+            if(!is_null($itemTaxFound['Unique'])) {
+                $extra_fields = [
+                    'Status' => ($group['Status'] == 'true') ? 1 : 0,
+                    'Updated' => date('Y-m-d H:i:s'),
+                    'UpdatedBy' => $this->session->userdata('userid')
+                ];
+                $this->db->where('Unique', $itemTaxFound['Unique']);
+                $this->db->update('item_tax', $extra_fields);
+            } else {
+                $extra_fields = [
+                    'Status' => ($group['Status'] == 'true') ? 1 : 0,
+                    'Created' => date('Y-m-d H:i:s'),
+                    'CreatedBy' => $this->session->userdata('userid')
+                ];
+                $data = array_merge($group, $extra_fields);
+                $this->db->insert('item_tax', $data);
+            }
+            $this->db->trans_complete();
+        }
+    }
+
 }
