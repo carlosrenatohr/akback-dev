@@ -330,7 +330,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
-    // BARCODE SUBTAB
+    // -- BARCODE SUBTAB
     $scope.barcodeData = {};
     $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
 
@@ -399,5 +399,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             });
         }
     }
+
+    // -- TAXES SUBTAB
+
+    $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData();
 
 });

@@ -418,4 +418,11 @@ class MenuItem extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * @description Get taxes
+     */
+    public function getTaxesList() {
+        echo json_encode($this->item->getTaxList());
+    }
+
 }

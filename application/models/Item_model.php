@@ -109,6 +109,11 @@ class Item_model extends CI_Model
         return $status;
     }
 
+    /**
+     * @description Barcode list
+     * @param null $id
+     * @return mixed
+     */
     public function getBarcodesByItem($id = null) {
         $this->db->select('Unique, Barcode');
         $this->db->from('item_barcode');
@@ -144,6 +149,10 @@ class Item_model extends CI_Model
     public function deleteItemBarcode($id) {
         $this->db->where('Unique', $id);
         return $this->db->delete('item_barcode');
+    }
+
+    public function getTaxList() {
+        return $this->db->get_where("config_tax", ["Status" => "1"])->result_array();
     }
 
 }
