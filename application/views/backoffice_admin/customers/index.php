@@ -85,7 +85,7 @@ jqxthemes();
         <div class="row">
             <jqx-tabs jqx-width="'100%'"
                       jqx-on-tabclick=""
-                      id="mainCustomerTabs" jqx-theme="articTheme" style="">
+                          id="mainCustomerTabs" jqx-theme="articTheme" style="">
                 <ul>
                     <li id="" class="">Customer</li>
                     <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>

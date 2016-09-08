@@ -102,6 +102,9 @@ class CustomerCheckin extends AK_Controller
             $checkout_exclude = (explode('-', $customer['CheckOutDate']));
             if(isset($checkout_exclude[3]))  unset($checkout_exclude[3]);
             $customer['CheckOutDate'] = (implode('-', $checkout_exclude));
+            $lv_exclude = (explode('-', $customer['LastVisit']));
+            if(isset($lv_exclude[3]))  unset($lv_exclude[3]);
+            $customer['LastVisit'] = (implode('-', $lv_exclude));
             //------------
             $customer['_CheckInDate'] = (!is_null($customer['CheckInDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckInDate'])) : '';
             $customer['_CheckOutDate'] = (!is_null($customer['CheckOutDate'])) ? date('m/d/Y h:i:sA', strtotime($customer['CheckOutDate'])) : '';

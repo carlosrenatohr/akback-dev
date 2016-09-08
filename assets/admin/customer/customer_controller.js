@@ -213,7 +213,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     };
 
     var updateCustomerVisitsTableData = function() {
-        console.log($scope.customerID);
         if ($scope.customerID != undefined) {
             var tablesettings = customerService.getVisitsTableTabSettings($scope.customerID);
             $('#customerVisitsTabGrid').jqxGrid({
@@ -353,7 +352,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         setTimeout(function(){
             $('#checkOutForm #QuantityControl').jqxNumberInput('focus');
         }, 100);
-        console.log('lel');
     });
 
     $scope.checkoutCloseBtn = function(option, status, type) {
