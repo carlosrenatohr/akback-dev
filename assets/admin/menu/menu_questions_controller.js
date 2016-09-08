@@ -591,7 +591,7 @@ app.controller('menuQuestionController', function ($scope) {
     $scope.numberQuestion = {
         inputMode: 'simple',
         decimalDigits: 0,
-        digits: 2,
+        //digits: 2,
         spinButtons: true,
         textAlign: 'left',
         width: '290px',
