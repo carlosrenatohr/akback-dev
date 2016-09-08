@@ -134,6 +134,67 @@ app.service('inventoryExtraService', function ($http) {
 
             }
         };
+    };
+
+    // -- STOCK DATA LIST
+    this.getStockGridData = function(itemId, location) {
+        var params = '';
+        if (itemId != undefined) {
+            params = (itemId) + '/';
+            if (location != undefined)
+                params += (location);
+                //params += '1';
+        }
+        var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+            var comments = (datarecord.Comment != null) ? datarecord.Comment : '';
+            var moreDetails =
+                    "<span><b>Comments:</b><br/> " + comments + "</span> "
+                ;
+            //
+            var rowDetailsContainer = $($(parentElement).children()[0]);
+            rowDetailsContainer.html(moreDetails);
+        };
+
+        return {
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ItemUnique', type: 'int'},
+                    {name: 'LocationUnique', type: 'int'},
+                    {name: 'Quantity', type: 'string'},
+                    {name: 'TransactionDate', type: 'string'},
+                    {name: 'Comment', type: 'string'},
+                    {name: 'LocationName', type: 'string'},
+                    {name: 'Description', type: 'string'},
+                    {name: 'Total', type: 'string'},
+                ],
+                url: SiteRoot + 'admin/MenuItem/getStocklineItems/' + params
+            }),
+            columns: [
+                {dataField: 'Unique', hidden: true},
+                {text: 'Date', dataField: 'TransactionDate', width:'19%'},
+                {text: 'Type', dataField: 'Description',width:'19%'},
+                {text: 'Location', dataField: 'LocationName',width:'19%'},
+                {text: 'Quantity', dataField: 'Quantity', cellsAlign: 'center',width:'19%'},
+                {text: 'Total', dataField: 'Total', cellsAlign: 'center', width:'19%'},
+                {text: 'Comment', dataField: 'Comment', hidden:true}
+            ],
+            width: "99%",
+            height: 300,
+            theme: 'arctic',
+            altRows: true,
+            sortable: true,
+            filterable: false,
+            autoheight: true,
+            autorowheight: true,
+            rowdetails: true,
+            rowdetailstemplate: {
+                rowdetails: "<div style='margin-top: 5px;'></div>",
+                rowdetailsheight: 75
+            },
+            initRowDetails: initrowdetails
+        };
     }
 
 });

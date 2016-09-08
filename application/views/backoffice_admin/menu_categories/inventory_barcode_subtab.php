@@ -17,13 +17,13 @@
                 <div style="margin:10px 0; font-size:16px;" id="barcodeLabel">
                     <strong>Barcode</strong>
                 </div>
-<!--                <div style="width:100%; border:2px solid #06F;">-->
+                <div style="width:100%; border:2px solid #06F;">
                     <jqx-list-box id="inventory_barcodesList"
                         jqx-settings="barcodeListSettings"
                         jqx-width="'99.7%'" jqx-height="250"
                         jqx-on-select="onSelectBarcodeList($event)"
                     ></jqx-list-box>
-<!--                </div>-->
+                </div>
             </div>
         </div>
     </div>

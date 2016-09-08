@@ -94,6 +94,15 @@ app.service('itemInventoryService', function ($http) {
 
     // Events to disable buttons
     this.onChangeEvents = function() {
+        //
+        $('#inventoryTabs').on('selecting', function(e) {
+            var tabclick = e.args.item;
+            var tabTitle = $('#inventoryTabs').jqxTabs('getTitleAt', tabclick);
+            if (tabTitle == 'Stock Level') {}
+            if (tabTitle == 'Barcode'){}
+            //console.log(tabTitle);
+        });
+        // Inputs change event
         $('body')
             .on('keypress keyup paste change', '.inventory_tab .item_textcontrol', function (e) {
                 $('#saveInventoryBtn').prop('disabled', false);

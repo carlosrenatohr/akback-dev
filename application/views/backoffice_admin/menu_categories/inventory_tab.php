@@ -18,6 +18,7 @@
         </div>
         <div class="">
             <jqx-tabs jqx-width="'100%'"
+                      jqx-on-selecting=""
                       id="inventoryTabs">
                 <ul>
                     <li>Item</li>

@@ -1,9 +1,11 @@
-<div class="col-md-12 tabs" id="tab4" style="padding-top:10px; height: 400px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd;"> <!--Tab4-->
+<div class="col-md-12 inventory_tab" style="padding-top:10px; height: 400px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd;">
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <div class="top_stockqty_display">
-                    <button class="btn btn-primary" id="adjustqty"><img src="<?php echo base_url("assets/img/kahon.png")?>" /></button>
+                <div class="">
+                    <button class="btn btn-primary" id="">
+                        <img src="<?php echo base_url("assets/img/kahon.png")?>" />
+                    </button>
                     Adjust Quantity
                 </div>
             </div>
@@ -11,11 +13,27 @@
         <div class="col-md-4">
             <div class="form-group">
                 <div>
-                    <jqx-combo-box id="_adj_location" jqx-on-select="" jqx-settings=""></jqx-combo-box>
+                    <jqx-combo-box id="itemstock_locationCbx"
+                                   jqx-on-select=""
+                                   jqx-settings=""
+                    ></jqx-combo-box>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group">
+            <div id="" style="overflow:auto; height:auto;">
+                <jqx-grid id="taxesGrid"
+                          jqx-settings="stockInventoryGrid"
+                          jqx-create="stockInventoryGrid"
+                ></jqx-grid>
+            </div>
+        </div>
+    </div>
+    <!--    -->
+    <!--    -->
+    <!--    -->
     <form id="_adjqty" style="display:none; cursor:default;">
         <div class="col-md-11">
             <div class="row" id="_adjustqty">
@@ -101,12 +119,5 @@
                 </div>
             </div>
         </div>
-    </form>
-    <div class="row">
-        <div class="form-group">
-            <div id="stocklevel" style="overflow:auto; height:auto;">
-                <jqx-data-table id="" jqx-settings=""></jqx-data-table>
-            </div>
-        </div>
-    </div>
+<!--    </form>-->
 </div>

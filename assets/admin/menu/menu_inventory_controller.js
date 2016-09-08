@@ -150,6 +150,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.createOrEditItemInventory = 'create';
         $scope.itemInventoryID = null;
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID)
+        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
         //
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
@@ -208,6 +209,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
+        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
         //
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
@@ -295,21 +297,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         data['taxesValues'] = JSON.stringify(taxesByItem);
         return data;
     };
-
-    // TAXES GRID checkboxes change event
-    var taxesValuesChanged = [];
-    $("#taxesGrid").on('cellvaluechanged', function (event)
-    {
-        var args = event.args;
-        var datafield = event.args.datafield;
-        var rowBoundIndex = args.rowindex;
-        var value = args.newvalue;
-        var oldvalue = args.oldvalue;
-        if (datafield == 'taxed') {
-            if (taxesValuesChanged.indexOf(rowBoundIndex) == -1)
-            taxesValuesChanged.push(rowBoundIndex);
-        }
-    });
 
     var showingNotif = function(msg, type) {
         var title = (type == 0) ? 'Error' : 'Success';
@@ -432,5 +419,22 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     // -- TAXES SUBTAB
     $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData();
+    var taxesValuesChanged = [];
+    // Tax by item checkboxes change event
+    $("#taxesGrid").on('cellvaluechanged', function (event)
+    {
+        var args = event.args;
+        var datafield = event.args.datafield;
+        var rowBoundIndex = args.rowindex;
+        var value = args.newvalue;
+        var oldvalue = args.oldvalue;
+        if (datafield == 'taxed') {
+            if (taxesValuesChanged.indexOf(rowBoundIndex) == -1)
+                taxesValuesChanged.push(rowBoundIndex);
+        }
+    });
+
+    // --STOCK SUBTAB
+    $scope.stockInventoryGrid = inventoryExtraService.getStockGridData();
 
 });

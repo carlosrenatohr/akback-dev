@@ -462,4 +462,25 @@ class MenuItem extends AK_Controller
         echo json_encode($taxes);
     }
 
+    /**
+     * @description Get stock line by item
+     * @param $id
+     * @param $location
+     */
+    public function getStocklineItems($id = null, $location = null) {
+        $stock_n = [];
+        if ($id != null) {
+            $stock = $this->item->getStockItemByLocation($id, $location);
+            foreach($stock as $row) {
+                $row["Quantity"] = number_format($row["Quantity"], $this->decimalQuantity);
+				$row["Total"] = number_format($row["Total"], $this->decimalQuantity);
+                $row["Comment"] = trim($row["Comment"]);
+                $row["TransactionDate"] = is_null($row["TransactionDate"]) ? "" :date("m/d/Y h:i A",strtotime($row["TransactionDate"]));
+                $stock_n[] = $row;
+            }
+        }
+
+        echo json_encode($stock_n);
+    }
+
 }
