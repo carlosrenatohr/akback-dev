@@ -83,7 +83,8 @@ demoApp.service('customerService', function ($http) {
                 return '<button class="btn btn-'+ classname + ' checkInBtn" '+ disabled +
                         'data-unique="'+ data.Unique + '" data-location="1" '+
                         'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
-                        'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
+                        'style="padding: 0 2%;margin: 2px 25%;font-size: 11px;color: #222;font-weight: 800;"' +
+                        '>Check in</button>';
             }
         },
         {text: 'CheckIn 2', dataField: 'CheckIn2', type: 'string', hidden:false, filterable: false,
@@ -102,7 +103,8 @@ demoApp.service('customerService', function ($http) {
                 return '<button class="btn btn-'+ classname +' checkInBtn" '+ disabled +
                     'data-unique="'+ data.Unique + '" data-location="2" '+
                     'data-fname="'+ data.FirstName + '" data-lname="'+ data.LastName +'" '+
-                    'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Check in</button>';
+                    'style="padding: 0 2%;margin: 2px 25%;font-size: 11px;color: #222;font-weight: 800;"' +
+                    '>Check in</button>';
             }
         },
         {text: '', dataField: 'VisitDays', type: 'string', hidden: true},
