@@ -43,7 +43,7 @@ class Customer extends AK_Controller
 //        }
         $data['decimalQuantitySetting'] = $this->decimalQuantity;
         $data['decimalPriceSetting'] = $this->decimalPrice;
-        $data['locations'] = $this->customer->getLocations();
+        $data['locations'] = $this->getLocations();
         // Partial Views
         $data['contacts_tab_view'] = "backoffice_admin/customers/contacts_tab";
         $data['contacts_form'] = "backoffice_admin/customers/contacts_form";

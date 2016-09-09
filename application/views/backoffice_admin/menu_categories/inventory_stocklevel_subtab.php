@@ -15,8 +15,13 @@
                 <div>
                     <jqx-combo-box id="itemstock_locationCbx"
                                    jqx-on-select=""
-                                   jqx-settings=""
-                    ></jqx-combo-box>
+                    >
+                        <option value="0">All Location</option>
+                        <?php foreach($locations as $location) { ?>
+                            <option value="<?php echo $location['Unique']?>"
+                            ><?php echo trim($location['LocationName'])?></option>
+                        <?php } ?>
+                    </jqx-combo-box>
                 </div>
             </div>
         </div>

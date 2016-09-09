@@ -21,6 +21,7 @@ class MenuCategory extends AK_Controller
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
+        $data['locations'] = $this->getLocations();
         // Partials Views
         $menu_path = 'backoffice_admin/menu_categories/';
         $data['menu_tab_view'] = $menu_path . "menu_tab";

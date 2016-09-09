@@ -15,6 +15,7 @@ class AK_Controller extends \CI_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('session');
         $this->load->model('Config_location_model');
+        $this->load->model('Customer_model', 'customer');
         $this->load->model('backoffice_model');
         $this->_is_logged_in();
     }
@@ -34,6 +35,10 @@ class AK_Controller extends \CI_Controller
         if (!$this->session->userdata('logged_in')) {
             redirect('backoffice/dashboard');
         }
+    }
+
+    public function getLocations() {
+        return $this->customer->getLocations();
     }
 
     public function isCustomerCheckedInEnabled($setting, $value, $field) {
