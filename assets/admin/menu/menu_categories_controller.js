@@ -47,6 +47,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
             {text: 'Item Length', dataField: 'ItemLength', type: 'number'}
         ],
         columnsResize: true,
+        //height: "100%",
         width: "100%",
         theme: 'arctic',
         sortable: true,
@@ -377,6 +378,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         ],
         columnsResize: true,
         width: "99.7%",
+        //height: "100%",
         theme: 'arctic',
         sortable: true,
         pageable: true,
