@@ -4,13 +4,13 @@
 app.service('inventoryExtraService', function ($http) {
 
     // Source for Suppliers table
-    this.getSupplierSettings = function() {
+    this.getSupplierSettings = function () {
         return {
             source: {
                 datatype: "json",
                 datafields: [
-                    { name: 'Unique' },
-                    { name: 'Company' }
+                    {name: 'Unique'},
+                    {name: 'Company'}
                 ],
                 url: SiteRoot + 'admin/MenuItem/getSupplierList',
                 //async: false
@@ -22,13 +22,13 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // Source for Brands table
-    this.getBrandsSettings = function() {
+    this.getBrandsSettings = function () {
         return {
             source: {
                 datatype: "json",
                 datafields: [
-                    { name: 'Unique' },
-                    { name: 'Name' }
+                    {name: 'Unique'},
+                    {name: 'Name'}
                 ],
                 url: SiteRoot + 'admin/MenuItem/getBrandList',
             },
@@ -39,13 +39,13 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // Source for categories table
-    this.getCategoriesSettings = function() {
+    this.getCategoriesSettings = function () {
         return {
             source: {
                 datatype: "json",
                 datafields: [
-                    { name: 'Unique' },
-                    { name: 'MainName' }
+                    {name: 'Unique'},
+                    {name: 'MainName'}
                 ],
                 url: SiteRoot + 'admin/MenuItem/getCategoryList',
             },
@@ -56,7 +56,7 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // Source for subcategories table
-    this.getSubcategoriesSettings = function(parent) {
+    this.getSubcategoriesSettings = function (parent) {
         var url = '';
         if (parent != undefined)
             url = SiteRoot + 'admin/MenuItem/getSubcategoryList/' + parent;
@@ -64,8 +64,8 @@ app.service('inventoryExtraService', function ($http) {
             source: {
                 datatype: "json",
                 datafields: [
-                    { name: 'Unique' },
-                    { name: 'Name' }
+                    {name: 'Unique'},
+                    {name: 'Name'}
                 ],
                 url: url
             },
@@ -76,7 +76,7 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // -- BARCODES LIST
-    this.getBarcodesListSettings = function(id) {
+    this.getBarcodesListSettings = function (id) {
         var url = '';
         if (id != undefined)
             url = SiteRoot + 'admin/MenuItem/getBarcodesByItem/' + id;
@@ -90,7 +90,7 @@ app.service('inventoryExtraService', function ($http) {
                 url: url
             },
             filterable: true,
-            filterPlaceHolder:'Search',
+            filterPlaceHolder: 'Search',
             itemHeight: 25,
             displayMember: "Barcode",
             valueMember: "Unique",
@@ -99,7 +99,7 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // -- TAXES LIST
-    this.getTaxesGridData = function(itemId) {
+    this.getTaxesGridData = function (itemId) {
         if (itemId == undefined)
             itemId = '';
         return {
@@ -119,8 +119,10 @@ app.service('inventoryExtraService', function ($http) {
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text:'', dataField: 'taxed', //threestatecheckbox: true,
-                    columntype: 'checkbox', cellclassname:'cbxItemTaxCell', width: 70},
+                {
+                    text: '', dataField: 'taxed', //threestatecheckbox: true,
+                    columntype: 'checkbox', cellclassname: 'cbxItemTaxCell', width: 70
+                },
                 {text: 'Code', dataField: 'Code', type: 'string', editable: false},
                 {text: 'Description', dataField: 'Description', type: 'string', editable: false},
                 {text: 'Rate', dataField: 'Rate', editable: false},
@@ -130,20 +132,20 @@ app.service('inventoryExtraService', function ($http) {
             theme: 'arctic',
             editable: true,
             filterable: false,
-            ready: function() {
+            ready: function () {
 
             }
         };
     };
 
     // -- STOCK DATA LIST
-    this.getStockGridData = function(itemId, location) {
+    this.getStockGridData = function (itemId, location) {
         var params = '';
         if (itemId != undefined) {
             params = (itemId) + '/';
             if (location != undefined)
                 params += (location);
-                //params += '1';
+            //params += '1';
         }
         var initrowdetails = function (index, parentElement, gridElement, datarecord) {
             var comments = (datarecord.Comment != null) ? datarecord.Comment : '';
@@ -173,12 +175,12 @@ app.service('inventoryExtraService', function ($http) {
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text: 'Date', dataField: 'TransactionDate', width:'19%'},
-                {text: 'Type', dataField: 'Description',width:'19%'},
-                {text: 'Location', dataField: 'LocationName',width:'19%'},
-                {text: 'Quantity', dataField: 'Quantity', cellsAlign: 'center',width:'19%'},
-                {text: 'Total', dataField: 'Total', cellsAlign: 'center', width:'19%'},
-                {text: 'Comment', dataField: 'Comment', hidden:true}
+                {text: 'Date', dataField: 'TransactionDate', width: '19%'},
+                {text: 'Type', dataField: 'Description', width: '19%'},
+                {text: 'Location', dataField: 'LocationName', width: '19%'},
+                {text: 'Quantity', dataField: 'Quantity', cellsAlign: 'center', width: '19%'},
+                {text: 'Total', dataField: 'Total', cellsAlign: 'center', width: '19%'},
+                {text: 'Comment', dataField: 'Comment', hidden: true}
             ],
             width: "99%",
             height: 300,
@@ -197,7 +199,7 @@ app.service('inventoryExtraService', function ($http) {
         };
     };
 
-    this.getStockLocationListSettings = function() {
+    this.getStockLocationListSettings = function () {
         return {
             source: {
                 dataType: 'json',
@@ -214,5 +216,63 @@ app.service('inventoryExtraService', function ($http) {
             theme: 'arctic'
         }
     };
+
+    // -- QUESTION DATA
+    this.getQuestionInvWindSettings = function () {
+        return '';
+    }
+
+    this.getQuestionGridData = function(item) {
+        var url = '';
+        if (item == undefined) {
+            //url = SiteRoot + 'admin/MenuItem/load_itemquestions/' + item;
+            item = '';
+        }
+        return {
+            source: ({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ItemUnique', type: 'int'},
+                    {name: 'QuestionUnique', type: 'int'},
+                    {name: 'QuestionName', type: 'string'},
+                    {name: 'ItemName', type: 'string'},
+                    {name: 'Status', type: 'number'},
+                    {name: 'StatusName', type: 'string'},
+                    {name: 'Sort', type: 'number'}
+                ],
+                id: 'Unique',
+                url:  SiteRoot + 'admin/MenuItem/load_itemquestions/' + item
+            }),
+            columns: [
+                {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
+                {text: 'Item', dataField: 'ItemUnique', type: 'int', hidden: true},
+                {text: 'Question ID', dataField: 'QuestionUnique', type: 'int', width: '25%'},
+                {text: 'Name', dataField: 'QuestionName', type: 'string', width: '50%'},
+                {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
+                {text: 'Sort', dataField: 'Sort', type: 'number', width: '25%'},
+            ],
+            //columnsResize: true,
+            width: "99%",
+            theme: 'arctic',
+            sortable: true,
+            pageable: true,
+            pageSize: 15
+        };
+    };
+
+    this.getQuestionsCbxData = function() {
+        return new $.jqx.dataAdapter(
+            {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'QuestionName', type: 'string'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
+            }
+        );
+    }
 
 });

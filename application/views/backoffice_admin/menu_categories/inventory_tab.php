@@ -56,7 +56,8 @@
                     <?php $this->load->view($inventory_barcode_subtab_view); ?>
                 </div>
                 <!-- Question subtab -->
-                <div class="">
+                <div class="inventory_tab">
+<!--                    --><?php //$this->load->view($items_questions_subtab_view); ?>
                     <?php $this->load->view($inventory_question_subtab_view); ?>
                 </div>
                 <!-- Printer subtab -->

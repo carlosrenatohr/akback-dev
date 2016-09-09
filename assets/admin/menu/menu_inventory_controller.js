@@ -212,6 +212,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
+        updateQuestionItemTable($scope.itemInventoryID);
         //
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
@@ -443,5 +444,241 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var location = e.args.item.value;
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
     }
+
+    // -- QUESTION SUBTAB
+    $scope.questionInventorySuccess = itemInventoryService.setNotificationSettings(1, '#notif_questionInventory');
+    $scope.questionInventoryError = itemInventoryService.setNotificationSettings(0, '#notif_questionInventory');
+    $scope.questionTableOnMenuItemsSettings = inventoryExtraService.getQuestionGridData();
+
+    var updateQuestionItemTable = function(itemId) {
+        $('.inventory_tab #questionItemTable').jqxGrid({
+            source: new $.jqx.dataAdapter(inventoryExtraService.getQuestionGridData(itemId).source)
+        });
+    };
+
+    var questionInventoryWind, cbxQuestionsItem;
+    $scope.questionInventoryWindSettings = {
+        created: function (args) {
+            questionInventoryWind = args.instance;
+        },
+        resizable: false,
+        width: "50%", height: "40%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    var dataAdapterQuestionItems = inventoryExtraService.getQuestionsCbxData();
+    //
+    $scope.questionItemsCbxSettings = {
+        created: function (args) {
+            cbxQuestionsItem = args.instance;
+        },
+        placeHolder: 'Select a question',
+        source: dataAdapterQuestionItems,
+        displayMember: 'QuestionName',
+        valueMember: 'Unique',
+        width: "100%",
+        itemHeight: 30,
+        theme: 'arctic'
+    };
+    //
+    $('#invQ_Status').jqxDropDownList({autoDropDownHeight: true});
+    //
+    $('.invQFormContainer .required-qitem').on('keypress keyup paste change', function (e) {
+        var idsRestricted = ['invQ_Sort'];
+        var inarray = $.inArray($(this).attr('id'), idsRestricted);
+        if (inarray >= 0) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
+                if (this.val == '') {
+                    $('#questionInventoryError #notification-content')
+                        .html('Sort value must be number');
+                    $scope.questionInventoryError.apply('open');
+                    $(this).css({'border-color': '#F00'});
+                }
+                return false;
+            }
+            if (this.value.length > 2) {
+                return false;
+            }
+        }
+        $('#saveQuestionInvBtn').prop('disabled', false);
+    });
+    //
+    $scope.addOrEditqItem = null;
+    $scope.qInvIdChosen = null;
+    $scope.openQuestionItemWin = function() {
+        //
+        $('#invQ_Status').jqxDropDownList({'selectedIndex': 0});
+        $('#invQ_Question').jqxComboBox({'selectedIndex': -1});
+        $('#invQ_Sort').val(1);
+        //
+        $('#saveQuestionInvBtn').prop('disabled', true);
+        $('#deleteQuestionInvBtn').hide();
+        $scope.addOrEditqItem = 'create';
+        questionInventoryWind.setTitle('Add New Question | Item: ' + $scope.itemInventoryID);
+        questionInventoryWind.open();
+    };
+    
+    $scope.editQuestionItemWin = function(e) {
+        //updateQuestionsCbx();
+        //
+        var row = e.args.row.bounddata;
+        var statusCombo = $('#invQ_Status').jqxDropDownList('getItemByValue', row.Status);
+        $('#invQ_Status').jqxDropDownList({'selectedIndex': (statusCombo == undefined) ? 1 : statusCombo.index});
+    
+
+        var itemCombo = $('#invQ_Question').jqxComboBox('getItemByValue', row.QuestionUnique);
+        var selectedIndexItem = (itemCombo != undefined) ? itemCombo.index : -1;
+        $('#invQ_Question').jqxComboBox({'selectedIndex': selectedIndexItem});
+    
+        $('#invQ_Sort').val(row.Sort);
+        //
+        $('#saveQuestionInvBtn').prop('disabled', true);
+        $('#deleteQuestionInvBtn').show();
+        $scope.addOrEditqItem = 'edit';
+        $scope.qInvIdChosen = row.Unique;
+        questionInventoryWind.setTitle('Edit Question: ' + row.QuestionUnique +' | Item: ' + row.ItemUnique);
+        questionInventoryWind.open();
+    };
+    //
+    $scope.closeQuestionItemWin = function (option) {
+        if(option != undefined) {
+            $('#mainButtonsQinv').show();
+            $('#promptToCloseQinv').hide();
+        }
+        if (option == 0) {
+            $scope.saveQuestionItem(1);
+        } else if (option == 1) {
+            questionInventoryWind.close();
+        }
+        else if (option == 2) {}
+        else {
+            if ($('#saveQuestionInvBtn').is(':disabled')) {
+                questionInventoryWind.close();
+            }
+            else {
+                $('#promptToCloseQinv').show();
+                $('#mainButtonsQinv').hide();
+            }
+        }
+    };
+    //
+    var validationQuestionItemForm = function() {
+        var needValidation = false;
+        if (!$('#invQ_Question').jqxComboBox('getSelectedItem')) {
+            needValidation = true;
+            $('#questionInventoryError #notification-content')
+                .html('Select a question');
+            $scope.questionInventoryError.apply('open');
+            $('#invQ_Question').css({'border-color': '#F00'});
+        } else {
+            $('#invQ_Question').css({'border-color': '#CCC'});
+        }
+        $('.invQFormContainer .required-qitem').each( function(i, el) {
+            if (el.value == '') {
+                needValidation = true;
+                $('#questionInventoryError #notification-content')
+                    .html($(el).attr('placeholder') + ' can not be empty!');
+                $scope.questionInventoryError.apply('open');
+                $(el).css({'border-color': '#F00'});
+            } else {
+                $(el).css({'border-color': '#CCC'});
+            }
+        });
+    
+        return needValidation;
+    };
+    //
+    $scope.saveQuestionItem = function(toClose) {
+        if (!validationQuestionItemForm()) {
+            var data = {
+                'QuestionUnique': $('#invQ_Question').jqxComboBox('getSelectedItem').value,
+                'Status': $('#invQ_Status').jqxDropDownList('getSelectedItem').value,
+                'Sort': $('#invQ_Sort').val(),
+                'ItemUnique': $scope.itemInventoryID
+            };
+            var url, msg;
+            if ($scope.addOrEditqItem == 'create') {
+                url = 'admin/MenuItem/postQuestionMenuItems';
+            } else if($scope.addOrEditqItem == 'edit') {
+                url = 'admin/MenuItem/updateQuestionMenuItems/' + $scope.qInvIdChosen;
+            }
+            $.ajax({
+                'method': 'POST',
+                'url': SiteRoot + url,
+                'dataType': 'json',
+                'data': data,
+                'success': function(data) {
+                    if (data.status == 'success') {
+                        if(toClose == 1) {
+                            questionInventoryWind.close();
+                        } else {
+                            if ($scope.addOrEditqItem == 'create') {
+                                msg = 'Question saved successfully!';
+                            } else {
+                                msg = 'Question was updated successfully!';
+                            }
+                            $('#questionInventorySuccess #notification-content')
+                                .html(msg);
+                            $scope.questionInventorySuccess.apply('open');
+
+                        }
+                        $('#saveQuestionInvBtn').prop('disabled', true);
+                        updateQuestionItemTable($scope.itemInventoryID);
+                    } else if (data.status == 'error') {
+                        $('#questionInventoryError #notification-content')
+                            .html('There was an error');
+                        $scope.questionInventoryError.apply('open');
+                    }
+                    else {
+                        console.info('Ajax error');
+                    }
+    
+                }
+            });
+        }
+    };
+    //
+    $scope.deleteQuestionItem = function(option) {
+        if (option == 0) {
+            $.ajax({
+                'url': SiteRoot + 'admin/MenuItem/deleteQuestionMenuItems/' + $scope.qInvIdChosen,
+                'method': 'post',
+                'dataType': 'json',
+                'success': function (data) {
+                    if (data.status == 'success') {
+                        updateQuestionItemTable($scope.itemInventoryID);
+                        questionInventoryWind.close();
+                        $('#mainButtonsQinv').show();
+                        $('#promptToCloseQinv').hide();
+                        $('#promptToDeleteQInv').hide();
+                    } else if (data.status == 'error') {
+                        $('#questionInventoryError #notification-content')
+                            .html('There was an error');
+                        $scope.questionInventoryError.apply('open');
+                    }
+                    else {
+                        console.info('Ajax error');
+                    }
+                }
+            });
+        } else if (option == 1) {
+            $('#mainButtonsQinv').show();
+            $('#promptToCloseQinv').hide();
+            $('#promptToDeleteQInv').hide();
+            questionInventoryWind.close();
+        } else if (option == 2) {
+            $('#mainButtonsQinv').show();
+            $('#promptToCloseQinv').hide();
+            $('#promptToDeleteQInv').hide();
+        } else {
+            $('#mainButtonsQinv').hide();
+            $('#promptToCloseQinv').hide();
+            $('#promptToDeleteQInv').show();
+        }
+    };
 
 });

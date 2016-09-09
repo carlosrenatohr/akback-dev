@@ -4,20 +4,21 @@
     </button>
 </div>
 <div class="col-md-12">
-    <jqx-data-table id="questionItemTable"
-                    jqx-settings=""
-                    jqx-on-row-double-click=""
-                    jqx-create="">
-    </jqx-data-table>
+    <jqx-grid id="questionItemTable"
+                jqx-settings="questionTableOnMenuItemsSettings"
+                jqx-create="questionTableOnMenuItemsSettings"
+                jqx-on-rowdoubleclick="editQuestionItemWin($event)"
+                >
+    </jqx-grid>
 </div>
-<jqx-window jqx-on-close="close()" jqx-settings=""
-            jqx-create="" class="">
+<jqx-window jqx-on-close="close()" jqx-settings="questionInventoryWindSettings"
+            jqx-create="questionInventoryWindSettings" class="">
     <div>
         New Question
     </div>
     <div>
         <div class="col-md-12 col-md-offset-0">
-            <div class="row itemqFormContainer">
+            <div class="row invQFormContainer">
                 <div style=" width:100%;float:left;">
                     <div style="float:left; padding:2px; width:450px;">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
@@ -26,8 +27,8 @@
                         <div style="float:left; width:300px;">
                             <jqx-combo-box
                                 jqx-on-select=""
-                                jqx-settings=""
-                                id="itemq_Question">
+                                jqx-settings="questionItemsCbxSettings"
+                                id="invQ_Question">
                             </jqx-combo-box>
                         </div>
                     </div>
@@ -37,7 +38,7 @@
                         </div>
                         <div style=" float:left; width:300px;">
                             <input type="number" class="form-control required-qitem"
-                                   id="itemq_Sort" name="itemq_Sort" placeholder="Sort"
+                                   id="invQ_Sort" name="invQ_Sort" placeholder="Sort"
                                    step="1" min="1" value="1" pattern="\d*">
                         </div>
                         <div style="float:left;">
@@ -49,7 +50,7 @@
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:
                         </div>
                         <div style=" float:left; width:300px;">
-                            <select name="itemq_Status" id="itemq_Status">
+                            <select name="invQ_Status" id="invQ_Status">
                                 <option value="1">Enabled</option>
                                 <option value="2">Disabled</option>
                             </select>
@@ -61,17 +62,17 @@
         <!-- Main buttons before saving questions on current item -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <div id="mainButtonsQitem">
+                <div id="mainButtonsQinv">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="button" id="saveQuestionItemBtn" ng-click="saveQuestionItem()"
+                            <button type="button" id="saveQuestionInvBtn" ng-click="saveQuestionItem()"
                                     class="btn btn-primary" disabled>
                                 Save
                             </button>
                             <button type="button" id="" ng-click="closeQuestionItemWin()" class="btn btn-warning">
                                 Close
                             </button>
-                            <button type="button" id="deleteQuestionItemBtn" ng-click="deleteQuestionItem()"
+                            <button type="button" id="deleteQuestionInvBtn" ng-click="deleteQuestionItem()"
                                     class="btn btn-danger " style="overflow:auto;">
                                 Delete
                             </button>
@@ -83,7 +84,7 @@
         <!-- Prompt before saving questions by item -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <div id="promptToCloseQitem" class="" style="display: none">
+                <div id="promptToCloseQinv" class="" style="display: none">
                     <div class="form-group">
                         <div class="col-sm-12">
                             Do you want to save your changes?
@@ -100,7 +101,7 @@
         <!-- Prompt before delete an item on grid -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <div id="promptToDeleteQItem" class="" style="display: none">
+                <div id="promptToDeleteQInv" class="" style="display: none">
                     <div class="form-group">
                         <div class="col-sm-12">
                             Do you really want to delete it?
@@ -115,15 +116,15 @@
         <!-- NOTIFICATIONS AREA -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <jqx-notification jqx-settings=""
-                                  id="">
+                <jqx-notification jqx-settings="questionInventorySuccess"
+                                  id="questionInventorySuccess">
                     <div id="notification-content"></div>
                 </jqx-notification>
-                <jqx-notification jqx-settings=""
-                                  id="">
+                <jqx-notification jqx-settings="questionInventoryError"
+                                  id="questionInventoryError">
                     <div id="notification-content"></div>
                 </jqx-notification>
-                <div id="notification_container_menuitem"
+                <div id="notif_questionInventory"
                      style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 /**
  * Created by carlosrenato on 09-01-16.
  */
-app.service('itemInventoryService', function ($http) {
+app.service('itemInventoryService', function ($http, inventoryExtraService) {
 
     // Data for items inventory grid
     this.getInventoryGridData = {
@@ -43,8 +43,7 @@ app.service('itemInventoryService', function ($http) {
                 {name: 'Points', type: 'float'},
 
             ],
-            url: SiteRoot + 'admin/MenuItem/getItemsData',
-            unique: 'Unique',
+            url: SiteRoot + 'admin/MenuItem/getItemsData'
         }),
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
@@ -100,6 +99,9 @@ app.service('itemInventoryService', function ($http) {
             var tabTitle = $('#inventoryTabs').jqxTabs('getTitleAt', tabclick);
             if (tabTitle == 'Stock Level') {}
             if (tabTitle == 'Barcode'){}
+            if (tabTitle == 'Questions') {
+                $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
+            }
             //console.log(tabTitle);
         });
         // Inputs change event
@@ -115,12 +117,18 @@ app.service('itemInventoryService', function ($http) {
                 $('#saveInventoryBtn').prop('disabled', false);
             })
         ;
+        // Question subtab events
+        $('#invQ_Status, #invQ_Question').on('select', function() {
+            $('#saveQuestionInvBtn').prop('disabled', false);
+        });
     };
 
-    this.setNotificationSettings = function (type) {
+    this.setNotificationSettings = function (type, container) {
+        if (container == undefined)
+            container = '#notification_container_inventory';
         return {
             width: "auto",
-            appendContainer: '#notification_container_inventory',
+            appendContainer: container,
             opacity: 0.9,
             closeOnClick: true,
             autoClose: true,
