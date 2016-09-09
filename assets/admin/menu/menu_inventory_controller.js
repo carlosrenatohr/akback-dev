@@ -436,5 +436,15 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     // --STOCK SUBTAB
     $scope.stockInventoryGrid = inventoryExtraService.getStockGridData();
+    $scope.stockitemLocationSettings = inventoryExtraService.getStockLocationListSettings();
+    $scope.onSelectStockLocationList = function(e) {
+    //$('#itemstock_locationCbx')
+    //.on('select', function(e) {
+        var location = e.args.item.value;
+        console.log(location);
+        //$('#stockLevelItemGrid').jqxGrid(inventoryExtraService.getStockGridData($scope.itemInventoryID, location));
+        //$scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
+    //});
+    }
 
 });

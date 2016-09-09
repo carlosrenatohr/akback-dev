@@ -13,15 +13,17 @@
         <div class="col-md-4">
             <div class="form-group">
                 <div>
+<!--                    <select id="itemstock_locationCbx">-->
                     <jqx-combo-box id="itemstock_locationCbx"
-                                   jqx-on-select=""
-                    >
+                                   jqx-settings="stockitemLocationSettings"
+                                   jqx-on-select="onSelectStockLocationList($event)">
                         <option value="0">All Location</option>
                         <?php foreach($locations as $location) { ?>
                             <option value="<?php echo $location['Unique']?>"
                             ><?php echo trim($location['LocationName'])?></option>
                         <?php } ?>
                     </jqx-combo-box>
+<!--                    </select>-->
                 </div>
             </div>
         </div>
@@ -29,7 +31,7 @@
     <div class="row">
         <div class="form-group">
             <div id="" style="overflow:auto; height:auto;">
-                <jqx-grid id="taxesGrid"
+                <jqx-grid id="stockLevelItemGrid"
                           jqx-settings="stockInventoryGrid"
                           jqx-create="stockInventoryGrid"
                 ></jqx-grid>

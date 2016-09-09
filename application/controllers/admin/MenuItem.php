@@ -483,4 +483,8 @@ class MenuItem extends AK_Controller
         echo json_encode($stock_n);
     }
 
+    public function getLocationsList() {
+        echo json_encode($this->getLocations());
+    }
+
 }

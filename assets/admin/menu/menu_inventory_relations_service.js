@@ -138,6 +138,7 @@ app.service('inventoryExtraService', function ($http) {
 
     // -- STOCK DATA LIST
     this.getStockGridData = function(itemId, location) {
+        console.log(itemId, location);
         var params = '';
         if (itemId != undefined) {
             params = (itemId) + '/';
@@ -195,6 +196,24 @@ app.service('inventoryExtraService', function ($http) {
             },
             initRowDetails: initrowdetails
         };
-    }
+    };
+
+    this.getStockLocationListSettings = function() {
+        return {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'LocationName', type: 'string'}
+                ],
+                url: SiteRoot + 'MenuItem/getLocationsList'
+            },
+            autoDropDownHeight: true,
+            filterPlaceHolder:'Search',
+            displayMember: "LocationName",
+            valueMember: "Unique",
+            theme: 'arctic'
+        }
+    };
 
 });
