@@ -117,6 +117,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_barcodeinput').val("");
         // Taxes cleaning
         taxesValuesChanged = [];
+        // Stock Level Cleaning
+        $('#itemstock_locationCbx').jqxComboBox({selectedIndex: 0});
         if (close == 1)
             inventoryWind.close();
     };
@@ -438,13 +440,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.stockInventoryGrid = inventoryExtraService.getStockGridData();
     $scope.stockitemLocationSettings = inventoryExtraService.getStockLocationListSettings();
     $scope.onSelectStockLocationList = function(e) {
-    //$('#itemstock_locationCbx')
-    //.on('select', function(e) {
         var location = e.args.item.value;
-        console.log(location);
-        //$('#stockLevelItemGrid').jqxGrid(inventoryExtraService.getStockGridData($scope.itemInventoryID, location));
-        //$scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
-    //});
+        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
     }
 
 });

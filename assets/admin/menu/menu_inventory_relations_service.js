@@ -138,7 +138,6 @@ app.service('inventoryExtraService', function ($http) {
 
     // -- STOCK DATA LIST
     this.getStockGridData = function(itemId, location) {
-        console.log(itemId, location);
         var params = '';
         if (itemId != undefined) {
             params = (itemId) + '/';
@@ -206,10 +205,10 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'Unique', type: 'int'},
                     {name: 'LocationName', type: 'string'}
                 ],
-                url: SiteRoot + 'MenuItem/getLocationsList'
+                url: SiteRoot + 'admin/MenuItem/getLocationsList/0'
             },
+            selectedIndex: 0,
             autoDropDownHeight: true,
-            filterPlaceHolder:'Search',
             displayMember: "LocationName",
             valueMember: "Unique",
             theme: 'arctic'

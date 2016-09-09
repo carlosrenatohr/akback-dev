@@ -13,17 +13,10 @@
         <div class="col-md-4">
             <div class="form-group">
                 <div>
-<!--                    <select id="itemstock_locationCbx">-->
                     <jqx-combo-box id="itemstock_locationCbx"
                                    jqx-settings="stockitemLocationSettings"
                                    jqx-on-select="onSelectStockLocationList($event)">
-                        <option value="0">All Location</option>
-                        <?php foreach($locations as $location) { ?>
-                            <option value="<?php echo $location['Unique']?>"
-                            ><?php echo trim($location['LocationName'])?></option>
-                        <?php } ?>
                     </jqx-combo-box>
-<!--                    </select>-->
                 </div>
             </div>
         </div>

@@ -483,8 +483,20 @@ class MenuItem extends AK_Controller
         echo json_encode($stock_n);
     }
 
-    public function getLocationsList() {
-        echo json_encode($this->getLocations());
+    public function getLocationsList($all = null) {
+        $new = [];
+        if ($all != null) {
+            $new[] = [
+                'Unique' => 0,
+                'Name' => 'All Location',
+                'LocationName' => 'All Location',
+            ];
+        }
+        foreach($this->getLocations() as $location) {
+            $location['LocationName'] = trim($location['LocationName']);
+            $new[] = $location;
+        }
+        echo json_encode($new);
     }
 
 }
