@@ -1,15 +1,17 @@
-<div class="col-md-12">
-    <button class="btn btn-info" ng-click="openQuestionItemWin()" style="margin: 10px 0;">
-        New Question
-    </button>
-</div>
-<div class="col-md-12">
-    <jqx-grid id="questionItemTable"
-                jqx-settings="questionTableOnMenuItemsSettings"
-                jqx-create="questionTableOnMenuItemsSettings"
-                jqx-on-rowdoubleclick="editQuestionItemWin($event)"
-                >
-    </jqx-grid>
+<div class="row inventory_tab">
+    <div class="col-md-12">
+        <button class="btn btn-info" ng-click="openQuestionItemWin()" style="margin: 10px 0;">
+            New Question
+        </button>
+    </div>
+    <div class="col-md-12">
+        <jqx-grid id="questionItemTable"
+                    jqx-settings="questionInventoryGridSettings"
+                    jqx-create="questionInventoryGridSettings"
+                    jqx-on-rowdoubleclick="editQuestionItemWin($event)"
+                    >
+        </jqx-grid>
+    </div>
 </div>
 <jqx-window jqx-on-close="close()" jqx-settings="questionInventoryWindSettings"
             jqx-create="questionInventoryWindSettings" class="">

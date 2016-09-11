@@ -213,6 +213,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
         updateQuestionItemTable($scope.itemInventoryID);
+        updatePrinterItemGrid($scope.itemInventoryID);
         //
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
@@ -448,7 +449,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     // -- QUESTION SUBTAB
     $scope.questionInventorySuccess = itemInventoryService.setNotificationSettings(1, '#notif_questionInventory');
     $scope.questionInventoryError = itemInventoryService.setNotificationSettings(0, '#notif_questionInventory');
-    $scope.questionTableOnMenuItemsSettings = inventoryExtraService.getQuestionGridData();
+    $scope.questionInventoryGridSettings = inventoryExtraService.getQuestionGridData();
 
     var updateQuestionItemTable = function(itemId) {
         $('.inventory_tab #questionItemTable').jqxGrid({
@@ -681,4 +682,210 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
+    // -- PRINTERS SUBTAB
+    $scope.printerInventorySuccess = itemInventoryService.setNotificationSettings(1, '#notif_printerInventory');
+    $scope.printerInventoryError = itemInventoryService.setNotificationSettings(0, '#notif_printerInventory');
+    $scope.printerInventoryGridSettings = inventoryExtraService.getPrinterGridData();
+    //
+    var allPrintersArray = [];
+    var printerStoredArray = [];
+    var updatePrinterItemGrid = function(itemID) {
+        $('.inventory_tab #printerItemTable').jqxGrid({
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ItemUnique', type: 'int'},
+                    {name: 'PrinterUnique', type: 'int'},
+                    {name: 'name', type: 'string'},
+                    {name: 'description', type: 'string'},
+                    {name: 'Item', type: 'string'},
+                    {name: 'Status', type: 'number'},
+                    {name: 'fullDescription', type: 'string'}
+                ],
+                url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + itemID
+            })
+        });
+    };
+    //
+    //var printerItemWind;
+    //$scope.printerItemWindowSettings = {
+    //    created: function (args) {
+    //        printerItemWind = args.instance;
+    //    },
+    //    resizable: false,
+    //    width: "52%", height: "28%",
+    //    autoOpen: false,
+    //    theme: 'darkblue',
+    //    isModal: true,
+    //    showCloseButton: false
+    //};
+    //
+    //// Printer dropdownlist
+    //var source =
+    //{
+    //    datatype: "json",
+    //    datafields: [
+    //        { name: 'name'},
+    //        { name: 'description'},
+    //        { name: 'fullDescription'},
+    //        { name: 'status' },
+    //        { name: 'unique' }
+    //    ],
+    //    id: 'Unique',
+    //    url: SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig'
+    //};
+    //
+    //$('#printerInvList').on('select', function(e) {
+    //    $('#saveBtnPrinterInv').prop('disabled', false);
+    //});
+    //
+    //var dataAdapter = new $.jqx.dataAdapter(source);
+    //$scope.printerInvList = { source: dataAdapter, displayMember: "fullDescription", valueMember: "unique" };
+    //
+    //function setPrinterStoredArray() {
+    //    // Fill with printers by item
+    //    printerStoredArray = [];
+    //    var rows = $('#printerItemTable').jqxDataTable('getRows');
+    //    for(var j in rows) {
+    //        printerStoredArray.push(rows[j]['PrinterUnique']);
+    //    }
+    //    // Check existing printers on stored by item
+    //    for (var i in allPrintersArray) {
+    //        var item = $("#printerInvList").jqxDropDownList('getItemByValue', allPrintersArray[i]);
+    //        if (printerStoredArray.indexOf(allPrintersArray[i]) > -1) {
+    //            $("#printerInvList").jqxDropDownList('disableItem', item);
+    //        } else {
+    //            $("#printerInvList").jqxDropDownList('enableItem', item);
+    //        }
+    //    }
+    //}
+    //
+    //$scope.itemPrinterID = null;
+    //$scope.createOrEditPitem = null;
+    //$scope.openPrinterItemWin = function(e) {
+    //    $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
+    //    $scope.createOrEditPitem = 'create';
+    //    $scope.itemPrinterID = null;
+    //    // Printers saved by Item
+    //    setPrinterStoredArray();
+    //    //
+    //    $("#printerInvList").jqxDropDownList({selectedIndex: -1});
+    //    $('#deleteBtnPrinterInv').hide();
+    //    $('#saveBtnPrinterInv').prop('disabled', true);
+    //    printerItemWind.setTitle('New Item Printer');
+    //    printerItemWind.open();
+    //};
+    //
+    //$scope.updateItemPrinter = function(e) {
+    //    var row = e.args.row;
+    //    $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
+    //    $scope.openPrinterItemWin();
+    //    printerItemWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
+    //    //
+    //    $scope.createOrEditPitem = 'edit';
+    //    $scope.itemPrinterID = row.Unique;
+    //    $('#deleteBtnPrinterInv').show();
+    //    var item = $("#printerInvList").jqxDropDownList('getItemByValue', row.PrinterUnique);
+    //    $("#printerInvList").jqxDropDownList('enableItem', item);
+    //    $("#printerInvList").jqxDropDownList({selectedIndex: item.index});
+    //    $('#saveBtnPrinterInv').prop('disabled', true);
+    //};
+    //
+    //$scope.closePrinterItemWin = function() {
+    //    printerItemWind.close();
+    //    $('#mainButtonsPrinterInv').show();
+    //    $('#promptDeletePrinterInv').hide();
+    //    setPrinterStoredArray();
+    //};
+    //
+    //// Saving Item printer
+    //$scope.saveItemPrinter = function() {
+    //    var data = {
+    //        'ItemUnique': $scope.itemSelectedChangedID,
+    //        'PrinterUnique': $('#printerInvList').jqxDropDownList('getSelectedItem').value
+    //    };
+    //    var url;
+    //    if ($scope.createOrEditPitem == 'create') {
+    //        url = SiteRoot + 'admin/MenuPrinter/post_item_printer'
+    //    } else if ($scope.createOrEditPitem == 'edit')
+    //        url = SiteRoot + 'admin/MenuPrinter/update_item_printer/' + $scope.itemPrinterID;
+    //    $.ajax({
+    //        url: url,
+    //        method: 'post',
+    //        data: data,
+    //        dataType: 'json',
+    //        success: function(response) {
+    //            if (response.status == 'success') {
+    //                $scope.$apply(function() {
+    //                    updatePrinterItemGrid();
+    //                });
+    //                $scope.closePrinterItemWin();
+    //            } else if (response.status == 'error')
+    //                console.log('Database error!');
+    //            else
+    //                console.log('There was an error!');
+    //        }
+    //    })
+    //};
+    //
+    //$scope.promptClosePrinterItemWin = function (option) {
+    //    if(option != undefined) {
+    //        $('#mainButtonsPrinterInv').show();
+    //        $('#promptToClosePrinterInv').hide();
+    //        $('#promptDeletePrinterInv').hide();
+    //    }
+    //    if (option == 0) {
+    //        $scope.saveItemPrinter();
+    //    } else if (option == 1) {
+    //        $scope.closePrinterItemWin();
+    //    }
+    //    else if (option == 2) {}
+    //    else {
+    //        if ($('#saveBtnPrinterInv').is(':disabled')) {
+    //            $scope.closePrinterItemWin();
+    //        }
+    //        else {
+    //            $('#promptToClosePrinterInv').show();
+    //            $('#mainButtonsPrinterInv').hide();
+    //            $('#promptDeletePrinterInv').hide();
+    //        }
+    //    }
+    //};
+    //
+    //// Deleting Item printer
+    //$scope.beforeDeleteItemPrinter = function(option) {
+    //    if (option == 0) {
+    //        $.ajax({
+    //            url: SiteRoot + 'admin/MenuPrinter/delete_item_printer/' + $scope.itemPrinterID,
+    //            method: 'post',
+    //            dataType: 'json',
+    //            success: function(response) {
+    //                if(response.status == 'success') {
+    //                    $scope.$apply(function() {
+    //                        updatePrinterItemGrid();
+    //                    });
+    //                    $scope.closePrinterItemWin();
+    //                } else if (response.status == 'error'){
+    //                    console.log('there was an error db');
+    //                } else {
+    //                    console.log('there was an error');
+    //                }
+    //            }
+    //        });
+    //    } else if (option == 1) {
+    //        $('#mainButtonsPrinterInv').show();
+    //        //$('#pro-mptToCloseQitem').hide();
+    //        $('#promptDeletePrinterInv').hide();
+    //        printerItemWind.close();
+    //    } else if (option == 2) {
+    //        $('#mainButtonsPrinterInv').show();
+    //        //$('#promptToCloseQitem').hide();
+    //        $('#promptDeletePrinterInv').hide();
+    //    } else {
+    //        $('#mainButtonsPrinterInv').hide();
+    //        //$('#promptToCloseQitem').hide();
+    //        $('#promptDeletePrinterInv').show();
+    //    }
+    //};
 });

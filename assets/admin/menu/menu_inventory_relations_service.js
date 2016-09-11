@@ -220,7 +220,7 @@ app.service('inventoryExtraService', function ($http) {
     // -- QUESTION DATA
     this.getQuestionInvWindSettings = function () {
         return '';
-    }
+    };
 
     this.getQuestionGridData = function(item) {
         var url = '';
@@ -254,6 +254,7 @@ app.service('inventoryExtraService', function ($http) {
             ],
             //columnsResize: true,
             width: "99%",
+            //height: "99%",
             theme: 'arctic',
             sortable: true,
             pageable: true,
@@ -273,6 +274,50 @@ app.service('inventoryExtraService', function ($http) {
                 url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
             }
         );
+    };
+
+    // -- PRINTER DATA
+    this.getPrinterGridData = function() {
+        return {
+            source: {
+                dataType: 'json',
+                    dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'ItemUnique', type: 'int'},
+                    {name: 'PrinterUnique', type: 'int'},
+                    {name: 'name', type: 'string'},
+                    {name: 'description', type: 'string'},
+                    {name: 'Item', type: 'string'},
+                    {name: 'Status', type: 'number'},
+                    {name: 'fullDescription', type: 'string'}
+                ],
+                    id: 'Unique',
+                    url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters'
+            },
+            columns: [
+                {text: 'ID', dataField: 'Unique', type: 'int'},
+                {text: 'Item', dataField: 'Item', type: 'string', hidden: true},
+                {text: 'Name', dataField: 'name', type: 'string'},
+                {text: 'Description', dataField: 'description', type: 'string'},
+                {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
+                {text: '', dataField: 'Status', type: 'int', hidden: true},
+                {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
+                //{text: 'Actions', type: 'string', hidden:false, width: '20%', align: 'center',
+                //    cellsrenderer: function (row, column, value, rowData) {
+                //        return '<button class="btn btn-danger deletePrinterItemBtn" '+
+                //            'data-unique="'+ rowData.Unique +'" '+
+                //            'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Delete</button>';
+                //    }
+                //}
+            ],
+                //columnsResize: true,
+            width: "99%",
+            //height: "100%",
+            theme: 'arctic',
+            sortable: true,
+            pageable: true,
+            pageSize: 15
+        };
     }
 
 });
