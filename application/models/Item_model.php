@@ -166,7 +166,8 @@ class Item_model extends CI_Model
         return count($isTaxed);
     }
 
-    public function updateTaxesByItem($taxesArray = []) {
+    public function updateTaxesByItem($taxesArray) {
+        $taxesArray = empty($taxesArray) ? [] : $taxesArray;
         foreach($taxesArray as $group) {
             $this->db->trans_start();
             $itemTaxFound = $this->db->get_where('item_tax',

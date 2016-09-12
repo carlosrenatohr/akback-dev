@@ -130,6 +130,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#promptToDeleteItemInv').hide();
         }
         if (option == 0) {
+            console.log(option);
             $scope.saveInventoryAction(true);
         } else if (option == 1) {
             $scope.closeInventoryWind(1);
@@ -298,7 +299,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 });
             }
         }
-        data['taxesValues'] = JSON.stringify(taxesByItem);
+        data['taxesValues'] = (taxesByItem != '') ? JSON.stringify(taxesByItem) : '';
         return data;
     };
 
@@ -322,9 +323,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 method: 'POST',
                 url: url,
                 data: dataRequest,
-                dataType: 'JSON',
+                dataType: 'json',
                 success: function(data) {
-                    //console.log(data);
+                    console.log(data);
                     if (data.status == 'success') {
                         if ($scope.createOrEditItemInventory == 'create') {
                             $scope.createOrEditItemInventory = 'edit';

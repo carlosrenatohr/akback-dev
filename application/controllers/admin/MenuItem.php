@@ -358,8 +358,11 @@ class MenuItem extends AK_Controller
     public function postItemInventory() {
         $data = $_POST;
         if (!empty($data) || !is_null($_POST)) {
-            $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues'])) ? $_POST['taxesValues'] : [];
-            unset($_POST['taxesValues']);
+            $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
+                        ? $_POST['taxesValues']
+                        : [];
+//            unset($_POST['taxesValues']);
+            unset($data['taxesValues']);
             $this->item->updateTaxesByItem($taxes);
             $status = $this->item->saveItem($this->checkItemValues($data));
             if ($status) {
@@ -381,8 +384,10 @@ class MenuItem extends AK_Controller
     public function updateItemInventory($id) {
         $data = $_POST;
         if (!empty($data) || !is_null($_POST)) {
-            $taxes = (isset($_POST['taxesValues']) && !empty($data['taxesValues'])) ? $_POST['taxesValues'] : [];
-            unset($_POST['taxesValues']);
+            $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
+                        ? $_POST['taxesValues']
+                        : '';
+//            unset($_POST['taxesValues']);
             unset($data['taxesValues']);
             $this->item->updateTaxesByItem($taxes);
             $status = $this->item->updateItem($id, $this->checkItemValues($data));
