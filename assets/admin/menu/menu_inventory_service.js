@@ -102,6 +102,9 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
             if (tabTitle == 'Questions') {
                 $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
             }
+            if (tabTitle == 'Questions') {
+
+            }
             //console.log(tabTitle);
         });
         // Inputs change event
@@ -120,6 +123,10 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
         // Question subtab events
         $('#invQ_Status, #invQ_Question').on('select', function() {
             $('#saveQuestionInvBtn').prop('disabled', false);
+        });
+        // Printer subtab events
+        $('#printerInvList').on('select', function(e) {
+            $('#saveBtnPrinterInv').prop('disabled', false);
         });
     };
 

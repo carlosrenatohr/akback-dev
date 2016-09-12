@@ -320,4 +320,19 @@ app.service('inventoryExtraService', function ($http) {
         };
     }
 
+    this.getPrintersCbxData = function() {
+        return {
+            datatype: "json",
+            datafields: [
+                { name: 'name'},
+                { name: 'description'},
+                { name: 'fullDescription'},
+                { name: 'status' },
+                { name: 'unique' }
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig'
+        };
+    }
+
 });

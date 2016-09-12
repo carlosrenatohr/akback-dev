@@ -8,13 +8,13 @@
         <jqx-grid id="printerItemTable"
                   jqx-settings="printerInventoryGridSettings"
                   jqx-create="printerInventoryGridSettings"
-                  jqx-on-rowdoubleclick=""
+                  jqx-on-rowdoubleclick="updateItemPrinter()"
         >
         </jqx-grid>
     </div>
 </div>
-<jqx-window jqx-on-close="close()" jqx-settings=""
-            jqx-create="" class="">
+<jqx-window jqx-on-close="close()" jqx-settings="printerInvWindowSettings"
+            jqx-create="printerInvWindowSettings" class="">
     <div>
         New Printer
     </div>
@@ -26,7 +26,7 @@
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Printer:</div>
                         <div style="float:left; width:350px;">
                             <jqx-drop-down-list id="printerInvList"
-                                                jqx-settings=""
+                                                jqx-settings="printerInvList"
                                                 jqx-width="'100%'"
                                                 jqx-on-select="">
                             </jqx-drop-down-list>
