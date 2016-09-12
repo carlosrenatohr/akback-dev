@@ -372,30 +372,40 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             return;
         }
         if(input != undefined) {
-            var dataRequest = {
-                Barcode:input,
-                ItemUnique: $scope.itemInventoryID
-            };
-            var idParam = (action) ? $scope.barcodeData.idSelected : '';
-            $.ajax({
-                method: 'post',
-                url: SiteRoot + 'admin/MenuItem/saveBarcodeItem/' + idParam,
-                dataType: 'json',
-                data: dataRequest,
-                success: function(data) {
-                    if (data.status == 'success') {
-                        $('#inventory_barcodesList').jqxListBox('refresh');
-                        //$scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
-                        $scope.barcodeData.mainValue = '';
-                        $('#item_barcodeinput').val("");
-                        $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
-                    }
-                    else if (data.status == 'error')
-                        showingNotif(data.message, 0);
-                    else
-                        showingNotif(data.message, 0);
+            var equalBarcode = false;
+            $.each($('#inventory_barcodesList').jqxListBox('getItems'), function(i, val) {
+                if (val.label == input) {
+                    equalBarcode = true;
+                    alert('This barcode is already registered at index ' + val.index);
+                    return;
                 }
             });
+            if (!equalBarcode) {
+                var dataRequest = {
+                    Barcode: input,
+                    ItemUnique: $scope.itemInventoryID
+                };
+                var idParam = (action) ? $scope.barcodeData.idSelected : '';
+                $.ajax({
+                    method: 'post',
+                    url: SiteRoot + 'admin/MenuItem/saveBarcodeItem/' + idParam,
+                    dataType: 'json',
+                    data: dataRequest,
+                    success: function(data) {
+                        if (data.status == 'success') {
+                            $('#inventory_barcodesList').jqxListBox('refresh');
+                            //$scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
+                            $scope.barcodeData.mainValue = '';
+                            $('#item_barcodeinput').val("");
+                            $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
+                        }
+                        else if (data.status == 'error')
+                            showingNotif(data.message, 0);
+                        else
+                            showingNotif(data.message, 0);
+                    }
+                });
+            }
         }
     };
 
