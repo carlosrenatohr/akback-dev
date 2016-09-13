@@ -374,7 +374,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $.each($('#inventory_barcodesList').jqxListBox('getItems'), function(i, val) {
                 if (val.label == input) {
                     equalBarcode = true;
-                    alert('This barcode is already registered at index ' + val.index);
+                    alert(input + ' not added because duplicates another barcode assigned to this item.');
                     return;
                 }
             });
