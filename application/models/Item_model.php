@@ -18,7 +18,7 @@ class Item_model extends CI_Model
 			category_sub.Name AS SubCategory, category_sub.Unique AS SubCategoryId,
 			item.Cost, item.Cost_Extra, item.Cost_Freight, item.Cost_Duty,
 			(item.\"Cost\" + item.\"Cost_Extra\" + item.\"Cost_Freight\" + item.\"Cost_Duty\") AS \"CostLanded\",
-			SUM(isl.\"Quantity\") AS Quantity,
+			SUM(isl.\"Quantity\") AS \"Quantity\",
 			item.PromptPrice, item.PromptDescription, item.EBT, item.GiftCard, item.Group,
 			item.MinimumAge, item.CountDown, item.Points");
         $this->db->from('item');

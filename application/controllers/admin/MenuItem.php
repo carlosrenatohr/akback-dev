@@ -288,7 +288,12 @@ class MenuItem extends AK_Controller
      */
 
     public function getItemsData() {
-        $items = $this->item->getItemsData();
+        $items = [];
+        foreach($this->item->getItemsData() as $count=> $item) {
+            $item['price1'] = number_format($item['price1'], $this->decimalPrice);
+            $item['Quantity'] = !is_null($item['Quantity']) ? number_format($item['Quantity'], $this->decimalQuantity) : '';
+            $items[] = $item;
+        }
         echo json_encode($items);
     }
 
