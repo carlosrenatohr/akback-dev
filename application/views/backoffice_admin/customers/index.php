@@ -77,15 +77,10 @@ jqxthemes();
                 </div>
             </nav>
         </div>
-        <style>
-            #mainCustomerTabs .jqx-tabs-content-element {
-                /*overflow: inherit;!important;*/
-            }
-        </style>
-        <div class="row">
-            <jqx-tabs jqx-width="'100%'"
+        <div class="row" style="height: 100%;max-height: 600px;">
+            <jqx-tabs jqx-width="'100%'" jqx-height="'100%'"
                       jqx-on-tabclick=""
-                          id="mainCustomerTabs" jqx-theme="articTheme" style="">
+                      id="mainCustomerTabs" jqx-theme="articTheme" style="">
                 <ul>
                     <li id="" class="">Customer</li>
                     <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
@@ -294,5 +289,12 @@ jqxthemes();
         /*max-width: 1000px !important;*/
         max-width: 99%!important;
         max-height: 99%!important;
+    }
+    #mainCustomerTabs .jqx-tabs-content {
+        height: 100%!important;
+        max-height: 500px;
+    }
+    #mainCustomerTabs .jqx-tabs-content-element {
+        /*overflow: inherit;!important;*/
     }
 </style>
