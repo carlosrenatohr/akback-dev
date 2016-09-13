@@ -32,7 +32,6 @@ app.controller('menuQuestionController', function ($scope) {
                 {name: 'Min', type: 'string'},
                 {name: 'Max', type: 'string'}
             ],
-            id: 'Unique',
             url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
         },
         columns: [
@@ -44,20 +43,19 @@ app.controller('menuQuestionController', function ($scope) {
             {text: 'Maximum', dataField: 'Max', type: 'string', width: '20%'}
         ],
         columnsResize: true,
-        //height: '100%',
+        height: '100%',
         width: '99.7%',
         theme: 'arctic',
         pageable: true,
-        //pageSize: 20,
         pagerMode: 'default',
-        //altRows: true,
         sortable: true,
         filterable: true,
-        filterMode: 'simple',
+        showfilterrow: true,
+        filterMode: 'simple'
     };
 
     var updateQuestionMainTable = function() {
-        $('#questionMainTable').jqxDataTable({
+        $('#questionMainTable').jqxGrid({
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
@@ -69,7 +67,6 @@ app.controller('menuQuestionController', function ($scope) {
                     {name: 'Min', type: 'string'},
                     {name: 'Max', type: 'string'}
                 ],
-                id: 'Unique',
                 url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
             })
         });
@@ -174,7 +171,7 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $scope.editQuestionWindow = function(e) {
-        var row = e.args.row;
+        var row = e.args.row.bounddata;
         $scope.newOrEditQuestionOption = 'edit';
         $scope.questionId = row.Unique;
         $('#item-tab-2').show();

@@ -1,14 +1,14 @@
-<div>
+<div class="gridContentTab">
     <div>
         <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="openQuestionWindow()">
             <span class="icon-32-new"></span>
             New
         </a>
     </div>
-    <jqx-data-table id="questionMainTable"
-                    jqx-settings="questionTableSettings"
-                    jqx-on-row-double-click="editQuestionWindow($event)">
-    </jqx-data-table>
+    <jqx-grid id="questionMainTable"
+                jqx-settings="questionTableSettings"
+                jqx-on-rowdoubleclick="editQuestionWindow($event)">
+    </jqx-grid>
 
     <!-- WINDOWS FOR ADD/EDIT QUESTIONS   -->
     <jqx-window jqx-on-close="close()" jqx-settings="questionWindowsFormSettings"

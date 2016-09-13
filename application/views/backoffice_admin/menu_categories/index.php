@@ -108,5 +108,10 @@ jqxthemes();
     </div>
     <input type="hidden" id="userid" ng-model="userid" />
 </div>
+    <style>
+        #MenuCategoriesTabs .gridContentTab {
+            height: 100%;max-height: 500px;
+        }
+    </style>
 
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

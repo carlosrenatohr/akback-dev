@@ -1,12 +1,12 @@
-<div>
+<div class="gridContentTab">
     <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="newCategoryAction()">
         <span class="icon-32-new"></span>
         New
     </a>
-    <jqx-data-table id="categoriesDataTable"
+    <jqx-grid id="categoriesDataTable"
                     jqx-settings="categoriesTableSettings"
-                    jqx-on-row-double-click="updateCategoryAction(e)">
-    </jqx-data-table>
+                    jqx-on-rowdoubleclick="updateCategoryAction(e)">
+    </jqx-grid>
     <!-- -->
     <jqx-window jqx-on-close="close()" jqx-settings="addCategoryWindowSettings"
                 jqx-create="addCategoryWindowSettings" class="">

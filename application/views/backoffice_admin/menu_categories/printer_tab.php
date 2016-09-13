@@ -1,4 +1,4 @@
-<div class="">
+<div class="gridContentTab">
     <div class="col-md-12">
         <button class="btn btn-info" ng-click="openPrinterWin()" style="margin: 10px 0;">
             New Printer

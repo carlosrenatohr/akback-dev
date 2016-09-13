@@ -1,4 +1,4 @@
-<div class="">
+<div class="gridContentTab">
     <div class="col-md-12">
         <button class="btn btn-info" ng-click="openInventoryWind()" style="margin: 10px 0;">
             New Item

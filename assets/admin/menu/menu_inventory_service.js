@@ -81,6 +81,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
             {text: '', dataField: 'Points', hidden:true},
         ],
         width: "100%",
+        //height: "99.9%",
         theme: 'arctic',
         filterable: true,
         showfilterrow: true,
