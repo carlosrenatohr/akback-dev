@@ -330,12 +330,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                             $scope.itemInventoryID = data.id;
                             showingNotif(data.message, 1);
                             inventoryWind.setTitle('Edit Item ID: '+ data.id + ' | Item: ' + dataRequest.Item + '| ' + dataRequest.Description);
+                            updateItemsInventoryGrid();
                         }
                         else if ($scope.createOrEditItemInventory = 'edit') {
                             showingNotif(data.message, 1);
+                            $('#inventoryItemsGrid').jqxGrid('updatebounddata', 'filter');
                         }
                         //
-                        updateItemsInventoryGrid();
                         $('#saveInventoryBtn').prop('disabled', true);
                         if (toClose) {
                             $scope.closeInventoryWind(1);

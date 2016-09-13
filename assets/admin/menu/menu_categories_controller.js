@@ -61,25 +61,29 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         showfilterrow: true
     };
 
-    var updateMainMenuGrid = function() {
-        $('#menuGridTable').jqxGrid({
-            source: new $.jqx.dataAdapter({
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'MenuName', type: 'string'},
-                    {name: 'Status', type: 'string'},
-                    {name: 'StatusName', type: 'string'},
-                    {name: 'Column', type: 'string'},
-                    {name: 'Row', type: 'string'},
-                    {name: 'MenuItemRow', type: 'string'},
-                    {name: 'MenuItemColumn', type: 'string'},
-                    {name: 'ItemLength', type: 'string'}
-                ],
-                url: SiteRoot + 'admin/MenuCategory/load_allmenus'
-            })
-        });
-    };
+    function updateMainMenuGrid() {
+        if ($scope.newOrEditOption == 'new') {
+            $('#menuGridTable').jqxGrid({
+                source: new $.jqx.dataAdapter({
+                    dataType: 'json',
+                    dataFields: [
+                        {name: 'Unique', type: 'int'},
+                        {name: 'MenuName', type: 'string'},
+                        {name: 'Status', type: 'string'},
+                        {name: 'StatusName', type: 'string'},
+                        {name: 'Column', type: 'string'},
+                        {name: 'Row', type: 'string'},
+                        {name: 'MenuItemRow', type: 'string'},
+                        {name: 'MenuItemColumn', type: 'string'},
+                        {name: 'ItemLength', type: 'string'}
+                    ],
+                    url: SiteRoot + 'admin/MenuCategory/load_allmenus'
+                })
+            });
+        } else {
+            $('#menuGridTable').jqxGrid('updatebounddata', 'filter');
+        }
+    }
 
     // Menu Notification settings
     var setNotificationInit = function (type) {
@@ -215,7 +219,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 dataType: 'json',
                 //}).then(function(response) {
                 success: function (response) {
-                    console.log(response);
                     if (response.status == "success") {
                         //$scope.menuTableSettings = {
                         //    source: {
@@ -239,6 +242,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                         //    }
                         //};
                         //
+                        updateMainMenuGrid();
                         if ($scope.newOrEditOption == 'new') {
                             $('#menuNotificationsSuccessSettings #notification-content')
                                 .html('Menu created successfully!');
@@ -258,9 +262,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                         }
                         // -----
                         reloadMenuSelectOnCategories();
-                        //$scope.$apply(function(){
-                            updateMainMenuGrid();
-                        //});
                         // ------
                     } else {
                         $.each(response.message, function (i, val) {
@@ -273,7 +274,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 }
             });
         }
-    }
+    };
 
     var resetMenuWindows = function() {
         $('.menuFormContainer .required-field').css({"border-color": "#ccc"});
@@ -284,10 +285,10 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         $('#saveMenuBtn').prop('disabled', true);
 
         $('#add_MenuName').val('');
-        $('#add_MenuRow').val('');
-        $('#add_MenuColumn').val('');
-        $('#add_MenuItemColumn').val('');
-        $('#add_MenuItemRow').val('');
+        $('#add_MenuRow').val(1);
+        $('#add_MenuColumn').val(1);
+        $('#add_MenuItemColumn').val(1);
+        $('#add_MenuItemRow').val(1);
         $('#add_ItemLength').val('');
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
@@ -458,22 +459,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
 
     // Events category controls
     $('.categoryFormContainer .required-field').on('keypress keyup paste change', function (e) {
-        var idsRestricted = ['add_CategoryRow', 'add_CategoryColumn', 'add_Sort'];
-        //var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        //if (inarray >= 0) {
-        //    var charCode = (e.which) ? e.which : e.keyCode;
-        //    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        //        if ($(this).val() == '') {
-        //            $('#categoryNotificationsErrorSettings #notification-content')
-        //                .html('Row, Sort and Column values must be numbers!');
-        //            $scope.categoryNotificationsErrorSettings.apply('open');
-        //        }
-        //        return false;
-        //    }
-        //    if (this.value.length > 2) {
-        //        return false;
-        //    }
-        //}
         $('#saveCategoryBtn').prop('disabled', false);
     });
 
@@ -568,6 +553,32 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         return isOk;
     };
 
+    function updateCategoryGridTable() {
+        if ($scope.newOrEditCategoryOption == 'new') {
+            $('#categoriesDataTable').jqxGrid({
+                source: new $.jqx.dataAdapter({
+                    dataType: 'json',
+                    dataFields: [
+                        {name: 'Unique', type: 'int'},
+                        {name: 'CategoryName', type: 'string'},
+                        {name: 'Row', type: 'number'},
+                        {name: 'Column', type: 'number'},
+                        {name: 'Sort', type: 'number'},
+                        {name: 'Status', type: 'number'},
+                        {name: 'StatusName', type: 'string'},
+                        {name: 'MenuUnique', type: 'number'},
+                        {name: 'MenuName', type: 'string'}
+                    ],
+                    id: 'Unique',
+                    url: SiteRoot + 'admin/MenuCategory/load_allcategories'
+                })
+            });
+        }
+        else {
+            $('#categoriesDataTable').jqxGrid('updatebounddata', 'filter');
+        }
+    }
+
     $scope.SaveCategoryWindows = function(closed) {
         if (!validationCategoryItem()) {
             var values = {
@@ -591,28 +602,29 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 data: values
             }).then(function (response) {
                 if (response.data.status == "success") {
-                    $scope.categoriesTableSettings = {
-                        source: {
-                            dataType: 'json',
-                            dataFields: [
-                                {name: 'Unique', type: 'int'},
-                                {name: 'CategoryName', type: 'string'},
-                                {name: 'Row', type: 'number'},
-                                {name: 'Column', type: 'number'},
-                                {name: 'Sort', type: 'number'},
-                                {name: 'Status', type: 'number'},
-                                {name: 'StatusName', type: 'string'},
-                                {name: 'MenuUnique', type: 'number'},
-                                {name: 'MenuName', type: 'string'}
-                            ],
-                            id: 'Unique',
-                            url: SiteRoot + 'admin/MenuCategory/load_allcategories'
-                        },
-                        created: function (args) {
-                            var instance = args.instance;
-                            instance.updateBoundData();
-                        }
-                    };
+                    //$scope.categoriesTableSettings = {
+                        //source: {
+                        //    dataType: 'json',
+                        //    dataFields: [
+                        //        {name: 'Unique', type: 'int'},
+                        //        {name: 'CategoryName', type: 'string'},
+                        //        {name: 'Row', type: 'number'},
+                        //        {name: 'Column', type: 'number'},
+                        //        {name: 'Sort', type: 'number'},
+                        //        {name: 'Status', type: 'number'},
+                        //        {name: 'StatusName', type: 'string'},
+                        //        {name: 'MenuUnique', type: 'number'},
+                        //        {name: 'MenuName', type: 'string'}
+                        //    ],
+                        //    id: 'Unique',
+                        //    url: SiteRoot + 'admin/MenuCategory/load_allcategories'
+                        //},
+                        //created: function (args) {
+                        //    var instance = args.instance;
+                        //    instance.updateBoundData();
+                        //}
+                    //};
+                    updateCategoryGridTable();
                     //
                     if ($scope.newOrEditCategoryOption == 'new') {
                         $('#categoryNotificationsSuccessSettings #notification-content')
@@ -654,8 +666,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         $('#mainButtonsForCategories').show();
 
         $('#add_CategoryName').val('');
-        $('#add_CategoryRow').val('');
-        $('#add_CategoryColumn').val('');
+        $('#add_CategoryRow').val(1);
+        $('#add_CategoryColumn').val(1);
         $('#add_Sort').val(1);
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
@@ -688,28 +700,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         }).then(function(response){
             console.info(response);
             if (response.data.status == "success") {
-                $scope.categoriesTableSettings = {
-                    source: {
-                        dataType: 'json',
-                        dataFields: [
-                            {name: 'Unique', type: 'int'},
-                            {name: 'CategoryName', type: 'string'},
-                            {name: 'Sort', type: 'number'},
-                            {name: 'Row', type: 'number'},
-                            {name: 'Category', type: 'number'},
-                            {name: 'Status', type: 'number'},
-                            {name: 'StatusName', type: 'string'},
-                            {name: 'MenuUnique', type: 'number'},
-                            {name: 'MenuName', type: 'string'}
-                        ],
-                        id: 'Unique',
-                        url: SiteRoot + 'admin/MenuCategory/load_allcategories'
-                    },
-                    created: function (args) {
-                        var instance = args.instance;
-                        instance.updateBoundData();
-                    }
-                };
+                updateCategoryGridTable();
                 categoryWindow.close();
                 resetCategoryWindows();
             } else {

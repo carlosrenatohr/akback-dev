@@ -285,7 +285,6 @@ app.controller('menuQuestionController', function ($scope) {
                 data: values,
                 success: function(data) {
                     $('#saveQuestionBtn').prop('disabled', true);
-                    updateQuestionMainTable();
                     //
                     if ($scope.newOrEditQuestionOption == 'new') {
                         $('#questionNotificationsSuccessSettings #notification-content')
@@ -294,6 +293,7 @@ app.controller('menuQuestionController', function ($scope) {
                         //setTimeout(function() {
                             $scope.closeQuestionWindow();
                         //}, 1500);
+                        updateQuestionMainTable();
                     } else if ($scope.newOrEditQuestionOption == 'edit') {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question updated successfully!');
@@ -301,6 +301,7 @@ app.controller('menuQuestionController', function ($scope) {
                         if (closed == 0) {
                             $scope.closeQuestionWindow();
                         }
+                        $('#questionMainTable').jqxGrid('updatebounddata', 'filter');
                     }
                 }
 

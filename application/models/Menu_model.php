@@ -40,7 +40,8 @@ class Menu_model extends CI_Model
             );
             $this->db->where('config_menu_category.Status !=', 0);
         }
-        $this->db->order_by('config_menu.MenuName', 'ASC');
+//        $this->db->order_by('config_menu.MenuName', 'ASC');
+        $this->db->order_by('config_menu.Created', 'DESC');
 
         $query = $this->db->get($this->menu_table);
         return $query->result_array();

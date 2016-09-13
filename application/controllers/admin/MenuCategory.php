@@ -88,28 +88,30 @@ class MenuCategory extends AK_Controller
      */
     public function add_newMenu() {
 
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $table = 'config_menu';
-
-        $validation = $this->beforeAddingMenu($request, $table);
-        if (!$validation['sure']){
-            $response = [
-                'status' => 'error',
-                'message' => $validation['message']
-            ];
-        } else {
-            $request['Created'] = date('Y-m-d H:i:s');
-            $request['CreatedBy'] = $this->session->userdata('userid');
-            $return = $this->menu->storeMenu($request);
-
-            if ($return) {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+        if (!is_null($_POST) && !empty($_POST)) {
+            $request = $_POST;
+            $table = 'config_menu';
+            $validation = $this->beforeAddingMenu($request, $table);
+            if (!$validation['sure']) {
                 $response = [
-                    'status' => 'success',
-                    'message' => $return
+                    'status' => 'error',
+                    'message' => $validation['message']
                 ];
+            } else {
+                $request['Created'] = date('Y-m-d H:i:s');
+                $request['CreatedBy'] = $this->session->userdata('userid');
+                $return = $this->menu->storeMenu($request);
+                if ($return) {
+                    $response = [
+                        'status' => 'success',
+                        'message' => $return
+                    ];
+                }
             }
-        }
+        } else
+            $response = $this->dbErrorMsg(0);
 
         echo json_encode($response);
     }
@@ -143,29 +145,33 @@ class MenuCategory extends AK_Controller
      * @returnType json
      */
     public function edit_newMenu($id) {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $table = 'config_menu';
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+        if (!is_null($_POST) && !empty($_POST)) {
+            $request = $_POST;
+            $table = 'config_menu';
 
-        $validation = $this->beforeUpdatingMenu($id, $request, $table);
-        if (!$validation['sure']) {
-            $response = [
-                'status' => 'error',
-                'message' => $validation['message']
-            ];
-        }
-         else {
-             $request['Updated'] = date('Y-m-d H:i:s');
-             $request['UpdatedBy'] = $this->session->userdata('userid');
-             $status = $this->menu->updateMenu($request, $id);
-
-            if ($status) {
+            $validation = $this->beforeUpdatingMenu($id, $request, $table);
+            if (!$validation['sure']) {
                 $response = [
-                    'status' => 'success',
-                    'message' => $status
+                    'status' => 'error',
+                    'message' => $validation['message']
                 ];
             }
-        }
+            else {
+                $request['Updated'] = date('Y-m-d H:i:s');
+                $request['UpdatedBy'] = $this->session->userdata('userid');
+                $status = $this->menu->updateMenu($request, $id);
+
+                if ($status) {
+                    $response = [
+                        'status' => 'success',
+                        'message' => $status
+                    ];
+                }
+            }
+        } else
+            $response = $this->dbErrorMsg(0);
 
         echo json_encode($response);
     }

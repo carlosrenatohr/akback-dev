@@ -18,7 +18,8 @@ class Menu_question_model extends CI_Model
 
     public function getAllQuestions()
     {
-        $this->db->order_by('QuestionName', 'ASC');
+//        $this->db->order_by('QuestionName', 'ASC');
+        $this->db->order_by('Created DESC');
         $query = $this->db->get_where($this->question_table, ['Status!=' => 0]);
         return $query->result_array();
     }
