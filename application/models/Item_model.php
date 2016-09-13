@@ -33,6 +33,7 @@ class Item_model extends CI_Model
         $this->db->order_by("item.\"Unique\" DESC");
         return $this->db->get()->result_array();
 
+
         $sql =
             "SELECT item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\",
             item.\"SupplierUnique\" AS \"SupplierId\", supplier.\"Company\" AS \"Supplier\", item.\"SupplierPart\",

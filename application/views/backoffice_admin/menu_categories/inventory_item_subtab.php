@@ -103,6 +103,7 @@
                                       jqx-width="'190px'" jqx-height="'30px'"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
                                       jqx-symbol="''"
+                                      jqx-decimal-digits="<?= $decimalsPrice; ?>"
                                       data-field="ListPrice"
                     ></jqx-number-input>
                 </div>
@@ -121,6 +122,7 @@
                                       jqx-width="'190px'" jqx-height="'30px'"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
                                       jqx-symbol="''"
+                                      jqx-decimal-digits="<?= $decimalsPrice; ?>"
                                       data-field="price1"
                     ></jqx-number-input>
                 </div>
