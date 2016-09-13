@@ -130,8 +130,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#promptToDeleteItemInv').hide();
         }
         if (option == 0) {
-            console.log(option);
-            $scope.saveInventoryAction(true);
+            $scope.saveInventoryAction();
         } else if (option == 1) {
             $scope.closeInventoryWind(1);
         } else if (option == 2) {
@@ -263,9 +262,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var brand = $('#item_brand').jqxComboBox('getSelectedItem');
         data['BrandUnique'] = (brand != null) ? $.trim(brand.value) : null;
         var category = $('#item_category').jqxComboBox('getSelectedItem');
-        data['MainCategory'] = (category != null) ? $.trim(category.value) : null;
+        data['MainCategory'] = (category != null) ? (category.value) : null;
         var subcategory = $('#item_subcategory').jqxComboBox('getSelectedItem');
-        data['CategoryUnique'] = (subcategory != null) ? $.trim(subcategory.value) : null;
+        data['CategoryUnique'] = (subcategory != null) ? (subcategory.value) : null;
         //
         data['GiftCard'] =
         ($('#iteminventory_giftcard [aria-checked="true"]').length > 0) ?
@@ -325,7 +324,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 data: dataRequest,
                 dataType: 'json',
                 success: function(data) {
-                    console.log(data);
                     if (data.status == 'success') {
                         if ($scope.createOrEditItemInventory == 'create') {
                             $scope.createOrEditItemInventory = 'edit';

@@ -24,8 +24,10 @@ class Item_model extends CI_Model
         $this->db->from('item');
         $this->db->join("supplier", "item.SupplierUnique = supplier.Unique", 'left');
         $this->db->join("brand", "item.BrandUnique = brand.Unique", 'left');
+//        $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
+//        $this->db->join("category_main", "category_main.Unique = category_sub.CategoryMainUnique", 'left');
         $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
-        $this->db->join("category_main", "category_main.Unique = category_sub.CategoryMainUnique", 'left');
+        $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');
         $this->db->join("item_stock_line isl", "isl.ItemUnique=item.Unique", 'left');
         $this->db->where("item.\"Status\"", 1);
         $this->db->group_by("item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\", supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
