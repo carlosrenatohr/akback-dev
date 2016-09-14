@@ -9,10 +9,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var tabclicked = e.args.item;
         // ITEMS TAB - Reload queries
         if (tabclicked == 0) {
+            //$('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
             updateQuestionsCbx();
-            //$scope.menuListBoxSettings.apply('refresh');
-            //var menuSelected = $('#menuListBox').jqxListBox('selectedIndex');
-            //$('#menuListBox').jqxListBox({selectedIndex: menuSelected });
             $('#menuListDropdown').jqxDropDownList({source: dataAdapterMenu });
             $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
             // Redraw grid

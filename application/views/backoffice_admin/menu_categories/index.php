@@ -59,7 +59,7 @@ jqxthemes();
                 <div class="col-md-12">
                 <jqx-tabs  jqx-width="" jqx-height="" id="MenuCategoriesTabs">
                     <ul>
-                        <li>Menu</li> <?//2?>
+                        <li>Layout</li> <?//2 Items orig?>
                         <li>Items</li> <?//2 INVENTORY?>
                         <li>Questions</li><?//3?>
                         <li>Printers</li><? //4 ?>
