@@ -220,28 +220,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 //}).then(function(response) {
                 success: function (response) {
                     if (response.status == "success") {
-                        //$scope.menuTableSettings = {
-                        //    source: {
-                        //        dataType: 'json',
-                        //        dataFields: [
-                        //            {name: 'Unique', type: 'int'},
-                        //            {name: 'MenuName', type: 'number'},
-                        //            {name: 'Status', type: 'number'},
-                        //            {name: 'StatusName', type: 'string'},
-                        //            {name: 'Column', type: 'number'},
-                        //            {name: 'Row', type: 'number'},
-                        //            {name: 'MenuItemRow', type: 'number'},
-                        //            {name: 'MenuItemColumn', type: 'number'},
-                        //            {name: 'ItemLength', type: 'number'}
-                        //        ],
-                        //        id: 'Unique',
-                        //        url: SiteRoot + 'admin/MenuCategory/load_allmenus'
-                        //    },
-                        //    created: function (args) {
-                        //        args.instance.updateBoundData();
-                        //    }
-                        //};
-                        //
                         updateMainMenuGrid();
                         if ($scope.newOrEditOption == 'new') {
                             $('#menuNotificationsSuccessSettings #notification-content')
@@ -569,7 +547,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                         {name: 'MenuUnique', type: 'number'},
                         {name: 'MenuName', type: 'string'}
                     ],
-                    id: 'Unique',
                     url: SiteRoot + 'admin/MenuCategory/load_allcategories'
                 })
             });
@@ -602,28 +579,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 data: values
             }).then(function (response) {
                 if (response.data.status == "success") {
-                    //$scope.categoriesTableSettings = {
-                        //source: {
-                        //    dataType: 'json',
-                        //    dataFields: [
-                        //        {name: 'Unique', type: 'int'},
-                        //        {name: 'CategoryName', type: 'string'},
-                        //        {name: 'Row', type: 'number'},
-                        //        {name: 'Column', type: 'number'},
-                        //        {name: 'Sort', type: 'number'},
-                        //        {name: 'Status', type: 'number'},
-                        //        {name: 'StatusName', type: 'string'},
-                        //        {name: 'MenuUnique', type: 'number'},
-                        //        {name: 'MenuName', type: 'string'}
-                        //    ],
-                        //    id: 'Unique',
-                        //    url: SiteRoot + 'admin/MenuCategory/load_allcategories'
-                        //},
-                        //created: function (args) {
-                        //    var instance = args.instance;
-                        //    instance.updateBoundData();
-                        //}
-                    //};
                     updateCategoryGridTable();
                     //
                     if ($scope.newOrEditCategoryOption == 'new') {
@@ -653,7 +608,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 }
             }, function (response) {
                 console.log('There was an error');
-                console.log(response);
             });
         }
     };
@@ -708,7 +662,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
             }
         }, function(response) {
             console.log('There was an error');
-            console.log(response);
         });
     };
 
@@ -721,6 +674,5 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         height: 25,
         textAlign: 'left'
     }
-
 
 });
