@@ -672,7 +672,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         spinButtons: true,
         width: 165,
         height: 25,
-        textAlign: 'left'
+        textAlign: 'left',
+        value: 1
     }
 
 });
