@@ -615,17 +615,17 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
     var resetCategoryWindows = function() {
         $('.categoryFormContainer .required-field').css({"border-color": "#ccc"});
         $('#add_MenuUnique').css({"border-color": "#ccc"});
-
+        //
         $('.alertButtonsMenuCategories').hide();
         $('#mainButtonsForCategories').show();
-
+        //
         $('#add_CategoryName').val('');
         $('#add_CategoryRow').val(1);
         $('#add_CategoryColumn').val(1);
         $('#add_Sort').val(1);
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
-
+        //
         $('#saveCategoryBtn').prop('disabled', true);
         $('#deleteCategoryBtn').hide();
     };

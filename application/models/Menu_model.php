@@ -136,6 +136,7 @@ class Menu_model extends CI_Model
         if (!is_null($id)) {
             $this->db->where('Unique!=', $id);
         }
+        $this->db->where('Status!=', 0);
         $result = $this->db->get_where($this->category_table, $request)->result_array();
 
         return count($result);
