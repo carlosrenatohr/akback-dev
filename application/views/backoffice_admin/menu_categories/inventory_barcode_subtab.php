@@ -4,7 +4,8 @@
             <div class="form-group">
                 <div style="width:40%; float:left;">
                     <input type="text" id="item_barcodeinput" class="form-control item_textcontrol"
-                           placeholder="Enter Barcode" ng-model="barcodeData.mainValue"/>
+                           placeholder="Enter Barcode" ng-model="barcodeData.mainValue"
+                           ng-enter="saveItemBarcode()"/>
                 </div>
                 <div style="width:40%; float:left; margin-left:10px;">
                     <button ng-click="saveItemBarcode()" class="btn btn-primary">Add</button>
