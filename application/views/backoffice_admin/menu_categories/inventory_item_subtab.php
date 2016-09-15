@@ -105,6 +105,8 @@
                                       jqx-symbol="''"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
                                       data-field="ListPrice"
+                                      ng-change="setStaticPrices()"
+                                      ng-model="inventoryData.listPrice"
                     ></jqx-number-input>
                 </div>
             </div>
@@ -124,6 +126,8 @@
                                       jqx-symbol="''"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
                                       data-field="price1"
+                                      ng-change="setStaticPrices()"
+                                      ng-model="inventoryData.price1"
                     ></jqx-number-input>
                 </div>
             </div>

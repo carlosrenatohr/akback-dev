@@ -88,6 +88,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.inventoryData.costLanded = total;
     };
 
+    $scope.setStaticPrices = function() {
+        if ($scope.createOrEditItemInventory == 'create') {
+            $('#itemp_listprice').val($scope.inventoryData.listPrice);
+            $('#itemp_price1').val($scope.inventoryData.price1);
+        }
+    };
+
     $scope.closeInventoryWind = function(close) {
         $('#inventoryTabs').jqxTabs('select', 0);
         $('.inventory_tab .item_textcontrol').each(function(i, el) {
@@ -167,8 +174,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //console.log(row);
         $scope.createOrEditItemInventory = 'edit';
         $scope.itemInventoryID = row.Unique;
-        $scope.inventoryData.listPrice = row.ListPrice;
-        $scope.inventoryData.price1 = row.price1;
+        $scope.inventoryData.lprice = row.ListPrice;
+        $scope.inventoryData.sprice = row.price1;
         // Item text controls
         $('.inventory_tab .item_textcontrol').each(function(i, el) {
             var field = $(el).data('field');

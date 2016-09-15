@@ -318,7 +318,7 @@ app.service('inventoryExtraService', function ($http) {
             pageable: true,
             pageSize: 15
         };
-    }
+    };
 
     this.getPrintersCbxData = function() {
         return {
