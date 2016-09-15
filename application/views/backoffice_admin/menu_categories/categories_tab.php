@@ -43,7 +43,7 @@
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_Sort" name="add_Sort"
-                                    jqx-settings="number_mainmenuTab" jqx-min="0"
+                                    jqx-settings="number_mainmenuTab" jqx-min="0"  jqx-value="1"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
@@ -57,7 +57,7 @@
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_CategoryRow" name="add_CategoryRow"
-                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1" jqx-value="1"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
@@ -71,7 +71,7 @@
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_CategoryColumn" name="add_CategoryColumn"
-                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                    jqx-settings="number_mainmenuTab" jqx-min="1" jqx-value="1"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
