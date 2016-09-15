@@ -3,7 +3,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 <div class="">
-                    <button class="btn btn-primary" id="">
+                    <button class="btn btn-primary" ng-click="openStockWind()">
                         <img src="<?php echo base_url("assets/img/kahon.png")?>" />
                     </button>
                     Adjust Quantity
@@ -121,3 +121,107 @@
         </div>
 <!--    </form>-->
 </div>
+
+<jqx-window jqx-settings="stockWind"
+            jqx-create="stockWind">
+    <div class="">
+        Adjusting Quantity
+    </div>
+    <div class="">
+        <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="inputType" class="col-sm-6 control-label" style="text-align:right">Current Quantity in Stock:</label>
+                        <div class="col-sm-3">
+                            <jqx-number-input id="stockl_currentQty" class=""
+                                              jqx-width="120" jqx-height="30"
+                                              jqx-spin-buttons="false" jqx-input-mode="simple"
+                                              jqx-symbol="''"
+                                              jqx-decimal-digits="<?= $decimalsQuantity; ?>"
+                                              ng-model="inventoryData.stockQty"
+                                              ng-disabled="inventoryDisabled"
+                            ></jqx-number-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="inputType" class="col-sm-6 control-label" style="text-align:right">Quantity to Add or Remove:</label>
+                        <div class="col-sm-3">
+                            <jqx-number-input id="stockl_addremoveQty" class=""
+                                              jqx-width="120" jqx-height="30"
+                                              jqx-spin-buttons="false" jqx-input-mode="simple"
+                                              jqx-symbol="''"
+                                              jqx-decimal-digits="<?= $decimalsQuantity; ?>"
+                                              ng-model="inventoryData.addremoveQty"
+                            ></jqx-number-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="inputType" class="col-sm-6 control-label" style="text-align:right">New Quantity:</label>
+                        <div class="col-sm-3">
+                            <div id='_newqty'></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="inputType" class="col-sm-6 control-label" style="text-align:right">Transaction Date:</label>
+                        <div class="col-sm-3">
+                            <div id='jqxWidgetDate'></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="inputType" class="col-sm-6 control-label" style="text-align:right">Transaction Time:</label>
+                        <div class="col-sm-3">
+                            <div id='jqxWidgetTime'></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="inputType" class="col-sm-6 control-label" style="text-align:right">Location:</label>
+                        <div class="col-sm-3">
+                            <!--<select id="_location" name="_location" class="stklevel" style="width:100%;"></select>-->
+                            <jqx-combo-box id="_location" jqx-on-select="" jqx-settings=""></jqx-combo-box>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-9" align="right">
+                                <label for="inputType" class="col-sm-6 control-label" style="text-align:left">Comment:</label>
+                            </div>
+                            <div class="col-md-9 col-md-offset-1">
+                                <textarea id="_qtycomment" class="form-control" cols="5" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row" id="stkbtns">
+                    <div class="col-md-10" align="right">
+                        <button type="button" id="_adjsave" class="btn btn-primary" disabled>Save</button>
+                        <button	type="button" id="_adjcancel" class="btn btn-warning">Close</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="msgstklevel" style="display:none; margin-top:10px; overflow:auto;">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                Would you like to save your changes.
+                                <button type="button" id="_stkyes" class="btn btn-primary">Yes</button>
+                                <button type="button" id="_stkno" class="btn btn-warning">No</button>
+                                <button type="button" id="_stkcancel" class="btn btn-info">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</jqx-window>

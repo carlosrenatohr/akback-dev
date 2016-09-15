@@ -22,6 +22,7 @@ class MenuCategory extends AK_Controller
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");
+        $data['decimalsQuantity'] = (int)$this->session->userdata("DecimalsQuantity");
         // Partials Views
         $menu_path = 'backoffice_admin/menu_categories/';
         $data['menu_tab_view'] = $menu_path . "menu_tab";

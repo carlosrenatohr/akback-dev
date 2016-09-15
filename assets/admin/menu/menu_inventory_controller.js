@@ -216,6 +216,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
         gc.jqxRadioButton({ checked:true });
         //
+        $scope.inventoryData.stockQty = row['Quantity'];
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
@@ -455,12 +456,56 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     });
 
-    // --STOCK SUBTAB
+    // -- STOCK SUBTAB
+    var stocklWind;
+    $scope.stockWind = {
+        created: function (args) {
+            stocklWind = args.instance;
+        },
+        resizable: false,
+        width: "50%", height: "50%",
+        //width: "50%", height: "100%",
+        //keyboardCloseKey: 'none',
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
     $scope.stockInventoryGrid = inventoryExtraService.getStockGridData();
     $scope.stockitemLocationSettings = inventoryExtraService.getStockLocationListSettings();
     $scope.onSelectStockLocationList = function(e) {
         var location = e.args.item.value;
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
+    };
+
+    $scope.openStockWind = function() {
+        stocklWind.open();
+    };
+
+    $scope.updateStockQuantity = function() {
+        // INSERT into item_stock_line table...
+        var dataRequest = {
+            "ItemUnique": 'this is the item unique',
+            'LocationUnique': '',
+            'Type': 4, // move to server side
+            'Quantity': 'qty add or remove', // on server side validate decimalsQuantity
+            'Comment': '', //
+            'trans_date': '', //
+            'TransactionDate': '', //date("Y-m-d",strtotime($setdate))." ".date("H:i:s",strtotime($settime)),
+            'status': 1// move to server side
+        // reseting
+        //$("#jqxWidgetDate").jqxDateTimeInput({ value: new Date(yyyy, mm, dd) });
+        //$("#jqxWidgetTime").jqxDateTimeInput({ formatString: 'T', showCalendarButton: false });
+        };
+        $.ajax({
+            url: '',
+            method: 'post',
+            dataType: 'array',
+            data: dataRequest,
+            success: function(response){
+
+            }
+        })
     };
 
     // -- QUESTION SUBTAB
