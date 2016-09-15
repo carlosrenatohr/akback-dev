@@ -16,13 +16,13 @@
                     >
                 </jqx-drop-down-list>
             </div>
-            <div id="selectedItemInfo" class="col-md-12">
+            <div id="selectedItemInfo" class="">
                 {{ selectedItemInfo.Description }}
             </div>
             <div id="" class="col-md-12">
                 <button class="btn btn-info" ng-click="newMenuItemBtn()" id="NewMenuItemBtn"
                         style="margin: 10px 25%;">
-                    New Item
+                    Assign Item
                 </button>
             </div>
             <div class="">

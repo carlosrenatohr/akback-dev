@@ -147,6 +147,17 @@ div.toolbar-list span {
     text-align: center;
 }
 
+#itemListboxSearch .jqx-listitem-element {
+    width: 10px;!important;
+}
+
+.jqx-listitem-element.jqx-draggable.jqx-draggable-dragging {
+    width: 10px!important;
+}
+.jqx-listitem-element.jqx-draggable.jqx-draggable-dragging span {
+    width: 10px!important;
+}
+
 .category-cell-grid {
     height: 90px;
     background-color: #f0f0f0;

@@ -744,10 +744,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         })
         .on('click', function(e) {
             $('.draggable').removeClass('selectedItemOnGrid');
+            $('.draggable').css({'border': 'solid black 1px'});
             $(this).addClass('selectedItemOnGrid');
             var isOccupied = $(this).hasClass('filled');
             $('#NewMenuItemBtn').prop('disabled', isOccupied);
-
+            if (!isOccupied) {
+                $(this).css({'border': 'solid #FFDC00 5px'});
+            }
         });
     }
 
@@ -802,9 +805,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
         $('#selectedItemInfo, #itemListboxSearch .jqx-listitem-element').jqxDragDrop(
             {
-                dropTarget: $('body .draggable'),
-                //restricter:'parent',
+                dropTarget: $('div[id^="draggable-"]'),
+                //restricter:'body',
                 //tolerance: 'fit',
+                onTargetDrop: function(data) {
+                    //console.log('onTargetDrop', data);
+                },
                 revert: true,
                 opacity: 0.9
             }
@@ -857,11 +863,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         })
         .bind('dropTargetEnter', function (event) {
             ItemOnAboveGrid = true;
-            $(event.args.target).css('border', '5px solid #eeb706');
+            $('body').find(event.args.target).css('border', '5px solid #eeb706');
         })
         .bind('dropTargetLeave', function (event) {
             ItemOnAboveGrid = false;
-            $(event.args.target).css('border', 'black 1px solid');
+            $('body').find(event.args.target).css('border', '1px solid black');
         });
     }
 
