@@ -263,11 +263,11 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         $('#saveMenuBtn').prop('disabled', true);
 
         $('#add_MenuName').val('');
-        $('#add_MenuRow').val(1);
-        $('#add_MenuColumn').val(1);
-        $('#add_MenuItemColumn').val(1);
-        $('#add_MenuItemRow').val(1);
-        $('#add_ItemLength').val('');
+        $('#add_MenuRow').val(2);
+        $('#add_MenuColumn').val(5);
+        $('#add_MenuItemColumn').val(5);
+        $('#add_MenuItemRow').val(5);
+        $('#add_ItemLength').val(25);
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
 
@@ -673,7 +673,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         width: 165,
         height: 25,
         textAlign: 'left',
-        value: 1
     }
 
 });

@@ -35,7 +35,8 @@
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_MenuRow" name="add_Row"
-                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                    jqx-settings="number_mainmenuTab"
+                                    jqx-value="2" jqx-min="1"
                                 ></jqx-number-input>
 
                             </div>
@@ -50,7 +51,8 @@
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_MenuColumn" name="add_Column"
-                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                    jqx-settings="number_mainmenuTab"
+                                    jqx-value="5" jqx-min="1"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
@@ -64,7 +66,8 @@
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_MenuItemRow" name="add_MenuItemRow"
-                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                    jqx-settings="number_mainmenuTab"
+                                    jqx-value="5" jqx-min="1"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
@@ -75,14 +78,11 @@
                         <div style="float:left; padding:2px; width:450px;">
                             <div style="float:left; padding:8px; text-align:right; width:150px; font-weight:bold;">Item Column:</div>
                             <div style="float:left; width:180px;">
-<!--                                <input type="number" class="form-control required-field" id="add_MenuItemColumn"-->
-<!--                                       name="add_MenuItemRowColumn" -->
-<!--                                       step="1" min="1" pattern="\d*"-->
-<!--                                >-->
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_MenuItemColumn" name="add_MenuItemRowColumn"
-                                    jqx-settings="number_mainmenuTab" jqx-min="1"
+                                    jqx-settings="number_mainmenuTab"
+                                    jqx-value="5" jqx-min="1"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
@@ -95,7 +95,8 @@
                                 <jqx-number-input
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_ItemLength" name="add_ItemLength"
-                                    jqx-settings="number_mainmenuTab"  jqx-min="0"
+                                    jqx-settings="number_mainmenuTab"
+                                    jqx-value="25" jqx-min="1"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
