@@ -1,11 +1,5 @@
 <div class="">
     <div class="col-lg-2 col-lg-2-item col-md-2 col-md-2-item col-sm-2">
-<!--                <div class="">-->
-<!--                    <jqx-list-box jqx-settings="menuListBoxSettings"-->
-<!--                                  jqx-on-select="menuListBoxSelecting(event)"-->
-<!--                                  id="menuListBox">-->
-<!--                    </jqx-list-box>-->
-<!--                </div>-->
         <div style="margin: 20px 0;">
             <div class="">
                 <label for="">Select a menu</label>
@@ -30,7 +24,6 @@
             </div>
             <jqx-list-box
                 jqx-on-select="itemListBoxOnSelect(event)"
-                jqx-on-unselect=""
                 jqx-settings="itemsListboxSettings"
                 id="itemListboxSearch"
                 >

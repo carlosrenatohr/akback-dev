@@ -6,12 +6,20 @@ var app = angular.module("akamaiposApp", ['jqwidgets']);
 app.controller('menuCategoriesController', function($scope, $http, itemInventoryService){
 
     // -- MenuCategoriesTabs Main Tabs
-    $('#MenuCategoriesTabs').on('tabclick', function (event) {
+    $('#MenuCategoriesTabs').on('selecting', function (event) {
         var tabclicked = event.args.item;
+        var tabTitle = $('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
+        if(tabclicked == 0) {
+            event.cancel = true;
+            window.location.href = SiteRoot + 'backoffice/dashboard';
+        } else if(tabclicked == 1){
+            event.cancel = true;
+            window.location.href = SiteRoot + 'dashboard/admin';
+        }
         // Categories TAB - Reload queries
-        if(tabclicked == 4)
+        else if(tabTitle == 'Categories')
             reloadMenuSelectOnCategories();
-        else if (tabclicked == 5) {
+        else if (tabTitle == 'Menu') {
             //updateMainMenuGrid();
             reloadMenuSelectOnCategories();
         }

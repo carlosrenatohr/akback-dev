@@ -9,8 +9,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     itemInventoryService.onChangeEvents();
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
+        var tabTitle = $('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
         // Items Inventory TAB - Reload queries
-        if (tabclicked == 1) {
+        if (tabTitle == 'Items') {
             updateItemsInventoryGrid(1);
         }
     });

@@ -7,9 +7,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
+        var tabTitle = $('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
         // ITEMS TAB - Reload queries
-        if (tabclicked == 0) {
-            //$('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
+        if (tabTitle == 'Layout') {
             updateQuestionsCbx();
             $('#menuListDropdown').jqxDropDownList({source: dataAdapterMenu });
             $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
@@ -303,11 +303,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         valueMember: "Unique",
         width: "100%",
         //itemHeight: 50,
-        height: '400px',
+        height: '460px',
         source: dataAdapterItems('ASC'),
         theme: 'arctic',
         filterable: true,
         filterHeight: 30,
+        searchMode: 'containsignorecase',
         filterPlaceHolder: 'Looking for item',
         //allowDrop: true,
         //allowDrag: true,
@@ -316,9 +317,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
 
     $scope.selectedItemInfo = {};
     $scope.itemListBoxOnSelect = function(e) {
-        var args = e.args.item.originalItem;
+        var _args = e.args.item.originalItem;
 
-        $scope.selectedItemInfo = args;
+        $scope.selectedItemInfo = _args;
     };
     // -- CATEGORIES BOTTON GRID
     // -- TO FIX
@@ -360,6 +361,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     $scope.menuitemNotificationsErrorSettings = setNotificationInit(0);
 
     $scope.closeItemGridWindows = function(option) {
+        // --REMOVING HIGHLIGHTED from selected item cell
+        //$('#NewMenuItemBtn').prop('disabled', true);
+        //$('.draggable').css({'border': 'solid black 1px'});
         if(option != undefined) {
             $('#mainButtonsOnItemGrid').show();
             $('#promptToCloseItemGrid').hide();

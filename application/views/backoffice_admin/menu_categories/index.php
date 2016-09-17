@@ -33,32 +33,18 @@ jqxthemes();
         <div class="container-fluid" style="padding: 0;">
 
             <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
-                    <div id="toolbar" class="toolbar-list">
-                        <ul class="nav navbar-nav navbar-left" style="color: #000;">
-                            <li>
-                                <a href="<?php echo base_url("backoffice/dashboard")?>" style="outline:0;">
-                                    <span class="icon-32-home"></span>
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo base_url("dashboard/admin")?>" style="outline:0;">
-                                    <span class="icon-32-back"></span>
-                                    Back
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-12">
-                <jqx-tabs  jqx-width="" jqx-height="" id="MenuCategoriesTabs">
+                <jqx-tabs  jqx-width="" jqx-height="" id="MenuCategoriesTabs"
+                            jqx-selected-item="2">
                     <ul>
+                        <li>
+                            <img src="../../assets/img/home_icon.png" alt="Dashboard">
+                            Dashboard
+                        </li>
+                        <li>
+                            <img src="../../assets/img/back.png" alt="Back">
+                            Back
+                        </li>
                         <li>Layout</li> <?//2 Items orig?>
                         <li>Items</li> <?//2 INVENTORY?>
                         <li>Questions</li><?//3?>
@@ -66,6 +52,8 @@ jqxthemes();
                         <li>Categories</li><? //1 ?>
                         <li>Menu</li><?//0?>
                     </ul>
+                    <div></div>
+                    <div></div>
                     <!-- -------------- -->
                     <!-- MENU ITEMS TAB      -->
                     <!-- -------------- -->

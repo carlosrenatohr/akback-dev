@@ -51,20 +51,20 @@ div.toolbar-list span {
 /* MENU - Items tabs */
 @media (max-width: 1200px) {
     #categories-container {
-        height: 180px!important;
+        height: 204px!important;
     }
     .category-cell-grid {
-        height: 89px!important;
-        padding-top: 32px!important;
+        height: 101px!important;
+        padding-top: 35px!important;
     }
     /* GLOBAL MENU TABS*/
     #MenuCategoriesTabs .jqx-tabs-content.jqx-widget-content {
         height: 100%!important;
-        max-height: 600px;
+        max-height: 700px;
     }
     #itemListboxSearch {
-        height: 400px!important;
-        max-height: 400px;
+        /*height: 450px!important;*/
+        /*max-height: 400px;*/
     }
 }
 
@@ -128,7 +128,7 @@ div.toolbar-list span {
 
 .restricter-dragdrop {
     /*max-height: 450px;*/
-    height: 420px;
+    height: 430px;
     overflow-y: scroll;
     overflow-x: hidden;
     background-color: lightgrey;
@@ -148,7 +148,7 @@ div.toolbar-list span {
 }
 
 .restricter-dragdrop .draggable {
-    height: 83.5px;
+    height: 85.5px;
     background-color: #f0f0f0;
     border: black 1px solid;
     color: #fff;
@@ -158,6 +158,7 @@ div.toolbar-list span {
 .restricter-dragdrop .draggable.selectedItemOnGrid {
     /*background-color: #f0f0f0;*/
     border: #2F2F2F 4px solid;
+    /*border: #FFDC00 4px solid!important;*/
 }
 
 #categories-container {
@@ -176,9 +177,9 @@ div.toolbar-list span {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    min-height: 40px;
+    min-height: 30px;
     width: 100%;
-    margin: 15px 0 0;
+    margin: 5px 0 0;
     padding: 8px;
     text-align: center;
 }

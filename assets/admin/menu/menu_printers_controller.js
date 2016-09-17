@@ -7,8 +7,9 @@ app.controller('menuPrintersController', function($scope) {
     // -- MenuCategories Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
+        var tabTitle = $('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
         // PRINTERS TAB - Reload queries
-        if (tabclicked == 3) {
+        if (tabTitle == 'Printers') {
             updatePrinterTable();
             //$('#printerTable').jqxGrid('updatebounddata', 'filter');
             if (allPrintersArray == '') {
