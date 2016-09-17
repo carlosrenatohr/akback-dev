@@ -96,6 +96,20 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
+    $scope.modifyCurrentQty = function(elect) {
+        var transQty = 0;
+        var stock = parseFloat($scope.inventoryData.stockQty);
+        if (elect == 0) {
+            transQty = stock + parseFloat($scope.inventoryData.addremoveQty);
+            $('#stockl_newQty').val(transQty);
+        }
+        if (elect == 1) {
+            transQty = stock + parseFloat($scope.inventoryData.newQty);
+            $('#stockl_addremoveQty').val(transQty);
+        }
+
+    };
+
     $scope.closeInventoryWind = function(close) {
         $('#inventoryTabs').jqxTabs('select', 0);
         $('.inventory_tab .item_textcontrol').each(function(i, el) {
@@ -217,10 +231,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
         gc.jqxRadioButton({ checked:true });
         //
+        $('#stockl_currentQty').jqxNumberInput('val', row['Quantity']);
         $scope.inventoryData.stockQty = row['Quantity'];
+        $scope.inventoryData.addremoveQty = 0;
+        $scope.inventoryData.newQty = 0;
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
-        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
+        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, $('#stationID').val());
         updateQuestionItemTable($scope.itemInventoryID);
         updatePrinterItemGrid($scope.itemInventoryID);
         //
@@ -464,8 +481,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             stocklWind = args.instance;
         },
         resizable: false,
-        width: "50%", height: "50%",
-        //width: "50%", height: "100%",
+        width: "25%", height: "60%",
         //keyboardCloseKey: 'none',
         autoOpen: false,
         theme: 'darkblue',
@@ -473,14 +489,84 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         showCloseButton: false
     };
     $scope.stockInventoryGrid = inventoryExtraService.getStockGridData();
-    $scope.stockitemLocationSettings = inventoryExtraService.getStockLocationListSettings();
+    $scope.stockitemLocationSettings = inventoryExtraService.getStockLocationListSettings(0);
+    $scope.stockitemLocation2Settings = inventoryExtraService.getStockLocationListSettings();
     $scope.onSelectStockLocationList = function(e) {
         var location = e.args.item.value;
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
     };
 
     $scope.openStockWind = function() {
+        $('#stocklWind .stockl_input:not(#stockl_currentQty)').jqxNumberInput('val', 0);
+        $("#stockl_transDate").jqxDateTimeInput({ value: new Date() });
+        $("#stockl_transTime").jqxDateTimeInput({ formatString: 'T', showCalendarButton: false });
+        $('#saveStockBtn').prop('disabled', true);
         stocklWind.open();
+    };
+
+    $scope.closeStockWind = function(option) {
+        if(option != undefined) {
+            $('#mainButtonsStockl').show();
+            $('#promptButtonsStockl').hide();
+        }
+        if (option == 0) {
+            $scope.saveStockWind();
+        } else if (option == 1) {
+            stocklWind.close();
+        }
+        else if (option == 2) {}
+        else {
+            if ($('#saveStockBtn').is(':disabled')) {
+                stocklWind.close();
+            }
+            else {
+                $('#promptButtonsStockl').show();
+                $('#mainButtonsStockl').hide();
+            }
+        }
+    };
+
+    function validationStockForm(data) {
+        var needValidation = false;
+        var qty = $('#stockl_addremoveQty').val();
+        if (qty == 0) {
+            alert('Quantity to Add or Remove is required field!');
+            needValidation = true;
+        }
+        return needValidation;
+    }
+
+    $scope.saveStockWind = function() {
+        if (!validationStockForm()) {
+            var dataReq = {
+                'ItemUnique': $scope.itemInventoryID,
+                'LocationUnique': $('#stockl_location').jqxComboBox('getSelectedItem').value,
+                'Quantity': $('#stockl_addremoveQty').val(),
+                'Comment': $('#stockl_comment').val(),
+                'trans_date': $('#stockl_transDate').val(),
+                'trans_time': $('#stockl_transTime').val()
+            };
+            $.ajax({
+                url: SiteRoot + 'admin/MenuItem/updateStocklineItems',
+                method: 'post',
+                dataType: 'json',
+                data: dataReq,
+                success: function(response) {
+                    console.log(response);
+                    if(response.status == 'success') {
+                        //$('#itemstock_locationCbx').jqxComboBox({selectedIndex: 1});
+                        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
+                        stocklWind.close();
+                    }
+                    else if (response.status == 'error')
+                        console.log(response.message, 0);
+                        //showingNotif(response.message, 0);
+                    else
+                        console.log(response.message, 02);
+                        //showingNotif(response.message, 0);
+                }
+            });
+        }
     };
 
     $scope.updateStockQuantity = function() {

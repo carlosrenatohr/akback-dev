@@ -200,6 +200,13 @@ class Item_model extends CI_Model
         }
     }
 
+    /**
+     * @description Stock item actions
+     * @param $id
+     * @param null $location
+     * @return mixed
+     *
+     */
     public function getStockItemByLocation($id, $location = null) {
         $locationQuery = ($location == 0) ? "" : " AND a.\"LocationUnique\"=".$location;
         $sql = "SELECT  a.\"Unique\", a.\"ItemUnique\", a.\"LocationUnique\",  a.\"Quantity\", a.\"TransactionDate\", a.\"Comment\", b.\"LocationName\", c.\"Description\",
@@ -210,6 +217,11 @@ class Item_model extends CI_Model
 			AND a.\"ItemUnique\" = ".$id." {$locationQuery}
 			ORDER BY a.\"TransactionDate\" DESC, a.\"Unique\" DESC";
         return $this->db->query($sql)->result_array();
+    }
+
+    public function updateStockByItem($data) {
+        $result = $this->db->insert('item_stock_line', $data);
+        return $result;
     }
 
 }

@@ -183,7 +183,7 @@ app.service('inventoryExtraService', function ($http) {
                 {text: 'Comment', dataField: 'Comment', hidden: true}
             ],
             width: "99%",
-            height: 300,
+            //height: 300,
             theme: 'arctic',
             altRows: true,
             sortable: true,
@@ -199,7 +199,11 @@ app.service('inventoryExtraService', function ($http) {
         };
     };
 
-    this.getStockLocationListSettings = function () {
+    this.getStockLocationListSettings = function (all) {
+        var str = '';
+        if (all != undefined) {
+            str = all;
+        }
         return {
             source: {
                 dataType: 'json',
@@ -207,9 +211,9 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'Unique', type: 'int'},
                     {name: 'LocationName', type: 'string'}
                 ],
-                url: SiteRoot + 'admin/MenuItem/getLocationsList/0'
+                url: SiteRoot + 'admin/MenuItem/getLocationsList/' + str
             },
-            selectedIndex: 0,
+            //selectedIndex: 0,
             autoDropDownHeight: true,
             displayMember: "LocationName",
             valueMember: "Unique",

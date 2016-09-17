@@ -19,6 +19,7 @@ class MenuCategory extends AK_Controller
     {
         // Data to send
         $data['currentuser'] = $this->session->userdata("currentuser");
+        $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");

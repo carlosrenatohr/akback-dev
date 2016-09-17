@@ -118,9 +118,13 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
                 '.cbxItemTaxCell .jqx-checkbox, ' +
                 '.inventory_tab .cbxExtraTab',
                 function(e) {
-                $('#saveInventoryBtn').prop('disabled', false);
-            })
+                    $('#saveInventoryBtn').prop('disabled', false);
+                })
         ;
+        //
+        $('#stocklWind .stockl_input').on('change', function() {
+            $('#saveStockBtn').prop('disabled', false);
+        });
         // Question subtab events
         $('#invQ_Status, #invQ_Question').on('select', function() {
             $('#saveQuestionInvBtn').prop('disabled', false);

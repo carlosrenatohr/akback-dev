@@ -494,6 +494,33 @@ class MenuItem extends AK_Controller
         echo json_encode($stock_n);
     }
 
+    public function updateStocklineItems() {
+        $data = $_POST;
+        if (!empty($data) || !is_null($data)) {
+            $data['Type'] = 4;
+            $data['status'] = 1;
+            $data['Comment'] = trim($data['Comment']);
+            $data['Quantity'] = number_format($data['Quantity'], $this->decimalQuantity);
+            $data['trans_date'] = date("Y-m-d", strtotime($data['trans_date']));
+            $data['TransactionDate'] = $data['trans_date'] . " ".
+                date("H:i:s",strtotime($data['trans_time']));
+            unset($data['trans_time']);
+            $status = $this->item->updateStockByItem($data);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+//                    'id' => $status,
+                    'message' => 'Stock item updated successfully!'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        }
+        else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
     public function getLocationsList($all = null) {
         $new = [];
         if ($all != null) {
