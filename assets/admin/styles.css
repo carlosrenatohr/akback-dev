@@ -204,11 +204,13 @@ div.toolbar-list span {
 }
 
 .category-cell-grid.valued {
-    background-color: #bc0530;
+    /*background-color: #bc0530;*/
+    background-color: #3492B0;
 }
 
 .category-cell-grid.clicked {
-    background-color: #ee063d;
+    /*background-color: #ee063d;*/
+    background-color: #16AA8C;
     border: black 2px solid;
     box-shadow: 3px 3px 2px #888888;
 }

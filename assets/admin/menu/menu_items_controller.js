@@ -233,7 +233,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                         cell.data('categoryId', '');
                         cell.html('');
                     } else {
-                        cell.css('background-color', (el.Status == 1) ? '#063dee' : '#06b1ee');
+                        //cell.css('background-color', (el.Status == 1) ? '#063dee' : '#06b1ee');
+                        cell.css('background-color', (el.Status == 1) ? '#7C2F3F' : '#752253');
                         cell.addClass('filled');
                         cell.addClass('itemOnGrid');
                         cell.data('categoryId', el.MenuCategoryUnique);
