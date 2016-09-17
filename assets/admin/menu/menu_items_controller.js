@@ -129,13 +129,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         var row = e.args.item.originalItem;
         $scope.categoriesByMenu = row.categories;
         $scope.menuSelectedWithCategories = row;
+        //console.log($scope.menuSelectedWithCategories);
 
-        $scope.menuSelectedWithCategories.grid = {
-            cols: $scope.menuSelectedWithCategories.Column,
-            rows: $scope.menuSelectedWithCategories.Row,
-            diff: (12 / $scope.menuSelectedWithCategories.Column),
-            round: Math.round(12 / $scope.menuSelectedWithCategories.Column)
-        };
         var categoriesInGrid = {};
         for (var i = 1; i <= $scope.menuSelectedWithCategories.Row; i++) {
             for (var j = 1; j <= $scope.menuSelectedWithCategories.Column; j++) {
@@ -156,6 +151,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             }
         }
         $scope.menuSelectedWithCategories.newCategories = categoriesInGrid;
+        var diff = (12 / $scope.menuSelectedWithCategories.Column);
+        var round = Math.round(12 / $scope.menuSelectedWithCategories.Column);
+        $scope.menuSelectedWithCategories.grid = {
+            cols: $scope.menuSelectedWithCategories.Column,
+            rows: $scope.menuSelectedWithCategories.Row,
+            diff: (diff),
+            round: (round)
+        };
         $('.restricter-dragdrop div').remove();
     };
 
@@ -186,6 +189,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         //
         var diff = $scope.grid.diff;
         var round = $scope.grid.round;
+        var strechedClass = (($scope.grid.cols % 2) != 0) ? ('streched' + $scope.grid.cols) : '';
         for (var i = 0; i < $scope.grid.rows; i++) {
             var template = '';
             template += '<div class="row">';
@@ -194,8 +198,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
             }
             for (var j = 0; j < $scope.grid.cols; j++) {
                 var num = j + 1 + (i * $scope.grid.cols);
-                template += '<div class="draggable col-md-' + round + ' col-sm-' + round +
-                    '" id="draggable-' + num + '" data-col="' + (j + 1) + '" data-row="' + (i + 1) + '">' +
+                template += '<div class="draggable col-md-' + round + ' col-sm-' + round + ' ' +
+                    strechedClass + '" id="draggable-' + num + '" data-col="' + (j + 1) + '" data-row="' + (i + 1) + '">' +
                     num + '</div>';
             }
             if (diff % 1 !== 0) {
@@ -298,11 +302,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         valueMember: "Unique",
         width: "100%",
         //itemHeight: 50,
-        height: '450px',
+        height: '400px',
         source: dataAdapterItems('ASC'),
         theme: 'arctic',
         filterable: true,
-        filterHeight: 40,
+        filterHeight: 30,
         filterPlaceHolder: 'Looking for item',
         //allowDrop: true,
         //allowDrag: true,

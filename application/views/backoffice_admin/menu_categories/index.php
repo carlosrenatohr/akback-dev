@@ -30,7 +30,7 @@ jqxthemes();
 <link rel="stylesheet" href="../../assets/admin/styles.css">
 <div class="parent-container" ng-controller="menuCategoriesController">
     <div ng-cloak class=" ng-cloak">
-        <div class="container-fluid">
+        <div class="container-fluid" style="padding: 0;">
 
             <div class="row">
             <div class="col-md-12">

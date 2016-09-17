@@ -52,7 +52,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
             $('#menuGridTable').jqxGrid('updatebounddata', 'filter');
         },
         //columnsResize: true,
-        height: "100%",
+        //height: "100%",
         width: "100%",
         theme: 'arctic',
         filterable: true,
@@ -340,7 +340,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         ],
         columnsResize: true,
         width: "99.7%",
-        height: "100%",
+        //height: "100%",
         theme: 'arctic',
         filterable: true,
         showfilterrow: true,

@@ -51,14 +51,50 @@ div.toolbar-list span {
 /* MENU - Items tabs */
 @media (max-width: 1200px) {
     #categories-container {
-        height: 120px!important;
+        height: 180px!important;
     }
     .category-cell-grid {
-        height: 65px!important;
-        padding-top: 15px!important;
+        height: 89px!important;
+        padding-top: 32px!important;
+    }
+    /* GLOBAL MENU TABS*/
+    #MenuCategoriesTabs .jqx-tabs-content.jqx-widget-content {
+        height: 100%!important;
+        max-height: 600px;
+    }
+    #itemListboxSearch {
+        height: 400px!important;
+        max-height: 400px;
     }
 }
 
+/*.category-cell-grid.col-md-2.streched5 {*/
+.maingrid-container .col-md-2.streched5 {
+    width: 19.8%;
+}
+.maingrid-container .col-md-2.streched7,
+.maingrid-container .col-md-1.streched7  {
+/*.category-cell-grid.col-md-2.streched7 {*/
+    width: 14%;
+}
+.maingrid-container .col-md-2.streched8 {
+/*.category-cell-grid.col-md-2.streched8 {*/
+    width: 12.25%;
+}
+.maingrid-container .col-md-1.streched9 {
+/*.category-cell-grid.col-md-1.streched9 {*/
+    width: 10.85%;
+}.maingrid-container .col-md-1.streched10 {
+/*}.category-cell-grid.col-md-1.streched10 {*/
+     width: 9.8%;
+ }.maingrid-container .col-md-1.streched11 {
+ /*}.category-cell-grid.col-md-1.streched11 {*/
+      width: 9%;
+}
+
+.maingrid-container .row {
+    margin: 0;
+}
 @media (max-width: 768px) {
     .restricter-dragdrop {
         height: 320px !important;
@@ -112,7 +148,7 @@ div.toolbar-list span {
 }
 
 .restricter-dragdrop .draggable {
-    height: 120px;
+    height: 83.5px;
     background-color: #f0f0f0;
     border: black 1px solid;
     color: #fff;

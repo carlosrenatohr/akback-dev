@@ -35,10 +35,10 @@
                 id="itemListboxSearch"
                 >
             </jqx-list-box>
-            <div class="" style="min-height: 50px;"></div>
+<!--            <div class="" style="min-height: 50px;"></div>-->
         </div>
     </div>
-    <div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container">
+    <div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container" style="padding: 0;">
         <!--  ITEMS GRID -->
         <div class="row">
         <div class="col-md-12 col-sm-12 restricter-dragdrop">

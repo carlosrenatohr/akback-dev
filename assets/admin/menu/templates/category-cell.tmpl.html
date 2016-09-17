@@ -1,9 +1,15 @@
 <div class="row" ng-repeat="row in menuSelectedWithCategories.newCategories">
-
-    <div ng-repeat="uno in row" class="col-md-{{menuSelectedWithCategories.grid.round}} category-cell-grid"
-         ng-class="{valued:uno}"
-         ng-click="clickCategoryCell($event, uno);$event.stopPropagation();">
+    <div ng-repeat="uno in row"
+         class="col-md-{{menuSelectedWithCategories.grid.round}} category-cell-grid"
+         ng-class="{valued:uno,
+                    streched5: (menuSelectedWithCategories.grid.cols == 5),
+                    streched7: (menuSelectedWithCategories.grid.cols == 7),
+                    streched8: (menuSelectedWithCategories.grid.cols == 8),
+                    streched9: (menuSelectedWithCategories.grid.cols == 9),
+                    streched10: (menuSelectedWithCategories.grid.cols == 10),
+                    streched11: (menuSelectedWithCategories.grid.cols == 11),
+                    }"
+         ng-click="clickCategoryCell($event, uno);$event.stopPropagation();" title="{{uno.CategoryName}}">
         {{ (uno) ? uno.CategoryName : $index+1 }}
     </div>
-
 </div>
