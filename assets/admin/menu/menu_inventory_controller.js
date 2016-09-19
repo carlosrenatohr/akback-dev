@@ -89,8 +89,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.inventoryData.costLanded = total;
     };
 
-    $scope.setStaticPrices = function() {
+    $scope.setStaticPrices = function(listprice) {
         if ($scope.createOrEditItemInventory == 'create') {
+            if (listprice == 1) {
+                var lprice = $scope.inventoryData.listPrice;
+                $scope.inventoryData.price1 = lprice;
+            }
             $('#itemp_listprice').val($scope.inventoryData.listPrice);
             $('#itemp_price1').val($scope.inventoryData.price1);
         }
