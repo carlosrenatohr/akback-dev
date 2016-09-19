@@ -50,8 +50,7 @@
     </div>
     <div class="">
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Current Quantity in
-                Stock:</label>
+            <label  class="col-sm-4 control-label" style="text-align:right">In Stock:</label>
 
             <div class="col-sm-4">
                 <jqx-number-input id="stockl_currentQty" class="stockl_input"
@@ -65,8 +64,7 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Quantity to Add or
-                Remove:</label>
+            <label  class="col-sm-4 control-label" style="text-align:right">Adjust Quantity:</label>
 
             <div class="col-sm-4">
                 <jqx-number-input id="stockl_addremoveQty" class="stockl_input"
@@ -92,8 +90,7 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Transaction
-                Date</label>
+            <label  class="col-sm-4 control-label" style="text-align:right">Date</label>
 
             <div class="col-sm-4">
                 <jqx-date-time-input
@@ -103,8 +100,7 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Transaction
-                Time:</label>
+            <label  class="col-sm-4 control-label" style="text-align:right">Time:</label>
 
             <div class="col-sm-4">
                 <jqx-date-time-input
