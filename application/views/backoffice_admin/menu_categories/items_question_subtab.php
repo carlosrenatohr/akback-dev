@@ -36,9 +36,32 @@
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Sort:
                         </div>
                         <div style=" float:left; width:300px;">
-                            <input type="number" class="form-control required-qitem"
-                                   id="itemq_Sort" name="itemq_Sort" placeholder="Sort"
-                                   step="1" min="1" value="1" pattern="\d*">
+<!--                            <input type="number" class="form-control required-qitem"-->
+<!--                                   id="itemq_Sort" name="itemq_Sort" placeholder="Sort"-->
+<!--                                   step="1" min="1" value="1" pattern="\d*">-->
+                            <jqx-number-input id="itemq_Sort" class="form-control required-qitem"
+                                              jqx-width="200" jqx-height="30"
+                                              jqx-spin-buttons="false" jqx-input-mode="simple"
+                                              jqx-symbol="''" jqx-decimal-digits="0"
+                                              jqx-min="1" jqx-value="1" jqx-digits="2"
+                                              jqx-text-align="left"
+                            ></jqx-number-input>
+                        </div>
+                        <div style="float:left;">
+                            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                        </div>
+                    </div>
+                    <div style=" float:left; padding:2px; width:400px; ">
+                        <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Tab:
+                        </div>
+                        <div style="float:left;">
+                            <jqx-number-input id="itemq_Tab" class="form-control required-qitem"
+                                              jqx-width="200" jqx-height="30"
+                                              jqx-spin-buttons="false" jqx-input-mode="simple"
+                                              jqx-symbol="''" jqx-decimal-digits="0"
+                                              jqx-min="1" jqx-value="1" jqx-digits="2"
+                                              jqx-text-align="left"
+                            ></jqx-number-input>
                         </div>
                         <div style="float:left;">
                             <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>

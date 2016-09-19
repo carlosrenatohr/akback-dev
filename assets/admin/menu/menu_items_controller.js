@@ -2,7 +2,7 @@
  * Created by carlosrenato on 05-19-16.
  */
 
-app.controller('menuItemController', function ($scope, $rootScope, $http) {
+app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService) {
 
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
@@ -959,55 +959,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     /**
      * QUESTION TAB ACTIONS
      */
-    $scope.questionTableOnMenuItemsSettings = {
-        source: {
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'ItemUnique', type: 'int'},
-                {name: 'QuestionUnique', type: 'int'},
-                {name: 'QuestionName', type: 'string'},
-                {name: 'Status', type: 'number'},
-                {name: 'Sort', type: 'number'},
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/MenuItem/load_itemquestions'
-        },
-        columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
-            {text: 'Item', dataField: 'ItemUnique', type: 'int', hidden: true},
-            {text: 'Question ID', dataField: 'QuestionUnique', type: 'int', width: '25%'},
-            {text: 'Name', dataField: 'QuestionName', type: 'string', width: '50%'},
-            {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
-            {text: 'Sort', dataField: 'Sort', type: 'number', width: '25%'},
-        ],
-        columnsResize: true,
-        width: "99%",
-        theme: 'arctic',
-        sortable: true,
-        pageable: true,
-        pageSize: 15
-    };
+    $scope.questionTableOnMenuItemsSettings = inventoryExtraService.getQuestionGridData();
 
     var updateQuestionItemTable = function() {
         $('#questionItemTable').jqxDataTable({
-            source: new $.jqx.dataAdapter({
-                    dataType: 'json',
-                    dataFields: [
-                        {name: 'Unique', type: 'int'},
-                        {name: 'ItemUnique', type: 'int'},
-                        {name: 'QuestionUnique', type: 'int'},
-                        {name: 'QuestionName', type: 'string'},
-                        {name: 'ItemName', type: 'string'},
-                        {name: 'Status', type: 'number'},
-                        {name: 'StatusName', type: 'string'},
-                        {name: 'Sort', type: 'number'},
-                    ],
-                    id: 'Unique',
-                    //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.itemCellSelectedOnGrid.ItemUnique
-                    //url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $scope.changingItemOnSelect.Unique
-                    url: SiteRoot + 'admin/MenuItem/load_itemquestions/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
-                })
+            source: new $.jqx.dataAdapter(
+                inventoryExtraService.getQuestionGridData($('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value).source
+            )
         });
     };
 
@@ -1067,23 +1025,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
     });
 
     $('.itemqFormContainer .required-qitem').on('keypress keyup paste change', function (e) {
-        var idsRestricted = ['itemq_Sort'];
-        var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        if (inarray >= 0) {
-            var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
-                if (this.val == '') {
-                    $('#qitemNotificationsErrorSettings #notification-content')
-                        .html('Sort value must be number');
-                    $scope.qitemNotificationsErrorSettings.apply('open');
-                    $(this).css({'border-color': '#F00'});
-                }
-                return false;
-            }
-            if (this.value.length > 2) {
-                return false;
-            }
-        }
         $('#saveQuestionItemBtn').prop('disabled', false);
     });
 
@@ -1095,6 +1036,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         $('#itemq_Status').jqxDropDownList({'selectedIndex': 0});
         $('#itemq_Question').jqxComboBox({'selectedIndex': -1});
         $('#itemq_Sort').val(1);
+        $('#itemq_Tab').val(1);
         //
         $('#saveQuestionItemBtn').prop('disabled', true);
         $('#deleteQuestionItemBtn').hide();
@@ -1118,6 +1060,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
         $('#itemq_Question').jqxComboBox({'selectedIndex': selectedIndexItem});
 
         $('#itemq_Sort').val(row.Sort);
+        $('#itemq_Tab').val((row.Tab!=null) ? row.Tab : 1);
         //
         $('#saveQuestionItemBtn').prop('disabled', true);
         $('#deleteQuestionItemBtn').show();
@@ -1182,6 +1125,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http) {
                 'QuestionUnique': $('#itemq_Question').jqxComboBox('getSelectedItem').value,
                 'Status': $('#itemq_Status').jqxDropDownList('getSelectedItem').value,
                 'Sort': $('#itemq_Sort').val(),
+                'Tab': $('#itemq_Tab').val(),
                 'ItemUnique': $scope.itemCellSelectedOnGrid.ItemUnique
             };
             var url, msg;

@@ -612,7 +612,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             questionInventoryWind = args.instance;
         },
         resizable: false,
-        width: "50%", height: "40%",
+        width: "40%", height: "40%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -629,7 +629,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         source: dataAdapterQuestionItems,
         displayMember: 'QuestionName',
         valueMember: 'Unique',
-        width: "100%",
+        width: "200px",
         itemHeight: 30,
         theme: 'arctic'
     };
@@ -637,23 +637,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $('#invQ_Status').jqxDropDownList({autoDropDownHeight: true});
     //
     $('.invQFormContainer .required-qitem').on('keypress keyup paste change', function (e) {
-        var idsRestricted = ['invQ_Sort'];
-        var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        if (inarray >= 0) {
-            var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
-                if (this.val == '') {
-                    $('#questionInventoryError #notification-content')
-                        .html('Sort value must be number');
-                    $scope.questionInventoryError.apply('open');
-                    $(this).css({'border-color': '#F00'});
-                }
-                return false;
-            }
-            if (this.value.length > 2) {
-                return false;
-            }
-        }
         $('#saveQuestionInvBtn').prop('disabled', false);
     });
     //
@@ -664,6 +647,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#invQ_Status').jqxDropDownList({'selectedIndex': 0});
         $('#invQ_Question').jqxComboBox({'selectedIndex': -1});
         $('#invQ_Sort').val(1);
+        $('#invQ_Tab').val(1);
         //
         $('#saveQuestionInvBtn').prop('disabled', true);
         $('#deleteQuestionInvBtn').hide();
@@ -673,18 +657,15 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     };
     
     $scope.editQuestionItemWin = function(e) {
-        //updateQuestionsCbx();
         //
         var row = e.args.row.bounddata;
         var statusCombo = $('#invQ_Status').jqxDropDownList('getItemByValue', row.Status);
         $('#invQ_Status').jqxDropDownList({'selectedIndex': (statusCombo == undefined) ? 1 : statusCombo.index});
-    
-
         var itemCombo = $('#invQ_Question').jqxComboBox('getItemByValue', row.QuestionUnique);
         var selectedIndexItem = (itemCombo != undefined) ? itemCombo.index : -1;
         $('#invQ_Question').jqxComboBox({'selectedIndex': selectedIndexItem});
-    
         $('#invQ_Sort').val(row.Sort);
+        $('#invQ_Tab').val((row.Tab != null) ? row.Tab : 1);
         //
         $('#saveQuestionInvBtn').prop('disabled', true);
         $('#deleteQuestionInvBtn').show();
@@ -748,6 +729,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 'QuestionUnique': $('#invQ_Question').jqxComboBox('getSelectedItem').value,
                 'Status': $('#invQ_Status').jqxDropDownList('getSelectedItem').value,
                 'Sort': $('#invQ_Sort').val(),
+                'Tab': $('#invQ_Tab').val(),
                 'ItemUnique': $scope.itemInventoryID
             };
             var url, msg;

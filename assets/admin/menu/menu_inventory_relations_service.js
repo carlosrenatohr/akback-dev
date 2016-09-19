@@ -243,6 +243,7 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'ItemName', type: 'string'},
                     {name: 'Status', type: 'number'},
                     {name: 'StatusName', type: 'string'},
+                    {name: 'Tab', type: 'number'},
                     {name: 'Sort', type: 'number'}
                 ],
                 id: 'Unique',
@@ -254,7 +255,8 @@ app.service('inventoryExtraService', function ($http) {
                 {text: 'Question ID', dataField: 'QuestionUnique', type: 'int', width: '25%'},
                 {text: 'Name', dataField: 'QuestionName', type: 'string', width: '50%'},
                 {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
-                {text: 'Sort', dataField: 'Sort', type: 'number', width: '25%'},
+                {text: 'Tab', dataField: 'Tab', type: 'number', width: '12.5%'},
+                {text: 'Sort', dataField: 'Sort', type: 'number', width: '12.5%'}
             ],
             //columnsResize: true,
             width: "99%",
