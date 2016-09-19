@@ -94,24 +94,6 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
 
     // Events to disable buttons
     this.onChangeEvents = function() {
-        //
-        $('#inventoryTabs').on('selecting', function(e) {
-            var tabclick = e.args.item;
-            var tabTitle = $('#inventoryTabs').jqxTabs('getTitleAt', tabclick);
-            if (tabTitle == 'Item')
-                $('#deleteInventoryBtn').show();
-            else
-                $('#deleteInventoryBtn').hide();
-            if (tabTitle == 'Stock Level') {}
-            if (tabTitle == 'Barcode') {}
-            if (tabTitle == 'Questions') {
-                $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
-            }
-            if (tabTitle == 'Questions') {
-
-            }
-            //console.log(tabTitle);
-        });
         // Inputs change event
         $('body')
             .on('keypress keyup paste change', '.inventory_tab .item_textcontrol', function (e) {

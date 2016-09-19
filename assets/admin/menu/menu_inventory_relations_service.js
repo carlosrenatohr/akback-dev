@@ -222,15 +222,10 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // -- QUESTION DATA
-    this.getQuestionInvWindSettings = function () {
-        return '';
-    };
-
     this.getQuestionGridData = function(item) {
         var url = '';
-        if (item == undefined) {
-            //url = SiteRoot + 'admin/MenuItem/load_itemquestions/' + item;
-            item = '';
+        if (item != undefined) {
+            url = SiteRoot + 'admin/MenuItem/load_itemquestions/' + item;
         }
         return {
             source: ({
@@ -247,7 +242,7 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'Sort', type: 'number'}
                 ],
                 id: 'Unique',
-                url:  SiteRoot + 'admin/MenuItem/load_itemquestions/' + item
+                url: url
             }),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', hidden: true},
@@ -259,7 +254,7 @@ app.service('inventoryExtraService', function ($http) {
                 {text: 'Sort', dataField: 'Sort', type: 'number', width: '12.5%'}
             ],
             //columnsResize: true,
-            width: "99%",
+            width: "98%",
             //height: "99%",
             theme: 'arctic',
             sortable: true,
@@ -283,7 +278,11 @@ app.service('inventoryExtraService', function ($http) {
     };
 
     // -- PRINTER DATA
-    this.getPrinterGridData = function() {
+    this.getPrinterGridData = function(item) {
+        var url = '';
+        if (item != undefined) {
+            url = SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + item;
+        }
         return {
             source: {
                 dataType: 'json',
@@ -297,14 +296,13 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'Status', type: 'number'},
                     {name: 'fullDescription', type: 'string'}
                 ],
-                    id: 'Unique',
-                    url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters'
+                url: url
             },
             columns: [
-                {text: 'ID', dataField: 'Unique', type: 'int'},
+                {text: 'ID', dataField: 'Unique', type: 'int', width: '20%'},
                 {text: 'Item', dataField: 'Item', type: 'string', hidden: true},
-                {text: 'Name', dataField: 'name', type: 'string'},
-                {text: 'Description', dataField: 'description', type: 'string'},
+                {text: 'Name', dataField: 'name', type: 'string', width: '40%'},
+                {text: 'Description', dataField: 'description', type: 'string', width: '40%'},
                 {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
                 {text: '', dataField: 'Status', type: 'int', hidden: true},
                 {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
@@ -317,7 +315,7 @@ app.service('inventoryExtraService', function ($http) {
                 //}
             ],
                 //columnsResize: true,
-            width: "99%",
+            width: "98%",
             //height: "100%",
             theme: 'arctic',
             sortable: true,

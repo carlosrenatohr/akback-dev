@@ -16,6 +16,24 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     });
 
+    //
+    $('#inventoryTabs').on('selecting', function(e) {
+        var tabclick = e.args.item;
+        var tabTitle = $('#inventoryTabs').jqxTabs('getTitleAt', tabclick);
+        if (tabTitle == 'Item')
+            $('#deleteInventoryBtn').show();
+        else
+            $('#deleteInventoryBtn').hide();
+        // Subtabs
+        if (tabTitle == 'Stock Level') {}
+        if (tabTitle == 'Barcode') {}
+        if (tabTitle == 'Questions') {
+            $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
+        }
+        if (tabTitle == 'Questions') {}
+        if (tabTitle == 'Printers') {}
+    });
+
     $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData;
     var updateItemsInventoryGrid = function(init) {
         var el = (init != undefined) ? this : '#inventoryItemsGrid';
@@ -156,10 +174,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.itemInventoryID = null;
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID)
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
+        $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         //
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
         }, 100);
+        //
         $('#deleteInventoryBtn').hide();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('New Item');
@@ -168,7 +188,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.editInventoryWind = function(e) {
         var row = (e.args.row.bounddata);
-        //console.log(row);
         $scope.createOrEditItemInventory = 'edit';
         $scope.itemInventoryID = row.Unique;
         $scope.inventoryData.lprice = row.ListPrice;
@@ -873,20 +892,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     var updatePrinterItemGrid = function(itemID) {
         $('.inventory_tab #printerItemTable').jqxGrid({
-            source: new $.jqx.dataAdapter({
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'ItemUnique', type: 'int'},
-                    {name: 'PrinterUnique', type: 'int'},
-                    {name: 'name', type: 'string'},
-                    {name: 'description', type: 'string'},
-                    {name: 'Item', type: 'string'},
-                    {name: 'Status', type: 'number'},
-                    {name: 'fullDescription', type: 'string'}
-                ],
-                url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + itemID
-            })
+            source: new $.jqx.dataAdapter(inventoryExtraService.getPrinterGridData(itemID).source)
         });
     };
 

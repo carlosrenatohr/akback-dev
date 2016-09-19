@@ -478,16 +478,20 @@ class MenuItem extends AK_Controller
     /**
      * @description Get taxes
      */
-    public function getTaxesList($itemId = null) {
+    public function getTaxesList($itemId = null, $creating = null) {
         $taxes = $this->item->getTaxList();
-        if (!is_null($itemId)) {
+//        if (!is_null($itemId)) {
             $taxesWithItemData = [];
             foreach($taxes as $tax) {
-                $tax['taxed'] = $this->item->verifyTaxByItem($itemId, $tax['Unique']);
+                if (!is_null($itemId)) {
+                    $tax['taxed'] = $this->item->verifyTaxByItem($itemId, $tax['Unique']);
+                } else {
+                    $tax['taxed'] = ($tax['Status'] == 1) && ($tax['Default'] == 1) ? true : false;
+                }
                 $taxesWithItemData[] = $tax;
             }
             $taxes = $taxesWithItemData;
-        }
+//        }
         echo json_encode($taxes);
     }
 
