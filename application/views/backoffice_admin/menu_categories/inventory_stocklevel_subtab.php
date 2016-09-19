@@ -125,7 +125,7 @@
         <div class="row">
             <label  class="col-sm-4 control-label" style="text-align:right">Comment:</label>
 
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                     <textarea id="stockl_comment" class="form-control stockl_input"
                               cols="5" rows="3"
                     ></textarea>

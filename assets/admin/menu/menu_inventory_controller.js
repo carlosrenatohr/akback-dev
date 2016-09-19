@@ -137,7 +137,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.inventorySuccessMsg.apply('closeLast');
         //
         $('#saveInventoryBtn').prop('disabled', true);
-
         // Barcode Cleaning
         $scope.barcodeData.mainValue = '';
         $('#item_barcodeinput').val("");
@@ -147,28 +146,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#itemstock_locationCbx').jqxComboBox({selectedIndex: 0});
         if (close == 1)
             inventoryWind.close();
-    };
-
-    $scope.closeInventoryAction = function(option) {
-        if (option != undefined) {
-            $('#mainButtonsOnItemInv').show();
-            $('#promptCloseItemInv').hide();
-            $('#promptToDeleteItemInv').hide();
-        }
-        if (option == 0) {
-            $scope.saveInventoryAction();
-        } else if (option == 1) {
-            $scope.closeInventoryWind(1);
-        } else if (option == 2) {
-        } else {
-            if ($('#saveInventoryBtn').is(':disabled')) {
-                $scope.closeInventoryWind(1);
-            } else {
-                $('#mainButtonsOnItemInv').hide();
-                $('#promptCloseItemInv').show();
-                $('#promptToDeleteItemInv').hide();
-            }
-        }
     };
 
     // Create|Edit Inventory Actions
@@ -183,6 +160,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
         }, 100);
+        $('#deleteInventoryBtn').hide();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('New Item');
         inventoryWind.open();
@@ -248,6 +226,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
         }, 100);
+        $('#deleteInventoryBtn').show();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
         inventoryWind.open();
@@ -381,6 +360,64 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
+    $scope.closeInventoryAction = function(option) {
+        if (option != undefined) {
+            $('#mainButtonsOnItemInv').show();
+            $('#promptCloseItemInv').hide();
+            $('#promptToDeleteItemInv').hide();
+        }
+        if (option == 0) {
+            $scope.saveInventoryAction();
+        } else if (option == 1) {
+            $scope.closeInventoryWind(1);
+        } else if (option == 2) {
+        } else {
+            if ($('#saveInventoryBtn').is(':disabled')) {
+                $scope.closeInventoryWind(1);
+            } else {
+                $('#mainButtonsOnItemInv').hide();
+                $('#promptCloseItemInv').show();
+                $('#promptToDeleteItemInv').hide();
+            }
+        }
+    };
+
+    $scope.deleteInventoryAction = function(option) {
+        if(option != undefined) {
+            $('#mainButtonsOnItemInv').show();
+            $('#promptCloseItemInv').hide();
+            $('#promptToDeleteItemInv').hide();
+        }
+        if (option == 0) {
+            //if ($scope.printerSelectedID == null) {
+            //    $scope.closingPrinterWind();
+            //} else {
+            $.ajax({
+                url: SiteRoot + 'admin/MenuItem/deleteItemInventory/' + $scope.itemInventoryID,
+                method: 'post',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.status == 'success') {
+                        updateItemsInventoryGrid();
+                        $scope.closeInventoryWind(1);
+                    }
+                    else if (data.status == 'error')
+                        showingNotif(data.message, 0);
+                    else
+                        showingNotif(data.message, 0);
+                }
+            });
+            //}
+        } else if (option == 1) {
+            $scope.closeInventoryWind(1);
+        } else if (option == 2) {
+        } else {
+            $('#mainButtonsOnItemInv').hide();
+            $('#promptCloseItemInv').hide();
+            $('#promptToDeleteItemInv').show();
+        }
+    };
+
     // -- BARCODE SUBTAB
     $scope.barcodeData = {};
     $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
@@ -485,7 +522,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             stocklWind = args.instance;
         },
         resizable: false,
-        width: "25%", height: "60%",
+        width: "50%", height: "60%",
         //keyboardCloseKey: 'none',
         autoOpen: false,
         theme: 'darkblue',

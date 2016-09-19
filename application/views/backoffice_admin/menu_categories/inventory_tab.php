@@ -80,9 +80,9 @@
                                         class="btn btn-primary" disabled>
                                     Save
                                 </button>
-                                <button type="button" id="" ng-click="closeInventoryAction()" class="btn btn-warning">Close</button>
-                                <button type="button" id="deleteItemGridBtn" ng-click="" class="btn btn-danger "
-                                        style="overflow:auto;">Delete
+                                <button type="button" ng-click="closeInventoryAction()" class="btn btn-warning">Close</button>
+                                <button type="button" id="deleteInventoryBtn" ng-click="deleteInventoryAction()" class="btn btn-danger"
+                                        style="overflow:auto;display: none;">Delete
                                 </button>
                             </div>
                         </div>
@@ -109,13 +109,13 @@
             <!-- Prompt before delete an item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="promptToDeleteItemInv" class="RowOptionButtonsOnItemGrid" style="display: none">
+                    <div id="promptToDeleteItemInv" style="display: none">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 Do you really want to delete it?
-                                <button type="button" ng-click="" class="btn btn-primary">Yes</button>
-                                <button type="button" ng-click="" class="btn btn-warning">No</button>
-                                <button type="button" ng-click="" class="btn btn-info">Cancel</button>
+                                <button type="button" ng-click="deleteInventoryAction(0)" class="btn btn-primary">Yes</button>
+                                <button type="button" ng-click="deleteInventoryAction(1)" class="btn btn-warning">No</button>
+                                <button type="button" ng-click="deleteInventoryAction(2)" class="btn btn-info">Cancel</button>
                             </div>
                         </div>
                     </div>

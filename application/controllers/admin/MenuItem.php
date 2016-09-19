@@ -412,6 +412,24 @@ class MenuItem extends AK_Controller
         echo json_encode($response);
     }
 
+    public function deleteItemInventory($id) {
+        $data = $_POST;
+        if (!empty($data) || !is_null($_POST)) {
+            $status = $this->item->updateItem($id, ['Status' => 0]);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Item deleted successfully!'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        }
+        else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
     /**
      * @param null $id
      * @description Get barcodes by item

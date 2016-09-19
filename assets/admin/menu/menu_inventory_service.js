@@ -98,8 +98,12 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
         $('#inventoryTabs').on('selecting', function(e) {
             var tabclick = e.args.item;
             var tabTitle = $('#inventoryTabs').jqxTabs('getTitleAt', tabclick);
+            if (tabTitle == 'Item')
+                $('#deleteInventoryBtn').show();
+            else
+                $('#deleteInventoryBtn').hide();
             if (tabTitle == 'Stock Level') {}
-            if (tabTitle == 'Barcode'){}
+            if (tabTitle == 'Barcode') {}
             if (tabTitle == 'Questions') {
                 $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
             }
