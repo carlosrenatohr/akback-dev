@@ -73,7 +73,7 @@
             <!-- Main buttons before saving item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="mainButtonsOnItemInv">
+                    <div id="mainButtonsOnItemInv" class="rowMsgInv">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <button type="button" id="saveInventoryBtn" ng-click="saveInventoryAction()"
@@ -93,13 +93,28 @@
             <!-- Prompt before saving item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="promptCloseItemInv" class="" style="display: none">
+                    <div id="promptCloseItemInv" class="rowMsgInv" style="display: none">
                         <div class="form-group">
                             <div class="col-sm-12">
-                                Do you want to save your changes?
+                                <div class="message">Do you want to save your changes?</div>
                                 <button type="button" ng-click="closeInventoryAction(0)" class="btn btn-primary">Yes</button>
                                 <button type="button" ng-click="closeInventoryAction(1)" class="btn btn-warning">No</button>
                                 <button type="button" ng-click="closeInventoryAction(2)" class="btn btn-info">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Prompt before saving item to add features on grid -->
+            <div class="col-md-12 col-md-offset-0">
+                <div class="row">
+                    <div id="promptMoveItemInv" class="rowMsgInv" style="display: none">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="message">Do you want?</div>
+                                <button type="button" ng-click="moveTabInventoryAction(0)" class="btn btn-primary">Yes</button>
+                                <button type="button" ng-click="moveTabInventoryAction(1)" class="btn btn-warning">No</button>
+                                <button type="button" ng-click="moveTabInventoryAction(2)" class="btn btn-info">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -109,7 +124,7 @@
             <!-- Prompt before delete an item on grid -->
             <div class="col-md-12 col-md-offset-0">
                 <div class="row">
-                    <div id="promptToDeleteItemInv" style="display: none">
+                    <div id="promptToDeleteItemInv" class="rowMsgInv" style="display: none">
                         <div class="form-group">
                             <div class="col-sm-12">
                                 Do you really want to delete it?
