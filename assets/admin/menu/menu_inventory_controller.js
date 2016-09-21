@@ -24,21 +24,29 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#deleteInventoryBtn').show();
         else
             $('#deleteInventoryBtn').hide();
+        // Required tabs to create item
+        var itemCreatedRequired = ['Stock Level', 'Barcode', 'Questions', 'Printers'];
+        if (itemCreatedRequired.indexOf(tabTitle) > -1) {
+            promptItemToEdit(e, tabclick);
+        } else {
+            $('.rowMsgInv').hide();
+            $('#mainButtonsOnItemInv').show();
+        }
         // Subtabs
-        if (tabTitle == 'Stock Level') {}
+        if (tabTitle == 'Stock Level') {
+        }
         if (tabTitle == 'Barcode') {
-            e.cancel = true;
-            promptItemToEdit(tabclick);
         }
         if (tabTitle == 'Questions') {
             $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
         }
-        if (tabTitle == 'Questions') {}
-        if (tabTitle == 'Printers') {}
+        if (tabTitle == 'Printers') {
+        }
     });
 
-    function promptItemToEdit(tab) {
+    function promptItemToEdit(e, tab) {
         if ($scope.createOrEditItemInventory == 'create') {
+            e.cancel = true;
             $scope.moveTabInventoryAction(undefined, tab);
         }
     }
@@ -348,32 +356,28 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $scope.inventorySuccessMsg.apply('open');
     };
 
+    var tabSelectedOnCreate = null;
     $scope.tabSelectedOnCreate = null;
     $scope.moveTabInventoryAction = function(option, tab) {
-        console.log($scope.tabSelectedOnCreate);
         if (option != undefined) {
             $('.rowMsgInv').hide();
             $('#mainButtonsOnItemInv').show();
-            //if (option != 1)
-            //    $scope.tabSelectedOnCreate = null;
+            if (option != 0)
+                tabSelectedOnCreate = null;
         }
         if (option == 0) {
-            $scope.saveInventoryAction();
-            console.log($scope.tabSelectedOnCreate, 'selectedOnCreate');
-            $('#inventoryTabs').jqxTabs({selectedItem: $scope.tabSelectedOnCreate});
-            $scope.tabSelectedOnCreate = null;
+            $scope.saveInventoryAction(undefined, tabSelectedOnCreate);
         } else if (option == 1) {
             $scope.closeInventoryWind(1);
-            $scope.tabSelectedOnCreate = null;
         } else if (option == 2) {
-            $scope.tabSelectedOnCreate = null;
         } else {
             //if ($('#saveInventoryBtn').is(':disabled')) {
             //    $scope.closeInventoryWind(1);
             //} else {
             $('.rowMsgInv').hide();
             $('#promptMoveItemInv').show();
-            $scope.tabSelectedOnCreate = tab;
+            tabSelectedOnCreate = tab;
+            //$scope.tabSelectedOnCreate = tab;
             //}
         }
     };
@@ -398,6 +402,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                             showingNotif(data.message, 1);
                             inventoryWind.setTitle('Edit Item ID: '+ data.id + ' | Item: ' + dataRequest.Item + '| ' + dataRequest.Description);
                             updateItemsInventoryGrid();
+                            if(toTab) {
+                                $('#inventoryTabs').jqxTabs({'selectedItem': toTab})
+                                tabSelectedOnCreate = null;
+                                $('.rowMsgInv').hide();
+                                $('#mainButtonsOnItemInv').show();
+                            }
                         }
                         else if ($scope.createOrEditItemInventory = 'edit') {
                             showingNotif(data.message, 1);
