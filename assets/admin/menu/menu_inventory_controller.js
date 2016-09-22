@@ -33,9 +33,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#mainButtonsOnItemInv').show();
         }
         // Subtabs
+        var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         if (tabTitle == 'Stock Level') {
-            var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
             $scope.inventoryData.stockQty = row.Quantity;
+        }
+        if (tabTitle == 'Prices') {
+            $scope.inventoryData.lprice = row.ListPrice;
+            $scope.inventoryData.sprice = row.price1;
         }
         if (tabTitle == 'Barcode') {
         }
