@@ -962,7 +962,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.questionTableOnMenuItemsSettings = inventoryExtraService.getQuestionGridData();
 
     var updateQuestionItemTable = function() {
-        $('#questionItemTable').jqxDataTable({
+        $('#questionItemTable').jqxGrid({
             source: new $.jqx.dataAdapter(
                 inventoryExtraService.getQuestionGridData($('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value).source
             )
@@ -1048,7 +1048,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.editQuestionItemWin = function(e) {
         //updateQuestionsCbx();
         //
-        var row = e.args.row;
+        var row = e.args.row.bounddata;
         var statusCombo = $('#itemq_Status').jqxDropDownList('getItemByValue', row.Status);
         $('#itemq_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
 

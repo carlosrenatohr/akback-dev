@@ -746,7 +746,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             questionInventoryWind = args.instance;
         },
         resizable: false,
-        width: "40%", height: "40%",
+        width: "50%", height: "50%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -976,7 +976,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             printerItemWind = args.instance;
         },
         resizable: false,
-        width: "80%", height: "30%",
+        width: "60%", height: "30%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,

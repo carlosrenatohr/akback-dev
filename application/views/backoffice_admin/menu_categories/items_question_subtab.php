@@ -4,11 +4,11 @@
     </button>
 </div>
 <div class="col-md-12">
-    <jqx-data-table id="questionItemTable"
+    <jqx-grid id="questionItemTable"
                     jqx-settings="questionTableOnMenuItemsSettings"
                     jqx-on-row-double-click="editQuestionItemWin(event)"
                     jqx-create="questionTableOnMenuItemsSettings">
-    </jqx-data-table>
+    </jqx-grid>
 </div>
 <jqx-window jqx-on-close="close()" jqx-settings="questionOnItemGridWindowSettings"
             jqx-create="questionOnItemGridWindowSettings" class="">

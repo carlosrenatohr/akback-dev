@@ -123,18 +123,21 @@ app.service('inventoryExtraService', function ($http) {
                     text: '', dataField: 'taxed', //threestatecheckbox: true,
                     columntype: 'checkbox', cellclassname: 'cbxItemTaxCell', width: 70
                 },
-                {text: 'Code', dataField: 'Code', type: 'string', editable: false},
-                {text: 'Description', dataField: 'Description', type: 'string', editable: false},
-                {text: 'Rate', dataField: 'Rate', editable: false},
-                {text: 'Basis', dataField: 'Basis', editable: false}
+                {text: 'Code', dataField: 'Code', type: 'string', editable: false, width: '24%'},
+                {text: 'Description', dataField: 'Description', type: 'string', editable: false, width: '25%'},
+                {text: 'Rate', dataField: 'Rate', editable: false,  width: '24%'},
+                {text: 'Basis', dataField: 'Basis', editable: false,  width: '25%'}
             ],
             width: "100%",
+            height: "300px",
             theme: 'arctic',
             editable: true,
             filterable: false,
-            ready: function () {
-
-            }
+            altRows: true,
+            sortable: true,
+            autoheight: true,
+            autorowheight: true,
+            ready: function () {}
         };
     };
 
@@ -169,7 +172,7 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'Comment', type: 'string'},
                     {name: 'LocationName', type: 'string'},
                     {name: 'Description', type: 'string'},
-                    {name: 'Total', type: 'string'},
+                    {name: 'Total', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuItem/getStocklineItems/' + params
             }),
@@ -183,7 +186,7 @@ app.service('inventoryExtraService', function ($http) {
                 {text: 'Comment', dataField: 'Comment', hidden: true}
             ],
             width: "99%",
-            //height: 300,
+            height: 300,
             theme: 'arctic',
             altRows: true,
             sortable: true,
@@ -254,12 +257,16 @@ app.service('inventoryExtraService', function ($http) {
                 {text: 'Sort', dataField: 'Sort', type: 'number', width: '12.5%'}
             ],
             //columnsResize: true,
-            width: "98%",
-            //height: "99%",
+            width: "100%",
+            height: 300,
             theme: 'arctic',
             sortable: true,
             pageable: true,
-            pageSize: 15
+            pageSize: 15,
+            filterable: false,
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
         };
     };
 
@@ -315,12 +322,16 @@ app.service('inventoryExtraService', function ($http) {
                 //}
             ],
                 //columnsResize: true,
-            width: "98%",
-            //height: "100%",
+            width: "100%",
+            height: 300,
             theme: 'arctic',
             sortable: true,
             pageable: true,
-            pageSize: 15
+            pageSize: 15,
+            filterable: false,
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
         };
     };
 

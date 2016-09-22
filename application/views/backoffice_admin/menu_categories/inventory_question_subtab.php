@@ -1,4 +1,4 @@
-<div class="row inventory_tab">
+<div class="row inventory_tab" >
     <div class="col-md-12">
         <button class="btn btn-info" ng-click="openQuestionItemWin()" style="margin: 10px 0;">
             New Question

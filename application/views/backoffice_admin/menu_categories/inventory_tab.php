@@ -170,4 +170,7 @@
     .inventory_tab .row {
         margin-bottom: 5px;
     }
+    .row.inventory_tab {
+        margin: 0!important;
+    }
 </style>
