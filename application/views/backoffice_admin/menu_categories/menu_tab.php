@@ -96,7 +96,7 @@
                                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                                     id="add_ItemLength" name="add_ItemLength"
                                     jqx-settings="number_mainmenuTab"
-                                    jqx-value="25" jqx-min="1"
+                                    jqx-value="25" jqx-min="0"
                                 ></jqx-number-input>
                             </div>
                             <div style="float:left;">
