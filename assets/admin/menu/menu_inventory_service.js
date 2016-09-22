@@ -43,6 +43,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
                 {name: 'Points', type: 'string'}
 
             ],
+            id: 'Unique',
             url: SiteRoot + 'admin/MenuItem/getItemsData'
         }),
         columns: [

@@ -34,6 +34,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
         // Subtabs
         if (tabTitle == 'Stock Level') {
+            var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
+            $scope.inventoryData.stockQty = row.Quantity;
         }
         if (tabTitle == 'Barcode') {
         }
@@ -193,6 +195,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         //
+        var loc  = $('#stationID').val();
+        var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+        $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
         }, 100);
@@ -249,6 +254,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
         gc.jqxRadioButton({ checked:true });
         //
+        var loc  = $('#stationID').val();
+        var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+        $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
         $('#stockl_currentQty').jqxNumberInput('val', row['Quantity']);
         $scope.inventoryData.stockQty = row['Quantity'];
         $scope.inventoryData.addremoveQty = 0;
@@ -590,7 +598,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             stocklWind = args.instance;
         },
         resizable: false,
-        width: "50%", height: "60%",
+        width: "45%", height: "60%",
         //keyboardCloseKey: 'none',
         autoOpen: false,
         theme: 'darkblue',
@@ -606,9 +614,17 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     };
 
     $scope.openStockWind = function() {
+        var station = $('#stockl_location').jqxComboBox('getItemByValue', $('#stationID').val());
+        $('#stockl_location').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
+        //
+        $('#stocklWind #stockl_comment').val('');
         $('#stocklWind .stockl_input:not(#stockl_currentQty)').jqxNumberInput('val', 0);
         $("#stockl_transDate").jqxDateTimeInput({ value: new Date() });
         $("#stockl_transTime").jqxDateTimeInput({ formatString: 'T', showCalendarButton: false });
+        // Getting current qty from grid
+        var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
+        $scope.inventoryData.stockQty = row.Quantity;
+        //
         $('#saveStockBtn').prop('disabled', true);
         stocklWind.open();
     };
@@ -661,17 +677,22 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 dataType: 'json',
                 data: dataReq,
                 success: function(response) {
-                    console.log(response);
                     if(response.status == 'success') {
-                        //$('#itemstock_locationCbx').jqxComboBox({selectedIndex: 1});
-                        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
+                        updateItemsInventoryGrid();
+                        $scope.$apply(function() {
+                            var loc  = $('#stationID').val();
+                            $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, loc);
+                            //
+                            var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+                            $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
+                        });
                         stocklWind.close();
                     }
                     else if (response.status == 'error')
                         console.log(response.message, 0);
                         //showingNotif(response.message, 0);
                     else
-                        console.log(response.message, 02);
+                        console.log(response.message, 0);
                         //showingNotif(response.message, 0);
                 }
             });

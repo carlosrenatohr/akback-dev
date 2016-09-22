@@ -21,8 +21,8 @@
                     <jqx-combo-box id="itemstock_locationCbx"
                                    jqx-settings="stockitemLocationSettings"
                                    jqx-on-select="onSelectStockLocationList($event)"
-                                   jqx-selected-index="<?php echo $station;?>">
-                    </jqx-combo-box>
+                                   jqx-selected-index="<?php echo $station;?>"
+                    ></jqx-combo-box>
                 </div>
             </div>
         </div>
@@ -125,9 +125,9 @@
         <div class="row">
             <label  class="col-sm-4 control-label" style="text-align:right">Comment:</label>
 
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                     <textarea id="stockl_comment" class="form-control stockl_input"
-                              cols="5" rows="3"
+
                     ></textarea>
             </div>
         </div>
