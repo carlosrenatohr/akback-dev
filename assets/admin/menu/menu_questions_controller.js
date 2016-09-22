@@ -230,6 +230,15 @@ app.controller('menuQuestionController', function ($scope) {
             }
         });
 
+        if ($('#qt_max').val() < $('#qt_min').val()) {
+            $('#questionNotificationsErrorSettings #notification-content')
+                .html("Minimum can't be greater than Maximum");
+            $('#qt_max, #qt_min').css({"border-color": "#F00"});
+            $scope.questionNotificationsErrorSettings.apply('open');
+            needValidation = false;
+        } else
+            $('#qt_max, #qt_min').css({"border-color": "#ccc"});
+
         return needValidation;
     };
 
