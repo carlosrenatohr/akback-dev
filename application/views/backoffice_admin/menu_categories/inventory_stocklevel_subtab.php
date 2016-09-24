@@ -50,15 +50,27 @@
     </div>
     <div class="">
         <div class="row">
+            <label  class="col-sm-4 control-label" style="text-align:right">Location:</label>
+
+            <div class="col-sm-4">
+                <jqx-combo-box id="stockl_location" class="stockl_input"
+                               jqx-settings="stockitemLocation2Settings"
+                               jqx-selected-index="<?php echo $station;?>"
+                               jqx-on-select="onSelectLocationAdjustQty($event)">
+                </jqx-combo-box>
+            </div>
+        </div>
+        <div class="row">
             <label  class="col-sm-4 control-label" style="text-align:right">In Stock:</label>
 
             <div class="col-sm-4">
+                <!-- ng-model="inventoryData.stockQty" -->
                 <jqx-number-input id="stockl_currentQty" class="stockl_input"
                                   jqx-width="200" jqx-height="30"
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
                                   jqx-symbol="''"
                                   jqx-decimal-digits="<?= $decimalsQuantity; ?>"
-                                  ng-model="inventoryData.stockQty"
+
                                   ng-disabled="inventoryDisabled"
                 ></jqx-number-input>
             </div>
@@ -75,6 +87,7 @@
                                   ng-model="inventoryData.addremoveQty"
                 ></jqx-number-input>
             </div>
+
         </div>
         <div class="row">
             <label  class="col-sm-4 control-label" style="text-align:right">New Quantity</label>
@@ -109,17 +122,6 @@
                     jqx-show-time-button="true"
                     jqx-show-calendar-button="false"
                 ></jqx-date-time-input>
-            </div>
-        </div>
-        <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Location:</label>
-
-            <div class="col-sm-4">
-                <jqx-combo-box id="stockl_location" class="stockl_input"
-                               jqx-settings="stockitemLocation2Settings"
-                               jqx-selected-index="<?php echo $station;?>"
-                               jqx-on-select="">
-                </jqx-combo-box>
             </div>
         </div>
         <div class="row">

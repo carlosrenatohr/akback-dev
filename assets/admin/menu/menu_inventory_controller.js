@@ -141,9 +141,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
-    $scope.modifyCurrentQty = function(elect) {
+    $scope.modifyCurrentQty = function(elect, stockTotal) {
         var transQty = 0;
-        var stock = parseFloat($scope.inventoryData.stockQty);
+        var stock;
+        //var stock = $('#stockl_currentQty').val();
+        if (stockTotal != undefined) {
+            stock = stockTotal;
+        } else
+            stock = parseFloat($scope.inventoryData.stockQty);
         if (elect == 0) {
             transQty = stock + parseFloat($scope.inventoryData.addremoveQty);
             $('#stockl_newQty').val(transQty);
@@ -261,7 +266,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var loc  = $('#stationID').val();
         var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
         $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
-        $('#stockl_currentQty').jqxNumberInput('val', row['Quantity']);
+        //$('#stockl_currentQty').jqxNumberInput('val', row['Quantity']);
         $scope.inventoryData.stockQty = row['Quantity'];
         $scope.inventoryData.addremoveQty = 0;
         $scope.inventoryData.newQty = 0;
@@ -617,17 +622,37 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
     };
 
+    $scope.onSelectLocationAdjustQty = function(e) {
+        var location = e.args.item.value;
+        var url = SiteRoot + 'admin/MenuItem/totalQuantityByLocation/';
+        if ($scope.itemInventoryID) {
+            $.ajax({
+                method: 'get',
+                url: url + $scope.itemInventoryID + '/' + location,
+                success: function(response) {
+                    $('#stockl_currentQty').jqxNumberInput('val', response);
+                    console.log(response);
+                    $scope.modifyCurrentQty(0);
+                    $scope.modifyCurrentQty(1);
+                }
+            });
+        }
+    };
+
     $scope.openStockWind = function() {
-        var station = $('#stockl_location').jqxComboBox('getItemByValue', $('#stationID').val());
+        var loc = $('#stationID').val();
+        var station = $('#stockl_location').jqxComboBox('getItemByValue', loc);
         $('#stockl_location').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
+        var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+        $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
         //
         $('#stocklWind #stockl_comment').val('');
         $('#stocklWind .stockl_input:not(#stockl_currentQty)').jqxNumberInput('val', 0);
         $("#stockl_transDate").jqxDateTimeInput({ value: new Date() });
         $("#stockl_transTime").jqxDateTimeInput({ formatString: 'T', showCalendarButton: false });
         // Getting current qty from grid
-        var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
-        $scope.inventoryData.stockQty = row.Quantity;
+        //var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
+        //$scope.inventoryData.stockQty = row.Quantity;
         //
         $('#saveStockBtn').prop('disabled', true);
         stocklWind.open();
@@ -683,6 +708,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 success: function(response) {
                     if(response.status == 'success') {
                         updateItemsInventoryGrid();
+                        //$('#inventoryItemsGrid').jqxGrid('updatebounddata', 'filter');
                         $scope.$apply(function() {
                             var loc  = $('#stationID').val();
                             $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, loc);

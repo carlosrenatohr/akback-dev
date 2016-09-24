@@ -543,6 +543,15 @@ class MenuItem extends AK_Controller
         echo json_encode($response);
     }
 
+    public function totalQuantityByLocation($id, $location) {
+        if (isset($id) || isset($location)) {
+            $qty = $this->item->getTotalQuantity($id, $location);
+            $quantity = number_format($qty['Quantity'], $this->decimalQuantity);
+            echo $quantity;
+        } else
+            echo "There was an error";
+    }
+
     public function getLocationsList($all = null) {
         $new = [];
         if ($all != null) {

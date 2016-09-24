@@ -224,4 +224,14 @@ class Item_model extends CI_Model
         return $result;
     }
 
+    public function getTotalQuantity($unique = 1, $store = 2) {
+        $this->db->select("SUM(\"Quantity\") as \"Quantity\"", false);
+        $this->db->from('item_stock_line');
+        $this->db->where('ItemUnique', $unique);
+        $this->db->where('LocationUnique', $store);
+        $this->db->group_by('ItemUnique');
+
+        return $this->db->get()->row_array();
+    }
+
 }
