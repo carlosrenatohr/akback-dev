@@ -143,18 +143,17 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.modifyCurrentQty = function(elect, stockTotal) {
         var transQty = 0;
-        var stock;
-        //var stock = $('#stockl_currentQty').val();
-        if (stockTotal != undefined) {
-            stock = stockTotal;
-        } else
-            stock = parseFloat($scope.inventoryData.stockQty);
+        var stock = parseFloat($('#stockl_currentQty').val());
+        //if (stockTotal != undefined) {
+        //    stock = stockTotal;
+        //} else
+        //    stock = parseFloat($scope.inventoryData.stockQty);
         if (elect == 0) {
             transQty = stock + parseFloat($scope.inventoryData.addremoveQty);
             $('#stockl_newQty').val(transQty);
         }
         if (elect == 1) {
-            transQty = stock + parseFloat($scope.inventoryData.newQty);
+            transQty = parseFloat($scope.inventoryData.newQty) - stock ;
             $('#stockl_addremoveQty').val(transQty);
         }
 
@@ -623,28 +622,30 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     };
 
     $scope.onSelectLocationAdjustQty = function(e) {
-        var location = e.args.item.value;
-        var url = SiteRoot + 'admin/MenuItem/totalQuantityByLocation/';
-        if ($scope.itemInventoryID) {
-            $.ajax({
-                method: 'get',
-                url: url + $scope.itemInventoryID + '/' + location,
-                success: function(response) {
-                    $('#stockl_currentQty').jqxNumberInput('val', response);
-                    console.log(response);
-                    $scope.modifyCurrentQty(0);
-                    $scope.modifyCurrentQty(1);
-                }
-            });
+        if (e.args.item) {
+            var location = e.args.item.value;
+            var url = SiteRoot + 'admin/MenuItem/totalQuantityByLocation/';
+            if ($scope.itemInventoryID) {
+                $.ajax({
+                    method: 'get',
+                    url: url + $scope.itemInventoryID + '/' + location,
+                    success: function(response) {
+                        $('#stockl_currentQty').jqxNumberInput('val', response);
+                        $('#stockl_newQty').jqxNumberInput('val', response);
+                        $('#stockl_addremoveQty').jqxNumberInput('val', 0);
+                    }
+                });
+            }
         }
     };
 
     $scope.openStockWind = function() {
         var loc = $('#stationID').val();
         var station = $('#stockl_location').jqxComboBox('getItemByValue', loc);
+        $('#stockl_location').jqxComboBox({'selectedIndex': -1});
         $('#stockl_location').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
-        var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
-        $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
+        //var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+        //$('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
         //
         $('#stocklWind #stockl_comment').val('');
         $('#stocklWind .stockl_input:not(#stockl_currentQty)').jqxNumberInput('val', 0);
@@ -712,6 +713,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         $scope.$apply(function() {
                             var loc  = $('#stationID').val();
                             $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, loc);
+                            $('#stockLevelItemGrid').jqxGrid('hideloadelement');
                             //
                             var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
                             $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});

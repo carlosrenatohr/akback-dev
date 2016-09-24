@@ -46,7 +46,7 @@
             jqx-settings="stockWind"
             jqx-create="stockWind">
     <div class="">
-        Adjusting Quantity
+        Adjusting Quantity+
     </div>
     <div class="">
         <div class="row">
@@ -79,7 +79,7 @@
             <label  class="col-sm-4 control-label" style="text-align:right">Adjust Quantity:</label>
 
             <div class="col-sm-4">
-                <jqx-number-input id="stockl_addremoveQty" class="stockl_input"
+                <jqx-number-input id="stockl_addremoveQty" class="stockl_input tochange"
                                   jqx-width="200" jqx-height="30"
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
                                   jqx-symbol="''" ng-change="modifyCurrentQty(0)"
@@ -93,7 +93,7 @@
             <label  class="col-sm-4 control-label" style="text-align:right">New Quantity</label>
 
             <div class="col-sm-4">
-                <jqx-number-input id="stockl_newQty" class="stockl_input"
+                <jqx-number-input id="stockl_newQty" class="stockl_input tochange"
                                   jqx-width="200" jqx-height="30"
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
                                   jqx-symbol="''" ng-change="modifyCurrentQty(1)"

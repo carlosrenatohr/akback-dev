@@ -109,7 +109,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
                 })
         ;
         //
-        $('#stocklWind .stockl_input').on('change', function() {
+        $('#stocklWind .stockl_input.tochange').on('change', function() {
             $('#saveStockBtn').prop('disabled', false);
         });
         // Question subtab events
