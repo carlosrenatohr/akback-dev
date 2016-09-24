@@ -35,7 +35,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // Subtabs
         var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         if (tabTitle == 'Stock Level') {
-            $scope.inventoryData.stockQty = row.Quantity;
+            if ($scope.createOrEditItemInventory != 'create') {
+                $scope.inventoryData.stockQty = row.Quantity;
+            }
         }
         if (tabTitle == 'Prices') {
             $scope.inventoryData.lprice = row.ListPrice;
@@ -390,6 +392,17 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             //if ($('#saveInventoryBtn').is(':disabled')) {
             //    $scope.closeInventoryWind(1);
             //} else {
+            var msg = $('#promptMoveItemInv #tabTitleOnMsg');
+            var txt;
+            if (tab == 3)
+                txt = ' quantity ';
+            else if (tab == 5)
+                txt = ' barcode ';
+            else if (tab == 6)
+                txt = ' question ';
+            else if (tab == 7)
+                txt = ' printer ';
+            msg.html(txt);
             $('.rowMsgInv').hide();
             $('#promptMoveItemInv').show();
             tabSelectedOnCreate = tab;
