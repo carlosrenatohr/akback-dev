@@ -506,7 +506,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         : 0,
                     'MinimumAge': parseInt($('#itemcontrol_minimumage').val()),
                     'CountDown': parseInt($('#itemcontrol_countdown').val()),
-                    'Points': parseFloat($('#itemcontrol_points').val())
+                    'Points': parseFloat($('#itemcontrol_points').val()),
+                    'Description': $('#itemcontrol_description').val(),
+                    'ListPrice': $('#itemcontrol_lprice').val(),
+                    'price1': $('#itemcontrol_sprice').val()
                 }
             };
             if ($('#editItem_sort').val() != '') {
@@ -691,8 +694,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'dataType': 'json',
                     'success': function(data) {
                         $scope.itemCellSelectedOnGrid = data;
-                        var statusCombo = $('#editItem_Status').jqxDropDownList('getItemByValue', data['Status']);
-                        $('#editItem_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
+                        //var statusCombo = $('#editItem_Status').jqxDropDownList('getItemByValue', data['Status']);
+                        //$('#editItem_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
+                        $('#editItem_Status').val(data['LayoutStatus']);
 
                         var selectedIndexItem;
                         var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['ItemUnique']);
@@ -740,6 +744,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         $('#itemcontrol_minimumage').val(data.MinimumAge != null ? data.MinimumAge : 0);
                         $('#itemcontrol_points').val(data.Points != null ? data.Points : 0);
                         $('#itemcontrol_countdown').val(data.CountDown != null ? data.CountDown : 0);
+                        // New fields on main tab for Item table
+                        $('#itemcontrol_description').val(data.Description != null ? data.Description : '');
+                        $('#itemcontrol_lprice').val(data.ListPrice != null ? data.ListPrice : 0);
+                        $('#itemcontrol_sprice').val(data.price1 != null ? data.price1 : 0);
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();

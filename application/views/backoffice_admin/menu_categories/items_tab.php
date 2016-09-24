@@ -65,6 +65,7 @@
                     <li id="questionsTabOnMenuItemWindow">Questions</li>
                     <li>Printers</li>
                     <li>Options</li>
+                    <li>Layout</li>
                 </ul>
                 <!-- Menu Item subtab -->
                 <div class="">
@@ -85,6 +86,10 @@
                 <!-- Extra subtab -->
                 <div class="">
                     <?php $this->load->view($items_extra_subtab_view);?>
+                </div>
+                <!-- Layout subtab -->
+                <div class="">
+                    <?php $this->load->view($items_layout_subtab_view);?>
                 </div>
             </jqx-tabs>
 
