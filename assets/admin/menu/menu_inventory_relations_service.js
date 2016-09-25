@@ -137,6 +137,8 @@ app.service('inventoryExtraService', function ($http) {
             sortable: true,
             autoheight: true,
             autorowheight: true,
+            pageable: true,
+            pageSize: 10,
             ready: function () {}
         };
     };
@@ -178,10 +180,10 @@ app.service('inventoryExtraService', function ($http) {
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text: 'Date', dataField: 'TransactionDate', width: '19%'},
-                {text: 'Type', dataField: 'Description', width: '19%'},
-                {text: 'Location', dataField: 'LocationName', width: '19%'},
-                {text: 'Quantity', dataField: 'Quantity', cellsAlign: 'center', width: '19%'},
+                {text: 'Date', dataField: 'TransactionDate', width: '20%'},
+                {text: 'Type', dataField: 'Description', width: '20%'},
+                {text: 'Location', dataField: 'LocationName', width: '20%'},
+                {text: 'Quantity', dataField: 'Quantity', cellsAlign: 'center', width: '20%'},
                 {text: 'Total', dataField: 'Total', cellsAlign: 'center', width: '19%'},
                 {text: 'Comment', dataField: 'Comment', hidden: true}
             ],
