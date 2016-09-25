@@ -206,7 +206,9 @@ demoApp.service('customerService', function ($http) {
             filterable: true,
             pageable: true,
             pageSize: 20,
-            pagesizeoptions: ['10', '20', '50', '100'],
+            pagesizeoptions: ['5', '10', '20'],
+            //pagesizeoptions: ['10', '20', '50', '100'],
+            scrollmode: 'logical',
             //pagerMode: 'simple',
             virtualmode: true,
             rendergridrows: function()
@@ -221,7 +223,10 @@ demoApp.service('customerService', function ($http) {
                 rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px 0;'></div>",
                 rowdetailsheight: 200,
                 rowdetailshidden: true
-            }
+            },
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
         };
     };
 
@@ -347,7 +352,10 @@ demoApp.service('customerService', function ($http) {
                 rowdetails: "<div class='contactsNestedGridCheckin2' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
-            }
+            },
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
         };
     };
 
@@ -469,7 +477,10 @@ demoApp.service('customerService', function ($http) {
                 rowdetails: "<div class='contactsNestedGridCheckin1' style='margin:5px;'></div>",
                 rowdetailsheight: 275,
                 rowdetailshidden: true
-            }
+            },
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
         };
     };
 
@@ -686,9 +697,12 @@ demoApp.service('customerService', function ($http) {
             theme: 'arctic',
             sortable: true,
             pageable: true,
-            pageSize: 20,
+            pageSize: 10,
             pagerMode: 'simple',
             filterable: true,
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
             //showfilterrow: (parentUnique) ? true : false,
             //columnsautoresize: true
         }
@@ -734,11 +748,13 @@ demoApp.service('customerService', function ($http) {
             width: "100%",
             theme: 'arctic',
             sortable: true,
-            //pageable: true,
-            //pageSize: 20,
-            //pagerMode: 'simple',
             filterable: true,
-            showfilterrow: (parentUnique) ? true : false
+            showfilterrow: (parentUnique) ? true : false,
+            pageable: true,
+            pageSize: 10,
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
         }
     };
 
@@ -877,6 +893,8 @@ demoApp.service('customerService', function ($http) {
             pageable: true,
             pageSize: 20,
             pagerMode: 'simple',
+            altRows: true,
+            autoheight: true,
             autorowheight: true,
             filterable: true,
             showfilterrow: true,
@@ -952,7 +970,10 @@ demoApp.service('customerService', function ($http) {
             filterable: true,
             pageable: true,
             pageSize: 20,
-            pagerMode: 'simple'
+            pagerMode: 'simple',
+            altRows: true,
+            autoheight: true,
+            autorowheight: true
         };
     };
 
