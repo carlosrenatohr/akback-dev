@@ -170,7 +170,7 @@ class Item_model extends CI_Model
     }
 
     public function updateTaxesByItem($taxesArray) {
-        $taxesArray = empty($taxesArray) ? [] : $taxesArray;
+        $taxesArray = empty($taxesArray) ? [] : json_decode($taxesArray, true);
         foreach($taxesArray as $group) {
             $this->db->trans_start();
             $itemTaxFound = $this->db->get_where('item_tax',

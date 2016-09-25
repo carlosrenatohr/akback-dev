@@ -121,11 +121,11 @@ app.service('inventoryExtraService', function ($http) {
                 {dataField: 'Unique', hidden: true},
                 {
                     text: '', dataField: 'taxed', //threestatecheckbox: true,
-                    columntype: 'checkbox', cellclassname: 'cbxItemTaxCell', width: 70
+                    columntype: 'checkbox', cellclassname: 'cbxItemTaxCell', width: '5%'
                 },
-                {text: 'Code', dataField: 'Code',  type: 'string', editable: false, width: '24%'},
+                {text: 'Code', dataField: 'Code',  type: 'string', editable: false, width: '22%'},
                 {text: 'Description', dataField: 'Description', type: 'string', editable: false, width: '25%'},
-                {text: 'Rate', dataField: 'Rate', editable: false,  width: '24%'},
+                {text: 'Rate', dataField: 'Rate', editable: false,  width: '23%'},
                 {text: 'Basis', dataField: 'Basis', editable: false,  width: '25%'}
             ],
             width: "100%",
