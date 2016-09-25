@@ -16,10 +16,9 @@
             <label for="inputType" class="col-sm-3 control-label">Barcode:</label>
 
             <div class="col-sm-4">
-                <input type="text" class="form-control item_textcontrol req" id="item_Part" name="item_Part"
+                <input type="text" class="form-control item_textcontrol" id="item_Part" name="item_Part"
                        data-field="Part" placeholder="Barcode" ng-model="inventoryData.part">
             </div>
-            <span class="required-ast">*</span>
         </div>
     </div>
     <div class="row">
@@ -27,9 +26,10 @@
             <label for="inputType" class="col-sm-3 control-label">Description:</label>
 
             <div class="col-sm-4">
-                <input type="text" class="form-control item_textcontrol" id="item_Description" name="item_Description"
+                <input type="text" class="form-control item_textcontrol req" id="item_Description" name="item_Description"
                        data-field="Description" placeholder="Description">
             </div>
+            <span class="required-ast">*</span>
         </div>
     </div>
     <div class="row">
