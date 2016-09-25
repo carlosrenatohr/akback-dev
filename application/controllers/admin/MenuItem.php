@@ -290,6 +290,7 @@ class MenuItem extends AK_Controller
     public function getItemsData() {
         $items = [];
         foreach($this->item->getItemsData() as $count=> $item) {
+            $item['ListPrice'] = number_format($item['ListPrice'], $this->decimalPrice);
             $item['price1'] = number_format($item['price1'], $this->decimalPrice);
 //            $quantity = !is_null($item['Quantity']) ? $item['Quantity'] : 0;
             $item['Quantity'] = number_format($item['Quantity'], $this->decimalQuantity) ;
