@@ -464,7 +464,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#promptToDeleteItemInv').hide();
         }
         if (option == 0) {
-            $scope.saveInventoryAction();
+            $scope.saveInventoryAction(1);
         } else if (option == 1) {
             $scope.closeInventoryWind(1);
         } else if (option == 2) {
