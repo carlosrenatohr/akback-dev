@@ -85,7 +85,11 @@ app.controller('menuPrintersController', function($scope) {
             $('#printerTable').jqxGrid('updatebounddata', 'filter');
         },
         sortable: true,
-        pageable: true
+        pageable: true,
+        pageSize: 20,
+        altRows: true,
+        autoheight: true,
+        autorowheight: true
     });
     //};
 

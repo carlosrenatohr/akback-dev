@@ -59,14 +59,16 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         ready: function() {
             $('#menuGridTable').jqxGrid('updatebounddata', 'filter');
         },
-        //columnsResize: true,
-        //height: "100%",
-        width: "100%",
+        width: "99.8%",
         theme: 'arctic',
         filterable: true,
         sortable: true,
         pageable: true,
-        showfilterrow: true
+        showfilterrow: true,
+        pageSize: 20,
+        altRows: true,
+        autoheight: true,
+        autorowheight: true
     };
 
     function updateMainMenuGrid() {
@@ -355,6 +357,10 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         sortable: true,
         pageable: true,
         pagerMode: 'default',
+        pageSize: 20,
+        altRows: true,
+        autoheight: true,
+        autorowheight: true
     };
 
     // Menu Notification settings

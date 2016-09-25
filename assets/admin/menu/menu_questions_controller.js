@@ -43,7 +43,7 @@ app.controller('menuQuestionController', function ($scope) {
             {text: 'Maximum', dataField: 'Max', type: 'string', width: '20%'}
         ],
         columnsResize: true,
-        //height: '100%',
+        //height: 900,
         width: '99.7%',
         theme: 'arctic',
         pageable: true,
@@ -51,7 +51,12 @@ app.controller('menuQuestionController', function ($scope) {
         sortable: true,
         filterable: true,
         showfilterrow: true,
-        filterMode: 'simple'
+        filterMode: 'simple',
+        //sortable: true,
+        pageSize: 20,
+        altRows: true,
+        autoheight: true,
+        autorowheight: true
     };
 
     var updateQuestionMainTable = function() {

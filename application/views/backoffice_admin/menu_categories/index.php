@@ -99,7 +99,8 @@ jqxthemes();
 </div>
     <style>
         #MenuCategoriesTabs .gridContentTab {
-            height: 100%;max-height: 500px;
+            height: 100%;
+            /*max-height: 500px;*/
         }
     </style>
 
