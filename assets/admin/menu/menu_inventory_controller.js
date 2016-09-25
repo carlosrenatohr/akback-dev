@@ -35,21 +35,22 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // Subtabs
         var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         if (tabTitle == 'Stock Level') {
-            if ($scope.createOrEditItemInventory != 'create') {
+            if ($scope.createOrEditItemInventory != 'create')
                 $scope.inventoryData.stockQty = row.Quantity;
-            }
         }
         if (tabTitle == 'Prices') {
-            $scope.inventoryData.lprice = row.ListPrice;
-            $scope.inventoryData.sprice = row.price1;
+            if ($scope.createOrEditItemInventory != 'create') {
+                $scope.inventoryData.lprice = row.ListPrice;
+                $scope.inventoryData.sprice = row.price1;
+            }
         }
-        if (tabTitle == 'Barcode') {
-        }
+        if (tabTitle == 'Barcode') {}
         if (tabTitle == 'Questions') {
-            $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
+            if ($scope.createOrEditItemInventory != 'create') {
+                $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
+            }
         }
-        if (tabTitle == 'Printers') {
-        }
+        if (tabTitle == 'Printers') {}
     });
 
     function promptItemToEdit(e, tab) {

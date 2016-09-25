@@ -11,6 +11,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         // ITEMS TAB - Reload queries
         if (tabTitle == 'Layout') {
             updateQuestionsCbx();
+            $('#itemListboxSearch').jqxListBox('refresh');
+            $('#itemListboxSearch .jqx-listbox-filter-input').val('');
             $('#menuListDropdown').jqxDropDownList({source: dataAdapterMenu });
             $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
             // Redraw grid
