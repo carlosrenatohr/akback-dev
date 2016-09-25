@@ -31,7 +31,10 @@ class Item_printer_model extends CI_Model
     }
 
     public function getPrinters() {
-        return $this->db->get('config_station_printers')->result_array();
+        return $this->db
+            ->where('status', 1)
+            ->order_by('name ASC')
+            ->get('config_station_printers')->result_array();
     }
 
     public function postPrinter($request) {
