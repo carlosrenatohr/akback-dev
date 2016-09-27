@@ -82,7 +82,7 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="col-sm-3 control-label">Sub Category:</label>
+            <label for="inputType" class="col-sm-3 control-label">SubCategory:</label>
 
             <div class="col-sm-4">
                 <jqx-combo-box id="item_subcategory" jqx-width="'220px'" jqx-height="'30px'" class="item_combobox"

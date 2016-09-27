@@ -220,7 +220,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     };
 
     $scope.editInventoryWind = function(e) {
-        var row = (e.args.row.bounddata);
+        var row = e.args.row.bounddata;
         $scope.createOrEditItemInventory = 'edit';
         $scope.itemInventoryID = row.Unique;
         $scope.inventoryData.lprice = row.ListPrice;
@@ -242,11 +242,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_supplier').jqxComboBox({'selectedIndex': (supplier != null) ? supplier.index : -1});
         var brand = $('#item_brand').jqxComboBox('getItemByValue', row['BrandId']);
         $('#item_brand').jqxComboBox({'selectedIndex': (brand != null) ? brand.index : -1});
-        setTimeout(function() {
-            var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
-            $('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
-            $('#saveInventoryBtn').prop('disabled', true);
-        }, 100);
         // Item checkbox controls
         var gc;
         gc = $('#iteminventory_giftcard .cbxExtraTab[data-val=' +
@@ -277,10 +272,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, $('#stationID').val());
         updateQuestionItemTable($scope.itemInventoryID);
         updatePrinterItemGrid($scope.itemInventoryID);
-        //
-        setTimeout(function(){
+        // Categories combobox
+        setTimeout(function() {
+            var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
+            $('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
+            $('#saveInventoryBtn').prop('disabled', true);
             $('.inventory_tab #item_Item').focus();
-        }, 100);
+        }, 300);
+        //
         $('#deleteInventoryBtn').show();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
@@ -355,7 +354,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var taxesByItem = [];
         if ($scope.createOrEditItemInventory = 'create') {
             $.each($('#taxesGrid').jqxGrid('getrows'), function(i, row) {
-                //console.log(row, );
                 if (row.taxed) {
                     taxesByItem.push({
                         TaxUnique: row.Unique,
