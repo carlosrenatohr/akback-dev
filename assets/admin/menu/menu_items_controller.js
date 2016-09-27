@@ -796,24 +796,66 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     };
 
     $scope.newMenuItemBtn = function() {
-        var selectedItem = $('body .draggable.selectedItemOnGrid');
-        var row = selectedItem.data('row');
-        var col = selectedItem.data('col');
-        resetMenuItemForm();
-        $scope.itemCellSelectedOnGrid = {
-            'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
-            'Row': row,
-            'Column': col
-        };
-        $('#editItem_Row').val(row);
-        $('#editItem_Column').val(col);
+        if ($scope.selectedCategoryInfo.Unique && !$('#NewMenuItemBtn').is(':disabled')) {
+            $('.draggable').css('border', 'black 1px solid');
+            //
+            var $this = $('.selectedItemOnGrid');
+            var data = {
+                'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
+                'ItemUnique': $scope.selectedItemInfo.Unique,
+                'Label': $scope.selectedItemInfo.Description,
+                'Row': $this.data('row'),
+                'Column': $this.data('col'),
+                'Status': 1,
+                'Sort': 1
+            };
+            $.ajax({
+                'url': SiteRoot + 'admin/MenuItem/postMenuItems',
+                'method': 'POST',
+                'data': data,
+                'dataType': 'json',
+                'success': function (data) {
+                    if (data.status == 'success') {
+                        $this.html($scope.selectedItemInfo.Description);
+                        $this.addClass('filled');
+                        $this.addClass('itemOnGrid');
+                        $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
+                        $this.css('background-color', '#7C2F3F');
+                        //$this.css('background-color', '#063dee');
+                        draggableEvents();
+                    }
+                    else if (data.status == 'error') {
+                        $.each(data.message, function(i, value){
+                            //alert(value);
+                        });
+                    }
+                    else {
+                        console.log('error from ajax');
+                    }
+                }
+            });
+        }
+        // @Deprecated: Old version, creating a new menu_item
+        var creatingMenuItem = function() {
+            var selectedItem = $('body .draggable.selectedItemOnGrid');
+            var row = selectedItem.data('row');
+            var col = selectedItem.data('col');
+            resetMenuItemForm();
+            $scope.itemCellSelectedOnGrid = {
+                'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
+                'Row': row,
+                'Column': col
+            };
+            $('#editItem_Row').val(row);
+            $('#editItem_Column').val(col);
 
-        $('#deleteItemGridBtn').hide();
-        $('#NewMenuItemBtn').prop('disabled', false);
-        //$('#saveItemGridBtn').prop('disabled', false);
-        $('#questionsTabOnMenuItemWindow').hide();
-        itemsMenuWindow.setTitle('Add New Menu Item');
-        itemsMenuWindow.open();
+            $('#deleteItemGridBtn').hide();
+            $('#NewMenuItemBtn').prop('disabled', false);
+            //$('#saveItemGridBtn').prop('disabled', false);
+            $('#questionsTabOnMenuItemWindow').hide();
+            itemsMenuWindow.setTitle('Add New Menu Item');
+            itemsMenuWindow.open();
+        };
     };
 
     /**
