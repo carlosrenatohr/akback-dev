@@ -1136,7 +1136,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 'Status': $('#itemq_Status').jqxDropDownList('getSelectedItem').value,
                 'Sort': $('#itemq_Sort').val(),
                 'Tab': $('#itemq_Tab').val(),
-                'ItemUnique': $scope.itemCellSelectedOnGrid.ItemUnique
+                'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
             };
             var url, msg;
             if ($scope.addOrEditqItem == 'create') {
