@@ -696,18 +696,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'dataType': 'json',
                     'success': function(data) {
                         $scope.itemCellSelectedOnGrid = data;
-                        //var statusCombo = $('#editItem_Status').jqxDropDownList('getItemByValue', data['Status']);
-                        //$('#editItem_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
-                        $('#editItem_Status').val(data['LayoutStatus']);
-
+                        //
                         var selectedIndexItem;
-                        var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['ItemUnique']);
+                        var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['Unique']);
                         if (itemCombo != undefined) {
                             selectedIndexItem = itemCombo.index | 0;
                         } else selectedIndexItem = 0;
                         $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
-                        //console.log($('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label);
-
+                        $('#editItem_Status').val(data['LayoutStatus']);
                         var label = (data['Label'] == '' || data['Label'] == null)
                                     ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
                                     : data['Label'];
