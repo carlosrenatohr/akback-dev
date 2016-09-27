@@ -121,17 +121,18 @@ class MenuItem extends AK_Controller
         }
         // Posting
         else {
-            if (isset($request['pricesValues']) && isset($request['extraValues'])) {
-                $pricesValues = $request['pricesValues'];
+            // ITEM fields to save
+            if (isset($request['extraValues'])) {
+                $request['extraValues']['Description'] = trim($request['extraValues']['Description']);
                 $extraValues = $request['extraValues'];
-                unset($request['pricesValues']);
                 unset($request['extraValues']);
-            }
+            } else {
+                 $extraValues = [];
+             }
             $status = $this->menuItem->postItemByMenu($request);
             if ($status) {
-                if(isset($extraValues) && isset($pricesValues)) {
-                    $itemFields = array_merge($pricesValues, $extraValues);
-                    $this->item->update($request['ItemUnique'], $itemFields);
+                if(!empty($extraValues)) {
+                    $this->item->update($request['ItemUnique'], $extraValues);
                 }
                 $response = [
                     'status' => 'success',

@@ -29,6 +29,7 @@ class Menu_item_model extends CI_Model
     public function getItemByPosition($request)
     {
         $this->db->select('item.*, config_menu_items.Status as LayoutStatus,
+                    config_menu_items.Unique as MenuItemUnique,
                     config_menu_items.MenuCategoryUnique, config_menu_items.Label,
                     config_menu_items.Sort, config_menu_items.Column,config_menu_items.Row');
         $this->db->from('config_menu_items');

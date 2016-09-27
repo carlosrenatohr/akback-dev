@@ -16,7 +16,7 @@
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Description:</div>
                 <div style=" float:left; width:300px;">
-                    <input type="text" class="form-control" id="itemcontrol_description"
+                    <input type="text" class="form-control menuitem_extraControls" id="itemcontrol_description"
                            name="itemcontrol_description" placeholder="Description">
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <div style=" float:left; width:300px;">
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <jqx-number-input id="itemcontrol_lprice" class="form-control"
+                        <jqx-number-input id="itemcontrol_lprice" class="form-control menuitem_pricesControls"
                                           jqx-width="'190px'" jqx-height="'30px'"
                                           jqx-spin-buttons="false" jqx-input-mode="simple"
                                           jqx-symbol="''"
@@ -61,7 +61,7 @@
                 <div style=" float:left; width:300px;">
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <jqx-number-input id="itemcontrol_sprice" class="form-control"
+                        <jqx-number-input id="itemcontrol_sprice" class="form-control menuitem_pricesControls"
                                           jqx-width="'190px'" jqx-height="'30px'"
                                           jqx-spin-buttons="false" jqx-input-mode="simple"
                                           jqx-symbol="''"

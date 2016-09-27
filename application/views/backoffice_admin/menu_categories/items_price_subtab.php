@@ -7,12 +7,9 @@
                     <jqx-number-input
                         style='margin-top: 3px;'
                         id="menuitem_listPrice" name="menuitem_listPrice" class="menuitem_pricesControls"
-                        jqx-settings="numberPricesSet"
+                        jqx-settings="numberPricesSet" ng-disabled="disabledControl"
                     ></jqx-number-input>
                 </div>
-<!--                <div style="float:left;">-->
-<!--                    <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>-->
-<!--                </div>-->
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
@@ -21,7 +18,7 @@
                     <jqx-number-input
                         style='margin-top: 3px;' class="menuitem_pricesControls"
                         id="menuitem_price1" name="menuitem_price1"
-                        jqx-settings="numberPricesSet"
+                        jqx-settings="numberPricesSet" ng-disabled="disabledControl"
                     ></jqx-number-input>
                 </div>
             </div>

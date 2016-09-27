@@ -461,9 +461,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
         return needValidation;
     };
-
+    $scope.disabledControl = true;
     $scope.saveItemGridBtn = function(fromPrompt) {
         if (!validationDataOnItemGrid()) {
+            var idxSelected = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').index;
             var dataToSend = {
                 'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
                 'Row': $('#editItem_Row').val(),
@@ -476,16 +477,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 //
                 'posRow': $scope.itemCellSelectedOnGrid.Row,
                 'posCol': $scope.itemCellSelectedOnGrid.Column,
-                // ---- PRICES TAB, Save data
-                'pricesValues': {
-                    'ListPrice': parseFloat($('#menuitem_listPrice').val()),
-                    'price1': parseFloat($('#menuitem_price1').val()),
+                // ---- Item Values to save
+                'extraValues': {
+                    // Prices Values
+                    //'ListPrice': parseFloat($('#menuitem_listPrice').val()),
+                    //'price1': parseFloat($('#menuitem_price1').val()),
+                    'ListPrice': parseFloat($('#itemcontrol_lprice').val()),
+                    'price1': parseFloat($('#itemcontrol_sprice').val()),
                     'price2': parseFloat($('#menuitem_price2').val()),
                     'price3': parseFloat($('#menuitem_price3').val()),
                     'price4': parseFloat($('#menuitem_price4').val()),
-                    'price5': parseFloat($('#menuitem_price5').val())
-                },
-                'extraValues': {
+                    'price5': parseFloat($('#menuitem_price5').val()),
+                    // Extra Values
                     'GiftCard':
                         ($('#itemcontrol_giftcard [aria-checked="true"]').length > 0) ?
                             $('#itemcontrol_giftcard [aria-checked="true"]').data('val') :
@@ -510,8 +513,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'CountDown': parseInt($('#itemcontrol_countdown').val()),
                     'Points': parseFloat($('#itemcontrol_points').val()),
                     'Description': $('#itemcontrol_description').val(),
-                    'ListPrice': $('#itemcontrol_lprice').val(),
-                    'price1': $('#itemcontrol_sprice').val()
                 }
             };
             if ($('#editItem_sort').val() != '') {
@@ -540,11 +541,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             $scope.tryToChangeQuestionTab = false;
                         }
                         //
+                        $('#editItem_ItemSelected').jqxComboBox({
+                            'source': dataAdapterItems('ASC')
+                        });
                         if (fromPrompt) {
-                            //setTimeout(function() {
                             itemsMenuWindow.close();
-                            //}, 2000);
                         } else {
+                            setTimeout(function() {
+                                $('#editItem_ItemSelected').jqxComboBox({
+                                    'selectedIndex': idxSelected
+                                });
+                                $('#editItem_label').val(dataToSend['Label']);
+                                $('#saveItemGridBtn').prop('disabled', true);
+                            }, 300);
+
                             $('#menuitemNotificationsSuccessSettings #notification-content')
                                 .html('Menu item was updated successfully!');
                             $scope.menuitemNotificationsSuccessSettings.apply('open');
@@ -613,20 +623,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $('.editItemFormContainer .required-field,' +
         ' .menuitem_pricesControls, .cbxExtraTab, .menuitem_extraControls')
         .on('keypress keyup paste change', function (e) {
-        var idsRestricted = ['editItem_sort', 'editItem_Row', 'editItem_Column'];
-        //var inarray = $.inArray($(this).attr('id'), idsRestricted);
-        //if (inarray >= 0) {
-        //    var charCode = (e.which) ? e.which : e.keyCode;
-        //    if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 46)) {
-        //        $('#menuitemNotificationsErrorSettings #notification-content')
-        //            .html('Row, Column and Sort values must be numbers!');
-        //        $scope.menuitemNotificationsErrorSettings.apply('open');
-        //        return false;
-        //    }
-        //    if (this.value.length > 2) {
-        //        return false;
-        //    }
-        //}
         if ($(this).attr('id') == 'editItem_label' || e.type == 'keyup') {
             if ($scope.itemLengthOfMenuSelected != null) {
                 var characters = $(this).val().length;
@@ -699,10 +695,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         //
                         var selectedIndexItem;
                         var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['Unique']);
-                        if (itemCombo != undefined) {
-                            selectedIndexItem = itemCombo.index | 0;
-                        } else selectedIndexItem = 0;
-                        $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+                        if (itemCombo)
+                            selectedIndexItem = itemCombo.index;
+                        else selectedIndexItem = 0;
+                        // Pending..
+                        //setTimeout(function() {
+                            $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+                        //}, 250);
+
                         $('#editItem_Status').val(data['LayoutStatus']);
                         var label = (data['Label'] == '' || data['Label'] == null)
                                     ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
@@ -716,7 +716,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         $('#editItem_Row').val(data.Row);
                         $('#editItem_Column').val(data.Column);
                         // Prices values
-                        $('#menuitem_listPrice').val(data.ListPrice);
+                        $('#itemcontrol_lprice').val(data.ListPrice != null ? data.ListPrice : 0);
+                        $('#itemcontrol_sprice').val(data.price1 != null ? data.price1 : 0);
+                        $('#menuitem_listPrice').val(data.ListPrice != null ? data.ListPrice : 0);
                         $('#menuitem_price1').val(data.price1 != null ? data.price1 : 0);
                         $('#menuitem_price2').val(data.price2 != null ? data.price2 : 0);
                         $('#menuitem_price3').val(data.price3 != null ? data.price3 : 0);
@@ -743,15 +745,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         $('#itemcontrol_points').val(data.Points != null ? data.Points : 0);
                         $('#itemcontrol_countdown').val(data.CountDown != null ? data.CountDown : 0);
                         // New fields on main tab for Item table
-                        $('#itemcontrol_description').val(data.Description != null ? data.Description : '');
-                        $('#itemcontrol_lprice').val(data.ListPrice != null ? data.ListPrice : 0);
-                        $('#itemcontrol_sprice').val(data.price1 != null ? data.price1 : 0);
+                        var description = (data.Description != null) ? data.Description : '';
+                        $('#itemcontrol_description').val($.trim(description));
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();
 
                         itemWindow.setTitle(
-                            'Edit Menu Item: ' + data.Unique + ' | Item: ' + data.ItemUnique + ' | Label: ' + label);
+                            'Edit Menu Item: ' + data.MenuItemUnique + ' | Item: ' + data.Unique + ' | Label: ' + label);
                         itemWindow.open();
                     }
                 });
@@ -796,7 +797,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('.draggable').css('border', 'black 1px solid');
             //
             var $this = $('.selectedItemOnGrid');
-            var data = {
+            var dataToReq = {
                 'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
                 'ItemUnique': $scope.selectedItemInfo.Unique,
                 'Label': $scope.selectedItemInfo.Description,
@@ -808,7 +809,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $.ajax({
                 'url': SiteRoot + 'admin/MenuItem/postMenuItems',
                 'method': 'POST',
-                'data': data,
+                'data': dataToReq,
                 'dataType': 'json',
                 'success': function (data) {
                     if (data.status == 'success') {
