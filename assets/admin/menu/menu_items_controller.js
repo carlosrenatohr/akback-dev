@@ -1055,7 +1055,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         questionOnItemGridWindow.open();
     };
 
-    $scope.editQuestionItemWin = function(e) {
+    $scope.editQuestionItemLayoutWin = function(e) {
         //updateQuestionsCbx();
         //
         var row = e.args.row.bounddata;
@@ -1088,6 +1088,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
         if (option == 0) {
             $scope.saveQuestionItem();
+            questionOnItemGridWindow.close();
         } else if (option == 1) {
             questionOnItemGridWindow.close();
         }

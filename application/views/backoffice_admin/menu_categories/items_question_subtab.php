@@ -6,7 +6,7 @@
 <div class="col-md-12">
     <jqx-grid id="questionItemTable"
                     jqx-settings="questionTableOnMenuItemsSettings"
-                    jqx-on-row-double-click="editQuestionItemWin(event)"
+                    jqx-on-rowdoubleclick="editQuestionItemLayoutWin($event)"
                     jqx-create="questionTableOnMenuItemsSettings">
     </jqx-grid>
 </div>
