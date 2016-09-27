@@ -370,10 +370,9 @@ class MenuItem extends AK_Controller
                         : [];
 //            unset($_POST['taxesValues']);
             unset($data['taxesValues']);
-            $this->item->updateTaxesByItem($taxes);
             $status = $this->item->saveItem($this->checkItemValues($data));
             if ($status) {
-                $this->item->updateTaxesByItem($taxes);
+                $this->item->updateTaxesByItem($taxes, $status);
                 $response = [
                     'status' => 'success',
                     'id' => $status,

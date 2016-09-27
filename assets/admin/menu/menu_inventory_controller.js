@@ -353,13 +353,26 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
         // TAXES VALUES
         var taxesByItem = [];
-        for(var i=0; i < $('#taxesGrid').jqxGrid('getrows').length; i++) {
-            if (taxesValuesChanged.indexOf(i) > -1) {
-                taxesByItem.push({
-                    TaxUnique: $('#taxesGrid').jqxGrid('getcellvalue', i, 'Unique'),
-                    ItemUnique: $scope.itemInventoryID,
-                    Status: $('#taxesGrid').jqxGrid('getcellvalue', i, 'taxed')
-                });
+        if ($scope.createOrEditItemInventory = 'create') {
+            $.each($('#taxesGrid').jqxGrid('getrows'), function(i, row) {
+                //console.log(row, );
+                if (row.taxed) {
+                    taxesByItem.push({
+                        TaxUnique: row.Unique,
+                        ItemUnique: $scope.itemInventoryID,
+                        Status: row.taxed
+                    });
+                }
+            });
+        } else if ($scope.createOrEditItemInventory = 'edit') {
+            for(var i=0; i < $('#taxesGrid').jqxGrid('getrows').length; i++) {
+                if (taxesValuesChanged.indexOf(i) > -1) {
+                    taxesByItem.push({
+                        TaxUnique: $('#taxesGrid').jqxGrid('getcellvalue', i, 'Unique'),
+                        ItemUnique: $scope.itemInventoryID,
+                        Status: $('#taxesGrid').jqxGrid('getcellvalue', i, 'taxed')
+                    });
+                }
             }
         }
         data['taxesValues'] = (taxesByItem != '') ? JSON.stringify(taxesByItem) : '';
