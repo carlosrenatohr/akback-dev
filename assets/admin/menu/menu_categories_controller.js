@@ -65,7 +65,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         sortable: true,
         pageable: true,
         showfilterrow: true,
-        pageSize: 20,
+        pageSize: 15,
+        pagesizeoptions: ['5', '10', '15'],
         altRows: true,
         autoheight: true,
         autorowheight: true
@@ -357,7 +358,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         sortable: true,
         pageable: true,
         pagerMode: 'default',
-        pageSize: 20,
+        pageSize: 15,
+        pagesizeoptions: ['5', '10', '15'],
         altRows: true,
         autoheight: true,
         autorowheight: true

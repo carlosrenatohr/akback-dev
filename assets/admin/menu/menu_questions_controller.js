@@ -53,7 +53,8 @@ app.controller('menuQuestionController', function ($scope) {
         showfilterrow: true,
         filterMode: 'simple',
         //sortable: true,
-        pageSize: 20,
+        pageSize: 15,
+        pagesizeoptions: ['5', '10', '15'],
         altRows: true,
         autoheight: true,
         autorowheight: true
