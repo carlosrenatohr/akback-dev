@@ -767,7 +767,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('.draggable').css({'border': 'solid black 1px'});
             $(this).addClass('selectedItemOnGrid');
             var isOccupied = $(this).hasClass('filled');
-            $('#NewMenuItemBtn').prop('disabled', isOccupied);
+            var itemSelected = $('#itemListboxSearch').jqxListBox('selectedIndex');
+            if (itemSelected >= 0)
+                $('#NewMenuItemBtn').prop('disabled', isOccupied);
             if (!isOccupied) {
                 $(this).css({'border': 'solid #FFDC00 5px'});
             }
