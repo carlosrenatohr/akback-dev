@@ -238,10 +238,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     } else {
                         //cell.css('background-color', (el.Status == 1) ? '#063dee' : '#06b1ee');
                         cell.css('background-color', (el.Status == 1) ? '#7C2F3F' : '#752253');
+                        cell.addClass((el.Status != 1) ? 'disabled-cell' : '');
                         cell.addClass('filled');
                         cell.addClass('itemOnGrid');
                         cell.data('categoryId', el.MenuCategoryUnique);
-                        cell.html((el.Label == null || el.Label == '') ? el.Description : el.Label);
+                        var label = (el.Label == null || el.Label == '') ? el.Description : el.Label;
+                        cell.html("<div class='priceContent'>"+el.SellPrice +"</div><div class='labelContent'>"+ label + "</div>");
                     }
                 });
                 draggableEvents();
@@ -558,7 +560,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                                 $('#saveItemGridBtn').prop('disabled', true);
                             }, 300);
 
-                            console.log(dataToSend);
                             $('#menuitem_listPrice').jqxNumberInput('val', dataToSend.extraValues.ListPrice);
                             $('#menuitem_price1').jqxNumberInput('val', dataToSend.extraValues.price1);
                             $('#menuitemNotificationsSuccessSettings #notification-content')
@@ -774,9 +775,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             var itemSelected = $('#itemListboxSearch').jqxListBox('selectedIndex');
             if (itemSelected >= 0)
                 $('#NewMenuItemBtn').prop('disabled', isOccupied);
-            if (!isOccupied) {
+            //if (!isOccupied) {
                 $(this).css({'border': 'solid #FFDC00 5px'});
-            }
+            //}
         });
     }
 
@@ -930,7 +931,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             $this.addClass('filled');
                             $this.addClass('itemOnGrid');
                             $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
-                            $this.css('background-color', '#063dee');
+                            //$this.css('background-color', '#063dee');
+                            $this.css('background-color', '#7C2F3F');
                             draggableEvents();
                         }
                         else if (data.status == 'error') {

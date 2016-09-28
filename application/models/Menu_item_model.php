@@ -43,7 +43,7 @@ class Menu_item_model extends CI_Model
 
     public function getItemsByCategoryMenu($id)
     {
-        $this->db->select('item.Description, config_menu_items.*');
+        $this->db->select('item.Description, item.price1 as SellPrice, config_menu_items.*');
         $this->db->from($this->menuItemTable);
         $this->db->join('item', 'item.Unique = config_menu_items.ItemUnique');
         $this->db->where('config_menu_items.MenuCategoryUnique', $id);

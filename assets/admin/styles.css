@@ -155,6 +155,30 @@ div.toolbar-list span {
     padding: 2px !important;
 }
 
+.restricter-dragdrop .draggable:not(.filled) {
+    color: #222;
+    padding-top: 2.5em!important;
+    font-weight:800;
+    text-align: center;
+    font-size: 10px;
+}
+
+.restricter-dragdrop .draggable.filled.disabled-cell {
+    cursor: copy!important;
+}
+
+.restricter-dragdrop .draggable .labelContent {
+    padding-top: 1em;
+    text-align: center;
+    font-size: 12px;
+}
+
+.restricter-dragdrop .draggable .priceContent {
+    position: absolute;
+    right: 0;
+    font-size: 8px;
+}
+
 .restricter-dragdrop .draggable.selectedItemOnGrid {
     /*background-color: #f0f0f0;*/
     border: #2F2F2F 4px solid;
