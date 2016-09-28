@@ -8,7 +8,8 @@
                         jqx-on-select="itemsComboboxSelecting(event)"
                         jqx-on-unselect=""
                         jqx-settings="itemsComboboxSettings"
-                        id="editItem_ItemSelected">
+                        id="editItem_ItemSelected"
+                        >
                     </jqx-combo-box>
                 </div>
             </div>

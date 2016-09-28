@@ -268,7 +268,7 @@ app.service('inventoryExtraService', function ($http) {
             theme: 'arctic',
             sortable: true,
             pageable: true,
-            pageSize: 10,
+            pageSize: 5,
             filterable: false,
             altRows: true,
             autoheight: true,

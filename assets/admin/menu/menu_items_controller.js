@@ -25,9 +25,17 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $('#jqxTabsMenuItemWindows').on('selecting', function(e) { // tabclick
         var tabclicked = e.args.item;
-        if (tabclicked == 0) {
+        var tabTitle = $('#jqxTabsMenuItemWindows').jqxTabs('getTitleAt', tabclicked);
+        // ---
+        if (tabclicked != 0) {
+            $('#deleteItemGridBtn').hide();
+            $('#editItem_ItemSelected').jqxComboBox({disabled: false});
+        } else {
             $('#deleteItemGridBtn').show();
-        } else if (tabclicked == 3) {
+            $('#editItem_ItemSelected').jqxComboBox({disabled: true});
+        }
+        // ---
+        if (tabTitle == 'Printers') {
             // Fill all printers
             if (allPrintersArray == '') {
                 var rows = $("#printerItemList").jqxDropDownList('getItems');
@@ -35,28 +43,21 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     allPrintersArray.push(rows[j]['value']);
                 }
             }
+            updatePrinterItemGrid();
+        } else if (tabTitle == 'Questions'){
             //
-            $('#deleteItemGridBtn').hide();
-            //$scope.$apply(function() {
-                updatePrinterItemGrid();
-            //});
-        } else {
-            //
-            if ($scope.countChangesOnSelectingItemCbx > 1) {
-                e.cancel = true;
-                $('#promptToCloseItemGrid').show();
-                $('#mainButtonsOnItemGrid').hide();
-                $scope.tryToChangeQuestionTab = true;
-            } else {
+            //if ($scope.countChangesOnSelectingItemCbx > 1) {
+            //    e.cancel = true;
+            //    $('#promptToCloseItemGrid').show();
+            //    $('#mainButtonsOnItemGrid').hide();
+            //    $scope.tryToChangeQuestionTab = true;
+            //} else {
                 e.cancel = false;
-                $('#deleteItemGridBtn').hide();
                 //
-                if ($scope.changingItemOnSelect != null) {
-                    //$scope.$apply(function() {
-                        updateQuestionItemTable();
-                    //});
-                }
-            }
+                //if ($scope.changingItemOnSelect != null) {
+                    updateQuestionItemTable();
+                //}
+            //}
         }
     });
 
@@ -557,6 +558,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                                 $('#saveItemGridBtn').prop('disabled', true);
                             }, 300);
 
+                            console.log(dataToSend);
+                            $('#menuitem_listPrice').jqxNumberInput('val', dataToSend.extraValues.ListPrice);
+                            $('#menuitem_price1').jqxNumberInput('val', dataToSend.extraValues.price1);
                             $('#menuitemNotificationsSuccessSettings #notification-content')
                                 .html('Menu item was updated successfully!');
                             $scope.menuitemNotificationsSuccessSettings.apply('open');
@@ -754,7 +758,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();
-
+                        $('#editItem_ItemSelected').jqxComboBox({disabled: true});
                         itemWindow.setTitle(
                             'Edit Menu Item: ' + data.MenuItemUnique + ' | Item: ' + data.Unique + ' | Label: ' + label);
                         itemWindow.open();
@@ -1312,7 +1316,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         theme: 'arctic',
         sortable: true,
         pageable: true,
-        pageSize: 15
+        pageSize: 5,
+        autoheight: true,
+        autorowheight: true
     };
 
     var allPrintersArray = [];
