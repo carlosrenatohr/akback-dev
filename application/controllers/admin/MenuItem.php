@@ -16,6 +16,7 @@ class MenuItem extends AK_Controller
         $this->load->model('Menu_item_model', 'menuItem');
         $this->load->model('Menu_model', 'menu');
         $this->load->model('Item_model', 'item');
+        $this->load->model('Item_printer_model', 'menuPrinter');
         $this->decimalQuantity = (int)$this->session->userdata('DecimalsQuantity');
         $this->decimalPrice = (int)$this->session->userdata("DecimalsPrice");
         $this->decimalTax = (int)$this->session->userdata("DecimalsTax");
@@ -128,12 +129,20 @@ class MenuItem extends AK_Controller
                 unset($request['extraValues']);
             } else {
                  $extraValues = [];
-             }
+            }
+            if (isset($request['MainPrinter'])) {
+                $printerReq = ['ItemUnique' => $request['ItemUnique'],
+                        'PrinterUnique'=> $request['MainPrinter']];
+                unset($request['MainPrinter']);
+            } else {
+                $printerReq = [];
+            }
             $status = $this->menuItem->postItemByMenu($request);
             if ($status) {
                 if(!empty($extraValues)) {
                     $this->item->update($request['ItemUnique'], $extraValues);
                 }
+                $this->menuPrinter->verifyPrinterByItemToCreate($printerReq);
                 $response = [
                     'status' => 'success',
                     'message' => 'Item success: ' . $status

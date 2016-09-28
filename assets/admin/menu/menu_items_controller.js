@@ -513,7 +513,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'CountDown': parseInt($('#itemcontrol_countdown').val()),
                     'Points': parseFloat($('#itemcontrol_points').val()),
                     'Description': $('#itemcontrol_description').val(),
-                }
+                },
+                // -- Main printer on item subtab
+                'MainPrinter': $('#mainPrinterSelect').jqxDropDownList('getSelectedItem').value
             };
             if ($('#editItem_sort').val() != '') {
                 dataToSend['Sort'] = $('#editItem_sort').val();
@@ -747,6 +749,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         // New fields on main tab for Item table
                         var description = (data.Description != null) ? data.Description : '';
                         $('#itemcontrol_description').val($.trim(description));
+                        // Main Printer
+                        mainPrinterSet();
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();
@@ -767,6 +771,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             if (!isOccupied) {
                 $(this).css({'border': 'solid #FFDC00 5px'});
             }
+        });
+    }
+
+    function mainPrinterSet() {
+        var lowestId;
+        var printers = $('#printerItemTable').jqxGrid('getRows');
+        $.each(printers, function(i, el) {
+            var id = parseInt(el.PrinterUnique);
+            if (i == 0)
+                lowestId = id;
+            if (id < lowestId)
+                lowestId = id;
+        });
+        var printer = $('#mainPrinterSelect').jqxDropDownList('getItemByValue', lowestId);
+        $('#mainPrinterSelect').jqxDropDownList({
+            selectedIndex: (printer) ? printer.index : -1
         });
     }
 
@@ -1283,14 +1303,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             {text: 'Description', dataField: 'description', type: 'string'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
-            {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-            //{text: 'Actions', type: 'string', hidden:false, width: '20%', align: 'center',
-            //    cellsrenderer: function (row, column, value, rowData) {
-            //        return '<button class="btn btn-danger deletePrinterItemBtn" '+
-            //            'data-unique="'+ rowData.Unique +'" '+
-            //            'style="padding: 0 2%;margin: 2px 25%;font-size: 12px">Delete</button>';
-            //    }
-            //}
+            {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
         ],
         //columnsResize: true,
         width: "99%",
@@ -1303,7 +1316,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     var allPrintersArray = [];
     var printerStoredArray = [];
     var updatePrinterItemGrid = function() {
-        $('#printerItemTable').jqxDataTable({
+        $('#printerItemTable').jqxGrid({
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
@@ -1352,6 +1365,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         url: SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig'
     };
 
+    //$('#printerItemList').on('select', function(e) {
     $('#printerItemList').on('select', function(e) {
         $('#saveBtnPrinterItem').prop('disabled', false);
     });
@@ -1362,7 +1376,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     function setPrinterStoredArray() {
         // Fill with printers by item
         printerStoredArray = [];
-        var rows = $('#printerItemTable').jqxDataTable('getRows');
+        var rows = $('#printerItemTable').jqxGrid('getRows');
         for(var j in rows) {
             printerStoredArray.push(rows[j]['PrinterUnique']);
         }
@@ -1394,7 +1408,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     };
 
     $scope.updateItemPrinter = function(e) {
-        var row = e.args.row;
+        var row = e.args.row.bounddata;
         $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
         $scope.openPrinterItemWin();
         printerItemWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);

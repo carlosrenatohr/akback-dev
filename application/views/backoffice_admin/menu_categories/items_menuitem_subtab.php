@@ -2,7 +2,7 @@
     <div class="row editItemFormContainer">
         <div style=" width:100%;float:left;margin: 15px 0;">
             <div style="float:left; padding:2px; width:650px;">
-                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Item:</div>
+                <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Item:</div>
                 <div style="float:left; width:300px;">
                     <jqx-combo-box
                         jqx-on-select="itemsComboboxSelecting(event)"
@@ -14,7 +14,7 @@
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Description:</div>
+                <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Description:</div>
                 <div style=" float:left; width:300px;">
                     <input type="text" class="form-control menuitem_extraControls" id="itemcontrol_description"
                            name="itemcontrol_description" placeholder="Description">
@@ -22,7 +22,7 @@
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Label:</div>
+                <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Label:</div>
                 <div style=" float:left; width:300px;">
                     <input type="text" class="form-control required-field" id="editItem_label"
                            name="editItem_label" placeholder="Label">
@@ -36,7 +36,18 @@
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Main Printer:</div>
+                <div style=" float:left; width:300px;">
+                    <jqx-drop-down-list id="mainPrinterSelect" class=""
+                                        jqx-settings="printerItemList"
+                                        jqx-width="'100%'"
+                                        jqx-on-select="">
+                    </jqx-drop-down-list>
+                </div>
+            </div>
+
+            <div style="float:left; padding:2px; width:650px; ">
+                <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">
                     List Price:
                 </div>
 
@@ -54,7 +65,7 @@
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">
                     Sell Price:
                 </div>
 
@@ -72,7 +83,7 @@
             </div>
 
 <!--            <div style=" float:left; padding:2px; width:650px; ">-->
-<!--                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Row:</div>-->
+<!--                <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Row:</div>-->
 <!--                <div style=" float:left; width:300px;">-->
 <!--                    <jqx-number-input-->
 <!--                        style='margin-top: 3px;' class="form-control required-field"-->
@@ -86,7 +97,7 @@
 <!--            </div>-->
 <!---->
 <!--            <div style=" float:left; padding:2px; width:650px; ">-->
-<!--                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Column:</div>-->
+<!--                <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Column:</div>-->
 <!--                <div style=" float:left; width:300px;">-->
 <!--                    <jqx-number-input-->
 <!--                        style='margin-top: 3px;' class="form-control required-field"-->
@@ -100,7 +111,7 @@
 <!--            </div>-->
 <!---->
 <!--            <div style=" float:left; padding:2px; width:650px; ">-->
-<!--                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Sort:</div>-->
+<!--                <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Sort:</div>-->
 <!--                <div style=" float:left; width:300px;">-->
 <!--                    <jqx-number-input-->
 <!--                        style='margin-top: 3px;' class="form-control required-field"-->
@@ -114,7 +125,7 @@
 <!--            </div>-->
 <!---->
 <!--            <div style=" float:left; padding:2px; width:650px; ">-->
-<!--                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Status:</div>-->
+<!--                <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Status:</div>-->
 <!--                <div style=" float:left; width:300px;">-->
 <!--                    <select name="editItem_Status" id="editItem_Status">-->
 <!--                        <option value="1">Enabled</option>-->

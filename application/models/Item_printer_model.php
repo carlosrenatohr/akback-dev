@@ -37,6 +37,13 @@ class Item_printer_model extends CI_Model
             ->get('config_station_printers')->result_array();
     }
 
+    public function verifyPrinterByItemToCreate($request) {
+        $status = $this->db->where($request)->get('item_printer')->result_array();
+        if (!count($status)) {
+            $this->postPrinter($request);
+        }
+    }
+
     public function postPrinter($request) {
         $extra_fields = [
             'Status' => 1,

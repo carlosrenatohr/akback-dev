@@ -4,11 +4,11 @@
     </button>
 </div>
 <div class="col-md-12">
-    <jqx-data-table id="printerItemTable"
+    <jqx-grid id="printerItemTable"
                     jqx-settings="printerTableOnMenuItemsSettings"
-                    jqx-on-row-double-click="updateItemPrinter()"
+                    jqx-on-rowdoubleclick="updateItemPrinter()"
                     jqx-create="printerTableOnMenuItemsSettings">
-    </jqx-data-table>
+    </jqx-grid>
 </div>
 <jqx-window jqx-on-close="close()" jqx-settings="printerItemWindowSettings"
             jqx-create="printerItemWindowSettings" class="">
