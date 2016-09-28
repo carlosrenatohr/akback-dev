@@ -113,7 +113,6 @@
                             <div class="col-sm-12">
                                 <div class="message">To add a <label id="tabTitleOnMsg"></label> new item must first be saved. Do you want to save now ?</div>
                                 <button type="button" ng-click="moveTabInventoryAction(0)" class="btn btn-primary">Yes</button>
-                                <button type="button" ng-click="moveTabInventoryAction(1)" class="btn btn-warning">No</button>
                                 <button type="button" ng-click="moveTabInventoryAction(2)" class="btn btn-info">Cancel</button>
                             </div>
                         </div>

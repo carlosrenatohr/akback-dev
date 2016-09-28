@@ -397,13 +397,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
         if (option == 0) {
             $scope.saveInventoryAction(undefined, tabSelectedOnCreate);
-        } else if (option == 1) {
-            $scope.closeInventoryWind(1);
         } else if (option == 2) {
         } else {
-            //if ($('#saveInventoryBtn').is(':disabled')) {
-            //    $scope.closeInventoryWind(1);
-            //} else {
             var msg = $('#promptMoveItemInv #tabTitleOnMsg');
             var txt;
             if (tab == 3)
@@ -418,8 +413,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('.rowMsgInv').hide();
             $('#promptMoveItemInv').show();
             tabSelectedOnCreate = tab;
-            //$scope.tabSelectedOnCreate = tab;
-            //}
         }
     };
 
@@ -498,9 +491,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#promptToDeleteItemInv').hide();
         }
         if (option == 0) {
-            //if ($scope.printerSelectedID == null) {
-            //    $scope.closingPrinterWind();
-            //} else {
             $.ajax({
                 url: SiteRoot + 'admin/MenuItem/deleteItemInventory/' + $scope.itemInventoryID,
                 method: 'post',
@@ -516,7 +506,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         showingNotif(data.message, 0);
                 }
             });
-            //}
         } else if (option == 1) {
             $scope.closeInventoryWind(1);
         } else if (option == 2) {
@@ -569,7 +558,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                     success: function(data) {
                         if (data.status == 'success') {
                             $('#inventory_barcodesList').jqxListBox('refresh');
-                            //$scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
                             $scope.barcodeData.mainValue = '';
                             $('#item_barcodeinput').val("");
                             $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
@@ -669,8 +657,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var station = $('#stockl_location').jqxComboBox('getItemByValue', loc);
         $('#stockl_location').jqxComboBox({'selectedIndex': -1});
         $('#stockl_location').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
-        //var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
-        //$('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
         //
         $('#stocklWind #stockl_comment').val('');
         $('#stocklWind .stockl_input:not(#stockl_currentQty)').jqxNumberInput('val', 0);
@@ -768,9 +754,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             'trans_date': '', //
             'TransactionDate': '', //date("Y-m-d",strtotime($setdate))." ".date("H:i:s",strtotime($settime)),
             'status': 1// move to server side
-        // reseting
-        //$("#jqxWidgetDate").jqxDateTimeInput({ value: new Date(yyyy, mm, dd) });
-        //$("#jqxWidgetTime").jqxDateTimeInput({ formatString: 'T', showCalendarButton: false });
         };
         $.ajax({
             url: '',
