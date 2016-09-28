@@ -352,7 +352,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
         // TAXES VALUES
         var taxesByItem = [];
-        if ($scope.createOrEditItemInventory = 'create') {
+        if ($scope.createOrEditItemInventory == 'create') {
             $.each($('#taxesGrid').jqxGrid('getrows'), function(i, row) {
                 if (row.taxed) {
                     taxesByItem.push({
@@ -362,7 +362,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                     });
                 }
             });
-        } else if ($scope.createOrEditItemInventory = 'edit') {
+        } else if ($scope.createOrEditItemInventory == 'edit') {
             for(var i=0; i < $('#taxesGrid').jqxGrid('getrows').length; i++) {
                 if (taxesValuesChanged.indexOf(i) > -1) {
                     taxesByItem.push({
