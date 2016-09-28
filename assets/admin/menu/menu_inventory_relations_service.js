@@ -183,8 +183,8 @@ app.service('inventoryExtraService', function ($http) {
                 {text: 'Date', dataField: 'TransactionDate', width: '20%'},
                 {text: 'Type', dataField: 'Description', width: '20%'},
                 {text: 'Location', dataField: 'LocationName', width: '20%'},
-                {text: 'Quantity', dataField: 'Quantity', cellsAlign: 'center', width: '20%'},
-                {text: 'Total', dataField: 'Total', cellsAlign: 'center', width: '19%'},
+                {text: 'Quantity', dataField: 'Quantity', align: 'right', cellsAlign: 'right', width: '20%'},
+                {text: 'Total', dataField: 'Total', align: 'right', cellsAlign: 'right', width: '19%'},
                 {text: 'Comment', dataField: 'Comment', hidden: true}
             ],
             width: "99%",
@@ -216,12 +216,14 @@ app.service('inventoryExtraService', function ($http) {
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
+                    {name: 'Name', type: 'string'},
                     {name: 'LocationName', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuItem/getLocationsList/' + str
             },
             //selectedIndex: 0,
             autoDropDownHeight: true,
+            //displayMember: "Name",
             displayMember: "LocationName",
             valueMember: "Unique",
             theme: 'arctic'

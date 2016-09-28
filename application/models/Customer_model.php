@@ -171,7 +171,8 @@ class Customer_model extends CI_Model
 
     public function getLocations() {
         $this->db->select('Unique, Name, LocationName');
-        $this->db->order_by('Unique', 'ASC');
+        $this->db->where('Status', 1);
+        $this->db->order_by('Name', 'ASC');
         return $this->db->get('config_location')->result_array();
     }
 

@@ -674,8 +674,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //
         $('#stocklWind #stockl_comment').val('');
         $('#stocklWind .stockl_input:not(#stockl_currentQty)').jqxNumberInput('val', 0);
-        $("#stockl_transDate").jqxDateTimeInput({ value: new Date() });
-        $("#stockl_transTime").jqxDateTimeInput({ formatString: 'T', showCalendarButton: false });
+        var today = new Date();
+        $("#stockl_transDate").jqxDateTimeInput('setDate', today);
+        $("#stockl_transTime").jqxDateTimeInput('setDate', new Date(today.getFullYear(), today.getMonth() + 1, today.getDate(), 12, 00, 00, 00));
         // Getting current qty from grid
         //var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         //$scope.inventoryData.stockQty = row.Quantity;
@@ -738,11 +739,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         $scope.$apply(function() {
                             var loc  = $('#stationID').val();
                             $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, loc);
-                            $('#stockLevelItemGrid').jqxGrid('hideloadelement');
                             //
                             var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
                             $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
                         });
+                        $('#stockLevelItemGrid').jqxGrid('hideloadelement');
                         stocklWind.close();
                     }
                     else if (response.status == 'error')
