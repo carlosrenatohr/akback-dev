@@ -711,7 +711,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var needValidation = false;
         var qty = $('#stockl_addremoveQty').val();
         if (qty == 0) {
-            alert('Quantity to Add or Remove is required field!');
+            alert('Quantity to Add or Remove is required field, adjust it to be < > 0');
             needValidation = true;
         }
         return needValidation;
