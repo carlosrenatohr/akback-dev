@@ -21,7 +21,6 @@
                     <jqx-combo-box id="itemstock_locationCbx"
                                    jqx-settings="stockitemLocationSettings"
                                    jqx-on-select="onSelectStockLocationList($event)"
-                                   jqx-selected-index="<?php echo $station;?>"
                     ></jqx-combo-box>
                 </div>
             </div>
@@ -70,7 +69,6 @@
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
                                   jqx-symbol="''"
                                   jqx-decimal-digits="<?= $decimalsQuantity; ?>"
-
                                   ng-disabled="inventoryDisabled"
                 ></jqx-number-input>
             </div>
@@ -129,7 +127,6 @@
 
             <div class="col-sm-6">
                     <textarea id="stockl_comment" class="form-control stockl_input"
-
                     ></textarea>
             </div>
         </div>

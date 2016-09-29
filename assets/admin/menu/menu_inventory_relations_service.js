@@ -221,7 +221,6 @@ app.service('inventoryExtraService', function ($http) {
                 ],
                 url: SiteRoot + 'admin/MenuItem/getLocationsList/' + str
             },
-            //selectedIndex: 0,
             autoDropDownHeight: true,
             //displayMember: "Name",
             displayMember: "LocationName",

@@ -35,6 +35,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // Subtabs
         var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         if (tabTitle == 'Stock Level') {
+            setTimeout(function() {
+                var loc  = $('#stationID').val();
+                var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+                $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
+            }, 100);
             if ($scope.createOrEditItemInventory != 'create')
                 $scope.inventoryData.stockQty = row.Quantity;
         }
@@ -192,8 +197,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_barcodeinput').val("");
         // Taxes cleaning
         taxesValuesChanged = [];
-        // Stock Level Cleaning
-        $('#itemstock_locationCbx').jqxComboBox({selectedIndex: 0});
         if (close == 1)
             inventoryWind.close();
     };
@@ -208,9 +211,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         //
-        var loc  = $('#stationID').val();
-        var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
-        $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
         }, 100);
@@ -262,9 +262,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
         gc.jqxRadioButton({ checked:true });
         //
-        var loc  = $('#stationID').val();
-        var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
-        $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : 0});
         //$('#stockl_currentQty').jqxNumberInput('val', row['Quantity']);
         $scope.inventoryData.stockQty = row['Quantity'];
         $scope.inventoryData.addremoveQty = 0;
@@ -621,8 +618,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             stocklWind = args.instance;
         },
         resizable: false,
-        width: "45%", height: "60%",
-        //keyboardCloseKey: 'none',
+        width: "45%", height: "68%",
+        keyboardCloseKey: 'none',
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -664,7 +661,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#stocklWind .stockl_input:not(#stockl_currentQty)').jqxNumberInput('val', 0);
         var today = new Date();
         $("#stockl_transDate").jqxDateTimeInput('setDate', today);
-        $("#stockl_transTime").jqxDateTimeInput('setDate', new Date(today.getFullYear(), today.getMonth() + 1, today.getDate(), 12, 00, 00, 00));
+        $("#stockl_transTime").jqxDateTimeInput('setDate', today);
         // Getting current qty from grid
         //var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         //$scope.inventoryData.stockQty = row.Quantity;
