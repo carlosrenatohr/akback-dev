@@ -806,7 +806,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     };
     //
     $('#invQ_Status').jqxDropDownList({autoDropDownHeight: true});
-    //
     $('.invQFormContainer .required-qitem').on('keypress keyup paste change', function (e) {
         $('#saveQuestionInvBtn').prop('disabled', false);
     });
@@ -815,6 +814,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.qInvIdChosen = null;
     $scope.openQuestionItemWin = function() {
         //
+        disableExistingQuestions();
         $('#invQ_Status').jqxDropDownList({'selectedIndex': 0});
         $('#invQ_Question').jqxComboBox({'selectedIndex': -1});
         $('#invQ_Sort').val(1);
@@ -832,6 +832,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var row = e.args.row.bounddata;
         var statusCombo = $('#invQ_Status').jqxDropDownList('getItemByValue', row.Status);
         $('#invQ_Status').jqxDropDownList({'selectedIndex': (statusCombo == undefined) ? 1 : statusCombo.index});
+        //
+        disableExistingQuestions(row.QuestionUnique);
         var itemCombo = $('#invQ_Question').jqxComboBox('getItemByValue', row.QuestionUnique);
         var selectedIndexItem = (itemCombo != undefined) ? itemCombo.index : -1;
         $('#invQ_Question').jqxComboBox({'selectedIndex': selectedIndexItem});
@@ -844,6 +846,20 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.qInvIdChosen = row.Unique;
         questionInventoryWind.setTitle('Edit Question: ' + row.QuestionUnique +' | Item: ' + row.ItemUnique);
         questionInventoryWind.open();
+    };
+
+    var disableExistingQuestions = function(current) {
+        var questionsByItem = $('.inventory_tab #questionItemTable').jqxGrid('getRows');
+        $.each(questionsByItem, function(i, el) {
+            var qToDisable = $('#invQ_Question').jqxComboBox('getItemByValue', el.QuestionUnique);
+            if (qToDisable) {
+                $('#invQ_Question').jqxComboBox('disableItem', qToDisable);
+                if (current && current == el.QuestionUnique) {
+                    var qToEnable = $('#invQ_Question').jqxComboBox('getItemByValue', el.QuestionUnique);
+                    $('#invQ_Question').jqxComboBox('enableItem', qToEnable);
+                }
+            }
+        });
     };
     //
     $scope.closeQuestionItemWin = function (option) {
