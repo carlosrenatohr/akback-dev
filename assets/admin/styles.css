@@ -181,7 +181,8 @@ div.toolbar-list span {
     position: absolute;
     right: 0;
     bottom: 0;
-    font-size: 11px;
+    font-size: 10px;
+    font-weight:600;
 }
 
 .restricter-dragdrop .draggable.selectedItemOnGrid {
