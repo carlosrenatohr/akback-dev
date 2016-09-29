@@ -44,7 +44,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 $scope.inventoryData.sprice = row.price1;
             }
         }
-        if (tabTitle == 'Barcode') {}
+        if (tabTitle == 'Barcode') {
+            $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID)
+        }
         if (tabTitle == 'Questions') {
             if ($scope.createOrEditItemInventory != 'create') {
                 $('#invQ_Question').jqxComboBox({source: inventoryExtraService.getQuestionsCbxData()});
