@@ -37,7 +37,7 @@ class Menu_item_model extends CI_Model
         $this->db->where($request);
         $this->db->join('item', 'config_menu_items.ItemUnique = item.Unique');
 
-        $result = $this->db->get()->result_array();
+        $result = $this->db->get()->row_array();
         return $result;
     }
 

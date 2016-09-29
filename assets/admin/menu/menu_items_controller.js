@@ -649,7 +649,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $('#editItem_Status')
         .jqxDropDownList({autoDropDownHeight: true});
-    $('#editItem_Status').on('select', function(){
+    $('#editItem_Status, #mainPrinterSelect').on('select', function(){
         $('#saveItemGridBtn').prop('disabled', false);
     });
 
@@ -755,7 +755,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         var description = (data.Description != null) ? data.Description : '';
                         $('#itemcontrol_description').val($.trim(description));
                         // Main Printer
-                        mainPrinterSet();
+                        if (data.PrimaryPrinter != null) {
+                            var printer = $('#mainPrinterSelect').jqxDropDownList('getItemByValue', data.PrimaryPrinter);
+                            $('#mainPrinterSelect').jqxDropDownList({
+                                selectedIndex: (printer) ? printer.index : -1
+                            });
+                        } else {
+                            mainPrinterSet();
+                        }
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#deleteItemGridBtn').show();

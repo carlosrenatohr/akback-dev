@@ -107,7 +107,9 @@ class MenuItem extends AK_Controller
     {
         $request = $_POST;
         $row = $this->menuItem->getItemByPosition($request);
-        echo json_encode($row[0]);
+        $printer = $this->menuPrinter->getPrimaryPrinterByItem($row['Unique']);
+        $row['PrimaryPrinter'] = $printer['PrimaryPrinter'];
+        echo json_encode($row);
     }
 
     /**

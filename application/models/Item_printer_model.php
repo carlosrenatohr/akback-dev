@@ -38,10 +38,24 @@ class Item_printer_model extends CI_Model
     }
 
     public function verifyPrinterByItemToCreate($request) {
-        $status = $this->db->where($request)->get('item_printer')->result_array();
+        $status = $this->db->select('Unique, PrinterUnique')
+                    ->where($request)
+                    ->get('item_printer')->row_array();
         if (!count($status)) {
-            $this->postPrinter($request);
+            $printerToUpdate = $this->postPrinter($request);
+        } else {
+            $printerToUpdate = $status['Unique'];
         }
+        //
+        $this->db->trans_start();
+        $this->db->where('ItemUnique', $request['ItemUnique']);
+        $this->db->update('item_printer', ['Primary' => NULL]);
+        $this->db->trans_complete();
+        //
+        $this->db->trans_start();
+        $this->db->where('Unique', $printerToUpdate);
+        $this->db->update('item_printer', ['Primary' => 1]);
+        $this->db->trans_complete();
     }
 
     public function postPrinter($request) {
@@ -90,6 +104,14 @@ class Item_printer_model extends CI_Model
         $this->db->join('item_printer', 'item.Unique = item_printer.ItemUnique', 'left');
         $this->db->join('config_station_printers', 'config_station_printers.unique = item_printer.PrinterUnique', 'left');
         return $this->db->get()->result_array();
+    }
+
+    public function getPrimaryPrinterByItem($item) {
+        $this->db->select('PrinterUnique as PrimaryPrinter');
+        $this->db->from('item_printer');
+        $this->db->where('ItemUnique', $item);
+        $this->db->where('Primary', 1);
+        return $this->db->get()->row_array();
     }
 
 
