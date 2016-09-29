@@ -153,6 +153,10 @@ div.toolbar-list span {
     border: black 1px solid;
     color: #fff;
     padding: 2px !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .restricter-dragdrop .draggable:not(.filled) {
@@ -170,13 +174,14 @@ div.toolbar-list span {
 .restricter-dragdrop .draggable .labelContent {
     padding-top: 1em;
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .restricter-dragdrop .draggable .priceContent {
     position: absolute;
     right: 0;
-    font-size: 8px;
+    bottom: 0;
+    font-size: 11px;
 }
 
 .restricter-dragdrop .draggable.selectedItemOnGrid {
@@ -226,6 +231,10 @@ div.toolbar-list span {
     border: black 1px solid;
     text-align: center;
     padding-top: 35px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .category-cell-grid.valued {

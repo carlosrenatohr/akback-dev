@@ -89,8 +89,13 @@ class MenuItem extends AK_Controller
      */
     public function getItemsByCategoryMenu($id)
     {
+        $nItems = [];
         $items = $this->menuItem->getItemsByCategoryMenu($id);
-        echo json_encode($items);
+        foreach ($items as $item) {
+            $item['SellPrice'] = number_format($item['SellPrice'], $this->decimalPrice);
+            $nItems[] = $item;
+        }
+        echo json_encode($nItems);
     }
 
     /**
