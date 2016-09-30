@@ -12,7 +12,7 @@
         ></jqx-grid>
     </div>
     <jqx-window jqx-on-close="closeInventoryWind($event)" jqx-settings="itemsInventoryWindowSettings"
-                jqx-create="itemsInventoryWindowSettings" class="">
+                jqx-create="itemsInventoryWindowSettings" id="invMainWindow">
         <div>
             New Item | Details
         </div>
@@ -154,6 +154,9 @@
 </div>
 
 <style>
+    #invMainWindow {
+        max-height: 85%!important;
+    }
     .required-ast {
         color: #F00;
         text-align: left;
