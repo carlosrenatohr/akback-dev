@@ -96,7 +96,8 @@ class Menu_item_model extends CI_Model
                 'Row' => $row,
                 'Column' => $column,
                 'MenuCategoryUnique' => $category,
-                'Status>' => 0
+                'Status>' => 0,
+                'ItemUnique!=' => null
             ]
         );
         $count = $this->db->get($this->menuItemTable)->result_array();

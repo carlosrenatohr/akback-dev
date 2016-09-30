@@ -178,7 +178,6 @@ class MenuItem extends AK_Controller
 
         if ($condition) {}
         else {
-
             $busy = $this->menuItem->verifyBusyPosition($data['Row'], $data['Column'], $data['MenuCategoryUnique']);
             if ($busy) {
                 $needValidation = true;
