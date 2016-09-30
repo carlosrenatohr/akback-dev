@@ -270,11 +270,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         updatePrinterItemGrid($scope.itemInventoryID);
         // Categories combobox
         setTimeout(function() {
-            var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
-            $('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
+            //var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
+            //$('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
+            $('#item_subcategory').val(row.SubCategoryId);
             $('#saveInventoryBtn').prop('disabled', true);
             $('.inventory_tab #item_Item').focus();
-        }, 300);
+        }, 250);
         //
         $('#deleteInventoryBtn').show();
         $('#saveInventoryBtn').prop('disabled', true);
