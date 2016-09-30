@@ -264,7 +264,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'Description', type: 'string'},
                     {name: 'Item', type: 'string'},
                     {name: 'Part', type: 'string'},
-                    {name: 'Status', type: 'number'}
+                    {name: 'Status', type: 'number'},
+                    {name: 'ListPrice', type: 'number'},
+                    {name: 'price1', type: 'number'}
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/MenuItem/load_allItems?sort=' + sort
@@ -847,7 +849,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 'dataType': 'json',
                 'success': function (data) {
                     if (data.status == 'success') {
-                        $this.html($scope.selectedItemInfo.Description);
+                        var label = $scope.selectedItemInfo.Description;
+                        $this.html(
+                            "<div class='priceContent'>"+$scope.selectedItemInfo.price1 +
+                            "</div><div class='labelContent'>"+ label + "</div>"
+                        );
+                        //$this.html($scope.selectedItemInfo.Description);
                         $this.addClass('filled');
                         $this.addClass('itemOnGrid');
                         $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
@@ -934,7 +941,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'dataType': 'json',
                     'success': function (data) {
                         if (data.status == 'success') {
-                            $this.html($scope.selectedItemInfo.Description);
+                            $this.html(
+                                "<div class='priceContent'>"+$scope.selectedItemInfo.price1 +
+                                "</div>" +
+                                "<div class='labelContent'>"+ $scope.selectedItemInfo.Description +
+                                "</div>"
+                            );
                             $this.addClass('filled');
                             $this.addClass('itemOnGrid');
                             $this.data('categoryId', $scope.selectedCategoryInfo.Unique);

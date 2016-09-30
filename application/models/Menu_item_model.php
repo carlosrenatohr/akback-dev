@@ -20,6 +20,7 @@ class Menu_item_model extends CI_Model
 
     public function getItems($sort = null)
     {
+        $this->db->select('Unique, Description, Item, Part, Status, ListPrice, price1');
         $this->db->order_by('Description', (!is_null($sort)) ? $sort : 'DESC');
         $query = $this->db->get_where($this->itemTable, ['Status!=' => 0]);
         $result = $query->result_array();

@@ -73,7 +73,10 @@ class MenuItem extends AK_Controller
         $new_items = [];
         foreach($items as $item) {
             if (!empty(trim($item['Description']))) {
+                $item['ListPrice'] = number_format($item['ListPrice'], $this->decimalPrice);
+                $item['price1'] = number_format($item['price1'], $this->decimalPrice);
                 $item['Description'] = trim($item['Description']);
+                $item['Item'] = trim($item['Item']);
                 $new_items[] = $item;
             }
         }
@@ -149,7 +152,8 @@ class MenuItem extends AK_Controller
                 if(!empty($extraValues)) {
                     $this->item->update($request['ItemUnique'], $extraValues);
                 }
-                $this->menuPrinter->verifyPrinterByItemToCreate($printerReq);
+                if (!empty($printerReq))
+                    $this->menuPrinter->verifyPrinterByItemToCreate($printerReq);
                 $response = [
                     'status' => 'success',
                     'message' => 'Item success: ' . $status
