@@ -35,12 +35,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // Subtabs
         var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         if (tabTitle == 'Stock Level') {
-            //setTimeout(function() {
-                var loc  = $('#stationID').val();
-                //var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
-                //$('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
-                $('#itemstock_locationCbx').val(loc);
-            //}, 100);
+            var loc  = $('#stationID').val();
+            $('#itemstock_locationCbx').val(loc);
             if ($scope.createOrEditItemInventory != 'create')
                 $scope.inventoryData.stockQty = row.Quantity;
         }
@@ -724,10 +720,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         //$('#inventoryItemsGrid').jqxGrid('updatebounddata', 'filter');
                         $scope.$apply(function() {
                             var loc  = $('#stationID').val();
+                            $('#itemstock_locationCbx').val(loc);
                             $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, loc);
-                            //
-                            var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
-                            $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
+                            //var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+                            //$('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
                         });
                         $('#stockLevelItemGrid').jqxGrid('hideloadelement');
                         stocklWind.close();
