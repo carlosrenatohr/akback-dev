@@ -116,7 +116,7 @@
             <div class="col-sm-4">
                 <jqx-date-time-input
                     id="stockl_transTime" class="stockl_input"
-                    jqx-format-string="T"
+                    jqx-format-string="'hh:mm tt'"
                     jqx-show-time-button="true"
                     jqx-show-calendar-button="false"
                 ></jqx-date-time-input>

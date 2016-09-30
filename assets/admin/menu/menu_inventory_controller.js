@@ -35,11 +35,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // Subtabs
         var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         if (tabTitle == 'Stock Level') {
-            setTimeout(function() {
+            //setTimeout(function() {
                 var loc  = $('#stationID').val();
-                var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
-                $('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
-            }, 100);
+                //var station = $('#itemstock_locationCbx').jqxComboBox('getItemByValue', loc);
+                //$('#itemstock_locationCbx').jqxComboBox({'selectedIndex': (station) ? station.index : -1});
+                $('#itemstock_locationCbx').val(loc);
+            //}, 100);
             if ($scope.createOrEditItemInventory != 'create')
                 $scope.inventoryData.stockQty = row.Quantity;
         }
