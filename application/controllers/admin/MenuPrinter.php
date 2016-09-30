@@ -39,8 +39,12 @@ class MenuPrinter extends AK_Controller
     public function post_item_printer()
     {
         $post = $_POST;
+        if (isset($post['Primary'])) {
+            $this->menuPrinter->restartPrimaryPrintersByItem($post);
+        }
         $id = $this->menuPrinter->postPrinter($post);
         if($id) {
+
             $response =
                 [
                     'status' => 'success',
@@ -56,6 +60,9 @@ class MenuPrinter extends AK_Controller
     public function update_item_printer($id)
     {
         $post = $_POST;
+        if (isset($post['Primary'])) {
+            $this->menuPrinter->restartPrimaryPrintersByItem($post);
+        }
         $status = $this->menuPrinter->updatePrinter($id, $post);
         if ($status) {
             $response =

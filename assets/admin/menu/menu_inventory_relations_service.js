@@ -306,6 +306,7 @@ app.service('inventoryExtraService', function ($http) {
                     {name: 'description', type: 'string'},
                     {name: 'Item', type: 'string'},
                     {name: 'Status', type: 'number'},
+                    {name: 'Primary', type: 'number'},
                     {name: 'fullDescription', type: 'string'}
                 ],
                 url: url

@@ -47,14 +47,18 @@ class Item_printer_model extends CI_Model
             $printerToUpdate = $status['Unique'];
         }
         //
-        $this->db->trans_start();
-        $this->db->where('ItemUnique', $request['ItemUnique']);
-        $this->db->update('item_printer', ['Primary' => NULL]);
-        $this->db->trans_complete();
+        $this->restartPrimaryPrintersByItem($request);
         //
         $this->db->trans_start();
         $this->db->where('Unique', $printerToUpdate);
         $this->db->update('item_printer', ['Primary' => 1]);
+        $this->db->trans_complete();
+    }
+
+    public function restartPrimaryPrintersByItem($req) {
+        $this->db->trans_start();
+        $this->db->where('ItemUnique', $req['ItemUnique']);
+        $this->db->update('item_printer', ['Primary' => NULL]);
         $this->db->trans_complete();
     }
 

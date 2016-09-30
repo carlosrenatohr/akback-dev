@@ -34,6 +34,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row" id="primaryCheckContainer">
+                <div style=" width:100%;float:left;">
+                    <div style="float:left; padding:2px; width:500px;">
+                        <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary?</div>
+                        <div style="float:left; width:350px;">
+                            <jqx-check-box id="primaryPrinterChbox" style='margin: 10px 0 10px 0; float: left;'
+                                jqx-checked="false"
+                                jqx-theme="'summer'"
+                                ng-disabled=""
+                            ></jqx-check-box>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Main buttons before saving questions on current item -->
         <div class="col-md-12 col-md-offset-0">

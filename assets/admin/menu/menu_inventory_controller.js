@@ -1065,6 +1065,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // Printers saved by Item
         setPrinterStoredArray();
         //
+        var isTherePrinter = $('.inventory_tab #printerItemTable').jqxGrid('getRows');
+        if (isTherePrinter.length > 0)
+            $('#primaryCheckContainer').show();
+        else
+            $('#primaryCheckContainer').hide();
+        $('#primaryPrinterChbox').jqxCheckBox({checked: false});
+        //
         $("#printerInvList").jqxDropDownList({selectedIndex: -1});
         $('#deleteBtnPrinterInv').hide();
         $('#saveBtnPrinterInv').prop('disabled', true);
@@ -1081,6 +1088,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.createOrEditPitem = 'edit';
         $scope.itemPrinterID = row.Unique;
         $('#deleteBtnPrinterInv').show();
+        //
+        $('#primaryCheckContainer').show();
+        $('#primaryPrinterChbox').jqxCheckBox({checked: (row.Primary == 1) ? true : false});
+        //
         var item = $("#printerInvList").jqxDropDownList('getItemByValue', row.PrinterUnique);
         $("#printerInvList").jqxDropDownList('enableItem', item);
         $("#printerInvList").jqxDropDownList({selectedIndex: item.index});
@@ -1100,6 +1111,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             'ItemUnique': $scope.itemInventoryID,
             'PrinterUnique': $('#printerInvList').jqxDropDownList('getSelectedItem').value
         };
+        var isTherePrinter = $('.inventory_tab #printerItemTable').jqxGrid('getRows');
+        if (isTherePrinter.length > 0) {
+            if ($('#primaryPrinterChbox').jqxCheckBox('checked'))
+                data['Primary'] = 1;
+        }
+        else
+            data['Primary'] = 1;
         var url;
         if ($scope.createOrEditPitem == 'create') {
             url = SiteRoot + 'admin/MenuPrinter/post_item_printer'

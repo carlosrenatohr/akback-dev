@@ -37,7 +37,8 @@ app.controller('menuPrintersController', function($scope) {
                     {name: 'fullDescription', type: 'string'},
                     {name: 'ItemDescription', type: 'string'},
                     {name: 'Category', type: 'string'},
-                    {name: 'SubCategory', type: 'string'}
+                    {name: 'SubCategory', type: 'string'},
+                    {name: 'Primary', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
             })
@@ -60,7 +61,8 @@ app.controller('menuPrintersController', function($scope) {
                 {name: 'fullDescription', type: 'string'},
                 {name: 'ItemDescription', type: 'string'},
                 {name: 'Category', type: 'string'},
-                {name: 'SubCategory', type: 'string'}
+                {name: 'SubCategory', type: 'string'},
+                {name: 'Primary', type: 'string'}
             ],
             url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
         }),
@@ -75,7 +77,8 @@ app.controller('menuPrintersController', function($scope) {
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'PrinterUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
-            {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
+            {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
+            {text: '', dataField: 'Primary', type: 'string', hidden: true}
         ],
         width: "100%",
         theme: 'arctic',
@@ -166,6 +169,11 @@ app.controller('menuPrintersController', function($scope) {
         anyChangePrompt = true;
     });
 
+    $('#primaryCheckPrinterContainer #primaryPrinterChbox').on('change', function(e) {
+        $('#saveBtnPrinter').prop('disabled', false);
+        anyChangePrompt = true;
+    });
+
     $scope.printerSelectedID = null;
     $scope.createOrEditPrinter = null;
     $scope.openPrinterWin = function() {
@@ -173,6 +181,13 @@ app.controller('menuPrintersController', function($scope) {
         $scope.printerSelectedID = null;
         // Printers saved by Item
         //setPrinterStoredArray();
+        //
+        var isTherePrinter = $('#printerTable').jqxGrid('getRows');
+        if (isTherePrinter.length > 0)
+            $('#primaryCheckPrinterContainer').show();
+        else
+            $('#primaryCheckPrinterContainer').hide();
+        $('#primaryCheckPrinterContainer #primaryPrinterChbox').jqxCheckBox({checked: false});
         //
         $("#itemMainList").jqxComboBox({selectedIndex: -1});
         $("#printerMainList").jqxDropDownList({selectedIndex: -1});
@@ -210,6 +225,10 @@ app.controller('menuPrintersController', function($scope) {
             $("#printerMainList").jqxDropDownList({selectedIndex: -1});
             $('#deleteBtnPrinter').hide();
         }
+        //
+        $('#primaryCheckPrinterContainer').show();
+        $('#primaryCheckPrinterContainer #primaryPrinterChbox').jqxCheckBox({checked: (row.Primary == 1) ? true : false});
+        //
         $('#saveBtnPrinter').hide();
         //$('#saveBtnPrinter').prop('disabled', true);
         anyChangePrompt = false;
@@ -288,11 +307,20 @@ app.controller('menuPrintersController', function($scope) {
                 'ItemUnique': item.value,
                 'PrinterUnique': printer.value
             };
+            //
+            var isTherePrinter = $('#printerTable').jqxGrid('getRows');
+            if (isTherePrinter.length > 0) {
+                if ($('#primaryCheckPrinterContainer #primaryPrinterChbox').jqxCheckBox('checked'))
+                    data['Primary'] = 1;
+            }
+            else
+                data['Primary'] = 1;
+            //
             var url;
-            if ($scope.itemPrinterID == null) {
+            if ($scope.createOrEditPrinter == 'create') {
                 url = SiteRoot + 'admin/MenuPrinter/post_item_printer'
             } else if ($scope.createOrEditPrinter == 'edit')
-                url = SiteRoot + 'admin/MenuPrinter/update_item_printer/' + $scope.itemPrinterID;
+                url = SiteRoot + 'admin/MenuPrinter/update_item_printer/' + $scope.printerSelectedID;
             $.ajax({
                 url: url,
                 method: 'post',

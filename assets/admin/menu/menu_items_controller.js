@@ -33,6 +33,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         } else {
             $('#deleteItemGridBtn').show();
             $('#editItem_ItemSelected').jqxComboBox({disabled: true});
+            // Main Printer
+            console.log($scope.itemCellSelectedOnGrid);
+            if ($scope.itemCellSelectedOnGrid != null) {
+                var printer = $('#mainPrinterSelect').jqxDropDownList('getItemByValue', $scope.itemCellSelectedOnGrid.PrimaryPrinter);
+                $('#mainPrinterSelect').jqxDropDownList({
+                    selectedIndex: (printer) ? printer.index : -1
+                });
+            } else {
+                mainPrinterSet();
+            }
         }
         // ---
         if (tabTitle == 'Printers') {
@@ -1327,6 +1337,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 {name: 'description', type: 'string'},
                 {name: 'Item', type: 'string'},
                 {name: 'Status', type: 'number'},
+                {name: 'Primary', type: 'string'},
                 {name: 'fullDescription', type: 'string'}
             ],
             id: 'Unique',
@@ -1339,7 +1350,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             {text: 'Description', dataField: 'description', type: 'string'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
-            {text: '', dataField: 'fullDescription', type: 'string', hidden: true}
+            {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
+            {text: '', dataField: 'Primary', type: 'string', hidden: true}
         ],
         //columnsResize: true,
         width: "99%",
@@ -1365,6 +1377,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'description', type: 'string'},
                     {name: 'Item', type: 'string'},
                     {name: 'Status', type: 'number'},
+                    {name: 'Primary', type: 'string'},
                     {name: 'fullDescription', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
@@ -1381,7 +1394,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             printerItemWind = args.instance;
         },
         resizable: false,
-        width: "52%", height: "28%",
+        width: "52%", height: "32%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -1403,8 +1416,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         url: SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig'
     };
 
-    //$('#printerItemList').on('select', function(e) {
     $('#printerItemList').on('select', function(e) {
+        $('#saveBtnPrinterItem').prop('disabled', false);
+    });
+    $('#primaryCheckItemContainer #primaryPrinterChbox').on('change', function(e) {
         $('#saveBtnPrinterItem').prop('disabled', false);
     });
 
@@ -1438,6 +1453,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         // Printers saved by Item
         setPrinterStoredArray();
         //
+        var isTherePrinter = $('#jqxTabsMenuItemWindows #printerItemTable').jqxGrid('getRows');
+        if (isTherePrinter.length > 0)
+            $('#primaryCheckItemContainer').show();
+        else
+            $('#primaryCheckItemContainer').hide();
+        $('#primaryCheckItemContainer #primaryPrinterChbox').jqxCheckBox({checked: false});
+        //
         $("#printerItemList").jqxDropDownList({selectedIndex: -1});
         $('#deleteBtnPrinterItem').hide();
         $('#saveBtnPrinterItem').prop('disabled', true);
@@ -1450,6 +1472,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
         $scope.openPrinterItemWin();
         printerItemWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
+        //
+        $('#primaryCheckItemContainer').show();
+        $('#primaryCheckItemContainer #primaryPrinterChbox').jqxCheckBox({checked: (row.Primary == 1) ? true : false});
         //
         $scope.createOrEditPitem = 'edit';
         $scope.itemPrinterID = row.Unique;
@@ -1473,6 +1498,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             'ItemUnique': $scope.itemSelectedChangedID,
             'PrinterUnique': $('#printerItemList').jqxDropDownList('getSelectedItem').value
         };
+        var isTherePrinter = $('#jqxTabsMenuItemWindows #printerItemTable').jqxGrid('getRows');
+        if (isTherePrinter.length > 0) {
+            if ($('#primaryCheckItemContainer #primaryPrinterChbox').jqxCheckBox('checked')) {
+                $scope.itemCellSelectedOnGrid.PrimaryPrinter = $('#printerItemList').jqxDropDownList('getSelectedItem').value;
+                data['Primary'] = 1;
+            }
+        }
+        else {
+            $scope.itemCellSelectedOnGrid.PrimaryPrinter = $('#printerItemList').jqxDropDownList('getSelectedItem').value;
+            data['Primary'] = 1;
+        }
+        //
         var url;
         if ($scope.createOrEditPitem == 'create') {
             url = SiteRoot + 'admin/MenuPrinter/post_item_printer'
