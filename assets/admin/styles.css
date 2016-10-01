@@ -172,16 +172,16 @@ div.toolbar-list span {
 }
 
 .restricter-dragdrop .draggable .labelContent {
-    padding-top: 1em;
+    padding-top: 0.6em;
     text-align: center;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .restricter-dragdrop .draggable .priceContent {
     position: absolute;
     right: 0;
     bottom: 0;
-    font-size: 10px;
+    font-size: 11px;
     font-weight:600;
 }
 
