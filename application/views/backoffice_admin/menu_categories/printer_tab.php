@@ -76,7 +76,7 @@
                     <div id="promptClosePrinter" class="" style="display: none">
                         <div class="form-group">
                             <div class="col-sm-12">
-                                Do you want to save your changes?
+                                Do you want to save your changes?<br>
                                 <button type="button" ng-click="closeBtnPrinter(0)" class="btn btn-primary">Yes
                                 </button>
                                 <button type="button" ng-click="closeBtnPrinter(1)" class="btn btn-warning">No</button>
