@@ -1070,7 +1070,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#primaryCheckContainer').show();
         else
             $('#primaryCheckContainer').hide();
-        $('#primaryPrinterChbox').jqxCheckBox({checked: false});
+        $('#primaryCheckContainer #primaryPrinterChbox').jqxCheckBox({checked: false});
         //
         $("#printerInvList").jqxDropDownList({selectedIndex: -1});
         $('#deleteBtnPrinterInv').hide();
@@ -1090,7 +1090,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#deleteBtnPrinterInv').show();
         //
         $('#primaryCheckContainer').show();
-        $('#primaryPrinterChbox').jqxCheckBox({checked: (row.Primary == 1) ? true : false});
+        var primaryChecked = (row.Primary == 1) ? true : false;
+        $('#primaryCheckContainer #primaryPrinterChbox').jqxCheckBox({checked: primaryChecked});
         //
         var item = $("#printerInvList").jqxDropDownList('getItemByValue', row.PrinterUnique);
         $("#printerInvList").jqxDropDownList('enableItem', item);
@@ -1113,7 +1114,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         };
         var isTherePrinter = $('.inventory_tab #printerItemTable').jqxGrid('getRows');
         if (isTherePrinter.length > 0) {
-            if ($('#primaryPrinterChbox').jqxCheckBox('checked'))
+            if ($('#primaryCheckContainer #primaryPrinterChbox').jqxCheckBox('checked'))
                 data['Primary'] = 1;
         }
         else

@@ -124,7 +124,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
         $('#printerInvList').on('select', function(e) {
             $('#saveBtnPrinterInv').prop('disabled', false);
         });
-        $('#primaryPrinterChbox').on('change', function(e) {
+        $('#primaryCheckContainer #primaryPrinterChbox').on('change', function(e) {
             $('#saveBtnPrinterInv').prop('disabled', false);
         });
     };

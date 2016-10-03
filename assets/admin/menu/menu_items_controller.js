@@ -12,6 +12,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         if (tabTitle == 'Layout') {
             updateQuestionsCbx();
             $('#itemListboxSearch').jqxListBox('refresh');
+            $('#itemListboxSearch').val(-1);
+
             $('#itemListboxSearch .jqx-listbox-filter-input').val('');
             $('#menuListDropdown').jqxDropDownList({source: dataAdapterMenu });
             $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
@@ -334,9 +336,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $scope.selectedItemInfo = {};
     $scope.itemListBoxOnSelect = function(e) {
-        var _args = e.args.item.originalItem;
+        if (e.args != undefined) {
+            var _args = e.args.item.originalItem;
 
-        $scope.selectedItemInfo = _args;
+            $scope.selectedItemInfo = _args;
+        }
     };
     // -- CATEGORIES BOTTON GRID
     // -- TO FIX
