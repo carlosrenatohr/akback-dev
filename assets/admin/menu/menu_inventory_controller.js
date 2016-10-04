@@ -274,7 +274,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#item_subcategory').val(row.SubCategoryId);
             $('#saveInventoryBtn').prop('disabled', true);
             $('.inventory_tab #item_Item').focus();
-        }, 250);
+        }, 100);
         //
         $('#deleteInventoryBtn').show();
         $('#saveInventoryBtn').prop('disabled', true);
