@@ -152,4 +152,4 @@
         </div>
     </div>
 </jqx-window>
-<input type="hidden" id="stationID" value="<? echo $station; ?>">
+<input type="hidden" id="stationID" value="<?php echo $station; ?>">

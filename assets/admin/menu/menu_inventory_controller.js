@@ -626,8 +626,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.stockitemLocationSettings = inventoryExtraService.getStockLocationListSettings(0);
     $scope.stockitemLocation2Settings = inventoryExtraService.getStockLocationListSettings();
     $scope.onSelectStockLocationList = function(e) {
-        var location = e.args.item.value;
-        $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
+        if (e.args.item) {
+            var location = e.args.item.value;
+            $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
+        }
     };
 
     $scope.onSelectLocationAdjustQty = function(e) {
