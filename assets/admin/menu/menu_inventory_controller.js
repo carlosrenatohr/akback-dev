@@ -64,11 +64,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     }
 
-    $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData;
+    $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData();
     var updateItemsInventoryGrid = function(init) {
         var el = (init != undefined) ? this : '#inventoryItemsGrid';
         $(el).jqxGrid({
-            source: itemInventoryService.getInventoryGridData.source
+            source: itemInventoryService.getInventoryGridData().source
         });
     };
 
@@ -1197,4 +1197,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#promptDeletePrinterInv').show();
         }
     };
+
+    // $(window).on('resize', function(e) {
+    //     var ww = $(window).width();
+    //     var wh = $(window).height();
+        // window.location.reload();
+    // });
 });
