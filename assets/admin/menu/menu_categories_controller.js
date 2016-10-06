@@ -1,7 +1,21 @@
 /**
  * Created by carlosrenato on 05-13-16.
  */
-var app = angular.module("akamaiposApp", ['jqwidgets']);
+var app = angular.module("akamaiposApp", ['jqwidgets', 'flow'])
+    .config(['flowFactoryProvider', function (flowFactoryProvider) {
+    flowFactoryProvider.defaults = {
+        target: SiteRoot + 'admin/MenuItem/loadPictureItem',
+        permanentErrors: [404, 500, 501],
+        maxChunkRetries: 1,
+        chunkRetryInterval: 5000,
+        simultaneousUploads: 4
+    };
+    flowFactoryProvider.on('catchAll', function (event) {
+        console.log('catchAll', arguments);
+    });
+    // Can be used with different implementations of Flow.js
+    // flowFactoryProvider.factory = fustyFlowFactory;
+}]);
 
 app.controller('menuCategoriesController', function($scope, $http, itemInventoryService){
 

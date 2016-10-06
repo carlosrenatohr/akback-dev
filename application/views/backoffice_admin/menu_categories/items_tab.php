@@ -66,6 +66,7 @@
                     <li>Printers</li>
                     <li>Options</li>
                     <li>Layout</li>
+                    <li>Picture</li>
                 </ul>
                 <!-- Menu Item subtab -->
                 <div class="">
@@ -90,6 +91,10 @@
                 <!-- Layout subtab -->
                 <div class="">
                     <?php $this->load->view($items_layout_subtab_view);?>
+                </div>
+                <!-- Pictue subtab -->
+                <div class="">
+<!--                    --><?php //$this->load->view($items_picture_subtab_view);?>
                 </div>
             </jqx-tabs>
 
