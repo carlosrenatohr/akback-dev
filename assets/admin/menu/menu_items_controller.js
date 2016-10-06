@@ -1077,6 +1077,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 inventoryExtraService.getQuestionGridData($('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value).source
             )
         });
+        var questions = $('#itemq_Question').jqxComboBox('getItems');
+        $.each(questions, function(i, el) {
+            $('#itemq_Question').jqxComboBox('enableItem', el);
+        });
     };
 
     $scope.qitemNotificationsSuccessSettings = setNotificationInit(1);
