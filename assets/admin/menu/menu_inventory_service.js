@@ -107,30 +107,25 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
             autoheight: true,
             autorowheight: true
         };
-    }
+    };
 
     var resizePagination = function  (ww, wh) {
         var pagesResult = {};
-        if (ww >= 1920 && wh >= 980) {
-            // $('#inventoryItemsGrid').jqxGrid({
-            //     pageSize: 25,
-            //     pagesizeoptions: ['5', '15', '25'],
-            //     // source: updateItemGridManually()
-            // });
+        if (ww >= 1280 && wh >= 980) {
             pagesResult.pageSize = 25;
             pagesResult.pagesizeoptions = ['5', '15', '25'];
         }
-        else if (ww >= 1280 && wh >= 980) {
-            pagesResult.pageSize= 20;
-            pagesResult.pagesizeoptions= ['5', '10', '20'];
-        }
+        // else if (ww >= 1280 && wh >= 980) {
+        //     pagesResult.pageSize= 25;
+        //     pagesResult.pagesizeoptions= ['5', '10', '20'];
+        // }
         else if (ww >= 1280 && wh >= 800) {
-            pagesResult.pageSize = 18;
-            pagesResult.pagesizeoptions = ['5', '10', '18'];
+            pagesResult.pageSize = 20;
+            pagesResult.pagesizeoptions = ['5', '10', '20'];
         }
         else if (ww >= 1024 && wh >= 768) {
-            pagesResult.pageSize = 15;
-            pagesResult.pagesizeoptions = ['5', '10', '15'];
+            pagesResult.pageSize = 18;
+            pagesResult.pagesizeoptions = ['5', '10', '18'];
         }
         else {
             pagesResult.pageSize = 10;
