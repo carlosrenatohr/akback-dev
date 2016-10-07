@@ -36,7 +36,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('#deleteItemGridBtn').show();
             $('#editItem_ItemSelected').jqxComboBox({disabled: true});
             // Main Printer
-            console.log($scope.itemCellSelectedOnGrid);
             if ($scope.itemCellSelectedOnGrid != null) {
                 var printer = $('#mainPrinterSelect').jqxDropDownList('getItemByValue', $scope.itemCellSelectedOnGrid.PrimaryPrinter);
                 $('#mainPrinterSelect').jqxDropDownList({
@@ -144,7 +143,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var row = e.args.item.originalItem;
         $scope.categoriesByMenu = row.categories;
         $scope.menuSelectedWithCategories = row;
-        //console.log($scope.menuSelectedWithCategories);
 
         var categoriesInGrid = {};
         for (var i = 1; i <= $scope.menuSelectedWithCategories.Row; i++) {
@@ -919,9 +917,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 dropTarget: $('div[id^="draggable-"]'),
                 //restricter:'body',
                 //tolerance: 'fit',
-                onTargetDrop: function(data) {
-                    //console.log('onTargetDrop', data);
-                },
+                onTargetDrop: function(data) {},
                 revert: true,
                 opacity: 0.9
             }
@@ -944,8 +940,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 $('.draggable').css('border', 'black 1px solid');
                 //
                 var $this = $(event.args.target);
-                console.log(rowUsed);
-                console.log(colUsed);
                 var data = {
                     'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
                     'ItemUnique': $scope.selectedItemInfo.Unique,
@@ -1013,9 +1007,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     dropTarget: $('.draggable'),
                     restricter: '.restricter-dragdrop',
                     //tolerance: 'fit'
-                    onTargetDrop: function(data) {
-                        //console.log('onTargetDrop', data);
-                    },
+                    onTargetDrop: function(data) {},
                     dropAction: 'none',
                     //revert: true
                 }
