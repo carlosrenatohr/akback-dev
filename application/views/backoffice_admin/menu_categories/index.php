@@ -28,7 +28,7 @@ jqxthemes();
 <script type="application/javascript" src="../../assets/admin/menu/menu_printers_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/menu_items_directives.js"></script>
 <!-- concatenated flow.js + ng-flow libraries -->
-<script src="../../assets/ng-flow/dist/ng-flow-standalone.min.js"></script>
+<script src="../../assets/admin/ng-flow-standalone.min.js"></script>
 
 <link rel="stylesheet" href="../../assets/admin/styles.css">
 <div class="parent-container" ng-controller="menuCategoriesController">
