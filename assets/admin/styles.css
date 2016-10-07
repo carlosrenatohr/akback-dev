@@ -214,6 +214,10 @@ div.toolbar-list span {
     text-align: center;
 }
 
+.selectedItemInfoClass.jqx-draggable.jqx-draggable-dragging {
+    width: 10px!important;
+}
+
 #itemListboxSearch .jqx-listitem-element {
     width: 10px;!important;
 }

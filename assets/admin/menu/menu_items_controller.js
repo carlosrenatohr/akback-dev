@@ -322,13 +322,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         valueMember: "Unique",
         width: "100%",
         //itemHeight: 50,
-        height: '460px',
+        height: '560px',
         source: dataAdapterItems('ASC'),
         theme: 'arctic',
         filterable: true,
         filterHeight: 30,
         searchMode: 'containsignorecase',
-        filterPlaceHolder: 'Looking for item',
+        filterPlaceHolder: 'Search',
         //allowDrop: true,
         //allowDrag: true,
         //dragEnd: function(dragItem, dropItem) {}
@@ -852,9 +852,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 'ItemUnique': $scope.selectedItemInfo.Unique,
                 'Label': $scope.selectedItemInfo.Description,
                 'Row': $this.data('row'),
-                'Column': $this.data('col'),
-                'Status': 1,
-                'Sort': 1
+                'Column': $this.data('col')
             };
             $.ajax({
                 'url': SiteRoot + 'admin/MenuItem/postMenuItems',
@@ -928,7 +926,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 opacity: 0.9
             }
         );
+
+        $('#selectedItemInfo, .jqx-listitem-element')
+            .unbind('dragStart')
+            .unbind('dragEnd')
+            .unbind('dropTargetEnter')
+            .unbind('dropTargetLeave');
         var ItemOnAboveGrid = false;
+        var rowUsed, colUsed;
         $('#selectedItemInfo, .jqx-listitem-element')
         .bind('dragStart', function (event) {
             $('.restricter-dragdrop').css({'border': '#202020 dotted 3px'});
@@ -939,14 +944,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 $('.draggable').css('border', 'black 1px solid');
                 //
                 var $this = $(event.args.target);
+                console.log(rowUsed);
+                console.log(colUsed);
                 var data = {
                     'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
                     'ItemUnique': $scope.selectedItemInfo.Unique,
                     'Label': $scope.selectedItemInfo.Description,
-                    'Row': $(event.args.target).data('row'),
-                    'Column': $(event.args.target).data('col'),
-                    'Status': 1,
-                    'Sort': 1
+                    'Row': rowUsed,
+                    'Column': colUsed
                 };
                 $.ajax({
                     'url': SiteRoot + 'admin/MenuItem/postMenuItems',
@@ -970,7 +975,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         }
                         else if (data.status == 'error') {
                             $.each(data.message, function(i, value){
-                                //alert(value);
+                                alert(value);
                             });
                         }
                         else {
@@ -982,6 +987,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         })
         .bind('dropTargetEnter', function (event) {
             ItemOnAboveGrid = true;
+            rowUsed = $(event.args.target).data('row')
+            colUsed = $(event.args.target).data('col');
             $('body').find(event.args.target).css('border', '5px solid #eeb706');
         })
         .bind('dropTargetLeave', function (event) {
@@ -994,6 +1001,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     function draggableEvents() {
         if ($('body .itemOnGrid').length) {
             var onCellAboveGrid = false;
+
+            // $('.itemOnGrid')
+            //     .unbind('dragStart')
+            //     .unbind('dragEnd')
+            //     .unbind('dropTargetEnter')
+            //     .unbind('dropTargetLeave');
+
             $('.itemOnGrid').jqxDragDrop(
                 {
                     dropTarget: $('.draggable'),

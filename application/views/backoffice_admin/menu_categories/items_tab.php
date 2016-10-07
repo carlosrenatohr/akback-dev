@@ -2,7 +2,6 @@
     <div class="col-lg-2 col-lg-2-item col-md-2 col-md-2-item col-sm-2">
         <div style="margin: 20px 0;">
             <div class="">
-                <label for="">Select a menu</label>
                 <jqx-drop-down-list
                     id="menuListDropdown"
                     jqx-settings="menudropdownSettings"
@@ -10,17 +9,8 @@
                     >
                 </jqx-drop-down-list>
             </div>
-            <div id="selectedItemInfo" class="">
+            <div id="selectedItemInfo" class="selectedItemInfoClass">
                 {{ selectedItemInfo.Description }}
-            </div>
-            <div id="" class="col-md-12">
-                <button class="btn btn-info" ng-click="newMenuItemBtn()" id="NewMenuItemBtn"
-                        style="margin: 10px 25%;">
-                    Assign Item
-                </button>
-            </div>
-            <div class="">
-                <span>Type an item to find:</span>
             </div>
             <jqx-list-box
                 jqx-on-select="itemListBoxOnSelect(event)"
@@ -28,7 +18,6 @@
                 id="itemListboxSearch"
                 >
             </jqx-list-box>
-<!--            <div class="" style="min-height: 50px;"></div>-->
         </div>
     </div>
     <div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container" style="padding: 0;">

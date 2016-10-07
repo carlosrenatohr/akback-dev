@@ -147,6 +147,8 @@ class MenuItem extends AK_Controller
             } else {
                 $printerReq = [];
             }
+            $request['Status'] = 1;
+            $request['Sort'] = 1;
             $status = $this->menuItem->postItemByMenu($request);
             if ($status) {
                 if(!empty($extraValues)) {
