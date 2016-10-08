@@ -1662,4 +1662,24 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         theme: 'summer'
     };
 
+    $scope.uploader = {};
+    $scope.submitUpload = function () {
+        console.log('uploading...');
+        $scope.uploader.flow.upload();
+    };
+
+    $scope.successUpload = function (msg) {
+        console.log('sucess upload...');
+        console.log(msg)
+
+    };
+
+    $scope.removingImageSelected = function(i) {
+        for(var i in $scope.uploader.flow.files) {
+            console.log($scope.uploader.flow.files[i]);
+        }
+        $scope.uploader.flow.files.splice(i, 1);
+    }
+
+
 });

@@ -8,13 +8,26 @@ var app = angular.module("akamaiposApp", ['jqwidgets', 'flow'])
         permanentErrors: [404, 500, 501],
         maxChunkRetries: 1,
         chunkRetryInterval: 5000,
-        simultaneousUploads: 4
+        simultaneousUploads: 3
     };
-    flowFactoryProvider.on('catchAll', function (event) {
-        console.log('catchAll', arguments);
+    flowFactoryProvider.on('catchAll', function (type, e, response, g) {
+        // console.log('catchAll', arguments);
     });
-    // Can be used with different implementations of Flow.js
-    // flowFactoryProvider.factory = fustyFlowFactory;
+    flowFactoryProvider.on('fileSuccess', function (e, response, g) {
+        console.log('fileSUccess', arguments);
+        var resp = JSON.parse(response);
+        if (resp.success) {
+            console.log(resp);
+            console.log('success');
+        }
+        else {
+            console.log(resp);
+            resp.files.file.cancel();
+            console.log('error');
+        }
+
+    });
+    flowFactoryProvider.factory = fustyFlowFactory;
 }]);
 
 app.controller('menuCategoriesController', function($scope, $http, itemInventoryService){

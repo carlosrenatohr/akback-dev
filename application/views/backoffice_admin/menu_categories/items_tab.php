@@ -83,7 +83,7 @@
                 </div>
                 <!-- Pictue subtab -->
                 <div class="">
-<!--                    --><?php //$this->load->view($items_picture_subtab_view);?>
+                    <?php $this->load->view($items_picture_subtab_view);?>
                 </div>
             </jqx-tabs>
 

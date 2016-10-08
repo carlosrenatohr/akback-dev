@@ -1,30 +1,20 @@
 <div class="col-md-12 col-md-offset-0">
     <div class="row">
-        <div style=" width:100%;float:left;margin: 15px 0;">
-
-            <div style="float:left; padding:2px; width:650px; ">
+        <div class="container-fluid" flow-init flow-name="uploader.flow"
+             flow-files-submitted="submitUpload()"
+             flow-file-success="successUpload($message)">
+            <div class="row" style="margin: 10px 0;">
                 <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Select a picture for item</div>
-                <div style=" float:left; width:120px;">
-                    <div id="" style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
-                        <div flow-init
-                             flow-files-submitted="$flow.upload()"
-                             flow-file-success="$file.msg = $message"
-                            flow-prevent-drop
-                            flow-drag-enter="style={border: '5px solid green'}"
-                            flow-drag-leave="style={}">
-                            <span class="btn btn-success" flow-btn><i class="icon icon-file"></i>Upload File</span>
-<!--                            <span class="btn btn-success" flow-btn flow-directory ng-show="$flow.supportDirectory">-->
-<!--                                <i class="icon icon-folder-open"></i>-->
-
-                            <table class="table">
-                                <tr ng-repeat="file in $flow.files">
-                                    <td>{{$index+1}}</td>
-                                    <td>{{file.name}}</td>
-                                    <td>{{file.msg}}</td>
-                                </tr>
-                            </table>
-                        </div>
+                <span class="btn btn-success" flow-btn><i class="icon icon-file"></i>Upload File</span>
+            </div>
+            <div class="row" style="padding: 10px;border: 1px black dotted;border-radius: 3px;margin: 5px;">
+                <div class="col-md-4" ng-repeat="file in $flow.files" data-idx="{{ $index }}">
+                    <p style="text-align: center;font-weight: 600;  ">{{file.name}}</p>
+                    <div style="margin: 0 10%;min-height: 110px;">
+                        <img flow-img="$flow.files[$index]" width="100" height="100">
                     </div>
+                    <button class="btn btn-danger" ng-click="removingImageSelected($index)"
+                        style="margin: 5px 15%;">Remove</button>
                 </div>
             </div>
         </div>
