@@ -1682,7 +1682,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
      */
     $scope.uploader = {};
     $scope.successUploadNames = [];
-    var mimesAvailable = ['image/jpeg', 'image/png'];
+    var mimesAvailable = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
     $scope.submitUpload = function (files, e, flow) {
         console.log('uploading...', arguments);
         console.log($scope.uploader.flow.files);
@@ -1690,6 +1690,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         if (mimesAvailable.indexOf(type) > -1) {
             $scope.uploader.flow.upload();
         } else {
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html('Only PNG, JPG and GIF files types allowed.');
+            $scope.menuitemNotificationsErrorSettings.apply('open');
             var last = $scope.uploader.flow.files.length - 1;
             $scope.uploader.flow.files.splice(last, 1);
         }
