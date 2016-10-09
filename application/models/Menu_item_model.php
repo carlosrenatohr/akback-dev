@@ -214,4 +214,21 @@ class Menu_item_model extends CI_Model
         $this->db->trans_complete();
     }
 
+    public function savePicturesByItem($pictures_str, $itemID) {
+        $pictures = explode(',', $pictures_str);
+        foreach ($pictures as $idx => $picture) {
+            $request = [
+                'ItemUnique' => $itemID,
+                'File' => $picture,
+                'Description' => '',
+                'Primary' => ($idx == 0) ? 1 : 0,
+                'Sort' => $idx + 1,
+                'Created' => date('Y-m-d H:i:s'),
+                'CreatedBy' => $this->session->userdata('userid')
+            ];
+            $this->db->insert('item_picture', $request);
+        }
+    }
+
+
 }

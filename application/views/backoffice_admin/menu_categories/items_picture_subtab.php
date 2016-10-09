@@ -1,22 +1,30 @@
 <div class="col-md-12 col-md-offset-0">
     <div class="row">
-        <div class="container-fluid" flow-init flow-name="uploader.flow"
-             flow-files-submitted="submitUpload()"
-             flow-file-success="successUpload($message)">
-            <div class="row" style="margin: 10px 0;">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Select a picture for item</div>
-                <span class="btn btn-success" flow-btn><i class="icon icon-file"></i>Upload File</span>
-            </div>
-            <div class="row" style="padding: 10px;border: 1px black dotted;border-radius: 3px;margin: 5px;">
+        <div class="container-fluid">
+            <div class="row" style="padding: 10px;border: 1px black dotted;border-radius: 3px;margin: 5px;min-height: 200px;overflow-y: scroll;">
                 <div class="col-md-4" ng-repeat="file in $flow.files" data-idx="{{ $index }}">
-                    <p style="text-align: center;font-weight: 600;  ">{{file.name}}</p>
-                    <div style="margin: 0 10%;min-height: 110px;">
-                        <img flow-img="$flow.files[$index]" width="100" height="100">
+                    <div style="margin: 0 10%;max-height: 300px;">
+                        <img flow-img="$flow.files[$index]" width="200" height="200">
                     </div>
-                    <button class="btn btn-danger" ng-click="removingImageSelected($index)"
-                        style="margin: 5px 15%;">Remove</button>
+                    <div style="width: 80%">
+                        <span style="text-align: center;font-weight: 600;float:left">{{file.name}}</span>
+                        <button class="icon-32-trash" style="float: right;" ng-click="removingImageSelected($index)">
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<style>
+    .icon-32-trash {
+        /*position: absolute;*/
+        /*right:0;*/
+        background: url("../../assets/img/icon-32-trash.png") 0 5px no-repeat;
+        background-size: 80%;
+        width:25px;
+        height:25px;
+        border:0;
+        outline: 0;
+    }
+</style>

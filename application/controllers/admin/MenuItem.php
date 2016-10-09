@@ -9,7 +9,7 @@
 class MenuItem extends AK_Controller
 {
 
-    protected $decimalQuantity, $decimalPrice, $decimalTax;
+    protected $decimalQuantity, $decimalPrice, $decimalTax, $picturesPath;
     public function __construct()
     {
         parent::__construct();
@@ -20,6 +20,7 @@ class MenuItem extends AK_Controller
         $this->decimalQuantity = (int)$this->session->userdata('DecimalsQuantity');
         $this->decimalPrice = (int)$this->session->userdata("DecimalsPrice");
         $this->decimalTax = (int)$this->session->userdata("DecimalsTax");
+        $this->picturesPath = "./uploads";
     }
 
     /**
@@ -147,6 +148,11 @@ class MenuItem extends AK_Controller
             } else {
                 $printerReq = [];
             }
+            if (isset($request['pictures'])) {
+                $this->menuItem->savePicturesByItem($request['pictures'], $request['ItemUnique']);
+                unset($request['pictures']);
+            }
+
             $request['Status'] = 1;
             $request['Sort'] = 1;
             $status = $this->menuItem->postItemByMenu($request);
@@ -592,7 +598,7 @@ class MenuItem extends AK_Controller
 
     public function loadPictureItem() {
 //        $tempDir = __DIR__ . DIRECTORY_SEPARATOR . 'temp';
-        $tempDir = './uploads';
+        $tempDir = $this->picturesPath;
         if (!file_exists($tempDir)) {
             mkdir($tempDir);
         }
@@ -605,57 +611,37 @@ class MenuItem extends AK_Controller
                 header("HTTP/1.1 204 No Content");
             }
         }
-
-//        sleep(2);
+        //
         $config['upload_path']          = $tempDir;
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 1000;
         $config['max_width']            = 2048;
         $config['max_height']           = 1500;
+        $nname = time() . '-'. str_replace([' ', ','], ['_', ''], $_FILES['file']['name']);
+//        $_FILES['file']['name'] = $nname;
+        $config['file_name'] = $nname;
         $this->load->library('upload', $config);
-
-        if ( ! $this->upload->do_upload('file'))
+        if (!$this->upload->do_upload('file')) {
+//            move_uploaded_file( $_FILES['file']['tmp_name'], $tempDir . '/__' . $_FILES['file']['name']);
             echo json_encode([
                 'success' => false,
-                'errors' => $this->upload->display_errors(),
+                'errors' => $this->upload->display_errors()
             ]);
+        }
         else
         echo json_encode([
             'success' => true,
             'files' => $_FILES,
             'get' => $_GET,
             'post' => $_POST,
+            'newName' => $nname,
             //optional
             'flowTotalSize' => isset($_FILES['file']) ? $_FILES['file']['size'] : $_GET['flowTotalSize'],
-            'flowIdentifier' => isset($_FILES['file']) ? $_FILES['file']['name'] . '-' . $_FILES['file']['size']
+            'flowIdentifier' => isset($_FILES['file']) ? $_FILES['file']['size'] . '-' . $_FILES['file']['name']
                 : $_GET['flowIdentifier'],
             'flowFilename' => isset($_FILES['file']) ? $_FILES['file']['name'] : $_GET['flowFilename'],
             'flowRelativePath' => isset($_FILES['file']) ? $_FILES['file']['tmp_name'] : $_GET['flowRelativePath']
         ]);
-    }
-
-    public function do_upload()
-    {
-        $config['upload_path']          = './uploads/';
-        $config['allowed_types']        = 'gif|jpg|png';
-        $config['max_size']             = 100;
-        $config['max_width']            = 1024;
-        $config['max_height']           = 768;
-
-        $this->load->library('upload', $config);
-
-        if ( ! $this->upload->do_upload('userfile'))
-        {
-            $error = array('error' => $this->upload->display_errors());
-
-            $this->load->view('upload_form', $error);
-        }
-        else
-        {
-            $data = array('upload_data' => $this->upload->data());
-
-            $this->load->view('upload_success', $data);
-        }
     }
 
 }

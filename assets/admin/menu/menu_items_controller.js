@@ -19,7 +19,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
             // Redraw grid
             $('.draggable').removeClass('selectedItemOnGrid');
-            //$('.category-cell-grid').removeClass('valued');
 
             $('#NewMenuItemBtn').prop('disabled', true)
         }
@@ -69,6 +68,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     updateQuestionItemTable();
                 //}
             //}
+        }
+        if (tabTitle == 'Picture') {
+            $('#uploadPictureBtn').show();
+        } else {
+            $('#uploadPictureBtn').hide();
         }
     });
 
@@ -480,6 +484,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     };
     $scope.disabledControl = true;
     $scope.saveItemGridBtn = function(fromPrompt) {
+        var imgs = [];
+        angular.forEach($scope.uploader.flow.files, function(el, key) {
+            console.log(el.newName);
+            if ($scope.successUploadNames.indexOf(el.newName) > -1) {
+                imgs.push(el.newName);
+            }
+        });
         if (!validationDataOnItemGrid()) {
             var idxSelected = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').index;
             var dataToSend = {
@@ -531,9 +542,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'Points': parseFloat($('#itemcontrol_points').val()),
                     'Description': $('#itemcontrol_description').val(),
                 },
-                // -- Main printer on item subtab
-                'MainPrinter': $('#mainPrinterSelect').jqxDropDownList('getSelectedItem').value
+                'pictures': imgs.join(',')
             };
+            // -- Main printer on item subtab
+            if ($('#mainPrinterSelect').val() != '') {
+                dataToSend['MainPrinter'] = $('#mainPrinterSelect').jqxDropDownList('getSelectedItem').value;
+            }
             if ($('#editItem_sort').val() != '') {
                 dataToSend['Sort'] = $('#editItem_sort').val();
             }
@@ -1662,24 +1676,53 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         theme: 'summer'
     };
 
+    /**
+     * Upload pictures to item
+     * @type {{}}
+     */
     $scope.uploader = {};
-    $scope.submitUpload = function () {
-        console.log('uploading...');
-        $scope.uploader.flow.upload();
+    $scope.successUploadNames = [];
+    var mimesAvailable = ['image/jpeg', 'image/png'];
+    $scope.submitUpload = function (files, e, flow) {
+        console.log('uploading...', arguments);
+        console.log($scope.uploader.flow.files);
+        var type = files[0].file.type;
+        if (mimesAvailable.indexOf(type) > -1) {
+            $scope.uploader.flow.upload();
+        } else {
+            var last = $scope.uploader.flow.files.length - 1;
+            $scope.uploader.flow.files.splice(last, 1);
+        }
     };
 
-    $scope.successUpload = function (msg) {
-        console.log('sucess upload...');
-        console.log(msg)
+    $scope.successUpload = function (e, response, flow) {
+        console.log('sucess upload...', arguments);
+        var resp = JSON.parse(response);
+        var last = $scope.uploader.flow.files.length - 1;
+        if (!resp.success) {
+            $scope.uploader.flow.files.splice(last, 1);
+            console.log(response.errors);
+        } else {
+            $scope.uploader.flow.files[last]['newName'] = resp.newName;
+            $scope.successUploadNames.push(resp.newName);
+        }
+    };
 
+    $scope.errorUpload = function (file, msg, flow) {
+        console.log('Error upload...');
+    };
+
+    $scope.fileAddedUpload = function (file, event, flow) {
+        console.log('file added...');
+        var type = file.file.type;
     };
 
     $scope.removingImageSelected = function(i) {
-        for(var i in $scope.uploader.flow.files) {
-            console.log($scope.uploader.flow.files[i]);
-        }
+        var foundPic =
+            $scope.successUploadNames.indexOf($scope.uploader.flow.files[i].newName);
+        //
+        $scope.successUploadNames.splice(foundPic, 1);
         $scope.uploader.flow.files.splice(i, 1);
     }
-
 
 });

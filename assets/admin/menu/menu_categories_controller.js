@@ -8,25 +8,13 @@ var app = angular.module("akamaiposApp", ['jqwidgets', 'flow'])
         permanentErrors: [404, 500, 501],
         maxChunkRetries: 1,
         chunkRetryInterval: 5000,
-        simultaneousUploads: 3
+        simultaneousUploads: 3,
+        // singleFile: true
     };
     flowFactoryProvider.on('catchAll', function (type, e, response, g) {
-        // console.log('catchAll', arguments);
+        console.log('catchAll', arguments);
     });
-    flowFactoryProvider.on('fileSuccess', function (e, response, g) {
-        console.log('fileSUccess', arguments);
-        var resp = JSON.parse(response);
-        if (resp.success) {
-            console.log(resp);
-            console.log('success');
-        }
-        else {
-            console.log(resp);
-            resp.files.file.cancel();
-            console.log('error');
-        }
 
-    });
     flowFactoryProvider.factory = fustyFlowFactory;
 }]);
 

@@ -45,7 +45,12 @@
         <div>
             Edit Item
         </div>
-        <div>
+        <div flow-init flow-name="uploader.flow"
+             flow-files-submitted="submitUpload($files, $event, $flow)"
+             flow-file-added="fileAddedUpload($file, $event, $flow)"
+             flow-file-success="successUpload($file, $message, $flow)"
+             flow-file-error="errorUpload($file, $message, $flow)">
+
             <jqx-tabs jqx-width="'100%'"
                       id="jqxTabsMenuItemWindows">
                 <ul>
@@ -93,6 +98,9 @@
                     <div id="mainButtonsOnItemGrid">
                         <div class="form-group">
                             <div class="col-sm-12">
+                                <span class="btn btn-success" id="uploadPictureBtn" flow-btn style="display: none;">
+                                    Upload Picture
+                                </span>
                                 <button type="button" id="saveItemGridBtn" ng-click="saveItemGridBtn()" class="btn btn-primary" disabled>Save</button>
                                 <button	type="button" id="" ng-click="closeItemGridWindows()" class="btn btn-warning">Close</button>
                                 <button	type="button" id="deleteItemGridBtn" ng-click="deleteItemGridBtn()" class="btn btn-danger " style="overflow:auto;">Delete</button>
