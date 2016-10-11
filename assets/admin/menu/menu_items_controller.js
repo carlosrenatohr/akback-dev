@@ -1692,8 +1692,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.successUploadNames = [];
     var mimesAvailable = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
     $scope.submitUpload = function (files, e, flow) {
-        console.log('uploading...', arguments);
-        console.log($scope.uploader.flow.files);
         var type = files[0].file.type;
         if (mimesAvailable.indexOf(type) > -1) {
             $scope.uploader.flow.upload();
@@ -1707,7 +1705,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     };
 
     $scope.successUpload = function (e, response, flow) {
-        console.log('sucess upload...', arguments);
+        // console.log('sucess upload...', arguments);
         var resp = JSON.parse(response);
         var last = $scope.uploader.flow.files.length - 1;
         if (!resp.success) {
@@ -1723,12 +1721,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     };
 
-    $scope.errorUpload = function (file, msg, flow) {
-        console.log('Error upload...');
-    };
+    $scope.errorUpload = function (file, msg, flow) {};
 
     $scope.fileAddedUpload = function (file, event, flow) {
-        console.log('file added...');
         var type = file.file.type;
     };
 

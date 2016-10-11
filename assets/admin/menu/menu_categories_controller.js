@@ -12,7 +12,7 @@ var app = angular.module("akamaiposApp", ['jqwidgets', 'flow'])
         singleFile: true
     };
     flowFactoryProvider.on('catchAll', function (type, e, response, g) {
-        console.log('catchAll', arguments);
+        // console.log('catchAll', arguments);
     });
 
     flowFactoryProvider.factory = fustyFlowFactory;
