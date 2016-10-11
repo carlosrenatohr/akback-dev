@@ -1129,7 +1129,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             questionOnItemGridWindow = args.instance;
         },
         resizable: false,
-        width: "50%", height: "40%",
+        width: "50%", height: "52%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
