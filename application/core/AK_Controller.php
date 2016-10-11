@@ -41,7 +41,8 @@ class AK_Controller extends \CI_Controller
         return $this->customer->getLocations();
     }
 
-    public function isCustomerCheckedInEnabled($setting, $value, $field) {
+//    public function isCustomerCheckedInEnabled($setting, $value, $field) {
+    public function getSettingLocation($setting, $value, $field = 'stationunique') {
         $this->Config_location_model->getConfigSetting($setting, $value, $field);
     }
 

@@ -15,7 +15,7 @@ class Config_location_model extends CI_Model
      * @param string $field LocationUnique or StationUnique
      * @return mixed
      */
-    public function getConfigSetting($setting, $value, $field = 'LocationUnique')
+    public function getConfigSetting($setting, $value, $field = 'stationunique')
     {
         $query = $this->db->get_where(
             'config_location_settings',

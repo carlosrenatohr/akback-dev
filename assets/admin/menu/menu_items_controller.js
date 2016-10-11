@@ -1704,10 +1704,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var last = $scope.uploader.flow.files.length - 1;
         if (!resp.success) {
             $scope.uploader.flow.files.splice(last, 1);
-            console.log(response.errors);
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html(resp.errors);
+            $scope.menuitemNotificationsErrorSettings.apply('open');
         } else {
             $scope.uploader.flow.files[last]['newName'] = resp.newName;
             $scope.successUploadNames.push(resp.newName);
+            $('#saveItemGridBtn').prop('disabled', false);
         }
     };
 
@@ -1726,6 +1729,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         //
         $scope.successUploadNames.splice(foundPic, 1);
         $scope.uploader.flow.files.splice(i, 1);
+        if ($scope.successUploadNames.length <= 0) {
+            $('#saveItemGridBtn').prop('disabled', true);
+        }
     }
 
 });

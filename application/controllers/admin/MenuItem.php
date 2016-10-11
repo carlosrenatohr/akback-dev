@@ -13,6 +13,7 @@ class MenuItem extends AK_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Config_location_model', 'clm');
         $this->load->model('Menu_item_model', 'menuItem');
         $this->load->model('Menu_model', 'menu');
         $this->load->model('Item_model', 'item');
@@ -20,7 +21,6 @@ class MenuItem extends AK_Controller
         $this->decimalQuantity = (int)$this->session->userdata('DecimalsQuantity');
         $this->decimalPrice = (int)$this->session->userdata("DecimalsPrice");
         $this->decimalTax = (int)$this->session->userdata("DecimalsTax");
-        $this->picturesPath = "./uploads";
     }
 
     /**
@@ -597,11 +597,15 @@ class MenuItem extends AK_Controller
     }
 
     public function loadPictureItem() {
-//        $tempDir = __DIR__ . DIRECTORY_SEPARATOR . 'temp';
-        $tempDir = $this->picturesPath;
+        // Load default images
+        $this->getSettingLocation('ItemPictureLocation', $this->session->userdata("station_number"));
+        $this->picturesPath = '.' . $this->session->userdata('admin_ItemPictureLocation');
+        $sep = DIRECTORY_SEPARATOR;
+        $tempDir = str_replace(['/', "\\"], [$sep, $sep], $this->picturesPath);
         if (!file_exists($tempDir)) {
             mkdir($tempDir);
         }
+        //
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $chunkDir = $tempDir . DIRECTORY_SEPARATOR . $_GET['flowIdentifier'];
             $chunkFile = $chunkDir.'/chunk.part'.$_GET['flowChunkNumber'];

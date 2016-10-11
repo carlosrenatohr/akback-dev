@@ -28,15 +28,13 @@ class Customer extends AK_Controller
         $data['page_title'] = "Customer Dashboard";
         $data['storename'] = $this->displaystore();
 //        if (!$this->session->has_userdata('admin_CustomerCheckInEnabled')) {
-        $this->isCustomerCheckedInEnabled(
+        $this->getSettingLocation(
             'CustomerCheckInEnabled',
-            $this->session->userdata("station_number"),
-            'stationunique'
+            $this->session->userdata("station_number")
         );
-        $this->isCustomerCheckedInEnabled(
+        $this->getSettingLocation(
             'CustomerPurchasesEnabled',
-            $this->session->userdata("station_number"),
-            'stationunique'
+            $this->session->userdata("station_number")
         );
         $data['checkinEnabled'] = $this->session->userdata('admin_CustomerCheckInEnabled');
         $data['CustomerPurchasesEnabled'] = $this->session->userdata('admin_CustomerPurchasesEnabled');
