@@ -9,7 +9,7 @@ var app = angular.module("akamaiposApp", ['jqwidgets', 'flow'])
         maxChunkRetries: 1,
         chunkRetryInterval: 5000,
         simultaneousUploads: 3,
-        // singleFile: true
+        singleFile: true
     };
     flowFactoryProvider.on('catchAll', function (type, e, response, g) {
         console.log('catchAll', arguments);

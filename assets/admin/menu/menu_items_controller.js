@@ -691,6 +691,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     });
 
     $scope.itemCellSelectedOnGrid = {};
+    $scope.currentImages = [];
     function onClickDraggableItem() {
         var itemWindow = itemsMenuWindow;
         $('.draggable')
@@ -728,6 +729,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'success': function(data) {
                         $scope.itemCellSelectedOnGrid = data;
                         //
+                        angular.forEach(data.pictures, function(el, key) {
+                            $scope.currentImages.push({
+                                name: el.File,
+                                path: el.path
+                            });
+                        });
+
                         var selectedIndexItem;
                         var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['Unique']);
                         if (itemCombo)
@@ -1710,6 +1718,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         } else {
             $scope.uploader.flow.files[last]['newName'] = resp.newName;
             $scope.successUploadNames.push(resp.newName);
+            $scope.currentImages.splice(0, 1);
             $('#saveItemGridBtn').prop('disabled', false);
         }
     };
@@ -1728,6 +1737,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $scope.successUploadNames.indexOf($scope.uploader.flow.files[i].newName);
         //
         $scope.successUploadNames.splice(foundPic, 1);
+        $scope.currentImages.splice(0, 1);
         $scope.uploader.flow.files.splice(i, 1);
         if ($scope.successUploadNames.length <= 0) {
             $('#saveItemGridBtn').prop('disabled', true);

@@ -214,8 +214,19 @@ class Menu_item_model extends CI_Model
         $this->db->trans_complete();
     }
 
+    public function getPicturesByItem($itemID) {
+        $this->db->select('File, Description, Primary, Sort');
+        $this->db->from('item_picture');
+        $this->db->where('ItemUnique', $itemID);
+        $this->db->where('Status', 1);
+        return $this->db->get()->result_array();
+    }
+
     public function savePicturesByItem($pictures_str, $itemID) {
         $pictures = explode(',', $pictures_str);
+        $this->db->update('item_picture',
+            ['Status' => 0],
+            ['ItemUnique' => $itemID]);
         foreach ($pictures as $idx => $picture) {
             $request = [
                 'ItemUnique' => $itemID,

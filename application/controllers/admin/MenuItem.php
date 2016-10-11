@@ -113,6 +113,14 @@ class MenuItem extends AK_Controller
         $row = $this->menuItem->getItemByPosition($request);
         $printer = $this->menuPrinter->getPrimaryPrinterByItem($row['Unique']);
         $row['PrimaryPrinter'] = $printer['PrimaryPrinter'];
+        //
+        $path = $this->getPicturesPath(true);
+
+        foreach ($this->menuItem->getPicturesByItem($row['Unique']) as $picture) {
+            $picture['path'] = $path . DIRECTORY_SEPARATOR .$picture['File'];
+            $row['pictures'][] = $picture;
+        }
+
         echo json_encode($row);
     }
 
@@ -598,10 +606,7 @@ class MenuItem extends AK_Controller
 
     public function loadPictureItem() {
         // Load default images
-        $this->getSettingLocation('ItemPictureLocation', $this->session->userdata("station_number"));
-        $this->picturesPath = '.' . $this->session->userdata('admin_ItemPictureLocation');
-        $sep = DIRECTORY_SEPARATOR;
-        $tempDir = str_replace(['/', "\\"], [$sep, $sep], $this->picturesPath);
+        $tempDir = $this->getPicturesPath();
         if (!file_exists($tempDir)) {
             mkdir($tempDir);
         }
@@ -646,6 +651,17 @@ class MenuItem extends AK_Controller
             'flowFilename' => isset($_FILES['file']) ? $_FILES['file']['name'] : $_GET['flowFilename'],
             'flowRelativePath' => isset($_FILES['file']) ? $_FILES['file']['tmp_name'] : $_GET['flowRelativePath']
         ]);
+    }
+
+    private function getPicturesPath($load = null) {
+        if (!is_null($load))
+            $root = '../..';
+        else
+            $root = '.';
+        $this->getSettingLocation('ItemPictureLocation', $this->session->userdata("station_number"));
+        $this->picturesPath = $root . $this->session->userdata('admin_ItemPictureLocation');
+        $sep = DIRECTORY_SEPARATOR;
+        return str_replace(['/', "\\"], [$sep, $sep], $this->picturesPath);
     }
 
 }
