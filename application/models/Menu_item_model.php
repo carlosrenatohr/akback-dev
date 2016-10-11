@@ -20,10 +20,14 @@ class Menu_item_model extends CI_Model
 
     public function getItems($sort = null)
     {
-        $this->db->select('Unique, Description, Item, Part, Status, ListPrice, price1');
-        $this->db->order_by('Description', (!is_null($sort)) ? $sort : 'DESC');
-        $query = $this->db->get_where($this->itemTable, ['Status!=' => 0]);
-        $result = $query->result_array();
+        $this->db->select('item.Unique, item.Description, item.Item, item.Status, item.ListPrice, item.price1,
+                        category_sub.Name as SubCategory, category_main.MainName as Category');
+        $this->db->from($this->itemTable);
+        $this->db->where(['item.Status!=' => 0]);
+        $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
+        $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');
+        $this->db->order_by('item.Description', (!is_null($sort)) ? $sort : 'DESC');
+        $result = $this->db->get()->result_array();
         return $result;
     }
 

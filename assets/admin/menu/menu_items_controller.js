@@ -280,7 +280,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'Part', type: 'string'},
                     {name: 'Status', type: 'number'},
                     {name: 'ListPrice', type: 'number'},
-                    {name: 'price1', type: 'number'}
+                    {name: 'price1', type: 'number'},
+                    {name: 'Category', type: 'string'},
+                    {name: 'SubCategory', type: 'string'},
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/MenuItem/load_allItems?sort=' + sort
@@ -302,7 +304,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         source: dataAdapterItems('ASC'),
         theme: 'arctic'
     };
-
     $scope.itemsComboboxSelecting = function(e) {
         if (e.args.item != null) {
             var item = e.args.item.originalItem;
@@ -319,7 +320,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             comboboxItems = args.instance;
         },
         selectedIndex: -1, // 0
-        //placeHolder: 'Select an item',
         displayMember: "Description",
         valueMember: "Unique",
         width: "100%",
@@ -331,6 +331,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         filterHeight: 30,
         searchMode: 'containsignorecase',
         filterPlaceHolder: 'Search',
+        renderer: function(index, label, value) {
+            var item = $('#itemListboxSearch').jqxListBox('getItem', index).originalItem;
+            var template =
+                '<div class="item-row-content">' +
+                    '<span>' + item.Description + ' | '+ item.price1 +'</span><br>' +
+                    '<span>' + item.Category + ' | '+ item.SubCategory +'</span>' +
+                '</div>';
+            return template;
+        }
         //allowDrop: true,
         //allowDrag: true,
         //dragEnd: function(dragItem, dropItem) {}

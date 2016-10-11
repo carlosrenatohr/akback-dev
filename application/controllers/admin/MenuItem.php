@@ -78,6 +78,8 @@ class MenuItem extends AK_Controller
                 $item['price1'] = number_format($item['price1'], $this->decimalPrice);
                 $item['Description'] = trim($item['Description']);
                 $item['Item'] = trim($item['Item']);
+                $item['Category'] = (is_null($item['Category'])) ? '-' : $item['Category'];
+                $item['SubCategory'] = (is_null($item['SubCategory'])) ? '-' : $item['SubCategory'];
                 $new_items[] = $item;
             }
         }
