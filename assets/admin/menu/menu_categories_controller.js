@@ -35,6 +35,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         else if(tabTitle == 'Categories')
             reloadMenuSelectOnCategories();
         else if (tabTitle == 'Menu') {
+            updateMenuGridReq();
             //updateMainMenuGrid();
             reloadMenuSelectOnCategories();
         }
@@ -58,7 +59,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 {name: 'MenuItemColumn', type: 'string'},
                 {name: 'ItemLength', type: 'string'}
             ],
-            url: SiteRoot + 'admin/MenuCategory/load_allmenus'
+            // url: SiteRoot + 'admin/MenuCategory/load_allmenus'
+            url: ''
         }),
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
@@ -89,26 +91,30 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
 
     function updateMainMenuGrid() {
         if ($scope.newOrEditOption == 'new') {
-            $('#menuGridTable').jqxGrid({
-                source: new $.jqx.dataAdapter({
-                    dataType: 'json',
-                    dataFields: [
-                        {name: 'Unique', type: 'int'},
-                        {name: 'MenuName', type: 'string'},
-                        {name: 'Status', type: 'string'},
-                        {name: 'StatusName', type: 'string'},
-                        {name: 'Column', type: 'string'},
-                        {name: 'Row', type: 'string'},
-                        {name: 'MenuItemRow', type: 'string'},
-                        {name: 'MenuItemColumn', type: 'string'},
-                        {name: 'ItemLength', type: 'string'}
-                    ],
-                    url: SiteRoot + 'admin/MenuCategory/load_allmenus'
-                })
-            });
+            updateMenuGridReq();
         } else {
             $('#menuGridTable').jqxGrid('updatebounddata', 'filter');
         }
+    }
+
+    function updateMenuGridReq() {
+        $('#menuGridTable').jqxGrid({
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'MenuName', type: 'string'},
+                    {name: 'Status', type: 'string'},
+                    {name: 'StatusName', type: 'string'},
+                    {name: 'Column', type: 'string'},
+                    {name: 'Row', type: 'string'},
+                    {name: 'MenuItemRow', type: 'string'},
+                    {name: 'MenuItemColumn', type: 'string'},
+                    {name: 'ItemLength', type: 'string'}
+                ],
+                url: SiteRoot + 'admin/MenuCategory/load_allmenus'
+            })
+        });
     }
 
     // Menu Notification settings
@@ -350,8 +356,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 {name: 'MenuUnique', type: 'number'},
                 {name: 'MenuName', type: 'string'}
             ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/MenuCategory/load_allcategories'
+            url: '',
+            // url: SiteRoot + 'admin/MenuCategory/load_allcategories'
         },
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},

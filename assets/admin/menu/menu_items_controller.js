@@ -269,7 +269,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     /**
      * -- ITEMS COMBO BOX SIDE
      */
-    var dataAdapterItems = function(sort) {
+    var dataAdapterItems = function(sort, empty) {
+        var url = '';
+        if (empty == undefined)
+            url = SiteRoot + 'admin/MenuItem/load_allItems?sort=' + sort;
         return new $.jqx.dataAdapter(
             {
                 dataType: 'json',
@@ -284,8 +287,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'Category', type: 'string'},
                     {name: 'SubCategory', type: 'string'},
                 ],
-                id: 'Unique',
-                url: SiteRoot + 'admin/MenuItem/load_allItems?sort=' + sort
+                url: url
             }
         );
     };
@@ -301,7 +303,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         itemHeight: 50,
         //height: '100%',
         //height: 300,
-        source: dataAdapterItems('ASC'),
+        source: dataAdapterItems('ASC', 1),
         theme: 'arctic'
     };
     $scope.itemsComboboxSelecting = function(e) {
@@ -583,9 +585,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             $scope.tryToChangeQuestionTab = false;
                         }
                         //
-                        $('#editItem_ItemSelected').jqxComboBox({
-                            'source': dataAdapterItems('ASC')
-                        });
+                        // $('#editItem_ItemSelected').jqxComboBox({
+                        //     'source': dataAdapterItems('ASC')
+                        // });
                         if (fromPrompt) {
                             itemsMenuWindow.close();
                         } else {
@@ -705,6 +707,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var itemWindow = itemsMenuWindow;
         $('.draggable')
             .on('dblclick', function(e) {
+            $('#editItem_ItemSelected').jqxComboBox({
+                source:  dataAdapterItems('ASC')
+            });
+            //
             $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
             $('#questionsTabOnMenuItemWindow').show();
             $('#questionsTabOnMenuItemWindow .jqx-tabs-titleContentWrapper').css('margin-top', '0');

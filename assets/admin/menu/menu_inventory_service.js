@@ -4,7 +4,7 @@
 app.service('itemInventoryService', function ($http, inventoryExtraService) {
 
     // Data for items inventory grid
-    this.getInventoryGridData = function () {
+    this.getInventoryGridData = function (empty) {
         var pages;
         var ww = $(window).width();
         var wh = $(window).height();
@@ -16,6 +16,10 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
                 pagesizeoptions: ['2', '10', '15']
             };
         }
+        //
+        var url = '';
+        if (empty == undefined)
+            url = SiteRoot + 'admin/MenuItem/getItemsData';
         return {
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
@@ -55,7 +59,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
                     {name: 'Points', type: 'string'}
                 ],
                 id: 'Unique',
-                url: SiteRoot + 'admin/MenuItem/getItemsData'
+                url: url
             }),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},

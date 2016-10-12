@@ -5,6 +5,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.inventoryData = {};
     $scope.inventoryDisabled = true;
+    var once = false;
     // Events added
     itemInventoryService.onChangeEvents();
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
@@ -12,7 +13,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var tabTitle = $('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
         // Items Inventory TAB - Reload queries
         if (tabTitle == 'Items') {
-            updateItemsInventoryGrid(1);
+            if (!once) {
+                updateItemsInventoryGrid();
+                once = true;
+            }
+            else
+                updateItemsInventoryGrid();
         }
     });
 
@@ -64,7 +70,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     }
 
-    $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData();
+    $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData(1);
     var updateItemsInventoryGrid = function(init) {
         var el = (init != undefined) ? this : '#inventoryItemsGrid';
         $(el).jqxGrid({

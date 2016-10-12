@@ -5,6 +5,24 @@
 
 app.controller('menuQuestionController', function ($scope) {
 
+    var once = false;
+    $('#MenuCategoriesTabs').on('tabclick', function (e) {
+        var tabclicked = e.args.item;
+        var tabTitle = $('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
+        // Questions TAB - Reload queries
+        if (tabTitle == 'Questions') {
+            if (!once) {
+                $('#qItem_ItemUnique').jqxComboBox({
+                    source: dataAdapterItems()
+                });
+                updateQuestionMainTable();
+                once = true;
+            }
+            else
+                updateQuestionMainTable();
+        }
+    });
+
     var questionsWindow, tabsQuestionWindow;
     // --Question window settings
     $scope.questionWindowsFormSettings = {
@@ -32,7 +50,7 @@ app.controller('menuQuestionController', function ($scope) {
                 {name: 'Min', type: 'string'},
                 {name: 'Max', type: 'string'}
             ],
-            url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
+            url: ''
         },
         columns: [
             {text: 'ID', dataField: 'Unique', width: '20%'},
@@ -419,21 +437,23 @@ app.controller('menuQuestionController', function ($scope) {
         }
     };
 
-    var dataAdapterItems =
-        new $.jqx.dataAdapter(
-        {
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'Description', type: 'string'},
-                {name: 'Item', type: 'string'},
-                {name: 'Part', type: 'string'},
-                {name: 'Status', type: 'number'}
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/MenuItem/load_allItems/?sort=ASC'
-        }
-    );
+    var dataAdapterItems = function(empty) {
+        var url = '';
+        if (empty == undefined)
+            url = SiteRoot + 'admin/MenuItem/load_allItems/?sort=ASC';
+        return new $.jqx.dataAdapter(
+            {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'Description', type: 'string'},
+                    {name: 'Item', type: 'string'},
+                    {name: 'Part', type: 'string'},
+                    {name: 'Status', type: 'number'}
+                ],
+                url: url
+            });
+    };
 
     $scope.itemsCbxSettings = {
         created: function (args) {
@@ -444,7 +464,7 @@ app.controller('menuQuestionController', function ($scope) {
         valueMember: "Unique",
         width: "100%",
         itemHeight: 50,
-        source: dataAdapterItems,
+        source: dataAdapterItems(1),
         theme: 'arctic'
     };
 

@@ -5,12 +5,25 @@
 app.controller('menuPrintersController', function($scope) {
 
     // -- MenuCategories Tabs
+    var once = false;
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
         var tabTitle = $('#MenuCategoriesTabs').jqxTabs('getTitleAt', tabclicked);
         // PRINTERS TAB - Reload queries
         if (tabTitle == 'Printers') {
-            updatePrinterTable();
+            if (!once) {
+                $('#printerMainList').jqxDropDownList({
+                    source: sourceMenuPrinter()
+                });
+                $('#itemMainList').jqxComboBox({
+                    source: sourceMenuItem()
+                });
+                once = true;
+                updatePrinterTable()
+            } else {
+                updatePrinterTable();
+            }
+
             //$('#printerTable').jqxGrid('updatebounddata', 'filter');
             if (allPrintersArray == '') {
                 var rows = $("#printerItemList").jqxDropDownList('getItems');
@@ -21,9 +34,9 @@ app.controller('menuPrintersController', function($scope) {
         }
     });
 
-    //$('#printerTable').on('bindingComplete', function() {
     var updatePrinterTable = function() {
-        $(this).jqxGrid({
+        // $(this).jqxGrid({
+        $('#printerTable').jqxGrid({
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
@@ -43,8 +56,7 @@ app.controller('menuPrintersController', function($scope) {
                 url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
             })
         });
-    }
-    //});
+    };
 
     //$scope.printerTableSettings = {
     $('#printerTable').jqxGrid({
@@ -64,7 +76,7 @@ app.controller('menuPrintersController', function($scope) {
                 {name: 'SubCategory', type: 'string'},
                 {name: 'Primary', type: 'string'}
             ],
-            url: SiteRoot + 'admin/MenuPrinter/load_completePrinters'
+            url: ''
         }),
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int', width: '8%', filtertype: 'textbox'},
@@ -111,19 +123,26 @@ app.controller('menuPrintersController', function($scope) {
     };
 
     // Printer dropdownlist
-    var sourceMenuPrinter = new $.jqx.dataAdapter(
-    {
-        datatype: "json",
-        datafields: [
-            { name: 'name'},
-            { name: 'description'},
-            { name: 'fullDescription'},
-            { name: 'status' },
-            { name: 'unique' }
-        ],
-        url: SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig'
-    });
-    $scope.printerMainList = { source: sourceMenuPrinter, displayMember: "fullDescription", valueMember: "unique" };
+    var sourceMenuPrinter = function(empty) {
+        var url = '';
+        if (empty == undefined) {
+            url = SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig';
+        }
+        return new $.jqx.dataAdapter(
+            {
+                datatype: "json",
+                datafields: [
+                    { name: 'name'},
+                    { name: 'description'},
+                    { name: 'fullDescription'},
+                    { name: 'status' },
+                    { name: 'unique' }
+                ],
+                url: url
+            });
+    };
+
+    $scope.printerMainList = { source: sourceMenuPrinter(1), displayMember: "fullDescription", valueMember: "unique" };
 
     var anyChangePrompt = false;
     $('#itemMainList').on('change', function(e) {
@@ -134,18 +153,24 @@ app.controller('menuPrintersController', function($scope) {
         anyChangePrompt = true;
     });
 
-    var sourceMenuItem = new $.jqx.dataAdapter(
-    {
-        datatype: "json",
-        datafields: [
-            { name: 'Description'},
-            { name: 'Status' },
-            { name: 'Item' },
-            { name: 'Unique' }
-        ],
-        url: SiteRoot + 'admin/MenuItem/load_allItems?sort='
-    });
-    $scope.itemMainList = { source: sourceMenuItem, displayMember: "Description", valueMember: "Unique", placeHolder: 'Select an item' };
+    var sourceMenuItem = function(empty) {
+        var url = '';
+        if (empty == undefined)
+            url = SiteRoot + 'admin/MenuItem/load_allItems?sort=';
+        return new $.jqx.dataAdapter(
+            {
+                datatype: "json",
+                datafields: [
+                    { name: 'Description'},
+                    { name: 'Status' },
+                    { name: 'Item' },
+                    { name: 'Unique' }
+                ],
+                url: url
+            });
+    };
+
+    $scope.itemMainList = { source: sourceMenuItem(1), displayMember: "Description", valueMember: "Unique", placeHolder: 'Select an item' };
 
     $('#printerMainList').on('select', function(e) {
         $('#saveBtnPrinter').prop('disabled', false);
