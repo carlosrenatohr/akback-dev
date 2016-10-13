@@ -68,6 +68,12 @@ div.toolbar-list span {
     }
 }
 
+@media (max-height: 768px) {
+    #itemListboxSearch {
+        height: 530px!important;
+    }
+}
+
 /*.category-cell-grid.col-md-2.streched5 {*/
 .maingrid-container .col-md-2.streched5 {
     width: 19.8%;

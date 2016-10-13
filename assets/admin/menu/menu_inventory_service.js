@@ -9,7 +9,6 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
         // var ww = $(window).width();
         var ww = $(window).width();
         var wh = $(window).height();
-        console.log(ww, wh);
         if (ww != undefined && wh != undefined) {
             pages = resizePagination(ww, wh);
         } else {
