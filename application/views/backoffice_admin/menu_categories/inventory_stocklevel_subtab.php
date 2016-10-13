@@ -11,7 +11,7 @@
                     <button class="btn btn-primary" ng-click="openStockWind()">
                         <img src="<?php echo base_url("assets/img/kahon.png") ?>"/>
                     </button>
-                    Adjust Quantity <?php echo $station; ?>
+                    Adjust Quantity
                 </div>
             </div>
         </div>

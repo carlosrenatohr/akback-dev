@@ -671,7 +671,20 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //var row = $('#inventoryItemsGrid').jqxGrid('getrowdatabyid', $scope.itemInventoryID);
         //$scope.inventoryData.stockQty = row.Quantity;
         //
-        $('#saveStockBtn').prop('disabled', true);
+        setTimeout(function(){
+            $('#stockl_newQty').jqxNumberInput('focus');
+            var input = $('#stockl_newQty input')[0];
+            if ('selectionStart' in input) {
+                input.setSelectionRange(0, 0);
+            } else {
+                var range = input.createTextRange();
+                range.collapse(true);
+                range.moveEnd('character', 0);
+                range.moveStart('character', 0);
+                range.select();
+            }
+            $('#saveStockBtn').prop('disabled', true);
+        }, 100);
         stocklWind.open();
     };
 
