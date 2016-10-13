@@ -6,8 +6,10 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
     // Data for items inventory grid
     this.getInventoryGridData = function (empty) {
         var pages;
+        // var ww = $(window).width();
         var ww = $(window).width();
         var wh = $(window).height();
+        console.log(ww, wh);
         if (ww != undefined && wh != undefined) {
             pages = resizePagination(ww, wh);
         } else {
@@ -115,20 +117,18 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
 
     var resizePagination = function  (ww, wh) {
         var pagesResult = {};
-        if (ww >= 1280 && wh >= 980) {
+        // if (ww >= 1280 && wh >= 980) {
+        if (wh >= 980) {
             pagesResult.pageSize = 25;
             pagesResult.pagesizeoptions = ['5', '15', '25'];
         }
-        // else if (ww >= 1280 && wh >= 980) {
-        //     pagesResult.pageSize= 25;
-        //     pagesResult.pagesizeoptions= ['5', '10', '20'];
-        // }
-
-        else if (ww >= 1280 && wh >= 800) {
+        // else if (ww >= 1280 && wh >= 800) {
+        else if (wh >= 800) {
             pagesResult.pageSize = 20;
             pagesResult.pagesizeoptions = ['5', '10', '20'];
         }
-        else if (ww >= 1024 && wh >= 768) {
+        // else if (ww >= 1024 && wh >= 768) {
+        else if (wh >= 725) {
             pagesResult.pageSize = 18;
             pagesResult.pagesizeoptions = ['5', '10', '18'];
         }
