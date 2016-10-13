@@ -497,7 +497,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.saveItemGridBtn = function(fromPrompt) {
         var imgs = [];
         angular.forEach($scope.uploader.flow.files, function(el, key) {
-            console.log(el.newName);
             if ($scope.successUploadNames.indexOf(el.newName) > -1) {
                 imgs.push(el.newName);
             }
@@ -743,10 +742,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'dataType': 'json',
                     'success': function(data) {
                         $scope.itemCellSelectedOnGrid = data;
-                        //
+                        // Load images
+                        $scope.uploader.flow.files = [];
+                        $scope.currentImages = [];
                         angular.forEach(data.pictures, function(el, key) {
                             $scope.currentImages.push({
                                 name: el.File,
+                                newName: el.File,
                                 path: el.path
                             });
                         });
@@ -1742,15 +1744,26 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var type = file.file.type;
     };
 
-    $scope.removingImageSelected = function(i) {
+    $scope.removingImageSelected = function(i, option) {
+        if (option == 1)
+            var list = $scope.uploader.flow.files;
+        else
+            var list = $scope.currentImages;
         var foundPic =
-            $scope.successUploadNames.indexOf($scope.uploader.flow.files[i].newName);
+            $scope.successUploadNames.indexOf(list[i].newName);
         //
         $scope.successUploadNames.splice(foundPic, 1);
         $scope.currentImages.splice(0, 1);
         $scope.uploader.flow.files.splice(i, 1);
-        if ($scope.successUploadNames.length <= 0) {
-            $('#saveItemGridBtn').prop('disabled', true);
+        // $http.post(SiteRoot + '', {})
+        //     .success(function(){
+        //
+        //     })
+        if (option == 1) {
+            if ($scope.successUploadNames.length <= 0)
+                $('#saveItemGridBtn').prop('disabled', true);
+        } else if (option == 2) {
+            $('#saveItemGridBtn').prop('disabled', false);
         }
     }
 

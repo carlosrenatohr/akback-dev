@@ -8,7 +8,7 @@
                     </div>
                     <div class="img-info-container">
                         <span class="text">{{file.name}}</span>
-                        <button class="icon-32-trash right-btn" ng-click="removingImageSelected($index)">
+                        <button class="icon-32-trash right-btn" ng-click="removingImageSelected($index, 2)">
                         </button>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="img-info-container">
                         <span class="text">{{file.name}}</span>
-                        <button class="icon-32-trash right-btn" ng-click="removingImageSelected($index)">
+                        <button class="icon-32-trash right-btn" ng-click="removingImageSelected($index, 1)">
                         </button>
                     </div>
                 </div>

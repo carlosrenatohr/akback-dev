@@ -123,6 +123,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
         //     pagesResult.pageSize= 25;
         //     pagesResult.pagesizeoptions= ['5', '10', '20'];
         // }
+
         else if (ww >= 1280 && wh >= 800) {
             pagesResult.pageSize = 20;
             pagesResult.pagesizeoptions = ['5', '10', '20'];

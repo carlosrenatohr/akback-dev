@@ -227,21 +227,25 @@ class Menu_item_model extends CI_Model
     }
 
     public function savePicturesByItem($pictures_str, $itemID) {
-        $pictures = explode(',', $pictures_str);
-        $this->db->update('item_picture',
-            ['Status' => 0],
-            ['ItemUnique' => $itemID]);
-        foreach ($pictures as $idx => $picture) {
-            $request = [
-                'ItemUnique' => $itemID,
-                'File' => $picture,
-                'Description' => '',
-                'Primary' => ($idx == 0) ? 1 : 0,
-                'Sort' => $idx + 1,
-                'Created' => date('Y-m-d H:i:s'),
-                'CreatedBy' => $this->session->userdata('userid')
-            ];
-            $this->db->insert('item_picture', $request);
+        if (!empty($pictures_str)) {
+            $pictures = explode(',', $pictures_str);
+            $this->db->update('item_picture',
+                ['Status' => 0],
+                ['ItemUnique' => $itemID]);
+            foreach ($pictures as $idx => $picture) {
+                $request = [
+                    'ItemUnique' => $itemID,
+                    'File' => $picture,
+                    'Description' => '',
+                    'Primary' => ($idx == 0) ? 1 : 0,
+                    'Sort' => $idx + 1,
+                    'Created' => date('Y-m-d H:i:s'),
+                    'CreatedBy' => $this->session->userdata('userid')
+                ];
+                $this->db->insert('item_picture', $request);
+            }
+        } else {
+            $this->db->delete('item_picture', ['ItemUnique' => $itemID]);
         }
     }
 
