@@ -321,12 +321,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         created: function (args) {
             comboboxItems = args.instance;
         },
-        selectedIndex: -1, // 0
+        selectedIndex: -1,
         displayMember: "Description",
         valueMember: "Unique",
         width: "100%",
-        //itemHeight: 50,
-        height: '560px',
+        itemHeight: 40,
+        height: '550px',
         source: dataAdapterItems('ASC'),
         theme: 'arctic',
         filterable: true,

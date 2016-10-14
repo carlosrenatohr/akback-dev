@@ -51,10 +51,10 @@ div.toolbar-list span {
 /* MENU - Items tabs */
 @media (max-width: 1200px) {
     #categories-container {
-        height: 204px!important;
+        height: 200px!important;
     }
     .category-cell-grid {
-        height: 101px!important;
+        height: 100px!important;
         padding-top: 35px!important;
     }
     /* GLOBAL MENU TABS*/
@@ -70,7 +70,7 @@ div.toolbar-list span {
 
 @media (max-height: 768px) {
     #itemListboxSearch {
-        height: 530px!important;
+        height: 512px!important;
     }
 }
 
