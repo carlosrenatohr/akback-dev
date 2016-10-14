@@ -408,12 +408,23 @@ class MenuItem extends AK_Controller
                         : [];
 //            unset($_POST['taxesValues']);
             unset($data['taxesValues']);
-            $status = $this->item->saveItem($this->checkItemValues($data));
-            if ($status) {
-                $this->item->updateTaxesByItem($taxes, $status);
+            $newid = $this->item->saveItem($this->checkItemValues($data));
+            if ($newid) {
+                // Taxes
+                $this->item->updateTaxesByItem($taxes, $newid);
+                // Stock
+                $stock['Type'] = 1;
+                $stock['status'] = 1;
+                $stock['ItemUnique'] = $newid;
+                $stock['LocationUnique'] = $this->session->userdata("station_number");
+                $stock['Quantity'] = number_format(0, $this->decimalQuantity);
+                $stock['trans_date'] = date('Y-m-d');
+                $stock['TransactionDate'] = date('Y-m-d H:i:s');
+                $this->item->updateStockByItem($stock);
+                //
                 $response = [
                     'status' => 'success',
-                    'id' => $status,
+                    'id' => $newid,
                     'message' => 'Item created successfully!'
                 ];
             } else
