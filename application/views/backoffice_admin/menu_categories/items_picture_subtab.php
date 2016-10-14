@@ -2,7 +2,7 @@
     <div class="row">
         <div class="container-fluid">
             <div class="row" style="padding: 10px;border: 1px black dotted;border-radius: 3px;margin: 5px;min-height: 200px;overflow-y: scroll;">
-                <div class="col-md-4" ng-repeat="file in currentImages" data-idx="{{ $index }}">
+                <div class="col-md-6" ng-repeat="file in currentImages" data-idx="{{ $index }}">
                     <div class="img-item-container">
                         <img ng-src="{{file.path}}" class="img-item">
                     </div>
@@ -12,7 +12,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-4" ng-repeat="file in $flow.files" data-idx="{{ $index }}">
+                <div class="col-md-6" ng-repeat="file in $flow.files" data-idx="{{ $index }}">
                     <div class="img-item-container">
                         <img flow-img="$flow.files[$index]" class="img-item">
                     </div>
@@ -29,7 +29,6 @@
 <style>
     .img-item-container {
         margin: 0 3%;
-        width: 100%;
         max-width: 100%;
         min-height: 300px;
         overflow: hidden;
