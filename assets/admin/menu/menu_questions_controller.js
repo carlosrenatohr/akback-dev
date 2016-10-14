@@ -18,8 +18,12 @@ app.controller('menuQuestionController', function ($scope) {
                 updateQuestionMainTable();
                 once = true;
             }
-            else
+            else {
+                $('#qItem_ItemUnique').jqxComboBox({
+                    source: dataAdapterItems()
+                });
                 updateQuestionMainTable();
+            }
         }
     });
 
@@ -447,9 +451,11 @@ app.controller('menuQuestionController', function ($scope) {
                 dataFields: [
                     {name: 'Unique', type: 'int'},
                     {name: 'Description', type: 'string'},
+                    {name: 'price1', type: 'string'},
                     {name: 'Item', type: 'string'},
-                    {name: 'Part', type: 'string'},
-                    {name: 'Status', type: 'number'}
+                    {name: 'Category', type: 'string'},
+                    {name: 'SubCategory', type: 'string'},
+                    {name: 'Status', type: 'string'}
                 ],
                 url: url
             });
@@ -462,10 +468,20 @@ app.controller('menuQuestionController', function ($scope) {
         placeHolder: 'Select an item',
         displayMember: "Description",
         valueMember: "Unique",
+        searchMode: 'containsignorecase',
         width: "100%",
         itemHeight: 50,
         source: dataAdapterItems(1),
-        theme: 'arctic'
+        theme: 'arctic',
+        renderer: function(index, label, value) {
+            var item = $('#qItem_ItemUnique').jqxComboBox('getItem', index).originalItem;
+            var template =
+                '<div class="item-row-content">' +
+                '<span>' + item.Description + ' | '+ item.price1 +'</span><br>' +
+                '<span>' + item.Category + ' | '+ item.SubCategory +'</span>' +
+                '</div>';
+            return template;
+        }
     };
 
     $scope.itemsCbxSelecting = function(e) {
