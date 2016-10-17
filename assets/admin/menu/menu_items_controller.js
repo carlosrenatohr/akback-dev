@@ -24,6 +24,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     });
 
+    var printerTabOnce = true;
     $('#jqxTabsMenuItemWindows').on('selecting', function(e) { // tabclick
         var tabclicked = e.args.item;
         var tabTitle = $('#jqxTabsMenuItemWindows').jqxTabs('getTitleAt', tabclicked);
@@ -46,12 +47,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
         // ---
         if (tabTitle == 'Printers') {
-            // Fill all printers
-            if (allPrintersArray == '') {
-                var rows = $("#printerItemList").jqxDropDownList('getItems');
-                for(var j in rows) {
-                    allPrintersArray.push(rows[j]['value']);
-                }
+            if (printerTabOnce) {
+                $('#printerItemList').jqxDropDownList({
+                    source: printerDataadapter()
+                });
+                $('#printerItemList').on('bindingComplete', function() {
+                    // Fill all printers
+                    if (allPrintersArray == '') {
+                        var rows = $("#printerItemList").jqxDropDownList('getItems');
+                        for(var j in rows) {
+                            allPrintersArray.push(rows[j]['value']);
+                        }
+                    }
+                });
+                printerTabOnce = false;
             }
             updatePrinterItemGrid();
         } else if (tabTitle == 'Questions'){
@@ -1394,8 +1403,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 {name: 'Primary', type: 'string'},
                 {name: 'fullDescription', type: 'string'}
             ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters'
+            url: ''
         },
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
@@ -1407,7 +1415,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
             {text: '', dataField: 'Primary', type: 'string', hidden: true}
         ],
-        //columnsResize: true,
         width: "99%",
         theme: 'arctic',
         sortable: true,
@@ -1456,18 +1463,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     };
 
     // Printer dropdownlist
-    var source =
-    {
-        datatype: "json",
-        datafields: [
-            { name: 'name'},
-            { name: 'description'},
-            { name: 'fullDescription'},
-            { name: 'status' },
-            { name: 'unique' }
-        ],
-        id: 'Unique',
-        url: SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig'
+    var printerDataadapter = function(empty) {
+        var url = '';
+        if (empty == undefined)
+            url = SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig';
+
+        return new $.jqx.dataAdapter({
+            datatype: "json",
+            datafields: [
+                { name: 'name'},
+                { name: 'description'},
+                { name: 'fullDescription'},
+                { name: 'status' },
+                { name: 'unique' }
+            ],
+            url: url
+        });
     };
 
     $('#printerItemList').on('select', function(e) {
@@ -1477,8 +1488,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#saveBtnPrinterItem').prop('disabled', false);
     });
 
-    var dataAdapter = new $.jqx.dataAdapter(source);
-    $scope.printerItemList = { source: dataAdapter, displayMember: "fullDescription", valueMember: "unique" };
+    $scope.printerItemList = { source: printerDataadapter(1), displayMember: "fullDescription", valueMember: "unique" };
 
     function setPrinterStoredArray() {
         // Fill with printers by item

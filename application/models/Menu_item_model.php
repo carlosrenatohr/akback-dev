@@ -24,6 +24,7 @@ class Menu_item_model extends CI_Model
                         category_sub.Name as SubCategory, category_main.MainName as Category');
         $this->db->from($this->itemTable);
         $this->db->where(['item.Status!=' => 0]);
+        $this->db->where(['item.Description!=' => '']);
         $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
         $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');
         $this->db->order_by('item.Description', (!is_null($sort)) ? $sort : 'DESC');
