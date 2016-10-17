@@ -29,7 +29,9 @@
 <style>
     .img-item-container {
         margin: 0 3%;
-        max-width: 100%;
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
         min-height: 300px;
         overflow: hidden;
     }
@@ -37,7 +39,6 @@
         width: 100%;
         max-width: 100%;
         height: auto;
-        max-height: 250px;
     }
     .img-info-container {
         width: 80%;height: 30px;
