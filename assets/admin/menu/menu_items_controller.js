@@ -753,14 +753,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             });
                         });
 
-                        var selectedIndexItem;
-                        var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['Unique']);
-                        if (itemCombo)
-                            selectedIndexItem = itemCombo.index;
-                        else selectedIndexItem = 0;
+                        // var selectedIndexItem;
+                        // var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['Unique']);
+                        // if (itemCombo)
+                        //     selectedIndexItem = itemCombo.index;
+                        // else selectedIndexItem = 0;
                         // Pending..
                         //setTimeout(function() {
-                            $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+                        //     $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+                            $('#editItem_ItemSelected').val(data['Unique']);
                         //}, 250);
 
                         $('#editItem_Status').val(data['LayoutStatus']);
