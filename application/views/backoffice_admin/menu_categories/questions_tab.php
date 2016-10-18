@@ -165,6 +165,29 @@
                                                     </div>
                                                 </div>
 
+                                                <div style="float:left; padding:2px; width:500px;">
+                                                    <div
+                                                        style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                                                        Sell Price:
+                                                    </div>
+                                                    <div style="float:left; width:300px;">
+                                                        <jqx-number-input id="qItem_SellPrice"
+                                                                          jqx-symbol="$ "
+                                                                          jqx-input-mode="'simple'"
+                                                                          jqx-disabled="questionDisabled"
+                                                                          jqx-width="'290px'"
+                                                                          jqx-height="25"
+                                                                          jqx-text-align="left"
+                                                                          jqx-decimal-digits="<?php echo $decimalsPrice; ?>"
+
+                                                        ></jqx-number-input>
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <span
+                                                            style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                                                    </div>
+                                                </div>
+
                                                 <div style="float:left; padding:2px; width:500px; ">
                                                     <div
                                                         style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">

@@ -788,6 +788,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         // Prices values
                         $('#itemcontrol_lprice').val(data.ListPrice != null ? data.ListPrice : 0);
                         $('#itemcontrol_sprice').val(data.price1 != null ? data.price1 : 0);
+                        $('#itemq_sellprice').val(data.price1 != null ? data.price1 : 0);
                         $('#menuitem_listPrice').val(data.ListPrice != null ? data.ListPrice : 0);
                         $('#menuitem_price1').val(data.price1 != null ? data.price1 : 0);
                         $('#menuitem_price2').val(data.price2 != null ? data.price2 : 0);
@@ -1177,6 +1178,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         width: "100%",
         itemHeight: 30,
         theme: 'arctic'
+    };
+
+    $scope.qitemsCbxSelecting = function (e) {
+        if (e.args) {
+            var item = e.args.item;
+            // $('#itemq_sellprice').val(item.originalItem.price1);
+            console.log($scope.itemCellSelectedOnGrid);
+            $('#itemq_sellprice').val($scope.itemCellSelectedOnGrid.price1);
+        }
     };
 
     function updateQuestionsCbx() {

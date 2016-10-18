@@ -485,9 +485,10 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $scope.itemsCbxSelecting = function(e) {
-        var item = e.args.item;
-        if (item) {
+        if (e.args) {
+            var item = e.args.item;
             $('#qItem_Label').val(item.label);
+            $('#qItem_SellPrice').val(item.originalItem.price1);
             $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         }
     };
@@ -607,6 +608,7 @@ app.controller('menuQuestionController', function ($scope) {
         }
     };
 
+    $scope.questionDisabled = true;
     $scope.numberQuestion = {
         inputMode: 'simple',
         decimalDigits: 0,

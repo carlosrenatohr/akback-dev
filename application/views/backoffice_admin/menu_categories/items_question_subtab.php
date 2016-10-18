@@ -25,10 +25,28 @@
                         </div>
                         <div style="float:left; width:300px;">
                             <jqx-combo-box
-                                jqx-on-select=""
+                                jqx-on-select="qitemsCbxSelecting($event)"
                                 jqx-settings="questionItemsCbxSettings"
                                 id="itemq_Question">
                             </jqx-combo-box>
+                        </div>
+                    </div>
+
+                    <div style="float:left; padding:2px; width:450px;">
+                        <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                            Sell Price:
+                        </div>
+                        <div style="float:left; width:300px;">
+                            <jqx-number-input id="itemq_sellprice"
+                                              jqx-symbol="$ "
+                                              jqx-input-mode="'simple'"
+                                              jqx-disabled="questionDisabled"
+                                              jqx-width="'290px'"
+                                              jqx-height="25"
+                                              jqx-text-align="left"
+                                              jqx-decimal-digits="<?php echo $decimalsPrice; ?>"
+
+                            ></jqx-number-input>
                         </div>
                     </div>
 

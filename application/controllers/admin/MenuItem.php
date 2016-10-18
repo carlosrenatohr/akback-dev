@@ -73,8 +73,8 @@ class MenuItem extends AK_Controller
         $items = $this->menuItem->getItems($sort);
         $new_items = [];
         foreach($items as $item) {
-            $item['ListPrice'] = number_format($item['ListPrice'], $this->decimalPrice);
-            $item['price1'] = number_format($item['price1'], $this->decimalPrice);
+            $item['ListPrice'] = number_format((float)$item['ListPrice'], $this->decimalPrice);
+            $item['price1'] = number_format((float)$item['price1'], $this->decimalPrice);
             $item['Description'] = trim($item['Description']);
             $item['Item'] = trim($item['Item']);
             $item['Category'] = (is_null($item['Category'])) ? '-' : $item['Category'];
