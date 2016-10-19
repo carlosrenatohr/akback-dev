@@ -47,12 +47,12 @@
                                     <span class="mlabel">MENU</span>
                                 </a>
                             </div>
-                            <div class="icon">
-                                <a href="<?php echo base_url("dashboard/admin/customers")?>">
-                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/customer.png">
-                                    <span class="mlabel">CUSTOMERS</span>
-                                </a>
-                            </div>
+<!--                            <div class="icon">-->
+<!--                                <a href="--><?php //echo base_url("dashboard/admin/customers")?><!--">-->
+<!--                                    <img width="48" alt="" src="--><?php //echo base_url()?><!--assets/img/customer.png">-->
+<!--                                    <span class="mlabel">CUSTOMERS</span>-->
+<!--                                </a>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>
