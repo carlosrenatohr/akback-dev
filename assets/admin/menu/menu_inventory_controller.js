@@ -26,6 +26,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $('#inventoryTabs').on('selecting', function(e) {
         var tabclick = e.args.item;
         var tabTitle = $('#inventoryTabs').jqxTabs('getTitleAt', tabclick);
+        $('#uploadItemPictureBtn').hide();
         if (tabTitle == 'Item')
             $('#deleteInventoryBtn').show();
         else
@@ -61,6 +62,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             }
         }
         if (tabTitle == 'Printers') {}
+        if (tabTitle == 'Picture') {
+            if ($scope.createOrEditItemInventory != 'create') {
+                $('#uploadItemPictureBtn').show();
+            } else {
+                $('#uploadItemPictureBtn').hide();
+            }
+        }
     });
 
     function promptItemToEdit(e, tab) {
@@ -217,6 +225,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('.inventory_tab #item_Item').focus();
         }, 100);
         //
+        $('#invMainWindow #picture_tab').hide();
         $('#deleteInventoryBtn').hide();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('New Item');
@@ -282,6 +291,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('.inventory_tab #item_Item').focus();
         }, 100);
         //
+        $('#invMainWindow #picture_tab').show();
         $('#deleteInventoryBtn').show();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
@@ -1222,4 +1232,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     //     var wh = $(window).height();
         // window.location.reload();
     // });
+
+    $scope.uploader = {};
+    $scope.successUploadNames = [];
 });

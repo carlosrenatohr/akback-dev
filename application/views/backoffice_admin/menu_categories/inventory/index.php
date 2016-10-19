@@ -16,7 +16,11 @@
         <div>
             New Item | Details
         </div>
-        <div class="">
+        <div flow-init flow-name="uploader.flow"
+             flow-files-submitted="submitUpload($files, $event, $flow)"
+             flow-file-added="fileAddedUpload($file, $event, $flow)"
+             flow-file-success="successUpload($file, $message, $flow)"
+             flow-file-error="errorUpload($file, $message, $flow)">
             <jqx-tabs jqx-width="'100%'"
                       jqx-on-selecting=""
                       id="inventoryTabs">
@@ -30,6 +34,7 @@
                     <li>Questions</li>
                     <li>Printers</li>
                     <li>Options</li>
+                    <li id="picture_tab">Picture</li>
                 </ul>
                 <!-- Item subtab -->
                 <div class="">
@@ -68,6 +73,10 @@
                 <div class="">
                     <?php $this->load->view($inventory_options_subtab_view); ?>
                 </div>
+                <!-- Picture subtab -->
+                <div class="">
+                    <?php $this->load->view($inventory_picture_subtab_view); ?>
+                </div>
             </jqx-tabs>
 
             <!-- Main buttons before saving item on grid -->
@@ -76,6 +85,9 @@
                     <div id="mainButtonsOnItemInv" class="rowMsgInv">
                         <div class="form-group">
                             <div class="col-sm-12">
+                                <span class="btn btn-success" id="uploadItemPictureBtn" flow-btn style="display: none;">
+                                    Upload Picture
+                                </span>
                                 <button type="button" id="saveInventoryBtn" ng-click="saveInventoryAction()"
                                         class="btn btn-primary" disabled>
                                     Save
