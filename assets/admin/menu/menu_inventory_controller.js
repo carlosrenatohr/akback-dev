@@ -116,13 +116,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.onSelectCategoryCbx = function(e) {
         //var id = e.args.index;
-        var id;
-        if (e.args.item != null) {
-            id = e.args.item.value;
-            //$scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
+        if (e.args.item) {
+            var id = e.args.item.value;
+            $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
+        } else {
+            $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
         }
-        $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
-        // $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
+        // $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
+        // $('#item_subcategory').jqxComboBox('val', $scope.subcategorySel});
     };
 
     $scope.onChangeItemNumber = function() {
@@ -232,6 +233,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         inventoryWind.open();
     };
 
+    $scope.subcategorySel = -1;
     $scope.editInventoryWind = function(e) {
         var row = e.args.row.bounddata;
         $scope.createOrEditItemInventory = 'edit';
@@ -289,7 +291,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#item_subcategory').jqxComboBox('val', row.SubCategoryId);
             $('#saveInventoryBtn').prop('disabled', true);
             $('.inventory_tab #item_Item').focus();
-        }, 100);
+        }, 400);
         // Load images
         $scope.uploader.flow.files = [];
         $scope.currentImages = [];

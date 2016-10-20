@@ -73,7 +73,7 @@
 
             <div class="col-sm-4">
                 <jqx-combo-box id="item_category"  jqx-width="'220px'" jqx-height="'30px'" class="item_combobox req"
-                               jqx-settings="categoryCbxSettings" jqx-on-select="onSelectCategoryCbx(event)"
+                               jqx-settings="categoryCbxSettings" jqx-on-select="onSelectCategoryCbx($event)"
                                data-field="Category"
                 ></jqx-combo-box>
             </div>
