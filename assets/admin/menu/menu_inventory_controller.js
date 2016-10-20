@@ -16,6 +16,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             if (!once) {
                 updateItemsInventoryGrid();
                 once = true;
+                $('#inventoryItemsGrid').on('bindingcomplete', function() {
+                    // $('#inventoryItemsGrid').jqxGrid('refreshfilterrow');
+                    // $('#inventoryItemsGrid').jqxGrid('applyfilters');
+                    $('#inventoryItemsGrid').jqxGrid('clearfilters');
+                });
             }
             else
                 updateItemsInventoryGrid();
