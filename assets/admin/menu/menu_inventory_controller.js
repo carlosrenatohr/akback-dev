@@ -122,7 +122,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             //$scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
         }
         $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
-        $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
+        // $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
     };
 
     $scope.onChangeItemNumber = function() {
@@ -286,7 +286,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         setTimeout(function() {
             //var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
             //$('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
-            $('#item_subcategory').val(row.SubCategoryId);
+            $('#item_subcategory').jqxComboBox('val', row.SubCategoryId);
             $('#saveInventoryBtn').prop('disabled', true);
             $('.inventory_tab #item_Item').focus();
         }, 100);
@@ -295,7 +295,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.currentImages = [];
         $http.get(SiteRoot + 'admin/MenuItem/get_picturesByItem/' + row.Unique)
             .then(function(response) {
-                console.log(response);
                 angular.forEach(response.data, function(el, key) {
                     $scope.currentImages.push({
                         name: el.File,
