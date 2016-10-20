@@ -407,15 +407,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             }
         }
         data['taxesValues'] = (taxesByItem != '') ? JSON.stringify(taxesByItem) : '';
-        // PICTURES
+        // PICTURES VALUES
         var imgs = [];
         angular.forEach($scope.uploader.flow.files, function(el, key) {
             if ($scope.successUploadNames.indexOf(el.newName) > -1) {
                 imgs.push(el.newName);
             }
         });
-        if (imgs.length > 0)
-            data['pictures'] = imgs.join(',');
+        data['pictures'] = imgs.join(',');
         return data;
     };
 
