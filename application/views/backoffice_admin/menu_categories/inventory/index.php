@@ -19,8 +19,7 @@
         <div flow-init flow-name="uploader.flow"
              flow-files-submitted="submitUpload($files, $event, $flow)"
              flow-file-added="fileAddedUpload($file, $event, $flow)"
-             flow-file-success="successUpload($file, $message, $flow)"
-             flow-file-error="errorUpload($file, $message, $flow)">
+             flow-file-success="successUpload($file, $message, $flow)">
             <jqx-tabs jqx-width="'100%'"
                       jqx-on-selecting=""
                       id="inventoryTabs">

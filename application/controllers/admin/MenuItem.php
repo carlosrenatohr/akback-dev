@@ -114,12 +114,7 @@ class MenuItem extends AK_Controller
         $printer = $this->menuPrinter->getPrimaryPrinterByItem($row['Unique']);
         $row['PrimaryPrinter'] = $printer['PrimaryPrinter'];
         //
-        $path = $this->getPicturesPath(true);
-
-        foreach ($this->menuItem->getPicturesByItem($row['Unique']) as $picture) {
-            $picture['path'] = $path . DIRECTORY_SEPARATOR .$picture['File'];
-            $row['pictures'][] = $picture;
-        }
+        $row['pictures'] = $this->getImagesByItem($row['Unique']);
 
         echo json_encode($row);
     }
@@ -149,6 +144,7 @@ class MenuItem extends AK_Controller
             } else {
                  $extraValues = [];
             }
+            // Main Printer
             if (isset($request['MainPrinter'])) {
                 $printerReq = ['ItemUnique' => $request['ItemUnique'],
                         'PrinterUnique'=> $request['MainPrinter']];
@@ -156,6 +152,7 @@ class MenuItem extends AK_Controller
             } else {
                 $printerReq = [];
             }
+            // Pictures belong to item
             if (isset($request['pictures'])) {
                 $this->menuItem->savePicturesByItem($request['pictures'], $request['ItemUnique']);
                 unset($request['pictures']);
@@ -328,11 +325,14 @@ class MenuItem extends AK_Controller
         foreach($this->item->getItemsData() as $count=> $item) {
             $item['ListPrice'] = number_format($item['ListPrice'], $this->decimalPrice);
             $item['price1'] = number_format($item['price1'], $this->decimalPrice);
-//            $quantity = !is_null($item['Quantity']) ? $item['Quantity'] : 0;
-            $item['Quantity'] = number_format($item['Quantity'], $this->decimalQuantity) ;
+            $item['Quantity'] = number_format($item['Quantity'], $this->decimalQuantity);
             $items[] = $item;
         }
         echo json_encode($items);
+    }
+
+    public function get_picturesByItem($id) {
+        echo json_encode($this->getImagesByItem($id));
     }
 
     public function getSupplierList() {
@@ -369,32 +369,30 @@ class MenuItem extends AK_Controller
     }
 
     private function checkItemValues($data) {
-        $values = [];
-//        foreach($data as $field) {
-            $data['Cost'] = (isset($data['Cost'])) ? number_format($data['Cost'], $this->decimalPrice, '.', '') : 0;
-            $data['Cost_Extra'] = (isset($data['Cost_Extra'])) ? number_format($data['Cost_Extra'], $this->decimalPrice, '.', '') : 0;
-            $data['Cost_Freight'] = (isset($data['Cost_Freight'])) ? number_format($data['Cost_Freight'], $this->decimalPrice, '.', '') : 0;
-            $data['Cost_Duty'] = (isset($data['Cost_Duty'])) ? number_format($data['Cost_Duty'], $this->decimalPrice, '.', '') : 0;
-            $data['price1'] = (isset($data['price1'])) ? number_format($data['price1'], $this->decimalPrice, '.', '') : 0;
-            $data['price2'] = (isset($data['price2'])) ? number_format($data['price2'], $this->decimalPrice, '.', '') : 0;
-            $data['price3'] = (isset($data['price3'])) ? number_format($data['price3'], $this->decimalPrice, '.', '') : 0;
-            $data['price4'] = (isset($data['price4'])) ? number_format($data['price4'], $this->decimalPrice, '.', '') : 0;
-            $data['price5'] = (isset($data['price5'])) ? number_format($data['price5'], $this->decimalPrice, '.', '') : 0;
-            $data['ListPrice'] = (isset($data['ListPrice'])) ? number_format($data['ListPrice'], $this->decimalPrice, '.', '') : 0;
-            $data['PromptPrice'] = (isset($data['PromptPrice'])) ? number_format($data['PromptPrice'], $this->decimalPrice, '.', '') : null;
-            $data['SupplierUnique'] = (isset($data['SupplierUnique'])) ? (int)$data['SupplierUnique'] : null;
-            $data['BrandUnique'] = (isset($data['BrandUnique'])) ? (int)$data['BrandUnique'] : null;
-            $data['MainCategory'] = (isset($data['MainCategory'])) ? (int)$data['MainCategory'] : null;
-            $data['CategoryUnique'] = (isset($data['CategoryUnique'])) ? (int)$data['CategoryUnique'] : null;
-            $data['GiftCard'] = (isset($data['GiftCard'])) ? (int)$data['GiftCard'] : null;
-            $data['Group'] = (isset($data['Group'])) ? (int)$data['Group'] : null;
-            $data['PromptPrice'] = (isset($data['PromptPrice'])) ? (int)$data['PromptPrice'] : null;
-            $data['PromptDescription'] = (isset($data['PromptDescription'])) ? (int)$data['PromptDescription'] : null;
-            $data['EBT'] = (isset($data['EBT'])) ? (int)$data['EBT'] : null;
-            $data['MinimumAge'] = (isset($data['MinimumAge'])) ? (int)$data['MinimumAge'] : null;
-            $data['CountDown'] = (isset($data['CountDown'])) ? (int)$data['CountDown'] : null;
-            $data['Points'] = (isset($data['Points'])) ? (float)$data['Points'] : null;
-//        }
+        $data['Cost'] = (isset($data['Cost'])) ? number_format($data['Cost'], $this->decimalPrice, '.', '') : 0;
+        $data['Cost_Extra'] = (isset($data['Cost_Extra'])) ? number_format($data['Cost_Extra'], $this->decimalPrice, '.', '') : 0;
+        $data['Cost_Freight'] = (isset($data['Cost_Freight'])) ? number_format($data['Cost_Freight'], $this->decimalPrice, '.', '') : 0;
+        $data['Cost_Duty'] = (isset($data['Cost_Duty'])) ? number_format($data['Cost_Duty'], $this->decimalPrice, '.', '') : 0;
+        $data['price1'] = (isset($data['price1'])) ? number_format($data['price1'], $this->decimalPrice, '.', '') : 0;
+        $data['price2'] = (isset($data['price2'])) ? number_format($data['price2'], $this->decimalPrice, '.', '') : 0;
+        $data['price3'] = (isset($data['price3'])) ? number_format($data['price3'], $this->decimalPrice, '.', '') : 0;
+        $data['price4'] = (isset($data['price4'])) ? number_format($data['price4'], $this->decimalPrice, '.', '') : 0;
+        $data['price5'] = (isset($data['price5'])) ? number_format($data['price5'], $this->decimalPrice, '.', '') : 0;
+        $data['ListPrice'] = (isset($data['ListPrice'])) ? number_format($data['ListPrice'], $this->decimalPrice, '.', '') : 0;
+        $data['PromptPrice'] = (isset($data['PromptPrice'])) ? number_format($data['PromptPrice'], $this->decimalPrice, '.', '') : null;
+        $data['SupplierUnique'] = (isset($data['SupplierUnique'])) ? (int)$data['SupplierUnique'] : null;
+        $data['BrandUnique'] = (isset($data['BrandUnique'])) ? (int)$data['BrandUnique'] : null;
+        $data['MainCategory'] = (isset($data['MainCategory'])) ? (int)$data['MainCategory'] : null;
+        $data['CategoryUnique'] = (isset($data['CategoryUnique'])) ? (int)$data['CategoryUnique'] : null;
+        $data['GiftCard'] = (isset($data['GiftCard'])) ? (int)$data['GiftCard'] : null;
+        $data['Group'] = (isset($data['Group'])) ? (int)$data['Group'] : null;
+        $data['PromptPrice'] = (isset($data['PromptPrice'])) ? (int)$data['PromptPrice'] : null;
+        $data['PromptDescription'] = (isset($data['PromptDescription'])) ? (int)$data['PromptDescription'] : null;
+        $data['EBT'] = (isset($data['EBT'])) ? (int)$data['EBT'] : null;
+        $data['MinimumAge'] = (isset($data['MinimumAge'])) ? (int)$data['MinimumAge'] : null;
+        $data['CountDown'] = (isset($data['CountDown'])) ? (int)$data['CountDown'] : null;
+        $data['Points'] = (isset($data['Points'])) ? (float)$data['Points'] : null;
+
         return $data;
     }
 
@@ -404,7 +402,6 @@ class MenuItem extends AK_Controller
             $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
                         ? $_POST['taxesValues']
                         : [];
-//            unset($_POST['taxesValues']);
             unset($data['taxesValues']);
             $newid = $this->item->saveItem($this->checkItemValues($data));
             if ($newid) {
@@ -440,9 +437,14 @@ class MenuItem extends AK_Controller
             $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
                         ? $_POST['taxesValues']
                         : '';
-//            unset($_POST['taxesValues']);
             unset($data['taxesValues']);
             $this->item->updateTaxesByItem($taxes);
+            // Pictures
+            if (isset($data['pictures'])) {
+                $this->menuItem->savePicturesByItem($data['pictures'], $id);
+                unset($data['pictures']);
+            }
+            // Updating
             $status = $this->item->updateItem($id, $this->checkItemValues($data));
             if ($status) {
                 $response = [
@@ -615,6 +617,9 @@ class MenuItem extends AK_Controller
         echo json_encode($new);
     }
 
+    /**
+     * ITEM PICTURES HELPERS
+     */
     public function loadPictureItem() {
         // Load default images
         $tempDir = $this->getPicturesPath();
@@ -638,7 +643,6 @@ class MenuItem extends AK_Controller
         $config['max_width']            = 2048;
         $config['max_height']           = 1500;
         $nname = time() . '-'. str_replace([' ', ','], ['_', ''], $_FILES['file']['name']);
-//        $_FILES['file']['name'] = $nname;
         $config['file_name'] = $nname;
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('file')) {
@@ -673,6 +677,19 @@ class MenuItem extends AK_Controller
         $this->picturesPath = $root . $this->session->userdata('admin_ItemPictureLocation');
         $sep = DIRECTORY_SEPARATOR;
         return str_replace(['/', "\\"], [$sep, $sep], $this->picturesPath);
+    }
+
+    private function getImagesByItem($id) {
+        //
+        $path = $this->getPicturesPath(true);
+        $pictures_array = [];
+        foreach ($this->menuItem->getPicturesByItem($id) as $picture) {
+            $picture['path'] = $path . DIRECTORY_SEPARATOR .$picture['File'];
+            $row['pictures'][] = $picture;
+            $pictures_array[] = $picture;
+        }
+
+        return $pictures_array;
     }
 
 }
