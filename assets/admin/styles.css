@@ -215,13 +215,14 @@ div.toolbar-list span {
     border-radius: 3px;
     min-height: 30px;
     width: 100%;
+    /*max-width: 200px;*/
     margin: 5px 0 0;
     padding: 8px;
     text-align: center;
 }
 
 .selectedItemInfoClass.jqx-draggable.jqx-draggable-dragging {
-    width: 10px!important;
+    max-width: 100px!important;
 }
 
 #itemListboxSearch .jqx-listitem-element {

@@ -983,6 +983,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#selectedItemInfo, .jqx-listitem-element')
         .bind('dragStart', function (event) {
             $('.restricter-dragdrop').css({'border': '#202020 dotted 3px'});
+            // Modify previous clone dragging element
+            var nw = $('.filled.itemOnGrid.jqx-draggable').width();
+            var baseLeft = $('.selectedItemInfoClass.jqx-draggable.jqx-draggable-dragging').css('left');
+            var toAdd = event.args.offsetX;
+
+            $('.selectedItemInfoClass.jqx-draggable.jqx-draggable-dragging,' +
+                '.jqx-listitem-element.jqx-draggable.jqx-draggable-dragging')
+                .css({
+                    'width': nw,
+                    // 'margin-left': parseInt(baseLeft) + parseInt(toAdd),
+                    'margin-left': parseInt(toAdd),
+                });
         })
         .bind('dragEnd', function (event) {
             $('.restricter-dragdrop').css({'border': '#202020 solid 2px'});
@@ -1016,10 +1028,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             //$this.css('background-color', '#063dee');
                             $this.css('background-color', '#7C2F3F');
                             draggableEvents();
+                            setTimeout(function() {
+                                angular.element('.category-cell-grid.clicked').triggerHandler('click');
+                            }, 100);
                         }
                         else if (data.status == 'error') {
                             $.each(data.message, function(i, value){
                                 alert(value);
+                                return;
                             });
                         }
                         else {
