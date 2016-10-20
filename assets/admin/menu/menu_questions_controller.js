@@ -390,7 +390,7 @@ app.controller('menuQuestionController', function ($scope) {
     var resetQuestionItemForm = function() {
         $('.itemQuestionFormContainer .required-in').css({"border-color": "#ccc"});
         $('#qItem_ItemUnique').jqxComboBox({'selectedIndex': -1});
-        $('#qItem_sort').val(1);
+        $('#qItem_sort').jqxNumberInput('val', 1);
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Label').val('');
         //
