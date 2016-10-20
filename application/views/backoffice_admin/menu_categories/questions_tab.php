@@ -131,10 +131,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <jqx-data-table id="_questionItemTable"
-                                                    jqx-settings="questionItemTableSettings"
-                                                    jqx-on-row-double-click="editQuestionItemTable($event)">
-                                    </jqx-data-table>
+                                    <jqx-grid id="_questionItemTable"
+                                                jqx-settings="questionItemTableSettings"
+                                                jqx-on-rowdoubleclick="editQuestionItemTable($event)">
+                                    </jqx-grid>
                                 </div>
                             </div>
                             <!-- WINDOWS WITH FORM OF ITEM QUESTIONS -->

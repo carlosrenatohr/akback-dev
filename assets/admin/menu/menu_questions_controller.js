@@ -110,21 +110,29 @@ app.controller('menuQuestionController', function ($scope) {
                 {name: 'ItemUnique', type: 'string'},
                 {name: 'Description', type: 'string'},
                 {name: 'Label', type: 'string'},
-                {name: 'Sort', type: 'number'}
+                {name: 'sprice', type: 'string'},
+                {name: 'Sort', type: 'string'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/MenuQuestion/load_questions_items/'
         },
         columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
-            {text: 'Name', dataField: 'Description', type: 'string', width: '40%'},
-            {text: 'Label', dataField: 'Label', type: 'string', width: '40%'},
-            {text: 'Sort', dataField: 'Sort', type: 'string', width: '10%'}
+            {text: 'ID', dataField: 'Unique', width: '10%'},
+            {text: 'Name', dataField: 'Description', width: '32%'},
+            {text: 'Label', dataField: 'Label', width: '32%'},
+            {text: 'Sell Price', dataField: 'sprice', width: '16%'},
+            {text: 'Sort', dataField: 'Sort', width: '10%'}
         ],
         width: "100%",
         columnsResize: true,
         theme: 'arctic',
-        pagerMode: 'default'
+        pagerMode: 'default',
+        autoheight: true,
+        autorowheight: true,
+        //sortable: true,
+        pageable: true,
+        pageSize: 10,
+        altRows: true
     };
 
     // -- Question tabs settings
@@ -348,7 +356,7 @@ app.controller('menuQuestionController', function ($scope) {
      * -- Question items tab actions
      */
     var updateItemQuestiontable = function() {
-        $('#_questionItemTable').jqxDataTable({
+        $('#_questionItemTable').jqxGrid({
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
@@ -357,7 +365,8 @@ app.controller('menuQuestionController', function ($scope) {
                     {name: 'ItemUnique', type: 'string'},
                     {name: 'Description', type: 'string'},
                     {name: 'Label', type: 'string'},
-                    {name: 'Sort', type: 'number'}
+                    {name: 'sprice', type: 'string'},
+                    {name: 'Sort', type: 'string'}
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + $scope.questionId
@@ -400,7 +409,7 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $scope.editQuestionItemTable = function (e) {
-        var row = e.args.row;
+        var row = e.args.row.bounddata;
         $scope.newOrEditQItemOption = 'edit';
         $scope.qitemId = row.Unique;
 
@@ -485,7 +494,7 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $scope.itemsCbxSelecting = function(e) {
-        if (e.args) {
+        if (e.args.item) {
             var item = e.args.item;
             $('#qItem_Label').val(item.label);
             $('#qItem_SellPrice').val(item.originalItem.price1);

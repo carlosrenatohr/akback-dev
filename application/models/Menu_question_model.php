@@ -27,7 +27,7 @@ class Menu_question_model extends CI_Model
     public function getQuestionItemData($id) {
         $this->db->select(
                 "{$this->question_items_table}.*,
-                item.Description, item.Item, item.Status");
+                item.Description, item.Item, item.Status, item.price1 as sprice");
         if ($id != 'null') {
             $this->db->where("{$this->question_items_table}.QuestionUnique", $id);
         }

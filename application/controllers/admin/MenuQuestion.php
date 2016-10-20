@@ -31,6 +31,7 @@ class MenuQuestion extends AK_Controller
         $result = $this->question->getQuestionItemData($id);
         $return = [];
         foreach ($result as $row) {
+            $row['sprice'] = number_format($row['sprice'], (int)$this->session->userdata("DecimalsPrice"));
 //            $row['Sort'] = $row['sort'];
             $return[] = $row;
         }
