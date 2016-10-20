@@ -430,14 +430,16 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $scope.closeQuestionItemWin = function(option) {
+        if (option != undefined) {
+            $('#mainQItemButtons').show();
+            $('#promptToCloseQItemForm').hide();
+        }
         if (option == 0) {
             $scope.saveItemByQuestion(option);
         } else if (option == 1) {
-            question_item_window.close();
             resetQuestionItemForm();
+            question_item_window.close();
         } else if (option == 2) {
-            $('#mainQItemButtons').show();
-            $('#promptToCloseQItemForm').hide();
         } else {
             if ($('#saveQuestionItemBtnOnQuestionTab').is(':disabled')) {
                 resetQuestionItemForm();
@@ -561,16 +563,13 @@ app.controller('menuQuestionController', function ($scope) {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question item created successfully!');
                             $scope.qItemSuccessNotif.apply('open');
-                            //setTimeout(function() {
-                                $scope.closeQuestionItemWin();
-                            //}, 1500);
                         } else if ($scope.newOrEditQItemOption == 'edit') {
                             $('#qItemSuccessNotif #notification-content')
                                 .html('Question Item updated!');
                             $scope.qItemSuccessNotif.apply('open');
-                            if (closed == 0) {
-                                $scope.closeQuestionItemWin();
-                            }
+                        }
+                        if (closed == 0) {
+                            $scope.closeQuestionItemWin();
                         }
                     } else {
                         $('#qItemErrorNotif #notification-content')
