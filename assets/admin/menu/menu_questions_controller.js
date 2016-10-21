@@ -41,6 +41,33 @@ app.controller('menuQuestionController', function ($scope) {
         showCloseButton: false
     };
 
+    // Row subgrid - Create choices nested grid
+    var purchaseGrid = $('#questionMainTable');
+    purchaseGrid.on('rowexpand', function (e) {
+        var current = e.args.rowindex;
+        var rows = purchaseGrid.jqxGrid('getrows');
+        for (var i = 0; i < rows.length; i++) {
+            if (i != current)
+                purchaseGrid.jqxGrid('hiderowdetails', i);
+        }
+    });
+
+    var initrowdetails = function (index, parentElement, gridElement, record) {
+        var grid = $($(parentElement).children()[0]);
+        //
+        var nestedGridAdapter = choicesData(record.Unique);
+        if (grid != null) {
+            grid.jqxGrid({
+                source: nestedGridAdapter,
+                width: '98.7%', height: '100%',
+                columns: $scope.questionItemTableSettings.columns,
+                altRows: true,
+                autoheight: true,
+                autorowheight: true
+            });
+        }
+    };
+
     // -- Question table settings
     $scope.questionTableSettings = {
         source: {
@@ -79,7 +106,15 @@ app.controller('menuQuestionController', function ($scope) {
         pagesizeoptions: ['5', '10', '15'],
         altRows: true,
         autoheight: true,
-        autorowheight: true
+        autorowheight: true,
+        //
+        rowdetails: true,
+        initrowdetails: initrowdetails,
+        rowdetailstemplate: {
+            rowdetails: "<div class='choicesNestedGrid' style='margin:5px 0;'></div>",
+            rowdetailsheight: 200,
+            rowdetailshidden: true
+        }
     };
 
     var updateQuestionMainTable = function() {
@@ -192,6 +227,10 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $scope.editQuestionWindow = function(e) {
+        var parent = $(e.args.originalEvent.target).parents('.jqx-grid')[0];
+        if ($(parent).attr('id') != 'questionMainTable')
+            return;
+        //
         var row = e.args.row.bounddata;
         $scope.newOrEditQuestionOption = 'edit';
         $scope.questionId = row.Unique;
@@ -355,22 +394,29 @@ app.controller('menuQuestionController', function ($scope) {
     /**
      * -- Question items tab actions
      */
+    var choicesData = function(questionId) {
+        if (questionId == undefined)
+            questionId = $scope.questionId;
+
+        return new $.jqx.dataAdapter({
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
+                {name: 'QuestionUnique', type: 'string'},
+                {name: 'ItemUnique', type: 'string'},
+                {name: 'Description', type: 'string'},
+                {name: 'Label', type: 'string'},
+                {name: 'sprice', type: 'string'},
+                {name: 'Sort', type: 'string'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + questionId
+        });
+    };
+
     var updateItemQuestiontable = function() {
         $('#_questionItemTable').jqxGrid({
-            source: new $.jqx.dataAdapter({
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'QuestionUnique', type: 'string'},
-                    {name: 'ItemUnique', type: 'string'},
-                    {name: 'Description', type: 'string'},
-                    {name: 'Label', type: 'string'},
-                    {name: 'sprice', type: 'string'},
-                    {name: 'Sort', type: 'string'}
-                ],
-                id: 'Unique',
-                url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + $scope.questionId
-            })
+            source: choicesData()
         });
     };
 
