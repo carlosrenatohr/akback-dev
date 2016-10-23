@@ -9,7 +9,7 @@
                 jqx-settings="menuTableSettings"
                 jqx-on-rowdoubleclick="updateMenuAction(event)">
     </jqx-grid>
-
+    <!-- Menu window -->
     <jqx-window jqx-on-close="close()" jqx-settings="addMenuWindowSettings"
                 jqx-create="addMenuWindowSettings" class="">
         <div>

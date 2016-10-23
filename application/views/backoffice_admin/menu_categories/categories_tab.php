@@ -7,7 +7,7 @@
                     jqx-settings="categoriesTableSettings"
                     jqx-on-rowdoubleclick="updateCategoryAction(e)">
     </jqx-grid>
-    <!-- -->
+    <!-- Category window -->
     <jqx-window jqx-on-close="close()" jqx-settings="addCategoryWindowSettings"
                 jqx-create="addCategoryWindowSettings" class="">
         <div>

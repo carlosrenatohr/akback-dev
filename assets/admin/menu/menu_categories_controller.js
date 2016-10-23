@@ -20,6 +20,8 @@ var app = angular.module("akamaiposApp", ['jqwidgets', 'flow'])
 
 app.controller('menuCategoriesController', function($scope, $http, itemInventoryService){
 
+    var menuonce = false;
+    var cateonce = false;
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('selecting', function (event) {
         var tabclicked = event.args.item;
@@ -32,12 +34,23 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
             window.location.href = SiteRoot + 'dashboard/admin';
         }
         // Categories TAB - Reload queries
-        else if(tabTitle == 'Categories')
+        else if(tabTitle == 'Categories') {
+            if (!cateonce) {
+                $('#categoriesDataTable').on('bindingcomplete', function() {
+                    $('#categoriesDataTable').jqxGrid('clearfilters');
+                });
+            }
             reloadMenuSelectOnCategories();
+        }
         else if (tabTitle == 'Menu') {
+            if (!menuonce) {
+                $('#menuGridTable').on('bindingcomplete', function() {
+                    $('#menuGridTable').jqxGrid('clearfilters');
+                });
+            }
             updateMenuGridReq();
             //updateMainMenuGrid();
-            reloadMenuSelectOnCategories();
+            // reloadMenuSelectOnCategories();
         }
     });
 
@@ -73,9 +86,9 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
             {text: 'Menu Item Column', dataField: 'MenuItemColumn', type: 'number', hidden: true},
             {text: 'Item Length', dataField: 'ItemLength', type: 'number'}
         ],
-        ready: function() {
-            $('#menuGridTable').jqxGrid('updatebounddata', 'filter');
-        },
+        // ready: function() {
+        //     $('#menuGridTable').jqxGrid('updatebounddata', 'filter');
+        // },
         width: "99.8%",
         theme: 'arctic',
         filterable: true,
@@ -356,18 +369,18 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                 {name: 'MenuUnique', type: 'number'},
                 {name: 'MenuName', type: 'string'}
             ],
-            url: '',
+            url: ''
             // url: SiteRoot + 'admin/MenuCategory/load_allcategories'
         },
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
             {text: 'Category Name', dataField: 'CategoryName', type: 'string'},
-            {text: 'Menu', dataField: 'MenuUnique', type: 'string', hidden: true},
-            {text: 'Menu', dataField: 'MenuName', type: 'string'},
+            {dataField: 'MenuUnique', type: 'string', hidden: true},
+            {text: 'Menu', dataField: 'MenuName', type: 'string', filtertype: 'list'},
             {text: 'Row', dataField: 'Row', type: 'number'},
             {text: 'Column', dataField: 'Column', type: 'number'},
             {text: 'Sort', dataField: 'Sort', type: 'number'},
-            {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
+            {dataField: 'Status', type: 'number', hidden: true},
             {text: 'Status', dataField: 'StatusName', type: 'string'}
         ],
         columnsResize: true,
@@ -429,7 +442,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
                     url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
                 })
         });
-        // Categories datatable!
+        // Categories grid!
         $('#categoriesDataTable').jqxGrid({
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
@@ -452,8 +465,6 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
     // Status select
     $('#add_CategoryStatus').jqxDropDownList({autoDropDownHeight: true});
     $('#add_MenuUnique').jqxDropDownList({autoDropDownHeight: true});
-    //$('#add_CategoryStatus').jqxDropDownList({'selectedIndex': 0});
-    //$('#add_MenuUnique').jqxDropDownList({'selectedIndex': 0});
 
     // Init scope
     $scope.newOrEditCategoryOption = null;
