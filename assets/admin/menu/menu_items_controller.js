@@ -1200,8 +1200,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         if (e.args) {
             var item = e.args.item;
             // $('#itemq_sellprice').val(item.originalItem.price1);
-            console.log($scope.itemCellSelectedOnGrid);
-            $('#itemq_sellprice').val($scope.itemCellSelectedOnGrid.price1);
+            // $('#itemq_sellprice').val($scope.itemCellSelectedOnGrid.price1);
         }
     };
 
