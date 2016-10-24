@@ -985,8 +985,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('.restricter-dragdrop').css({'border': '#202020 dotted 3px'});
             // Modify previous clone dragging element
             var nw = $('.filled.itemOnGrid.jqx-draggable').width();
-            var baseLeft = $('.selectedItemInfoClass.jqx-draggable.jqx-draggable-dragging').css('left');
-            var toAdd = event.args.offsetX;
+            // var baseLeft = $('.selectedItemInfoClass.jqx-draggable.jqx-draggable-dragging').css('left');
+            var _self = event.args.data.self;
+            if (_self._isTouchDevice) {
+                var toAdd = _self._offset.click.left;
+            }
+            else {
+                var toAdd = event.args.offsetX;
+                // var toAddy = event.args.offsetY;
+            }
 
             $('.selectedItemInfoClass.jqx-draggable.jqx-draggable-dragging,' +
                 '.jqx-listitem-element.jqx-draggable.jqx-draggable-dragging')
@@ -1074,7 +1081,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     restricter: '.restricter-dragdrop',
                     //tolerance: 'fit'
                     onTargetDrop: function(data) {},
-                    dropAction: 'none',
+                    dropAction: 'none'
                     //revert: true
                 }
             )
@@ -1082,6 +1089,26 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 //$(this).removeClass('draggable');
                 //$(this).jqxDragDrop( { dropTarget: $('.draggable').not($(this)) } );
                 $(this).jqxDragDrop( { dropTarget: $('div[id^="draggable-"]').not($(this)) } );
+                //
+                var nw = $('.filled.itemOnGrid.jqx-draggable:first').width();
+                var nh = $('.filled.itemOnGrid.jqx-draggable:first').height();
+                var _self = event.args.data.self;
+                if (_self._isTouchDevice) {
+                    var toAddx = _self._offset.click.left
+                    var toAddy = _self._offset.click.top;
+                }
+                else {
+                    var toAddx = event.args.offsetX;
+                    var toAddy = event.args.offsetY;
+                }
+                //
+                $('.draggable.filled.itemOnGrid.jqx-draggable.jqx-draggable-dragging')
+                    .css({
+                        'width': nw - 20,
+                        'height': nh - 20,
+                        'margin-left': parseInt(toAddx),
+                        'margin-top': parseInt(toAddy)
+                    });
             })
             .bind('dragEnd', function (event) {
                 //$(this).addClass('draggable');
@@ -1089,7 +1116,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     // if (!isEqual($scope.onGridTargetMoved, $scope.onGridElementMoved)) {
                     if ($scope.targetIsFilled) {
                         alert('It is not able to switch items');
-                        $('.draggable').css({'border': 'solid black 1px'});
+                        $('.draggable:not(#selectedItemInfo)').css({'border': 'solid black 1px'});
                         return;
                     } else {
                         var data = {
