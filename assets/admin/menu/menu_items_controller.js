@@ -1086,7 +1086,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             .bind('dragEnd', function (event) {
                 //$(this).addClass('draggable');
                 if (onCellAboveGrid) {
-                    if (!isEqual($scope.onGridTargetMoved, $scope.onGridElementMoved)) {
+                    // if (!isEqual($scope.onGridTargetMoved, $scope.onGridElementMoved)) {
+                    if ($scope.targetIsFilled) {
+                        alert('It is not able to switch items');
+                        $('.draggable').css({'border': 'solid black 1px'});
+                        return;
+                    } else {
                         var data = {
                           'element': $scope.onGridElementMoved,
                           'target': $scope.onGridTargetMoved
@@ -1117,6 +1122,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 var element_row = $(event.args.element).data('row');
                 $scope.onGridTargetMoved = {'Column': target_col, 'Row': target_row};
                 $scope.onGridElementMoved = {'Column': element_col, 'Row': element_row};
+                $scope.targetIsFilled = $(event.args.target).hasClass('itemOnGrid');
                 $(event.args.target).css('border', '5px solid #eeb706');
             })
             .bind('dragging', function (event) {})
