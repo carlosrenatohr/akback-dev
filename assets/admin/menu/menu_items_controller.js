@@ -1043,8 +1043,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         else if (data.status == 'error') {
                             $.each(data.message, function(i, value){
                                 // alert(value);
-                                // alert('Cell is already occupied.');
-                                $('#notification-window .text-content').html('Cell is already occupied.');
+                                $('#notification-window .text-content').html('' +
+                                    'Cell is already occupied. To use, please move or delete item.'
+                                );
                                 $('#notification-window').jqxWindow('open');
                                 return;
                             });
@@ -1119,8 +1120,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 if (onCellAboveGrid) {
                     // if (!isEqual($scope.onGridTargetMoved, $scope.onGridElementMoved)) {
                     if ($scope.targetIsFilled) {
-                        // alert('Cell is already occupied.');
-                        $('#notification-window .text-content').html('Cell is already occupied.');
+                        $('#notification-window .text-content').html(
+                            'Cell is already occupied. To use, please move or delete item.'
+                        );
                         $('#notification-window').jqxWindow('open');
                         $('.draggable:not(#selectedItemInfo)').css({'border': 'solid black 1px'});
                         return;
