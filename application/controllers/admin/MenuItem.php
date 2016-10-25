@@ -398,15 +398,23 @@ class MenuItem extends AK_Controller
 
     public function postItemInventory() {
         $data = $_POST;
+//        var_dump($_POST);exit;
         if (!empty($data) || !is_null($_POST)) {
             $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
                         ? $_POST['taxesValues']
                         : [];
             unset($data['taxesValues']);
+            $pictures = (isset($_POST['pictures']))
+                ? $_POST['pictures']
+                : [];
+            unset($data['pictures']);
             $newid = $this->item->saveItem($this->checkItemValues($data));
             if ($newid) {
                 // Taxes
                 $this->item->updateTaxesByItem($taxes, $newid);
+                // Pictures
+                if(!empty($pictures))
+                    $this->menuItem->savePicturesByItem($pictures, $newid);
                 // Stock
                 $stock['Type'] = 1;
                 $stock['status'] = 1;
