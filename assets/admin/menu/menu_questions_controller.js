@@ -523,6 +523,7 @@ app.controller('menuQuestionController', function ($scope) {
         created: function (args) {
             cbxItems = args.instance;
         },
+        autoComplete: true,
         placeHolder: 'Select an item',
         displayMember: "Description",
         valueMember: "Unique",
