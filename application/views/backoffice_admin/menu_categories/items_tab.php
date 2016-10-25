@@ -143,7 +143,7 @@
             </div>
 
             <jqx-window id="notification-window"
-                jqx-is-modal="true" jqx-width="300" jqx-height="120"
+                jqx-is-modal="true" jqx-width="300" jqx-height="150"
                 jqx-auto-open="false" jqx-show-close-button="true"
                 jqx-resizable="false"
             >

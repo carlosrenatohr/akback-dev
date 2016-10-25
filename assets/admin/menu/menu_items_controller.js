@@ -1086,8 +1086,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     restricter: '.restricter-dragdrop',
                     //tolerance: 'fit'
                     onTargetDrop: function(data) {},
-                    dropAction: 'none'
-                    //revert: true
+                    dropAction: 'none',
+                    revert: true
                 }
             )
             .bind('dragStart', function (event) {
@@ -1109,8 +1109,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 //
                 $('.draggable.filled.itemOnGrid.jqx-draggable.jqx-draggable-dragging')
                     .css({
-                        'width': nw - 20,
-                        'height': nh - 20,
+                        'width': nw - parseInt(nh / 2),
+                        'height': nh - parseInt(nh / 2),
                         'margin-left': parseInt(toAddx),
                         'margin-top': parseInt(toAddy)
                     });
