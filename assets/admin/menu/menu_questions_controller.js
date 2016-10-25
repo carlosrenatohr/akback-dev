@@ -435,7 +435,7 @@ app.controller('menuQuestionController', function ($scope) {
 
     var resetQuestionItemForm = function() {
         $('.itemQuestionFormContainer .required-in').css({"border-color": "#ccc"});
-        $('#qItem_ItemUnique').jqxComboBox({'selectedIndex': -1});
+        $('#qItem_ItemUnique').jqxComboBox('val', '');
         $('#qItem_sort').jqxNumberInput('val', 1);
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Label').val('');
@@ -544,7 +544,7 @@ app.controller('menuQuestionController', function ($scope) {
     };
 
     $scope.itemsCbxSelecting = function(e) {
-        if (e.args.item) {
+        if (e.args) {
             var item = e.args.item;
             $('#qItem_Label').val(item.label);
             $('#qItem_SellPrice').val(item.originalItem.price1);
