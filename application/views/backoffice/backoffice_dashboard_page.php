@@ -46,6 +46,12 @@
                                 </a>
                             </div>
                             <div class="icon">
+                                <a href="<?php echo base_url("backoffice/items")?>">
+                                    <img width="48" src="<?php echo base_url()?>assets/img/report_itemreturns.jpg">
+                                    <span class="mlabel">ITEMS</span>
+                                </a>
+                            </div>
+                            <div class="icon">
                                 <a href="<?php echo base_url("backoffice/inventory")?>">
                                     <img alt="" src="<?php echo base_url()?>assets/img/inventory.png">
                                     <span class="mlabel">INVENTORY</span>
