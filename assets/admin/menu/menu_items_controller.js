@@ -925,6 +925,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     else if (data.status == 'error') {
                         $.each(data.message, function(i, value){
                             //alert(value);
+
                         });
                     }
                     else {
@@ -1041,7 +1042,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         }
                         else if (data.status == 'error') {
                             $.each(data.message, function(i, value){
-                                alert(value);
+                                // alert(value);
+                                // alert('Cell is already occupied.');
+                                $('#notification-window .text-content').html('Cell is already occupied.');
+                                $('#notification-window').jqxWindow('open');
                                 return;
                             });
                         }
@@ -1115,7 +1119,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 if (onCellAboveGrid) {
                     // if (!isEqual($scope.onGridTargetMoved, $scope.onGridElementMoved)) {
                     if ($scope.targetIsFilled) {
-                        alert('It is not able to switch items');
+                        // alert('Cell is already occupied.');
+                        $('#notification-window .text-content').html('Cell is already occupied.');
+                        $('#notification-window').jqxWindow('open');
                         $('.draggable:not(#selectedItemInfo)').css({'border': 'solid black 1px'});
                         return;
                     } else {
@@ -1169,6 +1175,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 return equal;
             }
         }
+
+        $('#notification-window').jqxWindow({
+            okButton: $('#notification-window #ok'), //cancelButton: $('#cancel'),
+            initContent: function () {
+                $('#ok').focus();
+                // var offset = $('#notification-window').offset();
+                $('#notification-window')
+                    .jqxWindow({'position':{ x: 'center', y: 150}})
+            }
+        });
 }
 
     /**
