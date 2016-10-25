@@ -164,7 +164,7 @@ app.controller('menuQuestionController', function ($scope) {
         pagerMode: 'default',
         autoheight: true,
         autorowheight: true,
-        //sortable: true,
+        sortable: true,
         pageable: true,
         pageSize: 10,
         altRows: true
