@@ -44,15 +44,15 @@ jqxthemes();
                             jqx-selected-item="2">
                     <ul>
                         <li>
-                            <img src="../../assets/img/home_icon.png" alt="Dashboard">
+                            <img src="<?php echo base_url() ?>assets/img/home_icon.png" alt="Dashboard">
                             Dashboard
                         </li>
                         <li>
-                            <img src="../../assets/img/back.png" alt="Back">
+                            <img src="<?php echo base_url() ?>assets/img/back.png" alt="Back">
                             Back
                         </li>
                         <li>Layout</li> <?//2 Items orig?>
-                        <li>Items</li> <?//2 INVENTORY?>
+<!--                        <li>Items</li> --><?////2 INVENTORY?>
                         <li>Questions</li><?//3?>
                         <li>Printers</li><? //4 ?>
                         <li>Categories</li><? //1 ?>
@@ -69,9 +69,9 @@ jqxthemes();
                     <!-- ------------------------- -->
                     <!-- NEW ITEMS TAB (INVENTORY) -->
                     <!-- ------------------------- -->
-                    <div class="" ng-controller="menuItemsInventoryController">
-                        <?php $this->load->view($inventory_tab_view); ?>
-                    </div>
+<!--                    <div class="" ng-controller="menuItemsInventoryController">-->
+<!--                        --><?php //$this->load->view($inventory_tab_view); ?>
+<!--                    </div>-->
                     <!-- -------------- -->
                     <!-- QUESTIONS TAB  -->
                     <!-- -------------- -->

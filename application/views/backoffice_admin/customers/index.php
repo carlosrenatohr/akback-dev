@@ -59,12 +59,12 @@ jqxthemes();
                                 Dashboard
                             </a>
                         </li>
-                        <li>
-                            <a href="<?php echo base_url("dashboard/admin") ?>" style="outline:0;">
-                                <span class="icon-32-back"></span>
-                                Back
-                            </a>
-                        </li>
+<!--                        <li>-->
+<!--                            <a href="--><?php //echo base_url("dashboard/admin") ?><!--" style="outline:0;">-->
+<!--                                <span class="icon-32-back"></span>-->
+<!--                                Back-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <li>
                             <a style="outline:0;" ng-click="openAddCustomerWind()">
                                 <span class="icon-32-new"></span>
