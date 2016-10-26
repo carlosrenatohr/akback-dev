@@ -1047,7 +1047,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     var fillPrintersArray = function() {
         if (allPrintersArray == '') {
-            var rows = $("#printerItemList").jqxDropDownList('getItems');
+            var rows = $("#printerInvList").jqxDropDownList('getItems');
             for(var j in rows) {
                 allPrintersArray.push(rows[j]['value']);
             }

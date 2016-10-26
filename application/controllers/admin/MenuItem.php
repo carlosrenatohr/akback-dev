@@ -678,7 +678,7 @@ class MenuItem extends AK_Controller
 
     private function getPicturesPath($load = null) {
         if (!is_null($load))
-            $root = '../..';
+            $root = base_url();
         else
             $root = '.';
         $this->getSettingLocation('ItemPictureLocation', $this->session->userdata("station_number"));
