@@ -1,4 +1,32 @@
-<div class="gridContentTab">
+<?php
+$this->load->view('backoffice_templates/backoffice_template.inc.php');
+$this->load->view('backoffice_includes/backoffice_mainmenu_header');
+//$this->load->view('backoffice_templates/backoffice_category_menubar');
+$this->load->view('backoffice_templates/backoffice_menubar');
+
+categoryjs();
+jqxangularjs();
+jqxthemes();
+?>
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />
+<script type="text/javascript">
+    var SiteRoot ="<?php echo base_url() ?>";
+    $("#tabtitle").text("Menu");
+</script>
+    <script type="application/javascript" src="<?= base_url()?>assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/config.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_categories_controller.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_controller.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_service.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_directive.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_relations_service.js"></script>
+<!-- ng-flow libraries -->
+<script src="<?php echo base_url() ?>assets/admin/ng-flow-standalone.min.js"></script>
+<script src="<?php echo base_url() ?>assets/admin/fusty-flow.js"></script>
+<script src="<?php echo base_url() ?>assets/admin/fusty-flow-factory.js"></script>
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/admin/styles.css">
+
+<div class="gridContentTab" ng-controller="menuItemsInventoryController">
     <div class="col-md-12">
         <button class="btn btn-info" ng-click="openInventoryWind()" style="margin: 10px 0;">
             New Item
@@ -187,3 +215,4 @@
         margin: 0!important;
     }
 </style>
+<?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

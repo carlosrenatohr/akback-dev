@@ -15,24 +15,25 @@ jqxthemes();
     $("#tabtitle").text("Menu");
 </script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/jqwidgets/jqxdragdrop.js"></script>
-<script type="application/javascript" src="../../assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.filter.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_categories_controller.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_items_controller.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_inventory_controller.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_inventory_service.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_inventory_directive.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_inventory_relations_service.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_questions_controller.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_printers_controller.js"></script>
-<script type="application/javascript" src="../../assets/admin/menu/menu_items_directives.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/config.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_categories_controller.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_items_controller.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_controller.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_service.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_directive.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_relations_service.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_questions_controller.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_printers_controller.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_items_directives.js"></script>
 <!-- ng-flow libraries -->
-<script src="../../assets/admin/ng-flow-standalone.min.js"></script>
-<script src="../../assets/admin/fusty-flow.js"></script>
-<script src="../../assets/admin/fusty-flow-factory.js"></script>
+<script src="<?= base_url()?>assets/admin/ng-flow-standalone.min.js"></script>
+<script src="<?= base_url()?>assets/admin/fusty-flow.js"></script>
+<script src="<?= base_url()?>assets/admin/fusty-flow-factory.js"></script>
+<link rel="stylesheet" href="<?= base_url()?>assets/admin/styles.css">
 
-<link rel="stylesheet" href="../../assets/admin/styles.css">
 <div class="parent-container" ng-controller="menuCategoriesController">
     <div ng-cloak class=" ng-cloak">
         <div class="container-fluid" style="padding: 0;">
