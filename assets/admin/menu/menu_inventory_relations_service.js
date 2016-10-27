@@ -1,7 +1,7 @@
 /**
  * Created by carlosrenato on 09-01-16.
  */
-app.service('inventoryExtraService', function ($http) {
+app.service('inventoryExtraService', function ($http, questionService) {
 
     // Source for Suppliers table
     this.getSupplierSettings = function () {
@@ -235,7 +235,7 @@ app.service('inventoryExtraService', function ($http) {
         if (item != undefined) {
             url = SiteRoot + 'admin/MenuItem/load_itemquestions/' + item;
         }
-        return {
+        var settings = {
             source: ({
                 dataType: 'json',
                 dataFields: [
@@ -273,6 +273,18 @@ app.service('inventoryExtraService', function ($http) {
             autoheight: true,
             autorowheight: true
         };
+
+        if (addSubgrid) {
+          settings.rowdetails = true;
+          settings.initrowdetails = questionService.getRowdetailsFromChoices();
+          settings.rowdetailstemplate = {
+              rowdetails: "<div class='choicesNestedGrid'></div>",
+              rowdetailsheight: 200,
+              rowdetailshidden: true
+          };
+        }
+
+        return settings;
     };
 
     this.getQuestionsCbxData = function() {

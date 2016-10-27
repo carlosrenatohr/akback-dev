@@ -2,7 +2,7 @@
  * Created by carlosrenato on 05-19-16.
  */
 
-app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService) {
+app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService, questionService) {
 
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
@@ -1192,13 +1192,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     /**
      * QUESTION TAB ACTIONS
      */
-    $scope.questionTableOnMenuItemsSettings = inventoryExtraService.getQuestionGridData();
+    $scope.questionTableOnMenuItemsSettings = inventoryExtraService.getQuestionGridData(null, true);
 
     var updateQuestionItemTable = function() {
         $('#questionItemTable').jqxGrid({
             source: new $.jqx.dataAdapter(
                 inventoryExtraService.getQuestionGridData($('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value).source
-            )
+            ),
+            rowdetails: true,
+            initrowdetails: questionService.getRowdetailsFromChoices('QuestionUnique'),
+            rowdetailstemplate: {
+                rowdetails: "<div class='choicesNestedGrid'></div>",
+                rowdetailsheight: 200,
+                rowdetailshidden: true
+            }
         });
         var questions = $('#itemq_Question').jqxComboBox('getItems');
         $.each(questions, function(i, el) {

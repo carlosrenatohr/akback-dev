@@ -12,12 +12,13 @@
     function QuestionService($http) {
 
         var _this = this;
-        this.getQuestionTableSettings = function() {
 
-            var initrowdetails = function (index, parentElement, gridElement, record) {
+        this.getRowdetailsFromChoices = function(field) {
+            return function (index, parentElement, gridElement, record) {
                 var grid = $($(parentElement).children()[0]);
                 //
-                var nestedGridAdapter = _this.getChoices(record.Unique);
+                var unique = record[field] || record.Unique;
+                var nestedGridAdapter = _this.getChoices(unique);
                 if (grid != null) {
                     grid.jqxGrid({
                         source: nestedGridAdapter,
@@ -30,6 +31,10 @@
                     });
                 }
             };
+        };
+
+        this.getQuestionTableSettings = function() {
+            var initrowdetails = _this.getRowdetailsFromChoices();
 
             return {
                 source: {
@@ -73,10 +78,10 @@
                 rowdetails: true,
                 initrowdetails: initrowdetails,
                 rowdetailstemplate: {
-                rowdetails: "<div class='choicesNestedGrid'></div>",
-                    rowdetailsheight: 200,
-                    rowdetailshidden: true
-            }
+                    rowdetails: "<div class='choicesNestedGrid'></div>",
+                        rowdetailsheight: 200,
+                        rowdetailshidden: true
+                    }
             };
         };
 
