@@ -59,11 +59,12 @@ app.controller('menuQuestionController', function ($scope) {
         if (grid != null) {
             grid.jqxGrid({
                 source: nestedGridAdapter,
-                width: '98.7%', height: '100%',
+                width: '98.7%',
                 columns: $scope.questionItemTableSettings.columns,
                 altRows: true,
                 autoheight: true,
-                autorowheight: true
+                autorowheight: true,
+                sortable: true
             });
         }
     };
@@ -111,11 +112,12 @@ app.controller('menuQuestionController', function ($scope) {
         rowdetails: true,
         initrowdetails: initrowdetails,
         rowdetailstemplate: {
-            rowdetails: "<div class='choicesNestedGrid' style='margin:5px 0;'></div>",
+            rowdetails: "<div class='choicesNestedGrid'></div>",
             rowdetailsheight: 200,
             rowdetailshidden: true
         }
     };
+
 
     var updateQuestionMainTable = function() {
         $('#questionMainTable').jqxGrid({
@@ -605,6 +607,7 @@ app.controller('menuQuestionController', function ($scope) {
                 success: function(response) {
                     if (response.status == 'success') {
                         updateItemQuestiontable();
+                        updateQuestionMainTable();
                         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
                         if ($scope.newOrEditQItemOption == 'create') {
                             $('#qItemSuccessNotif #notification-content')
@@ -642,6 +645,7 @@ app.controller('menuQuestionController', function ($scope) {
                 success: function(response) {
                     if (response.status == 'success') {
                         updateItemQuestiontable();
+                        updateQuestionMainTable();
                         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
                         $('#qItemSuccessNotif #notification-content')
                             .html('Question item was deleted!');

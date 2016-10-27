@@ -277,3 +277,11 @@ div.toolbar-list span {
 .alertButtonsMenuCategories {
     display:none;
 }
+
+#questionMainTable .jqx-widget-content.jqx-enableselect {
+    overflow-y: scroll!important;
+}
+
+#questionMainTable .jqx-widget-content.jqx-enableselect .choicesNestedGrid {
+    margin:0.8em 0;
+}
