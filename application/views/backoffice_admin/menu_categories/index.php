@@ -25,6 +25,7 @@ jqxthemes();
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_directive.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_relations_service.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_questions_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_questions_controller.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_printers_controller.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_items_directives.js"></script>

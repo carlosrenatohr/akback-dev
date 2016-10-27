@@ -1,9 +1,7 @@
 /**
  * Created by carlosrenato on 06-03-16.
  */
-
-
-app.controller('menuQuestionController', function ($scope) {
+app.controller('menuQuestionController', function ($scope, questionService) {
 
     var once = false;
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
@@ -400,20 +398,7 @@ app.controller('menuQuestionController', function ($scope) {
         if (questionId == undefined)
             questionId = $scope.questionId;
 
-        return new $.jqx.dataAdapter({
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'QuestionUnique', type: 'string'},
-                {name: 'ItemUnique', type: 'string'},
-                {name: 'Description', type: 'string'},
-                {name: 'Label', type: 'string'},
-                {name: 'sprice', type: 'string'},
-                {name: 'Sort', type: 'string'}
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + questionId
-        });
+        return questionService.getChoices(questionId);
     };
 
     var updateItemQuestiontable = function() {

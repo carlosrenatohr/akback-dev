@@ -1,13 +1,12 @@
 /**
  * Created by carlosrenato on 08-31-16.
  */
-app.controller('menuItemsInventoryController', function($scope, $http, itemInventoryService, inventoryExtraService){
+app.controller('menuItemsInventoryController', function($scope, $http, itemInventoryService, inventoryExtraService, questionService){
 
     $scope.inventoryData = {};
     $scope.inventoryDisabled = true;
     // Events added
     itemInventoryService.onChangeEvents();
-
     //
     $('#inventoryTabs').on('selecting', function(e) {
         var tabclick = e.args.item;

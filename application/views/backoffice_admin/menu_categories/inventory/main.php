@@ -14,6 +14,7 @@ jqxthemes();
 </script>
 <script type="application/javascript" src="<?= base_url()?>assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/config.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_questions_service.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_controller.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_service.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_directive.js"></script>
