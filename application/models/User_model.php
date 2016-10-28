@@ -24,15 +24,19 @@ class User_model extends CI_Model
             '
         );
         $this->db->from('config_user');
-        $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique');
+        $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique', 'left');
         $this->db->join(
             'config_position',
             'config_position.Unique = config_user_position.ConfigPositionUnique'
         );
-        $query = $this->db->where('config_user_position.PrimaryPosition', 1)
-        ->where('config_user.Status', 1)
+        $query = $this->db
+            ->where('config_user_position.PrimaryPosition', 1)
+            ->where('config_user.Status', 1)
+            ->where('config_user.Suppress', 0)
+            ->or_where('config_user.Suppress', null)
             ->order_by('config_user.Unique', 'DESC')
             ->get();
+//        var_dump($this->db->last_query());exit;
         return $query->result_array();
     }
 
@@ -41,6 +45,8 @@ class User_model extends CI_Model
         $query = $this->db
             ->select('Unique, PositionName, PositionLevel as level')
             ->where('Status', 1)
+            ->where('Suppress', 0)
+            ->or_where('Suppress', null)
             ->from("config_position")
             ->get();
         return $query->result_array();
@@ -83,6 +89,7 @@ class User_model extends CI_Model
 //            'PayBasis' => 1,
 //            'Payrate' => 1,
             'Status' => 1,
+            'Suppress' => 0,
             'Created' => date('Y-m-d H:i:s'),
             'CreatedBy' => $this->session->userdata('userid')
         ];

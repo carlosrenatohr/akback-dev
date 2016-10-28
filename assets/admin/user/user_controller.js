@@ -123,8 +123,9 @@ demoApp.controller("userController", function($scope, $http) {
             }
         }
         $('#deleteAddUserForm').show();
-        var selectedIndexByPosition = $('#positionCombobox').jqxComboBox('getItemByValue', values['PrimaryPosition']).index;
-        $('#positionCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
+        // var selectedIndexByPosition = $('#positionCombobox').jqxComboBox('getItemByValue', values['PrimaryPosition']).index;
+        // $('#positionCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
+        $('#positionCombobox').jqxComboBox('val', values['PrimaryPosition']);
         $scope.userId = values['Unique'];
         $scope.editing_username = values['UserName'];
 
@@ -235,16 +236,14 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     // PRIMARY POSITION COMBOBOX
-    var source =
-    {
+    var dataAdapter = new $.jqx.dataAdapter({
         datatype: "json",
         datafields: [
             {name: 'PositionName'},
             {name: 'Unique'}
         ],
         url: SiteRoot + 'admin/user/load_allPositions'
-    };
-    var dataAdapter = new $.jqx.dataAdapter(source);
+    });
 
     $scope.positionSelectPlaceholder = 'Select a position';
     $scope.positionSelectSetting = {
