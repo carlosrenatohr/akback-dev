@@ -53,8 +53,15 @@
                             </div>
                             <div class="icon">
                                 <a href="<?php echo base_url("backoffice/inventory")?>">
-                                    <img alt="" src="<?php echo base_url()?>assets/img/inventory.png">
+                                    <img width="48" src="<?php echo base_url()?>assets/img/inventory.png">
                                     <span class="mlabel">INVENTORY</span>
+                                </a>
+                            </div>
+
+                            <div class="icon">
+                                <a href="<?php echo base_url("dashboard/admin/menu")?>">
+                                    <img width="48" src="<?php echo base_url()?>assets/img/kahon.png">
+                                    <span class="mlabel">MENU</span>
                                 </a>
                             </div>
                             

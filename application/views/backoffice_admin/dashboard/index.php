@@ -41,12 +41,12 @@
                                     <span class="mlabel">USERS</span>
                                 </a>
                             </div>
-                            <div class="icon">
-                                <a href="<?php echo base_url("dashboard/admin/menu")?>">
-                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/kahon.png">
-                                    <span class="mlabel">MENU</span>
-                                </a>
-                            </div>
+<!--                            <div class="icon">-->
+<!--                                <a href="--><?php //echo base_url("dashboard/admin/menu")?><!--">-->
+<!--                                    <img width="48" alt="" src="--><?php //echo base_url()?><!--assets/img/kahon.png">-->
+<!--                                    <span class="mlabel">MENU</span>-->
+<!--                                </a>-->
+<!--                            </div>-->
 <!--                            <div class="icon">-->
 <!--                                <a href="--><?php //echo base_url("dashboard/admin/customers")?><!--">-->
 <!--                                    <img width="48" alt="" src="--><?php //echo base_url()?><!--assets/img/customer.png">-->

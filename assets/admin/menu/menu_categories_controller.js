@@ -13,10 +13,11 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         if(tabclicked == 0) {
             event.cancel = true;
             window.location.href = SiteRoot + 'backoffice/dashboard';
-        } else if(tabclicked == 1){
-            event.cancel = true;
-            window.location.href = SiteRoot + 'dashboard/admin';
         }
+        // else if(tabclicked == 1){
+        //     event.cancel = true;
+        //     window.location.href = SiteRoot + 'dashboard/admin';
+        // }
         // Categories TAB - Reload queries
         else if(tabTitle == 'Categories') {
             if (!cateonce) {

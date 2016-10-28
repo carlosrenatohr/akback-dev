@@ -42,16 +42,16 @@ jqxthemes();
             <div class="row">
                 <div class="col-md-12">
                 <jqx-tabs  jqx-width="" jqx-height="" id="MenuCategoriesTabs"
-                            jqx-selected-item="2">
+                            jqx-selected-item="1">
                     <ul>
                         <li>
                             <img src="<?php echo base_url() ?>assets/img/home_icon.png" alt="Dashboard">
                             Dashboard
                         </li>
-                        <li>
-                            <img src="<?php echo base_url() ?>assets/img/back.png" alt="Back">
-                            Back
-                        </li>
+<!--                        <li>-->
+<!--                            <img src="--><?php //echo base_url() ?><!--assets/img/back.png" alt="Back">-->
+<!--                            Back-->
+<!--                        </li>-->
                         <li>Layout</li> <?//2 Items orig?>
 <!--                        <li>Items</li> --><?////2 INVENTORY?>
                         <li>Questions</li><?//3?>
@@ -60,7 +60,7 @@ jqxthemes();
                         <li>Menu</li><?//0?>
                     </ul>
                     <div></div>
-                    <div></div>
+<!--                    <div></div>-->
                     <!-- -------------- -->
                     <!-- MENU ITEMS TAB      -->
                     <!-- -------------- -->
