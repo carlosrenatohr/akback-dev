@@ -49,6 +49,7 @@ class Customer extends AK_Controller
         $data['purchases_tab_view'] = "backoffice_admin/customers/purchases_tab";
         $data['options_tab_view'] = "backoffice_admin/customers/options_tab";
         $data['visits_tab_view'] = "backoffice_admin/customers/visits_tab";
+        $data['card_tab_view'] = "backoffice_admin/customers/card_tab";
         $data['checkout_form'] = "backoffice_admin/customers/checkout_form";
         $data['main_content'] = "backoffice_admin/customers/index";
         // Main view
@@ -501,6 +502,24 @@ class Customer extends AK_Controller
     {
         $location = $this->customer->getLocationName($unique);
         echo $location[0]['Name'];
+    }
+
+    // --- CUSTOMER CARD
+    /**
+     * @method GET
+     * @description Load all customers cards
+     * @returnType json
+     */
+    public function load_cardCustomer($customerID = null)
+    {
+        $ncards = [];
+        $cards = $this->customer->cardsByCustomer($customerID);
+        foreach($cards as $card) {
+            $card['Created_'] = date('m/d/Y h:iA', strtotime($card['Created']));
+            $ncards[] = $card;
+        }
+
+        echo json_encode($ncards);
     }
 
 }

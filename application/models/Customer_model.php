@@ -169,6 +169,22 @@ class Customer_model extends CI_Model
         return  $result;
     }
 
+    /**
+     * CUSTOMER CARD
+     */
+    public function cardsByCustomer($customerID = null) {
+        $this->db->select(
+            'customer_card.Unique, customer_card.Card4, customer_card.CardType,
+             customer_card.Created, customer_card.CreatedBy, createdUser.UserName as CreatedByName'
+        );
+        $this->db->from('customer_card');
+        $this->db->where('customer_card.CustomerUnique', $customerID);
+        $this->db->join('config_user createdUser', 'createdUser.Unique = customer_card.CreatedBy', 'left');
+        $result = $this->db->get()->result_array();
+
+        return $result;
+    }
+
     public function getLocations() {
         $this->db->select('Unique, Name, LocationName');
         $this->db->where('Status', 1);

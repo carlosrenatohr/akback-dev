@@ -41,6 +41,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             //if(tabclick == 6) {
                 updateCustomerVisitsTableData();
             }
+            // Card tab
+            if(tabTitle == 'Card') {
+                updateCustomerCardTableData();
+            }
         // Behavior of create form
         } else if ($scope.newOrEditCustomerAction == 'create') {
             if(tabclick == 2 && !customerIsSaved) {
@@ -165,6 +169,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
     $scope.customerVisitsTabSettings = customerService.getVisitsTableTabSettings();
+    $scope.customerCardTabSettings = customerService.getCardTableSettings();
 
     var updateCustomerTableData = function(location, nofilters) {
         var grid = '#gridCustomer';
@@ -207,6 +212,15 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         if ($scope.customerID != undefined) {
             var tablesettings = customerService.getPurchasesTableSettings($scope.customerID);
             $('#customerPurchasesGrid').jqxGrid({
+                source: tablesettings.source
+            });
+        }
+    };
+
+    var updateCustomerCardTableData = function() {
+        if ($scope.customerID != undefined) {
+            var tablesettings = customerService.getCardTableSettings($scope.customerID);
+            $('#customerCardTabGrid').jqxGrid({
                 source: tablesettings.source
             });
         }
