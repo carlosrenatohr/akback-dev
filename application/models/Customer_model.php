@@ -166,7 +166,33 @@ class Customer_model extends CI_Model
         left join customer on receipt_header."CustomerUnique" = customer."Unique"
         left join receipt_details on receipt_header."Unique" = receipt_details."ReceiptHeaderUnique" and receipt_header."Status" = 4' . $where;
         $result = $this->db->query($query)->result_array();
+
         return  $result;
+    }
+
+    public function receiptsBasedByCustomer($customerID = null) {
+        $whereAttached = (!is_null($customerID))
+            ? ' WHERE RH."CustomerUnique" = '. $customerID.  ' '
+            : '';
+        $query = '
+            select RH."Unique" as "ReceiptID", RH."ReceiptNumber" as "Receipt", 
+            round(RH."SubTotal",2) as "SubTotal",round(RH."Tip",2) as "Tip", round(RH."Tax",2) as "Tax", round( RH."Total",2) as "Total",
+            RH."CustomerUnique" as "CustomerID", coalesce(C."FirstName", \'\') || \' \' || coalesce(C."LastName", \'\') as "Customer", 
+            CL."LocationName" as "Location",RH."Status" as "Status",
+            case when RH."Status" = 4 then \'Complete\' when RH."Status" = 5 then \'Hold\' when RH."Status" = 10 then \'Cancel\' 
+            when RH."Status" = 1 then \'New\' else \'Other\' end as "StatusName",
+            date_trunc(\'min\', RH."ReceiptDate"::timestamp) as "ReceiptDate",
+            date_trunc(\'min\', RH."Created"::timestamp) as "Created",CU1."UserName" as "CreatedBy",
+            date_trunc(\'min\', RH."Updated"::timestamp) as "Updated",CU2."UserName" as "UpdatedBy"
+            from receipt_header RH ' . $whereAttached .
+            'join customer C on RH."CustomerUnique" = C."Unique"
+            left join config_user CU1 on RH."CreatedBy" = CU1."Unique"
+            left join config_user CU2 on RH."CreatedBy" = CU2."Unique"
+            left join config_location CL on RH."LocationUnique" = CL."Unique"
+        ';
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
     }
 
     /**

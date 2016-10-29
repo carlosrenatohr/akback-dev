@@ -498,6 +498,13 @@ class Customer extends AK_Controller
         echo json_encode($formatPurchases);
     }
 
+    public function load_receiptsCustomer() {
+        $formattedReceipts = [];
+        $receipts = $this->customer->receiptsBasedByCustomer();
+
+        echo json_encode($receipts);
+    }
+
     public function getLocationName($unique)
     {
         $location = $this->customer->getLocationName($unique);
