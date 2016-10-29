@@ -522,4 +522,18 @@ class Customer extends AK_Controller
         echo json_encode($ncards);
     }
 
+    public function deleteCustomerCard($id) {
+        $status = $this->customer->deleteCustomerCard($id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Card removed!'
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+
+        echo json_encode($response);
+    }
+
 }

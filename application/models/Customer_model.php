@@ -185,6 +185,11 @@ class Customer_model extends CI_Model
         return $result;
     }
 
+    public function deleteCustomerCard($id) {
+        $this->db->where('Unique', $id);
+        return $this->db->delete('customer_card');
+    }
+
     public function getLocations() {
         $this->db->select('Unique, Name, LocationName');
         $this->db->where('Status', 1);
