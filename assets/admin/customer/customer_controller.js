@@ -27,22 +27,22 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 updateCustomerContactTableData();
             }
             // Notes tab
-            if (tabTitle == 'Notes') {
+            else if (tabTitle == 'Notes') {
             //if(tabclick == 3) {
                 updateCustomerNotesTableData();
             }
             // Purchases tab
             //if(tabclick == 5) {
-            if(tabTitle == 'Purchases') {
+            else if(tabTitle == 'Purchases') {
                 updateCustomerPurchasesTableData();
             }
             // Visits tab
-            if(tabTitle == 'Visits') {
+            else if(tabTitle == 'Visits') {
             //if(tabclick == 6) {
                 updateCustomerVisitsTableData();
             }
             // Card tab
-            if(tabTitle == 'Card') {
+            else if(tabTitle == 'Card') {
                 updateCustomerCardTableData();
             }
         // Behavior of create form
@@ -55,16 +55,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             }
         }
     };
-
-    //customerService.getLocationName(1)
-    //    .then(function(response) {
-    //         $('#mainCustomerTabs').jqxTabs('setTitleAt', 1, response.data);
-    //    });
-    //
-    //customerService.getLocationName(2)
-    //    .then(function(response) {
-    //         $('#mainCustomerTabs').jqxTabs('setTitleAt' , 2, response.data);
-    //    });
 
     //$scope.customerTableSettings = customerService.getTableSettings();
     $scope.customerCheckIn1GridleSettings = customerService.getCheckin1GridSettings();
@@ -218,13 +208,16 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     };
 
     var updateCustomerCardTableData = function() {
-        if ($scope.customerID != undefined) {
-            var tablesettings = customerService.getCardTableSettings($scope.customerID);
-            $('#customerCardTabGrid').jqxGrid({
-                source: tablesettings.source
-            });
-        }
+        var tablesettings = customerService.getCardTableSettings($scope.customerID);
+        $('#customerCardTabGrid').jqxGrid({
+            source: new $.jqx.dataAdapter(tablesettings.source)
+        });
     };
+
+    $('#customerCardTabGrid').on('bindingComplete', function() {
+        console.log('bc');
+    });
+
 
     var updateCustomerVisitsTableData = function() {
         if ($scope.customerID != undefined) {
@@ -269,6 +262,18 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         },
         resizable: false,
         width: "35%", height: "50%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    $scope.CustomerCardWinSettings = {
+        created: function (args) {
+            customerCardWin = args.instance;
+        },
+        resizable: false,
+        width: "35%", height: "35%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -661,7 +666,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
      * --- HELPERS TO FILL CONTROLS ON CUSTOMER
      */
     var toggleTabs = function(toShow) {
-        var elements = '#customertabNote, #customertabPurchase, #customertabVisits'; //#customertabContact,
+        var elements = '#customertabNote, #customertabPurchase, #customertabVisits, #customertabCard'; //#customertabContact,
         if (toShow) {
             $(elements).find('.jqx-tabs-titleContentWrapper').css('margin-top', '0');
             $(elements).show();
@@ -1293,6 +1298,54 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             $('#mainBtnCustomerNote').hide();
             $('#promptToCloseCustomerNote').hide();
             $('#promptToDeleteCustomerNote').show();
+        }
+    };
+
+    /**
+     * CARD TAB
+     */
+    $scope.customerCardID = null;
+    $scope.editCustomerCard = function(e) {
+        var row = e.args.row.bounddata;
+        $scope.customerCardID = row.Unique;
+        $('#CustomerCardWin #ccard_card').html(row.Card4);
+        $('#CustomerCardWin #ccard_type').html(row.CardType);
+        $('#CustomerCardWin #ccard_createdBy').html(row.CreatedByName);
+        $('#CustomerCardWin #ccard_createdAt').html(row.Created_);
+        customerCardWin.open();
+    };
+    
+    $scope.closeCustomerCard = function() {
+        customerCardWin.close();
+    };
+    
+    $scope.deleteCustomerCard = function (option) {
+        if (option != undefined) {
+            $('#mainCCardButtons').show();
+            $('#promptToDeleteCCard').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                url: SiteRoot + 'admin/Customer/deleteCustomerCard/' + $scope.customerCardID,
+                method: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        updateCustomerCardTableData();
+                        $scope.closeCustomerCard();
+                    } else if (data.status == 'error') {
+                        console.log(data.message);
+                    } else {
+                        console.error('Error from ajax');
+                    }
+                }
+            });
+        } else if (option == 1) {
+            $scope.closeCustomerCard();
+        } else if (option == 2) {
+        } else {
+            $('#mainCCardButtons').hide();
+            $('#promptToDeleteCCard').show();
         }
     };
 

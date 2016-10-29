@@ -980,7 +980,7 @@ demoApp.service('customerService', function ($http) {
         var urlToRequest = '';
         if (unique != undefined)
             urlToRequest = SiteRoot + 'admin/Customer/load_cardCustomer/' + unique;
-        var dataAdapterCustomerGrid = new $.jqx.dataAdapter({
+        var dataAdapterCustomerGrid = {
             dataType: 'json',
             dataFields: [
                 {name: 'Unique', type: 'string'},
@@ -992,15 +992,15 @@ demoApp.service('customerService', function ($http) {
                 {name: 'CreatedByName', type: 'string'}
             ],
             url: urlToRequest
-        });
+        };
 
         var settings = {
             source: dataAdapterCustomerGrid,
             columns: [
                 {dataField: 'Unique', type: 'string', hidden:true}, // filtertype: 'list'
-                {text: 'Card', dataField: 'Card4', type: 'string', width: '25%'},
-                {text: 'Card Type', dataField: 'CardType', type: 'string', width: '25%'},
-                {text: 'Created', dataField: 'Created_', type: 'string', width: '30%', filtertype: 'date'},
+                {text: 'Card', dataField: 'Card4', type: 'string', width: '25%', filtertype: 'list'},
+                {text: 'Card Type', dataField: 'CardType', type: 'string', width: '25%', filtertype: 'list'},
+                {text: 'Created', dataField: 'Created_', type: 'string', width: '30%', filtertype: 'range'},
                 {text: 'Created By', dataField: 'CreatedByName', type: 'string', width: '20%', filtertype: 'list'}
 
             ],
@@ -1009,11 +1009,14 @@ demoApp.service('customerService', function ($http) {
             theme: 'arctic',
             sortable: true,
             filterable: true,
+            filterMode: 'simple',
             pageable: true,
             pageSize: 10,
             pagerMode: 'simple',
             autoheight: true,
-            autorowheight: true
+            autorowheight: true,
+            columnsResize: true,
+            ready: function() {}
         };
 
         return settings;

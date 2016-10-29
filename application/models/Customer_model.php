@@ -204,8 +204,9 @@ class Customer_model extends CI_Model
              customer_card.Created, customer_card.CreatedBy, createdUser.UserName as CreatedByName'
         );
         $this->db->from('customer_card');
-        $this->db->where('customer_card.CustomerUnique', $customerID);
         $this->db->join('config_user createdUser', 'createdUser.Unique = customer_card.CreatedBy', 'left');
+        $this->db->where('customer_card.CustomerUnique', $customerID);
+        $this->db->where('customer_card.Status', 1);
         $result = $this->db->get()->result_array();
 
         return $result;
@@ -213,7 +214,8 @@ class Customer_model extends CI_Model
 
     public function deleteCustomerCard($id) {
         $this->db->where('Unique', $id);
-        return $this->db->delete('customer_card');
+//        return $this->db->delete('customer_card');
+        return $this->db->update('customer_card', ['Status' => 0]);
     }
 
     public function getLocations() {
