@@ -114,6 +114,7 @@ jqxthemes();
                                 <?php if (!is_null($CustomerPurchasesEnabled) && (int)$CustomerPurchasesEnabled > 0) { ?>
                                 <li id="customertabPurchase" class="SecTabInfo">Purchases</li>
                                 <?php } ?>
+                                <li id="customertabReceipt" class="SectTabInfo">Receipt</li>
                                 <li id="customertabCard" class="SectTabInfo">Card</li>
                                 <?php if (!is_null($checkinEnabled) && (int)$checkinEnabled > 0) { ?>
                                 <li id="customertabVisits" class="SecTabInfo">Visits</li>
@@ -162,6 +163,10 @@ jqxthemes();
                                 <?php $this->load->view($purchases_tab_view); ?>
                             </div>
                             <?php } ?>
+                            <!-- Customer Receipt subtab -->
+                            <div>
+                                <?php $this->load->view($receipt_tab_view); ?>
+                            </div>
                             <!-- Customer Card subtab -->
                             <div>
                                 <?php $this->load->view($card_tab_view); ?>

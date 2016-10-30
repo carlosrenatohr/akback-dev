@@ -36,6 +36,9 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             else if(tabTitle == 'Purchases') {
                 updateCustomerPurchasesTableData();
             }
+            else if(tabTitle == 'Receipt') {
+                updateCustomerReceiptTableData();
+            }
             // Visits tab
             else if(tabTitle == 'Visits') {
             //if(tabclick == 6) {
@@ -158,6 +161,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.customerContactTableSettings = customerService.getContactsTableSettings();
     $scope.customerNotesTableSettings = customerService.getNotesTableSettings();
     $scope.customerPurchasesTableSettings = customerService.getPurchasesTableSettings();
+    $scope.customerReceiptTableSettings = customerService.getReceiptTableSettings();
     $scope.customerVisitsTabSettings = customerService.getVisitsTableTabSettings();
     $scope.customerCardTabSettings = customerService.getCardTableSettings();
 
@@ -205,6 +209,13 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 source: tablesettings.source
             });
         }
+    };
+
+    var updateCustomerReceiptTableData = function() {
+        var tablesettings = customerService.getReceiptTableSettings($scope.customerID);
+        $('#customerReceiptGrid').jqxGrid({
+            source: tablesettings.source
+        });
     };
 
     var updateCustomerCardTableData = function() {
@@ -666,7 +677,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
      * --- HELPERS TO FILL CONTROLS ON CUSTOMER
      */
     var toggleTabs = function(toShow) {
-        var elements = '#customertabNote, #customertabPurchase, #customertabVisits, #customertabCard'; //#customertabContact,
+        var elements = '#customertabNote, #customertabPurchase, #customerReceiptGrid, #customertabVisits, #customertabCard'; //#customertabContact,
         if (toShow) {
             $(elements).find('.jqx-tabs-titleContentWrapper').css('margin-top', '0');
             $(elements).show();

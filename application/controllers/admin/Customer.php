@@ -47,6 +47,7 @@ class Customer extends AK_Controller
         $data['contacts_form'] = "backoffice_admin/customers/contacts_form";
         $data['notes_tab_view'] = "backoffice_admin/customers/notes_tab";
         $data['purchases_tab_view'] = "backoffice_admin/customers/purchases_tab";
+        $data['receipt_tab_view'] = "backoffice_admin/customers/receipt_tab";
         $data['options_tab_view'] = "backoffice_admin/customers/options_tab";
         $data['visits_tab_view'] = "backoffice_admin/customers/visits_tab";
         $data['card_tab_view'] = "backoffice_admin/customers/card_tab";
@@ -498,11 +499,19 @@ class Customer extends AK_Controller
         echo json_encode($formatPurchases);
     }
 
-    public function load_receiptsCustomer() {
+    public function load_receiptsCustomer($id) {
         $formattedReceipts = [];
-        $receipts = $this->customer->receiptsBasedByCustomer();
+        $receipts = $this->customer->receiptsBasedByCustomer($id);
+        foreach ($receipts as $receipt) {
+            //
+            $receipt['SellPrice'] = (!is_null($receipt['SellPrice'])) ? number_format($receipt['SellPrice'], $this->decimalPrice) : '';
+            $receipt['ListPrice'] = (!is_null($receipt['ListPrice'])) ? number_format($receipt['ListPrice'], $this->decimalPrice) : '';
+            $receipt['Tax'] = (!is_null($receipt['Tax'])) ? number_format($receipt['Tax'], $this->decimalTax) : '';
+            $receipt['Total'] = (!is_null($receipt['Total'])) ? number_format($receipt['Total'], $this->decimalPrice) : '';
+            $formattedReceipts[] = $receipt;
+        }
 
-        echo json_encode($receipts);
+        echo json_encode($formattedReceipts);
     }
 
     public function getLocationName($unique)

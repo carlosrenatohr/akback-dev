@@ -767,6 +767,121 @@ demoApp.service('customerService', function ($http) {
         }
     });
 
+    this.getReceiptTableSettings = function(parentUnique) {
+        var urlToRequest = '';
+        if (parentUnique != undefined) {
+            urlToRequest = SiteRoot + 'admin/Customer/load_receiptsCustomer/' + parentUnique;
+        }
+        var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+            var receiptnumber = (datarecord.Receipt != null) ? datarecord.Receipt : '';
+            var description = (datarecord.Description != null) ? datarecord.Description : '';
+            var location = datarecord.Location;
+            // var quantity = datarecord.Quantity;
+            var listPrice = datarecord.ListPrice;
+            var sellprice = datarecord.SellPrice;
+            // var discount =  datarecord.Discount;
+            var tax = datarecord.Tax ;
+            var total = datarecord.Total;
+            var created = datarecord.Created;
+            var createdby = datarecord.CreatedBy;
+            var updated = datarecord.Updated;
+            var updatedby = datarecord.UpdatedBy;
+            var moreDetails =
+                    "<span>Location: <b>" + location + " </b></span> " +
+                    "<span>Receipt: <b>" + receiptnumber + " </b></span> " +
+                    "<span>Created By: <b>" + createdby + " </b> at <b>" + created + "</b></span> " +
+                    "<span>Updated By: <b>" + updatedby + " </b> at <b>" + updated + "</b></span><br>" +
+                    "<span>ID: <b>" + datarecord.ReceiptID + " </b></span> " +
+                    "<span>Description: <b>" + description + " </b></span><br>" +
+                    "<span>List: <b>" + listPrice + " </b></span> " +
+                    // "<span>Discount: <b>" + discount + " </b></span> " +
+                    "<span>Sell: <b>" + sellprice + " </b></span>" +
+                    // "<span>Quantity: <b>" + quantity + " </b></span>" +
+                    "<span>Tax: <b>" + tax + " </b></span>" +
+                    "<span>Total: <b>" + total + " </b></span><br>"
+                ;
+            //
+            var rowDetailsContainer = $($(parentElement).children()[0]);
+            rowDetailsContainer.html(moreDetails);
+        };
+
+        return {
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'ReceiptID', type: 'int'},
+                    {name: 'Receipt', type: 'string'},
+                    {name: 'SubTotal', type: 'string'},
+                    {name: 'Tip', type: 'string'},
+                    {name: 'Total', type: 'string'},
+                    {name: 'CustomerID', type: 'string'},
+                    {name: 'Customer', type: 'string'},
+                    {name: 'Location', type: 'string'},
+                    {name: 'Status', type: 'string'},
+                    {name: 'StatusName', type: 'string'},
+                    {name: 'ReceiptDate', type: 'string'},
+                    {name: 'Created', type: 'string'},
+                    {name: 'CreatedBy', type: 'string'},
+                    {name: 'Updated', type: 'string'},
+                    {name: 'UpdatedBy', type: 'string'},
+                    // {name: 'Quantity', type: 'string'},
+                    {name: 'SellPrice', type: 'string'},
+                    {name: 'Description', type: 'string'},
+                    // {name: 'Discount', type: 'string'},
+                    {name: 'ListPrice', type: 'string'},
+                    {name: 'Tax', type: 'string'},
+                    // {name: 'ExtSell', type: 'string'},
+                ],
+                id: 'ReceiptID',
+                url: urlToRequest
+            }),
+            columns: [
+                {dataField: 'ReceiptID', hidden: true},
+                {text: 'Location', dataField: 'Location', filtertype: 'list'},
+                {text: 'Date', dataField: 'ReceiptDate', filtertype: 'range'},
+                {text: 'Receipt', dataField: 'Receipt', filtertype: 'list'},
+                {text: 'Status', dataField: 'StatusName', filtertype: 'list'},
+                {text: 'Total', dataField: 'Total',
+                    cellsalign: 'right', align: 'right'},
+                {text: 'Created By', dataField: 'CreatedBy', filtertype: 'list'},
+                {dataField: 'Created', hidden: true},
+                {dataField: 'UpdatedBy', hidden: true},
+                {dataField: 'Updated', hidden: true},
+                {dataField: 'Description', hidden: true},
+                {dataField: 'SellPrice', hidden: true},
+                {dataField: 'ListPrice', hidden: true},
+                {dataField: 'Tax', hidden: true},
+            ],
+            columnsResize: true,
+            width: "99%",
+            theme: 'artic',
+            sortable: true,
+            pageable: true,
+            pageSize: 10,
+            pagerMode: 'simple',
+            altRows: true,
+            autoheight: true,
+            autorowheight: true,
+            filterable: true,
+            showfilterrow: true,
+            rowdetails: true,
+            rowdetailstemplate: {
+                rowdetails: "<div style='margin-top: 5px;'></div>",
+                rowdetailsheight: 75
+            },
+            initrowdetails: initrowdetails,
+            showaggregates: true,
+            showstatusbar: true,
+            statusbarheight: 50,
+            ready: function() {
+                $('#row00customerReceiptGrid .jqx-grid-cell-pinned input[type="textarea"]').each(function(i, el){
+                    if($(el).css('width') != '0px')
+                        $(el).focus();
+                });
+            }
+        }
+    };
+
     this.getPurchasesTableSettings = function (parentUnique) {
         var urlToRequest = '';
         if (parentUnique != undefined) {
@@ -915,7 +1030,6 @@ demoApp.service('customerService', function ($http) {
         }
     };
 
-
     this.getVisitsTableTabSettings = function(unique) {
         var urlToRequest = '';
         if (unique != undefined)
@@ -997,11 +1111,11 @@ demoApp.service('customerService', function ($http) {
         var settings = {
             source: dataAdapterCustomerGrid,
             columns: [
-                {dataField: 'Unique', type: 'string', hidden:true}, // filtertype: 'list'
-                {text: 'Card', dataField: 'Card4', type: 'string', width: '25%', filtertype: 'list'},
-                {text: 'Card Type', dataField: 'CardType', type: 'string', width: '25%', filtertype: 'list'},
-                {text: 'Created', dataField: 'Created_', type: 'string', width: '30%', filtertype: 'range'},
-                {text: 'Created By', dataField: 'CreatedByName', type: 'string', width: '20%', filtertype: 'list'}
+                {dataField: 'Unique', hidden:true}, // filtertype: 'list'
+                {text: 'Card', dataField: 'Card4', width: '25%', filtertype: 'list'},
+                {text: 'Card Type', dataField: 'CardType', width: '25%', filtertype: 'list'},
+                {text: 'Created', dataField: 'Created_', width: '30%', filtertype: 'range'},
+                {text: 'Created By', dataField: 'CreatedByName', width: '20%', filtertype: 'list'}
 
             ],
             showfilterrow: true,
