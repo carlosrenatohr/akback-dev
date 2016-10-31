@@ -358,10 +358,10 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
             // url: SiteRoot + 'admin/MenuCategory/load_allcategories'
         },
         columns: [
+            {text: 'Menu', dataField: 'MenuName', type: 'string', filtertype: 'list'},
             {text: 'ID', dataField: 'Unique', type: 'int'},
             {text: 'Category Name', dataField: 'CategoryName', type: 'string'},
             {dataField: 'MenuUnique', type: 'string', hidden: true},
-            {text: 'Menu', dataField: 'MenuName', type: 'string', filtertype: 'list'},
             {text: 'Row', dataField: 'Row', type: 'number'},
             {text: 'Column', dataField: 'Column', type: 'number'},
             {text: 'Sort', dataField: 'Sort', type: 'number'},
