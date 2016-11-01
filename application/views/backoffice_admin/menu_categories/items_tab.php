@@ -29,15 +29,16 @@
         <!--  CATEGORY GRID -->
         </div>
         <div class="row">
-        <div class="col-md-12 col-sm-12" style="padding-right: 0!important;padding-left: 0!important;">
-            <!--  <h4 class="">Category grid</h4>-->
-            <div id="categories-container">
-                <category-cell-grid category-title="{{uno.CategoryName}}">
-                </category-cell-grid>
+            <div class="col-md-12 col-sm-12" style="padding-right: 0!important;padding-left: 0!important;">
+                <!--  <h4 class="">Category grid</h4>-->
+                <div id="categories-container">
+                    <category-cell-grid category-title="{{uno.CategoryName}}">
+                    </category-cell-grid>
+                </div>
             </div>
         </div>
-        </div>
-        <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
+        <?php $this->load->view($categoryName_form); ?>
+            <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
     </div>
     <!--  Windows to save data on items   -->
     <jqx-window jqx-on-close="close()" jqx-settings="itemsMenuWindowsSetting"

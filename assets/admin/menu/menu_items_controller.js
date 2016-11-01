@@ -240,9 +240,71 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
     };
 
+    var categNameWind;
+    $scope.itemsMenuChangeCategNameWind = {
+        created: function (args) {
+            categNameWind = args.instance;
+        },
+        resizable: false,
+        width: "65%", height: "40%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    $('#OneCategoryName').on('keypress keyup paste change', function(e) {
+        $('#saveItemOneCategoryBtn').prop('disabled', false);
+    });
+
     $scope.dblclickCategoryCell = function(e, row) {
-        console.log(e, row);
-        $http.get(SiteRoot + 'admin/men')
+        $http.get(SiteRoot + 'admin/MenuCategory/get_oneCategory/' + row.Unique)
+            .then(function(response) {
+                if (response.data) {
+                    var category = response.data.row;
+                    $('#OneCategoryName').val(category.CategoryName);
+                    $('#OneCategoryId').val(category.Unique);
+                    categNameWind.open();
+                }
+            }, function(){})
+    };
+
+    $scope.saveOneCategory = function() {
+        var unique = $('#OneCategoryId').val();
+        var name = $('#OneCategoryName').val();
+        var data = {
+            CategoryName: name
+        };
+
+        $http.post(
+                SiteRoot + 'admin/MenuCategory/update_Category/' + unique + '/1',
+                data)
+            .then(function(response) {
+                var categorySelected = ($scope.selectedCategoryInfo);
+                $scope.menuSelectedWithCategories.newCategories[categorySelected.Row][categorySelected.Column].CategoryName = name;
+                categNameWind.close();
+            });
+    };
+
+    $scope.closeOneCategory = function(option) {
+        if (option != undefined) {
+            $('#mainOneCategoryBtns').show();
+            $('#closeOneCategoryBtns').hide();
+        }
+        if (option == 0) {
+            $scope.saveOneCategory();
+        } else if (option == 1) {
+            categNameWind.close();
+        } else if (option == 2) {
+        } else {
+            if ($('#saveItemOneCategoryBtn').is(':disabled')) {
+                categNameWind.close();
+            }
+            else {
+                $('#mainOneCategoryBtns').hide();
+                $('#closeOneCategoryBtns').show();
+            }
+        }
     };
 
     function drawExistsItemsOnGrid() {

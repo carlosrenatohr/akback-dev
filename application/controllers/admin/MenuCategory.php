@@ -29,17 +29,18 @@ class MenuCategory extends AK_Controller
         $data['menu_tab_view'] = $menu_path . "menu_tab";
         $data['category_tab_view'] = $menu_path . "categories_tab";
         $data['items_tab_view'] = $menu_path . "items_tab";
-        $data['inventory_tab_view'] = $menu_path . "inventory/index";
-        $data['inventory_item_subtab_view'] = $menu_path . "inventory/item_subtab";
-        $data['inventory_cost_subtab_view'] = $menu_path . "inventory/cost_subtab";
-        $data['inventory_price_subtab_view'] = $menu_path . "inventory/price_subtab";
-        $data['inventory_stocklevel_subtab_view'] = $menu_path . "inventory/stocklevel_subtab";
-        $data['inventory_tax_subtab_view'] = $menu_path . "inventory/tax_subtab";
-        $data['inventory_barcode_subtab_view'] = $menu_path . "inventory/barcode_subtab";
-        $data['inventory_question_subtab_view'] = $menu_path . "inventory/question_subtab";
-        $data['inventory_printer_subtab_view'] = $menu_path . "inventory/printer_subtab";
-        $data['inventory_options_subtab_view'] = $menu_path . "inventory/options_subtab";
-        $data['inventory_picture_subtab_view'] = $menu_path . "inventory/picture_subtab";
+        $data['categoryName_form'] = $menu_path . "categoryname_form";
+//        $data['inventory_tab_view'] = $menu_path . "inventory/index";
+//        $data['inventory_item_subtab_view'] = $menu_path . "inventory/item_subtab";
+//        $data['inventory_cost_subtab_view'] = $menu_path . "inventory/cost_subtab";
+//        $data['inventory_price_subtab_view'] = $menu_path . "inventory/price_subtab";
+//        $data['inventory_stocklevel_subtab_view'] = $menu_path . "inventory/stocklevel_subtab";
+//        $data['inventory_tax_subtab_view'] = $menu_path . "inventory/tax_subtab";
+//        $data['inventory_barcode_subtab_view'] = $menu_path . "inventory/barcode_subtab";
+//        $data['inventory_question_subtab_view'] = $menu_path . "inventory/question_subtab";
+//        $data['inventory_printer_subtab_view'] = $menu_path . "inventory/printer_subtab";
+//        $data['inventory_options_subtab_view'] = $menu_path . "inventory/options_subtab";
+//        $data['inventory_picture_subtab_view'] = $menu_path . "inventory/picture_subtab";
         $data['items_menuitem_subtab_view'] = $menu_path . "items_menuitem_subtab";
         $data['items_price_subtab_view'] = $menu_path . "items_price_subtab";
         $data['items_questions_subtab_view'] = $menu_path . "items_question_subtab";
@@ -208,6 +209,46 @@ class MenuCategory extends AK_Controller
 
     /**
      * @method POST
+     * @param $id Unique from selected Menu
+     * @description Delete an existing Menu
+     * @returnType json
+     */
+    public function remove_menu($id) {
+        $return = $this->menu->deleteMenu($id);
+
+        if ($return) {
+            $response = [
+                'status' => 'success',
+                'message' => $return
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => $return
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
+    public function get_oneCategory($id) {
+        $status = $this->menu->getCategory($id);
+
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'A category was found',
+                'row' => $status
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @method POST
      * @description Add new Category to db
      * @returnType json
      */
@@ -283,13 +324,17 @@ class MenuCategory extends AK_Controller
      * @description update an existing Category to db
      * @returnType json
      */
-    public function update_Category($id) {
+    public function update_Category($id, $novalidation = null) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $table = 'config_menu_category';
 
-
-        $validation = $this->beforeUpdatingCategory($id, $request, $table);
+        if (!is_null($novalidation)) {
+            $validation['sure'] = true;
+        } else {
+            $validation = $this->beforeUpdatingCategory($id, $request, $table);
+        }
+        //
         if (!$validation['sure']) {
             $response = [
                 'status' => 'error',
@@ -350,30 +395,6 @@ class MenuCategory extends AK_Controller
             'sure' => $sure,
             'message' => $message
         ];
-    }
-
-    /**
-     * @method POST
-     * @param $id Unique from selected Menu
-     * @description Delete an existing Menu
-     * @returnType json
-     */
-    public function remove_menu($id) {
-        $return = $this->menu->deleteMenu($id);
-
-        if ($return) {
-            $response = [
-                'status' => 'success',
-                'message' => $return
-            ];
-        } else {
-            $response = [
-                'status' => 'error',
-                'message' => $return
-            ];
-        }
-
-        echo json_encode($response);
     }
 
     /**

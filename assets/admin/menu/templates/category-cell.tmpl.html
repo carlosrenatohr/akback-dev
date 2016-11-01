@@ -10,7 +10,7 @@
                     streched11: (menuSelectedWithCategories.grid.cols == 11),
                     }"
          ng-click="clickCategoryCell($event, uno);$event.stopPropagation();" title="{{uno.CategoryName}}"
-         ng-dblclick="dblclickCategoryCell($event, uno);$event.stopPropagation();">
+         ng-dblclick="dblclickCategoryCell($event, uno);">
         {{ (uno) ? uno.CategoryName : $index+1 }}
     </div>
 </div>

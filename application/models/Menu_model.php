@@ -101,6 +101,12 @@ class Menu_model extends CI_Model
      * MENU CATEGORIES QUERIES
      *
      */
+    public function getCategory($id) {
+        $this->db->select('Unique, CategoryName');
+
+        return $this->db->get_where($this->category_table, ['Unique' => $id])->row_array();
+    }
+
     public function storeCategory($values) {
         $query = $this->db->insert($this->category_table, $values);
 
