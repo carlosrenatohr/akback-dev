@@ -240,6 +240,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
     };
 
+    $scope.dblclickCategoryCell = function(e, row) {
+        console.log(e, row);
+        $http.get(SiteRoot + 'admin/men')
+    };
+
     function drawExistsItemsOnGrid() {
         $.ajax({
             'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
