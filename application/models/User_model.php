@@ -18,10 +18,13 @@ class User_model extends CI_Model
     public function getLists()
     {
         $this->db->select(
-            'config_user.*,
-            config_user_position.ConfigPositionUnique as PrimaryPosition,
-            config_position.PositionName as PrimaryPositionName
-            '
+            "config_user.*,
+            config_user_position.\"ConfigPositionUnique\" as \"PrimaryPosition\",
+            config_position.\"PositionName\" as \"PrimaryPositionName\",
+            cuc.\"UserName\" as \"CreatedByName\", cuu.\"UserName\" as \"UpdatedByName\",
+            to_char(date_trunc('minutes', config_user.\"Created\" ::timestamp), 'DD-MM-YYYY HH:MI AM') as \"Created\", 
+            to_char(date_trunc('minutes', config_user.\"Updated\" ::timestamp), 'DD-MM-YYYY HH:MI AM') as \"Updated\" 
+            ", false
         );
         $this->db->from('config_user');
         $this->db->join('config_user_position', 'config_user.Unique = config_user_position.ConfigUserUnique', 'left');
@@ -29,6 +32,8 @@ class User_model extends CI_Model
             'config_position',
             'config_position.Unique = config_user_position.ConfigPositionUnique'
         );
+        $this->db->join('config_user cuc', 'cuc.Unique = config_user.CreatedBy', 'left');
+        $this->db->join('config_user cuu', 'cuu.Unique = config_user.UpdatedBy', 'left');
         $query = $this->db
             ->where('config_user_position.PrimaryPosition', 1)
             ->where('config_user.Status', 1)

@@ -12,6 +12,7 @@ demoApp.controller("userController", function($scope, $http) {
     // Tabs config
     $scope.thetabs = 'darkblue';
     $scope.thetabsadd = 'darkblue';
+    $scope.disabled = true;
 
     // User Tabs settings
     $scope.tabsSettings = {
@@ -43,7 +44,11 @@ demoApp.controller("userController", function($scope, $http) {
                 {name: 'Phone1', type: 'string'},
                 {name: 'Phone2', type: 'string'},
                 {name: 'Email', type: 'string'},
-                {name: 'Note', type: 'string'}
+                {name: 'Note', type: 'string'},
+                {name: 'Created', type: 'string'},
+                {name: 'CreatedByName', type: 'string'},
+                {name: 'Updated', type: 'string'},
+                {name: 'UpdatedByName', type: 'string'}
             ],
             id: 'Unique',
             url: SiteRoot + 'admin/user/load_users'
@@ -64,8 +69,11 @@ demoApp.controller("userController", function($scope, $http) {
             {text: 'Phone 1', dataField: 'Phone1', type: 'string'},
             {text: 'Phone 2', dataField: 'Phone2', type: 'string'},
             {text: 'Email', dataField: 'Email', type: 'string'},
-            {name: 'Note', dataField: 'Note', hidden: true}
-
+            {dataField: 'Note', hidden: true},
+            {dataField: 'Created', hidden: true},
+            {dataField: 'CreatedByName', hidden: true},
+            {dataField: 'Updated', hidden: true},
+            {dataField: 'UpdatedByName', hidden: true}
         ],
         columnsResize: true,
         width: "99.7%",
@@ -118,8 +126,9 @@ demoApp.controller("userController", function($scope, $http) {
         var values = e.args.row;
         for (var i in values) {
             var ind = i.toLocaleLowerCase();
-            if ($('.addUserField#add_' + ind).length) {
-                $('.addUserField#add_' + ind).val(values[i]);
+            var el = $('.addUserField#add_' + ind);
+            if (el.length) {
+                el.val(values[i]);
             }
         }
         $('#deleteAddUserForm').show();
@@ -519,6 +528,7 @@ demoApp.controller("userController", function($scope, $http) {
 
     $('#tabsUser').on('tabclick', function (event) {
         var tabclicked = event.args.item;
+        var tabTitle = $(this).jqxTabs('getTitleAt', tabclicked);
         //
         if (tabclicked == 0) {
             $('#deleteAddUserForm').show();
@@ -526,7 +536,7 @@ demoApp.controller("userController", function($scope, $http) {
             $('#deleteAddUserForm').hide();
         }
         // POSITION TAB
-        if(tabclicked == 2) {
+        if(tabTitle == 'Position') {
             if ($scope.userId != null) {
                 $('#userPositionsTable').show();
                 $('#openUserPositionWindowBtn').show();
@@ -556,7 +566,7 @@ demoApp.controller("userController", function($scope, $http) {
                 });
             }
         }
-        if(tabclicked == 3) {
+        else if(tabclicked == 'Notes') {
             setTimeout(function(){
                 $("#add_note").focus();
             }, 100);

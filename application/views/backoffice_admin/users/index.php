@@ -75,158 +75,20 @@ jqxthemes();
                                         <li id="contact_itemTab">Contact</li>
                                         <li id="position_itemTab" style="display: none;">Position</li>
                                         <li id="notes_itemTab">Notes</li>
+                                        <li id="notes_itemTab">Info</li>
                                     </ul>
                                     <!-- ------------  -->
                                     <!-- INFO TAB  -->
                                     <!-- ------------  -->
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab1" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px; ">
-                                        <div class="row">
-                                            <div style="width:330px;float:left;">
-<!--                                                <input type="hidden" name="submitted" id="submitted" value="1">-->
-
-                                                <!-- Start user fields-->
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">User Name:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField required-field" id="add_username" name="add_userName" placeholder="User Name" autofocus>
-                                                    </div>
-                                                    <div style="float:left;">
-                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">First Name:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField required-field" id="add_firstname" name="add_firstName" placeholder="First Name">
-                                                    </div>
-                                                    <div style="float:left;">
-                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px;  width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Last Name:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_lastname" name="add_lastName" placeholder="Last Name">
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px;  width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Password:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField required-field" id="add_password" name="add_password" placeholder="Password">
-                                                    </div>
-                                                    <div style="float:left;">
-                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px;  width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Code:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField required-field" id="add_code" name="add_code" placeholder="Code">
-                                                    </div>
-                                                    <div style="float:left;">
-                                                        <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                                                    </div>
-                                                </div>
-
-                                            </div><!--End Grid1-->
-
-                                            <div style="float:left; padding:2px; width:350px;">
-                                                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary:</div>
-                                                <div style="float:left; width:180px;">
-                                                    <jqx-combo-box  jqx-on-select="positionSelectChanged(event)" id="positionCombobox" class="required-field"
-                                                                    jqx-settings="positionSelectSetting">
-
-                                                    </jqx-combo-box>
-                                                </div>
-                                                <div style="float:left;">
-                                                    <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-                                                </div>
-
-                                            </div>
-
-                                            <div style="width:330px;float:left;">
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Phone 1:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField phone" id="add_phone1" name="add_phone1" placeholder="Phone1">
-                                                    </div>
-                                                </div>
-
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Phone 2:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField phone" id="add_phone2" name="add_phone2" placeholder="Phone2">
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:400px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Email:</div>
-                                                    <div style="float:left; width:250px;">
-                                                        <div class="btn-group">
-                                                            <input type="email" class="form-control searchinput addUserField" id="add_email" name="add_email" placeholder="Email Address" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!--End Grid2-->
-                                        </div><!--End Grid Row-->
+                                        <?php $this->load->view($info_tab_view); ?>
                                     </div><!--End Tab1-->
 
                                     <!-- ------------  -->
                                     <!-- CONTACT TAB  -->
                                     <!-- ------------  -->
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab2" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
-                                        <div class="row">
-                                            <div style="width:350px;float:left;">
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Address 1:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_address1" name="add_address1" placeholder="Adress1">
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Address 2:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_address2" name="add_address2" placeholder="Adress2">
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">City:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_city" name="add_city" placeholder="City">
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">State:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_state" name="add_state" placeholder="State">
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Zip:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_zip" name="add_zip" placeholder="Zip">
-                                                    </div>
-                                                </div>
-
-                                                <div style="float:left; padding:2px; width:350px;">
-                                                    <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Country:</div>
-                                                    <div style="float:left; width:180px;">
-                                                        <input type="text" class="form-control addUserField" id="add_country" name="add_zip" placeholder="Country">
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
+                                        <?php $this->load->view($contact_tab_view); ?>
                                     </div>
                                     <!-- ------------  -->
                                     <!-- POSITION TAB  -->
@@ -235,21 +97,18 @@ jqxthemes();
                                          style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <?php $this->load->view($position_tab_view); ?>
                                     </div>
-
                                     <!-- ------------  -->
                                     <!-- NOTES TAB  -->
                                     <!-- ------------  -->
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab4" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
-                                        <div class="row">
-                                            <div style="width:100%;float:left;">
-                                                <div style="float:left; padding:2px; width:100%;">
-                                                    <div style="float:left; padding:8px; text-align:left; width:100px; font-weight:bold;">Note:</div>
-                                                    <div style="float:left; width:100%;">
-                                                        <textarea rows="15" id="add_note" name="add_note" class="form-control addUserField" placeholder="Note"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <?php $this->load->view($notes_tab_view); ?>
+                                    </div>
+                                    <!-- ---------------  -->
+                                    <!-- SECOND INFO TAB  -->
+                                    <!-- ---------------  -->
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab4"
+                                         style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                        <?php $this->load->view($metadata_tab_view); ?>
                                     </div>
                                 </jqx-tabs>
                                 <!-- Main user buttons row -->
