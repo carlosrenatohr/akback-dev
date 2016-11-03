@@ -38,4 +38,16 @@ class ItemController extends AK_Controller
         $this->load->view($menu_path . "main", $data);
     }
 
+    public function brands() {
+        $data['currentuser'] = $this->session->userdata("currentuser");
+        $data['station'] = $this->session->userdata("station_number");
+        $data['page_title'] = "Item Brands";
+        $data['storename'] = $this->displaystore();
+        $brand_path = 'backoffice_admin/menu_categories/inventory/brands/';
+        $data['brand_subtab'] = $brand_path . 'brand_subtab';
+        $data['info_subtab'] = $brand_path . 'info_subtab';
+        //
+        $this->load->view($brand_path . "index", $data);
+    }
+
 }

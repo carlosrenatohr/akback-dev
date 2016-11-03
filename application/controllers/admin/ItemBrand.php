@@ -19,70 +19,48 @@ class ItemBrand extends AK_Controller
     {
         $post = $_POST;
         $status = $this->brand->postBrand($post);
-        echo json_encode(
-            [
+        if ($status) {
+            $response = [
                 'status' => 'success',
-                'message' => $status
-            ]
-        );
+                'message' => 'Brand created successfully',
+                'id' => $status
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+
+        echo json_encode($response);
     }
 
     public function updateBrand($id)
     {
         $post = $_POST;
         $status = $this->brand->updateBrand($id, $post);
-        echo json_encode(
-            [
+        if ($status) {
+            $response = [
                 'status' => 'success',
                 'message' => $status
-            ]
-        );
-    }
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
 
-    public function update_Brand_item($id)
-    {
-        $post = $_POST;
-        $status = $this->brand->updateBrandItem($id, $post);
-        echo json_encode(
-            [
-                'status' => 'success',
-                'message' => $status
-            ]
-        );
+        echo json_encode($response);
     }
 
     public function deleteBrand($id)
     {
         $status = $this->brand->deleteBrand($id);
-        echo json_encode(
-            [
+        if ($status) {
+            $response = [
                 'status' => 'success',
                 'message' => $status
-            ]
-        );
-    }
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
 
-    public function post_Brand_item()
-    {
-        $post = $_POST;
-        $status = $this->brand->postBrandItem($post);
-        echo json_encode(
-            [
-                'status' => 'success',
-                'message' => $status
-            ]
-        );
-    }
-
-    public function delete_Brand_item($id)
-    {
-        $status = $this->brand->deleteBrandItem($id);
-        echo json_encode(
-            [
-                'status' => 'success',
-                'message' => $status
-            ]
-        );
+        echo json_encode($response);
     }
 
 }

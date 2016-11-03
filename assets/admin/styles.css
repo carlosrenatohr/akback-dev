@@ -48,6 +48,10 @@ div.toolbar-list span {
     /*background-size: 100%;*/
 }
 
+.icon-32-brand {
+    background-image: url("../../assets/img/brand.png");
+}
+
 /* MENU - Items tabs */
 @media (max-width: 1200px) {
     #categories-container {

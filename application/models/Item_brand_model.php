@@ -11,7 +11,7 @@ class Item_brand_model extends CI_Model
     public function getLists($id = null)
     {
         $this->db->select('
-            item_brand."Name",item_brand."Note",
+            item_brand."Unique",item_brand."Name",item_brand."Note",
             cuc."UserName" as "CreatedByName", date_trunc(\'minutes\',item_brand."Created" ::timestamp) as "Created",
             cuu."UserName" as "UpdatedByName", date_trunc(\'minutes\',item_brand."Updated" ::timestamp) as "Updated"
         ', false);
@@ -26,7 +26,7 @@ class Item_brand_model extends CI_Model
         $extra_fields = [
             'Status' => 1,
             'Created' => date('Y-m-d H:i:s'),
-            'Createdby' => $this->session->userdata('userid')
+            'CreatedBy' => $this->session->userdata('userid')
         ];
         $data = array_merge($request, $extra_fields);
         $status = $this->db->insert('item_brand', $data);

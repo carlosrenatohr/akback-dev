@@ -12,7 +12,7 @@ jqxthemes();
     var SiteRoot ="<?php echo base_url() ?>";
     $("#tabtitle").text("Items");
 </script>
-<script type="application/javascript" src="<?= base_url()?>assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
+<script type="application/javascript" src="<?php echo base_url()?>assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/config.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_questions_service.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_inventory_controller.js"></script>
@@ -40,7 +40,7 @@ jqxthemes();
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url("dashboard/admin") ?>" style="outline:0;">
+                            <a href="<?php echo base_url("dashboard/items/brands") ?>" style="outline:0;">
                                 <span class="icon-32-brand"></span>
                                 Brands
                             </a>
@@ -240,9 +240,6 @@ jqxthemes();
     }
     .row.inventory_tab {
         margin: 0!important;
-    }
-    .icon-32-brand {
-        background: url("/assets/img/brand.png");
     }
 </style>
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>
