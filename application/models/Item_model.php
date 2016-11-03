@@ -207,6 +207,18 @@ class Item_model extends CI_Model
         return $result;
     }
 
+    public function updatingItemInStock($id, $data) {
+        $data["UpdatedBy"] = $this->session->userdata('userid');
+        $data["Updated"] = date('Y-m-d H:i:s');
+        $this->db->where('Unique', $id);
+        return $this->db->update('item_stock_line', $data);
+    }
+
+    public function deleteItemInStock($id) {
+        $this->db->where('Unique', $id);
+        return $this->db->delete('item_stock_line');
+    }
+
     public function getTotalQuantity($unique = 1, $store = 2) {
         $this->db->select("SUM(\"Quantity\") as \"Quantity\"", false);
         $this->db->from('item_stock_line');

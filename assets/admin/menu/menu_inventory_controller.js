@@ -678,7 +678,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
+    $scope.stocklID = null;
+    $scope.createOrEditStockl = null;
     $scope.openStockWind = function() {
+        $scope.stocklID = null;
+        $scope.createOrEditStockl = 'create';
         var loc = $('#stationID').val();
         var station = $('#stockl_location').jqxComboBox('getItemByValue', loc);
         $('#stockl_location').jqxComboBox({'selectedIndex': -1});
@@ -705,8 +709,31 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 range.moveStart('character', 0);
                 range.select();
             }
+            $('#deleteStockBtn').hide();
             $('#saveStockBtn').prop('disabled', true);
         }, 100);
+        stocklWind.open();
+    };
+
+    $scope.editStockWind = function(e) {
+        var row = e.args.row.bounddata;
+        console.log(row);
+        $scope.stocklID = row.Unique;
+        $scope.createOrEditStockl = 'edit';
+
+        setTimeout(function() {
+            var loc = $('#stationID').val();
+            $('#stockl_location').jqxComboBox('val', row.LocationUnique);
+            $('#stockl_newQty').jqxNumberInput('val', row.Quantity);
+            // $('#stockl_addremoveQty').jqxNumberInput('val', parseFloat(row.Quantity));
+            //
+            $('#stocklWind #stockl_comment').val(row.Comment);
+            var transDate = new Date(Date.parse(row.TransactionDate));
+            $("#stockl_transDate").jqxDateTimeInput('setDate', transDate);
+            $("#stockl_transTime").jqxDateTimeInput('setDate', transDate);
+        }, 100);
+        $('#deleteStockBtn').show();
+        $('#saveStockBtn').prop('disabled', true);
         stocklWind.open();
     };
 
@@ -744,6 +771,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.saveStockWind = function() {
         if (!validationStockForm()) {
+            console.log($scope.createOrEditStockl);
             var dataReq = {
                 'ItemUnique': $scope.itemInventoryID,
                 'LocationUnique': $('#stockl_location').jqxComboBox('getSelectedItem').value,
@@ -752,8 +780,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 'trans_date': $('#stockl_transDate').val(),
                 'trans_time': $('#stockl_transTime').val()
             };
+            var url;
+            if ($scope.createOrEditStockl == 'create')
+                url = SiteRoot + 'admin/MenuItem/storeStocklineItems';
+            else if ($scope.createOrEditStockl == 'edit')
+                url = SiteRoot + 'admin/MenuItem/updateStocklineItems/' + $scope.stocklID;
             $.ajax({
-                url: SiteRoot + 'admin/MenuItem/updateStocklineItems',
+                url: url,
                 method: 'post',
                 dataType: 'json',
                 data: dataReq,
@@ -773,12 +806,46 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                     }
                     else if (response.status == 'error')
                         console.log(response.message, 0);
-                        //showingNotif(response.message, 0);
                     else
                         console.log(response.message, 0);
-                        //showingNotif(response.message, 0);
                 }
             });
+        }
+    };
+
+    $scope.deleteStockWind = function(option) {
+        if(option != undefined) {
+            $('#mainButtonsStockl').show();
+            $('#promptButtonsStockl').hide();
+            $('#deleteButtonsStockl').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                url: SiteRoot + 'admin/MenuItem/deleteStocklineItems/' + $scope.stocklID,
+                method: 'post',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.status == 'success') {
+                        updateItemsInventoryGrid();
+                        $scope.$apply(function() {
+                            var loc = $('#stationID').val();
+                            $('#itemstock_locationCbx').val(loc);
+                            $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, loc);
+                        });
+                        $('#stockLevelItemGrid').jqxGrid('hideloadelement');
+                        stocklWind.close();
+                    }
+                    else if (response.status == 'error') {}
+                    else {}
+                }
+            });
+        } else if (option == 1) {
+            stocklWind.close();
+        } else if (option == 2) {
+        } else {
+            $('#mainButtonsStockl').hide();
+            $('#promptButtonsStockl').hide();
+            $('#deleteButtonsStockl').show();
         }
     };
 

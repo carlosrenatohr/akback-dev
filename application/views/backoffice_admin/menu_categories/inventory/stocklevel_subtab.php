@@ -32,13 +32,12 @@
                 <jqx-grid id="stockLevelItemGrid"
                           jqx-settings="stockInventoryGrid"
                           jqx-create="stockInventoryGrid"
+                          jqx-on-rowdoubleclick="editStockWind(e)"
                 ></jqx-grid>
             </div>
         </div>
     </div>
-    <!--    -->
-    <!--    -->
-    <!--    -->
+
 </div>
 
 <jqx-window id="stocklWind"
@@ -131,15 +130,15 @@
             </div>
         </div>
         <!--  -->
-        <!--  -->
-        <!--  -->
         <br>
         <div id="mainButtonsStockl">
             <div class="col-md-8">
                 <button type="button" ng-click="saveStockWind()"
                         id="saveStockBtn" class="btn btn-primary" disabled>Save</button>
                 <button type="button" ng-click="closeStockWind()"
-                        id="deleteStockBtn" class="btn btn-warning">Close</button>
+                        id="closeStockBtn" class="btn btn-warning">Close</button>
+                <button type="button" ng-click="deleteStockWind()" style="display: none;"
+                        id="deleteStockBtn" class="btn btn-danger">Delete</button>
             </div>
         </div>
         <div id="promptButtonsStockl" style="display:none; margin-top:10px; overflow:auto;">
@@ -148,6 +147,14 @@
                 <button type="button" ng-click="closeStockWind(0)" class="btn btn-primary">Yes</button>
                 <button type="button" ng-click="closeStockWind(1)" class="btn btn-warning">No</button>
                 <button type="button" ng-click="closeStockWind(2)" class="btn btn-info">Cancel</button>
+            </div>
+        </div>
+        <div id="deleteButtonsStockl" style="display:none; margin-top:10px; overflow:auto;">
+            <div class="col-sm-8">
+                Do you really want to delete it?<br>
+                <button type="button" ng-click="deleteStockWind(0)" class="btn btn-primary">Yes</button>
+                <button type="button" ng-click="deleteStockWind(1)" class="btn btn-warning">No</button>
+                <button type="button" ng-click="deleteStockWind(2)" class="btn btn-info">Cancel</button>
             </div>
         </div>
     </div>
