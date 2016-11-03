@@ -275,13 +275,13 @@ app.service('inventoryExtraService', function ($http, questionService) {
         };
 
         // if (addSubgrid) {
-        //   settings.rowdetails = true;
-        //   settings.initrowdetails = questionService.getRowdetailsFromChoices();
-        //   settings.rowdetailstemplate = {
-        //          rowdetails: "<div class='choicesNestedGrid'></div>",
-        //       rowdetailsheight: 200,
-        //       rowdetailshidden: true
-        //   };
+          settings.rowdetails = true;
+          settings.initrowdetails = questionService.getRowdetailsFromChoices();
+          settings.rowdetailstemplate = {
+                 rowdetails: "<div class='choicesNestedGrid'></div>",
+              rowdetailsheight: 200,
+              rowdetailshidden: true
+          };
         // }
 
         return settings;

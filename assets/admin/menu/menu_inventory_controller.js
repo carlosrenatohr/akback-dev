@@ -812,7 +812,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     var updateQuestionItemTable = function(itemId) {
         $('.inventory_tab #questionItemTable').jqxGrid({
-            source: new $.jqx.dataAdapter(inventoryExtraService.getQuestionGridData(itemId).source)
+            source: new $.jqx.dataAdapter(inventoryExtraService.getQuestionGridData(itemId).source),
+            rowdetails: true,
+            initrowdetails: questionService.getRowdetailsFromChoices('QuestionUnique'),
+            rowdetailstemplate: {
+                rowdetails: "<div class='choicesNestedGrid'></div>",
+                rowdetailsheight: 200,
+                rowdetailshidden: true
+            }
         });
     };
 
