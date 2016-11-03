@@ -39,12 +39,12 @@ jqxthemes();
                                 Dashboard
                             </a>
                         </li>
-<!--                        <li>-->
-<!--                            <a href="--><?php //echo base_url("dashboard/admin") ?><!--" style="outline:0;">-->
-<!--                                <span class="icon-32-back"></span>-->
-<!--                                Back-->
-<!--                            </a>-->
-<!--                        </li>-->
+                        <li>
+                            <a href="<?php echo base_url("dashboard/admin") ?>" style="outline:0;">
+                                <span class="icon-32-brand"></span>
+                                Brands
+                            </a>
+                        </li>
                         <li>
                             <a style="outline:0;" ng-click="openInventoryWind()">
                                 <span class="icon-32-new"></span>
@@ -240,6 +240,9 @@ jqxthemes();
     }
     .row.inventory_tab {
         margin: 0!important;
+    }
+    .icon-32-brand {
+        background: url("/assets/img/brand.png");
     }
 </style>
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>
