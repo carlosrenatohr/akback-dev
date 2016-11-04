@@ -130,6 +130,11 @@ demoApp.controller("userController", function($scope, $http) {
             if (el.length) {
                 el.val(values[i]);
             }
+            if (ind == 'created' || ind == 'updated') {
+                var dt = new Date(Date.parse(values[i]));
+                el.jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+                el.jqxDateTimeInput('setDate', dt);
+            }
         }
         $('#deleteAddUserForm').show();
         // var selectedIndexByPosition = $('#positionCombobox').jqxComboBox('getItemByValue', values['PrimaryPosition']).index;

@@ -22,8 +22,8 @@ class User_model extends CI_Model
             config_user_position.\"ConfigPositionUnique\" as \"PrimaryPosition\",
             config_position.\"PositionName\" as \"PrimaryPositionName\",
             cuc.\"UserName\" as \"CreatedByName\", cuu.\"UserName\" as \"UpdatedByName\",
-            to_char(date_trunc('minutes', config_user.\"Created\" ::timestamp), 'DD-MM-YYYY HH:MI AM') as \"Created\", 
-            to_char(date_trunc('minutes', config_user.\"Updated\" ::timestamp), 'DD-MM-YYYY HH:MI AM') as \"Updated\" 
+            to_char(date_trunc('minutes', config_user.\"Created\" ::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Created\", 
+            to_char(date_trunc('minutes', config_user.\"Updated\" ::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Updated\" 
             ", false
         );
         $this->db->from('config_user');
@@ -84,6 +84,7 @@ class User_model extends CI_Model
     {
         $position_id = $data['position'];
         unset($data['position']);
+        $data['Suppress'] = 0;
         $result = $this->db->insert('config_user', $data);
         $insert_id = $this->db->insert_id();
         //
@@ -94,7 +95,6 @@ class User_model extends CI_Model
 //            'PayBasis' => 1,
 //            'Payrate' => 1,
             'Status' => 1,
-            'Suppress' => 0,
             'Created' => date('Y-m-d H:i:s'),
             'CreatedBy' => $this->session->userdata('userid')
         ];

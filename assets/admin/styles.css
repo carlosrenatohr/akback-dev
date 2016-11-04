@@ -50,6 +50,7 @@ div.toolbar-list span {
 
 .icon-32-brand {
     background-image: url("../../assets/img/brand.png");
+    background-size: cover;
 }
 
 /* MENU - Items tabs */

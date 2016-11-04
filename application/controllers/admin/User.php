@@ -21,7 +21,7 @@ class User extends AK_Controller
         $data['page_title'] = "Users administrator";
         $data['storename'] = $this->displaystore();
         $user_views_path = "backoffice_admin/users/";
-        $data['info_tab_view'] = $user_views_path . "info_tab";
+        $data['user_tab_view'] = $user_views_path . "user_tab";
         $data['contact_tab_view'] = $user_views_path . "contact_tab";
         $data['position_tab_view'] = $user_views_path. "position_tab";
         $data['notes_tab_view'] = $user_views_path. "notes_tab";
