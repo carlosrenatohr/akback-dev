@@ -19,6 +19,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         showCloseButton: false
     };
 
+    var pager = adminService.loadPagerConfig();
     $scope.ibrandsGridSettings = {
         source: new $.jqx.dataAdapter({
             dataType: 'json',
@@ -35,7 +36,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             url: SiteRoot + 'admin/ItemBrand/load_allbrands'
         }),
         columns: [
-            {dataField: 'Unique', hidden: true},
+            {text: 'ID', dataField: 'Unique'},
             {text: 'Name', dataField: 'Name'},
             {text: 'Note', dataField: 'Note'},
             {dataField: 'Created', hidden: true},
@@ -49,8 +50,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         showfilterrow: true,
         sortable: true,
         pageable: true,
-        pageSize: 10,
-        // pagesizeoptions: [],
+        pageSize: pager.pageSize,
+        pagesizeoptions: pager.pagesizeoptions,
         altRows: true,
         autoheight: true,
         autorowheight: true

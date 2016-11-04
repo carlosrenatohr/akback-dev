@@ -33,12 +33,12 @@
                                     <span class="mlabel">SUPPLIER</span>
                                 </a>
                             </div>
-                            <div class="icon">
-                                <a href="<?php echo base_url("backoffice/brand")?>">
-                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/brand.png">
-                                    <span class="mlabel">BRAND</span>
-                                </a>
-                            </div>
+<!--                            <div class="icon">-->
+<!--                                <a href="--><?php //echo base_url("backoffice/brand")?><!--">-->
+<!--                                    <img width="48" alt="" src="--><?php //echo base_url()?><!--assets/img/brand.png">-->
+<!--                                    <span class="mlabel">BRAND</span>-->
+<!--                                </a>-->
+<!--                            </div>-->
                             <div class="icon">
                                 <a href="<?php echo base_url("backoffice/category")?>">
                                     <img width="48" alt="" src="<?php echo base_url()?>assets/img/category.png">

@@ -48,7 +48,8 @@ class Item_brand_model extends CI_Model
         $status = true;
         if (!is_null($id) && $id != 'null') {
             $this->db->where('Unique', $id);
-            $status = $this->db->delete('item_brand');
+            $status = $this->db->update('item_brand', ['Status' => 0]);
+//            $status = $this->db->delete('item_brand');
         }
         return $status;
     }
