@@ -2,12 +2,8 @@
  * Created by carlosrenato on 04-25-16.
  */
 
-var demoApp = angular.module("demoApp", ['jqwidgets']);
-/**
- * User controller
- */
-demoApp.controller("userController", function($scope, $http) {
-
+angular.module("akamaiposApp", ['jqwidgets'])
+    .controller("userController", function($scope, $http, UserAdminService) {
     $scope.newOrEditSelected = null;
     // Tabs config
     $scope.thetabs = 'darkblue';
@@ -23,69 +19,7 @@ demoApp.controller("userController", function($scope, $http) {
     };
 
     // User datatable settings
-    $scope.userTableSettings = {
-        source: {
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'UserName', type: 'string'},
-                {name: 'FirstName', type: 'string'},
-                {name: 'LastName', type: 'string'},
-                //{name: 'Code', type: 'string'},
-                //{name: 'Password', type: 'string'},
-                {name: 'Address1', type: 'string'},
-                {name: 'Address2', type: 'string'},
-                {name: 'City', type: 'string'},
-                {name: 'State', type: 'string'},
-                {name: 'Zip', type: 'string'},
-                {name: 'Country', type: 'string'},
-                {name: 'PrimaryPosition', type: 'string'},
-                {name: 'PrimaryPositionName', type: 'string'},
-                {name: 'Phone1', type: 'string'},
-                {name: 'Phone2', type: 'string'},
-                {name: 'Email', type: 'string'},
-                {name: 'Note', type: 'string'},
-                {name: 'Created', type: 'string'},
-                {name: 'CreatedByName', type: 'string'},
-                {name: 'Updated', type: 'string'},
-                {name: 'UpdatedByName', type: 'string'}
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/user/load_users'
-        },
-        columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int'},
-            {text: 'User Name', dataField: 'UserName', type: 'string'},
-            {text: 'First Name', dataField: 'FirstName', type: 'string'},
-            {text: 'Last Name', dataField: 'LastName', type: 'string'},
-            {text: 'Primary Position', dataField: 'PrimaryPositionName', type: 'string'},
-            {text: 'Primary Position id', dataField: 'PrimaryPosition', type: 'string', hidden: true},
-            {text: 'Address 1', dataField: 'Address1', type: 'string', hidden: true},
-            {text: 'Address 2', dataField: 'Address2', type: 'string', hidden: true},
-            {text: 'City', dataField: 'City', type: 'string', hidden: true},
-            {text: 'State', dataField: 'State', type: 'string', hidden: true},
-            {text: 'Zip', dataField: 'Zip', type: 'string', hidden: true},
-            {text: 'Country', dataField: 'Country', type: 'string', hidden: true},
-            {text: 'Phone 1', dataField: 'Phone1', type: 'string'},
-            {text: 'Phone 2', dataField: 'Phone2', type: 'string'},
-            {text: 'Email', dataField: 'Email', type: 'string'},
-            {dataField: 'Note', hidden: true},
-            {dataField: 'Created', hidden: true},
-            {dataField: 'CreatedByName', hidden: true},
-            {dataField: 'Updated', hidden: true},
-            {dataField: 'UpdatedByName', hidden: true}
-        ],
-        columnsResize: true,
-        width: "99.7%",
-        theme: 'arctic',
-        sortable: true,
-        pageable: true,
-        pageSize: 20,
-        pagerMode: 'default',
-        altRows: true,
-        filterable: true,
-        filterMode: 'simple'
-    };
+    $scope.userTableSettings = UserAdminService.userGridSetings();
 
     // User window settings
     $scope.addUserWindowSettings = {
@@ -123,7 +57,7 @@ demoApp.controller("userController", function($scope, $http) {
     // Open the window form as edit user
     $scope.openEditUserWindows = function (e) {
         $scope.newOrEditSelected = 'edit';
-        var values = e.args.row;
+        var values = e.args.row.bounddata;
         for (var i in values) {
             var ind = i.toLocaleLowerCase();
             var el = $('.addUserField#add_' + ind);
@@ -575,10 +509,22 @@ demoApp.controller("userController", function($scope, $http) {
                 });
             }
         }
-        else if(tabclicked == 'Notes') {
+        else if(tabTitle == 'Notes') {
             setTimeout(function(){
                 $("#add_note").focus();
             }, 100);
+        }
+        else if(tabTitle == 'Info') {
+            var row = $('#userMainGrid').jqxGrid('getrowdatabyid', $scope.userId);
+
+            $('.addUserField#add_createdbyname').val(row.CreatedByName);
+            $('.addUserField#add_updatedbyname').val(row.UpdatedByName);
+            var dt = new Date(Date.parse(row.Created));
+            $('.addUserField#add_created').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+            $('.addUserField#add_created').jqxDateTimeInput('setDate', dt);
+            var dt = new Date(Date.parse(row.Updated));
+            $('.addUserField#add_updated').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+            $('.addUserField#add_updated').jqxDateTimeInput('setDate', dt);
         }
     });
 
@@ -625,6 +571,47 @@ demoApp.controller("userController", function($scope, $http) {
         return needValidation;
     };
 
+    function updateUserGrid() {
+        // $scope.userTableSettings = {
+        $('#userMainGrid').jqxGrid({
+            source: new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'UserName', type: 'string'},
+                    {name: 'FirstName', type: 'string'},
+                    {name: 'LastName', type: 'string'},
+                    //{name: 'Code', type: 'string'},
+                    //{name: 'Password', type: 'string'},
+                    {name: 'Address1', type: 'string'},
+                    {name: 'Address2', type: 'string'},
+                    {name: 'City', type: 'string'},
+                    {name: 'State', type: 'string'},
+                    {name: 'Zip', type: 'string'},
+                    {name: 'Country', type: 'string'},
+                    {name: 'PrimaryPosition', type: 'string'},
+                    {name: 'PrimaryPositionName', type: 'string'},
+                    {name: 'Phone1', type: 'string'},
+                    {name: 'Phone2', type: 'string'},
+                    {name: 'Email', type: 'string'},
+                    {name: 'Note', type: 'string'},
+                    {text: 'Email', dataField: 'Email'},
+                    {dataField: 'Note', hidden: true},
+                    {name: 'Created', type: 'string'},
+                    {name: 'CreatedByName', type: 'string'},
+                    {name: 'Updated', type: 'string'},
+                    {name: 'UpdatedByName', type: 'string'}
+                ],
+                id: 'Unique',
+                url: SiteRoot + 'admin/user/load_users'
+            }),
+            // created: function (args) {
+            //     args.instance.updateBoundData();
+            // }
+        });
+        // };
+    }
+
     // Action to save a user
     $scope.submitUserForm = function (closed) {
         var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
@@ -647,37 +634,7 @@ demoApp.controller("userController", function($scope, $http) {
                         if (data.status == 'success') {
                             $('.addUserField').css({"border-color": "#ccc"});
                             // reload table
-                            $scope.userTableSettings = {
-                                source: {
-                                    dataType: 'json',
-                                    dataFields: [
-                                        {name: 'Unique', type: 'int'},
-                                        {name: 'UserName', type: 'string'},
-                                        {name: 'FirstName', type: 'string'},
-                                        {name: 'LastName', type: 'string'},
-                                        //{name: 'Code', type: 'string'},
-                                        //{name: 'Password', type: 'string'},
-                                        {name: 'Address1', type: 'string'},
-                                        {name: 'Address2', type: 'string'},
-                                        {name: 'City', type: 'string'},
-                                        {name: 'State', type: 'string'},
-                                        {name: 'Zip', type: 'string'},
-                                        {name: 'Country', type: 'string'},
-                                        {name: 'PrimaryPosition', type: 'string'},
-                                        {name: 'PrimaryPositionName', type: 'string'},
-                                        {name: 'Phone1', type: 'string'},
-                                        {name: 'Phone2', type: 'string'},
-                                        {name: 'Email', type: 'string'},
-                                        {name: 'Note', type: 'string'}
-                                    ],
-                                    id: 'Unique',
-                                    url: SiteRoot + 'admin/user/load_users'
-                                },
-                                created: function (args) {
-                                    var instance = args.instance;
-                                    instance.updateBoundData();
-                                }
-                            };
+                            updateUserGrid();
                             $('#notificationSuccessSettings #notification-content').html('User created successfully!');
                             $('#notificationSuccessSettings').jqxNotification('open');
                             // CLOSE
@@ -719,37 +676,7 @@ demoApp.controller("userController", function($scope, $http) {
                         if (data.status == 'success') {
                             $('.addUserField').css({"border-color": "#ccc"});
                             // reload table
-                            $scope.userTableSettings = {
-                                source: {
-                                    dataType: 'json',
-                                    dataFields: [
-                                        {name: 'Unique', type: 'int'},
-                                        {name: 'UserName', type: 'string'},
-                                        {name: 'FirstName', type: 'string'},
-                                        {name: 'LastName', type: 'string'},
-                                        //{name: 'Code', type: 'string'},
-                                        //{name: 'Password', type: 'string'},
-                                        {name: 'Address1', type: 'string'},
-                                        {name: 'Address2', type: 'string'},
-                                        {name: 'City', type: 'string'},
-                                        {name: 'State', type: 'string'},
-                                        {name: 'Zip', type: 'string'},
-                                        {name: 'Country', type: 'string'},
-                                        {name: 'PrimaryPosition', type: 'string'},
-                                        {name: 'PrimaryPositionName', type: 'string'},
-                                        {name: 'Phone1', type: 'string'},
-                                        {name: 'Phone2', type: 'string'},
-                                        {name: 'Email', type: 'string'},
-                                        {name: 'Note', type: 'string'}
-                                    ],
-                                    id: 'Unique',
-                                    url: SiteRoot + 'admin/user/load_users'
-                                },
-                                created: function (args) {
-                                    var instance = args.instance;
-                                    instance.updateBoundData();
-                                }
-                            };
+                            updateUserGrid();
                             $('#notificationSuccessSettings #notification-content').html('User updated successfully!');
                             $('#notificationSuccessSettings').jqxNotification('open');
 
@@ -785,37 +712,7 @@ demoApp.controller("userController", function($scope, $http) {
                 if (data.status == 'success') {
                     $('.addUserField').css({"border-color": "#ccc"});
                     // reload table
-                    $scope.userTableSettings = {
-                        source: {
-                            dataType: 'json',
-                            dataFields: [
-                                {name: 'Unique', type: 'int'},
-                                {name: 'UserName', type: 'string'},
-                                {name: 'FirstName', type: 'string'},
-                                {name: 'LastName', type: 'string'},
-                                //{name: 'Code', type: 'string'},
-                                //{name: 'Password', type: 'string'},
-                                {name: 'Address1', type: 'string'},
-                                {name: 'Address2', type: 'string'},
-                                {name: 'City', type: 'string'},
-                                {name: 'State', type: 'string'},
-                                {name: 'Zip', type: 'string'},
-                                {name: 'Country', type: 'string'},
-                                {name: 'PrimaryPosition', type: 'string'},
-                                {name: 'PrimaryPositionName', type: 'string'},
-                                {name: 'Phone1', type: 'string'},
-                                {name: 'Phone2', type: 'string'},
-                                {name: 'Email', type: 'string'},
-                                {name: 'Note', type: 'string'}
-                            ],
-                            id: 'Unique',
-                            url: SiteRoot + 'admin/user/load_users'
-                        },
-                        created: function (args) {
-                            var instance = args.instance;
-                            instance.updateBoundData();
-                        }
-                    };
+                    updateUserGrid();
                     addUserDialog.close();
                     resetWindowAddUserForm();
                     //$('#notificationSuccessSettings #notification-content').html('User deleted!');

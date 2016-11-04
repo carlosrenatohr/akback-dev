@@ -15,6 +15,8 @@ jqxthemes();
     var SiteRoot = "<?php echo base_url()?>";
 </script>
 <script type="application/javascript" src="../../assets/admin/user/user_controller.js"></script>
+<script type="application/javascript" src="../../assets/admin/menu/admin_service.js"></script>
+<script type="application/javascript" src="../../assets/admin/user/user_service.js"></script>
 <script type="application/javascript" src="../../assets/admin/user/user_helpers.js"></script>
 <!-- -->
 
@@ -56,13 +58,14 @@ jqxthemes();
             </div>
             <!--     USER ACTION       -->
             <div class="row">
-                <jqx-data-table jqx-settings="userTableSettings"
-                                jqx-on-row-double-click="openEditUserWindows(event)">
-                </jqx-data-table>
+                <jqx-grid id="userMainGrid"
+                          jqx-settings="userTableSettings"
+                          jqx-on-rowdoubleclick="openEditUserWindows(event)">
+                </jqx-grid>
                 <jqx-window jqx-on-close="onCloseUserWindowsEvent($event)" jqx-settings="addUserWindowSettings"
                             jqx-create="addUserWindowSettings" class="userJqxwindows">
                     <div>
-
+                        <!-- HERE is the dynamic title-->
                     </div>
                     <div>
                         <div class="new-user-form">

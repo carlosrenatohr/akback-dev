@@ -1,22 +1,12 @@
 /**
  * Created by carlosrenato on 09-01-16.
  */
-app.service('itemInventoryService', function ($http, inventoryExtraService) {
+app.service('itemInventoryService', function ($http, inventoryExtraService, adminService) {
 
     // Data for items inventory grid
     this.getInventoryGridData = function (empty) {
-        var pages;
         // var ww = $(window).width();
-        var ww = $(window).width();
-        var wh = $(window).height();
-        if (ww != undefined && wh != undefined) {
-            pages = resizePagination(ww, wh);
-        } else {
-            pages = {
-                pageSize: 2,
-                pagesizeoptions: ['2', '10', '15']
-            };
-        }
+        var pages = adminService.loadPagerConfig();
         //
         var url = '';
         if (empty == undefined)
@@ -112,31 +102,6 @@ app.service('itemInventoryService', function ($http, inventoryExtraService) {
             autoheight: true,
             autorowheight: true
         };
-    };
-
-    var resizePagination = function  (ww, wh) {
-        var pagesResult = {};
-        // if (ww >= 1280 && wh >= 980) {
-        if (wh >= 980) {
-            pagesResult.pageSize = 25;
-            pagesResult.pagesizeoptions = ['5', '15', '25'];
-        }
-        // else if (ww >= 1280 && wh >= 800) {
-        else if (wh >= 800) {
-            pagesResult.pageSize = 20;
-            pagesResult.pagesizeoptions = ['5', '10', '20'];
-        }
-        // else if (ww >= 1024 && wh >= 768) {
-        else if (wh >= 725) {
-            pagesResult.pageSize = 18;
-            pagesResult.pagesizeoptions = ['5', '10', '18'];
-        }
-        else {
-            pagesResult.pageSize = 10;
-            pagesResult.pagesizeoptions = ['5', '10'];
-        }
-
-        return pagesResult;
     };
 
     // Events to disable buttons

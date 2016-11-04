@@ -19,11 +19,12 @@ jqxthemes();
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.filter.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/config.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/admin_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_categories_controller.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_items_controller.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_controller.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_service.js"></script>
-<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_directive.js"></script>
+<!--<script type="application/javascript" src="--><?//= base_url()?><!--assets/admin/menu/menu_inventory_directive.js"></script>-->
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_relations_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_questions_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_questions_controller.js"></script>

@@ -22,6 +22,45 @@
                 template: (type == 1) ? 'success' : 'error'
             }
         };
+
+        this.loadPagerConfig = function() {
+            var pager = {};
+            var ww = $(window).width();
+            var wh = $(window).height();
+            if (ww != undefined && wh != undefined) {
+                pager = function(ww, wh) {
+                    var pagesResult = {};
+                    // if (ww >= 1280 && wh >= 980) {
+                    if (wh >= 980) {
+                        pagesResult.pageSize = 25;
+                        pagesResult.pagesizeoptions = ['5', '15', '25'];
+                    }
+                    // else if (ww >= 1280 && wh >= 800) {
+                    else if (wh >= 800) {
+                        pagesResult.pageSize = 20;
+                        pagesResult.pagesizeoptions = ['5', '10', '20'];
+                    }
+                    // else if (ww >= 1024 && wh >= 768) {
+                    else if (wh >= 725) {
+                        pagesResult.pageSize = 18;
+                        pagesResult.pagesizeoptions = ['5', '10', '18'];
+                    }
+                    else {
+                        pagesResult.pageSize = 10;
+                        pagesResult.pagesizeoptions = ['5', '10'];
+                    }
+
+                    return pagesResult;
+                }(ww, wh);
+            } else {
+                pager = {
+                    pageSize: 2,
+                    pagesizeoptions: ['2', '10', '15']
+                };
+            }
+
+            return pager;
+        }
     }
 
 })();

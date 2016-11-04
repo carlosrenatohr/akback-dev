@@ -1,7 +1,7 @@
 /**
  * Created by carlosrenato on 06-17-16.
  */
-var demoApp = angular.module("demoApp", ['jqwidgets', 'jqwidgets-amd']);
+var demoApp = angular.module("akamaiposApp", ['jqwidgets', 'jqwidgets-amd']);
 
 demoApp.controller("customerController", function ($scope, $http, customerService) {
     $scope.articTheme = 'darkblue';
