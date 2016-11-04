@@ -111,7 +111,7 @@ demoApp.controller("userController", function($scope, $http) {
     $scope.openAddUserWindows = function () {
         $scope.newOrEditSelected = 'new';
 
-        $('#position_itemTab').hide();
+        $('#position_itemTab, #info_itemTab').hide();
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('Add New User');
         addUserDialog.open();
@@ -150,8 +150,10 @@ demoApp.controller("userController", function($scope, $http) {
             $(this).select();
         });
 
-        $('#position_itemTab').show();
-        $('#position_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
+        $('#position_itemTab, #info_itemTab').show();
+        $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
+          '#info_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
+
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('User ID ' + values.Unique + ': | User Name: ' + values.UserName);
         addUserDialog.open();
@@ -175,6 +177,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#addtab2').unblock();
         $('#addtab3').unblock();
         $('#addtab4').unblock();
+        $('#addtab5').unblock();
         //
         $('#submitAddUserForm').prop('disabled', true);
         $('#deleteAddUserForm').hide();
@@ -190,6 +193,7 @@ demoApp.controller("userController", function($scope, $http) {
         $('#addtab2').block({message: null});
         $('#addtab3').block({message: null});
         $('#addtab4').block({message: null});
+        $('#addtab5').block({message: null});
     };
 
     $scope.closeUserWindows = function (selected) {

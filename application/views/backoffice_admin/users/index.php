@@ -71,14 +71,14 @@ jqxthemes();
                             <div class="col-md-12 col-md-offset-0" id="table_add" style="float:left;">
                                 <jqx-tabs id="tabsUser" jqx-width="'100%'" jqx-height="'100%'" style=' float: left;' jqx-theme="thetabsadd" jqx-settings="tabsSettings">
                                     <ul style=" margin-left: 30px;">
-                                        <li id="info_itemTab">User</li>
+                                        <li id="user_itemTab">User</li>
                                         <li id="contact_itemTab">Contact</li>
                                         <li id="position_itemTab" style="display: none;">Position</li>
                                         <li id="notes_itemTab">Notes</li>
-                                        <li id="notes_itemTab">Info</li>
+                                        <li id="info_itemTab">Info</li>
                                     </ul>
                                     <!-- ------------  -->
-                                    <!-- INFO TAB  -->
+                                    <!--   USER TAB    -->
                                     <!-- ------------  -->
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab1" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px; ">
                                         <?php $this->load->view($user_tab_view); ?>
@@ -103,10 +103,10 @@ jqxthemes();
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab4" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <?php $this->load->view($notes_tab_view); ?>
                                     </div>
-                                    <!-- ---------------  -->
-                                    <!-- SECOND INFO TAB  -->
-                                    <!-- ---------------  -->
-                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab4"
+                                    <!-- ------------ -->
+                                    <!--   INFO TAB   -->
+                                    <!-- ------------ -->
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab5"
                                          style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <?php $this->load->view($metadata_tab_view); ?>
                                     </div>
