@@ -2,7 +2,7 @@
  * Created by carlosrenato on 08-10-16.
  */
 
-app.controller('menuPrintersController', function($scope) {
+app.controller('menuPrintersController', function($scope, adminService) {
 
     // -- MenuCategories Tabs
     var once = false;
@@ -59,6 +59,7 @@ app.controller('menuPrintersController', function($scope) {
     };
 
     //$scope.printerTableSettings = {
+    var pager = adminService.loadPagerConfig();
     $('#printerTable').jqxGrid({
         source: new $.jqx.dataAdapter({
             dataType: 'json',
@@ -101,8 +102,10 @@ app.controller('menuPrintersController', function($scope) {
         },
         sortable: true,
         pageable: true,
-        pageSize: 15,
-        pagesizeoptions: ['5', '10', '15'],
+        // pageSize: 15,
+        pageSize: pager.pageSize,
+        // pagesizeoptions: ['5', '10', '15'],
+        pagesizeoptions: pager.pagesizeoptions,
         altRows: true,
         autoheight: true,
         autorowheight: true

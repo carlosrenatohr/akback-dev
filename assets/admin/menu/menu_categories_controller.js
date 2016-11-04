@@ -2,7 +2,7 @@
  * Created by carlosrenato on 05-13-16.
  */
 
-app.controller('menuCategoriesController', function($scope, $http, itemInventoryService){
+app.controller('menuCategoriesController', function($scope, $http, adminService){
 
     var menuonce = false;
     var cateonce = false;
@@ -42,6 +42,7 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
     /**
      * MENU TAB LOGIC
      */
+    var pager = adminService.loadPagerConfig();
     var menuWindow, categoryWindow;
     $scope.menuTableSettings = {
         source: new $.jqx.dataAdapter({
@@ -80,8 +81,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         sortable: true,
         pageable: true,
         showfilterrow: true,
-        pageSize: 15,
-        pagesizeoptions: ['5', '10', '15'],
+        pageSize: pager.pageSize,
+        pagesizeoptions: pager.pagesizeoptions,
         altRows: true,
         autoheight: true,
         autorowheight: true
@@ -377,8 +378,8 @@ app.controller('menuCategoriesController', function($scope, $http, itemInventory
         sortable: true,
         pageable: true,
         pagerMode: 'default',
-        pageSize: 15,
-        pagesizeoptions: ['5', '10', '15'],
+        pageSize: pager.pageSize,
+        pagesizeoptions: pager.pagesizeoptions,
         altRows: true,
         autoheight: true,
         autorowheight: true

@@ -8,8 +8,8 @@
         .module('akamaiposApp')
         .service('questionService', QuestionService);
 
-    QuestionService.$inject = ['$http'];
-    function QuestionService($http) {
+    QuestionService.$inject = ['$http', 'adminService'];
+    function QuestionService($http, adminService) {
 
         var _this = this;
 
@@ -35,6 +35,7 @@
 
         this.getQuestionTableSettings = function() {
             var initrowdetails = _this.getRowdetailsFromChoices();
+            var pager = adminService.loadPagerConfig();
 
             return {
                 source: {
@@ -69,8 +70,8 @@
                 showfilterrow: true,
                 filterMode: 'simple',
                 //sortable: true,
-                pageSize: 15,
-                pagesizeoptions: ['5', '10', '15'],
+                pageSize: pager.pageSize,
+                pagesizeoptions: pager.pagesizeoptions,
                 altRows: true,
                 autoheight: true,
                 autorowheight: true,
