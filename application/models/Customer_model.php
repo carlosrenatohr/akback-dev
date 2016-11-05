@@ -182,9 +182,11 @@ class Customer_model extends CI_Model
             CL."LocationName" as "Location", RH."Status" as "Status",      
             case when RH."Status" = 4 then \'Complete\' when RH."Status" = 5 then \'Hold\' when RH."Status" = 10 then \'Cancel\' 
             when RH."Status" = 1 then \'New\' else \'Other\' end as "StatusName",
-            date_trunc(\'min\', RH."ReceiptDate"::timestamp) as "ReceiptDate",
-            date_trunc(\'min\', RH."Created"::timestamp) as "Created",CU1."UserName" as "CreatedBy",
-            date_trunc(\'min\', RH."Updated"::timestamp) as "Updated",CU2."UserName" as "UpdatedBy"
+            to_char(date_trunc(\'minutes\', RH."ReceiptDate"::timestamp), \'DD/MM/YYYY HH:MI AM\') as "ReceiptDate",
+            to_char(date_trunc(\'minutes\', RH."Created"::timestamp), \'DD/MM/YYYY HH:MI AM\') as "Created",
+            CU1."UserName" as "CreatedBy",
+            to_char(date_trunc(\'minutes\', RH."Updated"::timestamp), \'DD/MM/YYYY HH:MI AM\') as "Updated",
+            CU2."UserName" as "UpdatedBy"
             from receipt_header RH 
             join customer C on RH."CustomerUnique" = C."Unique"
             left join config_user CU1 on RH."CreatedBy" = CU1."Unique"
