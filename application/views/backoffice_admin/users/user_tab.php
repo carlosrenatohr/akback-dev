@@ -54,8 +54,8 @@
         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary:</div>
         <div style="float:left; width:180px;">
             <jqx-combo-box  jqx-on-select="positionSelectChanged(event)" id="positionCombobox" class="required-field"
-                            jqx-settings="positionSelectSetting">
-
+                            jqx-settings="positionSelectSetting"
+                            ng-disabled='disabled'>
             </jqx-combo-box>
         </div>
         <div style="float:left;">

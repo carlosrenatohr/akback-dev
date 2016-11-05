@@ -13,6 +13,8 @@ jqxthemes();
 <script>
     // --Global Variable
     var SiteRoot = "<?php echo base_url()?>";
+
+
 </script>
 <script type="application/javascript" src="../../assets/admin/user/user_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/admin_service.js"></script>

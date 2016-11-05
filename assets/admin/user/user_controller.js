@@ -3,7 +3,7 @@
  */
 
 angular.module("akamaiposApp", ['jqwidgets'])
-    .controller("userController", function($scope, $http, UserAdminService) {
+    .controller("userController", function($scope, $http, UserAdminService, adminService) {
     $scope.newOrEditSelected = null;
     // Tabs config
     $scope.thetabs = 'darkblue';
@@ -19,7 +19,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     // User datatable settings
-    $scope.userTableSettings = UserAdminService.userGridSetings();
+    $scope.userTableSettings = UserAdminService.userGridSettings();
 
     // User window settings
     $scope.addUserWindowSettings = {
@@ -43,6 +43,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     // Open the window form to add user
     $scope.openAddUserWindows = function () {
+        $scope.disabled = false;
         $scope.newOrEditSelected = 'new';
 
         $('#position_itemTab, #info_itemTab').hide();
@@ -56,6 +57,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     // Open the window form as edit user
     $scope.openEditUserWindows = function (e) {
+        $scope.disabled = true;
         $scope.newOrEditSelected = 'edit';
         var values = e.args.row.bounddata;
         for (var i in values) {
@@ -99,7 +101,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     var resetWindowAddUserForm = function () {
         var currentWindow = $('.userJqxwindows');
         $(currentWindow).find('form input, textarea').val('');
-        $('#positionCombobox').jqxComboBox({'selectedIndex': 4});
+        $('#positionCombobox').jqxComboBox({'selectedIndex': 0});
         $('#tabsUser').jqxTabs({selectedItem: 0});
         $('#addUserButtons').show();
         $('#addUserConfirm').hide();
@@ -215,22 +217,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     // NOTIFICATIONS SETTINGS
-    var notificationSet = function (type) {
-        return {
-            width: "auto",
-            appendContainer: "#add_container",
-            opacity: 0.9,
-            closeOnClick: true,
-            autoClose: true,
-            autoCloseDelay: 1750,
-            showCloseButton: false,
-            //blink: true,
-            template: (type == 1) ? 'success' : 'error'
-        }
-    };
-    $scope.notificationErrorSettings = notificationSet(0);
-    $scope.notificationSuccessSettings = notificationSet(1);
-    $scope.notificationPositionSettings = notificationSet(1);
+    $scope.notificationErrorSettings = adminService.setNotificationSettings(0, '#add_container');
+    $scope.notificationSuccessSettings = adminService.setNotificationSettings(1, '#add_container');
+    $scope.notificationPositionSettings = adminService.setNotificationSettings(1, '#add_container');
 
     /**
      * USER-POSITIONS tab
@@ -249,19 +238,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         showCloseButton: false
     };
 
-    //
-    $scope.openUserpositionsWindows = function() {
-        $('#positionByUserCombobox').jqxComboBox({disabled: false});
-        $('#deletePositionuserBtn').hide();
-
-        $('#savePositionuserBtn').attr('disabled', 'disabled');
-        userPositionWindow.setTitle("Add Position | username: <b>" + $scope.editing_username+ "</b>");
-        userPositionWindow.open();
-    };
-
     // Events position
     $scope.PayRate = 1;
-    $('#PayRateField').on('keypress keyup paste change', function (e) {
+    $('#PayRateField, #primaryPosition').on('keypress keyup paste change', function (e) {
         if (this.value == '') {
             $scope.PayRate = 1;
         }
@@ -316,8 +295,20 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#savePositionuserBtn').prop('disabled', true);
     }
 
+    //
+    $scope.openUserpositionsWindows = function() {
+        // disablePositions();
+        $('#positionByUserCombobox').jqxComboBox({disabled: false});
+        $('#deletePositionuserBtn').hide();
+
+        $('#primaryPosition').jqxCheckBox({checked: false});
+        $('#savePositionuserBtn').attr('disabled', 'disabled');
+        userPositionWindow.setTitle("Add Position | username: <b>" + $scope.editing_username+ "</b>");
+        userPositionWindow.open();
+    };
+
     $scope.editPositionByUser = function(e) {
-        var values = e.args.row;
+        var values = e.args.row.bounddata;
         userPositionWindow.setTitle("Edit position <b>"+ values['PositionName'] + "</b> | Username: <b>" + $scope.editing_username + "</b>");
 
         var selectedIndexByPosition;
@@ -340,6 +331,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (values['PrimaryPosition'] == 1) {
             $('#deletePositionuserBtn').hide();
         }
+        $('#primaryPosition').jqxCheckBox({checked: (values['PrimaryPosition'] == 1) ? true : false});
         //
         $('#savePositionuserBtn').attr('disabled', 'disabled');
         $('#positionByUserCombobox').jqxComboBox({disabled: true});
@@ -347,10 +339,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     $scope.submitUserpositionsWindows = function() {
-        //if ($scope.PayRate == undefined) {
-        //    $(this).css({"border-color": "#F00"});
-        //    return;
-        //}
         var position = $('#positionByUserCombobox').jqxComboBox('getSelectedItem');
         var payBasis = $('#payBasisSelect').jqxDropDownList('getSelectedItem');
         var values = {};
@@ -359,6 +347,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         values['PayBasis'] = payBasis.value;
         values['ConfigPositionUnique'] = position.value;
         values['ConfigUserUnique'] = $scope.userId;
+        values['PrimaryPosition'] = $('#primaryPosition').val();
 
         $http({
             'method': 'POST',
@@ -368,31 +357,15 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }).then(function(response) {
             if(response.data.status == "success") {
                 //
-                //$scope.$apply(function(){
-                $scope.userPositionsTableSettings = {
-                    source: {
-                        dataType: 'json',
-                        dataFields: [
-                            {name: 'Unique', type: 'number'},
-                            {name: 'PositionName', type: 'string'},
-                            {name: 'PrimaryPosition', type: 'string'},
-                            {name: 'ConfigUserUnique', type: 'string'},
-                            {name: 'ConfigPositionUnique', type: 'string'},
-                            {name: 'PrimaryPosition', type: 'string'},
-                            {name: 'isPosition', type: 'string'},
-                            {name: 'PayBasis', type: 'string'},
-                            {name: 'PayRate', type: 'string'}
-                        ],
-                        id: 'Unique',
-                        url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
-                        created: function (args) {
-                            args.instance.updateBoundData();
-                        }
-                    }
-                };
-                //
+                updateUserGrid();
+                updatePositionGrid($scope.userId);
                 userPositionWindow.close();
                 resetPositionForm();
+                //
+                setTimeout(function() {
+                    var position = $('#userMainGrid').jqxGrid('getrowdatabyid', $scope.userId).PrimaryPosition;
+                    $('#positionCombobox').val(position);
+                }, 200);
             }
 
         }, function(response){
@@ -409,65 +382,19 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }).then(function(response) {
             if(response.data.status == "success") {
                 //
-                $scope.userPositionsTableSettings = {
-                    source: {
-                        dataType: 'json',
-                        dataFields: [
-                            {name: 'Unique', type: 'number'},
-                            {name: 'PositionName', type: 'string'},
-                            {name: 'PrimaryPosition', type: 'string'},
-                            {name: 'ConfigUserUnique', type: 'string'},
-                            {name: 'ConfigPositionUnique', type: 'string'},
-                            {name: 'PrimaryPosition', type: 'string'},
-                            {name: 'isPosition', type: 'string'},
-                            {name: 'PayBasis', type: 'string'},
-                            {name: 'PayRate', type: 'string'}
-                        ],
-                        id: 'Unique',
-                        url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
-                        created: function (args) {
-                            var instance = args.instance;
-                            instance.updateBoundData();
-                        }
-                    }
-                };
-                //
+                updatePositionGrid($scope.userId);
                 userPositionWindow.close();
                 resetPositionForm();
             }
         });
     };
 
-    $scope.userPositionsTableSettings = {
-        source: {
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'number'},
-                {name: 'PositionName', type: 'string'},
-                {name: 'PrimaryPosition', type: 'string'},
-                {name: 'ConfigUserUnique', type: 'string'},
-                {name: 'ConfigPositionUnique', type: 'string'},
-                {name: 'PrimaryPosition', type: 'string'},
-                {name: 'isPosition', type: 'string'},
-                {name: 'PayBasis', type: 'string'},
-                {name: 'PayRate', type: 'string'}
-            ]
-        },
-        columns: [
-            {text: 'Unique', dataField: 'Unique', type: 'number', hidden:true},
-            {text: 'Name', dataField: 'PositionName', type: 'string', width: '35%'},
-            {text: 'Primary id', dataField: 'PrimaryPosition', type: 'string', hidden: true},
-            {text: 'Primary', dataField: 'isPosition', type: 'string', width: '15%'},
-            {text: 'User Unique', dataField: 'ConfigUserUnique', type: 'number', hidden:true},
-            {text: 'Position Unique', dataField: 'ConfigPositionUnique', type: 'number', hidden:true},
-            {text: 'Pay Basis', dataField: 'PayBasis', type: 'string', width: '25%'},
-            {text: 'Pay Rate', dataField: 'PayRate', type: 'string', width: '25%'}
-        ],
-        columnsResize: true,
-        width: "75%",
-        theme: 'arctic',
-        pagerMode: 'default'
-    };
+    $scope.userPositionsTableSettings = UserAdminService.userPositionGridSettings();
+    function updatePositionGrid(id) {
+        $('#userPositionsTable').jqxGrid({
+            source: new $.jqx.dataAdapter(UserAdminService.userPositionGridSettings(id).source)
+        });
+    }
 
     $('#tabsUser').on('tabclick', function (event) {
         var tabclicked = event.args.item;
@@ -483,30 +410,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             if ($scope.userId != null) {
                 $('#userPositionsTable').show();
                 $('#openUserPositionWindowBtn').show();
-                $scope.$apply(function(){
-                    $scope.userPositionsTableSettings = {
-                        source: {
-                            dataType: 'json',
-                            dataFields: [
-                                {name: 'Unique', type: 'number'},
-                                {name: 'PositionName', type: 'string'},
-                                {name: 'PrimaryPosition', type: 'string'},
-                                {name: 'ConfigUserUnique', type: 'string'},
-                                {name: 'ConfigPositionUnique', type: 'string'},
-                                {name: 'PrimaryPosition', type: 'string'},
-                                {name: 'isPosition', type: 'string'},
-                                {name: 'PayBasis', type: 'string'},
-                                {name: 'PayRate', type: 'string'}
-                            ],
-                            id: 'Unique',
-                            url: SiteRoot + 'admin/user/load_positionsByUser/' + $scope.userId,
-                            created: function (args) {
-                                var instance = args.instance;
-                                instance.updateBoundData();
-                            }
-                        }
-                    };
-                });
+                updatePositionGrid($scope.userId);
             }
         }
         else if(tabTitle == 'Notes') {
@@ -574,42 +478,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
     function updateUserGrid() {
         // $scope.userTableSettings = {
         $('#userMainGrid').jqxGrid({
-            source: new $.jqx.dataAdapter({
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'UserName', type: 'string'},
-                    {name: 'FirstName', type: 'string'},
-                    {name: 'LastName', type: 'string'},
-                    //{name: 'Code', type: 'string'},
-                    //{name: 'Password', type: 'string'},
-                    {name: 'Address1', type: 'string'},
-                    {name: 'Address2', type: 'string'},
-                    {name: 'City', type: 'string'},
-                    {name: 'State', type: 'string'},
-                    {name: 'Zip', type: 'string'},
-                    {name: 'Country', type: 'string'},
-                    {name: 'PrimaryPosition', type: 'string'},
-                    {name: 'PrimaryPositionName', type: 'string'},
-                    {name: 'Phone1', type: 'string'},
-                    {name: 'Phone2', type: 'string'},
-                    {name: 'Email', type: 'string'},
-                    {name: 'Note', type: 'string'},
-                    {text: 'Email', dataField: 'Email'},
-                    {dataField: 'Note', hidden: true},
-                    {name: 'Created', type: 'string'},
-                    {name: 'CreatedByName', type: 'string'},
-                    {name: 'Updated', type: 'string'},
-                    {name: 'UpdatedByName', type: 'string'}
-                ],
-                id: 'Unique',
-                url: SiteRoot + 'admin/user/load_users'
-            }),
-            // created: function (args) {
-            //     args.instance.updateBoundData();
-            // }
+            source: new $.jqx.dataAdapter(UserAdminService.userGridSettings().source)
         });
-        // };
     }
 
     // Action to save a user
@@ -715,16 +585,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     updateUserGrid();
                     addUserDialog.close();
                     resetWindowAddUserForm();
-                    //$('#notificationSuccessSettings #notification-content').html('User deleted!');
-                    //$('#notificationSuccessSettings').jqxNotification('open');
-                    //
-                    //$('#sureToDeleteUser').hide();
-                    //$('#addUserButtons').show();
-                    //blockTabs();
-                    //setTimeout(function() {
-                    //    addUserDialog.close();
-                    //    resetWindowAddUserForm();
-                    //}, 2000);
                 }
             }
         })

@@ -105,22 +105,25 @@ class User_model extends CI_Model
     public function update($data, $id) {
         $position_id = $data['position'];
         unset($data['position']);
+        $query = $this->db->update('config_user', $data, "Unique = {$id}");
         //
-        $query = $this->db
-                    ->update('config_user', $data, "Unique = {$id}");
-        //
+        $this->createOrUpdatePositionUser($position_id, $id);
+        return $query;
+    }
+
+    public function createOrUpdatePositionUser($position_id, $user_id) {
         $user_position = [
             'PrimaryPosition' => 1,
             'Status' => 1,
         ];
         $where = ['ConfigPositionUnique' => $position_id,
-                  'ConfigUserUnique' => $id];
+            'ConfigUserUnique' => $user_id];
         $exists = $this->db->where($where)
             ->get('config_user_position')->result_array();
         if (count($exists)) {
             $user_position['Updated'] = date('Y-m-d H:i:s');
             $user_position['UpdatedBy'] = $this->session->userdata('userid');
-            $this->db->where('ConfigUserUnique', $id);
+            $this->db->where('ConfigUserUnique', $user_id);
             $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
 
             $this->db->where($where);
@@ -129,14 +132,12 @@ class User_model extends CI_Model
             $user_position['Created'] = date('Y-m-d H:i:s');
             $user_position['CreatedBy'] = $this->session->userdata('userid');
 
-            $this->db->where('ConfigUserUnique', $id);
+            $this->db->where('ConfigUserUnique', $user_id);
             $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
 
             $user_position = array_merge($user_position, $where);
             $this->db->insert('config_user_position', $user_position);
         }
-
-        return $query;
     }
 
     public function softDelete($id) {
@@ -160,23 +161,40 @@ class User_model extends CI_Model
         $updateValues = [
             'PayRate' => $values['PayRate'],
             'PayBasis' => $values['PayBasis'],
+            'PrimaryPosition' => $values['PrimaryPosition'] ? 1 : 0,
             'Status' => 1,
         ];
+        $this->db->trans_start();
         $exists = $this->db->where($where)
-            ->get('config_user_position')->result_array();
+            ->get('config_user_position')->row_array();
+        $wasPrimary = $exists['PrimaryPosition'];
+        $this->db->trans_complete();
+        // Primary position
+        if ($values['PrimaryPosition']) {
+            $this->db->trans_start();
+            $this->db->where('ConfigUserUnique', $values['ConfigUserUnique']);
+            $this->db->update('config_user_position', ['PrimaryPosition' => 0]);
+            $this->db->trans_complete();
+        }
+        // Update-Create position
+        $this->db->trans_start();
         if (count($exists)) {
             $updateValues['Updated'] = date('Y-m-d H:i:s');
             $updateValues['UpdatedBy'] = $this->session->userdata('userid');
+            if($wasPrimary == 1) {
+                $updateValues['PrimaryPosition'] = $wasPrimary;
+            }
             $this->db->where($where);
             $return = $this->db->update('config_user_position', $updateValues);
         }
         else {
-            $updateValues['PrimaryPosition'] = 0;
+//            $updateValues['PrimaryPosition'] = 0;
             $updateValues['Created'] = date('Y-m-d H:i:s');
             $updateValues['CreatedBy'] = $this->session->userdata('userid');
             $updateValues = array_merge($updateValues, $where);
             $return = $this->db->insert('config_user_position', $updateValues);
         }
+        $this->db->trans_complete();
 
         return $return;
     }

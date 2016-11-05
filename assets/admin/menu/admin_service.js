@@ -18,6 +18,7 @@
                 opacity: 0.9,
                 closeOnClick: true,
                 autoClose: true,
+                // autoCloseDelay: 1750,
                 showCloseButton: false,
                 template: (type == 1) ? 'success' : 'error'
             }

@@ -1,8 +1,7 @@
 angular.module('akamaiposApp')
     .service('UserAdminService', function(adminService) {
 
-    this.userGridSetings = function () {
-
+    this.userGridSettings = function () {
         var pager = adminService.loadPagerConfig();
         var settings = {
             source: {
@@ -71,5 +70,51 @@ angular.module('akamaiposApp')
         };
 
         return settings;
+    };
+
+    this.userPositionGridSettings = function(id) {
+        var url = '';
+        if (id != undefined)
+            url = SiteRoot + 'admin/user/load_positionsByUser/' + id;
+        return {
+            source: {
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'number'},
+                    {name: 'PositionName', type: 'string'},
+                    {name: 'PrimaryPosition', type: 'string'},
+                    {name: 'ConfigUserUnique', type: 'string'},
+                    {name: 'ConfigPositionUnique', type: 'string'},
+                    {name: 'PrimaryPosition', type: 'string'},
+                    {name: 'isPosition', type: 'string'},
+                    {name: 'PayBasis', type: 'string'},
+                    {name: 'PayRate', type: 'string'}
+                ],
+                id: 'Unique',
+                url: url
+            },
+            columns: [
+                {text: 'Unique', dataField: 'Unique', type: 'number', hidden:true},
+                {text: 'Name', dataField: 'PositionName', type: 'string', width: '35%'},
+                {text: 'Primary id', dataField: 'PrimaryPosition', type: 'string', hidden: true},
+                {text: 'Primary', dataField: 'isPosition', type: 'string', width: '15%'},
+                {text: 'User Unique', dataField: 'ConfigUserUnique', type: 'number', hidden:true},
+                {text: 'Position Unique', dataField: 'ConfigPositionUnique', type: 'number', hidden:true},
+                {text: 'Pay Basis', dataField: 'PayBasis', type: 'string', width: '25%'},
+                {text: 'Pay Rate', dataField: 'PayRate', type: 'string', width: '25%'}
+            ],
+            columnsResize: true,
+            width: "99%",
+            theme: 'arctic',
+            altRows: true,
+            sortable: true,
+            // filterable: true,
+            // showfilterrow: true,
+            pageable: true,
+            pageSize: 10,
+            // pagesizeoptions: pager.pagesizeoptions,
+            autoheight: true,
+            autorowheight: true
+        };
     }
 });
