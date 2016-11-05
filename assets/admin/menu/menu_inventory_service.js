@@ -5,10 +5,8 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
 
     // Data for items inventory grid
     this.getInventoryGridData = function (empty) {
-        // var ww = $(window).width();
-        var pages = adminService.loadPagerConfig();
-        //
         var url = '';
+        var pages = adminService.loadPagerConfig();
         if (empty == undefined)
             url = SiteRoot + 'admin/MenuItem/getItemsData';
         return {
@@ -54,20 +52,20 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
             }),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
-                {text: 'Item Number', dataField: 'Item', type: 'string', width: '18%'},
+                {text: 'Item Number', dataField: 'Item', type: 'string', width: '16%'},
                 {text: '', dataField: 'Part', hidden:true},
                 {text: 'Category', dataField: 'Category', type: 'string', filtertype: 'list', width: '12%'},
                 {text: '', dataField: 'CategoryId', type: 'string', hidden: true},
-                {text: 'SubCategory', dataField: 'SubCategory', type: 'string', filtertype: 'list', width: '12%'},
+                {text: 'SubCategory', dataField: 'SubCategory', filtertype: 'list', width: '12%'},
                 {text: '', dataField: 'SubCategoryId', hidden: true},
-                {text: 'Description', dataField: 'Description', type: 'string', width: '20%'},
-                {text: '', datafield: 'Supplier', hidden: 'true'},
+                {text: 'Supplier', datafield: 'Supplier', filtertype: 'list', width: '10%'},
+                {text: 'Description', dataField: 'Description', type: 'string', width: '16%'},
                 {text: '', datafield: 'SupplierId', hidden: true},
                 {text: '', datafield: 'SupplierPart', hidden: true},
                 {text: '', datafield: 'Brand', hidden: true},
                 {text: '', datafield: 'BrandId', hidden: true},
-                {text: 'List', dataField: 'ListPrice', width: '11%', align:'right', cellsalign:'right'},
-                {text: 'Sell', dataField: 'price1', width: '11%', align:'right', cellsalign:'right'},
+                {text: 'List', dataField: 'ListPrice', width: '8%', align:'right', cellsalign:'right'},
+                {text: 'Sell', dataField: 'price1', width: '8%', align:'right', cellsalign:'right'},
                 {text: '', dataField: 'price2', hidden:true},
                 {text: '', dataField: 'price3', hidden:true},
                 {text: '', dataField: 'price4', hidden:true},
@@ -85,7 +83,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
                 {text: '', dataField: 'Group', hidden:true},
                 {text: '', dataField: 'MinimumAge', hidden:true},
                 {text: '', dataField: 'CountDown', hidden:true},
-                {text: '', dataField: 'Points', hidden:true},
+                {text: '', dataField: 'Points', hidden:true}
             ],
             width: "100%",
             theme: 'arctic',
