@@ -182,18 +182,19 @@ class Customer_model extends CI_Model
             CL."LocationName" as "Location", RH."Status" as "Status",      
             case when RH."Status" = 4 then \'Complete\' when RH."Status" = 5 then \'Hold\' when RH."Status" = 10 then \'Cancel\' 
             when RH."Status" = 1 then \'New\' else \'Other\' end as "StatusName",
-            to_char(date_trunc(\'minutes\', RH."ReceiptDate"::timestamp), \'DD/MM/YYYY HH:MI AM\') as "ReceiptDate",
-            to_char(date_trunc(\'minutes\', RH."Created"::timestamp), \'DD/MM/YYYY HH:MI AM\') as "Created",
+            to_char(date_trunc(\'minutes\', RH."ReceiptDate"::timestamp), \'MM/DD/YYYY HH:MI AM\') as "ReceiptDate",
+            to_char(date_trunc(\'minutes\', RH."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as "Created",
             CU1."UserName" as "CreatedBy",
-            to_char(date_trunc(\'minutes\', RH."Updated"::timestamp), \'DD/MM/YYYY HH:MI AM\') as "Updated",
+            to_char(date_trunc(\'minutes\', RH."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as "Updated",
             CU2."UserName" as "UpdatedBy"
             from receipt_header RH 
             join customer C on RH."CustomerUnique" = C."Unique"
             left join config_user CU1 on RH."CreatedBy" = CU1."Unique"
             left join config_user CU2 on RH."CreatedBy" = CU2."Unique"
             left join config_location CL on RH."LocationUnique" = CL."Unique" 
-            left join receipt_details RD on RH."Unique" = RD."ReceiptHeaderUnique" and RH."Status" = 4'
-            . $whereAttached
+            left join receipt_details RD on RH."Unique" = RD."ReceiptHeaderUnique" and RH."Status" = 4 '
+            . $whereAttached .
+            'order by RH."Unique" DESC '
         ;
 
         $result = $this->db->query($query)->result_array();
