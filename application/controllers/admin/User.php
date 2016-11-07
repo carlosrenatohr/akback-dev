@@ -89,6 +89,7 @@ class User extends AK_Controller
             $values['Status'] = 1;
             $values['Created'] = date('Y-m-d G:i:s');
             $values['CreatedBy'] = $this->session->userdata('userid');
+//            var_dump($values);exit;
             $status = $this->user_model->store($values);
             $response = [
                 'status' => 'success',
@@ -145,6 +146,7 @@ class User extends AK_Controller
 //            $values['Status'] = 1;
             $values['Updated'] = date('Y-m-d G:i:s');
             $values['UpdatedBy'] = $this->session->userdata('userid');
+            // var_dump($values);exit;
             $status = $this->user_model->update($values, $id);
             $response = [
                 'status' => 'success',

@@ -45,7 +45,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.openAddUserWindows = function () {
         $scope.disabled = false;
         $scope.newOrEditSelected = 'new';
-
+        //
+        $('#emailEnabledField .eecx[data-msg="no"]')
+            .jqxRadioButton({ checked:true });
         $('#position_itemTab, #info_itemTab').hide();
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('Add New User');
@@ -72,9 +74,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 el.jqxDateTimeInput('setDate', dt);
             }
         }
+        var emailEn = $('#emailEnabledField .eecx[data-msg="' +
+            values.EmailEnabled +'"]');
+        emailEn.jqxRadioButton({ checked:true });
         $('#deleteAddUserForm').show();
-        // var selectedIndexByPosition = $('#positionCombobox').jqxComboBox('getItemByValue', values['PrimaryPosition']).index;
-        // $('#positionCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
         $('#positionCombobox').jqxComboBox('val', values['PrimaryPosition']);
         $scope.userId = values['Unique'];
         $scope.editing_username = values['UserName'];
@@ -221,9 +224,217 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.notificationSuccessSettings = adminService.setNotificationSettings(1, '#add_container');
     $scope.notificationPositionSettings = adminService.setNotificationSettings(1, '#add_container');
 
+    $('#tabsUser').on('tabclick', function (event) {
+        var tabclicked = event.args.item;
+        var tabTitle = $(this).jqxTabs('getTitleAt', tabclicked);
+        //
+        if (tabclicked == 0) {
+            $('#deleteAddUserForm').show();
+        } else {
+            $('#deleteAddUserForm').hide();
+        }
+        // POSITION TAB
+        if(tabTitle == 'Position') {
+            if ($scope.userId != null) {
+                $('#userPositionsTable').show();
+                $('#openUserPositionWindowBtn').show();
+                updatePositionGrid($scope.userId);
+            }
+        }
+        else if(tabTitle == 'Notes') {
+            setTimeout(function(){
+                $("#add_note").focus();
+            }, 100);
+        }
+        else if(tabTitle == 'Info') {
+            var row = $('#userMainGrid').jqxGrid('getrowdatabyid', $scope.userId);
+
+            $('.addUserField#add_createdbyname').val(row.CreatedByName);
+            $('.addUserField#add_updatedbyname').val(row.UpdatedByName);
+            var dt = new Date(Date.parse(row.Created));
+            $('.addUserField#add_created').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+            $('.addUserField#add_created').jqxDateTimeInput('setDate', dt);
+            var dt = new Date(Date.parse(row.Updated));
+            $('.addUserField#add_updated').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+            $('.addUserField#add_updated').jqxDateTimeInput('setDate', dt);
+        }
+    });
+
+
+    // HELPER to validate fields of user form
+    var userValidationFields = function () {
+        var needValidation = false;
+        // VALIDATION Not empty fields
+        $('.new-user-form input.required-field').each(function (i, el) {
+            if (el.value == '') {
+                //if ($scope.newOrEditSelected != 'edit') {
+                //    if ($(el).attr('id') != 'add_code' || $(el).attr('id') != 'add_password') {
+                $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
+                $(el).css({"border-color": "#F00"});
+                $scope.notificationErrorSettings.apply('open');
+                needValidation = true;
+                //}
+                //}
+            }
+            else {
+                $(el).css({"border-color": "#ccc"});
+            }
+        });
+        // VALIDATION Combobox Primary position
+        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
+        if (!comboboxPosition) {
+            $('#notificationErrorSettings #notification-content').html('Primary position can not be empty!');
+            $scope.notificationErrorSettings.apply('open');
+            needValidation = true;
+        }
+
+        // VALIDATION Format of email
+        var emailInputField = $('.addUserField#add_email');
+        if (emailInputField.val() != '' && !check_email(emailInputField.val())) {
+            $('#notificationErrorSettings #notification-content').html('Format of email is not valid!');
+            emailInputField.css({"border-color": "#F00"});
+            $scope.notificationErrorSettings.apply('open');
+            needValidation = true;
+        }
+        else {
+            emailInputField.css({"border-color": "#ccc"});
+        }
+
+        return needValidation;
+    };
+
+    function updateUserGrid() {
+        // $scope.userTableSettings = {
+        $('#userMainGrid').jqxGrid({
+            source: new $.jqx.dataAdapter(UserAdminService.userGridSettings().source)
+        });
+    }
+
+    // Action to save a user
+    $scope.submitUserForm = function (closed) {
+        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
+        var needValidation = userValidationFields();
+        var params = {};
+        var ee = ($('#emailEnabledField [aria-checked="true"]').length > 0)
+            ? $('#emailEnabledField [aria-checked="true"]').data('msg')
+            : 'no';
+        // Check if some is missing
+        if (!needValidation) {
+            // Creating..
+            if ($scope.newOrEditSelected == 'new') {
+                $.each($('#new-user-form').serializeArray(), function (i, el) {
+                    params[el.name] = el.value;
+                });
+                params['EmailEnabled'] = ee;
+                params['position'] = comboboxPosition.value;
+                $.ajax({
+                    'url': SiteRoot + 'admin/user/store_user',
+                    'method': 'POST',
+                    'dataType': 'json',
+                    'data': params,
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            $('.addUserField').css({"border-color": "#ccc"});
+                            // reload table
+                            updateUserGrid();
+                            $('#notificationSuccessSettings #notification-content').html('User created successfully!');
+                            $('#notificationSuccessSettings').jqxNotification('open');
+                            // CLOSE
+                            if (closed == 0) {
+                                $('#savePositionuserBtn').prop('disabled', true);
+                                //$scope.closeUserWindows();
+                                addUserDialog.close();
+                                $('#addUserButtons').show();
+                            } else {
+                                $('#addUserAnotherRow').show();
+                                $('#addUserButtons').hide();
+                                blockTabs();
+                            }
+                        }
+                        else {
+                            $.each(data.message, function (i, msg) {
+                                $('#notificationErrorSettings #notification-content').html(msg);
+                                $scope.notificationErrorSettings.apply('open');
+                                $('.addUserField#add_' + i).css({"border-color": "#F00"});
+                            });
+                        }
+                    }
+                })
+
+            }
+            // AJAX updating user
+            else if ($scope.newOrEditSelected == 'edit') {
+                $.each($('#new-user-form').serializeArray(), function (i, el) {
+                    params[el.name] = el.value;
+                });
+                params['position'] = comboboxPosition.value;
+                params['EmailEnabled'] = ee;
+                params['Unique'] = $scope.userId;
+                $.ajax({
+                    'url': SiteRoot + 'admin/user/update_user',
+                    'method': 'POST',
+                    'dataType': 'json',
+                    'data': params,
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            $('.addUserField').css({"border-color": "#ccc"});
+                            // reload table
+                            updateUserGrid();
+                            $('#notificationSuccessSettings #notification-content').html('User updated successfully!');
+                            $('#notificationSuccessSettings').jqxNotification('open');
+
+
+                            $('#submitAddUserForm').attr('disabled', 'disabled');
+                            $('#addUserButtons').show();
+                            if (closed == 0) {
+                                $('#savePositionuserBtn').prop('disabled', true);
+                                $scope.closeUserWindows();
+                            }
+                        }
+                        else {
+                            $.each(data.message, function (i, msg) {
+                                $('#notificationErrorSettings #notification-content').html(msg);
+                                $scope.notificationErrorSettings.apply('open');
+                                $('.addUserField#add_' + i).css({"border-color": "#F00"});
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+    };
+
+    $scope.deleteRowUser = function () {
+        $.ajax({
+            url: SiteRoot + 'admin/user/delete_user',
+            data: {Unique: $scope.userId},
+            'method': 'POST',
+            'dataType': 'json',
+            success: function (data) {
+                if (data.status == 'success') {
+                    $('.addUserField').css({"border-color": "#ccc"});
+                    // reload table
+                    updateUserGrid();
+                    addUserDialog.close();
+                    resetWindowAddUserForm();
+                }
+            }
+        })
+
+    };
+
+
     /**
      * USER-POSITIONS tab
      */
+    $scope.userPositionsTableSettings = UserAdminService.userPositionGridSettings();
+    function updatePositionGrid(id) {
+        $('#userPositionsTable').jqxGrid({
+            source: new $.jqx.dataAdapter(UserAdminService.userPositionGridSettings(id).source)
+        });
+    };
+
     // Position tab window settings
     $('#payBasisSelect').jqxDropDownList({autoDropDownHeight: true, width: '180px'});
     $scope.userPositionsWindowSettings = {
@@ -348,7 +559,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         values['ConfigPositionUnique'] = position.value;
         values['ConfigUserUnique'] = $scope.userId;
         values['PrimaryPosition'] = $('#primaryPosition').val();
-
         $http({
             'method': 'POST',
             'url': SiteRoot + 'admin/user/add_position_user',
@@ -389,207 +599,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         });
     };
 
-    $scope.userPositionsTableSettings = UserAdminService.userPositionGridSettings();
-    function updatePositionGrid(id) {
-        $('#userPositionsTable').jqxGrid({
-            source: new $.jqx.dataAdapter(UserAdminService.userPositionGridSettings(id).source)
-        });
-    }
-
-    $('#tabsUser').on('tabclick', function (event) {
-        var tabclicked = event.args.item;
-        var tabTitle = $(this).jqxTabs('getTitleAt', tabclicked);
-        //
-        if (tabclicked == 0) {
-            $('#deleteAddUserForm').show();
-        } else {
-            $('#deleteAddUserForm').hide();
-        }
-        // POSITION TAB
-        if(tabTitle == 'Position') {
-            if ($scope.userId != null) {
-                $('#userPositionsTable').show();
-                $('#openUserPositionWindowBtn').show();
-                updatePositionGrid($scope.userId);
-            }
-        }
-        else if(tabTitle == 'Notes') {
-            setTimeout(function(){
-                $("#add_note").focus();
-            }, 100);
-        }
-        else if(tabTitle == 'Info') {
-            var row = $('#userMainGrid').jqxGrid('getrowdatabyid', $scope.userId);
-
-            $('.addUserField#add_createdbyname').val(row.CreatedByName);
-            $('.addUserField#add_updatedbyname').val(row.UpdatedByName);
-            var dt = new Date(Date.parse(row.Created));
-            $('.addUserField#add_created').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
-            $('.addUserField#add_created').jqxDateTimeInput('setDate', dt);
-            var dt = new Date(Date.parse(row.Updated));
-            $('.addUserField#add_updated').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
-            $('.addUserField#add_updated').jqxDateTimeInput('setDate', dt);
-        }
-    });
-
-
-    // HELPER to validate fields of user form
-    var userValidationFields = function () {
-        var needValidation = false;
-        // VALIDATION Not empty fields
-        $('.new-user-form input.required-field').each(function (i, el) {
-            if (el.value == '') {
-                //if ($scope.newOrEditSelected != 'edit') {
-                //    if ($(el).attr('id') != 'add_code' || $(el).attr('id') != 'add_password') {
-                        $('#notificationErrorSettings #notification-content').html($(el).attr('placeholder') + ' can not be empty!');
-                        $(el).css({"border-color": "#F00"});
-                        $scope.notificationErrorSettings.apply('open');
-                        needValidation = true;
-                    //}
-                //}
-            }
-            else {
-                $(el).css({"border-color": "#ccc"});
-            }
-        });
-        // VALIDATION Combobox Primary position
-        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
-        if (!comboboxPosition) {
-            $('#notificationErrorSettings #notification-content').html('Primary position can not be empty!');
-            $scope.notificationErrorSettings.apply('open');
-            needValidation = true;
-        }
-
-        // VALIDATION Format of email
-        var emailInputField = $('.addUserField#add_email');
-        if (emailInputField.val() != '' && !check_email(emailInputField.val())) {
-            $('#notificationErrorSettings #notification-content').html('Format of email is not valid!');
-            emailInputField.css({"border-color": "#F00"});
-            $scope.notificationErrorSettings.apply('open');
-            needValidation = true;
-        }
-        else {
-            emailInputField.css({"border-color": "#ccc"});
-        }
-
-        return needValidation;
-    };
-
-    function updateUserGrid() {
-        // $scope.userTableSettings = {
-        $('#userMainGrid').jqxGrid({
-            source: new $.jqx.dataAdapter(UserAdminService.userGridSettings().source)
-        });
-    }
-
-    // Action to save a user
-    $scope.submitUserForm = function (closed) {
-        var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
-        var needValidation = userValidationFields();
-        var params = {};
-        // Check if some is missing
-        if (!needValidation) {
-            // Creating..
-            if ($scope.newOrEditSelected == 'new') {
-                $.each($('#new-user-form').serializeArray(), function (i, el) {
-                    params[el.name] = el.value;
-                });
-                params['position'] = comboboxPosition.value;
-                $.ajax({
-                    'url': SiteRoot + 'admin/user/store_user',
-                    'method': 'POST',
-                    'dataType': 'json',
-                    'data': params,
-                    success: function (data) {
-                        if (data.status == 'success') {
-                            $('.addUserField').css({"border-color": "#ccc"});
-                            // reload table
-                            updateUserGrid();
-                            $('#notificationSuccessSettings #notification-content').html('User created successfully!');
-                            $('#notificationSuccessSettings').jqxNotification('open');
-                            // CLOSE
-                            if (closed == 0) {
-                                $('#savePositionuserBtn').prop('disabled', true);
-                                //$scope.closeUserWindows();
-                                addUserDialog.close();
-                                $('#addUserButtons').show();
-                            } else {
-                                $('#addUserAnotherRow').show();
-                                $('#addUserButtons').hide();
-                                blockTabs();
-                            }
-                        }
-                        else {
-                            $.each(data.message, function (i, msg) {
-                                $('#notificationErrorSettings #notification-content').html(msg);
-                                $scope.notificationErrorSettings.apply('open');
-                                $('.addUserField#add_' + i).css({"border-color": "#F00"});
-                            });
-                        }
-                    }
-                })
-
-            }
-            // AJAX updating user
-            else if ($scope.newOrEditSelected == 'edit') {
-                $.each($('#new-user-form').serializeArray(), function (i, el) {
-                    params[el.name] = el.value;
-                });
-                params['position'] = comboboxPosition.value;
-                params['Unique'] = $scope.userId;
-                $.ajax({
-                    'url': SiteRoot + 'admin/user/update_user',
-                    'method': 'POST',
-                    'dataType': 'json',
-                    'data': params,
-                    success: function (data) {
-                        if (data.status == 'success') {
-                            $('.addUserField').css({"border-color": "#ccc"});
-                            // reload table
-                            updateUserGrid();
-                            $('#notificationSuccessSettings #notification-content').html('User updated successfully!');
-                            $('#notificationSuccessSettings').jqxNotification('open');
-
-
-                            $('#submitAddUserForm').attr('disabled', 'disabled');
-                            $('#addUserButtons').show();
-                            if (closed == 0) {
-                                $('#savePositionuserBtn').prop('disabled', true);
-                                $scope.closeUserWindows();
-                            }
-                        }
-                        else {
-                            $.each(data.message, function (i, msg) {
-                                $('#notificationErrorSettings #notification-content').html(msg);
-                                $scope.notificationErrorSettings.apply('open');
-                                $('.addUserField#add_' + i).css({"border-color": "#F00"});
-                            });
-                        }
-                    }
-                });
-            }
-        }
-
-    };
-
-    $scope.deleteRowUser = function () {
-        $.ajax({
-            url: SiteRoot + 'admin/user/delete_user',
-            data: {Unique: $scope.userId},
-            'method': 'POST',
-            'dataType': 'json',
-            success: function (data) {
-                if (data.status == 'success') {
-                    $('.addUserField').css({"border-color": "#ccc"});
-                    // reload table
-                    updateUserGrid();
-                    addUserDialog.close();
-                    resetWindowAddUserForm();
-                }
-            }
-        })
-
-    };
 });
 
 // -- User controller //

@@ -9,13 +9,13 @@ jqxangularjs();
 jqxthemes();
 ?>
 <!-- JS-->
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />
 <link rel="stylesheet" href="../../assets/admin/styles.css">
 <script>
     // --Global Variable
     var SiteRoot = "<?php echo base_url()?>";
-
-
 </script>
+<script type="application/javascript" src="<?= base_url()?>assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
 <script type="application/javascript" src="../../assets/admin/user/user_controller.js"></script>
 <script type="application/javascript" src="../../assets/admin/menu/admin_service.js"></script>
 <script type="application/javascript" src="../../assets/admin/user/user_service.js"></script>

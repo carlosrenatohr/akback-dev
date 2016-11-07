@@ -88,5 +88,25 @@
                 </div>
             </div>
         </div>
+
+        <div style="float:left; padding:2px; width:400px;">
+            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Email Enabled:</div>
+            <div style="float:left; width:250px;">
+                <div id="emailEnabledField"
+                     style="display: inline-block;">
+                    <jqx-radio-button jqx-group-name="'emailEnabledUser'" jqx-theme="summer"
+                                      data-val="1" data-msg="yes" jqx-width="'10%'" jqx-height="25"
+                                      class="eecx" style="display: inline-block;margin:10px;">
+                        <span class="text-rb">Yes</span>
+                    </jqx-radio-button>
+                    <jqx-radio-button jqx-group-name="'emailEnabledUser'" jqx-theme="summer"
+                                      data-val="0" data-msg="no" jqx-width="'10%'" jqx-height="25"
+                                      class="eecx" style="display: inline-block;margin: 10px;"
+                                        jqx-checked="true">
+                        <span class="text-rb">No</span>
+                    </jqx-radio-button>
+                </div>
+            </div>
+        </div>
     </div><!--End Grid2-->
 </div><!--End Grid Row-->

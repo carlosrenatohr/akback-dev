@@ -20,6 +20,10 @@ $(function() {
                 e.preventDefault();
             }
         });
+
+        $('#emailEnabledField .eecx').on('change', function (e) {
+            $('.submitUserBtn#submitAddUserForm').prop('disabled', false);
+        });
     }
 });
 

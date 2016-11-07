@@ -28,7 +28,8 @@ angular.module('akamaiposApp')
                     {name: 'Created', type: 'string'},
                     {name: 'CreatedByName', type: 'string'},
                     {name: 'Updated', type: 'string'},
-                    {name: 'UpdatedByName', type: 'string'}
+                    {name: 'UpdatedByName', type: 'string'},
+                    {name: 'EmailEnabled', type: 'string'}
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/user/load_users'
@@ -53,7 +54,8 @@ angular.module('akamaiposApp')
                 {dataField: 'Created', hidden: true},
                 {dataField: 'CreatedByName', hidden: true},
                 {dataField: 'Updated', hidden: true},
-                {dataField: 'UpdatedByName', hidden: true}
+                {dataField: 'UpdatedByName', hidden: true},
+                {dataField: 'EmailEnabled', hidden: true}
             ],
             columnsResize: true,
             width: "99.7%",
