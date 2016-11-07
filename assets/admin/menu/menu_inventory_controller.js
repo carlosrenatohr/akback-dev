@@ -717,7 +717,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.editStockWind = function(e) {
         var row = e.args.row.bounddata;
-        console.log(row);
         $scope.stocklID = row.Unique;
         $scope.createOrEditStockl = 'edit';
 
@@ -1313,6 +1312,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
+    /**
+     * Uploading images action
+     * @type {{}}
+     */
     $scope.uploader = {};
     $scope.successUploadNames = [];
 

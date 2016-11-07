@@ -290,3 +290,23 @@ div.toolbar-list span {
 #questionMainTable .jqx-widget-content.jqx-enableselect .choicesNestedGrid {
     margin:0.8em 0;
 }
+
+/* TOP PAGER on Item inv grid*/
+#inventoryItemsGrid .jqx-grid-header {
+    height:84px!important;
+}
+#columntableinventoryItemsGrid  {
+    top:30px!important;
+}
+#contenttableinventoryItemsGrid {
+    top:0px!important;
+}
+#pagerinventoryItemsGrid.jqx-grid-pager {
+    top:0!important;
+}
+#statusbarinventoryItemsGrid.jqx-widget-header.jqx-grid-statusbar {
+    top:21px!important;
+}
+div[id="filterrow.inventoryItemsGrid"].jqx-grid-cell-pinned {
+    top:29px!important;
+}
