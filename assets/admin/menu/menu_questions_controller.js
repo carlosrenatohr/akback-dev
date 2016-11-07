@@ -39,17 +39,6 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         showCloseButton: false
     };
 
-    // Row subgrid - Create choices nested grid
-    var purchaseGrid = $('#questionMainTable');
-    purchaseGrid.on('rowexpand', function (e) {
-        var current = e.args.rowindex;
-        var rows = purchaseGrid.jqxGrid('getrows');
-        for (var i = 0; i < rows.length; i++) {
-            if (i != current)
-                purchaseGrid.jqxGrid('hiderowdetails', i);
-        }
-    });
-
     // -- Question table settings
     $scope.questionTableSettings = questionService.getQuestionTableSettings();
     var updateQuestionMainTable = function() {

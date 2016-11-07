@@ -12,6 +12,16 @@
     function QuestionService($http, adminService) {
 
         var _this = this;
+        // Row subgrid - Create choices nested grid
+        var rowExpanded;
+        var questionGrid = $('#questionMainTable, #questionItemTable');
+        questionGrid.on('rowexpand', function (e) {
+            var current = e.args.rowindex;
+            if (rowExpanded != current) {
+                $(this).jqxGrid('hiderowdetails', rowExpanded);
+                rowExpanded = current;
+            }
+        });
 
         this.getRowdetailsFromChoices = function(field) {
             return function (index, parentElement, gridElement, record) {
@@ -59,7 +69,7 @@
                     {text: 'Minimum', dataField: 'Min', type: 'string', width: '20%'},
                     {text: 'Maximum', dataField: 'Max', type: 'string', width: '20%'}
                 ],
-                    columnsResize: true,
+                columnsResize: true,
                 //height: 900,
                 width: '99.7%',
                 theme: 'arctic',
@@ -142,7 +152,6 @@
             });
         };
 
-        this.getTests = function() {};
     }
 })();
 

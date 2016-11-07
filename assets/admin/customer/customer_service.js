@@ -25,13 +25,6 @@ angular.module('akamaiposApp')
         });
     };
 
-    this.getLocationName = function (id) {
-        return $http({
-            'method': 'get',
-            'url': SiteRoot + 'admin/Customer/getLocationName/' + id
-        });
-    };
-
     var _this = this;
     this.customerGridsCols =  [
         {text: 'ID', dataField: 'Unique', filtertype: 'input'}, //filterable: false
@@ -762,13 +755,13 @@ angular.module('akamaiposApp')
         }
     };
 
-    var purchaseGrid = $('#customerPurchasesGrid');
+    var rowExpanded;
+    var purchaseGrid = $('#customerPurchasesGrid, #gridCustomer');
     purchaseGrid.on('rowexpand', function (e) {
         var current = e.args.rowindex;
-        var rows = purchaseGrid.jqxGrid('getrows');
-        for (var i = 0; i < rows.length; i++) {
-            if (i != current)
-                purchaseGrid.jqxGrid('hiderowdetails', i);
+        if (rowExpanded != current) {
+            $(this).jqxGrid('hiderowdetails', rowExpanded);
+            rowExpanded = current;
         }
     });
 
