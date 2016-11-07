@@ -1,7 +1,8 @@
 /**
  * Created by carlosrenato on 06-27-16.
  */
-demoApp.service('customerService', function ($http) {
+angular.module('akamaiposApp')
+    .service('customerService', function ($http, adminService) {
 
     this.getCustomerAttributes = function () {
         return $http({
@@ -197,6 +198,8 @@ demoApp.service('customerService', function ($http) {
             }
         };
 
+        var pager = adminService.loadPagerConfig();
+
         return {
             source: dataAdapterCustomerGrid,
             columns: _this.customerGridsCols,
@@ -205,8 +208,8 @@ demoApp.service('customerService', function ($http) {
             sortable: true,
             filterable: true,
             pageable: true,
-            pageSize: 15,
-            pagesizeoptions: ['5', '10', '15'],
+            pageSize: pager.pageSize,
+            pagesizeoptions: pager.pagesizeoptions,
             scrollmode: 'logical',
             //pagerMode: 'simple',
             virtualmode: true,
@@ -299,6 +302,8 @@ demoApp.service('customerService', function ($http) {
             renderstring += "</div>";
             return renderstring;
         };
+
+        var pager = adminService.loadPagerConfig();
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
@@ -334,9 +339,8 @@ demoApp.service('customerService', function ($http) {
             sortable: true,
             filterable: true,
             pageable: true,
-            pageSize: 15,
-            pagesizeoptions: ['5', '10', '15'],
-            pagerMode: 'simple',
+            pageSize: pager.pageSize,
+            pagesizeoptions: pager.pagesizeoptions,
             virtualmode: true,
             showaggregates: true,
             showstatusbar: true,
@@ -424,6 +428,8 @@ demoApp.service('customerService', function ($http) {
             renderstring += "</div>";
             return renderstring;
         };
+
+        var pager = adminService.loadPagerConfig();
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
@@ -459,9 +465,8 @@ demoApp.service('customerService', function ($http) {
             sortable: true,
             filterable: true,
             pageable: true,
-            pageSize: 15,
-            pagesizeoptions: ['5', '10', '15'],
-            pagerMode: 'simple',
+            pageSize: pager.pageSize,
+            pagesizeoptions: pager.pagesizeoptions,
             virtualmode: true,
             showaggregates: true,
             showstatusbar: true,
@@ -550,6 +555,7 @@ demoApp.service('customerService', function ($http) {
             renderstring += "</div>";
             return renderstring;
         };
+        var pager = adminService.loadPagerConfig();
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
@@ -587,9 +593,8 @@ demoApp.service('customerService', function ($http) {
             sortable: true,
             filterable: true,
             pageable: true,
-            pageSize: 15,
-            pagesizeoptions: ['5', '10', '15'],
-            pagerMode: 'simple',
+            pageSize: pager.pageSize,
+            pagesizeoptions: pager.pagesizeoptions,
             virtualmode: true,
             showaggregates: true,
             showstatusbar: true,
