@@ -131,7 +131,7 @@ class User_model extends CI_Model
                 $req['ReplyToName'] = (empty($data)) ? '' : $data['FullName'];
                 $req['Host'] = '127.0.0.1';
                 $req['SmtpServer'] = 'smtp.gmail.com';
-                $req['UserName'] = 'smtp.gmail.com';
+                $req['UserName'] = 'user@gmail.com';
                 $req['Password'] = '5649879+87';
                 $req['SMTPSecure'] = 'ssl';
                 $req['Port'] = '465';
