@@ -835,13 +835,14 @@ angular.module('akamaiposApp')
             }),
             columns: [
                 {dataField: 'ReceiptID', hidden: true},
-                {text: 'Location', dataField: 'Location', filtertype: 'list', width: '15%'},
+                {text: 'Location', dataField: 'Location', filtertype: 'checkedlist', width: '15%'},
                 {text: 'Date', dataField: 'ReceiptDate', filtertype: 'range', width: '25%'},
-                {text: 'Receipt', dataField: 'Receipt', filtertype: 'list', width: '15%'},
-                {text: 'Status', dataField: 'StatusName', filtertype: 'list',  width: '15%'},
-                {text: 'Total', dataField: 'Total', width:'15%',
+                {text: 'Receipt', dataField: 'Receipt', filtertype: 'textbox', width: '15%'},
+                {text: 'Status', dataField: 'StatusName', filtertype: 'checkedlist',  width: '15%'},
+                {text: 'Total', dataField: 'Total', width:'15%', filtertype: 'input',
+                    filtercondition: 'equal,less_than, greater_than',
                     cellsalign: 'right', align: 'right'},
-                {text: 'Created By', dataField: 'CreatedBy', filtertype: 'list', width: '15%'},
+                {text: 'Created By', dataField: 'CreatedBy', filtertype: 'checkedlist', width: '15%'},
                 {dataField: 'Created', hidden: true},
                 {dataField: 'UpdatedBy', hidden: true},
                 {dataField: 'Updated', hidden: true},
@@ -876,7 +877,24 @@ angular.module('akamaiposApp')
                     if($(el).css('width') != '0px')
                         $(el).focus();
                 });
-            }
+            },
+            updatefilterconditions: function (type, defaultconditions) {
+                var stringcomparisonoperators = [];
+                var numericcomparisonoperators = ['EQUAL', 'NOT_EQUAL', 'LESS_THAN', 'LESS_THAN_OR_EQUAL', 'GREATER_THAN', 'GREATER_THAN_OR_EQUAL'];
+                var datecomparisonoperators = [];
+                var booleancomparisonoperators = [];
+                switch (type) {
+                    case 'stringfilter':
+                        return stringcomparisonoperators;
+                    case 'numericfilter':
+                        return numericcomparisonoperators;
+                    case 'datefilter':
+                        return datecomparisonoperators;
+                    case 'booleanfilter':
+                        return booleancomparisonoperators;
+                }
+            },
+            autoshowfiltericon: true,
         }
     };
 
