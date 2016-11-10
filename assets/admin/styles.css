@@ -297,9 +297,11 @@ div.toolbar-list span {
 }
 #columntableinventoryItemsGrid  {
     top:30px!important;
+    border: none;
+    border-top: #B8B8B8 1px solid;
 }
 #contenttableinventoryItemsGrid {
-    top:0px!important;
+    top:0!important;
 }
 #pagerinventoryItemsGrid.jqx-grid-pager {
     top:0!important;
