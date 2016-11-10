@@ -69,38 +69,49 @@ class User extends AK_Controller
      */
     public function store_user()
     {
-        $this->load->model('User_model', 'user_model');
-        $values = $positionValues = [];
-        foreach ($_POST as $index => $element) {
-            $pos = strpos($index, '_');
-            if ($pos !== false) {
-                $temp_index = ucfirst(substr($index, $pos + 1));
-                $values[$temp_index] = $element;
-            } else {
-                $values[$index] = $element;
+        if (isset($_POST) and !empty($_POST)) {
+            $this->load->model('User_model', 'user_model');
+            $values = $positionValues = [];
+            foreach ($_POST as $index => $element) {
+                $pos = strpos($index, '_');
+                if ($pos !== false) {
+                    $temp_index = ucfirst(substr($index, $pos + 1));
+                    $values[$temp_index] = $element;
+                } else {
+                    $values[$index] = $element;
+                }
             }
-        }
 
-        $validations = $this->validationsBeforeSaving($values);
-        if ($validations['sure']) {
-            $values['Password'] = md5($values['Password']);
-            $values['Code'] = md5($values['Code']);
-            //
-            $values['Status'] = 1;
-            $values['Created'] = date('Y-m-d G:i:s');
-            $values['CreatedBy'] = $this->session->userdata('userid');
-//            var_dump($values);exit;
-            $status = $this->user_model->store($values);
-            $response = [
-                'status' => 'success',
-                'message' => $status
-            ];
-        } else {
-            $response = [
-                'status' => 'error',
-                'message' => $validations['message']
-            ];
-        }
+            $validations = $this->validationsBeforeSaving($values);
+            if ($validations['sure']) {
+                $values['Password'] = md5($values['Password']);
+                $values['Code'] = md5($values['Code']);
+                //
+                $values['Status'] = 1;
+                $values['Created'] = date('Y-m-d G:i:s');
+                $values['CreatedBy'] = $this->session->userdata('userid');
+                $lastId = $this->user_model->store($values);
+                if ($lastId) {
+                    $emailData = [
+                        'FullName' => $values['FirstName'] . ' ' . $values['FirstName'],
+                        'Email' => $values['Email']
+                    ];
+                    $this->setEmailStatusOnUser($lastId, $values['EmailEnabled'], $emailData);
+                    $response = [
+                        'status' => 'success',
+                        'message' => $lastId
+                    ];
+                } else
+                    $response = $this->dbErrorMsg();
+
+            } else {
+                $response = [
+                    'status' => 'error',
+                    'message' => $validations['message']
+                ];
+            }
+        } else
+            $response = $this->dbErrorMsg(0);
 
         echo json_encode($response);
     }
@@ -112,52 +123,63 @@ class User extends AK_Controller
      */
     public function update_user()
     {
-        $values = $positionValues = [];
-        $id = $_POST['Unique'];
-        unset($_POST['Unique']);
-        foreach ($_POST as $index => $element) {
-            $pos = strpos($index, '_');
-            if ($pos !== false) {
-                $temp_index = ucfirst(substr($index, $pos + 1));
-                $values[$temp_index] = $element;
-            } else {
-                $values[$index] = $element;
+        if (isset($_POST) && !empty($_POST)) {
+            $values = $positionValues = [];
+            $id = $_POST['Unique'];
+            unset($_POST['Unique']);
+            foreach ($_POST as $index => $element) {
+                $pos = strpos($index, '_');
+                if ($pos !== false) {
+                    $temp_index = ucfirst(substr($index, $pos + 1));
+                    $values[$temp_index] = $element;
+                } else {
+                    $values[$index] = $element;
+                }
             }
-        }
 
-        // Valid Code or Password, if it is empty
-        $validations = $this->validationsBeforeUpdating($values, $id);
-        if ($validations['sure']) {
-            // Password is not empty?
-            $values['Password'] = ($values['Password'] == '******') ? '' : $values['Password'];
-            if (!empty($values['Password'])) {
-                $values['Password'] = md5($values['Password']);
-            } else {
-                unset($values['Password']);
-            }
-            // Code is not empty?
-            $values['Code'] = ($values['Code'] == '******') ? '' : $values['Code'];
-            if (!empty($values['Code'])) {
-                $values['Code'] = md5($values['Code']);
-            } else {
-                unset($values['Code']);
-            }
-            // Rest of values
+            // Valid Code or Password, if it is empty
+            $validations = $this->validationsBeforeUpdating($values, $id);
+            if ($validations['sure']) {
+                // Password is not empty?
+                $values['Password'] = ($values['Password'] == '******') ? '' : $values['Password'];
+                if (!empty($values['Password'])) {
+                    $values['Password'] = md5($values['Password']);
+                } else {
+                    unset($values['Password']);
+                }
+                // Code is not empty?
+                $values['Code'] = ($values['Code'] == '******') ? '' : $values['Code'];
+                if (!empty($values['Code'])) {
+                    $values['Code'] = md5($values['Code']);
+                } else {
+                    unset($values['Code']);
+                }
+                // Rest of values
 //            $values['Status'] = 1;
-            $values['Updated'] = date('Y-m-d G:i:s');
-            $values['UpdatedBy'] = $this->session->userdata('userid');
-            // var_dump($values);exit;
-            $status = $this->user_model->update($values, $id);
-            $response = [
-                'status' => 'success',
-                'message' => 'Updated: ' . $status
-            ];
-        } else {
-            $response = [
-                'status' => 'error',
-                'message' => $validations['message']
-            ];
-        }
+                $values['Updated'] = date('Y-m-d G:i:s');
+                $values['UpdatedBy'] = $this->session->userdata('userid');
+                $status = $this->user_model->update($values, $id);
+                if ($status) {
+                    $emailData = [
+                        'FullName' => $values['FirstName'] . ' ' . $values['LastName'],
+                        'Email' => $values['Email']
+                    ];
+                    $this->setEmailStatusOnUser($id, $values['EmailEnabled'], $emailData);
+                    $response = [
+                        'status' => 'success',
+                        'message' => 'Updated: ' . $status
+                    ];
+                } else
+                    $response = $this->dbErrorMsg();
+            } else {
+                $response = [
+                    'status' => 'error',
+                    'message' => $validations['message']
+                ];
+            }
+        } else
+            $response = $this->dbErrorMsg(0);
+
         echo json_encode($response);
 
     }
@@ -168,14 +190,30 @@ class User extends AK_Controller
      * @returnType json
      */
     public function delete_user() {
-        $id = $_POST['Unique'];
-        $status = $this->user_model->softDelete($id);
-        $response = [
-            'status' => 'success',
-            'message' => $status
-        ];
+        if (isset($_POST) && !empty($_POST)) {
+            $id = $_POST['Unique'];
+            $status = $this->user_model->softDelete($id);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => $status
+                ];
+            } else
+                $response = $this->dbErrorMsg(0);
+
+        } else
+            $response = $this->dbErrorMsg(0);
 
         echo json_encode($response);
+    }
+
+    protected function setEmailStatusOnUser($id, $isEnabled, $data) {
+        if ($isEnabled == 'yes')
+            $isEnabled = true;
+        elseif ($isEnabled == 'no')
+            $isEnabled = false;
+
+        $this->user_model->setEmailStatusOnUser($id, $isEnabled, $data);
     }
 
     /**

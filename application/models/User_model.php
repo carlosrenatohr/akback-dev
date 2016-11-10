@@ -99,7 +99,7 @@ class User_model extends CI_Model
             'CreatedBy' => $this->session->userdata('userid')
         ];
         $this->db->insert('config_user_position', $user_position);
-        return $result;
+        return $insert_id;
     }
 
     public function update($data, $id) {
@@ -109,6 +109,47 @@ class User_model extends CI_Model
         //
         $this->createOrUpdatePositionUser($position_id, $id);
         return $query;
+    }
+
+    public function setEmailStatusOnUser($id, $isEnabled, $data) {
+        $this->db->trans_start();
+        $exists = $this->db->where('UserUnique', $id)->get('config_user_email')->row_array();
+        $this->db->trans_complete();
+
+        $this->db->trans_start();
+        if ($isEnabled) {
+            if (count($exists)) {
+                $req['ReplyToEmail'] = (empty($data)) ? '' : $data['Email'];
+                $req['ReplyToName'] = (empty($data)) ? '' : $data['FullName'];
+                $req['Updated'] = date('Y-m-d H:i:s');
+                $req['UpdatedBy'] = $this->session->userdata('userid');
+                $req['Status'] = 1;
+                $this->db->where('UserUnique', $id);
+                $this->db->update('config_user_email', $req);
+            } else {
+                $req['ReplyToEmail'] = (empty($data)) ? '' : $data['Email'];
+                $req['ReplyToName'] = (empty($data)) ? '' : $data['FullName'];
+                $req['Host'] = '127.0.0.1';
+                $req['SmtpServer'] = 'smtp.gmail.com';
+                $req['UserName'] = 'smtp.gmail.com';
+                $req['Password'] = '5649879+87';
+                $req['SMTPSecure'] = 'ssl';
+                $req['Port'] = '465';
+                $req['FromEmail'] = 'user@gmail.com';
+                $req['FromName'] = 'Reports';
+                $req['Created'] = date('Y-m-d H:i:s');
+                $req['CreatedBy'] = $this->session->userdata('userid');
+                $req['UserUnique'] = $id;
+                $req['Status'] = 1;
+
+                $this->db->insert('config_user_email', $req);
+            }
+        }
+        else {
+            $this->db->where('UserUnique', $id);
+            $this->db->delete('config_user_email');
+        }
+        $this->db->trans_complete();
     }
 
     public function createOrUpdatePositionUser($position_id, $user_id) {
