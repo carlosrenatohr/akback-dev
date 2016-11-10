@@ -13,3 +13,6 @@ composer.lock
 /application/config/constants.php
 /assets/img/signature/
 /assets/download/
+node_module
+package.json
+gulpfile.js
