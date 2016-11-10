@@ -5,6 +5,23 @@
 angular.module("akamaiposApp", ['jqwidgets'])
     .controller('itemBrandController', function($scope, $http, adminService){
 
+    $('#ibrandsTabs').on('tabclick', function (event) {
+        var tabclicked = event.args.item;
+        var tabTitle = $(this).jqxTabs('getTitleAt', tabclicked);
+        if (tabTitle == 'Info') {
+            var row = $('#ibrandsGrid').jqxGrid('getrowdatabyid', $scope.ibrandID);
+
+            $('#ibrands_createdbyname').val(row.CreatedByName);
+            $('#ibrands_updatedbyname').val(row.UpdatedByName);
+            var dt = new Date(Date.parse(row.Created));
+            $('#ibrands_created').jqxDateTimeInput({formatString: 'MM-dd-yyyy hh:mm tt'});
+            $('#ibrands_created').jqxDateTimeInput('setDate', dt);
+            var dt = new Date(Date.parse(row.Updated));
+            $('#ibrands_updated').jqxDateTimeInput({formatString: 'MM-dd-yyyy hh:mm tt'});
+            $('#ibrands_updated').jqxDateTimeInput('setDate', dt);
+        }
+    });
+
     var ibrandsWin;
     $scope.disabled = true;
     $scope.ibrandsWindowSettings = {
@@ -96,14 +113,21 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.ibrandID = row.Unique;
         $scope.createOrEditIbrand = 'edit';
         for(var i in row) {
-            var el = $('#ibrandsTabs #ibrands_' + i.toLocaleLowerCase());
+            var ind = i.toLocaleLowerCase();
+            var el = $('#ibrandsTabs #ibrands_' + ind);
             if (el.length) {
                 el.val(row[i]);
+            }
+            if (ind == 'created' || ind == 'updated') {
+                var dt = new Date(Date.parse(row[i]));
+                el.jqxDateTimeInput({formatString: 'MM-dd-yyyy hh:mm tt'});
+                el.jqxDateTimeInput('setDate', dt);
             }
         }
         //
         $('#ibrandsTabs').jqxTabs('select', 0);
         $('#secondBrandTab').show();
+        $('#secondBrandTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         $('#deleteIbrandsBtn').show();
         $('#saveIbrandsBtn').prop('disabled', true);
         setTimeout(function(){

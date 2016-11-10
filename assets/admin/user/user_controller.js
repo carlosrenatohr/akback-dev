@@ -70,7 +70,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }
             if (ind == 'created' || ind == 'updated') {
                 var dt = new Date(Date.parse(values[i]));
-                el.jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+                el.jqxDateTimeInput({formatString: 'MM-dd-yyyy hh:mm tt'});
                 el.jqxDateTimeInput('setDate', dt);
             }
         }
@@ -252,10 +252,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('.addUserField#add_createdbyname').val(row.CreatedByName);
             $('.addUserField#add_updatedbyname').val(row.UpdatedByName);
             var dt = new Date(Date.parse(row.Created));
-            $('.addUserField#add_created').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+            $('.addUserField#add_created').jqxDateTimeInput({formatString: 'MM-dd-yyyy hh:mm tt'});
             $('.addUserField#add_created').jqxDateTimeInput('setDate', dt);
             var dt = new Date(Date.parse(row.Updated));
-            $('.addUserField#add_updated').jqxDateTimeInput({formatString: 'dd-MM-yyyy hh:mm tt'});
+            $('.addUserField#add_updated').jqxDateTimeInput({formatString: 'MM-dd-yyyy hh:mm tt'});
             $('.addUserField#add_updated').jqxDateTimeInput('setDate', dt);
         }
     });
