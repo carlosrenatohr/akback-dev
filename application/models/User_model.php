@@ -189,6 +189,8 @@ class User_model extends CI_Model
         ];
         $this->db->where('Unique', $id);
         $query = $this->db->update('config_user', $values);
+        // config_user_email
+        $this->db->where('UserUnique', $id)->delete('config_user_email');
 
         return $query;
     }
