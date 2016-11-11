@@ -51,7 +51,8 @@ class MenuCategory extends AK_Controller
         $data['questions_tab_view'] = $menu_path . "questions_tab";
         $data['printers_tab_view'] = $menu_path . "printer_tab";
         // Main page
-        $this->load->view($menu_path . "index", $data);
+        $data['main_content'] = $menu_path . "index";
+        $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 
     /**

@@ -1,23 +1,22 @@
 <?php
-$this->load->view('backoffice_templates/backoffice_template.inc.php');
-$this->load->view('backoffice_includes/backoffice_mainmenu_header');
-//$this->load->view('backoffice_templates/backoffice_category_menubar');
-$this->load->view('backoffice_templates/backoffice_menubar');
-
-categoryjs();
-jqxangularjs();
-jqxthemes();
+//$this->load->view('backoffice_templates/backoffice_template.inc.php');
+//$this->load->view('backoffice_includes/backoffice_mainmenu_header');
+////$this->load->view('backoffice_templates/backoffice_category_menubar');
+//$this->load->view('backoffice_templates/backoffice_menubar');
+//
+//categoryjs();
+//jqxangularjs();
+//jqxthemes();
 ?>
 
-<link rel="stylesheet" href="<?php echo base_url() ?>assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />
+<!--<link rel="stylesheet" href="--><?php //echo base_url() ?><!--assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />-->
 <script type="text/javascript">
-    var SiteRoot ="<?php echo base_url() ?>";
     $("#tabtitle").text("Menu");
 </script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/jqwidgets/jqxdragdrop.js"></script>
-<script type="application/javascript" src="<?= base_url()?>assets/js/angular/jqwidgets/jqxradiobutton.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.sort.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jqwidgets/jqxgrid.filter.js"></script>
+<!--<script type="text/javascript" src="--><?//= base_url()?><!--assets/js/jqwidgets/jqxdragdrop.js"></script>-->
+<!--<script type="application/javascript" src="--><?//= base_url()?><!--assets/js/angular/jqwidgets/jqxradiobutton.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.sort.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.filter.js"></script>-->
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/config.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/admin_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_categories_controller.js"></script>
@@ -34,7 +33,7 @@ jqxthemes();
 <script src="<?= base_url()?>assets/admin/ng-flow-standalone.min.js"></script>
 <script src="<?= base_url()?>assets/admin/fusty-flow.js"></script>
 <script src="<?= base_url()?>assets/admin/fusty-flow-factory.js"></script>
-<link rel="stylesheet" href="<?= base_url()?>assets/admin/styles.css">
+<!--<link rel="stylesheet" href="--><?//= base_url()?><!--assets/admin/styles.css">-->
 
 <div class="parent-container" ng-controller="menuCategoriesController">
     <div ng-cloak class=" ng-cloak">
@@ -112,4 +111,4 @@ jqxthemes();
         }
     </style>
 
-<?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>
+<?php //$this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

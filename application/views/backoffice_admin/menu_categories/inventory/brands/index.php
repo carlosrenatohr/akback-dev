@@ -1,8 +1,8 @@
 <?php
 //$this->load->view('backoffice_templates/backoffice_template.inc.php');
-$this->load->view('backoffice_admin/templates/custom_header');
+//$this->load->view('backoffice_admin/templates/custom_header');
 //$this->load->view('backoffice_templates/backoffice_category_menubar');
-$this->load->view('backoffice_templates/backoffice_menubar');
+//$this->load->view('backoffice_templates/backoffice_menubar');
 
 //categoryjs();
 //jqxangularjs();
@@ -190,4 +190,3 @@ $this->load->view('backoffice_templates/backoffice_menubar');
         margin: 0!important;
     }
 </style>
-<?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

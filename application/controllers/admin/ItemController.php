@@ -35,7 +35,8 @@ class ItemController extends AK_Controller
         $data['inventory_options_subtab_view'] = $menu_path . "options_subtab";
         $data['inventory_picture_subtab_view'] = $menu_path . "picture_subtab";
         // Main page
-        $this->load->view($menu_path . "main", $data);
+        $data['main_content'] = $menu_path . "main";
+        $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 
     public function brands() {
@@ -47,7 +48,8 @@ class ItemController extends AK_Controller
         $data['brand_subtab'] = $brand_path . 'brand_subtab';
         $data['info_subtab'] = $brand_path . 'info_subtab';
         //
-        $this->load->view($brand_path . "index", $data);
+        $data['main_content'] = $brand_path . "index";
+        $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 
 }
