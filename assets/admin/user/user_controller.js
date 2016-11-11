@@ -74,8 +74,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 el.jqxDateTimeInput('setDate', dt);
             }
         }
-        var emailEn = $('#emailEnabledField .eecx[data-msg="' +
-            values.EmailEnabled +'"]');
+        var eec = (values.EmailEnabled == 'yes') ? 'yes' : 'no';
+        var emailEn = $('#emailEnabledField .eecx[data-msg="' + eec +'"]');
         emailEn.jqxRadioButton({ checked:true });
         $('#deleteAddUserForm').show();
         $('#positionCombobox').jqxComboBox('val', values['PrimaryPosition']);

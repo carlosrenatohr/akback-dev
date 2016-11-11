@@ -184,6 +184,7 @@ class User_model extends CI_Model
     public function softDelete($id) {
         $values = [
             'Status' => 0,
+            'EmailEnabled' => 'no',
             'Updated' => date('Y-m-d H:i:s'),
             'UpdatedBy' => $this->session->userdata('userid')
         ];
