@@ -60,30 +60,33 @@
                 </form>
 
                 <input type="hidden" id="idPositionUserWin">
-                <br>
-                <div id="buttonsGroupsPositions">
-                    <div style="margin: 20px 0;display: inline-block;">
-                        <button type="button" id="savePositionuserBtn" ng-click="submitUserpositionsWindows()" class="btn btn-primary" disabled>Save</button>
-                        <button	type="button" id="" ng-click="closeUserpositionsWindows()" class="btn btn-warning cancelUserBtn">Close</button>
-                        <button	type="button" id="deletePositionuserBtn" ng-click="deletePositionByUser()" class="btn btn-danger">Delete</button>
-                    </div>
-                </div>
 
-                <div id="sureToCancelPosition" style="display: none;">
-                    <div class="" style="margin: 20px 0;display: inline-block;">
-                        Would you like to save your changes?<br>
-                        <button type="button" ng-click="closeUserpositionsWindows(1)" class="btn btn-primary">Yes</button>
-                        <button	type="button" ng-click="closeUserpositionsWindows(2)" class="btn btn-warning">No</button>
-                        <button	type="button" ng-click="closeUserpositionsWindows(3)" class="btn btn-danger">Cancel</button>
+                <div class="col-md-12 col-md-offset-0" style="margin-top: 10px;">
+                    <div class="row">
+                        <div id="buttonsGroupsPositions">
+                            <div class="col-sm-12">
+                                <button type="button" id="savePositionuserBtn" ng-click="submitUserpositionsWindows()" class="btn btn-primary" disabled>Save</button>
+                                <button	type="button" id="" ng-click="closeUserpositionsWindows()" class="btn btn-warning cancelUserBtn">Close</button>
+                                <button	type="button" id="deletePositionuserBtn" ng-click="deletePositionByUser()" class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div id="sureToCancelPosition" style="display: none;">
+                            <div class="col-sm-12">
+                                Would you like to save your changes?<br>
+                                <button type="button" ng-click="closeUserpositionsWindows(1)" class="btn btn-primary">Yes</button>
+                                <button	type="button" ng-click="closeUserpositionsWindows(2)" class="btn btn-warning">No</button>
+                                <button	type="button" ng-click="closeUserpositionsWindows(3)" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <jqx-notification jqx-settings="notificationPositionSettings" id="notificationPositionSettings">
+                        <div id="notification-content"></div>
+                    </jqx-notification>
                 </div>
-
-                <jqx-notification jqx-settings="notificationPositionSettings" id="notificationPositionSettings">
-                    <div id="notification-content"></div>
-                </jqx-notification>
             </div>
 
         </jqx-window>
     </div>
-
 </div>

@@ -506,9 +506,21 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#savePositionuserBtn').prop('disabled', true);
     }
 
+
+    function disablePositions(id) {
+        var positions = $('#userPositionsTable').jqxGrid('getRows');
+        $.each(positions, function(i, el) {
+            var item = el.ConfigPositionUnique;
+            // if (id != undefined && id != el) {
+            var opt = $('#positionByUserCombobox').jqxComboBox('getItemByValue', item);
+            $('#positionByUserCombobox').jqxComboBox('disableItem', opt);
+            // }
+        });
+    }
+
     //
     $scope.openUserpositionsWindows = function() {
-        // disablePositions();
+        disablePositions();
         $('#positionByUserCombobox').jqxComboBox({disabled: false});
         $('#deletePositionuserBtn').hide();
 
@@ -520,6 +532,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $scope.editPositionByUser = function(e) {
         var values = e.args.row.bounddata;
+        // disablePositions(values.Unique);
         userPositionWindow.setTitle("Edit position <b>"+ values['PositionName'] + "</b> | Username: <b>" + $scope.editing_username + "</b>");
 
         var selectedIndexByPosition;
