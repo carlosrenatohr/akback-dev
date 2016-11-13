@@ -39,7 +39,7 @@ class ItemController extends AK_Controller
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 
-    public function brands() {
+    public function brandsPage() {
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Item Brands";
@@ -49,6 +49,17 @@ class ItemController extends AK_Controller
         $data['info_subtab'] = $brand_path . 'info_subtab';
         //
         $data['main_content'] = $brand_path . "index";
+        $this->load->view('backoffice_admin/templates/main_layout', $data);
+    }
+
+    public function countPage() {
+        $data['currentuser'] = $this->session->userdata("currentuser");
+        $data['station'] = $this->session->userdata("station_number");
+        $data['page_title'] = "Item Count";
+        $data['storename'] = $this->displaystore();
+        $count_path = 'backoffice_admin/menu_categories/inventory/count/';
+        //
+        $data['main_content'] = $count_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 

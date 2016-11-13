@@ -48,6 +48,12 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php //echo base_url("dashboard/items/count") ?>#" style="outline:0;">
+                                <span class="icon-32-count"></span>
+                                Count
+                            </a>
+                        </li>
+                        <li>
                             <a style="outline:0;" ng-click="openInventoryWind()">
                                 <span class="icon-32-new"></span>
                                 New
@@ -236,6 +242,10 @@
     }
     #inventorySection .row {
         /*margin: 0!important;*/
+    }
+    .icon-32-count {
+        background: url('../assets/img/1.png');
+        background-size: cover;
     }
 </style>
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

@@ -64,7 +64,8 @@ $route['dashboard/admin/users'] = 'admin/User';
 $route['dashboard/admin/menu'] = 'admin/MenuCategory';
 $route['dashboard/admin/customers'] = 'admin/Customer';
 $route['dashboard/items'] = 'admin/ItemController';
-$route['dashboard/items/brands'] = 'admin/ItemController/brands';
+$route['dashboard/items/brands'] = 'admin/ItemController/brandsPage';
+$route['dashboard/items/count'] = 'admin/ItemController/countPage';
 
 //logon page
 $route['backoffice'] = "backoffice/login";
