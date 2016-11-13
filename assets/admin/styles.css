@@ -283,7 +283,8 @@ div.toolbar-list span {
     display:none;
 }
 
-#questionMainTable .jqx-widget-content.jqx-enableselect {
+#questionMainTable .jqx-widget-content.jqx-enableselect,
+#customerReceiptGrid .jqx-widget-content.jqx-enableselect {
     overflow-y: scroll!important;
 }
 

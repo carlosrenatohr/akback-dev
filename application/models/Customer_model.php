@@ -201,6 +201,21 @@ class Customer_model extends CI_Model
         return $result;
     }
 
+    public function receiptDetailsByHeader($receipt_id) {
+        $sql = "select \"ReceiptHeaderUnique\" as \"ReceiptID\", \"Item\",\"Description\",\"Quantity\" as \"Quantity\",
+		round(\"ListPrice\",2) as \"ListPrice\",
+		round(\"SellPrice\",2) as \"SellPrice\" ,round(\"Tax\",2) as \"Tax\",round(\"Total\",2) as \"Total\",
+		case when (RD.\"ReturnUnique\" > 0 or null) then 'Removed' else 'Complete' end as \"Status\",
+		date_trunc('min', RD.\"created\"::timestamp) as \"Created\",CU1.\"UserName\" as \"CreatedBy\",
+		date_trunc('min', RD.\"updated\"::timestamp) as \"Updated\",CU2.\"UserName\" as \"UpdatedBy\"
+		from receipt_details RD
+		left join config_user CU1 on RD.\"created_by\" = CU1.\"Unique\"
+		left join config_user CU2 on RD.\"updated_by\" = CU2.\"Unique\"
+		Where \"ReceiptHeaderUnique\" = '".$receipt_id."' and RD.\"Status\" in (1,10) order by \"LineNo\" asc";
+
+        return $this->db->query($sql)->result_array();
+    }
+
     /**
      * CUSTOMER CARD
      */
