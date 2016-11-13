@@ -1,22 +1,45 @@
 <?php
-$this->load->view('backoffice_templates/backoffice_template.inc.php');
-$this->load->view('backoffice_includes/backoffice_mainmenu_header');
+//$this->load->view('backoffice_templates/backoffice_template.inc.php');
+//$this->load->view('backoffice_admin/templates/custom_header');
 //$this->load->view('backoffice_templates/backoffice_category_menubar');
-$this->load->view('backoffice_templates/backoffice_menubar');
+//$this->load->view('backoffice_templates/backoffice_menubar');
 
-categoryjs();
-jqxangularjs();
-jqxthemes();
+//categoryjs();
+//jqxangularjs();
+//jqxthemes();
 ?>
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jquery-1.10.2.min.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/angular.min.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxangular.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxcore.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxdata.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxbuttons.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxdatatable.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxtabs.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxlistbox.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxcombobox.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxscrollbar.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/jqwidgets/jqxmenu.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/jqwidgets/jqxcalendar.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxdatetimeinput.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxgrid.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxgrid.filter.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxgrid.edit.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxgrid.pager.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxnotification.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxgrid.sort.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxgrid.columnsresize.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxwindow.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxcheckbox.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxdropdownlist.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url() ?><!--assets/js/angular/jqwidgets/jqxgrid.selection.js"></script>-->
+
+
 <script type="text/javascript">
-    var SiteRoot ="<?php echo base_url() ?>";
     $("#tabtitle").text("Items Brand");
 </script>
-    <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_brand_controller.js"></script>
-    <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/admin_service.js"></script>
-
-<link rel="stylesheet" href="<?php echo base_url() ?>assets/admin/styles.css">
-<link rel="stylesheet" href="<?php echo base_url() ?>assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_brand_controller.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/admin_service.js"></script>
 
 <div class="container-fluid" ng-controller="itemBrandController">
 
@@ -167,4 +190,3 @@ jqxthemes();
         margin: 0!important;
     }
 </style>
-<?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

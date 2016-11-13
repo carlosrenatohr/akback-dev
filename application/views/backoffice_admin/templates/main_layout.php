@@ -1,4 +1,4 @@
-<?php $this->load->view('backoffice_templates/backoffice_template.inc.php'); ?>
+<?php //$this->load->view('backoffice_templates/backoffice_template.inc.php'); ?>
 
 <?php $this->load->view('backoffice_admin/templates/custom_header'); ?>
 
