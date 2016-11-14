@@ -257,7 +257,7 @@ class User extends AK_Controller
         }
         //
         // if (is_numeric($code) && !is_float($code)) {
-        if (!preg_match('/^[1-9][0-9]{0,12}$/', $data['Code'])) {
+        if (!preg_match('/^[0-9][0-9]{0,12}$/', $data['Code'])) {
             $sure = false;
             $message['code'] = 'Your code must be number.';
         }
