@@ -48,7 +48,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php //echo base_url("dashboard/items/count") ?>#" style="outline:0;">
+                            <a href="<?php echo base_url("dashboard/items/count") ?>" style="outline:0;">
                                 <span class="icon-32-count"></span>
                                 Count
                             </a>
