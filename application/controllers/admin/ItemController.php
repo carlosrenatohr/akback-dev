@@ -57,7 +57,10 @@ class ItemController extends AK_Controller
         $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Item Count";
         $data['storename'] = $this->displaystore();
+        $data['locations'] = $this->getLocations();
         $count_path = 'backoffice_admin/menu_categories/inventory/count/';
+        $data['count_subtab'] = $count_path . 'count_subtab';
+        $data['list_subtab'] = $count_path . 'count_list_subtab';
         //
         $data['main_content'] = $count_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);

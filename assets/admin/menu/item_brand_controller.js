@@ -139,7 +139,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $scope.saveIbrands = function(toclose) {
         var required = function() {
-            if ($('ibrands_name').val() == '') {
+            if ($('#ibrands_name').val() == '') {
                 $('#ibrandsErrorMsg #msg').html('Name field is required');
                 $scope.ibrandsErrorMsg.apply('open');
                 return false;

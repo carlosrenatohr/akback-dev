@@ -50,61 +50,62 @@
                 <div >
                     <jqx-tabs jqx-width="'100%'"
                               jqx-on-selecting=""
-                              id="">
+                              id="icountTabs">
                         <ul>
-                            <li>Brand</li>
-                            <li id="secondBrandTab">Info</li>
+                            <li>Count</li>
+                            <li>Count List</li>
                         </ul>
-                        <!-- Brand subtab -->
+                        <!-- Count subtab -->
                         <div class="">
-<!--                            --><?php //$this->load->view($brand_subtab); ?>
+                            <?php $this->load->view($count_subtab); ?>
                         </div>
-                        <!-- Info subtab -->
+                        <!-- Count List subtab -->
                         <div class="">
-<!--                            --><?php //$this->load->view($info_subtab); ?>
+                            <?php $this->load->view($list_subtab); ?>
                         </div>
                     </jqx-tabs>
 
-<!--                    <!-- Main buttons before saving item on grid -->-->
+<!--                    <!-- Main buttons before saving item on grid -->
+                    <div class="col-md-12 col-md-offset-0">
+                        <div class="row">
+                            <div id="mainIcountBtns" class="">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button type="button" id="saveIcountBtn"
+                                                ng-click="saveIcount()" class="btn btn-primary" disabled
+                                            >Save</button>
+                                        <button type="button" ng-click="closeIcount()"
+                                                class="btn btn-warning"
+                                            >Close</button>
+                                        <button type="button" id="deleteIcountBtn" ng-click=""
+                                                class="btn btn-danger" style="overflow:auto;display: none;"
+                                            >Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prompt before saving item on grid -->
+                    <div class="col-md-12 col-md-offset-0">
+                        <div class="row">
+                            <div id="closeIcountBtns" class="" style="display: none">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div class="message">Do you want to save your changes?</div>
+                                        <button type="button" ng-click="closeIcount(0)" class="btn btn-primary">Yes</button>
+                                        <button type="button" ng-click="closeIcount(1)" class="btn btn-warning">No</button>
+                                        <button type="button" ng-click="closeIcount(2)" class="btn btn-info">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prompt before delete an item on grid -->
 <!--                    <div class="col-md-12 col-md-offset-0">-->
 <!--                        <div class="row">-->
-<!--                            <div id="mainicountBtns" class="">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="col-sm-12">-->
-<!--                                        <button type="button" id="saveicountBtn" ng-click=""-->
-<!--                                                class="btn btn-primary" disabled>-->
-<!--                                            Save-->
-<!--                                        </button>-->
-<!--                                        <button type="button" ng-click="" class="btn btn-warning">Close</button>-->
-<!--                                        <button type="button" id="deleteicountBtn" ng-click="" class="btn btn-danger"-->
-<!--                                                style="overflow:auto;display: none;">Delete-->
-<!--                                        </button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!---->
-<!--                    <!-- Prompt before saving item on grid -->-->
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <div id="closeicountBtns" class="" style="display: none">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="col-sm-12">-->
-<!--                                        <div class="message">Do you want to save your changes?</div>-->
-<!--                                        <button type="button" ng-click="" class="btn btn-primary">Yes</button>-->
-<!--                                        <button type="button" ng-click="" class="btn btn-warning">No</button>-->
-<!--                                        <button type="button" ng-click="" class="btn btn-info">Cancel</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!---->
-<!--                    <!-- Prompt before delete an item on grid -->-->
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <div id="deleteicountBtns" class="" style="display: none">-->
+<!--                            <div id="deleteIcountBtns" class="" style="display: none">-->
 <!--                                <div class="form-group">-->
 <!--                                    <div class="col-sm-12">-->
 <!--                                        Do you really want to delete it?-->
@@ -116,19 +117,19 @@
 <!--                            </div>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                    <!-- NOTIFICATIONS AREA -->-->
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <jqx-notification jqx-settings="icountSuccessMsg" id="icountSuccessMsg">-->
-<!--                                <div id="msg"></div>-->
-<!--                            </jqx-notification>-->
-<!--                            <jqx-notification jqx-settings="icountErrorMsg" id="icountErrorMsg">-->
-<!--                                <div id="msg"></div>-->
-<!--                            </jqx-notification>-->
-<!--                            <div id="notification_container_icount"-->
-<!--                                 style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!-- NOTIFICATIONS AREA -->
+                    <div class="col-md-12 col-md-offset-0">
+                        <div class="row">
+                            <jqx-notification jqx-settings="icountSuccessMsg" id="icountSuccessMsg">
+                                <div id="msg"></div>
+                            </jqx-notification>
+                            <jqx-notification jqx-settings="icountErrorMsg" id="icountErrorMsg">
+                                <div id="msg"></div>
+                            </jqx-notification>
+                            <div id="notification_container_icount"
+                                 style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
+                        </div>
+                    </div>
                 </div>
             </jqx-window>
         </div>
