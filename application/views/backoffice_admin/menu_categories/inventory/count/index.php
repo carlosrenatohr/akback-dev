@@ -40,10 +40,11 @@
             <jqx-grid id="icountGrid"
                       jqx-settings="icountGridSettings"
                       jqx-create="icountGridSettings"
-                      jqx-on-rowdoubleclick=""
+                      jqx-on-rowdoubleclick="editIcount(e)"
             ></jqx-grid>
             <jqx-window jqx-on-close="close()" jqx-settings="icountWindowSettings"
-                        jqx-create="icountWindowSettings" id="">
+                        jqx-create="icountWindowSettings" id="itemcountWindow"
+                        >
                 <div >
                     Item Count | Details
                 </div>
@@ -136,3 +137,9 @@
 
     </div>
 </div>
+
+<style>
+    #itemcountWindow {
+        max-height: 99%!important;max-width:99%!important;
+    }
+</style>

@@ -21,6 +21,48 @@ angular.module("akamaiposApp", ['jqwidgets'])
             dataType: 'json',
             dataFields: [
                 {name: 'Unique', type: 'int'},
+                {name: 'Location', type: 'string'},
+                {name: 'LocationName', type: 'string'},
+                {name: 'Station', type: 'string'},
+                {name: 'Comment', type: 'string'},
+                {name: 'Status', type: 'string'},
+                {name: 'Created', type: 'string'},
+                {name: 'CreatedByName', type: 'string'},
+                {name: 'Updated', type: 'string'},
+                {name: 'UpdatedByName', type: 'string'}
+            ],
+            id: 'Unique',
+            url: SiteRoot + 'admin/ItemCount/load_itemcount'
+        }),
+        columns: [
+            {dataField: 'Unique', hidden: true},
+            {dataField: 'Location', hidden: true},
+            {dataField: 'Station', hidden: true},
+            {text: 'Location', dataField: 'LocationName', width: '15%'},
+            {text: 'Comment', dataField: 'Comment', width: '25%'},
+            {text: 'Created By', dataField: 'CreatedByName', width: '15%'},
+            {text: 'Created', dataField: 'Created', width: '15%'},
+            {text: 'Updated By', dataField: 'UpdatedByName', width: '15%'},
+            {text: 'Updated', dataField: 'Updated', width: '15%'}
+        ],
+        width: "99.7%",
+        theme: 'arctic',
+        filterable: true,
+        showfilterrow: true,
+        sortable: true,
+        pageable: true,
+        pageSize: pager.pageSize,
+        pagesizeoptions: pager.pagesizeoptions,
+        altRows: true,
+        autoheight: true,
+        autorowheight: true
+    };
+
+    $scope.icountlistGridSettings = {
+        source: new $.jqx.dataAdapter({
+            dataType: 'json',
+            dataFields: [
+                {name: 'Unique', type: 'int'},
                 {name: 'Item', type: 'string'},
                 {name: 'Part', type: 'string'},
                 {name: 'Description', type: 'string'},
@@ -41,7 +83,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 {name: 'UpdatedBy', type: 'string'}
             ],
             id: 'Unique',
-            url: SiteRoot + 'admin/ItemCount/load_allitemcount'
+            url: SiteRoot + 'admin/ItemCount/load_allitemcountlist'
         }),
         columns: [
             {dataField: 'Unique', hidden: true},
@@ -85,7 +127,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.icountSuccessMsg = adminService.setNotificationSettings(1, notifContainer);
     $scope.icountErrorMsg = adminService.setNotificationSettings(0, notifContainer);
 
-    $('#icountTabs .form-control').on('keypress keyup paste change', function(){
+    $('#icountTabs .form-control').on('keypress keyup paste change select', function(){
         $('#saveIcountBtn').prop('disabled', false);
     });
 
@@ -95,7 +137,20 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         $('#icount_location').val(1);
         $('#icount_comment').val('');
+        $('#saveIcountBtn').prop('disabled', true);
         icountwind.setTitle('New Item Count');
+        icountwind.open();
+    };
+
+    $scope.editIcount = function(e) {
+        var row = e.args.row.bounddata;
+        $scope.icountID = row.Unique;
+        $scope.createOrEditIcount = 'edit';
+        //
+        $('#icount_location').val(row.Location);
+        $('#icount_comment').val(row.Comment);
+        $('#saveIcountBtn').prop('disabled', true);
+        icountwind.setTitle('Edit Item Count | ID: '+ row.Unique);
         icountwind.open();
     };
 
@@ -116,10 +171,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 'Location': $('#icount_location').val(),
                 'Comment': $('#icount_comment').val()
             };
-            if ($scope.createOrEditIbrand == 'create') {
+            if ($scope.createOrEditIcount == 'create') {
                 url = SiteRoot + 'admin/ItemCount/createCount'
-            } else if ($scope.createOrEditIbrand == 'edit') {
-            //     url = SiteRoot + 'admin/ItemBrand/updateBrand/' + $scope.ibrandID
+            } else if ($scope.createOrEditIcount == 'edit') {
+                url = SiteRoot + 'admin/ItemCount/updateCount/' + $scope.icountID
             }
 
             $.ajax({
@@ -139,11 +194,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         } else {
                             $('#icountSuccessMsg #msg').html('Item Count updated successfully!');
                             $scope.icountSuccessMsg.apply('open');
-                            // }
-                            updateIcountGrid();
-                            if (toclose) {
-                                icountwind.close();
-                            }
+                        }
+                        updateIcountGrid();
+                        if (toClose) {
+                            icountwind.close();
                         }
                     } else if (response.status == 'error') {
                     } else {}

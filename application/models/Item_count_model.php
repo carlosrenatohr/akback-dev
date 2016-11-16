@@ -8,37 +8,36 @@ class Item_count_model extends CI_Model
         parent::__construct();
     }
 
+    public function mainList() {
+        $this->db->select('item_count.*, cl."LocationName",
+          cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
+          to_char(date_trunc(\'minutes\', item_count."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
+          to_char(date_trunc(\'minutes\', item_count."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Updated,
+          (select count("Unique") from item_count_list icl where icl."CountUnique" = item_count."Unique")
+            as "hasCountList"
+          ', false);
+        $this->db->from('item_count');
+        $this->db->join('config_location cl', 'cl.Unique = item_count.Location', 'left');
+        $this->db->join('config_user cu1', 'cu1.Unique = item_count.CreatedBy', 'left');
+        $this->db->join('config_user cu2', 'cu2.Unique = item_count.UpdatedBy', 'left');
+        $this->db->where('item_count.Status', 1);
+        $this->db->order_by('item_count.Created', 'ASC');
+        return $this->db->get()->result_array();
+    }
+
     public function getLists()
     {
-        // 1 as "CountUnique", 1 as "Status"
         $query = "
-            SELECT ic.*,  
-               it.\"Unique\" as \"ItemUnique\", trim(it.\"Item\") as \"Item\",
-               trim(it.\"Part\") as \"Part\", trim(it.\"Description\") as \"Description\",
-               trim(cm.\"MainName\") as \"Category\", trim(cs.\"Name\") as \"SubCategory\", trim(su.\"Company\") as \"Supplier\",
-               trim(it.\"SupplierPart\") as \"SupplierPart\",
-               (it.\"Cost\" + it.\"Cost_Extra\" + it.\"Cost_Freight\" + it.\"Cost_Duty\") as \"Cost\",
-                ST.\"CurrentStock\" as \"CurrentStock\"
+            SELECT icl.*, ic.\"Location\", cl.\"LocationName\", ic.\"Station\", trim(ic.\"Comment\"),
+              ic.\"Location\", ic.\"Status\" as \"StatusCount\",
+              cu1.\"UserName\" as CreatedByName, cu2.\"UserName\" as UpdatedByName,
+              to_char(date_trunc('minutes', ic.\"Created\"::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Created\",
+              to_char(date_trunc('minutes', ic.\"Updated\"::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Updated\"
             FROM item_count ic
             left join item_count_list icl on icl.\"CountUnique\" = ic.\"Unique\"
-            left join item it on it.\"Unique\" = icl.\"ItemUnique\"
-            left join category_main cm on cm.\"Unique\" = IT.\"MainCategory\"
-            left join category_sub cs on cs.\"Unique\" = IT.\"CategoryUnique\"
-            left join supplier su on su.\"Unique\" = IT.\"SupplierUnique\"
-            left join
-                (select \"ItemUnique\",sum(\"Quantity\") as \"CurrentStock\"
-                 from item_stock_line 
-                 where \"status\" = 1 and \"LocationUnique\" = 1
-                 group by \"ItemUnique\") ST
-                on ST.\"ItemUnique\" = it.\"Unique\"
-                where it.\"Status\" = 1
-        ";
-
-        $query = "
-            SELECT icl.*, ic.\"Location\", ic.\"Station\", trim(ic.\"Comment\"),
-              ic.\"Location\", ic.\"Status\" as \"StatusCount\" 
-            FROM item_count ic
-            left join item_count_list icl on icl.\"CountUnique\" = ic.\"Unique\"
+            left join config_location cl on cl.\"Unique\" = ic.\"Location\"
+            left join config_user cu1 on cu1.\"Unique\" = ic.\"CreatedBy\"
+            left join config_user cu2 on cu2.\"Unique\" = ic.\"UpdatedBy\"
             WHERE ic.\"Status\" = 1
         ";
 
@@ -56,6 +55,14 @@ class Item_count_model extends CI_Model
 //        $this->insert_count_list($id, $data['Location']);
 
         return $id;
+    }
+
+    public function update($id, $data) {
+        $data['Updated'] = date('Y-m-d H:i:s');
+        $data['UpdatedBy'] = $this->session->userdata('userid');
+
+        $this->db->where('Unique', $id);
+        return $this->db->update('item_count', $data);
     }
 
     public function insert_count_list($countID, $locationID) {
