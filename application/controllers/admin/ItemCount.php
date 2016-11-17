@@ -15,9 +15,9 @@ class ItemCount extends AK_Controller
         echo json_encode($result);
     }
 
-    public function load_allitemcountlist()
+    public function load_allitemcountlist($id)
     {
-        $result = $this->count->getLists();
+        $result = $this->count->getLists($id);
         echo json_encode($result);
     }
 
@@ -47,6 +47,23 @@ class ItemCount extends AK_Controller
                 $response = [
                     'status' => 'success',
                     'message' => 'Count updated successfully',
+                    'id' => $status
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function create_countlistById($countID, $location) {
+        if (isset($countID) && isset($location)) {
+            $status = $this->count->insert_count_list($countID, $location);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Count List Built',
                     'id' => $status
                 ];
             } else

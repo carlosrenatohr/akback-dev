@@ -21,12 +21,17 @@ class Item_count_model extends CI_Model
         $this->db->join('config_user cu1', 'cu1.Unique = item_count.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count.UpdatedBy', 'left');
         $this->db->where('item_count.Status', 1);
-        $this->db->order_by('item_count.Created', 'ASC');
+        $this->db->order_by('item_count.Created', 'DESC');
         return $this->db->get()->result_array();
     }
 
-    public function getLists()
+    public function getLists($id)
     {
+        $where = '';
+        if (!is_null($id)) {
+            $where = " AND icl.\"CountUnique\" = " . $id;
+        }
+        //
         $query = "
             SELECT icl.*, ic.\"Location\", cl.\"LocationName\", ic.\"Station\", trim(ic.\"Comment\"),
               ic.\"Location\", ic.\"Status\" as \"StatusCount\",
@@ -38,8 +43,8 @@ class Item_count_model extends CI_Model
             left join config_location cl on cl.\"Unique\" = ic.\"Location\"
             left join config_user cu1 on cu1.\"Unique\" = ic.\"CreatedBy\"
             left join config_user cu2 on cu2.\"Unique\" = ic.\"UpdatedBy\"
-            WHERE ic.\"Status\" = 1
-        ";
+            WHERE ic.\"Status\" = 1 " . $where
+        ;
 
         return $this->db->query($query)->result_array();
     }
@@ -86,7 +91,7 @@ class Item_count_model extends CI_Model
                 where IT.\"Status\" = 1)
         ";
 
-        $this->db->query($query);
+        return $this->db->query($query);
     }
 
 }

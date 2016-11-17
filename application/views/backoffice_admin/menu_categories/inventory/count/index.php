@@ -50,7 +50,6 @@
                 </div>
                 <div >
                     <jqx-tabs jqx-width="'100%'"
-                              jqx-on-selecting=""
                               id="icountTabs">
                         <ul>
                             <li>Count</li>
@@ -143,3 +142,7 @@
         max-height: 99%!important;max-width:99%!important;
     }
 </style>
+
+<!--- 19/11 maquetacion-->
+<!--- 25/11 sin roles-->
+<!--- 30/11 roles-->

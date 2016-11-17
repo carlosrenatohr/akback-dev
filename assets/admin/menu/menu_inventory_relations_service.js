@@ -1,7 +1,8 @@
 /**
  * Created by carlosrenato on 09-01-16.
  */
-app.service('inventoryExtraService', function ($http, questionService) {
+angular.module("akamaiposApp")
+    .service('inventoryExtraService', function ($http, questionService) {
 
     // Source for Suppliers table
     this.getSupplierSettings = function () {
@@ -367,5 +368,10 @@ app.service('inventoryExtraService', function ($http, questionService) {
             url: SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig'
         };
     }
+
+    /**
+     * BRANDS
+     */
+
 
 });
