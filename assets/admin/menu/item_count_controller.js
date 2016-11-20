@@ -7,8 +7,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var tabTitle = $('#icountTabs').jqxTabs('getTitleAt', tab);
         if (tab == 0) {
             $('#deleteIcountBtn').show();
+            $('#finishIcountBtn').hide();
         } else if (tab == 1) {
             $('#deleteIcountBtn').hide();
+            $('#finishIcountBtn').show();
             // if ($('#buildCountListBtn').data('list') > 0) {
             //     $('#buildListBtns').hide();
             //     $('#listGridContainer').show();
@@ -320,6 +322,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#mainIcountBtns').show();
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
+            $('#finishIcountBtns').hide();
         }
         if (option == 0) {
             $scope.saveIcount(1);
@@ -337,6 +340,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#mainIcountBtns').hide();
                 $('#closeIcountBtns').show();
                 $('#deleteIcountBtns').hide();
+                $('#finishIcountBtns').hide();
             }
         }
     };
@@ -346,6 +350,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#mainIcountBtns').show();
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
+            $('#finishIcountBtns').hide();
         }
         if (option == 0) {
             $.ajax({
@@ -373,6 +378,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#mainIcountBtns').hide();
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').show();
+            $('#finishIcountBtns').hide();
         }
     };
 
@@ -404,6 +410,25 @@ angular.module("akamaiposApp", ['jqwidgets'])
             });
         } else {
             console.error('Count list Exists, please check!');
+        }
+    };
+
+    $scope.finishIcount = function(option) {
+        if (option != undefined) {
+            $('#mainIcountBtns').show();
+            $('#closeIcountBtns').hide();
+            $('#deleteIcountBtns').hide();
+            $('#finishIcountBtns').hide();
+        }
+
+        if (option == 0) {
+            console.log('in progress..');
+        } else if (option == 1) {
+        } else {
+            $('#mainIcountBtns').hide();
+            $('#closeIcountBtns').hide();
+            $('#deleteIcountBtns').hide();
+            $('#finishIcountBtns').show();
         }
     }
 

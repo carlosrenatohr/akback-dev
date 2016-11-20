@@ -80,6 +80,9 @@
                                         <button type="button" id="deleteIcountBtn" ng-click="deleteIcount()"
                                                 class="btn btn-danger" style="overflow:auto;display: none;"
                                             >Delete</button>
+                                        <button type="button" id="finishIcountBtn" ng-click="finishIcount()"
+                                                class="btn btn-success" style="overflow:auto;display: none;"
+                                            >Finish Count</button>
                                     </div>
                                 </div>
                             </div>
@@ -112,6 +115,21 @@
                                         <button type="button" ng-click="deleteIcount(0)" class="btn btn-primary">Yes</button>
                                         <button type="button" ng-click="deleteIcount(1)" class="btn btn-warning">No</button>
                                         <button type="button" ng-click="deleteIcount(2)" class="btn btn-info">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Prompt before finish count on item count list -->
+                    <div class="col-md-12 col-md-offset-0">
+                        <div class="row">
+                            <div id="finishIcountBtns" class="" style="display: none">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <p>Your stock will be adjusted based on above counts. <br>
+                                            Press Finalize to continue or Cancel to continue editing</p>
+                                        <button type="button" ng-click="finishIcount(0)" class="btn btn-primary">Finalize</button>
+                                        <button type="button" ng-click="finishIcount(1)" class="btn btn-info">Cancel</button>
                                     </div>
                                 </div>
                             </div>
