@@ -265,6 +265,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.inventoryData.stockQty = row['Quantity'];
         $scope.inventoryData.addremoveQty = 0;
         $scope.inventoryData.newQty = 0;
+        stocklWind.setTitle('Adjust Quantity | Item: ' + row.Item + ' | ' + row.Description);
+
         $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, $('#stationID').val());
@@ -459,6 +461,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                             $scope.itemInventoryID = data.id;
                             showingNotif(data.message, 1);
                             inventoryWind.setTitle('Edit Item ID: '+ data.id + ' | Item: ' + dataRequest.Item + '| ' + dataRequest.Description);
+                            stocklWind.setTitle('Adjust Quantity | Item: ' + dataRequest.Item + ' | ' + dataRequest.Description);
                             updateItemsInventoryGrid();
                             if(toTab) {
                                 $('#inventoryTabs').jqxTabs({'selectedItem': toTab})
@@ -712,6 +715,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#deleteStockBtn').hide();
             $('#saveStockBtn').prop('disabled', true);
         }, 100);
+        // stocklWind.setTitle('Adjust Quantity | Item: ' + $scope.itemInventoryID + ' | ');
         stocklWind.open();
     };
 

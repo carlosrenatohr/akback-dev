@@ -44,7 +44,7 @@
             jqx-settings="stockWind"
             jqx-create="stockWind">
     <div class="">
-        Adjusting Quantity+
+        Adjust Quantity
     </div>
     <div class="">
         <div class="row">
