@@ -70,6 +70,19 @@ class Item_count_model extends CI_Model
         return $this->db->update('item_count', $data);
     }
 
+    public function delete($id) {
+        $status = true;
+        if (!is_null($id) && $id != 'null') {
+            $this->db->where('Unique', $id);
+            $status = $this->db->update('item_count', ['Status' => 0]);
+            //
+            $this->db->where('CountUnique', $id);
+            $this->db->update('item_count_list', ['Status' => 0]);
+
+        }
+        return $status;
+    }
+
     public function insert_count_list($countID, $locationID) {
         $query = "
             insert into item_count_list (\"CountUnique\",\"ItemUnique\",\"Item\",\"Part\",\"Description\",\"Category\",     

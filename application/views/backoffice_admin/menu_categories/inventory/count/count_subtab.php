@@ -1,5 +1,11 @@
 <div class="row" style="margin: 0;">
-<div style="width:600px;float:left;">
+    <button id="buildCountListBtn" class="btn btn-success pull-right"
+            data-loc="" data-list=""
+            ng-click="buildCountList()">Build List</button>
+</div>
+
+<div class="row" style="margin: 0;">
+    <div style="width:600px;float:left;">
 
         <div style="float:left; padding:2px; width:450px;">
             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Location:</div>

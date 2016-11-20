@@ -57,6 +57,20 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    public function deleteCount($id) {
+        $status = $this->count->delete($id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => $status
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+
+        echo json_encode($response);
+    }
+
     public function create_countlistById($countID, $location) {
         if (isset($countID) && isset($location)) {
             $status = $this->count->insert_count_list($countID, $location);

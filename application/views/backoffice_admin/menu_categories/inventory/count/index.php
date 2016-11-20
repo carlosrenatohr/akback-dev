@@ -77,7 +77,7 @@
                                         <button type="button" ng-click="closeIcount()"
                                                 class="btn btn-warning"
                                             >Close</button>
-                                        <button type="button" id="deleteIcountBtn" ng-click=""
+                                        <button type="button" id="deleteIcountBtn" ng-click="deleteIcount()"
                                                 class="btn btn-danger" style="overflow:auto;display: none;"
                                             >Delete</button>
                                     </div>
@@ -103,20 +103,20 @@
                     </div>
 
                     <!-- Prompt before delete an item on grid -->
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <div id="deleteIcountBtns" class="" style="display: none">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="col-sm-12">-->
-<!--                                        Do you really want to delete it?-->
-<!--                                        <button type="button" ng-click="deleteicount(0)" class="btn btn-primary">Yes</button>-->
-<!--                                        <button type="button" ng-click="deleteicount(1)" class="btn btn-warning">No</button>-->
-<!--                                        <button type="button" ng-click="deleteicount(2)" class="btn btn-info">Cancel</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="col-md-12 col-md-offset-0">
+                        <div class="row">
+                            <div id="deleteIcountBtns" class="" style="display: none">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        Do you really want to delete it?
+                                        <button type="button" ng-click="deleteIcount(0)" class="btn btn-primary">Yes</button>
+                                        <button type="button" ng-click="deleteIcount(1)" class="btn btn-warning">No</button>
+                                        <button type="button" ng-click="deleteIcount(2)" class="btn btn-info">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- NOTIFICATIONS AREA -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">

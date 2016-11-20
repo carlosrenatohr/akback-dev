@@ -6,8 +6,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var tab = e.args.item;
         var tabTitle = $('#icountTabs').jqxTabs('getTitleAt', tab);
         if (tab == 0) {
+            $('#deleteIcountBtn').show();
         } else if (tab == 1) {
             console.log(tabTitle);
+            $('#deleteIcountBtn').hide();
             if ($('#buildCountListBtn').data('list') > 0) {
                 $('#buildListBtns').hide();
                 $('#listGridContainer').show();
@@ -172,6 +174,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_location').val(1);
         $('#icount_comment').val('');
         //
+        $('#deleteIcountBtn').hide();
         $('#icountTabs').jqxTabs('disableAt', 1);
         $('#saveIcountBtn').prop('disabled', true);
         icountwind.setTitle('New Item Count');
@@ -189,6 +192,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#buildCountListBtn').data("loc", row.Location);
         $('#buildCountListBtn').data("list", row.hasCountList);
         //
+        $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('enableAt', 1);
         $('#saveIcountBtn').prop('disabled', true);
         icountwind.setTitle('Edit Item Count | ID: '+ row.Unique);
@@ -243,6 +247,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         updateIcountGrid();
                         if (toClose) {
                             icountwind.close();
+                            $('#icountTabs').jqxTabs('select', 0);
                         }
                     } else if (response.status == 'error') {
                     } else {}
@@ -272,6 +277,39 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#closeIcountBtns').show();
                 $('#deleteIcountBtns').hide();
             }
+        }
+    };
+
+    $scope.deleteIcount = function(option) {
+        if(option != undefined) {
+            $('#mainIcountBtns').show();
+            $('#closeIcountBtns').hide();
+            $('#deleteIcountBtns').hide();
+        }
+        if (option == 0) {
+            $.ajax({
+                url: SiteRoot + 'admin/ItemCount/deleteCount/' + $scope.icountID,
+                method: 'post',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.status == 'success') {
+                        updateIcountGrid();
+                        icountwind.close();
+                        $('#icountTabs').jqxTabs('select', 0);
+
+                    }
+                    else if (data.status == 'error') {}
+                    else {}
+                }
+            });
+        } else if (option == 1) {
+            icountwind.close();
+            $('#icountTabs').jqxTabs('select', 0);
+        } else if (option == 2) {
+        } else {
+            $('#mainIcountBtns').hide();
+            $('#closeIcountBtns').hide();
+            $('#deleteIcountBtns').show();
         }
     };
 
