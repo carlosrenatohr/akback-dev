@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div style="float:left; padding:2px;">
+                    <div style="float:left; padding:2px;" id="primaryFieldContainer">
                         <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary</div>
                         <div style="float:left; width:180px;">
                             <jqx-check-box id="primaryPosition" style="margin-top: 10px;"

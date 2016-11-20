@@ -522,11 +522,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.openUserpositionsWindows = function() {
         disablePositions();
         $('#positionByUserCombobox').jqxComboBox({disabled: false});
+        $('#positionByUserCombobox').jqxComboBox('val', '');
         $('#deletePositionuserBtn').hide();
 
+        $('#primaryFieldContainer').show();
         $('#primaryPosition').jqxCheckBox({checked: false});
         $('#savePositionuserBtn').attr('disabled', 'disabled');
-        userPositionWindow.setTitle("Add Position | username: <b>" + $scope.editing_username+ "</b>");
+        userPositionWindow.setTitle("Add Position | Username: <b>" + $scope.editing_username+ "</b>");
         userPositionWindow.open();
     };
 
@@ -555,6 +557,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (values['PrimaryPosition'] == 1) {
             $('#deletePositionuserBtn').hide();
         }
+        $('#primaryFieldContainer').hide();
         $('#primaryPosition').jqxCheckBox({checked: (values['PrimaryPosition'] == 1) ? true : false});
         //
         $('#savePositionuserBtn').attr('disabled', 'disabled');
