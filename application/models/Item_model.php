@@ -40,19 +40,21 @@ class Item_model extends CI_Model
     public function getSupplierList() {
         $this->db->select("Unique, Company");
         $this->db->from("supplier");
-        $this->db->where(["Company!=" => '', 'Status!=' => null]);
+        $this->db->where(["Company!=" => '', 'Status' => 1]);
         $this->db->order_by("Company ASC");
         return $this->db->get()->result_array();
     }
 
     public function getBrandList() {
         $this->db->select("Unique, Name");
+        $this->db->where("Status", 1);
         $this->db->order_by("Name ASC");
         return $this->db->get("brand")->result_array();
     }
 
     public function getCategoryList() {
         $this->db->select("Unique, MainName");
+        $this->db->where("status", 1);
         $this->db->order_by("MainName ASC");
         return $this->db->get("category_main")->result_array();
     }
@@ -61,6 +63,7 @@ class Item_model extends CI_Model
         $this->db->select("Unique, Name");
         if (!is_null($id))
             $this->db->where("CategoryMainUnique", $id);
+        $this->db->where("Status", 1);
         $this->db->order_by("Name asc");
         return $this->db->get("category_sub")->result_array();
     }
