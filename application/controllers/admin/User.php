@@ -124,6 +124,7 @@ class User extends AK_Controller
     public function update_user()
     {
         if (isset($_POST) && !empty($_POST)) {
+//            var_dump($_POST);exit;
             $values = $positionValues = [];
             $id = $_POST['Unique'];
             unset($_POST['Unique']);
@@ -294,7 +295,7 @@ class User extends AK_Controller
         // -- Checking Code and password
         $data['Code'] = ($data['Code'] == "******") ? '' : $data['Code'];
         if (!empty($data['Code'])) {
-            if (!preg_match('/^[1-9][0-9]{0,12}$/', $data['Code'])) {
+            if (!preg_match('/^[0-9][0-9]{0,12}$/', $data['Code'])) {
                 $sure = false;
                 $message['code'] = 'Your code must be number.';
             }
