@@ -48,7 +48,7 @@ class User_model extends CI_Model
     public function getPositions()
     {
         $query = $this->db
-            ->select('Unique, PositionName, PositionLevel as level')
+            ->select('Unique, PositionName')
             ->where('Status', 1)
             ->where('Suppress', 0)
             ->or_where('Suppress', null)
@@ -63,9 +63,8 @@ class User_model extends CI_Model
             'config_user_position.ConfigUserUnique' => $id];
         $query = $this->db
             ->select('config_user_position.*,
-                    config_position.PositionName,
-                    config_position.PositionLevel,
-                        ')
+                    config_position.PositionName'
+                    )
             ->where($where)
             ->join(
                 'config_position',
