@@ -85,6 +85,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (id != undefined)
             url = SiteRoot + 'admin/ItemCount/load_allitemcountlist/' + id;
 
+        // to change font color if is negative
         var cellclass = function (row, datafield, value, rowdata) {
             if (value < 0) {
                 return 'less_than';
@@ -132,8 +133,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 {text: 'Difference', dataField: 'Difference', editable: false,
                     cellclassname:cellclass
                 },
+                {text: 'Comment', dataField: 'Comment'},
                 {dataField: 'Station', hidden: true},
-                {dataField: 'Comment', hidden: true},
                 {dataField: 'Created', hidden: true},
                 {dataField: 'Updated', hidden: true},
                 {dataField: 'CreatedBy', hidden: true},
@@ -184,13 +185,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $("body").on('cellvaluechanged', '#icountlistGrid', function (event)
     {
-        // event arguments.
+        var value = args.newvalue;
+        var oldvalue = args.oldvalue;
         var datafield = event.args.datafield;
         if (datafield  == 'CountStock') {
             var args = event.args;
             var rowBoundIndex = args.rowindex;
-            var value = args.newvalue;
-            var oldvalue = args.oldvalue;
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
             var newDiff = parseFloat(value) - ((row.Difference != null) ? parseFloat(row.Difference) : 0);
             $.ajax({
@@ -204,7 +204,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 success: function(response) {
                     $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
                 }
-            })
+            });
+        } else if (datafield  == 'Comment') {
+            var data = {
+                Comment: value
+            };
+            //TODO make ajax request if comment will be inserted HERE
         }
     });
 
