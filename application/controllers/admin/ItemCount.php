@@ -88,5 +88,21 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    public function update_countlistById($id) {
+        if (isset($id) && isset($_POST) && !empty($_POST)) {
+            $status = $this->count->update_count_list($id, $_POST);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Count List row updated'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
 
 }

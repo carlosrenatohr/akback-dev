@@ -31,6 +31,7 @@ class Item_count_model extends CI_Model
         if (!is_null($id)) {
             $where = " AND icl.\"CountUnique\" = " . $id;
         }
+        $orderby = " ORDER BY icl.\"Unique\" DESC";
         //
         $query = "
             SELECT icl.*, ic.\"Location\", cl.\"LocationName\", ic.\"Station\", trim(ic.\"Comment\"),
@@ -43,7 +44,7 @@ class Item_count_model extends CI_Model
             left join config_location cl on cl.\"Unique\" = ic.\"Location\"
             left join config_user cu1 on cu1.\"Unique\" = ic.\"CreatedBy\"
             left join config_user cu2 on cu2.\"Unique\" = ic.\"UpdatedBy\"
-            WHERE ic.\"Status\" = 1 " . $where
+            WHERE ic.\"Status\" = 1 " . $where . $orderby
         ;
 
         return $this->db->query($query)->result_array();
@@ -105,6 +106,14 @@ class Item_count_model extends CI_Model
         ";
 
         return $this->db->query($query);
+    }
+
+    public function update_count_list($id, $data) {
+        $data['Updated'] = date('Y-m-d H:i:s');
+        $data['UpdatedBy'] = $this->session->userdata('userid');
+
+        $this->db->where('Unique', $id);
+        return $this->db->update('item_count_list', $data);
     }
 
 }

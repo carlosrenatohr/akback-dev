@@ -8,7 +8,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (tab == 0) {
             $('#deleteIcountBtn').show();
         } else if (tab == 1) {
-            console.log(tabTitle);
             $('#deleteIcountBtn').hide();
             // if ($('#buildCountListBtn').data('list') > 0) {
             //     $('#buildListBtns').hide();
@@ -84,7 +83,15 @@ angular.module("akamaiposApp", ['jqwidgets'])
     var getIcountlistSet = function(id) {
         var url = '';
         if (id != undefined)
-            url = SiteRoot + 'admin/ItemCount/load_allitemcountlist/' + id
+            url = SiteRoot + 'admin/ItemCount/load_allitemcountlist/' + id;
+
+        var cellclass = function (row, datafield, value, rowdata) {
+            if (value < 0) {
+                return 'less_than';
+            } else {
+                return 'greater_than';
+            }
+        };
         return {
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
@@ -96,11 +103,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     {name: 'Supplier', type: 'string'},
                     {name: 'SupplierPart', type: 'string'},
                     {name: 'Category', type: 'string'},
-                    {name: 'CurrentStock', type: 'string'},
-                    {name: 'CountStock', type: 'string'},
-                    {name: 'Difference', type: 'string'},
+                    {name: 'CurrentStock', type: 'number'},
+                    {name: 'CountStock', type: 'number'},
+                    {name: 'Difference', type: 'number'},
                     {name: 'Location', type: 'string'},
-                    {name: 'ItemStockLineUnique', type: 'string'},
+                    {name: 'ItemStockLineUnique', type: 'number'},
                     {name: 'Station', type: 'string'},
                     {name: 'Comment', type: 'string'},
                     {name: 'Status', type: 'string'},
@@ -114,15 +121,17 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text: 'Item', dataField: 'Item'},
-                {text: 'Part', dataField: 'Part'},
-                {text: 'Description', dataField: 'Description'},
-                {text: 'Supplier', dataField: 'Supplier'},
-                {text: 'Category', dataField: 'Category'},
-                {text: 'Cost', dataField: 'Cost'},
-                {text: 'Current', dataField: 'CurrentStock'},
-                {text: 'Count', dataField: 'CountStock'},
-                {text: 'Difference', dataField: 'Difference'},
+                {text: 'Item', dataField: 'Item', editable: false},
+                {text: 'Part', dataField: 'Part', editable: false},
+                {text: 'Description', dataField: 'Description', editable: false},
+                {text: 'Supplier', dataField: 'Supplier', editable: false},
+                {text: 'Category', dataField: 'Category', editable: false},
+                {text: 'Cost', dataField: 'Cost', editable: false},
+                {text: 'Current', dataField: 'CurrentStock', editable: false},
+                {text: 'Count', dataField: 'CountStock', columntype: 'textbox'},
+                {text: 'Difference', dataField: 'Difference', editable: false,
+                    cellclassname:cellclass
+                },
                 {dataField: 'Station', hidden: true},
                 {dataField: 'Comment', hidden: true},
                 {dataField: 'Created', hidden: true},
@@ -140,7 +149,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
             pagesizeoptions: pager.pagesizeoptions,
             altRows: true,
             autoheight: true,
-            autorowheight: true
+            autorowheight: true,
+            editable: true,
+            editmode: 'click',
         }
     };
 
@@ -169,6 +180,32 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $('body').on('select', '#icount_location', function() {
         $('#saveIcountBtn').prop('disabled', false);
+    });
+
+    $("body").on('cellvaluechanged', '#icountlistGrid', function (event)
+    {
+        // event arguments.
+        var datafield = event.args.datafield;
+        if (datafield  == 'CountStock') {
+            var args = event.args;
+            var rowBoundIndex = args.rowindex;
+            var value = args.newvalue;
+            var oldvalue = args.oldvalue;
+            var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
+            var newDiff = parseFloat(value) - ((row.Difference != null) ? parseFloat(row.Difference) : 0);
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
+                dataType: 'json',
+                data: {
+                    CountStock: value,
+                    Difference: newDiff
+                },
+                success: function(response) {
+                    $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
+                }
+            })
+        }
     });
 
     $scope.openIcount = function() {
@@ -335,7 +372,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     $scope.buildCountList = function() {
-        console.log('building');
+        console.info('building');
         var hasList = $('#buildCountListBtn').data('list'),
         loc = $('#buildCountListBtn').data('loc'),
         id = $('#buildCountListBtn').data('id');
