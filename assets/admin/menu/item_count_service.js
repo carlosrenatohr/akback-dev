@@ -49,6 +49,9 @@
                 theme: 'arctic',
                 filterable: true,
                 showfilterrow: true,
+                ready: function() {
+                    $('#icountlistGrid').jqxGrid('updatebounddata', 'filter');
+                },
                 sortable: true,
                 pageable: true,
                 pageSize: pager.pageSize,

@@ -9,6 +9,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#deleteIcountBtn').show();
             $('#finishIcountBtn').hide();
         } else if (tab == 1) {
+            // $('#icountlistGrid').on('bindingcomplete', function() {
+            //     $('#icountlistGrid').jqxGrid('clearfilters');
+            // });
             $('#deleteIcountBtn').hide();
             $('#finishIcountBtn').show();
             // if ($('#buildCountListBtn').data('list') > 0) {

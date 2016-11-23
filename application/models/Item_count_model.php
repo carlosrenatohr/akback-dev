@@ -97,7 +97,7 @@ class Item_count_model extends CI_Model
                trim(CM.\"MainName\") as \"Category\", trim(CS.\"Name\") as \"SubCategory\",
                trim(SU.\"Company\") as \"Supplier\",trim(IT.\"SupplierPart\") as \"SupplierPart\",
                (IT.\"Cost\"::numeric + IT.\"Cost_Extra\"::numeric + IT.\"Cost_Freight\"::numeric + IT.\"Cost_Duty\"::numeric) as \"Cost\",
-               ST.\"CurrentStock\" as \"CurrentStock\", 0 as \"CountStock\",
+               ST.\"CurrentStock\" as \"CurrentStock\", null as \"CountStock\",
                 1 as \"Status\", ". $id ." as \"CreatedBy\"
               from item IT
               left join category_main CM on CM.\"Unique\" = IT.\"MainCategory\"
