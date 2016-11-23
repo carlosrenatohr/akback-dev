@@ -712,6 +712,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 range.moveStart('character', 0);
                 range.select();
             }
+            $('#stockl_newQty input').select();
             $('#deleteStockBtn').hide();
             $('#saveStockBtn').prop('disabled', true);
         }, 100);
@@ -727,16 +728,29 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         setTimeout(function() {
             var loc = $('#stationID').val();
             $('#stockl_location').jqxComboBox('val', row.LocationUnique);
-            $('#stockl_newQty').jqxNumberInput('val', row.Quantity);
+            $('#stockl_newQty').jqxNumberInput('focus');
+            var input = $('#stockl_newQty input')[0];
+            if ('selectionStart' in input) {
+                input.setSelectionRange(0, 0);
+            } else {
+                var range = input.createTextRange();
+                range.collapse(true);
+                range.moveEnd('character', 0);
+                range.moveStart('character', 0);
+                range.select();
+            }
+            $('#stockl_newQty input').select();
+            // $('#stockl_newQty').jqxNumberInput('val', row.Quantity);
             // $('#stockl_addremoveQty').jqxNumberInput('val', parseFloat(row.Quantity));
             //
             $('#stocklWind #stockl_comment').val(row.Comment);
             var transDate = new Date(Date.parse(row.TransactionDate));
             $("#stockl_transDate").jqxDateTimeInput('setDate', transDate);
             $("#stockl_transTime").jqxDateTimeInput('setDate', transDate);
+
+            $('#deleteStockBtn').show();
+            $('#saveStockBtn').prop('disabled', true);
         }, 100);
-        $('#deleteStockBtn').show();
-        $('#saveStockBtn').prop('disabled', true);
         stocklWind.open();
     };
 
