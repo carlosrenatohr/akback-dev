@@ -3,6 +3,7 @@
 </script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_count_controller.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/admin_service.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_count_service.js"></script>
 
 <div class="container-fluid" ng-controller="itemCountController">
 
@@ -160,7 +161,3 @@
         max-height: 99%!important;max-width:99%!important;
     }
 </style>
-
-<!--- 19/11 maquetacion-->
-<!--- 25/11 sin roles-->
-<!--- 30/11 roles-->

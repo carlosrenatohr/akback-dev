@@ -13,6 +13,7 @@ class Item_count_model extends CI_Model
           cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
           to_char(date_trunc(\'minutes\', item_count."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
           to_char(date_trunc(\'minutes\', item_count."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Updated,
+          to_char(date_trunc(\'minutes\', item_count."CountDate"::timestamp), \'MM/DD/YYYY\') as "CountDateFormatted",
           (select count("Unique") from item_count_list icl where icl."CountUnique" = item_count."Unique")
             as "hasCountList"
           ', false);
@@ -58,7 +59,7 @@ class Item_count_model extends CI_Model
 
         $this->db->insert('item_count', $data);
         $id = $this->db->insert_id();
-//        $this->insert_count_list($id, $data['Location']);
+        $this->insert_count_list($id, $data['Location']);
 
         return $id;
     }
@@ -72,28 +73,32 @@ class Item_count_model extends CI_Model
     }
 
     public function delete($id) {
-        $status = true;
-        if (!is_null($id) && $id != 'null') {
-            $this->db->where('Unique', $id);
-            $status = $this->db->update('item_count', ['Status' => 0]);
-            //
-            $this->db->where('CountUnique', $id);
-            $this->db->update('item_count_list', ['Status' => 0]);
+        $this->db->trans_start();
+        $this->db->where('Unique', $id);
+        $status = $this->db->update('item_count', ['Status' => 0]);
+        $this->db->trans_complete();
+        //
+        $this->db->trans_start();
+        $this->db->where('CountUnique', $id);
+        $this->db->update('item_count_list', ['Status' => 0]);
+        $this->db->trans_complete();
 
-        }
         return $status;
     }
 
     public function insert_count_list($countID, $locationID) {
+        $id = $this->session->userdata('userid');
         $query = "
             insert into item_count_list (\"CountUnique\",\"ItemUnique\",\"Item\",\"Part\",\"Description\",\"Category\",     
-                        \"SubCategory\",\"Supplier\",\"SupplierPart\",\"Cost\", \"CurrentStock\",\"CountStock\",\"Status\")
+                        \"SubCategory\",\"Supplier\",\"SupplierPart\",\"Cost\", \"CurrentStock\",\"CountStock\",
+                        \"Status\", \"CreatedBy\")
               (select ". $countID ." as \"CountUnique\", IT.\"Unique\" as \"ItemUnique\", trim(IT.\"Item\") as \"Item\",
                trim(IT.\"Part\") as \"Part\", trim(IT.\"Description\") as \"Description\", 
                trim(CM.\"MainName\") as \"Category\", trim(CS.\"Name\") as \"SubCategory\",
                trim(SU.\"Company\") as \"Supplier\",trim(IT.\"SupplierPart\") as \"SupplierPart\",
                (IT.\"Cost\"::numeric + IT.\"Cost_Extra\"::numeric + IT.\"Cost_Freight\"::numeric + IT.\"Cost_Duty\"::numeric) as \"Cost\",
-               ST.\"CurrentStock\" as \"CurrentStock\", 0 as \"CountStock\", 1 as \"Status\"
+               ST.\"CurrentStock\" as \"CurrentStock\", 0 as \"CountStock\",
+                1 as \"Status\", ". $id ." as \"CreatedBy\"
               from item IT
               left join category_main CM on CM.\"Unique\" = IT.\"MainCategory\"
               left join category_sub CS on CS.\"Unique\" = IT.\"CategoryUnique\"

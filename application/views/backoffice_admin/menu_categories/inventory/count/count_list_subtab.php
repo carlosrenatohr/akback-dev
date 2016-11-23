@@ -1,6 +1,5 @@
 <div class="row" style="margin: 0;">
     <div style="width:100%;float:left; ">
-
         <div id="listGridContainer">
             <jqx-grid id="icountlistGrid"
                       jqx-settings="icountlistGridSettings"

@@ -1,5 +1,5 @@
 angular.module("akamaiposApp", ['jqwidgets'])
-    .controller('itemCountController', function($scope, $http, adminService){
+    .controller('itemCountController', function($scope, $http, itemCountService, adminService){
 
 
     $('#icountTabs').on('tabclick', function(e) {
@@ -36,139 +36,18 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     // Item Count Grid
-    var pager = adminService.loadPagerConfig();
-    $scope.icountGridSettings = {
-        source: new $.jqx.dataAdapter({
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'Location', type: 'string'},
-                {name: 'LocationName', type: 'string'},
-                {name: 'Station', type: 'string'},
-                {name: 'Comment', type: 'string'},
-                {name: 'Status', type: 'string'},
-                {name: 'Created', type: 'string'},
-                {name: 'CreatedByName', type: 'string'},
-                {name: 'Updated', type: 'string'},
-                {name: 'UpdatedByName', type: 'string'},
-                {name: 'hasCountList', type: 'string'}
-            ],
-            id: 'Unique',
-            url: SiteRoot + 'admin/ItemCount/load_itemcount'
-        }),
-        columns: [
-            {dataField: 'Unique', hidden: true},
-            {dataField: 'Location', hidden: true},
-            {dataField: 'Station', hidden: true},
-            {dataField: 'hasCountList', hidden: true},
-            {text: 'Location', dataField: 'LocationName', width: '15%'},
-            {text: 'Comment', dataField: 'Comment', width: '25%'},
-            {text: 'Created By', dataField: 'CreatedByName', width: '15%'},
-            {text: 'Created', dataField: 'Created', width: '15%'},
-            {text: 'Updated By', dataField: 'UpdatedByName', width: '15%'},
-            {text: 'Updated', dataField: 'Updated', width: '15%'}
-        ],
-        width: "99.7%",
-        theme: 'arctic',
-        filterable: true,
-        showfilterrow: true,
-        sortable: true,
-        pageable: true,
-        pageSize: pager.pageSize,
-        pagesizeoptions: pager.pagesizeoptions,
-        altRows: true,
-        autoheight: true,
-        autorowheight: true
-    };
-
-    // Item Count List Grid
-    var getIcountlistSet = function(id) {
-        var url = '';
-        if (id != undefined)
-            url = SiteRoot + 'admin/ItemCount/load_allitemcountlist/' + id;
-
-        // to change font color if is negative
-        var cellclass = function (row, datafield, value, rowdata) {
-            if (value < 0) {
-                return 'less_than';
-            } else {
-                return 'greater_than';
-            }
-        };
-        return {
-            source: new $.jqx.dataAdapter({
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'Item', type: 'string'},
-                    {name: 'Part', type: 'string'},
-                    {name: 'Description', type: 'string'},
-                    {name: 'Supplier', type: 'string'},
-                    {name: 'SupplierPart', type: 'string'},
-                    {name: 'Category', type: 'string'},
-                    {name: 'CurrentStock', type: 'number'},
-                    {name: 'CountStock', type: 'number'},
-                    {name: 'Difference', type: 'number'},
-                    {name: 'Location', type: 'string'},
-                    {name: 'ItemStockLineUnique', type: 'number'},
-                    {name: 'Station', type: 'string'},
-                    {name: 'Comment', type: 'string'},
-                    {name: 'Status', type: 'string'},
-                    {name: 'Created', type: 'string'},
-                    {name: 'CreatedBy', type: 'string'},
-                    {name: 'Updated', type: 'string'},
-                    {name: 'UpdatedBy', type: 'string'}
-                ],
-                id: 'Unique',
-                url: url
-            }),
-            columns: [
-                {dataField: 'Unique', hidden: true},
-                {text: 'Item', dataField: 'Item', editable: false},
-                {text: 'Part', dataField: 'Part', editable: false},
-                {text: 'Description', dataField: 'Description', editable: false},
-                {text: 'Supplier', dataField: 'Supplier', editable: false},
-                {text: 'Category', dataField: 'Category', editable: false},
-                {text: 'Cost', dataField: 'Cost', editable: false},
-                {text: 'Current', dataField: 'CurrentStock', editable: false},
-                {text: 'Count', dataField: 'CountStock', columntype: 'textbox'},
-                {text: 'Difference', dataField: 'Difference', editable: false,
-                    cellclassname:cellclass
-                },
-                {text: 'Comment', dataField: 'Comment'},
-                {dataField: 'Station', hidden: true},
-                {dataField: 'Created', hidden: true},
-                {dataField: 'Updated', hidden: true},
-                {dataField: 'CreatedBy', hidden: true},
-                {dataField: 'UpdatedBy', hidden: true}
-            ],
-            width: "99.7%",
-            theme: 'arctic',
-            filterable: true,
-            showfilterrow: true,
-            sortable: true,
-            pageable: true,
-            pageSize: pager.pageSize,
-            pagesizeoptions: pager.pagesizeoptions,
-            altRows: true,
-            autoheight: true,
-            autorowheight: true,
-            editable: true,
-            editmode: 'click',
-        }
-    };
-
-    $scope.icountlistGridSettings = getIcountlistSet();
+    $scope.icountGridSettings = itemCountService.getIcountTableSettings();
+    $scope.icountlistGridSettings = itemCountService.getIcountlistTableSettings();
 
     function updateIcountGrid() {
         $('#icountGrid').jqxGrid({
-            source: $scope.icountGridSettings.source
+            source: itemCountService.getIcountTableSettings().source
         });
     }
 
     function updateIcountlistGrid(id) {
         $('#icountlistGrid').jqxGrid({
-            source: getIcountlistSet(id).source
+            source: itemCountService.getIcountlistTableSettings(id).source
         });
     }
 
@@ -177,7 +56,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.icountSuccessMsg = adminService.setNotificationSettings(1, notifContainer);
     $scope.icountErrorMsg = adminService.setNotificationSettings(0, notifContainer);
 
-    $('#icountTabs .form-control').on('keypress keyup paste change select', function(){
+    $('#icountTabs .icountField').on('keypress keyup paste change select', function(){
+        $('#saveIcountBtn').prop('disabled', false);
+    });
+    $('#icountTabs #icount_countdate').on('change valueChanged', function() {
         $('#saveIcountBtn').prop('disabled', false);
     });
 
@@ -187,12 +69,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $("body").on('cellvaluechanged', '#icountlistGrid', function (event)
     {
-        var value = args.newvalue;
-        var oldvalue = args.oldvalue;
+        var value = event.args.newvalue;
+        var oldvalue = event.args.oldvalue;
         var datafield = event.args.datafield;
+        var rowBoundIndex = event.args.rowindex;
         if (datafield  == 'CountStock') {
-            var args = event.args;
-            var rowBoundIndex = args.rowindex;
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
             var newDiff = parseFloat(value) - ((row.Difference != null) ? parseFloat(row.Difference) : 0);
             $.ajax({
@@ -208,10 +89,18 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 }
             });
         } else if (datafield  == 'Comment') {
-            var data = {
-                Comment: value
-            };
-            //TODO make ajax request if comment will be inserted HERE
+            var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
+                dataType: 'json',
+                data: {
+                    Comment: value
+                },
+                success: function(response) {
+                    $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Comment", value);
+                }
+            });
         }
     });
 
@@ -221,9 +110,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         $('#icount_location').val(1);
         $('#icount_comment').val('');
+        $('#icount_countdate').jqxDateTimeInput({'disabled': false});
         //
         $('#deleteIcountBtn').hide();
         $('#icountTabs').jqxTabs('disableAt', 1);
+
+        $('#icount_countdate').jqxDateTimeInput({'disabled': false});
+        $('#icount_countdate').jqxDateTimeInput('setDate', new Date());
         $('#saveIcountBtn').prop('disabled', true);
         $('#buildCountListBtn').prop('disabled', true);
         icountwind.setTitle('New Item Count');
@@ -238,24 +131,27 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_location').val(row.Location);
         $('#icount_comment').val(row.Comment);
         // $('#buildCountListBtn').data("id", row.Unique);
-        $('#buildCountListBtn').data("loc", row.Location);
-        $('#buildCountListBtn').data("list", row.hasCountList);
+        // $('#buildCountListBtn').data("loc", row.Location);
+        // $('#buildCountListBtn').data("list", row.hasCountList);
         //
         setTimeout(function(){
-            if ($('#buildCountListBtn').data('list') > 0) {
+            // if ($('#buildCountListBtn').data('list') > 0) {
                 $('#icountTabs').jqxTabs('enableAt', 1);
-                $('#buildCountListBtn').prop('disabled', true);
+                // $('#buildCountListBtn').prop('disabled', true);
                 updateIcountlistGrid($scope.icountID);
-            } else {
-                $('#icountTabs').jqxTabs('disableAt', 1);
-                $('#buildCountListBtn').prop('disabled', false);
-            }
+            // } else {
+            //     $('#icountTabs').jqxTabs('disableAt', 1);
+            //     $('#buildCountListBtn').prop('disabled', false);
+            // }
         }, 250);
         //
         $('#deleteIcountBtn').show();
+        $('#icount_countdate').jqxDateTimeInput({'disabled': true});
+        var countDate = new Date(Date.parse(row.CountDate));
+        $("#icount_countdate").jqxDateTimeInput('setDate', countDate);
         $('#icountTabs').jqxTabs('enableAt', 1);
         $('#saveIcountBtn').prop('disabled', true);
-        icountwind.setTitle('Edit Item Count | ID: '+ row.Unique);
+        icountwind.setTitle('Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment);
         icountwind.open();
     };
 
@@ -274,7 +170,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var url = '';
             var data = {
                 'Location': $('#icount_location').val(),
-                'Comment': $('#icount_comment').val()
+                'Comment': $('#icount_comment').val(),
+                'CountDate': $('#icount_countdate').val()
             };
             if ($scope.createOrEditIcount == 'create') {
                 url = SiteRoot + 'admin/ItemCount/createCount'
@@ -293,12 +190,19 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         if ($scope.createOrEditIcount == 'create') {
                             $scope.icountID = response.id;
                             $scope.createOrEditIbrand = 'edit';
+                            $('#icount_countdate').prop('disabled', true);
                             $('#buildCountListBtn').prop('disabled', false);
                             $('#buildCountListBtn').data("loc", data.Location);
                             $('#buildCountListBtn').data("list", 0);
                             //
+                            $('#icountTabs').jqxTabs('enableAt', 1);
+                            // $('#buildCountListBtn').prop('disabled', true);
+                            // $('#buildCountListBtn').data("list", 1);
+                            updateIcountlistGrid($scope.icountID);
+                            //
                             icountwind.setTitle('Edit Item Count | ID:' + response.id);
-                            $('#icountSuccessMsg #msg').html('Item Count created successfully!');
+                            $('#icountSuccessMsg #msg').html('Item Count created successfully! <br>' +
+                                'Item Count list was built. You can check it at count list subtab. ');
                             $scope.icountSuccessMsg.apply('open');
                         } else {
                             $('#icountSuccessMsg #msg').html('Item Count updated successfully!');
@@ -395,17 +299,15 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 data: '',
                 success: function(response) {
                     if (response.status == 'success') {
-                        console.log(response);
                         $('#icountTabs').jqxTabs('enableAt', 1);
                         $('#buildCountListBtn').prop('disabled', true);
                         $('#buildCountListBtn').data("list", 1);
                         updateIcountlistGrid($scope.icountID);
                         $('#icountSuccessMsg #msg').html('Item Count list was built. You can check it at count list subtab.');
                         $scope.icountSuccessMsg.apply('open');
-                    } else if (response.status == 'error') {
                     }
-                    else {
-                    }
+                    else if (response.status == 'error') {}
+                    else {}
                 }
             });
         } else {
