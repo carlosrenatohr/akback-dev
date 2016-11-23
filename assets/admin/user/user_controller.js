@@ -556,8 +556,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         if (values['PrimaryPosition'] == 1) {
             $('#deletePositionuserBtn').hide();
+            $('#primaryFieldContainer').hide();
+        } else {
+            $('#deletePositionuserBtn').show();
+            $('#primaryFieldContainer').show();
         }
-        $('#primaryFieldContainer').hide();
         $('#primaryPosition').jqxCheckBox({checked: (values['PrimaryPosition'] == 1) ? true : false});
         //
         $('#savePositionuserBtn').attr('disabled', 'disabled');
