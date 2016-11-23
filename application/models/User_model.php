@@ -114,7 +114,6 @@ class User_model extends CI_Model
         $this->db->trans_start();
         $exists = $this->db->where('UserUnique', $id)->get('config_user_email')->row_array();
         $this->db->trans_complete();
-
         $this->db->trans_start();
         if ($isEnabled) {
             if (count($exists)) {
@@ -126,16 +125,18 @@ class User_model extends CI_Model
                 $this->db->where('UserUnique', $id);
                 $this->db->update('config_user_email', $req);
             } else {
+                $sql = "SELECT * FROM config_user_email WHERE \"UserUnique\" = 0";
+                $defaults = $this->db->query($sql)->row_array();
                 $req['ReplyToEmail'] = (empty($data)) ? '' : $data['Email'];
                 $req['ReplyToName'] = (empty($data)) ? '' : $data['FullName'];
-                $req['Host'] = '127.0.0.1';
-                $req['SmtpServer'] = 'smtp.gmail.com';
-                $req['UserName'] = 'user@gmail.com';
-                $req['Password'] = '5649879+87';
-                $req['SMTPSecure'] = 'ssl';
-                $req['Port'] = '465';
-                $req['FromEmail'] = 'user@gmail.com';
-                $req['FromName'] = 'Reports';
+                $req['Host'] = $defaults['Host'];
+                $req['SmtpServer'] = $defaults['SmtpServer'];
+                $req['UserName'] = $defaults['UserName'];
+                $req['Password'] = $defaults['Password'];
+                $req['SMTPSecure'] = $defaults['SMTPSecure'];
+                $req['Port'] = $defaults['Port'];
+                $req['FromEmail'] = $defaults['FromEmail'];
+                $req['FromName'] = $defaults['FromName'];
                 $req['Created'] = date('Y-m-d H:i:s');
                 $req['CreatedBy'] = $this->session->userdata('userid');
                 $req['UserUnique'] = $id;
