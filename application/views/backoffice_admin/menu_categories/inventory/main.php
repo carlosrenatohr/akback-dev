@@ -49,7 +49,7 @@
                         </li>
                         <li>
                             <a href="<?php echo base_url("dashboard/items/count") ?>" style="outline:0;">
-                                <span class="icon-32-count"></span>
+                                <span class="icon-item-count"></span>
                                 Count
                             </a>
                         </li>
@@ -218,34 +218,4 @@
     </div>
 </div>
 
-<style>
-    #invMainWindow {
-        max-height: 85%!important;
-    }
-    .required-ast {
-        color: #F00;
-        text-align: left;
-        padding: 4px;
-        font-weight: bold;
-    }
-    .inventory_tab {
-        padding-top: 10px;
-        padding-bottom: 5px;
-        background-color: #f5f5f5;
-        border: 1px solid #dddddd;
-    }
-    .inventory_tab .row {
-        margin-bottom: 5px;
-    }
-    .row.inventory_tab {
-        margin: 0!important;
-    }
-    #inventorySection .row {
-        /*margin: 0!important;*/
-    }
-    .icon-32-count {
-        background: url('../assets/img/1.png');
-        background-size: cover;
-    }
-</style>
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>
