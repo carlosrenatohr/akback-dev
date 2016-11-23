@@ -83,6 +83,9 @@ class User_model extends CI_Model
     {
         $position_id = $data['position'];
         unset($data['position']);
+//        $data['Status'] = 1;
+        $data['Created'] = date('Y-m-d H:i:s');
+        $data['CreatedBy'] = $this->session->userdata('userid');
         $data['Suppress'] = 0;
         $result = $this->db->insert('config_user', $data);
         $insert_id = $this->db->insert_id();
@@ -104,6 +107,8 @@ class User_model extends CI_Model
     public function update($data, $id) {
         $position_id = $data['position'];
         unset($data['position']);
+        $data['Updated'] = date('Y-m-d H:i:s');
+        $data['UpdatedBy'] = $this->session->userdata('userid');
         $query = $this->db->update('config_user', $data, "Unique = {$id}");
         //
         $this->createOrUpdatePositionUser($position_id, $id);

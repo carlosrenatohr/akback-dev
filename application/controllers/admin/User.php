@@ -86,10 +86,6 @@ class User extends AK_Controller
             if ($validations['sure']) {
                 $values['Password'] = md5($values['Password']);
                 $values['Code'] = md5($values['Code']);
-                //
-                $values['Status'] = 1;
-                $values['Created'] = date('Y-m-d G:i:s');
-                $values['CreatedBy'] = $this->session->userdata('userid');
                 $lastId = $this->user_model->store($values);
                 if ($lastId) {
                     $emailData = [
@@ -143,22 +139,18 @@ class User extends AK_Controller
             if ($validations['sure']) {
                 // Password is not empty?
                 $values['Password'] = ($values['Password'] == '******') ? '' : $values['Password'];
-                if (!empty($values['Password'])) {
+                if (!empty($values['Password']))
                     $values['Password'] = md5($values['Password']);
-                } else {
+                else
                     unset($values['Password']);
-                }
                 // Code is not empty?
                 $values['Code'] = ($values['Code'] == '******') ? '' : $values['Code'];
-                if (!empty($values['Code'])) {
+                if (!empty($values[ 'Code']))
                     $values['Code'] = md5($values['Code']);
-                } else {
+                else
                     unset($values['Code']);
-                }
                 // Rest of values
 //            $values['Status'] = 1;
-                $values['Updated'] = date('Y-m-d G:i:s');
-                $values['UpdatedBy'] = $this->session->userdata('userid');
                 $status = $this->user_model->update($values, $id);
                 if ($status) {
                     $emailData = [

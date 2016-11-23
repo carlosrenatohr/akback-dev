@@ -31,7 +31,7 @@
         <div style="float:left; padding:2px;  width:350px;">
             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Password:</div>
             <div style="float:left; width:180px;">
-                <input type="text" class="form-control addUserField required-field" id="add_password" name="add_password" placeholder="Password">
+                <input type="password" class="form-control addUserField required-field" id="add_password" name="add_password" placeholder="Password">
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -41,7 +41,7 @@
         <div style="float:left; padding:2px;  width:350px;">
             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Code:</div>
             <div style="float:left; width:180px;">
-                <input type="text" class="form-control addUserField required-field" id="add_code" name="add_code" placeholder="Code">
+                <input type="password" class="form-control addUserField required-field" id="add_code" name="add_code" placeholder="Code">
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
