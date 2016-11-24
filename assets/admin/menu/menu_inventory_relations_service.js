@@ -180,11 +180,11 @@ angular.module("akamaiposApp")
                 url: SiteRoot + 'admin/MenuItem/getStocklineItems/' + params
             }),
             columns: [
-                {dataField: 'Unique', hidden: true},
-                {text: 'Date', dataField: 'TransactionDate', width: '20%'},
+                {text: 'Adjust', dataField: 'Unique', width: '15%'},
+                {text: 'Date', dataField: 'TransactionDate', width: '15%'},
                 {text: 'Type', dataField: 'Description', width: '20%'},
-                {text: 'Location', dataField: 'LocationName', width: '20%'},
-                {text: 'Quantity', dataField: 'Quantity', align: 'right', cellsAlign: 'right', width: '20%'},
+                {text: 'Location', dataField: 'LocationName', width: '15%'},
+                {text: 'Quantity', dataField: 'Quantity', align: 'right', cellsAlign: 'right', width: '15%'},
                 {text: 'Total', dataField: 'Total', align: 'right', cellsAlign: 'right', width: '19%'},
                 {text: 'Comment', dataField: 'Comment', hidden: true}
             ],

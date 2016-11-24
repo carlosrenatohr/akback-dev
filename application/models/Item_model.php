@@ -193,8 +193,10 @@ class Item_model extends CI_Model
      */
     public function getStockItemByLocation($id, $location = null) {
         $locationQuery = ($location == 0) ? "" : " AND a.\"LocationUnique\"=".$location;
-        $sql = "SELECT  a.\"Unique\", a.\"ItemUnique\", a.\"LocationUnique\",  a.\"Quantity\", a.\"TransactionDate\", a.\"Comment\", b.\"LocationName\", c.\"Description\",
-			SUM(a.\"Quantity\") OVER (PARTITION BY a.\"LocationUnique\" ORDER BY a.\"TransactionDate\",a.\"Unique\") as \"Total\"
+        $sql = "SELECT  a.\"Unique\", a.\"ItemUnique\", a.\"LocationUnique\",
+            a.\"Quantity\", a.\"TransactionDate\", a.\"Comment\", b.\"LocationName\", c.\"Description\",
+			SUM(a.\"Quantity\") OVER (PARTITION BY a.\"LocationUnique\"
+            ORDER BY a.\"TransactionDate\",a.\"Unique\") as \"Total\"
 			FROM item_stock_line a, config_location b, item_types c
 			WHERE a.\"LocationUnique\"=b.\"Unique\"
 			AND a.\"Type\"=c.\"Unique\"

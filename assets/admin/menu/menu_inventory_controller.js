@@ -224,6 +224,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var row = e.args.row.bounddata;
         $scope.createOrEditItemInventory = 'edit';
         $scope.itemInventoryID = row.Unique;
+        $scope.itemInventorySelected = row;
         $scope.inventoryData.lprice = row.ListPrice;
         $scope.inventoryData.sprice = row.price1;
         // Item text controls
@@ -751,6 +752,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#deleteStockBtn').show();
             $('#saveStockBtn').prop('disabled', true);
         }, 100);
+        stocklWind.setTitle('Adjust Quantity ' + row.Unique + ' | Item: ' + $scope.itemInventorySelected.Item + ' | ' + $scope.itemInventorySelected.Description);
         stocklWind.open();
     };
 
