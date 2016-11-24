@@ -343,3 +343,7 @@ div.toolbar-list span {
 div[id="filterrow.inventoryItemsGrid"].jqx-grid-cell-pinned {
     top:29px!important;
 }
+
+#icountlistGrid .less_than {
+     color: red!important;
+ }

@@ -10,9 +10,3 @@
 
     </div>
 </div>
-
-<style>
-    #icountlistGrid .less_than {
-        color: red!important;
-    }
-</style>
