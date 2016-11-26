@@ -54,7 +54,7 @@ class Item_model extends CI_Model
 
     public function getCategoryList() {
         $this->db->select("Unique, MainName");
-        $this->db->where("status", 1);
+        $this->db->where("Status", 1);
         $this->db->order_by("MainName ASC");
         return $this->db->get("category_main")->result_array();
     }
