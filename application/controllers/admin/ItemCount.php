@@ -106,5 +106,19 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    public function finalizeCount($id) {
+        $status = $this->count->finalize_count_list($id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Count list was finalized'
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+
+        echo json_encode($response);
+    }
+
 
 }

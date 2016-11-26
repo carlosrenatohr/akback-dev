@@ -75,6 +75,19 @@
                     return 'greater_than';
                 }
             };
+            var cellbeginedit = function (index, datafield, columntype, value) {
+                var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
+                if (row.Status == 2) return false;
+            };
+            var cellsrenderer = function (index, column, value, defaultHtml) {
+                // var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
+                // if (row.Status == 1) {
+                //     var element = $(defaultHtml);
+                //     element.css('color', '#999');
+                //     return element[0].outerHTML;
+                // }
+                // return defaultHtml;
+            };
             return {
                 source: new $.jqx.dataAdapter({
                     dataType: 'json',
@@ -111,7 +124,8 @@
                     {text: 'Category', dataField: 'Category', editable: false},
                     {text: 'Cost', dataField: 'Cost', editable: false},
                     {text: 'Current', dataField: 'CurrentStock', editable: false},
-                    {text: 'Count', dataField: 'CountStock', columntype: 'textbox'},
+                    {text: 'Count', dataField: 'CountStock', columntype: 'textbox',
+                        cellbeginedit: cellbeginedit},
                     {text: 'Difference', dataField: 'Difference', editable: false,
                         cellclassname:cellclass
                     },
@@ -134,7 +148,7 @@
                 autoheight: true,
                 autorowheight: true,
                 editable: true,
-                editmode: 'click',
+                editmode: 'click'
             }
         };
     }

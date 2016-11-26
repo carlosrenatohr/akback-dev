@@ -21,7 +21,7 @@ class Item_count_model extends CI_Model
         $this->db->join('config_location cl', 'cl.Unique = item_count.Location', 'left');
         $this->db->join('config_user cu1', 'cu1.Unique = item_count.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count.UpdatedBy', 'left');
-        $this->db->where('item_count.Status', 1);
+        $this->db->where('item_count.Status!=', 0);
         $this->db->order_by('item_count.Created', 'DESC');
         return $this->db->get()->result_array();
     }
@@ -45,7 +45,7 @@ class Item_count_model extends CI_Model
             left join config_location cl on cl.\"Unique\" = ic.\"Location\"
             left join config_user cu1 on cu1.\"Unique\" = ic.\"CreatedBy\"
             left join config_user cu2 on cu2.\"Unique\" = ic.\"UpdatedBy\"
-            WHERE ic.\"Status\" = 1 " . $where . $orderby
+            WHERE ic.\"Status\" != 0 " . $where . $orderby
         ;
 
         return $this->db->query($query)->result_array();
@@ -82,6 +82,14 @@ class Item_count_model extends CI_Model
         $this->db->where('CountUnique', $id);
         $this->db->update('item_count_list', ['Status' => 0]);
         $this->db->trans_complete();
+        // UPDATE item_stock_line
+        $this->db->trans_start();
+        $row = $this->db->query("SELECT \"Status\" from item_count where \"Unique\"={$id}")->row_array();
+        if ($row['Status'] == 2) {
+            $status = $this->db->update('item_stock_line', ['Status' => 0], ['CountUnique' => $id]);
+        }
+        $this->db->trans_complete();
+
 
         return $status;
     }
@@ -107,7 +115,7 @@ class Item_count_model extends CI_Model
                 (select \"ItemUnique\",sum(\"Quantity\") as \"CurrentStock\" from item_stock_line
                     where \"status\" = 1 and \"LocationUnique\" = ". $locationID ." group by \"ItemUnique\") ST
                 on ST.\"ItemUnique\" = IT.\"Unique\"
-                where IT.\"Status\" = 1)
+               where IT.\"Status\" = 1)
         ";
 
         return $this->db->query($query);
@@ -121,19 +129,34 @@ class Item_count_model extends CI_Model
         return $this->db->update('item_count_list', $data);
     }
 
-    public function finalize_count_list() {
-        $sql = '
-            select ICL."ItemUnique",IC."Location" as "LocationUnique", 4 as "Type", ICL."Difference" as "Quantity",
-            ICL."CreatedBy" as "CreatedBy", now() as "Created", IC."CountDate" as "TransactionDate",
-            ICL."Cost" as "Cost",ICL."Comment" as "Comment", \' \' as "trans_date", 1 as "Status",
-            ICL."Unique" as "CountUnique"
-            
+    public function finalize_count_list($countID) {
+        // TODO missing ICL."Cost" as "Cost", after TransactionDate
+        $sql = "(
+            select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 4 as \"Type\", ICL.\"Difference\" as \"Quantity\",
+            ICL.\"CreatedBy\" as \"CreatedBy\", now() as \"Created\", IC.\"CountDate\" as \"TransactionDate\",
+            ICL.\"Comment\" as \"Comment\", 
+            IC.\"CountDate\"::date as \"trans_date\",
+            1 as \"status\", ICL.\"Unique\" as \"CountUnique\"
             from item_count IC
-            join item_count_list ICL on IC."Unique" = ICL."CountUnique"
-            where "CountUnique" = 1 and "CountStock" is not null
-        ';
+            join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\"
+            where \"CountUnique\" = {$countID} and \"CountStock\" is not null
+        )";
 
-        return $this->db->query($sql)->result_array();
+        $insert = "
+          insert into item_stock_line(\"ItemUnique\",\"LocationUnique\",\"Type\",\"Quantity\",\"CreatedBy\",\"Created\",     
+                        \"TransactionDate\",\"Comment\",\"trans_date\", \"status\", \"CountUnique\") " . $sql;
+        $this->db->trans_start();
+        $status = $this->db->query($insert);
+        $this->db->trans_complete();
+        if ($status) {
+            $this->db->trans_start();
+            $this->db->update('item_count', ['Status' => 2], ['Unique' => $countID]);
+            $this->db->trans_complete();
+            $this->db->trans_start();
+            $this->db->update('item_count_list', ['Status' => 2], ['CountUnique' => $countID]);
+            $this->db->trans_complete();
+        }
+        return $status;
     }
 
 }

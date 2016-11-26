@@ -13,7 +13,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
             //     $('#icountlistGrid').jqxGrid('clearfilters');
             // });
             $('#deleteIcountBtn').hide();
-            $('#finishIcountBtn').show();
+            if ($scope.icountStatus == 1)
+                $('#finishIcountBtn').show();
+            else // 0=deleted; 2=finished; null
+                $('#finishIcountBtn').hide();
+
             // if ($('#buildCountListBtn').data('list') > 0) {
             //     $('#buildListBtns').hide();
             //     $('#listGridContainer').show();
@@ -109,6 +113,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $scope.openIcount = function() {
         $scope.icountID = null;
+        $scope.icountStatus = null;
         $scope.createOrEditIcount = 'create';
         //
         $('#icount_location').val(1);
@@ -116,12 +121,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_countdate').jqxDateTimeInput({'disabled': false});
         //
         $('#deleteIcountBtn').hide();
+        $('#finishIcountBtn').hide();
         $('#icountTabs').jqxTabs('disableAt', 1);
-
+        //
         $('#icount_countdate').jqxDateTimeInput({'disabled': false});
         $('#icount_countdate').jqxDateTimeInput('setDate', new Date());
         $('#saveIcountBtn').prop('disabled', true);
-        $('#buildCountListBtn').prop('disabled', true);
+        // $('#buildCountListBtn').prop('disabled', true);
         icountwind.setTitle('New Item Count');
         icountwind.open();
     };
@@ -129,6 +135,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.editIcount = function(e) {
         var row = e.args.row.bounddata;
         $scope.icountID = row.Unique;
+        $scope.icountStatus = row.Status;
         $scope.createOrEditIcount = 'edit';
         //
         $('#icount_location').val(row.Location);
@@ -289,34 +296,34 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
     };
 
-    $scope.buildCountList = function() {
-        console.info('building');
-        var hasList = $('#buildCountListBtn').data('list'),
-        loc = $('#buildCountListBtn').data('loc'),
-        id = $('#buildCountListBtn').data('id');
-        if (hasList == 0) {
-            $.ajax({
-                method: 'post',
-                url: SiteRoot + 'admin/ItemCount/create_countlistById/' + $scope.icountID + '/' + loc ,
-                dataType: 'json',
-                data: '',
-                success: function(response) {
-                    if (response.status == 'success') {
-                        $('#icountTabs').jqxTabs('enableAt', 1);
-                        $('#buildCountListBtn').prop('disabled', true);
-                        $('#buildCountListBtn').data("list", 1);
-                        updateIcountlistGrid($scope.icountID);
-                        $('#icountSuccessMsg #msg').html('Item Count list was built. You can check it at count list subtab.');
-                        $scope.icountSuccessMsg.apply('open');
-                    }
-                    else if (response.status == 'error') {}
-                    else {}
-                }
-            });
-        } else {
-            console.error('Count list Exists, please check!');
-        }
-    };
+    // $scope.buildCountList = function() {
+    //     console.info('building');
+    //     var hasList = $('#buildCountListBtn').data('list'),
+    //     loc = $('#buildCountListBtn').data('loc'),
+    //     id = $('#buildCountListBtn').data('id');
+    //     if (hasList == 0) {
+    //         $.ajax({
+    //             method: 'post',
+    //             url: SiteRoot + 'admin/ItemCount/create_countlistById/' + $scope.icountID + '/' + loc ,
+    //             dataType: 'json',
+    //             data: '',
+    //             success: function(response) {
+    //                 if (response.status == 'success') {
+    //                     $('#icountTabs').jqxTabs('enableAt', 1);
+    //                     $('#buildCountListBtn').prop('disabled', true);
+    //                     $('#buildCountListBtn').data("list", 1);
+    //                     updateIcountlistGrid($scope.icountID);
+    //                     $('#icountSuccessMsg #msg').html('Item Count list was built. You can check it at count list subtab.');
+    //                     $scope.icountSuccessMsg.apply('open');
+    //                 }
+    //                 else if (response.status == 'error') {}
+    //                 else {}
+    //             }
+    //         });
+    //     } else {
+    //         console.error('Count list Exists, please check!');
+    //     }
+    // };
 
     $scope.finishIcount = function(option) {
         if (option != undefined) {
@@ -327,7 +334,25 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
 
         if (option == 0) {
-            console.log('in progress..');
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/ItemCount/finalizeCount/' + $scope.icountID ,
+                dataType: 'json',
+                // data: '',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        // $('#icountTabs').jqxTabs('enableAt', 1);
+                        // $('#buildCountListBtn').prop('disabled', true);
+                        // $('#buildCountListBtn').data("list", 1);
+                        // updateIcountlistGrid($scope.icountID);
+                        icountwind.close();
+                        // $('#icountSuccessMsg #msg').html('');
+                        // $scope.icountSuccessMsg.apply('open');
+                    }
+                    else if (response.status == 'error') {}
+                    else {}
+                }
+            });
         } else if (option == 1) {
         } else {
             $('#mainIcountBtns').hide();
