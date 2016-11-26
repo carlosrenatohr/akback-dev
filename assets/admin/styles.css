@@ -285,6 +285,11 @@ div.toolbar-list span {
 }
 
 #questionMainTable .jqx-widget-content.jqx-enableselect,
+#questionItemTable .jqx-widget-content.jqx-enableselect,
+#gridCustomer .jqx-widget-content.jqx-enableselect,
+#customerCheckIn1 .jqx-widget-content.jqx-enableselect,
+#customerCheckIn2 .jqx-widget-content.jqx-enableselect,
+#customerCheckInComplete .jqx-widget-content.jqx-enableselect,
 #customerReceiptGrid .jqx-widget-content.jqx-enableselect {
     overflow-y: scroll!important;
 }

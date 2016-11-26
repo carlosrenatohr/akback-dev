@@ -234,6 +234,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question created successfully!');
                         $scope.questionNotificationsSuccessSettings.apply('open');
+                        $scope.questionNotificationsSuccessSettings.apply('open');
                         //setTimeout(function() {
                             $scope.closeQuestionWindow();
                         //}, 1500);

@@ -23,8 +23,12 @@
                 template: (type == 1) ? 'success' : 'error'
             }
         };
-
-        this.loadPagerConfig = function() {
+        /**
+         * @description
+         * @param alternative in case of subrows
+         * @returns {{}}
+         */
+        this.loadPagerConfig = function(alternative) {
             var pager = {};
             var ww = $(window).width();
             var wh = $(window).height();
@@ -32,23 +36,52 @@
                 pager = function(ww, wh) {
                     var pagesResult = {};
                     // if (ww >= 1280 && wh >= 980) {
-                    if (wh >= 980) {
-                        pagesResult.pageSize = 25;
-                        pagesResult.pagesizeoptions = ['5', '15', '25'];
-                    }
-                    // else if (ww >= 1280 && wh >= 800) {
-                    else if (wh >= 800) {
-                        pagesResult.pageSize = 20;
-                        pagesResult.pagesizeoptions = ['5', '10', '20'];
-                    }
-                    // else if (ww >= 1024 && wh >= 768) {
-                    else if (wh >= 725) {
-                        pagesResult.pageSize = 18;
-                        pagesResult.pagesizeoptions = ['5', '10', '18'];
-                    }
-                    else {
-                        pagesResult.pageSize = 10;
-                        pagesResult.pagesizeoptions = ['5', '10'];
+                    if (!alternative) {
+                        if (wh >= 960) {
+                            pagesResult.pageSize = 25;
+                            pagesResult.pagesizeoptions = ['5', '15', '25'];
+                        }
+                        // else if (ww >= 1280 && wh >= 800) {
+                        else if (wh >= 800) {
+                            pagesResult.pageSize = 20;
+                            pagesResult.pagesizeoptions = ['5', '10', '20'];
+                        }
+                        // else if (ww >= 1024 && wh >= 768) {
+                        else if (wh >= 760) {
+                            pagesResult.pageSize = 18;
+                            pagesResult.pagesizeoptions = ['5', '10', '18'];
+                        }
+                        else if (wh >= 700) {
+                            pagesResult.pageSize = 15;
+                            pagesResult.pagesizeoptions = ['5', '10', '15'];
+                        }
+                        else {
+                            pagesResult.pageSize = 10;
+                            pagesResult.pagesizeoptions = ['5', '10'];
+                        }
+                    } else {
+                        if (wh >= 960) {
+                            pagesResult.pageSize = 25;
+                            pagesResult.pagesizeoptions = ['5', '15', '25'];
+                        }
+                        // else if (ww >= 1280 && wh >= 800) {
+                        else if (wh >= 800) {
+                            pagesResult.pageSize = 18;
+                            pagesResult.pagesizeoptions = ['5', '10', '18'];
+                        }
+                        // else if (ww >= 1024 && wh >= 768) {
+                        else if (wh >= 760) {
+                            pagesResult.pageSize = 15;
+                            pagesResult.pagesizeoptions = ['5', '10', '15'];
+                        }
+                        else if (wh >= 700) {
+                            pagesResult.pageSize = 12;
+                            pagesResult.pagesizeoptions = ['5', '10', '12'];
+                        }
+                        else {
+                            pagesResult.pageSize = 10;
+                            pagesResult.pagesizeoptions = ['5', '10'];
+                        }
                     }
 
                     return pagesResult;

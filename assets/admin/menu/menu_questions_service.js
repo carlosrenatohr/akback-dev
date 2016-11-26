@@ -45,7 +45,7 @@
 
         this.getQuestionTableSettings = function() {
             var initrowdetails = _this.getRowdetailsFromChoices();
-            var pager = adminService.loadPagerConfig();
+            var pager = adminService.loadPagerConfig(true);
 
             return {
                 source: {
@@ -90,7 +90,7 @@
                 initrowdetails: initrowdetails,
                 rowdetailstemplate: {
                     rowdetails: "<div class='choicesNestedGrid'></div>",
-                        rowdetailsheight: 200,
+                        rowdetailsheight: 100,
                         rowdetailshidden: true
                     }
             };

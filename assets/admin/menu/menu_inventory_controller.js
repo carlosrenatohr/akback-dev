@@ -895,7 +895,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             initrowdetails: questionService.getRowdetailsFromChoices('QuestionUnique'),
             rowdetailstemplate: {
                 rowdetails: "<div class='choicesNestedGrid'></div>",
-                rowdetailsheight: 200,
+                rowdetailsheight: 100,
                 rowdetailshidden: true
             }
         });

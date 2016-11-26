@@ -173,6 +173,7 @@ angular.module('akamaiposApp')
         //cache: false
     };
 
+    var pager = adminService.loadPagerConfig(true);
     this.getTableSettings = function () {
         // Customer dataadatper
         var dataAdapterCustomerGrid = new $.jqx.dataAdapter(_this.sourceCustomerGrid);
@@ -185,13 +186,11 @@ angular.module('akamaiposApp')
             if (grid != null) {
                 grid.jqxGrid({
                     source: nestedGridAdapter,
-                    width: '98.7%', height: '200',
+                    width: '98.7%', height: '120',
                     columns: contactsDatagrid.columns
                 });
             }
         };
-
-        var pager = adminService.loadPagerConfig();
 
         return {
             source: dataAdapterCustomerGrid,
@@ -216,7 +215,7 @@ angular.module('akamaiposApp')
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
                 rowdetails: "<div class='contactsNestedGridContainer' style='margin:5px 0;'></div>",
-                rowdetailsheight: 200,
+                rowdetailsheight: 100,
                 rowdetailshidden: true
             },
             altRows: true,
@@ -277,7 +276,7 @@ angular.module('akamaiposApp')
             if (grid != null) {
                 grid.jqxGrid({
                     source: nestedGridAdapter,
-                    width: '98.7%', height: 250,
+                    width: '98.7%', height: 120,
                     columns: contactsDatagrid.columns
                 });
             }
@@ -296,7 +295,6 @@ angular.module('akamaiposApp')
             return renderstring;
         };
 
-        var pager = adminService.loadPagerConfig();
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
@@ -346,7 +344,7 @@ angular.module('akamaiposApp')
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
                 rowdetails: "<div class='contactsNestedGridCheckin2' style='margin:5px;'></div>",
-                rowdetailsheight: 275,
+                rowdetailsheight: 100,
                 rowdetailshidden: true
             },
             altRows: true,
@@ -403,7 +401,7 @@ angular.module('akamaiposApp')
             if (grid != null) {
                 grid.jqxGrid({
                     source: nestedGridAdapter,
-                    width: '98.7%', height: 250,
+                    width: '98.7%', height: 120,
                     columns: contactsDatagrid.columns
                 });
             }
@@ -422,7 +420,6 @@ angular.module('akamaiposApp')
             return renderstring;
         };
 
-        var pager = adminService.loadPagerConfig();
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
@@ -472,7 +469,7 @@ angular.module('akamaiposApp')
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
                 rowdetails: "<div class='contactsNestedGridCheckin1' style='margin:5px;'></div>",
-                rowdetailsheight: 275,
+                rowdetailsheight: 100,
                 rowdetailshidden: true
             },
             altRows: true,
@@ -530,7 +527,7 @@ angular.module('akamaiposApp')
             if (grid != null) {
                 grid.jqxGrid({
                     source: nestedGridAdapter,
-                    width: '98.7%', height: 250,
+                    width: '98.7%', height: 120,
                     columns: contactsDatagrid.columns
                 });
             }
@@ -548,7 +545,6 @@ angular.module('akamaiposApp')
             renderstring += "</div>";
             return renderstring;
         };
-        var pager = adminService.loadPagerConfig();
         // Exclude checkin buttons columns
         var checkInCols = _this.customerGridsCols.slice(0);
         var checkin1Id = checkInCols.map(function(el) {return el.dataField; }).indexOf('CheckIn1');
@@ -600,7 +596,7 @@ angular.module('akamaiposApp')
             initrowdetails: initrowdetails,
             rowdetailstemplate: {
                 rowdetails: "<div class='contactsNestedGridCheckout' style='margin:5px;'></div>",
-                rowdetailsheight: 275,
+                rowdetailsheight: 100,
                 rowdetailshidden: true
             }
             //ready: function() {
@@ -756,7 +752,7 @@ angular.module('akamaiposApp')
     };
 
     var rowExpanded;
-    var purchaseGrid = $('#customerPurchasesGrid, #gridCustomer');
+    var purchaseGrid = $('#customerPurchasesGrid, #gridCustomer, #customerReceiptGrid');
     purchaseGrid.on('rowexpand', function (e) {
         var current = e.args.rowindex;
         if (rowExpanded != current) {
@@ -828,6 +824,7 @@ angular.module('akamaiposApp')
                         url: urlToRequest
                     }),
                     width: '99%',
+                    height: '100',
                     columns: [
                         {dataField: 'ReceiptID', hidden: true},
                         {text: 'Item', dataField: 'Item', width: '10%'},
@@ -923,7 +920,7 @@ angular.module('akamaiposApp')
             rowdetails: true,
             rowdetailstemplate: {
                 rowdetails: "<div class='customer_receipt' style='margin-top: 5px;'></div>",
-                rowdetailsheight: 200
+                rowdetailsheight: 100
             },
             initrowdetails: initrowdetails,
             showaggregates: true,

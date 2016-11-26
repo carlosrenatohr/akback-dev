@@ -279,8 +279,8 @@ angular.module("akamaiposApp")
           settings.rowdetails = true;
           settings.initrowdetails = questionService.getRowdetailsFromChoices();
           settings.rowdetailstemplate = {
-                 rowdetails: "<div class='choicesNestedGrid'></div>",
-              rowdetailsheight: 200,
+              rowdetails: "<div class='choicesNestedGrid'></div>",
+              rowdetailsheight: 100,
               rowdetailshidden: true
           };
         // }
