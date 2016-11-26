@@ -191,6 +191,9 @@ class Item_model extends CI_Model
      * @return mixed
      *
      */
+
+
+
     public function getStockItemByLocation($id, $location = null) {
         $locationQuery = ($location == 0) ? "" : " AND a.\"LocationUnique\"=".$location;
         $sql = "SELECT  a.\"Unique\", a.\"ItemUnique\", a.\"LocationUnique\",

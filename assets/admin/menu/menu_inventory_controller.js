@@ -726,20 +726,25 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.stocklID = row.Unique;
         $scope.createOrEditStockl = 'edit';
 
+        var myData = $('#stockLevelItemGrid').jqxGrid('getrowdata', e.args.boundindex);
+        var current = parseFloat(myData.Total) - (parseFloat(myData.Quantity));
+        var adjQty = parseFloat(myData.Quantity);
+        var newQty = current + adjQty;
         setTimeout(function() {
             var loc = $('#stationID').val();
             $('#stockl_location').jqxComboBox('val', row.LocationUnique);
-            $('#stockl_newQty input').select();
-            $('#stockl_newQty').jqxNumberInput('focus');
-            // $('#stockl_newQty').jqxNumberInput('val', row.Quantity);
-            // $('#stockl_addremoveQty').jqxNumberInput('val', parseFloat(row.Quantity));
-            //
             $('#stocklWind #stockl_comment').val(row.Comment);
             var transDate = new Date(Date.parse(row.TransactionDate));
             $("#stockl_transDate").jqxDateTimeInput('setDate', transDate);
             $("#stockl_transTime").jqxDateTimeInput('setDate', transDate);
         }, 100);
-        setTimeout(function(){
+        setTimeout(function() {
+            $('#saveStockBtn').prop('disabled', true);
+            $('#stockl_currentQty').jqxNumberInput('val', current);
+            $('#stockl_addremoveQty').jqxNumberInput('val', adjQty);
+            $('#stockl_newQty').jqxNumberInput('val', newQty);
+            $('#stockl_newQty input').select();
+            $('#stockl_newQty').jqxNumberInput('focus');
             $('#saveStockBtn').prop('disabled', true);
         }, 150);
         //
@@ -782,7 +787,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.saveStockWind = function() {
         if (!validationStockForm()) {
-            console.log($scope.createOrEditStockl);
             var dataReq = {
                 'ItemUnique': $scope.itemInventoryID,
                 'LocationUnique': $('#stockl_location').jqxComboBox('getSelectedItem').value,
@@ -858,29 +862,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#promptButtonsStockl').hide();
             $('#deleteButtonsStockl').show();
         }
-    };
-
-    $scope.updateStockQuantity = function() {
-        // INSERT into item_stock_line table...
-        var dataRequest = {
-            "ItemUnique": 'this is the item unique',
-            'LocationUnique': '',
-            'Type': 4, // move to server side
-            'Quantity': 'qty add or remove', // on server side validate decimalsQuantity
-            'Comment': '', //
-            'trans_date': '', //
-            'TransactionDate': '', //date("Y-m-d",strtotime($setdate))." ".date("H:i:s",strtotime($settime)),
-            'status': 1// move to server side
-        };
-        $.ajax({
-            url: '',
-            method: 'post',
-            dataType: 'array',
-            data: dataRequest,
-            success: function(response){
-
-            }
-        })
     };
 
     // -- QUESTION SUBTAB

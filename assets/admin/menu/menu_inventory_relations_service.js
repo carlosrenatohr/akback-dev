@@ -145,6 +145,7 @@ angular.module("akamaiposApp")
     };
 
     // -- STOCK DATA LIST
+
     this.getStockGridData = function (itemId, location) {
         var params = '';
         if (itemId != undefined) {
