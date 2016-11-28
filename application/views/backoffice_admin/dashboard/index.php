@@ -37,7 +37,7 @@
                         <div class="icon-handler">
                             <div class="icon">
                                 <a href="<?php echo base_url("dashboard/admin/users")?>">
-                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/customer.png">
+                                    <img width="48" alt="" src="<?php echo base_url()?>assets/img/backoffice/User.png">
                                     <span class="mlabel">USERS</span>
                                 </a>
                             </div>

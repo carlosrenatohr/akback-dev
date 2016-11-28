@@ -43,14 +43,15 @@ div.toolbar-list span {
 }
 
 .icon-32-home {
-    /*background-image: url("../../assets/img/back_icon.png");*/
     background-image: url("../../assets/img/home_icon.png");
-    /*background-position: 32px 0;*/
-    /*background-size: 100%;*/
 }
 
-.icon-32-brand {
-    background-image: url("../../assets/img/brand.png");
+.icon-item-brand {
+    background-image: url("../img/backoffice/ItemBrand.png");
+    background-size: cover;
+}
+.icon-item-count {
+    background: url('../img/backoffice/ItemCount.png');
     background-size: cover;
 }
 
@@ -322,10 +323,6 @@ div.toolbar-list span {
 }
 #inventorySection .row {
     /*margin: 0!important;*/
-}
-.icon-item-count {
-    background: url('../../assets/img/1.png');
-    background-size: cover;
 }
 
 #inventoryItemsGrid .jqx-grid-header {

@@ -43,7 +43,7 @@
                         </li>
                         <li>
                             <a href="<?php echo base_url("dashboard/items/brands") ?>" style="outline:0;">
-                                <span class="icon-32-brand"></span>
+                                <span class="icon-item-brand"></span>
                                 Brands
                             </a>
                         </li>
