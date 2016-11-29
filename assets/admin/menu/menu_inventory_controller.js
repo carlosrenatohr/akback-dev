@@ -684,6 +684,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.stocklID = null;
     $scope.createOrEditStockl = null;
+
     $scope.openStockWind = function() {
         $scope.stocklID = null;
         $scope.createOrEditStockl = 'create';

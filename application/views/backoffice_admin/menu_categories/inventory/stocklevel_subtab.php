@@ -48,9 +48,9 @@
     </div>
     <div class="">
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Location:</label>
+            <label  class="col-sm-3 control-label" style="text-align:right">Location:</label>
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 <jqx-combo-box id="stockl_location" class="stockl_input"
                                jqx-settings="stockitemLocation2Settings"
                                jqx-selected-index="<?php echo $station;?>"
@@ -59,9 +59,9 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">In Stock:</label>
+            <label  class="col-sm-3 control-label" style="text-align:right">In Stock:</label>
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 <!-- ng-model="inventoryData.stockQty" -->
                 <jqx-number-input id="stockl_currentQty" class="stockl_input"
                                   jqx-width="200" jqx-height="30"
@@ -73,9 +73,9 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Adjust Quantity:</label>
+            <label  class="col-sm-3 control-label" style="text-align:right">Adjust Quantity:</label>
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 <jqx-number-input id="stockl_addremoveQty" class="stockl_input tochange"
                                   jqx-width="200" jqx-height="30"
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
@@ -87,9 +87,9 @@
 
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">New Quantity</label>
+            <label  class="col-md-3 control-label" style="text-align:right">New Quantity</label>
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 <jqx-number-input id="stockl_newQty" class="stockl_input tochange"
                                   jqx-width="200" jqx-height="30"
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
@@ -100,9 +100,9 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Date</label>
+            <label  class="col-md-3 control-label" style="text-align:right">Date</label>
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 <jqx-date-time-input
                     id="stockl_transDate" class="stockl_input"
                     jqx-format-string="d"
@@ -110,9 +110,9 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Time:</label>
+            <label  class="col-md-3 control-label" style="text-align:right">Time:</label>
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 <jqx-date-time-input
                     id="stockl_transTime" class="stockl_input"
                     jqx-format-string="'hh:mm tt'"
@@ -122,9 +122,9 @@
             </div>
         </div>
         <div class="row">
-            <label  class="col-sm-4 control-label" style="text-align:right">Comment:</label>
+            <label  class="col-md-3 control-label" style="text-align:right">Comment:</label>
 
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                     <textarea id="stockl_comment" class="form-control stockl_input"
                     ></textarea>
             </div>

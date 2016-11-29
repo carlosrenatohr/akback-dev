@@ -1,8 +1,8 @@
 <div class="col-md-12 inventory_tab">
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="col-sm-3 control-label">Cost:</label>
-            <div class="col-sm-4">
+            <label for="inputType" class="col-sm-2 control-label">Cost:</label>
+            <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="item_cost" class="item_textcontrol"
@@ -20,8 +20,8 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="col-sm-3 control-label">Cost Extra:</label>
-            <div class="col-sm-4">
+            <label for="inputType" class="col-sm-2 control-label">Cost Extra:</label>
+            <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="item_Cost_Extra" class="item_textcontrol"
@@ -39,8 +39,8 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="col-sm-3 control-label">Cost Freight:</label>
-            <div class="col-sm-4">
+            <label for="inputType" class="col-sm-2 control-label">Cost Freight:</label>
+            <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="item_Cost_Freight" class="item_textcontrol"
@@ -57,8 +57,8 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="col-sm-3 control-label">Cost Duty:</label>
-            <div class="col-sm-4">
+            <label for="inputType" class="col-sm-2 control-label">Cost Duty:</label>
+            <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="item_Cost_Duty" class="item_textcontrol"
@@ -75,8 +75,8 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="col-sm-3 control-label">Cost Landed:</label>
-            <div class="col-sm-4">
+            <label for="inputType" class="col-sm-2 control-label">Cost Landed:</label>
+            <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="item_Cost_Landed" class="item_textcontrol"

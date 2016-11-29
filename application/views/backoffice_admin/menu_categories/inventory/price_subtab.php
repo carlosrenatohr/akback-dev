@@ -1,9 +1,9 @@
 <div class="col-md-12 inventory_tab">
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="col-sm-3 control-label">List Price:</label>
+            <label for="inputType" class="col-sm-2 control-label">List Price:</label>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="itemp_listprice" class="item_textcontrol"
@@ -21,9 +21,9 @@
 
 <div class="row">
     <div class="form-group">
-        <label for="inputType" class="col-sm-3 control-label">Sell Price:</label>
+        <label for="inputType" class="col-sm-2 control-label">Sell Price:</label>
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
                 <jqx-number-input id="itemp_price1" class="item_textcontrol"
@@ -40,9 +40,9 @@
 </div>
 <div class="row">
     <div class="form-group">
-        <label for="inputType" class="col-sm-3 control-label">Price2:</label>
+        <label for="inputType" class="col-sm-2 control-label">Price2:</label>
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
                 <jqx-number-input id="itemp_price2" class="item_textcontrol"
@@ -58,9 +58,9 @@
 </div>
 <div class="row">
     <div class="form-group">
-        <label for="inputType" class="col-sm-3 control-label">Price3:</label>
+        <label for="inputType" class="col-sm-2 control-label">Price3:</label>
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
                 <jqx-number-input id="itemp_price3" class="item_textcontrol"
@@ -76,9 +76,9 @@
 </div>
 <div class="row">
     <div class="form-group">
-        <label for="inputType" class="col-sm-3 control-label">Price4:</label>
+        <label for="inputType" class="col-sm-2 control-label">Price4:</label>
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
                 <jqx-number-input id="itemp_price4" class="item_textcontrol"
@@ -94,9 +94,9 @@
 </div>
 <div class="row">
     <div class="form-group">
-        <label for="inputType" class="col-sm-3 control-label">Price5:</label>
+        <label for="inputType" class="col-sm-2 control-label">Price5:</label>
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
                 <jqx-number-input id="itemp_price5" class="item_textcontrol"

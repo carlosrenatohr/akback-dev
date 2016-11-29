@@ -302,6 +302,7 @@ div.toolbar-list span {
 /* TOP PAGER on Item inv grid*/
 #invMainWindow {
     max-height: 85%!important;
+    max-width: 85%!important;
 }
 .required-ast {
     color: #F00;
