@@ -15,7 +15,11 @@ class Item_count_model extends CI_Model
           to_char(date_trunc(\'minutes\', item_count."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Updated,
           to_char(date_trunc(\'minutes\', item_count."CountDate"::timestamp), \'MM/DD/YYYY\') as "CountDateFormatted",
           (select count("Unique") from item_count_list icl where icl."CountUnique" = item_count."Unique")
-            as "hasCountList"
+            as "hasCountList",
+            case when item_count."Status" = 1 then \'In Progress\'
+                 when item_count."Status" = 2 then \'Complete\' 
+                 else \'Other\'
+            end as "StatusName",
           ', false);
         $this->db->from('item_count');
         $this->db->join('config_location cl', 'cl.Unique = item_count.Location', 'left');
@@ -86,7 +90,8 @@ class Item_count_model extends CI_Model
         $this->db->trans_start();
         $row = $this->db->query("SELECT \"Status\" from item_count where \"Unique\"={$id}")->row_array();
         if ($row['Status'] == 2) {
-            $status = $this->db->update('item_stock_line', ['Status' => 0], ['CountUnique' => $id]);
+            $this->db->where('CountUnique', $id);
+            $status = $this->db->delete('item_stock_line');
         }
         $this->db->trans_complete();
 
