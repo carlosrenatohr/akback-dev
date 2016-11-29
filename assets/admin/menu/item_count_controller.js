@@ -82,7 +82,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var rowBoundIndex = event.args.rowindex;
         if (datafield  == 'CountStock') {
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
-            var newDiff = parseFloat(value) - ((row.Difference != null) ? parseFloat(row.Difference) : 0);
+            console.log(row.Difference);
+            var difference = (isNaN(parseFloat(row.Difference))) ? 0 : parseFloat(row.Difference);
+            var newDiff = parseFloat(value) - (difference);
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
@@ -138,27 +140,18 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.icountStatus = row.Status;
         $scope.createOrEditIcount = 'edit';
         //
-        $('#icount_location').val(row.Location);
-        $('#icount_comment').val(row.Comment);
-        // $('#buildCountListBtn').data("id", row.Unique);
-        // $('#buildCountListBtn').data("loc", row.Location);
-        // $('#buildCountListBtn').data("list", row.hasCountList);
-        //
         setTimeout(function(){
-            // if ($('#buildCountListBtn').data('list') > 0) {
-                $('#icountTabs').jqxTabs('enableAt', 1);
-                // $('#buildCountListBtn').prop('disabled', true);
-                updateIcountlistGrid($scope.icountID);
-            // } else {
-            //     $('#icountTabs').jqxTabs('disableAt', 1);
-            //     $('#buildCountListBtn').prop('disabled', false);
-            // }
+            updateIcountlistGrid($scope.icountID);
+            $('#icountTabs').jqxTabs('enableAt', 1);
         }, 250);
         //
-        $('#deleteIcountBtn').show();
-        $('#icount_countdate').jqxDateTimeInput({'disabled': true});
+        $('#icount_location').val(row.Location);
+        $('#icount_comment').val(row.Comment);
         var countDate = new Date(Date.parse(row.CountDate));
         $("#icount_countdate").jqxDateTimeInput('setDate', countDate);
+        $('#icount_countdate').jqxDateTimeInput({'disabled': true});
+        //
+        $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('enableAt', 1);
         $('#saveIcountBtn').prop('disabled', true);
         icountwind.setTitle('Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment);
@@ -200,16 +193,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         if ($scope.createOrEditIcount == 'create') {
                             $scope.icountID = response.id;
                             $scope.createOrEditIbrand = 'edit';
+                            $scope.icountStatus = 1;
                             $('#icount_countdate').prop('disabled', true);
-                            $('#buildCountListBtn').prop('disabled', false);
-                            $('#buildCountListBtn').data("loc", data.Location);
-                            $('#buildCountListBtn').data("list", 0);
-                            //
-                            $('#icountTabs').jqxTabs('enableAt', 1);
-                            // $('#buildCountListBtn').prop('disabled', true);
-                            // $('#buildCountListBtn').data("list", 1);
                             updateIcountlistGrid($scope.icountID);
                             //
+                            $('#icountTabs').jqxTabs('enableAt', 1);
+                            $('#icountTabs').jqxTabs('select', 1);
+                            $('#finishIcountBtn').show();
                             icountwind.setTitle('Edit Item Count | ID:' + response.id);
                             $('#icountSuccessMsg #msg').html('Item Count created successfully! <br>' +
                                 'Item Count list was built. You can check it at count list subtab. ');
@@ -242,12 +232,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $scope.saveIcount(1);
         } else if (option == 1) {
             icountwind.close();
+            $('#finishIcountBtn').hide();
             $('#icountTabs').jqxTabs('select', 0);
             $('#icountTabs').jqxTabs('disableAt', 1);
         } else if (option == 2) {
         } else {
             if ($('#saveIcountBtn').is(':disabled')) {
                 icountwind.close();
+                $('#finishIcountBtn').hide();
                 $('#icountTabs').jqxTabs('select', 0);
                 $('#icountTabs').jqxTabs('disableAt', 1);
             } else {
