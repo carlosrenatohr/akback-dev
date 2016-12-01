@@ -159,7 +159,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         if (required) {
             var url = '';
-            console.log($('#icount_countdate').val());
             var data = {
                 'Location': $('#icount_location').val(),
                 'Comment': $('#icount_comment').val(),
