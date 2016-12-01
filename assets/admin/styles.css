@@ -310,6 +310,22 @@ div.toolbar-list span {
     padding: 4px;
     font-weight: bold;
 }
+
+/***/
+.control-cont {
+    width: 500px;
+    margin-left: 2em;
+}
+.control-cont .control-label {
+    width: 120px;
+    float: left;
+}
+.control-cont .input {
+    width: 320px;float: left;
+}
+.control-cont .item_textcontrol {
+    width: 250px;float: left;
+}
 .inventory_tab {
     padding-top: 10px;
     padding-bottom: 5px;
