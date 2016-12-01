@@ -539,20 +539,22 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         var selectedIndexByPosition;
         var positionCombo = $('#positionByUserCombobox').jqxComboBox('getItemByValue', values['ConfigPositionUnique']);
-        if (positionCombo != undefined) {
-            selectedIndexByPosition = positionCombo.index | 0;
-        } else selectedIndexByPosition = 0;
-        $('#positionByUserCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
+        // if (positionCombo != undefined) {
+        //     selectedIndexByPosition = positionCombo.index | 0;
+        // } else selectedIndexByPosition = 0;
+        // $('#positionByUserCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
+        $('#positionByUserCombobox').jqxComboBox('val', values['ConfigPositionUnique']);
         //
-        var selectedPayPosition;
-        var payCombo = $('#payBasisSelect').jqxDropDownList('getItemByValue', values['PayBasis']);
-        if (payCombo  != undefined) {
-            selectedPayPosition = payCombo.index | 0;
-        } else selectedPayPosition = 0;
-        $('#payBasisSelect').jqxDropDownList({'selectedIndex': selectedPayPosition});
+        // var selectedPayPosition;
+        // var payCombo = $('#payBasisSelect').jqxDropDownList('getItemByValue', values['PayBasis']);
+        // if (payCombo  != undefined) {
+        //     selectedPayPosition = payCombo.index | 0;
+        // } else selectedPayPosition = 0;
+        // $('#payBasisSelect').jqxDropDownList({'selectedIndex': selectedPayPosition});
+        $('#payBasisSelect').jqxDropDownList('val', values['PayBasis']);
         //
-        angular.element('#PayRateField').val(values['PayRate']);
-        angular.element('#idPositionUserWin').val(values['Unique']);
+        $('#PayRateField').val(values['PayRate']);
+        $('#idPositionUserWin').val(values['Unique']);
         //
         if (values['PrimaryPosition'] == 1) {
             $('#deletePositionuserBtn').hide();
@@ -561,10 +563,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#deletePositionuserBtn').show();
             $('#primaryFieldContainer').show();
         }
-        $('#primaryPosition').jqxCheckBox({checked: (values['PrimaryPosition'] == 1) ? true : false});
-        //
-        $('#savePositionuserBtn').attr('disabled', 'disabled');
+        var isPrimary = (values['PrimaryPosition'] == 1) ? true : false;
+        $('#primaryPosition').jqxCheckBox({checked: isPrimary});
         $('#positionByUserCombobox').jqxComboBox({disabled: true});
+        $('#savePositionuserBtn').prop('disabled', true);
         userPositionWindow.open();
     };
 
