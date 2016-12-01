@@ -18,7 +18,8 @@
             <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Count Date:</div>
             <div style="float:left; width:320px;">
                 <jqx-date-time-input id="icount_countdate" class=""
-                    ></jqx-date-time-input>
+                    jqx-format-string="'MM/dd/yyyy hh:mm tt'"
+                ></jqx-date-time-input>
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>

@@ -14,7 +14,7 @@ class Item_count_model extends CI_Model
           to_char(date_trunc(\'minutes\', item_count."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
           to_char(date_trunc(\'minutes\', item_count."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Updated,
           to_char(date_trunc(\'minutes\', item_count."CountDate"::timestamp), \'MM/DD/YYYY\') as "CountDateFormatted",
-          date_trunc(\'minutes\', item_count."CountDate"::timestamp) as "CountDate",
+          date_trunc(\'minutes\', item_count."CountDate"::timestamp) as "_CountDate",
           (select count("Unique") from item_count_list icl where icl."CountUnique" = item_count."Unique")
             as "hasCountList",
             case when item_count."Status" = 1 then \'In Progress\'
