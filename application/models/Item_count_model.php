@@ -172,7 +172,10 @@ class Item_count_model extends CI_Model
         $this->db->trans_complete();
         if ($status) {
             $this->db->trans_start();
-            $this->db->update('item_count', ['Status' => 2], ['Unique' => $countID]);
+            $this->db->update('item_count', ['Status' => 2,
+                'Updated' => date('Y-m-d H:i:s'),
+                'UpdatedBy' => $this->session->userdata('userid'),
+            ], ['Unique' => $countID]);
             $this->db->trans_complete();
             $this->db->trans_start();
             $this->db->update('item_count_list', ['Status' => 2], ['CountUnique' => $countID]);
