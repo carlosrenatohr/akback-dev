@@ -3,7 +3,7 @@
         <div style=" width:100%;float:left;margin: 15px 0;">
 
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Gift Card?</div>
+                <div style=" float:left; padding:8px; text-align:left; width:175px; font-weight:bold;">Gift Card?</div>
                 <div style=" float:left; width:120px;">
                     <div id="iteminventory_giftcard"
                          style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
@@ -21,7 +21,7 @@
                         </jqx-radio-button>
                     </div>
                 </div>
-                <div style=" float:left; width: 165px;padding:8px; text-align:right; font-weight:bold;">Group?</div>
+                <div style=" float:left; width: 165px;padding:8px; text-align:left;width:175px; font-weight:bold;">Group?</div>
                 <div style="float:left; width:120px;">
                     <div id="iteminventory_group"
                          style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
@@ -42,7 +42,7 @@
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Ask for Price?</div>
+                <div style=" float:left; padding:8px; text-align:left; width:175px; font-weight:bold;">Ask for Price?</div>
                 <div style=" float:left; width:120px;">
                     <div id="iteminventory_promptprice"
                          style="display: inline-block;margin: -8px 0 0 0;">
@@ -60,7 +60,7 @@
                         </jqx-radio-button>
                     </div>
                 </div>
-                <div style=" float:left; padding:8px; text-align:right; font-weight:bold;">Ask for Description?</div>
+                <div style=" float:left; padding:8px; text-align:left;width:175px;font-weight:bold;">Ask for Description?</div>
                 <div style=" float:left; width:120px;">
                     <div id="iteminventory_promptdescription"
                          style="display: inline-block;margin: -8px 0 0 0;">
@@ -81,7 +81,7 @@
             </div>
 
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">EBT?</div>
+                <div style=" float:left; padding:8px; text-align:left; width:175px; font-weight:bold;">EBT?</div>
                 <div style=" float:left; width:300px;">
                     <div id="iteminventory_EBT"
                          style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Points</div>
+                <div style=" float:left; padding:8px; text-align:left; width:175px; font-weight:bold;">Points</div>
                 <div style=" float:left; width:120px;">
                     <jqx-number-input
                         style='margin-top: 3px;' class="item_textcontrol"
@@ -112,7 +112,7 @@
                         data-field="Points"
                     ></jqx-number-input>
                 </div>
-                <div style="float:left; padding:8px; text-align:right; width:120px; font-weight:bold;"
+                <div style="float:left; padding:8px; text-align:left; width:175px; font-weight:bold;"
                 >Minimum Age</div>
                 <div style=" float:left; width:120px;">
                     <jqx-number-input
@@ -126,7 +126,7 @@
                 </div>
             </div>
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Countdown</div>
+                <div style=" float:left; padding:8px; text-align:left; width:175px; font-weight:bold;">Countdown</div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
                         style='margin-top: 3px;' class="item_textcontrol"

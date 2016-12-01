@@ -279,8 +279,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             //$('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
             // $('#item_subcategory').jqxComboBox('val', row.SubCategoryId);
             $('#item_subcategory').jqxDropDownList('val', row.SubCategoryId);
-            $('#saveInventoryBtn').prop('disabled', true);
             $('.inventory_tab #item_Item').focus();
+            $('#saveInventoryBtn').prop('disabled', true);
         }, 400);
         // Load images
         $scope.uploader.flow.files = [];
@@ -297,9 +297,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             }, function() {});
 
         //
+        $('#invMainWindow #picture_tab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         $('#invMainWindow #picture_tab').show();
         $('#deleteInventoryBtn').show();
-        $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
         inventoryWind.open();
     };
