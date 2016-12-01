@@ -77,14 +77,24 @@ class Item_count_model extends CI_Model
     }
 
     public function delete($id) {
+        $updated = date('Y-m-d H:i:s');
+        $updatedBy = $this->session->userdata('userid');
         $this->db->trans_start();
         $this->db->where('Unique', $id);
-        $status = $this->db->update('item_count', ['Status' => 0]);
+        $status = $this->db->update('item_count',
+                ['Status' => 0,
+                'Updated' => $updated,
+                'UpdatedBy' => $updatedBy,
+                ]);
         $this->db->trans_complete();
         //
         $this->db->trans_start();
         $this->db->where('CountUnique', $id);
-        $this->db->update('item_count_list', ['Status' => 0]);
+        $this->db->update('item_count_list', [
+            'Updated' => $updated,
+            'UpdatedBy' => $updatedBy,
+            'Status' => 0
+            ]);
         $this->db->trans_complete();
         // UPDATE item_stock_line
         $this->db->trans_start();
@@ -92,6 +102,12 @@ class Item_count_model extends CI_Model
         if ($row['Status'] == 2) {
             $this->db->where('CountUnique', $id);
             $status = $this->db->delete('item_stock_line');
+//            $this->db->update('item_stock_line', [
+//                'Updated' => $updated,
+//                'UpdatedBy' => $updatedBy,
+//                'Status' => 0
+//            ]);
+
         }
         $this->db->trans_complete();
 
