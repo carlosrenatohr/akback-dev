@@ -186,11 +186,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $scope.createOrEditIbrand = 'edit';
                             $scope.icountStatus = 1;
                             $('#icount_countdate').prop('disabled', true);
-                            updateIcountlistGrid($scope.icountID);
-                            //
-                            $('#icountTabs').jqxTabs('enableAt', 1);
-                            $('#icountTabs').jqxTabs('select', 1);
                             $('#finishIcountBtn').show();
+                            //
+                            updateIcountlistGrid($scope.icountID);
+                            setTimeout(function() {
+                                $('#icountTabs').jqxTabs('enableAt', 1);
+                                $('#icountTabs').jqxTabs('select', 1);
+                            }, 150);
                             icountwind.setTitle('Edit Item Count | ID:' + response.id);
                             $('#icountSuccessMsg #msg').html('Item Count created successfully! <br>' +
                                 'Item Count list was built. You can check it at count list subtab. ');
