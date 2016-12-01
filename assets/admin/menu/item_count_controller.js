@@ -133,15 +133,18 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icountTabs').jqxTabs('enableAt', 1);
         }, 250);
         //
-        $('#icount_location').val(row.Location);
-        $('#icount_comment').val(row.Comment);
-        var countDate = new Date(Date.parse(row.CountDate));
-        $("#icount_countdate").jqxDateTimeInput('setDate', countDate);
-        $('#icount_countdate').jqxDateTimeInput({'disabled': true});
+        // setTimeout(function() {
+            $('#icount_location').val(row.Location);
+            $('#icount_comment').val(row.Comment);
+            var countDate = new Date(Date.parse(row.CountDate));
+            $('#icount_countdate').jqxDateTimeInput({formatString: 'MM/dd/yyyy hh:mm tt'});
+            $("#icount_countdate").jqxDateTimeInput('setDate', countDate);
+            $('#icount_countdate').jqxDateTimeInput({'disabled': true});
+            $('#deleteIcountBtn').show();
+            $('#icountTabs').jqxTabs('enableAt', 1);
+            $('#saveIcountBtn').prop('disabled', true);
+        // }, 100);
         //
-        $('#deleteIcountBtn').show();
-        $('#icountTabs').jqxTabs('enableAt', 1);
-        $('#saveIcountBtn').prop('disabled', true);
         icountwind.setTitle('Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment);
         icountwind.open();
     };
