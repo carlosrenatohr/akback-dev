@@ -740,12 +740,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $("#stockl_transTime").jqxDateTimeInput('setDate', transDate);
         }, 100);
         setTimeout(function() {
-            $('#saveStockBtn').prop('disabled', true);
             $('#stockl_currentQty').jqxNumberInput('val', current);
             $('#stockl_addremoveQty').jqxNumberInput('val', adjQty);
             $('#stockl_newQty').jqxNumberInput('val', newQty);
-            $('#stockl_newQty input').select();
-            $('#stockl_newQty').jqxNumberInput('focus');
+            // $('#stockl_newQty input').select();
+            // $('#stockl_newQty').jqxNumberInput('focus');
             $('#saveStockBtn').prop('disabled', true);
         }, 150);
         //
