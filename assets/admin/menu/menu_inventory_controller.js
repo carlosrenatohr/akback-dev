@@ -718,7 +718,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#deleteStockBtn').hide();
             $('#saveStockBtn').prop('disabled', true);
         }, 100);
-        // stocklWind.setTitle('Adjust Quantity | Item: ' + $scope.itemInventoryID + ' | ');
+        stocklWind.setTitle('Adjust Quantity');
         stocklWind.open();
     };
 
