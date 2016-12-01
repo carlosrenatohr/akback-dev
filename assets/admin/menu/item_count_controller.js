@@ -70,9 +70,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var rowBoundIndex = event.args.rowindex;
         if (datafield  == 'CountStock') {
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
-            console.log(row.Difference);
-            var difference = (isNaN(parseFloat(row.Difference))) ? 0 : parseFloat(row.Difference);
-            var newDiff = parseFloat(value) - (difference);
+            var current = (isNaN(parseFloat(row.CurrentStock))) ? 0 : parseFloat(row.CurrentStock);
+            var newDiff = parseFloat(value) - (current);
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,

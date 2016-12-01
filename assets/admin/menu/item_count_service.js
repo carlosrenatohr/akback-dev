@@ -81,15 +81,35 @@
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 if (row.Status == 2) return false;
             };
+
             var cellsrenderer = function (index, column, value, defaultHtml) {
+                if (value == '' || value == null) {
+                    var element = $(defaultHtml);
+                    element.html(0);
+                    return element[0].outerHTML;
+                }
+                // return defaultHtml;
                 // var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 // if (row.Status == 1) {
                 //     var element = $(defaultHtml);
                 //     element.css('color', '#999');
                 //     return element[0].outerHTML;
                 // }
-                // return defaultHtml;
+                return defaultHtml;
             };
+
+            var cellsDiff = function (index, column, value, defaultHtml) {
+                var element = $(defaultHtml);
+                var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
+                var diff = parseFloat(row.CountStock) - parseFloat(row.CurrentStock);
+                diff = (isNaN(diff)) ? 0 : diff;
+                element.html(diff);
+                if (diff < 0) {
+                    element.css('color', 'red');
+                }
+                return element[0].outerHTML;
+            };
+
             return {
                 source: new $.jqx.dataAdapter({
                     dataType: 'json',
@@ -130,10 +150,11 @@
                         filtertype: 'number',
                         filtercondition: 'equal,less_than, greater_than'},
                     {text: 'Current', dataField: 'CurrentStock', editable: false,
-                        filtertype: 'number'},
-                    {text: 'Count', dataField: 'CountStock',
+                        cellsrenderer: cellsrenderer, filtertype: 'number'},
+                    {text: 'Count', dataField: 'CountStock', cellsrenderer: cellsrenderer,
                         cellbeginedit: cellbeginedit, filtertype: 'number'},
                     {text: 'Difference', dataField: 'Difference', editable: false,
+                        cellsrenderer: cellsDiff,
                         cellclassname:cellclass, filtertype: 'number',
                         filtercondition: 'equal,less_than, greater_than'
                     },
