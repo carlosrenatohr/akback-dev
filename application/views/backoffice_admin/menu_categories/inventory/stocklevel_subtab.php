@@ -126,7 +126,7 @@
 
             <div class="col-sm-5">
                     <textarea id="stockl_comment" class="form-control stockl_input"
-                    ></textarea>
+                        style="width: 220px;"></textarea>
             </div>
         </div>
         <!--  -->
