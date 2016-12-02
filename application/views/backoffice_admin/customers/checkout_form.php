@@ -125,19 +125,3 @@
     </div>
     </div>
 </jqx-window>
-
-<style>
-    #QuantityControl{
-        width:250px!important;
-    }
-    .icon-32-trash {
-        position: absolute;
-        right:0;
-        background: url("../../assets/img/icon-32-trash.png") 0 5px no-repeat;
-        background-size: 80%;
-        width:25px;
-        height:25px;
-        border:0;
-        outline: 0;
-    }
-</style>

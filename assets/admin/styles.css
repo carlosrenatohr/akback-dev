@@ -46,6 +46,17 @@ div.toolbar-list span {
     background-image: url("../../assets/img/home_icon.png");
 }
 
+.icon-32-trash {
+    position: absolute;
+    right:0;
+    background: url("../../assets/img/backoffice/Delete.png") 0 5px no-repeat;
+    background-size: 80%;
+    width:25px;
+    height:25px;
+    border:0;
+    outline: 0;
+}
+
 .icon-item-brand {
     background-image: url("../img/backoffice/ItemBrand.png");
     background-size: cover;
@@ -366,3 +377,8 @@ div[id="filterrow.inventoryItemsGrid"].jqx-grid-cell-pinned {
 #icountlistGrid .less_than {
      color: red!important;
  }
+
+/* CUSTOMER */
+#QuantityControl {
+    width:250px!important;
+}

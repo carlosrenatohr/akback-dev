@@ -51,6 +51,12 @@
                             jqx-create="addUserWindowSettings" class="userJqxwindows">
                     <div>
                         <!-- HERE is the dynamic title-->
+                        <div class="pull-right">
+                            <button class="icon-32-trash" style="position: relative"
+                                    id=""
+                                    ng-click=""
+                            ></button>
+                        </div>
                     </div>
                     <div>
                         <div class="new-user-form">
