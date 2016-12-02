@@ -113,9 +113,16 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#finishIcountBtn').hide();
         $('#icountTabs').jqxTabs('disableAt', 1);
         //
+        $('#icount_location').jqxDropDownList('val', $('#loc_id').val());
         $('#icount_countdate').jqxDateTimeInput({'disabled': false});
         $('#icount_countdate').jqxDateTimeInput('setDate', new Date());
-        $('#saveIcountBtn').prop('disabled', true);
+        setTimeout(function(){
+            $('#icount_comment').focus();
+            setTimeout(function(){
+                $('#saveIcountBtn').prop('disabled', true);
+            }, 50);
+        }, 50);
+
         // $('#buildCountListBtn').prop('disabled', true);
         icountwind.setTitle('New Item Count');
         icountwind.open();
