@@ -134,9 +134,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         $('#icount_location').val(row.Location);
         $('#icount_comment').val(row.Comment);
+        console.log(row._CountDate);
         var countDate = new Date(Date.parse(row.CountDate));
         $('#icount_countdate').jqxDateTimeInput({formatString: 'MM/dd/yyyy hh:mm tt'});
-        $("#icount_countdate").jqxDateTimeInput('setDate', countDate);
+        $("#icount_countdate").jqxDateTimeInput('setDate', row._CountDate);
         $('#icount_countdate').jqxDateTimeInput({'disabled': true});
         $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('enableAt', 1);

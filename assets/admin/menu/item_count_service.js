@@ -26,6 +26,7 @@
                         {name: 'Updated', type: 'string'},
                         {name: 'UpdatedByName', type: 'string'},
                         {name: 'CountDate', type: 'string'},
+                        {name: '_CountDate', type: 'string'},
                         {name: 'CountDateFormatted', type: 'string'},
                         {name: 'hasCountList', type: 'string'}
                     ],
@@ -42,6 +43,7 @@
                     {text:'Count Date', dataField: 'CountDateFormatted', width: '10%'},
                     {text:'Status', dataField: 'StatusName', width: '10%'},
                     {dataField: 'CountDate', hidden: true},
+                    {dataField: '_CountDate', hidden: true},
                     {dataField: 'Created', hidden: true},
                     {text: 'Created By', dataField: 'CreatedByName', width: '15%'},
                     {text: 'Updated By', dataField: 'UpdatedByName', width: '15%'},
