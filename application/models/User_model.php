@@ -83,7 +83,7 @@ class User_model extends CI_Model
     {
         $position_id = $data['position'];
         unset($data['position']);
-//        $data['Status'] = 1;
+        $data['Status'] = 1;
         $data['Created'] = date('Y-m-d H:i:s');
         $data['CreatedBy'] = $this->session->userdata('userid');
         $data['Suppress'] = 0;
