@@ -420,8 +420,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     resetWindowAddUserForm();
                 }
             }
-        })
-
+        });
     };
 
 
@@ -507,6 +506,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
     }
 
 
+    function enablePositions() {
+        var items = $('#positionByUserCombobox').jqxComboBox('getItems');
+        $.each(items, function(i, ele) {
+            $('#positionByUserCombobox').jqxComboBox('enableItem', ele);
+        });
+    }
+
     function disablePositions(id) {
         var positions = $('#userPositionsTable').jqxGrid('getRows');
         $.each(positions, function(i, el) {
@@ -534,25 +540,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $scope.editPositionByUser = function(e) {
         var values = e.args.row.bounddata;
-        // disablePositions(values.Unique);
-        userPositionWindow.setTitle("Edit position <b>"+ values['PositionName'] + "</b> | Username: <b>" + $scope.editing_username + "</b>");
-
-        var selectedIndexByPosition;
-        var positionCombo = $('#positionByUserCombobox').jqxComboBox('getItemByValue', values['ConfigPositionUnique']);
-        // if (positionCombo != undefined) {
-        //     selectedIndexByPosition = positionCombo.index | 0;
-        // } else selectedIndexByPosition = 0;
-        // $('#positionByUserCombobox').jqxComboBox({'selectedIndex': selectedIndexByPosition});
+        enablePositions();
+        //
         $('#positionByUserCombobox').jqxComboBox('val', values['ConfigPositionUnique']);
-        //
-        // var selectedPayPosition;
-        // var payCombo = $('#payBasisSelect').jqxDropDownList('getItemByValue', values['PayBasis']);
-        // if (payCombo  != undefined) {
-        //     selectedPayPosition = payCombo.index | 0;
-        // } else selectedPayPosition = 0;
-        // $('#payBasisSelect').jqxDropDownList({'selectedIndex': selectedPayPosition});
         $('#payBasisSelect').jqxDropDownList('val', values['PayBasis']);
-        //
         $('#PayRateField').val(values['PayRate']);
         $('#idPositionUserWin').val(values['Unique']);
         //
@@ -567,6 +558,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#primaryPosition').jqxCheckBox({checked: isPrimary});
         $('#positionByUserCombobox').jqxComboBox({disabled: true});
         $('#savePositionuserBtn').prop('disabled', true);
+        userPositionWindow.setTitle(
+            "Edit position <b>"+ values['PositionName'] + "</b> | Username: <b>" + $scope.editing_username + "</b>");
         userPositionWindow.open();
     };
 
