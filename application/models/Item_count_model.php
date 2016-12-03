@@ -13,6 +13,7 @@ class Item_count_model extends CI_Model
           cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
           to_char(date_trunc(\'minutes\', item_count."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
           to_char(date_trunc(\'minutes\', item_count."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Updated,
+          to_char(date_trunc(\'minutes\', item_count."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\')  as "_Updated",
           to_char(date_trunc(\'minutes\', item_count."CountDate"::timestamp), \'MM/DD/YYYY\') as "CountDateFormatted",
           date_trunc(\'minutes\', item_count."CountDate"::timestamp) as "_CountDate",
           (select count("Unique") from item_count_list icl where icl."CountUnique" = item_count."Unique")
