@@ -103,12 +103,12 @@ class Item_count_model extends CI_Model
         $row = $this->db->query("SELECT \"Status\" from item_count where \"Unique\"={$id}")->row_array();
         if ($row['Status'] == 2) {
             $this->db->where('CountUnique', $id);
-            $status = $this->db->delete('item_stock_line');
-//            $this->db->update('item_stock_line', [
-//                'Updated' => $updated,
-//                'UpdatedBy' => $updatedBy,
-//                'Status' => 0
-//            ]);
+//            $status = $this->db->delete('item_stock_line');
+            $this->db->update('item_stock_line', [
+                'Updated' => $updated,
+                'UpdatedBy' => $updatedBy,
+                'Status' => 0
+            ]);
 
         }
         $this->db->trans_complete();
