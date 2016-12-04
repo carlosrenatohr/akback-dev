@@ -124,6 +124,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }, 50);
 
         // $('#buildCountListBtn').prop('disabled', true);
+        $('#icount-filters-container').show();
         icountwind.setTitle('New Item Count');
         icountwind.open();
     };
@@ -141,7 +142,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         $('#icount_location').val(row.Location);
         $('#icount_comment').val(row.Comment);
-        console.log(row._CountDate);
         var countDate = new Date(Date.parse(row.CountDate));
         $('#icount_countdate').jqxDateTimeInput({formatString: 'MM/dd/yyyy hh:mm tt'});
         $("#icount_countdate").jqxDateTimeInput('setDate', row._CountDate);
@@ -150,6 +150,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icountTabs').jqxTabs('enableAt', 1);
         $('#saveIcountBtn').prop('disabled', true);
         //
+        $('#icount-filters-container').hide();
         icountwind.setTitle('Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment);
         icountwind.open();
     };
