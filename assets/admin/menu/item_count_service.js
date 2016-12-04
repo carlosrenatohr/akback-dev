@@ -189,5 +189,60 @@
                 editmode: 'click'
             }
         };
+
+        this.getCategoryFilter = function() {
+            return {
+                source: {
+                    datatype: "json",
+                    datafields: [
+                        {name: 'Unique'},
+                        {name: 'MainName'}
+                    ],
+                    url: SiteRoot + 'admin/MenuItem/getCategoryList',
+                },
+                valueMember: "Unique",
+                displayMember: "MainName",
+                placeHolder: 'Select Category..'
+            };
+        };
+
+        this.getSubcategoryFilter = function(parent) {
+            var url = '';
+            if (parent != undefined)
+                url = SiteRoot + 'admin/MenuItem/getSubcategoryList/' + parent;
+            return {
+                source: {
+                    datatype: "json",
+                    datafields: [
+                        {name: 'Unique'},
+                        {name: 'Name'}
+                    ],
+                    url: url
+                },
+                valueMember: "Unique",
+                displayMember: "Name",
+                placeHolder: 'Select Subcategory..',
+                multiSelect: true
+            };
+        };
+
+        this.getSupplierFilter = function() {
+            return {
+                source: {
+                    datatype: "json",
+                    datafields: [
+                        {name: 'Unique'},
+                        {name: 'Company'}
+                    ],
+                    url: SiteRoot + 'admin/MenuItem/getSupplierList',
+                    //async: false
+                },
+                valueMember: "Unique",
+                displayMember: "Company",
+                placeHolder: 'Select Supplier..',
+                multiSelect: true
+            };
+        };
+
     }
 })();

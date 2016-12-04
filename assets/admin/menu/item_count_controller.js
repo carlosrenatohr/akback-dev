@@ -33,6 +33,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
     // Item Count Grid
     $scope.icountGridSettings = itemCountService.getIcountTableSettings();
     $scope.icountlistGridSettings = itemCountService.getIcountlistTableSettings();
+    $scope.icategoryFilterSettings = itemCountService.getCategoryFilter();
+    $scope.isubcategoryFilterSettings = itemCountService.getSubcategoryFilter();
+    $scope.isupplierFilterSettings = itemCountService.getSupplierFilter();
 
     function updateIcountGrid() {
         $('#icountGrid').jqxGrid({
