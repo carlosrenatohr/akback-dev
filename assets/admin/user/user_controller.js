@@ -77,7 +77,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var eec = (values.EmailEnabled == 'yes') ? 'yes' : 'no';
         var emailEn = $('#emailEnabledField .eecx[data-msg="' + eec +'"]');
         emailEn.jqxRadioButton({ checked:true });
-        $('#deleteAddUserForm').show();
+        // $('#deleteAddUserForm').show();
         $('#positionCombobox').jqxComboBox('val', values['PrimaryPosition']);
         $scope.userId = values['Unique'];
         $scope.editing_username = values['UserName'];
@@ -94,7 +94,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
           '#info_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         //
         var btn = $('<button/>', {
-            'ng-click': 'pressDeleteButton()'
+            'ng-click': 'pressDeleteButton()',
+            'id': 'deleteAddUserForm'
         }).addClass('icon-32-trash user-del-btn'); //Built in styles.css on admin
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         var title = $('<div/>').html('User ID ' + values.Unique + ': | User Name: ' + values.UserName).append(btn);
@@ -120,7 +121,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#addtab5').unblock();
         //
         $('#submitAddUserForm').prop('disabled', true);
-        $('#deleteAddUserForm').hide();
+        // $('#deleteAddUserForm').hide();
         $('.addUserField').css({"border-color": "#ccc"});
         $scope.userId = null;
         //
@@ -234,11 +235,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var tabclicked = event.args.item;
         var tabTitle = $(this).jqxTabs('getTitleAt', tabclicked);
         //
-        if (tabclicked == 0) {
-            $('#deleteAddUserForm').show();
-        } else {
-            $('#deleteAddUserForm').hide();
-        }
+        // if (tabclicked == 0) {
+        //     $('#deleteAddUserForm').show();
+        // } else {
+        //     $('#deleteAddUserForm').hide();
+        // }
         // POSITION TAB
         if(tabTitle == 'Position') {
             if ($scope.userId != null) {
