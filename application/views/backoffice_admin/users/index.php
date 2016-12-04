@@ -113,7 +113,7 @@
                                                 <div class="col-sm-12">
                                                     <button type="button" id="submitAddUserForm" ng-click="submitUserForm()" class="btn btn-primary submitUserBtn" disabled>Save</button>
                                                     <button	type="button" id="cancelAddUserForm" ng-click="closeUserWindows()" class="btn btn-warning cancelUserBtn">Close</button>
-                                                    <button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn" style=" display:none; overflow:auto;">Delete</button>
+                                                    <!--<button	type="button" id="deleteAddUserForm" ng-click="pressDeleteButton()" class="btn btn-danger removeUserBtn" style=" display:none; overflow:auto;">Delete</button>-->
                                                 </div>
                                             </div>
                                         </div>

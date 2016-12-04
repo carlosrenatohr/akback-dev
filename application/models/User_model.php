@@ -34,11 +34,10 @@ class User_model extends CI_Model
         );
         $this->db->join('config_user cuc', 'cuc.Unique = config_user.CreatedBy', 'left');
         $this->db->join('config_user cuu', 'cuu.Unique = config_user.UpdatedBy', 'left');
+        $where = "config_user_position.PrimaryPosition = 1 AND config_user.Status = 1 AND 
+                    (config_user.Suppress = 0 OR config_user.Suppress IS NULL)";
         $query = $this->db
-            ->where('config_user_position.PrimaryPosition', 1)
-            ->where('config_user.Status', 1)
-            ->where('config_user.Suppress', 0)
-            ->or_where('config_user.Suppress', null)
+            ->where($where)
             ->order_by('config_user.Unique', 'DESC')
             ->get();
 //        var_dump($this->db->last_query());exit;

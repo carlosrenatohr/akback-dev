@@ -92,13 +92,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#position_itemTab, #info_itemTab').show();
         $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
           '#info_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
-
+        //
+        var btn = $('<button/>', {
+            'ng-click': 'pressDeleteButton()'
+        }).addClass('icon-32-trash user-del-btn'); //Built in styles.css on admin
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
-        addUserDialog.setTitle('User ID ' + values.Unique + ': | User Name: ' + values.UserName);
+        var title = $('<div/>').html('User ID ' + values.Unique + ': | User Name: ' + values.UserName).append(btn);
+        addUserDialog.setTitle(title);
         addUserDialog.open();
-        //setTimeout(function(){
-        //    $('#add_username').focus();
-        //}, 100);
     };
 
     var resetWindowAddUserForm = function () {
@@ -174,6 +175,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //    addUserDialog.close();
         //} else {}
     };
+
+    $('body').on('click', '.icon-32-trash.user-del-btn', function(e) {
+        $('#sureToDeleteUser').show();
+        $('#addUserButtons').hide();
+    });
 
     $scope.pressDeleteButton = function() {
         $('#sureToDeleteUser').show();

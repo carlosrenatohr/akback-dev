@@ -56,6 +56,10 @@ div.toolbar-list span {
     border:0;
     outline: 0;
 }
+.icon-32-trash.user-del-btn {
+    margin-top: -5px;
+    padding: 10px;
+}
 
 .icon-item-brand {
     background-image: url("../img/backoffice/ItemBrand.png");
