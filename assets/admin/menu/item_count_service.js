@@ -113,7 +113,7 @@
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 var diff = parseFloat(row.CountStock) - parseFloat(row.CurrentStock);
-                diff = (isNaN(diff)) ? 0 : diff;
+                diff = (isNaN(diff)) ? '' : diff;
                 element.html(diff);
                 if (diff < 0) {
                     element.css('color', 'red');
@@ -158,17 +158,15 @@
                     {text: 'Category', dataField: 'Category', editable: false,
                         filtertype: 'list'},
                     {text: 'Cost', dataField: 'Cost', editable: false,
-                        filtertype: 'number',
-                        filtercondition: 'equal,less_than, greater_than'},
+                        filtertype: 'number'},
                     {text: 'Current', dataField: 'CurrentStock', editable: false,
                         cellsrenderer: cellsrenderer, filtertype: 'number'},
-                    {text: 'Count', dataField: 'CountStock', cellsrenderer: cellsrenderer,
-                        cellbeginedit: cellbeginedit, filtertype: 'number'},
+                    {text: 'Count', dataField: 'CountStock',
+                         cellbeginedit: cellbeginedit,
+                        filtertype: 'number'},
                     {text: 'Difference', dataField: 'Difference', editable: false,
-                        cellsrenderer: cellsDiff,
-                        cellclassname:cellclass, filtertype: 'number',
-                        filtercondition: 'equal,less_than, greater_than'
-                    },
+                        cellsrenderer: cellsDiff, cellclassname:cellclass,
+                        filtertype: 'number'},
                     {text: 'Comment', dataField: 'Comment'},
                     {dataField: 'Station', hidden: true},
                     {dataField: 'Created', hidden: true},
