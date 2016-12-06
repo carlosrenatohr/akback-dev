@@ -190,8 +190,14 @@
                     {text: 'Current', dataField: 'CurrentStock', editable: false,
                         cellsrenderer: cellsrenderer, filtertype: 'number'},
                     {text: 'Count', dataField: 'CountStock',
-                         cellbeginedit: cellbeginedit,
-                        filtertype: 'number'},
+                         cellbeginedit: cellbeginedit,filtertype: 'number',
+                        validation: function (cell, value) {
+                            if (value < 0) {
+                                return { result: false, message: "Count Stock must be integer." };
+                            }
+                            return true;
+                        }
+                    },
                     {text: 'Difference', dataField: 'Difference', editable: false,
                         cellsrenderer: cellsDiff, cellclassname:cellclass,
                         filtertype: 'number'},
