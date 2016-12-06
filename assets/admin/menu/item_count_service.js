@@ -111,7 +111,33 @@
             var cellsDiff = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var diff = parseFloat(row.CountStock) - parseFloat(row.CurrentStock);
+                var current = parseFloat(row.CurrentStock);
+                current = (!isNaN(current)) ? current : 0;
+                var diff = parseFloat(row.CountStock) - current;
+                diff = (isNaN(diff)) ? '' : diff;
+                element.html(diff);
+                if (diff < 0) {
+                    element.css('color', 'red');
+                }
+                return element[0].outerHTML;
+            };
+
+            var cellsNCount = function (index, column, value, defaultHtml) {
+                var element = $(defaultHtml);
+                var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
+                var diff = parseFloat(row.CountStock) * parseFloat(row.Cost);
+                diff = (isNaN(diff)) ? '' : diff;
+                element.html(diff);
+                if (diff < 0) {
+                    element.css('color', 'red');
+                }
+                return element[0].outerHTML;
+            };
+
+            var cellsACount = function (index, column, value, defaultHtml) {
+                var element = $(defaultHtml);
+                var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
+                var diff = parseFloat(row.Cost) * parseFloat(row.Difference);
                 diff = (isNaN(diff)) ? '' : diff;
                 element.html(diff);
                 if (diff < 0) {
@@ -131,9 +157,12 @@
                         {name: 'Supplier', type: 'string'},
                         {name: 'SupplierPart', type: 'string'},
                         {name: 'Category', type: 'string'},
+                        {name: 'Cost', type: 'number'},
                         {name: 'CurrentStock', type: 'number'},
                         {name: 'CountStock', type: 'number'},
                         {name: 'Difference', type: 'number'},
+                        {name: 'NewCost', type: 'number'},
+                        {name: 'AdjustedCost', type: 'number'},
                         {name: 'Location', type: 'string'},
                         {name: 'ItemStockLineUnique', type: 'number'},
                         {name: 'Station', type: 'string'},
@@ -167,6 +196,12 @@
                         cellsrenderer: cellsDiff, cellclassname:cellclass,
                         filtertype: 'number'},
                     {text: 'Comment', dataField: 'Comment'},
+                    {text: 'New Cost', dataField: 'NewCost', editable: false,
+                        cellsrenderer: cellsNCount
+                    },
+                    {text: 'Adj Cost', dataField: 'AdjustedCost', editable:false,
+                        cellsrenderer: cellsACount
+                    },
                     {dataField: 'Station', hidden: true},
                     {dataField: 'Created', hidden: true},
                     {dataField: 'Updated', hidden: true},

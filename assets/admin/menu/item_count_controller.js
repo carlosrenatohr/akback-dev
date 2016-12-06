@@ -83,13 +83,17 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
             var current = (isNaN(parseFloat(row.CurrentStock))) ? 0 : parseFloat(row.CurrentStock);
             var newDiff = parseFloat(value) - (current);
+            var nCost = parseFloat(value) * parseFloat(row.Cost);
+            var aCost = parseFloat(row.Cost) * newDiff;
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
                 dataType: 'json',
                 data: {
                     CountStock: value,
-                    Difference: newDiff
+                    Difference: newDiff,
+                    NewCost: nCost,
+                    AdjustedCost: aCost
                 },
                 success: function(response) {
                     $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
@@ -153,7 +157,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         setTimeout(function(){
             updateIcountlistGrid($scope.icountID);
             $('#icountTabs').jqxTabs('enableAt', 1);
-        }, 250);
+        }, 350);
         //
         $('#icount_location').val(row.Location);
         $('#icount_comment').val(row.Comment);
