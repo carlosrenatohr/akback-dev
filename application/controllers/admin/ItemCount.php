@@ -25,7 +25,12 @@ class ItemCount extends AK_Controller
         if (isset($_POST) && !empty($_POST)) {
             $data = $_POST;
             $data['CountDate'] = date('Y-m-d H:i:s', strtotime($data['CountDate']));
-            $id = $this->count->create($data);
+            $filters = null;
+            if (isset($data['filters'])) {
+                $filters = $data['filters'];
+                unset($data['filters']);
+            }
+            $id = $this->count->create($data, $filters);
             if ($id) {
                 $response = [
                     'status' => 'success',

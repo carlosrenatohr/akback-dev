@@ -57,7 +57,7 @@ class Item_count_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
-    public function create($data) {
+    public function create($data, $filters = null) {
         $data['Station'] = $data['Location'];
         $data['Status'] = 1;
         $data['Created'] = date('Y-m-d H:i:s');
@@ -65,7 +65,7 @@ class Item_count_model extends CI_Model
 
         $this->db->insert('item_count', $data);
         $id = $this->db->insert_id();
-        $this->insert_count_list($id, $data['Location']);
+        $this->insert_count_list($id, $data['Location'], $filters);
 
         return $id;
     }
@@ -117,8 +117,30 @@ class Item_count_model extends CI_Model
         return $status;
     }
 
-    public function insert_count_list($countID, $locationID) {
+    public function insert_count_list($countID, $locationID, $filters = null)    {
         $id = $this->session->userdata('userid');
+        //
+        $whereInM = $whereInC = $whereInS = '';
+        if (!is_null($filters)) {
+            if (isset($filters['MainCategory'])) {
+                $whereInM .= " AND IT.\"MainCategory\" = ". $filters['MainCategory'];
+            }
+            if (isset($filters['SubCategory'])) {
+                $filters['SubCategory'] = implode(',', $filters['SubCategory']);
+                $whereInC .= " AND IT.\"CategoryUnique\" IN (".  $filters['SubCategory'] . ')';
+            }
+            if (isset($filters['SupplierUnique'])) {
+                $filters['SupplierUnique'] = implode(',', $filters['SupplierUnique']);
+                $whereInS .= " AND IT.\"SupplierUnique\" IN (". implode(',', $filters['SupplierUnique']) . ')';
+            }
+            $this->db->trans_start();
+            $filters['Status'] = 1;
+            $filters['CountUnique'] = $countID;
+            $filters['Created'] = date('Y-m-d H:i:s');
+            $filters['CreatedBy'] = $id;
+            $this->db->insert('item_count_filter', $filters);
+            $this->db->trans_complete();
+        }
         $query = "
             insert into item_count_list (\"CountUnique\",\"ItemUnique\",\"Item\",\"Part\",\"Description\",\"Category\",     
                         \"SubCategory\",\"Supplier\",\"SupplierPart\",\"Cost\",
@@ -138,9 +160,9 @@ class Item_count_model extends CI_Model
                 (select \"ItemUnique\",sum(\"Quantity\") as \"CurrentStock\" from item_stock_line
                     where \"status\" = 1 and \"LocationUnique\" = ". $locationID ." group by \"ItemUnique\") ST
                 on ST.\"ItemUnique\" = IT.\"Unique\"
-               where IT.\"Status\" = 1)
+              where IT.\"Status\" = 1
+              ". $whereInM.$whereInC.$whereInS.")
         ";
-
         return $this->db->query($query);
     }
 

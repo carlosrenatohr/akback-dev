@@ -32,20 +32,24 @@
             <div style="float:left; padding:2px; width:500px;">
                 <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Category</div>
                 <div style="float:left; width:210px;">
-                    <jqx-combo-box jqx-settings="icategoryFilterSettings"></jqx-combo-box>
+                    <jqx-combo-box id="icategoryFilter" class="icountField"
+                        jqx-settings="icategoryFilterSettings"
+                        jqx-on-change="categoryOnChange($event)"></jqx-combo-box>
                 </div>
             </div>
             <div style="float:left; padding:2px; width:500px;">
                 <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">SubCategory</div>
                 <div style="float:left; width:210px;">
-                    <jqx-combo-box jqx-settings="isubcategoryFilterSettings"
+                    <jqx-combo-box id="isubcategoryFilter" class="icountField"
+                        jqx-settings="isubcategoryFilterSettings"
                         ></jqx-combo-box>
                 </div>
             </div>
             <div style="float:left; padding:2px; width:500px;">
                 <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Supplier</div>
                 <div style="float:left; width:210px;">
-                    <jqx-combo-box jqx-settings="isupplierFilterSettings"
+                    <jqx-combo-box id="isupplierFilter" class="icountField"
+                        jqx-settings="isupplierFilterSettings"
                         ></jqx-combo-box>
                 </div>
             </div>

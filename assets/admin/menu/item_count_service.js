@@ -35,7 +35,7 @@
                     url: SiteRoot + 'admin/ItemCount/load_itemcount'
                 }),
                 columns: [
-                    {text: 'ID', dataField: 'Unique', width: '8%', filterable: false,},
+                    {text: 'ID', dataField: 'Unique', width: '8%', filterable: false},
                     {dataField: 'Location', hidden: true},
                     {dataField: 'Station', hidden: true},
                     {dataField: 'hasCountList', hidden: true},
@@ -201,7 +201,9 @@
                 },
                 valueMember: "Unique",
                 displayMember: "MainName",
-                placeHolder: 'Select Category..'
+                placeHolder: 'Select Category..',
+                height: 30,
+                autoOpen: true
             };
         };
 
@@ -221,7 +223,10 @@
                 valueMember: "Unique",
                 displayMember: "Name",
                 placeHolder: 'Select Subcategory..',
-                multiSelect: true
+                multiSelect: true,
+                showArrow: true,
+                height: 30,
+                autoOpen: true
             };
         };
 
@@ -239,7 +244,10 @@
                 valueMember: "Unique",
                 displayMember: "Company",
                 placeHolder: 'Select Supplier..',
-                multiSelect: true
+                multiSelect: true,
+                showArrow: true,
+                height: 30,
+                autoOpen: true
             };
         };
 

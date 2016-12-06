@@ -49,6 +49,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
         });
     }
 
+    $scope.categoryOnChange = function(e) {
+        if (e.args.item) {
+            var id = e.args.item.value;
+            $scope.isubcategoryFilterSettings = itemCountService.getSubcategoryFilter(id);
+            console.log(id);
+        }
+    };
+
     // Notifications settings
     var notifContainer = '#notification_container_icount';
     $scope.icountSuccessMsg = adminService.setNotificationSettings(1, notifContainer);
@@ -127,6 +135,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }, 50);
 
         // $('#buildCountListBtn').prop('disabled', true);
+        $('#icategoryFilter').jqxComboBox('clearSelection');
+        $('#isubcategoryFilter').jqxComboBox('clearSelection');
+        $('#isupplierFilter').jqxComboBox('clearSelection');
         $('#icount-filters-container').show();
         icountwind.setTitle('New Item Count');
         icountwind.open();
@@ -161,7 +172,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.saveIcount = function(toClose) {
         var required = function() {
             if ($('#icount_comment').val() == '') {
-                $('#ibrandsErrorMsg #msg').html('Name field is required');
+                $('#icountErrorMsg #msg').html('Name field is required');
                 $scope.ibrandsErrorMsg.apply('open');
                 return false;
             }
@@ -174,9 +185,28 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var data = {
                 'Location': $('#icount_location').val(),
                 'Comment': $('#icount_comment').val(),
-                'CountDate': $('#icount_countdate').val()
+                'CountDate': $('#icount_countdate').val(),
+                'filters': {}
             };
             if ($scope.createOrEditIcount == 'create') {
+                var category = $('#icategoryFilter').jqxComboBox('val');
+                if (category != '') {
+                    data.filters.MainCategory = category;
+                    var subcategories = $('#isubcategoryFilter').jqxComboBox('getSelectedItems');
+                    if (subcategories.length) {
+                        data.filters.SubCategory = [];
+                        $.each(subcategories, function(i, el) {
+                            data.filters.SubCategory.push(el.value);
+                        });
+                    }
+                }
+                var suppliers = $('#isupplierFilter').jqxComboBox('getSelectedItems');
+                if (suppliers.length) {
+                    data.filters.SupplierUnique = [];
+                    $.each(suppliers, function(i, el) {
+                        data.filters.SupplierUnique.push(el.value);
+                    });
+                }
                 url = SiteRoot + 'admin/ItemCount/createCount'
             } else if ($scope.createOrEditIcount == 'edit') {
                 url = SiteRoot + 'admin/ItemCount/updateCount/' + $scope.icountID
@@ -201,6 +231,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             setTimeout(function() {
                                 $('#icountTabs').jqxTabs('enableAt', 1);
                                 $('#icountTabs').jqxTabs('select', 1);
+                                $('#icount-filters-container').hide();
                             }, 150);
                             icountwind.setTitle('Edit Item Count | ID:' + response.id);
                             $('#icountSuccessMsg #msg').html('Item Count created successfully! <br>' +
