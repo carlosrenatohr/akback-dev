@@ -345,10 +345,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     if (response.status == 'success') {
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
-                        $('#icountSuccessMsg #msg').html('Item Count has been completed and Stock Adjusted.');
-                        $scope.icountSuccessMsg.apply('open');
                         $('#icountGrid').jqxGrid('refresh');
                         $('#icountGrid').jqxGrid('render');
+                        $('#icountSuccessMsg #msg').html('Item Count has been completed and Stock Adjusted.');
+                        $scope.icountSuccessMsg.apply('open');
                         // icountwind.close();
                     }
                     else if (response.status == 'error') {}

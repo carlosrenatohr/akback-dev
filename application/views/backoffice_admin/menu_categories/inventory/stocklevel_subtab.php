@@ -90,7 +90,7 @@
             <label  class="col-md-3 control-label" style="text-align:right">New Quantity</label>
 
             <div class="col-sm-5">
-                <jqx-number-input id="stockl_newQty" class="stockl_input tochange"
+                <jqx-number-input id="stockl_newQty" class="stockl_input tochange "
                                   jqx-width="200" jqx-height="30"
                                   jqx-spin-buttons="false" jqx-input-mode="simple"
                                   jqx-symbol="''" ng-change="modifyCurrentQty(1)"
