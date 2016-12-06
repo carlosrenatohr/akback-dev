@@ -28,7 +28,7 @@
             </div>
         </div>
         <div id="icount-filters-container" style="max-width: 550px;float: left;display: none;">
-            <label class="control-label" style="margin-left: 2.5em;">Filters</label>
+            <label class="control-label" style="margin-left: 5.5em;">Filters</label>
             <div style="float:left; padding:2px; width:500px;">
                 <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Category</div>
                 <div style="float:left; width:210px;">

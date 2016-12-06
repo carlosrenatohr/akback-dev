@@ -125,6 +125,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icountTabs').jqxTabs('disableAt', 1);
         //
         $('#icount_location').jqxDropDownList('val', $('#loc_id').val());
+        $('#icount_location').jqxDropDownList({'disabled': false});
         $('#icount_countdate').jqxDateTimeInput({'disabled': false});
         $('#icount_countdate').jqxDateTimeInput('setDate', new Date());
         setTimeout(function(){
@@ -160,6 +161,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_countdate').jqxDateTimeInput({formatString: 'MM/dd/yyyy hh:mm tt'});
         $("#icount_countdate").jqxDateTimeInput('setDate', row._CountDate);
         $('#icount_countdate').jqxDateTimeInput({'disabled': true});
+        $('#icount_location').jqxDropDownList({'disabled': true});
         $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('enableAt', 1);
         $('#saveIcountBtn').prop('disabled', true);
@@ -225,6 +227,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $scope.createOrEditIbrand = 'edit';
                             $scope.icountStatus = 1;
                             $('#icount_countdate').prop('disabled', true);
+                            $('#icount_location').jqxDropDownList({'disabled': true});
                             $('#finishIcountBtn').show();
                             //
                             updateIcountlistGrid($scope.icountID);
