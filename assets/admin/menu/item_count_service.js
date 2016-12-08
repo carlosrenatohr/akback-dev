@@ -96,7 +96,7 @@
 
             var cellsCost = function(index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
-                var val = (isNaN(value)) ? '' : value.toFixed(decimalCost);
+                var val = (isNaN(value) || value == '') ? '' : value.toFixed(decimalCost);
                 element.html(val);
                 return element[0].outerHTML;
             };

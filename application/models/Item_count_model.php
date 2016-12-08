@@ -177,6 +177,7 @@ class Item_count_model extends CI_Model
     }
 
     public function finalize_count_list($countID) {
+        var_dump($countID);exit;
         // TODO missing ICL."Cost" as "Cost", after TransactionDate
         $sql = "(
             select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 4 as \"Type\", ICL.\"Difference\" as \"Quantity\",
@@ -194,6 +195,7 @@ class Item_count_model extends CI_Model
                         \"TransactionDate\",\"Comment\",\"trans_date\", \"status\", \"CountUnique\") " . $sql;
         $this->db->trans_start();
         $status = $this->db->query($insert);
+//        var_dump($this->db->last_query());exit;
         $this->db->trans_complete();
         if ($status) {
             $this->db->trans_start();
