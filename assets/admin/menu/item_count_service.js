@@ -103,7 +103,7 @@
 
             var cellsCountStock = function(index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
-                var val = (isNaN(value)) ? 0 : value.toFixed(decimalQty);
+                var val = (isNaN(value) || value == '') ? '' : value.toFixed(decimalQty);
                 element.html(val);
                 return element[0].outerHTML;
             };
@@ -114,13 +114,6 @@
                     value = 0;
                 }
                 element.html(value.toFixed(decimalQty));
-                // return defaultHtml;
-                // var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                // if (row.Status == 1) {
-                //     var element = $(defaultHtml);
-                //     element.css('color', '#999');
-                //     return element[0].outerHTML;
-                // }
 
                 return element[0].outerHTML;
             };
@@ -181,6 +174,7 @@
             var aggregatesrender = function (aggregates, column, element, summaryData) {
                 var renderstring = "<div style='float: left; width: 100%; height: 100%;'>";
                 $.each(aggregates, function (key, value) {
+                    // if (value < 0) {}
                     renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;"><b>' + key + ': ' + value + '</b></div>';
                 });
                 renderstring += "</div>";
@@ -275,7 +269,7 @@
                 theme: 'arctic',
                 showaggregates: true,
                 showstatusbar: true,
-                statusbarheight: 50,
+                statusbarheight: 40,
                 filterable: true,
                 showfilterrow: true,
                 sortable: true,
