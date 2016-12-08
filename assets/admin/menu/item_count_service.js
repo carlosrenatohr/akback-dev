@@ -79,6 +79,8 @@
             if (id != undefined)
                 url = SiteRoot + 'admin/ItemCount/load_allitemcountlist/' + id;
 
+            var decimalCost = parseInt($('#decimalCost').val());
+            var decimalQty = parseInt($('#decimalQty').val());
             // to change font color if is negative
             var cellclass = function (row, datafield, value, rowdata) {
                 if (value < 0) {
@@ -92,12 +94,26 @@
                 if (row.Status == 2) return false;
             };
 
-            var cellsrenderer = function (index, column, value, defaultHtml) {
+            var cellsCost = function(index, column, value, defaultHtml) {
+                var element = $(defaultHtml);
+                var val = (isNaN(value)) ? '' : value.toFixed(decimalCost);
+                element.html(val);
+                return element[0].outerHTML;
+            };
+
+            var cellsCountStock = function(index, column, value, defaultHtml) {
+                var element = $(defaultHtml);
+                var val = (isNaN(value)) ? 0 : value.toFixed(decimalQty);
+                element.html(val);
+                return element[0].outerHTML;
+            };
+
+            var cellsCurrentStock = function (index, column, value, defaultHtml) {
+                var element = $(defaultHtml);
                 if (value == '' || value == null) {
-                    var element = $(defaultHtml);
-                    element.html(0);
-                    return element[0].outerHTML;
+                    value = 0;
                 }
+                element.html(value.toFixed(decimalQty));
                 // return defaultHtml;
                 // var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 // if (row.Status == 1) {
@@ -105,7 +121,8 @@
                 //     element.css('color', '#999');
                 //     return element[0].outerHTML;
                 // }
-                return defaultHtml;
+
+                return element[0].outerHTML;
             };
 
             var cellsDiff = function (index, column, value, defaultHtml) {
@@ -114,11 +131,13 @@
                 var current = parseFloat(row.CurrentStock);
                 current = (!isNaN(current)) ? current : 0;
                 var diff = parseFloat(row.CountStock) - current;
-                diff = (isNaN(diff)) ? '' : diff;
+                diff = (isNaN(diff)) ? '' : diff.toFixed(decimalQty);
                 element.html(diff);
+                // element.css('text-align', 'right');
                 if (diff < 0) {
                     element.css('color', 'red');
                 }
+
                 return element[0].outerHTML;
             };
 
@@ -126,7 +145,7 @@
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 var diff = parseFloat(row.CountStock) * parseFloat(row.Cost);
-                diff = (isNaN(diff)) ? '' : diff;
+                diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
                 element.html(diff);
                 if (diff < 0) {
                     element.css('color', 'red');
@@ -138,12 +157,34 @@
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 var diff = parseFloat(row.Cost) * parseFloat(row.Difference);
-                diff = (isNaN(diff)) ? '' : diff;
+                diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
                 element.html(diff);
                 if (diff < 0) {
                     element.css('color', 'red');
                 }
                 return element[0].outerHTML;
+            };
+
+            var aggregates = function (aggregatedValue, currentValue, column, record) {
+                var fixed = 0;
+                if (column == 'Cost' || column == 'NewCost' || column == 'AdjustedCost') {
+                    fixed = decimalCost;
+                }
+                if (column == 'CurrentStock' || column == 'CountStock' || column == 'Difference') {
+                    fixed = decimalQty;
+                }
+
+                return (Math.floor(aggregatedValue) + Math.floor(currentValue)).toFixed(fixed); //.toFixed(decimals);
+                // return aggregatedValue + 1; //.toFixed(decimals);
+            };
+
+            var aggregatesrender = function (aggregates, column, element, summaryData) {
+                var renderstring = "<div style='float: left; width: 100%; height: 100%;'>";
+                $.each(aggregates, function (key, value) {
+                    renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;"><b>' + key + ': ' + value + '</b></div>';
+                });
+                renderstring += "</div>";
+                return renderstring;
             };
 
             return {
@@ -178,35 +219,51 @@
                 }),
                 columns: [
                     {dataField: 'Unique', hidden: true},
-                    {text: 'Item', dataField: 'Item', editable: false},
-                    {text: 'Part', dataField: 'Part', editable: false},
-                    {text: 'Description', dataField: 'Description', editable: false},
+                    {text: 'Item', dataField: 'Item', editable: false, width: '8%'},
+                    {text: 'Part', dataField: 'Part', editable: false, width: '7%'},
+                    {text: 'Description', dataField: 'Description', editable: false, width: '10%'},
                     {text: 'Supplier', dataField: 'Supplier', editable: false,
-                        filtertype: 'list'},
+                        filtertype: 'list', width: '8%'},
                     {text: 'Category', dataField: 'Category', editable: false,
-                        filtertype: 'list'},
+                        filtertype: 'list', width: '8%'},
                     {text: 'Cost', dataField: 'Cost', editable: false,
-                        filtertype: 'number'},
+                        filtertype: 'number', width: '8%',
+                        aggregates: [{ 'Total': aggregates }],
+                        aggregatesrenderer: aggregatesrender,
+                        cellsrenderer: cellsCost,
+                        cellsalign: 'right', align: 'right'
+                    },
                     {text: 'Current', dataField: 'CurrentStock', editable: false,
-                        cellsrenderer: cellsrenderer, filtertype: 'number'},
-                    {text: 'Count', dataField: 'CountStock',
-                         cellbeginedit: cellbeginedit,filtertype: 'number',
-                        validation: function (cell, value) {
+                        cellsrenderer: cellsCurrentStock, filtertype: 'number',
+                        cellsalign: 'right', align: 'right', width: '8%',
+                        aggregates: [{ 'Total': aggregates }],
+                        aggregatesrenderer: aggregatesrender},
+                    {text: 'Count', dataField: 'CountStock', width: '8%',
+                         cellbeginedit: cellbeginedit,
+                         cellsrenderer: cellsCountStock, filtertype: 'number',
+                         cellsalign: 'right', align: 'right',
+                         aggregates: [{ 'Total': aggregates }],
+                         aggregatesrenderer: aggregatesrender,
+                         validation: function (cell, value) {
                             if (value < 0) {
                                 return { result: false, message: "Count Stock must be integer." };
                             }
                             return true;
                         }
                     },
-                    {text: 'Difference', dataField: 'Difference', editable: false,
+                    {text: 'Difference', dataField: 'Difference', editable: false, width: '8%',
                         cellsrenderer: cellsDiff, cellclassname:cellclass,
-                        filtertype: 'number'},
-                    {text: 'Comment', dataField: 'Comment'},
-                    {text: 'New Cost', dataField: 'NewCost', editable: false,
-                        cellsrenderer: cellsNCount
+                        filtertype: 'number',cellsalign: 'right', align: 'right',
+                        aggregates: [{ 'Total': aggregates }],
+                        aggregatesrenderer: aggregatesrender},
+                    {text: 'Comment', dataField: 'Comment', width: '10%'},
+                    {text: 'New Cost', dataField: 'NewCost', editable: false, width: '8%',
+                        cellsrenderer: cellsNCount,
+                        cellsalign: 'right', align: 'right'
                     },
                     {text: 'Adj Cost', dataField: 'AdjustedCost', editable:false,
-                        cellsrenderer: cellsACount
+                        cellsrenderer: cellsACount, width: '8%',
+                        cellsalign: 'right', align: 'right'
                     },
                     {dataField: 'Station', hidden: true},
                     {dataField: 'Created', hidden: true},
@@ -214,8 +271,11 @@
                     {dataField: 'CreatedBy', hidden: true},
                     {dataField: 'UpdatedBy', hidden: true}
                 ],
-                width: "99.7%",
+                width: "100%",
                 theme: 'arctic',
+                showaggregates: true,
+                showstatusbar: true,
+                statusbarheight: 50,
                 filterable: true,
                 showfilterrow: true,
                 sortable: true,
@@ -226,7 +286,8 @@
                 autoheight: true,
                 autorowheight: true,
                 editable: true,
-                editmode: 'click'
+                editmode: 'click',
+
             }
         };
 

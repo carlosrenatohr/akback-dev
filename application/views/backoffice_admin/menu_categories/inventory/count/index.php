@@ -65,6 +65,8 @@
                             <?php $this->load->view($list_subtab); ?>
                         </div>
                     </jqx-tabs>
+                    <input type="hidden" id="decimalCost" value="<?php echo $decimalCost;?>">
+                    <input type="hidden" id="decimalQty" value="<?php echo $decimalQty;?>">
 
 <!--                    <!-- Main buttons before saving item on grid -->
                     <div class="col-md-12 col-md-offset-0">

@@ -9,6 +9,7 @@
 class ItemController extends AK_Controller
 {
 
+    protected $decimalCost, $decimalQty;
     public function __construct()
     {
         parent::__construct();
@@ -53,10 +54,15 @@ class ItemController extends AK_Controller
     }
 
     public function countPage() {
+        $station = $this->session->userdata("station_number");
+        $this->getSettingLocation('DecimalsCost', $station);
+        $this->getSettingLocation('DecimalsQuantity', $station);
+        //
         $data['currentuser'] = $this->session->userdata("currentuser");
-        $data['station'] = $this->session->userdata("station_number");
+        $data['decimalCost'] = $this->session->userdata('admin_DecimalsCost');
+        $data['decimalQty'] = $this->session->userdata('admin_DecimalsQuantity');
+        $data['station'] = $station;
         $data['page_title'] = "Item Count";
-        $data['station'] = $this->session->userdata("station_number");
         $data['storename'] = $this->displaystore();
         $data['locations'] = $this->getLocations();
         $count_path = 'backoffice_admin/menu_categories/inventory/count/';
