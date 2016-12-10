@@ -16,17 +16,18 @@ class Item_count_model extends CI_Model
           to_char(date_trunc(\'minutes\', item_count."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\')  as "_Updated",
           to_char(date_trunc(\'minutes\', item_count."CountDate"::timestamp), \'MM/DD/YYYY\') as "CountDateFormatted",
           date_trunc(\'minutes\', item_count."CountDate"::timestamp) as "_CountDate",
-          (select count("Unique") from item_count_list icl where icl."CountUnique" = item_count."Unique")
-            as "hasCountList",
             case when item_count."Status" = 1 then \'In Progress\'
                  when item_count."Status" = 2 then \'Complete\' 
                  else \'Other\'
             end as "StatusName",
+          icf."MainCategory" as "CategoryFilter", icf."SubCategory" as "SubCategoryFilter",
+          icf."SupplierUnique" as "SupplierFilter" 
           ', false);
         $this->db->from('item_count');
         $this->db->join('config_location cl', 'cl.Unique = item_count.Location', 'left');
         $this->db->join('config_user cu1', 'cu1.Unique = item_count.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count.UpdatedBy', 'left');
+        $this->db->join('item_count_filter icf', 'icf.CountUnique = item_count.Unique', 'left');
         $this->db->where('item_count.Status!=', 0);
         $this->db->order_by('item_count.Created', 'DESC');
         return $this->db->get()->result_array();

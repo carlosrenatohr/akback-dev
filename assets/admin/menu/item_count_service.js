@@ -29,7 +29,9 @@
                         {name: 'CountDate', type: 'string'},
                         {name: '_CountDate', type: 'string'},
                         {name: 'CountDateFormatted', type: 'date'},
-                        {name: 'hasCountList', type: 'string'}
+                        {name: 'CategoryFilter', type: 'string'},
+                        {name: 'SubCategoryFilter', type: 'string'},
+                        {name: 'SupplierFilter', type: 'string'}
                     ],
                     id: 'Unique',
                     url: SiteRoot + 'admin/ItemCount/load_itemcount'
@@ -38,7 +40,6 @@
                     {text: 'ID', dataField: 'Unique', width: '8%', filterable: false},
                     {dataField: 'Location', hidden: true},
                     {dataField: 'Station', hidden: true},
-                    {dataField: 'hasCountList', hidden: true},
                     {text: 'Location', dataField: 'LocationName', width: '12%',
                         filtertype: 'list'},
                     {text: 'Comment', dataField: 'Comment', width: '20%'},
@@ -280,8 +281,7 @@
                 autoheight: true,
                 autorowheight: true,
                 editable: true,
-                editmode: 'click',
-
+                editmode: 'click'
             }
         };
 
@@ -299,7 +299,7 @@
                 displayMember: "MainName",
                 placeHolder: 'Select Category..',
                 height: 30,
-                autoOpen: true
+                // autoOpen: true
             };
         };
 
@@ -322,7 +322,7 @@
                 multiSelect: true,
                 showArrow: true,
                 height: 30,
-                autoOpen: true
+                // autoOpen: true
             };
         };
 
@@ -343,7 +343,7 @@
                 multiSelect: true,
                 showArrow: true,
                 height: 30,
-                autoOpen: true
+                // autoOpen: true
             };
         };
 

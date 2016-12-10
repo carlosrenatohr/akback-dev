@@ -68,6 +68,7 @@ class ItemController extends AK_Controller
         $count_path = 'backoffice_admin/menu_categories/inventory/count/';
         $data['count_subtab'] = $count_path . 'count_subtab';
         $data['list_subtab'] = $count_path . 'count_list_subtab';
+        $data['filters_subtab'] = $count_path . 'filters_subtab';
         //
         $data['main_content'] = $count_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);

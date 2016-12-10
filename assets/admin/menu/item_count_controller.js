@@ -53,7 +53,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (e.args.item) {
             var id = e.args.item.value;
             $scope.isubcategoryFilterSettings = itemCountService.getSubcategoryFilter(id);
-            console.log(id);
         }
     };
 
@@ -143,7 +142,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icategoryFilter').jqxComboBox('clearSelection');
         $('#isubcategoryFilter').jqxComboBox('clearSelection');
         $('#isupplierFilter').jqxComboBox('clearSelection');
-        $('#icount-filters-container').show();
+        $('.icountField.filters').jqxComboBox({disabled: false});
         icountwind.setTitle('New Item Count');
         icountwind.open();
     };
@@ -155,7 +154,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.createOrEditIcount = 'edit';
         //
         setTimeout(function(){
-            updateIcountlistGrid($scope.icountID);
+            updateIcountlistGrid(row.Unique);
             $('#icountTabs').jqxTabs('enableAt', 1);
         }, 350);
         //
@@ -166,11 +165,29 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $("#icount_countdate").jqxDateTimeInput('setDate', row._CountDate);
         $('#icount_countdate').jqxDateTimeInput({'disabled': true});
         $('#icount_location').jqxDropDownList({'disabled': true});
+        //
+        if (row.CategoryFilter != null && row.CategoryFilter != '') {
+            $('#icategoryFilter').jqxComboBox('selectItem', row.CategoryFilter);
+        }
+        setTimeout(function() {
+            if (row.SubCategoryFilter != null && row.SubCategoryFilter != '') {
+                var sub = row.SubCategoryFilter.split(',');
+                $.each(sub, function(i,el) {
+                    $('#isubcategoryFilter').jqxComboBox('selectItem', el);
+                });
+            }
+            $('#saveIcountBtn').prop('disabled', true);
+        }, 300);
+        if (row.SupplierFilter != null && row.SupplierFilter != '') {
+            var supp = row.SupplierFilter.split(',');
+            $.each(supp, function(i,el) {
+                $('#isupplierFilter').jqxComboBox('selectItem', el);
+            });
+        }
+        //
         $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('enableAt', 1);
-        $('#saveIcountBtn').prop('disabled', true);
-        //
-        $('#icount-filters-container').hide();
+        $('.icountField.filters').jqxComboBox({disabled: true});
         icountwind.setTitle('Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment);
         icountwind.open();
     };

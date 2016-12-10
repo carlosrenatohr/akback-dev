@@ -55,6 +55,7 @@
                         <ul>
                             <li>Count</li>
                             <li>Count List</li>
+                            <li>Filters</li>
                         </ul>
                         <!-- Count subtab -->
                         <div class="">
@@ -63,6 +64,10 @@
                         <!-- Count List subtab -->
                         <div class="">
                             <?php $this->load->view($list_subtab); ?>
+                        </div>
+                        <!-- Count Filters subtab -->
+                        <div class="">
+                            <?php $this->load->view($filters_subtab); ?>
                         </div>
                     </jqx-tabs>
                     <input type="hidden" id="decimalCost" value="<?php echo $decimalCost;?>">
@@ -74,12 +79,12 @@
                             <div id="mainIcountBtns" class="">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button type="button" id="saveIcountBtn"
-                                                ng-click="saveIcount()" class="btn btn-primary" disabled
-                                            >Save</button>
                                         <button type="button" ng-click="closeIcount()"
                                                 class="btn btn-warning"
-                                            >Close</button>
+                                        >Close</button>
+                                        <button type="button" id="saveIcountBtn"
+                                                ng-click="saveIcount()" class="btn btn-primary" disabled
+                                            >Build Count List</button>
                                         <button type="button" id="deleteIcountBtn" ng-click="deleteIcount()"
                                                 class="btn btn-danger" style="overflow:auto;display: none;"
                                             >Delete</button>
