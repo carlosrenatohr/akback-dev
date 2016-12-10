@@ -3,6 +3,8 @@
 class ItemCount extends AK_Controller
 {
 
+
+
     public function __construct()
     {
         parent::__construct();
@@ -17,24 +19,7 @@ class ItemCount extends AK_Controller
 
     public function load_allitemcountlist($id)
     {
-//        $station = $this->session->userdata("station_number");
-//        $this->getSettingLocation('DecimalsCost', $station);
-//        $this->getSettingLocation('DecimalsQuantity', $station);
-//        $dcost = $this->session->userdata('admin_DecimalsCost');
-//        $dqty = $this->session->userdata('admin_DecimalsQuantity');
-
         $result = $this->count->getLists($id);
-//        $nresult = [];
-//        foreach ($result as $row) {
-//            $row['Cost'] = number_format($row['Cost'], $dcost);
-//            $row['AdjustedCost'] = number_format($row['AdjustedCost'], $dcost);
-//            $row['NewCost'] = number_format($row['NewCost'], $dcost);
-//            $row['CurrentStock'] = number_format($row['CurrentStock'], $dqty);
-//            $row['CountStock'] = number_format($row['CountStock'], $dqty);
-//            $row['Difference'] = number_format($row['Difference'], $dqty);
-//            $nresult[] = $row;
-//        }
-
         echo json_encode($result);
     }
 
@@ -141,6 +126,5 @@ class ItemCount extends AK_Controller
 
         echo json_encode($response);
     }
-
 
 }

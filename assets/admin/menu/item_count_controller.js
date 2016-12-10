@@ -345,6 +345,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     if (response.status == 'success') {
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
+                        $('#finishIcountBtn').hide();
                         $('#icountGrid').jqxGrid('refresh');
                         $('#icountGrid').jqxGrid('render');
                         $('#icountSuccessMsg #msg').html('Item Count has been completed and Stock Adjusted.');

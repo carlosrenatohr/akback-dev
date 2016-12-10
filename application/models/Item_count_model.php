@@ -177,37 +177,48 @@ class Item_count_model extends CI_Model
     }
 
     public function finalize_count_list($countID) {
-        var_dump($countID);exit;
         // TODO missing ICL."Cost" as "Cost", after TransactionDate
-        $sql = "(
-            select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 4 as \"Type\", ICL.\"Difference\" as \"Quantity\",
+        $select = "select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 4 as \"Type\", ICL.\"Difference\" as \"Quantity\",
             ICL.\"CreatedBy\" as \"CreatedBy\", now() as \"Created\", IC.\"CountDate\" as \"TransactionDate\",
             ICL.\"Comment\" as \"Comment\", 
             IC.\"CountDate\"::date as \"trans_date\",
-            1 as \"status\", ICL.\"Unique\" as \"CountUnique\"
-            from item_count IC
+            1 as \"status\", ICL.\"Unique\" as \"CountUnique\"";
+        $from = "from item_count IC
             join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\"
             where ICL.\"CountUnique\" = {$countID}
-             and ICL.\"CountStock\" is not null)"; // and "Difference" is not null
-
-        $insert = "
-          insert into item_stock_line(\"ItemUnique\",\"LocationUnique\",\"Type\",\"Quantity\",\"CreatedBy\",\"Created\",     
-                        \"TransactionDate\",\"Comment\",\"trans_date\", \"status\", \"CountUnique\") " . $sql;
+            and ICL.\"CountStock\" is not null"; // and "Difference" is not null
+        //
+        $sql = "(". $select . $from . ")";
+        $insert = "insert into item_stock_line(\"ItemUnique\",\"LocationUnique\",\"Type\",\"Quantity\",\"CreatedBy\",     
+                    \"Created\",\"TransactionDate\",\"Comment\",\"trans_date\", \"status\", \"CountUnique\") " . $sql;
+        // Insert into item_stock_line
         $this->db->trans_start();
         $status = $this->db->query($insert);
-//        var_dump($this->db->last_query());exit;
         $this->db->trans_complete();
         if ($status) {
+            // Update Status on Count list item
             $this->db->trans_start();
             $this->db->update('item_count', ['Status' => 2,
                 'Updated' => date('Y-m-d H:i:s'),
                 'UpdatedBy' => $this->session->userdata('userid'),
             ], ['Unique' => $countID]);
             $this->db->trans_complete();
-            $this->db->trans_start();
-            $this->db->update('item_count_list', ['Status' => 2], ['CountUnique' => $countID]);
-            $this->db->trans_complete();
+            // Update Status on Count list item
+            $icl = 'select isl."Unique" as id, isl."CountUnique" as countid from item_stock_line isl
+                    where isl."CountUnique" in (select ICL."Unique"' . $from. ")";
+            $ids = $this->db->query($icl)->result_array();
+            foreach ($ids as $row) {
+                $this->db->trans_start();
+                $this->db->update('item_count_list',
+                    ['Status' => 2 , 'ItemStockLineUnique' => $row['id']],
+                    ['Unique' => $row['countid']]);
+//                $this->db->update('item_count_list',
+//                    ['Status' => 2 ],
+//                    ['CountUnique' => $countID]);
+                $this->db->trans_complete();
+            }
         }
+
         return $status;
     }
 
