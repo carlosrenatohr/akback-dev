@@ -96,21 +96,21 @@
 
             var cellsCost = function(index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
-                var val = (isNaN(value) || value == '') ? '' : value.toFixed(decimalCost);
+                var val = (isNaN(value) || value === '') ? '' : value.toFixed(decimalCost);
                 element.html(val);
                 return element[0].outerHTML;
             };
 
             var cellsCountStock = function(index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
-                var val = (isNaN(value) || value == '') ? '' : value.toFixed(decimalQty);
+                var val = (isNaN(value) || value === '') ? '' : value.toFixed(decimalQty);
                 element.html(val);
                 return element[0].outerHTML;
             };
 
             var cellsCurrentStock = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
-                if (value == '' || value == null) {
+                if (value === '' || value == null) {
                     value = 0;
                 }
                 element.html(value.toFixed(decimalQty));
@@ -175,7 +175,7 @@
                 var renderstring = "<div style='float: left; width: 100%; height: 100%;'>";
                 $.each(aggregates, function (key, value) {
                     // if (value < 0) {}
-                    renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;"><b>' + key + ': ' + value + '</b></div>';
+                    renderstring += '<div style="position: relative; margin: 6px; text-align: right; overflow: hidden;"><b> ' + value + '</b></div>';
                 });
                 renderstring += "</div>";
                 return renderstring;
@@ -240,7 +240,7 @@
                          aggregatesrenderer: aggregatesrender,
                          validation: function (cell, value) {
                             if (value < 0) {
-                                return { result: false, message: "Count Stock must be integer." };
+                                return { result: false, message: "Count must be greater than or equal to 0." };
                             }
                             return true;
                         }
