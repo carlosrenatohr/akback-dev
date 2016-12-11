@@ -254,11 +254,15 @@
                     {text: 'Comment', dataField: 'Comment', width: '10%'},
                     {text: 'New Cost', dataField: 'NewCost', editable: false, width: '8%',
                         cellsrenderer: cellsNCount,
-                        cellsalign: 'right', align: 'right'
+                        cellsalign: 'right', align: 'right',
+                        aggregates: [{ 'Total': aggregates }],
+                        aggregatesrenderer: aggregatesrender
                     },
                     {text: 'Adj Cost', dataField: 'AdjustedCost', editable:false,
                         cellsrenderer: cellsACount, width: '8%',
-                        cellsalign: 'right', align: 'right'
+                        cellsalign: 'right', align: 'right',
+                        aggregates: [{ 'Total': aggregates }],
+                        aggregatesrenderer: aggregatesrender
                     },
                     {dataField: 'Station', hidden: true},
                     {dataField: 'Created', hidden: true},
