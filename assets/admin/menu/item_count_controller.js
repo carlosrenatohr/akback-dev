@@ -6,10 +6,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var tab = e.args.item;
         var tabTitle = $('#icountTabs').jqxTabs('getTitleAt', tab);
         if (tab == 0) {
-            $('#deleteIcountBtn').show();
+            // $('#deleteIcountBtn').show();
             $('#finishIcountBtn').hide();
         } else if (tab == 1) {
-            $('#deleteIcountBtn').hide();
+            // $('#deleteIcountBtn').hide();
             if ($scope.icountStatus == 1)
                 $('#finishIcountBtn').show();
             else // 0=deleted; 2=finished; null
@@ -123,7 +123,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_comment').val('');
         $('#icount_countdate').jqxDateTimeInput({'disabled': false});
         //
-        $('#deleteIcountBtn').hide();
+        // $('#deleteIcountBtn').hide();
         $('#finishIcountBtn').hide();
         $('#icountTabs').jqxTabs('disableAt', 1);
         //
@@ -185,10 +185,16 @@ angular.module("akamaiposApp", ['jqwidgets'])
             });
         }
         //
-        $('#deleteIcountBtn').show();
+        // $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('enableAt', 1);
         $('.icountField.filters').jqxComboBox({disabled: true});
-        icountwind.setTitle('Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment);
+        var btn = $('<button/>', {
+            'ng-click': 'finishIcount()',
+            'id': 'deleteIcountBtn'
+        }).addClass('icon-32-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html(' Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment).prepend(btn)
+            .css('padding-left', '2em');
+        icountwind.setTitle(title);
         icountwind.open();
     };
 
@@ -307,6 +313,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }
         }
     };
+
+    $('body').on('click', '#deleteIcountBtn', function(e) {
+        $scope.deleteIcount();
+    });
 
     $scope.deleteIcount = function(option) {
         if(option != undefined) {

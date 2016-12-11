@@ -85,9 +85,9 @@
                                         <button type="button" id="saveIcountBtn"
                                                 ng-click="saveIcount()" class="btn btn-primary" disabled
                                             >Build Count List</button>
-                                        <button type="button" id="deleteIcountBtn" ng-click="deleteIcount()"
-                                                class="btn btn-danger" style="overflow:auto;display: none;"
-                                            >Delete</button>
+<!--                                        <button type="button" id="deleteIcountBtn" ng-click="deleteIcount()"-->
+<!--                                                class="btn btn-danger" style="overflow:auto;display: none;"-->
+<!--                                            >Delete</button>-->
                                         <button type="button" id="finishIcountBtn" ng-click="finishIcount()"
                                                 class="btn btn-success" style="overflow:auto;display: none;"
                                             >Finish Count</button>
