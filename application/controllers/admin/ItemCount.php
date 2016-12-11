@@ -37,7 +37,7 @@ class ItemCount extends AK_Controller
                 $response = [
                     'status' => 'success',
                     'message' => 'Count created successfully',
-                    'id' => $id
+                    'id' => $id,
                 ];
             } else
                 $response = $this->dbErrorMsg();

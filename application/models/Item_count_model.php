@@ -117,6 +117,16 @@ class Item_count_model extends CI_Model
                 where subquery.id = item_stock_line.\"CountUnique\"";
         $this->db->query($isl);
         $this->db->trans_complete();
+        // Soft Delete item_count_filter table
+        $this->db->trans_start();
+        $this->db->where('CountUnique', $id);
+        $this->db->update('item_count_filter', [
+            'Updated' => $updated,
+            'UpdatedBy' => $updatedBy,
+            'Status' => 0
+        ]);
+        $this->db->trans_complete();
+
 
         return $status;
     }
@@ -135,7 +145,7 @@ class Item_count_model extends CI_Model
             }
             if (isset($filters['SupplierUnique'])) {
                 $filters['SupplierUnique'] = implode(',', $filters['SupplierUnique']);
-                $whereInS .= " AND IT.\"SupplierUnique\" IN (". implode(',', $filters['SupplierUnique']) . ')';
+                $whereInS .= " AND IT.\"SupplierUnique\" IN (". $filters['SupplierUnique'] . ')';
             }
             $this->db->trans_start();
             $filters['Status'] = 1;

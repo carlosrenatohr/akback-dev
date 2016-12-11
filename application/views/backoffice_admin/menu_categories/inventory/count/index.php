@@ -54,20 +54,20 @@
                               id="icountTabs">
                         <ul>
                             <li>Count</li>
-                            <li>Count List</li>
                             <li>Filters</li>
+                            <li>Count List</li>
                         </ul>
                         <!-- Count subtab -->
                         <div class="">
                             <?php $this->load->view($count_subtab); ?>
                         </div>
-                        <!-- Count List subtab -->
-                        <div class="">
-                            <?php $this->load->view($list_subtab); ?>
-                        </div>
                         <!-- Count Filters subtab -->
                         <div class="">
                             <?php $this->load->view($filters_subtab); ?>
+                        </div>
+                        <!-- Count List subtab -->
+                        <div class="">
+                            <?php $this->load->view($list_subtab); ?>
                         </div>
                     </jqx-tabs>
                     <input type="hidden" id="decimalCost" value="<?php echo $decimalCost;?>">
