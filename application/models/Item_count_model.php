@@ -82,6 +82,10 @@ class Item_count_model extends CI_Model
     public function delete($id) {
         $updated = date('Y-m-d H:i:s');
         $updatedBy = $this->session->userdata('userid');
+        // Count list was built?
+// $row = $this->db->query("SELECT \"Status\" from item_count where \"Unique\"={$id}")->row_array();
+// $countStatus = $row['Status']; // 2 = Finalized
+        // Soft Delete item_count table
         $this->db->trans_start();
         $this->db->where('Unique', $id);
         $status = $this->db->update('item_count',
@@ -90,7 +94,7 @@ class Item_count_model extends CI_Model
                 'UpdatedBy' => $updatedBy,
                 ]);
         $this->db->trans_complete();
-        //
+        // Soft Delete item_count_list table
         $this->db->trans_start();
         $this->db->where('CountUnique', $id);
         $this->db->update('item_count_list', [
@@ -99,21 +103,20 @@ class Item_count_model extends CI_Model
             'Status' => 0
             ]);
         $this->db->trans_complete();
-        // UPDATE item_stock_line
+        // Soft Delete item_stock_line table
         $this->db->trans_start();
-        $row = $this->db->query("SELECT \"Status\" from item_count where \"Unique\"={$id}")->row_array();
-        if ($row['Status'] == 2) {
-            $this->db->where('CountUnique', $id);
-//            $status = $this->db->delete('item_stock_line');
-            $this->db->update('item_stock_line', [
-                'Updated' => $updated,
-                'UpdatedBy' => $updatedBy,
-                'Status' => 0
-            ]);
-
-        }
+        $from = "from item_count IC
+        join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\"
+        where ICL.\"CountUnique\" = {$id}
+        and ICL.\"CountStock\" is not null";
+        $isl = "update item_stock_line
+                set \"status\" = 0,
+                    \"Updated\" = CURRENT_TIMESTAMP,
+                    \"UpdatedBy\" = {$updatedBy}
+                from (select ICL.\"Unique\" as id {$from}) as subquery
+                where subquery.id = item_stock_line.\"CountUnique\"";
+        $this->db->query($isl);
         $this->db->trans_complete();
-
 
         return $status;
     }
