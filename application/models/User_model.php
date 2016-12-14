@@ -40,7 +40,7 @@ class User_model extends CI_Model
             ->where($where)
             ->order_by('config_user.Unique', 'DESC')
             ->get();
-//        var_dump($this->db->last_query());exit;
+
         return $query->result_array();
     }
 
@@ -82,6 +82,10 @@ class User_model extends CI_Model
     {
         $position_id = $data['position'];
         unset($data['position']);
+        if (empty($data['Email'])) {
+            $defaults = $this->defaultsUserEmail();
+            $data['Email'] = $defaults['ReplyToEmail'];
+        }
         $data['Status'] = 1;
         $data['Created'] = date('Y-m-d H:i:s');
         $data['CreatedBy'] = $this->session->userdata('userid');
@@ -129,8 +133,7 @@ class User_model extends CI_Model
                 $this->db->where('UserUnique', $id);
                 $this->db->update('config_user_email', $req);
             } else {
-                $sql = "SELECT * FROM config_user_email WHERE \"UserUnique\" = 0";
-                $defaults = $this->db->query($sql)->row_array();
+                $defaults = $this->defaultsUserEmail();
                 $req['ReplyToEmail'] = (empty($data)) ? '' : $data['Email'];
                 $req['ReplyToName'] = (empty($data)) ? '' : $data['FullName'];
                 $req['Host'] = $defaults['Host'];
@@ -154,6 +157,11 @@ class User_model extends CI_Model
             $this->db->delete('config_user_email');
         }
         $this->db->trans_complete();
+    }
+
+    protected function defaultsUserEmail() {
+        $sql = "SELECT * FROM config_user_email WHERE \"UserUnique\" = 0";
+        return $this->db->query($sql)->row_array();
     }
 
     public function createOrUpdatePositionUser($position_id, $user_id) {

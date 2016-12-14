@@ -51,7 +51,7 @@
     </div><!--End Grid1-->
 
     <div style="float:left; padding:2px; width:350px;">
-        <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Primary:</div>
+        <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Primary:</div>
         <div style="float:left; width:180px;">
             <jqx-combo-box  jqx-on-select="positionSelectChanged(event)" id="positionCombobox" class="required-field"
                             jqx-settings="positionSelectSetting"
@@ -66,7 +66,7 @@
 
     <div style="width:330px;float:left;">
         <div style="float:left; padding:2px; width:350px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Phone 1:</div>
+            <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Phone 1:</div>
             <div style="float:left; width:180px;">
                 <input type="text" class="form-control addUserField phone" id="add_phone1" name="add_phone1" placeholder="Phone1">
             </div>
@@ -74,14 +74,14 @@
 
 
         <div style="float:left; padding:2px; width:350px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Phone 2:</div>
+            <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Phone 2:</div>
             <div style="float:left; width:180px;">
                 <input type="text" class="form-control addUserField phone" id="add_phone2" name="add_phone2" placeholder="Phone2">
             </div>
         </div>
 
         <div style="float:left; padding:2px; width:400px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Email:</div>
+            <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Company Email:</div>
             <div style="float:left; width:250px;">
                 <div class="btn-group">
                     <input type="email" class="form-control searchinput addUserField" id="add_email" name="add_email" placeholder="Email Address" value="">
@@ -90,7 +90,7 @@
         </div>
 
         <div style="float:left; padding:2px; width:400px;">
-            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Email Enabled:</div>
+            <div style="float:left; padding:8px; padding-right:0;text-align:right; width:125px; font-weight:bold;">Email Enabled:</div>
             <div style="float:left; width:250px;">
                 <div id="emailEnabledField"
                      style="display: inline-block;">
