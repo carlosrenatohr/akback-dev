@@ -371,17 +371,27 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         //$('#locationSelect').jqxComboBox({'selectedIndex': statusCombo.index});
         $('#checkOutForm #QuantityControl').val(row.Quantity);
         $('#checkOutForm #NoteControl').val(row.Note);
+        setTimeout(function(){
+            $('#checkOutForm #QuantityControl').jqxNumberInput('focus');
+        }, 100);
         //
         if(row.StatusCheckIn == 2)
             $('#mainButtonsCheckoutForm #checkoutCompleteBtn').hide();
         else
             $('#mainButtonsCheckoutForm #checkoutCompleteBtn').show();
         checkoutControlChanged = false;
-        checkoutCustomerWin.setTitle('Check Out Form | Customer ID: ' + row.Unique + ' | ' + fullname);
+        //
+        var btn = $('<button/>', {
+            'id': 'checkoutDeleteBtn'
+        }).addClass('icon-trash user-del-btn');
+        var title = $('<div/>').html('Check Out Form | Customer ID: ' + row.Unique + ' | ' + fullname).append(btn)
+            .css('padding-left', '2em');
+        checkoutCustomerWin.setTitle(title);
         checkoutCustomerWin.open();
-        setTimeout(function(){
-            $('#checkOutForm #QuantityControl').jqxNumberInput('focus');
-        }, 100);
+    });
+
+    $('body').on('click', '#checkoutDeleteBtn', function(e) {
+        $scope.checkoutCloseBtn(undefined, 0, $scope.checkinType)
     });
 
     $scope.checkoutCloseBtn = function(option, status, type) {

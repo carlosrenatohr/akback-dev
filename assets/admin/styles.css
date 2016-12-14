@@ -46,18 +46,18 @@ div.toolbar-list span {
     background-image: url("../../assets/img/home_icon.png");
 }
 
-.icon-32-trash {
+.icon-trash {
     position: absolute;
-    right:0;
-    background: url("../../assets/img/backoffice/Delete.png") 0 5px no-repeat;
-    background-size: 80%;
+    left:0;
+    background: url("../../assets/img/backoffice/DeleteIcon.png") 0 5px no-repeat;
+    background-size: 75%;
     width:25px;
     height:25px;
     border:0;
     outline: 0;
 }
-.icon-32-trash.user-del-btn {
-    margin-top: -5px;
+.icon-trash.user-del-btn {
+    margin-top: -8px;
     padding: 10px;
 }
 
@@ -385,4 +385,38 @@ div[id="filterrow.inventoryItemsGrid"].jqx-grid-cell-pinned {
 /* CUSTOMER */
 #QuantityControl {
     width:250px!important;
+}
+
+/* ITEM PICTURE */
+.img-item-container {
+    margin: 0 3%;
+    width: 100%;
+    max-width: 300px;
+    height: 300px;
+    min-height: 300px;
+    overflow: hidden;
+}
+.img-item {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+.img-info-container {
+    width: 80%;height: 30px;
+}
+.img-info-container {
+    text-align: center;font-weight: 600;float:left;
+}
+.right-btn {
+    float: right;margin-top: -10px;
+}
+.icon-delete-img {
+    position: absolute;
+    right:0;
+    background: url("../../assets/img/icon-32-trash.png") 0 5px no-repeat;
+    background-size: 80%;
+    width:25px;
+    height:25px;
+    border:0;
+    outline: 0;
 }

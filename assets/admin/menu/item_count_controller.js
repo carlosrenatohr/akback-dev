@@ -202,7 +202,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var btn = $('<button/>', {
             'ng-click': 'finishIcount()',
             'id': 'deleteIcountBtn'
-        }).addClass('icon-32-trash user-del-btn').css('left', 0);
+        }).addClass('icon-trash user-del-btn');//.css('left', 0);
         var title = $('<div/>').html(' Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment).prepend(btn)
             .css('padding-left', '2em');
         icountwind.setTitle(title);

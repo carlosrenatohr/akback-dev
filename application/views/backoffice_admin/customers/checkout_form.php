@@ -6,11 +6,6 @@
     </div>
     <div class="">
         <div class="col-md-12 col-md-offset-0" id="checkOutForm">
-            <!-- NEW DELETE BUTTON -->
-            <button class="icon-32-trash"
-                    id="checkoutDeleteBtn"
-                    ng-click="checkoutCloseBtn(undefined, 0, checkinType)"
-            ></button>
             <div class="row menuFormContainer">
                 <div style="float:left;">
                     <div style="float:left; padding:2px; width:450px;">

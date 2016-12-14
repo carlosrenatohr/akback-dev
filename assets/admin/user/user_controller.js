@@ -96,9 +96,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var btn = $('<button/>', {
             'ng-click': 'pressDeleteButton()',
             'id': 'deleteAddUserForm'
-        }).addClass('icon-32-trash user-del-btn'); //Built in styles.css on admin
+        }).addClass('icon-trash user-del-btn'); //Built in styles.css on admin
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
-        var title = $('<div/>').html('User ID ' + values.Unique + ': | User Name: ' + values.UserName).append(btn);
+        var title = $('<div/>').html('User ID ' + values.Unique + ': | User Name: ' + values.UserName).append(btn)
+            .css('padding-left', '2em');
         addUserDialog.setTitle(title);
         addUserDialog.open();
     };
