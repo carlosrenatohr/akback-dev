@@ -14,20 +14,26 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li>
                             <a href="<?php echo base_url("backoffice/dashboard") ?>" style="outline:0;">
-                                <span class="icon-32-home"></span>
+                                <span class="icon-home"></span>
                                 Dashboard
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url("dashboard/items") ?>" style="outline:0;">
-                                <span class="icon-32-back"></span>
+                                <span class="icon-back"></span>
                                 Back
                             </a>
                         </li>
                         <li>
                             <a style="outline:0;" ng-click="openIcount()">
-                                <span class="icon-32-new"></span>
+                                <span class="icon-new"></span>
                                 New
+                            </a>
+                        </li>
+                        <li>
+                            <a style="outline:0;" ng-click="">
+                                <span class="icon-import"></span>
+                                Import
                             </a>
                         </li>
                     </ul>

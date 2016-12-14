@@ -117,7 +117,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
     })
     .on('bindingcomplete', '#icountlistGrid', function(e) {
-        console.log('lol');
         $(this).show();
     });
 

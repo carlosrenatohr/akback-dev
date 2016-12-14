@@ -1,7 +1,7 @@
 <div class="gridContentTab">
     <div>
         <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="newMenuAction()">
-            <span class="icon-32-new"></span>
+            <span class="icon-new"></span>
             New
         </a>
     </div>

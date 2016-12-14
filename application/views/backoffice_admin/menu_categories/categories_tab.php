@@ -1,6 +1,6 @@
 <div class="gridContentTab">
     <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="newCategoryAction()">
-        <span class="icon-32-new"></span>
+        <span class="icon-new"></span>
         New
     </a>
     <jqx-grid id="categoriesDataTable"

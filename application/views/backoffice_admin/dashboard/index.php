@@ -19,7 +19,7 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li>
                             <a href="<?php echo base_url("backoffice/dashboard")?>" style="outline:0;">
-                                <span class="icon-32-home"></span>
+                                <span class="icon-home"></span>
                                 Dashboard
                             </a>
                         </li>
@@ -134,9 +134,5 @@
         height: 32px;
         margin: 0 auto;
         width: 32px;
-    }
-
-    .icon-32-back {
-        background-image: url("../assets/img/back.png");
     }
 </style>

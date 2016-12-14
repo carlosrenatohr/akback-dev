@@ -1,7 +1,7 @@
 <div class="gridContentTab">
     <div>
         <a style="outline:0;margin: 10px 2px;" class="btn btn-info" ng-click="openQuestionWindow()">
-            <span class="icon-32-new"></span>
+            <span class="icon-new"></span>
             New
         </a>
     </div>
@@ -124,7 +124,7 @@
                                 <div class="col-md-6">
                                     <a style="outline:0;margin: 10px 2px;" class="btn btn-info"
                                        ng-click="openQuestionItemWin($event)">
-                                        <span class="icon-32-new"></span>
+                                        <span class="icon-new"></span>
                                         New
                                     </a>
                                 </div>
