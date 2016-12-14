@@ -158,15 +158,17 @@ class Item_count_model extends CI_Model
         $query = "
             insert into item_count_list (\"CountUnique\",\"ItemUnique\",\"Item\",\"Part\",\"Description\",\"Category\",     
                         \"SubCategory\",\"Supplier\",\"SupplierPart\",\"Cost\",
-                         \"CurrentStock\",\"CountStock\",\"Difference\",\"NewCost\",\"AdjustedCost\", 
+                         \"CurrentStock\",\"CountStock\",\"Difference\",\"NewCost\",\"AdjustedCost\",
+                         \"CostExtra\",\"CostFreight\",\"CostDuty\", 
                          \"Status\", \"CreatedBy\")
               (select ". $countID ." as \"CountUnique\", IT.\"Unique\" as \"ItemUnique\", trim(IT.\"Item\") as \"Item\",
                trim(IT.\"Part\") as \"Part\", trim(IT.\"Description\") as \"Description\", 
                trim(CM.\"MainName\") as \"Category\", trim(CS.\"Name\") as \"SubCategory\",
                trim(SU.\"Company\") as \"Supplier\",trim(IT.\"SupplierPart\") as \"SupplierPart\",
-               (IT.\"Cost\"::numeric + IT.\"Cost_Extra\"::numeric + IT.\"Cost_Freight\"::numeric + IT.\"Cost_Duty\"::numeric) as \"Cost\",
+               IT.\"Cost\"::numeric as \"Cost\",
                ST.\"CurrentStock\" as \"CurrentStock\", null as \"CountStock\", null as \"Difference\",
                null as \"NewCost\", null as \"AdjustedCost\",
+               IT.\"Cost_Extra\"::numeric, IT.\"Cost_Freight\"::numeric, IT.\"Cost_Duty\"::numeric,
                1 as \"Status\", ". $id ." as \"CreatedBy\"
               from item IT
               left join category_main CM on CM.\"Unique\" = IT.\"MainCategory\"

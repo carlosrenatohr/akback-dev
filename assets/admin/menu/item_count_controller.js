@@ -146,6 +146,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#isubcategoryFilter').jqxComboBox('clearSelection');
         $('#isupplierFilter').jqxComboBox('clearSelection');
         $('.icountField.filters').jqxComboBox({disabled: false});
+        $('#saveIcountBtn').html('Build Count List');
         icountwind.setTitle('New Item Count');
         icountwind.open();
     };
@@ -191,6 +192,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         // $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('enableAt', 2);
         $('.icountField.filters').jqxComboBox({disabled: true});
+        $('#saveIcountBtn').html('Save');
         var btn = $('<button/>', {
             'ng-click': 'finishIcount()',
             'id': 'deleteIcountBtn'
