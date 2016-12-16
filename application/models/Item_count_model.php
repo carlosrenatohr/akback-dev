@@ -238,4 +238,41 @@ class Item_count_model extends CI_Model
         return $status;
     }
 
+    /**
+     * ITEM COUNT SCAN
+     */
+    public function itemCountScan() {
+        $this->db->select('item_count_scan.*, cl."LocationName",
+          cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
+          to_char(date_trunc(\'minutes\', item_count_scan."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
+          to_char(date_trunc(\'minutes\', item_count_scan."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Updated,
+          ', false);
+        $this->db->from('item_count_scan');
+        $this->db->join('config_location cl', 'cl.Unique = item_count_scan.Location', 'left');
+        $this->db->join('config_user cu1', 'cu1.Unique = item_count_scan.CreatedBy', 'left');
+        $this->db->join('config_user cu2', 'cu2.Unique = item_count_scan.UpdatedBy', 'left');
+//        $this->db->where('item_count_scan.Status!=', 0);
+        $this->db->order_by('item_count_scan.Created', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
+    public function createScan($data) {
+        $filenameToGetData = $data['filename'];
+        unset($data['filename']);
+        $data['Station'] = $data['Location'];
+        $data['Status'] = 1;
+        $data['Created'] = date('Y-m-d H:i:s');
+        $data['CreatedBy'] = $this->session->userdata('userid');
+
+        $this->db->insert('item_count_scan', $data);
+        $id = $this->db->insert_id();
+//        $this->insert_scan_list($id, $filenameToGetData);
+
+        return $id;
+    }
+
+    public function insert_scan_list($id, $file) {
+        $target_dir = "./assets/csv/";
+    }
+
 }

@@ -66,6 +66,7 @@ $route['dashboard/admin/customers'] = 'admin/Customer';
 $route['dashboard/items'] = 'admin/ItemController';
 $route['dashboard/items/brands'] = 'admin/ItemController/brandsPage';
 $route['dashboard/items/count'] = 'admin/ItemController/countPage';
+$route['dashboard/items/count/import'] = 'admin/ItemController/countImportPage';
 
 //logon page
 $route['backoffice'] = "backoffice/login";

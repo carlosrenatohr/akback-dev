@@ -127,4 +127,75 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    /**
+     * ITEM COUNT SCAN
+     */
+    public function load_itemcountscan() {
+        $result = $this->count->itemCountScan();
+        echo json_encode($result);
+    }
+
+    public function createItemScan() {
+        if (isset($_POST) && !empty($_POST)) {
+            $data = $_POST;
+            $id = $this->count->createScan($data);
+            if ($id) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Item  Scan created successfully',
+                    'id' => $id,
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    // UPLOAD FILES
+    public function upload() {
+        $target_dir = "./assets/csv/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir);
+        }
+        $target_name = time(). '_' . basename($_FILES["file"]["name"]);
+        $target_file = $target_dir . $target_name;
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        // Current file exists
+        if (file_exists($target_file)) {
+            $msg = "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+        // File size validation
+        $maxSize = (500)*(1000); // 5Mb
+        if ($_FILES["file"]["size"] > $maxSize) {
+            $msg = "File is too large. Maximum 5Mb to upload.";
+            $uploadOk = 0;
+        }
+        // File format validation
+        if($imageFileType != "csv") {
+            $msg = "Sorry, only CSV files are accepted.";
+            $uploadOk = 0;
+        }
+        // Was there an error?
+        if ($uploadOk == 1) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+                $msg = "The file ". $target_name. " has been uploaded.";
+            } else {
+                $msg = "Sorry, there was an error uploading your file.";
+                $uploadOk = 0;
+            }
+        }
+
+        echo json_encode([
+            'success' => ($uploadOk == 1) ? true : false,
+            'message' => $msg,
+            'path' => $target_file,
+            'name' => $target_name,
+            'original_name' => basename($_FILES["file"]["name"]),
+        ]);
+    }
+
 }

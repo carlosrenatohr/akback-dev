@@ -1,11 +1,12 @@
 <script type="text/javascript">
-    $("#tabtitle").text("Items Count");
+    $("#tabtitle").text("Item Scan Import");
 </script>
-<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_count_controller.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/js/angular/jqwidgets/jqxfileupload.js"></script>
+<script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_scan_controller.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/admin_service.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_count_service.js"></script>
 
-<div class="container-fluid" ng-controller="itemCountController">
+<div class="container-fluid" ng-controller="itemScanController">
 
     <div class="row">
         <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
@@ -19,84 +20,70 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url("dashboard/items") ?>" style="outline:0;">
+                            <a href="<?php echo base_url("dashboard/items/count") ?>" style="outline:0;">
                                 <span class="icon-back"></span>
                                 Back
                             </a>
                         </li>
                         <li>
-                            <a style="outline:0;" ng-click="openIcount()">
+                            <a style="outline:0;" ng-click="openScan()">
                                 <span class="icon-new"></span>
                                 New
-                            </a>
-                        </li>
-                        <li>
-                            <a style="outline:0;" ng-click="">
-                                <span class="icon-import"></span>
-                                Import
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-    </div>
+    </div>  
 
     <div class="row">
         <div class="col-md-12">
-            <jqx-grid id="icountGrid"
-                      jqx-settings="icountGridSettings"
-                      jqx-create="icountGridSettings"
-                      jqx-on-rowdoubleclick="editIcount(e)"
+            <jqx-grid id="iscanGrid"
+                      jqx-settings="iscanGridSettings"
+                      jqx-create="iscanGridSettings"
+                      jqx-on-rowdoubleclick="editScan(e)"
             ></jqx-grid>
-            <jqx-window jqx-on-close="close()" jqx-settings="icountWindowSettings"
-                        jqx-create="icountWindowSettings" id="itemcountWindow"
+            <jqx-window jqx-on-close="close()" jqx-settings="iscanWindowSettings"
+                        jqx-create="iscanWindowSettings" id="itemcountWindow"
                         >
                 <div >
                     Item Count | Details
                 </div>
                 <div >
                     <jqx-tabs jqx-width="'100%'"
-                              id="icountTabs">
+                              id="iscanTabs">
                         <ul>
-                            <li>Count</li>
-                            <li>Filters</li>
-                            <li>Count List</li>
+                            <li>Import</li>
+                            <li>Scan List</li>
                         </ul>
-                        <!-- Count subtab -->
+                        <!-- Import subtab -->
                         <div class="">
-                            <?php $this->load->view($count_subtab); ?>
+                            <?php $this->load->view($import_subtab); ?>
                         </div>
-                        <!-- Count Filters subtab -->
-                        <div class="">
-                            <?php $this->load->view($filters_subtab); ?>
-                        </div>
-                        <!-- Count List subtab -->
+                        <!-- Scan List subtab -->
                         <div class="">
                             <?php $this->load->view($list_subtab); ?>
                         </div>
                     </jqx-tabs>
-                    <input type="hidden" id="decimalCost" value="<?php echo $decimalCost;?>">
-                    <input type="hidden" id="decimalQty" value="<?php echo $decimalQty;?>">
+<!--                    <input type="hidden" id="decimalCost" value="--><?php //echo $decimalCost;?><!--">-->
+<!--                    <input type="hidden" id="decimalQty" value="--><?php //echo $decimalQty;?><!--">-->
 
 <!--                    <!-- Main buttons before saving item on grid -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
-                            <div id="mainIcountBtns" class="">
+                            <div id="mainIscanBtns" class="">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button type="button" ng-click="closeIcount()"
+                                        <button type="button" ng-click="closeIscan()"
                                                 class="btn btn-warning"
                                         >Close</button>
-                                        <button type="button" id="saveIcountBtn"
-                                                ng-click="saveIcount()" class="btn btn-primary" disabled
-                                            >Build Count List</button>
-<!--                                        <button type="button" id="deleteIcountBtn" ng-click="deleteIcount()"-->
-<!--                                                class="btn btn-danger" style="overflow:auto;display: none;"-->
-<!--                                            >Delete</button>-->
-                                        <button type="button" id="finishIcountBtn" ng-click="finishIcount()"
+                                        <button type="button" id="saveIscanBtn"
+                                                ng-click="saveScan()" class="btn btn-primary" disabled
+                                            >Import</button>
+                                        <button type="button" id="matchIscanBtn" ng-click="matchIscan()"
                                                 class="btn btn-success" style="overflow:auto;display: none;"
-                                            >Finish Count</button>
+                                            >Item Match</button>
                                     </div>
                                 </div>
                             </div>
@@ -106,13 +93,13 @@
                     <!-- Prompt before saving item on grid -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
-                            <div id="closeIcountBtns" class="" style="display: none">
+                            <div id="closeIscanBtns" class="" style="display: none">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <div class="message">Do you want to save your changes?</div>
-                                        <button type="button" ng-click="closeIcount(0)" class="btn btn-primary">Yes</button>
-                                        <button type="button" ng-click="closeIcount(1)" class="btn btn-warning">No</button>
-                                        <button type="button" ng-click="closeIcount(2)" class="btn btn-info">Cancel</button>
+                                        <button type="button" ng-click="closeIscan(0)" class="btn btn-primary">Yes</button>
+                                        <button type="button" ng-click="closeIscan(1)" class="btn btn-warning">No</button>
+                                        <button type="button" ng-click="closeIscan(2)" class="btn btn-info">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -122,13 +109,13 @@
                     <!-- Prompt before delete an item on grid -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
-                            <div id="deleteIcountBtns" class="" style="display: none">
+                            <div id="deleteIscanBtns" class="" style="display: none">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         Do you really want to delete it?
-                                        <button type="button" ng-click="deleteIcount(0)" class="btn btn-primary">Yes</button>
-                                        <button type="button" ng-click="deleteIcount(1)" class="btn btn-warning">No</button>
-                                        <button type="button" ng-click="deleteIcount(2)" class="btn btn-info">Cancel</button>
+                                        <button type="button" ng-click="deleteIscan(0)" class="btn btn-primary">Yes</button>
+                                        <button type="button" ng-click="deleteIscan(1)" class="btn btn-warning">No</button>
+                                        <button type="button" ng-click="deleteIscan(2)" class="btn btn-info">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -137,13 +124,12 @@
                     <!-- Prompt before finish count on item count list -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
-                            <div id="finishIcountBtns" class="" style="display: none">
+                            <div id="matchIscanBtnContainer" class="" style="display: none">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <p>Your stock will be adjusted based on above counts. <br>
-                                            Press Finalize to continue or Cancel to continue editing</p>
-                                        <button type="button" ng-click="finishIcount(0)" class="btn btn-primary">Finalize</button>
-                                        <button type="button" ng-click="finishIcount(1)" class="btn btn-info">Cancel</button>
+                                        <p>Ready to find into items?</p>
+                                        <button type="button" ng-click="matchIscan(0)" class="btn btn-primary">Find</button>
+                                        <button type="button" ng-click="matchIscan(1)" class="btn btn-info">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -152,13 +138,13 @@
                     <!-- NOTIFICATIONS AREA -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
-                            <jqx-notification jqx-settings="icountSuccessMsg" id="icountSuccessMsg">
+                            <jqx-notification jqx-settings="iscanSuccessMsg" id="iscanSuccessMsg">
                                 <div id="msg"></div>
                             </jqx-notification>
-                            <jqx-notification jqx-settings="icountErrorMsg" id="icountErrorMsg">
+                            <jqx-notification jqx-settings="iscanErrorMsg" id="iscanErrorMsg">
                                 <div id="msg"></div>
                             </jqx-notification>
-                            <div id="notification_container_icount"
+                            <div id="notification_container_iscan"
                                  style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                         </div>
                     </div>

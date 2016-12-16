@@ -24,7 +24,7 @@ class ItemController extends AK_Controller
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");
         $data['decimalsQuantity'] = (int)$this->session->userdata("DecimalsQuantity");
         // Partials Views
-        $menu_path = 'backoffice_admin/menu_categories/inventory/';
+        $menu_path = 'backoffice_admin/inventory/';
         $data['inventory_item_subtab_view'] = $menu_path . "item_subtab";
         $data['inventory_cost_subtab_view'] = $menu_path . "cost_subtab";
         $data['inventory_price_subtab_view'] = $menu_path . "price_subtab";
@@ -45,7 +45,7 @@ class ItemController extends AK_Controller
         $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Item Brands";
         $data['storename'] = $this->displaystore();
-        $brand_path = 'backoffice_admin/menu_categories/inventory/brands/';
+        $brand_path = 'backoffice_admin/inventory/brands/';
         $data['brand_subtab'] = $brand_path . 'brand_subtab';
         $data['info_subtab'] = $brand_path . 'info_subtab';
         //
@@ -65,10 +65,26 @@ class ItemController extends AK_Controller
         $data['page_title'] = "Item Count";
         $data['storename'] = $this->displaystore();
         $data['locations'] = $this->getLocations();
-        $count_path = 'backoffice_admin/menu_categories/inventory/count/';
+        $count_path = 'backoffice_admin/inventory/count/';
         $data['count_subtab'] = $count_path . 'count_subtab';
         $data['list_subtab'] = $count_path . 'count_list_subtab';
         $data['filters_subtab'] = $count_path . 'filters_subtab';
+        //
+        $data['main_content'] = $count_path . "index";
+        $this->load->view('backoffice_admin/templates/main_layout', $data);
+    }
+
+    public function countImportPage() {
+        $data['currentuser'] = $this->session->userdata("currentuser");
+//        $data['decimalCost'] = $this->session->userdata('admin_DecimalsCost');
+//        $data['decimalQty'] = $this->session->userdata('admin_DecimalsQuantity');
+        $data['station'] = $this->session->userdata("station_number");
+        $data['page_title'] = "Item Scan Import";
+        $data['storename'] = $this->displaystore();
+        $data['locations'] = $this->getLocations();
+        $count_path = 'backoffice_admin/inventory/count/scan_import/';
+        $data['import_subtab'] = $count_path . 'import_subtab';
+        $data['list_subtab'] = $count_path . 'scan_list_subtab';
         //
         $data['main_content'] = $count_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);

@@ -351,5 +351,69 @@
             };
         };
 
+        /**
+         * ITEM SCAN GRID
+         */
+        this.getIscanTableSettings = function() {
+            return {
+                source: new $.jqx.dataAdapter({
+                    dataType: 'json',
+                    dataFields: [
+                        {name: 'Unique', type: 'int'},
+                        {name: 'Location', type: 'string'},
+                        {name: 'LocationName', type: 'string'},
+                        {name: 'Station', type: 'string'},
+                        {name: 'Comment', type: 'string'},
+                        {name: 'Status', type: 'string'},
+                        // {name: 'StatusName', type: 'string'},
+                        {name: 'Created', type: 'string'},
+                        {name: 'CreatedByName', type: 'string'},
+                        {name: 'Updated', type: 'string'},
+                        {name: '_Updated', type: 'date'},
+                        {name: 'UpdatedByName', type: 'string'},
+                        // {name: 'CountDate', type: 'string'},
+                        // {name: '_CountDate', type: 'string'},
+                        // {name: 'CountDateFormatted', type: 'date'},
+                        // {name: 'CategoryFilter', type: 'string'},
+                        // {name: 'SubCategoryFilter', type: 'string'},
+                        // {name: 'SupplierFilter', type: 'string'}
+                    ],
+                    id: 'Unique',
+                    url: SiteRoot + 'admin/ItemCount/load_itemcountscan'
+                }),
+                columns: [
+                    {text: 'ID', dataField: 'Unique', width: '8%', filterable: false},
+                    {dataField: 'Location', hidden: true},
+                    {dataField: 'Station', hidden: true},
+                    {text: 'Location', dataField: 'LocationName', width: '12%',
+                        filtertype: 'list'},
+                    {text: 'Comment', dataField: 'Comment', width: '20%'},
+                    // {text:'Status', dataField: 'StatusName', width: '10%', filtertype: 'list'},
+                    {text:'Status', dataField: 'Status', width: '10%', filtertype: 'list'},
+                    {text: 'Created By', dataField: 'CreatedByName', width: '12%',
+                        filtertype: 'list'},
+                    {dataField: 'Created', hidden: true},
+                    {text: 'Updated By', dataField: 'UpdatedByName', width: '12%',
+                        filtertype: 'list'},
+                    {text: 'Updated', dataField: '_Updated', width: '14%',
+                        cellsformat:'MM/dd/yyyy hh:mmtt', filtertype: 'date'}
+                ],
+                //
+                width: "99.7%",
+                theme: 'arctic',
+                filterable: true,
+                showfilterrow: true,
+                // ready: function() {
+                //     $('#icountlistGrid').jqxGrid('updatebounddata', 'filter');
+                // },
+                sortable: true,
+                pageable: true,
+                pageSize: pager.pageSize,
+                pagesizeoptions: pager.pagesizeoptions,
+                altRows: true,
+                autoheight: true,
+                autorowheight: true
+            };
+        };
     }
 })();
