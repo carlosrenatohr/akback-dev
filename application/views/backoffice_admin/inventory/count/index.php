@@ -80,7 +80,7 @@
                     <input type="hidden" id="decimalCost" value="<?php echo $decimalCost;?>">
                     <input type="hidden" id="decimalQty" value="<?php echo $decimalQty;?>">
 
-<!--                    <!-- Main buttons before saving item on grid -->
+                    <!-- Main buttons before saving -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
                             <div id="mainIcountBtns" class="">

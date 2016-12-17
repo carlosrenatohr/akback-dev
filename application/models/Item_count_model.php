@@ -256,6 +256,20 @@ class Item_count_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function itemCountScanList() {
+        $this->db->select('item_count_scan_list.*,
+          cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
+          to_char(date_trunc(\'minutes\', item_count_scan_list."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
+          to_char(date_trunc(\'minutes\', item_count_scan_list."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Updated,
+          ', false);
+        $this->db->from('item_count_scan_list');
+        $this->db->join('config_user cu1', 'cu1.Unique = item_count_scan_list.CreatedBy', 'left');
+        $this->db->join('config_user cu2', 'cu2.Unique = item_count_scan_list.UpdatedBy', 'left');
+//        $this->db->where('item_count_scan.Status!=', 0);
+        $this->db->order_by('item_count_scan_list.Created', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
     public function createScan($data) {
         $filenameToGetData = $data['filename'];
         unset($data['filename']);
@@ -263,16 +277,55 @@ class Item_count_model extends CI_Model
         $data['Status'] = 1;
         $data['Created'] = date('Y-m-d H:i:s');
         $data['CreatedBy'] = $this->session->userdata('userid');
-
+        //
         $this->db->insert('item_count_scan', $data);
         $id = $this->db->insert_id();
-//        $this->insert_scan_list($id, $filenameToGetData);
+        $this->insert_scan_list($id, $filenameToGetData);
 
         return $id;
     }
 
-    public function insert_scan_list($id, $file) {
-        $target_dir = "./assets/csv/";
+    protected function insert_scan_list($scanUnique, $filename = null) {
+        if (!is_null($filename)) {
+            $this->load->library('PHPExcel');
+            $this->load->library('PHPExcel/IOFactory');
+            //
+            $this->getSettingLocation('DecimalsQuantity', $this->session->userdata("station_number"));
+            $decimalQty = $this->session->userdata('admin_DecimalsQuantity');
+            //
+            $file = "./assets/csv/{$filename}";
+            try {
+                $inputFileType = IOFactory::identify($file);
+                $objReader = IOFactory::createReader($inputFileType);
+                $objPHPExcel = $objReader->load($file);
+                //
+                $sheet = $objPHPExcel->getSheet(0);
+                $highestRow = $sheet->getHighestRow();
+                $highestColumn = $sheet->getHighestColumn();
+                for ($row = 1; $row <= $highestRow; $row++) {
+                    $rowData = $sheet->rangeToArray(
+                        'A' . $row . ':' . $highestColumn . $row,
+                        NULL,
+                        FALSE,
+                        TRUE
+                    );
+                    $rowData = $rowData[0];
+                    // Inserting into item_count_scan_list table
+                    $icsl = [];
+                    $icsl['CountScanUnique'] = $scanUnique;
+                    $icsl['Barcode'] = $rowData[0];
+                    $icsl['Quantity'] = (float)number_format($rowData[1], $decimalQty);
+                    $icsl['Created'] = date('Y-m-d h:i:s');
+                    $icsl['CreatedBy'] = $this->session->userdata('userid');
+                    $icsl['Status'] = 1;
+                    $this->db->insert('item_count_scan_list', $icsl);
+                }
+            } catch(Exception $e) {
+                die('Error loading file "'.pathinfo($file,PATHINFO_BASENAME).'": '.$e->getMessage());
+            }
+        }
+
+        return false;
     }
 
 }

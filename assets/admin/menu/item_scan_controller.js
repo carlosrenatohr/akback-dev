@@ -4,6 +4,18 @@
 angular.module("akamaiposApp", ['jqwidgets'])
     .controller('itemScanController', function($scope, $http, itemCountService, adminService) {
 
+        $('#iscanTabs').on('tabclick', function(e) {
+            var tab = e.args.item;
+            var tabTitle = $('#icountTabs').jqxTabs('getTitleAt', tab);
+            if (tab == 0) {
+                $('#matchIscanBtn').hide();
+                // Filters tab
+            } else if (tab == 1) {
+                // $('#deleteIcountBtn').hide();
+                $('#matchIscanBtn').show();
+            }
+        });
+
         var iscanwind;
         $scope.iscanWindowSettings = {
             created: function (args) {
@@ -25,7 +37,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         function updateIscanlistGrid(id) {
             $('#iscanlistGrid').jqxGrid({
-                // source: itemCountService.getIscanTableSettings(id).source
+                source: itemCountService.getIscanListTableSettings(id).source
             });
         }
 
@@ -34,6 +46,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         });
 
         $scope.iscanGridSettings = itemCountService.getIscanTableSettings();
+        $scope.iscanlistGridSettings = itemCountService.getIscanListTableSettings();
 
         // Notifications settings
         var notifContainer = '#notification_container_iscan';
@@ -56,10 +69,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }).on('remove', function(e) {
 
             }).on('uploadEnd', function(e) {
-                console.log(e.args.response);
-                $scope.csvFileSelected = JSON.parse(e.args.response);
-                if ($scope.csvFileSelected.success === true) {
-                    $('#fileLoadedTemp').show();
+            $scope.csvFileSelected = JSON.parse(e.args.response);
+            console.log($scope.csvFileSelected);
+            if ($scope.csvFileSelected.success === true) {
+                $('#fileLoadedTemp').show();
                     $('#icount_file').data('filename', $scope.csvFileSelected.name);
                     $('#fileLoadedTemp').html('File loaded: <b>' + $scope.csvFileSelected.original_name + '</b>');
                     $('#iscanSuccessMsg #msg').html($scope.csvFileSelected.message);
@@ -73,12 +86,36 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         $scope.iscanID = null;
         $scope.createOrEditIscan = null;
+
         $scope.openScan = function() {
             $scope.iscanID = null;
             $scope.createOrEditIscan = 'create';
             //
+            $('#icount_location').val(1);
             $('#icount_comment').val('');
+            setTimeout(function() {
+                $('#icount_file').jqxFileUpload({disabled: false});
+                $('#iscanTabs').jqxTabs('select', 0);
+                $('#iscanTabs').jqxTabs('disableAt', 1);
+            }, 100);
             iscanwind.setTitle('New Item Count Scan');
+            iscanwind.open();
+        };
+
+        $scope.editScan = function (e) {
+            var row = e.args.row.bounddata;
+            $scope.iscanID = row.Unique;
+            $scope.createOrEditIscan = 'edit';
+            //
+            updateIscanlistGrid(row.Unique);
+            $('#icount_location').val(row.Location);
+            $('#icount_comment').val(row.Comment);
+            setTimeout(function() {
+                $('#icount_file').jqxFileUpload({disabled: true});
+                $('#iscanTabs').jqxTabs('select', 0);
+                $('#iscanTabs').jqxTabs('enableAt', 1);
+            }, 100);
+            iscanwind.setTitle('Edit Item Count Scan | ID: ' + row.Unique);
             iscanwind.open();
         };
 
@@ -105,8 +142,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         if ($scope.createOrEditIscan == 'create') {
                             $scope.iscanID = response.id;
                             $scope.createOrEditIscan = 'edit';
-
-                            // updateIscanlistGrid($scope.iscanID);
+                            updateIscanlistGrid(response.id);
+                            $('#iscanTabs').jqxTabs('select', 0);
+                            $('#iscanTabs').jqxTabs('enableAt', 1);
                             //
                             // var btn = $('<button/>', {
                             //     'ng-click': 'finishIcount()',
@@ -114,7 +152,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             // }).addClass('icon-32-trash user-del-btn').css('left', 0);
                             // var title = $('<div/>').html(' Edit Item Count | ID: '+ response.id + ' | ' + data.Comment).prepend(btn)
                             //     .css('padding-left', '2em');
-                            iscanwind.setTitle(title);
+                            // iscanwind.setTitle(title);
+                            iscanwind.setTitle('Edit Item Scan List | ID: ' + response.id);
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
                         } else {

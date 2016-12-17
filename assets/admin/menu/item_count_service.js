@@ -403,11 +403,69 @@
                 theme: 'arctic',
                 filterable: true,
                 showfilterrow: true,
-                // ready: function() {
-                //     $('#icountlistGrid').jqxGrid('updatebounddata', 'filter');
-                // },
                 sortable: true,
                 pageable: true,
+                pageSize: pager.pageSize,
+                pagesizeoptions: pager.pagesizeoptions,
+                altRows: true,
+                autoheight: true,
+                autorowheight: true
+            };
+        };
+
+        this.getIscanListTableSettings = function(id) {
+            var url = '';
+            if (id != undefined)
+                url = SiteRoot + 'admin/ItemCount/load_itemcountscanlist/' + id;
+            return {
+                source: new $.jqx.dataAdapter({
+                    dataType: 'json',
+                    dataFields: [
+                        {name: 'Unique', type: 'int'},
+                        {name: 'CountScanUnique', type: 'string'},
+                        {name: 'Barcode', type: 'number'},
+                        {name: 'Quantity', type: 'number'},
+                        {name: 'Comment', type: 'string'},
+                        {name: 'ItemUnique', type: 'string'},
+                        {name: 'Item', type: 'string'},
+                        {name: 'Part', type: 'string'},
+                        {name: 'Description', type: 'string'},
+                        {name: 'CountUnique', type: 'string'},
+                        {name: 'Status', type: 'string'},
+                        {name: 'Created', type: 'string'},
+                        {name: 'CreatedByName', type: 'string'},
+                        {name: 'Updated', type: 'string'},
+                        // {name: '_Updated', type: 'date'},
+                        {name: 'UpdatedByName', type: 'string'}
+                    ],
+                    id: 'Unique',
+                    url: url
+                }),
+                columns: [
+                    {text: 'ID', dataField: 'Unique', width: '8%', editable:false},
+                    {text: 'Barcode', dataField: 'Barcode', width: '10%'},
+                    {text: 'Quantity', dataField: 'Quantity', width: '10%'},
+                    {text: 'Item', dataField: 'Item', width: '10%'},
+                    {text: 'Part', dataField: 'Part', width: '10%'},
+                    {text: 'Description', dataField: 'Part', width: '10%'},
+                    {text: 'Comment', dataField: 'Comment', width: '20%'},
+                    {dataField: 'Status', hidden: true},
+                    {text: 'Created By', dataField: 'CreatedByName', width: '12%',
+                        filtertype: 'list', editable:false},
+                    // {dataField: 'Created', hidden: true},
+                    {text: 'Updated By', dataField: 'UpdatedByName', width: '12%',
+                        filtertype: 'list', editable:false},
+                    {text: 'Updated', dataField: '_Updated', width: '14%',
+                        cellsformat:'MM/dd/yyyy hh:mmtt', filtertype: 'date', editable:false}
+                ],
+                //
+                width: "99.7%",
+                theme: 'arctic',
+                filterable: true,
+                showfilterrow: true,
+                sortable: true,
+                pageable: true,
+                editable: true,
                 pageSize: pager.pageSize,
                 pagesizeoptions: pager.pagesizeoptions,
                 altRows: true,

@@ -81,7 +81,7 @@
                                         <button type="button" id="saveIscanBtn"
                                                 ng-click="saveScan()" class="btn btn-primary" disabled
                                             >Import</button>
-                                        <button type="button" id="matchIscanBtn" ng-click="matchIscan()"
+                                        <button type="button" id="matchIscanBtn" ng-click=""
                                                 class="btn btn-success" style="overflow:auto;display: none;"
                                             >Item Match</button>
                                     </div>

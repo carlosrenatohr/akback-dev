@@ -135,6 +135,11 @@ class ItemCount extends AK_Controller
         echo json_encode($result);
     }
 
+    public function load_itemcountscanlist() {
+        $result = $this->count->itemCountScanList();
+        echo json_encode($result);
+    }
+
     public function createItemScan() {
         if (isset($_POST) && !empty($_POST)) {
             $data = $_POST;
