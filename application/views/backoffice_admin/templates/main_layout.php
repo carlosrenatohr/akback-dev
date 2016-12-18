@@ -6,4 +6,4 @@
 
 <?php $this->load->view($main_content); ?>
 
-<?php $this->load->view('backoffice_includes/backoffice_footer'); ?>
+<?php //$this->load->view('backoffice_includes/backoffice_footer'); ?>
