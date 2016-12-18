@@ -365,6 +365,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icountTabs').jqxTabs('disableAt', 2);
         } else if (option == 2) {
         } else {
+            $('#icountTabs').jqxTabs('select', 0);
             $('#mainIcountBtns').hide();
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').show();
