@@ -177,7 +177,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
         $('#item_subcategory').jqxDropDownList({'selectedIndex': -1});
         //
-        $('#iteminventory_giftcard .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        // $('#iteminventory_giftcard .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
+        $('#itemcontrol_gcard').val(0);
         $('#iteminventory_group .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#iteminventory_promptprice .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#iteminventory_promptdescription .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
@@ -246,9 +247,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_brand').jqxComboBox({'selectedIndex': (brand != null) ? brand.index : -1});
         // Item checkbox controls
         var gc;
-        gc = $('#iteminventory_giftcard .cbxExtraTab[data-val=' +
-            ((row.GiftCard == 0 || row.GiftCard == null) ? '0' : '1') +']');
-        gc.jqxRadioButton({ checked:true });
+        // gc = $('#iteminventory_giftcard .cbxExtraTab[data-val=' +
+        //     ((row.GiftCard == 0 || row.GiftCard == null) ? '0' : '1') +']');
+        // gc.jqxRadioButton({ checked:true });
+        $('#itemcontrol_gcard').val(row.GiftCard);
         gc = $('#iteminventory_group .cbxExtraTab[data-val=' +
             ((row.Group == 0 || row.Group == null) ? '0' : '1') +']');
         gc.jqxRadioButton({ checked:true });
@@ -348,10 +350,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var subcategory = $('#item_subcategory').jqxDropDownList('getSelectedItem');
         data['CategoryUnique'] = (subcategory != null) ? (subcategory.value) : null;
         //
-        data['GiftCard'] =
-        ($('#iteminventory_giftcard [aria-checked="true"]').length > 0) ?
-            $('#iteminventory_giftcard [aria-checked="true"]').data('val') :
-            0;
+        data['GiftCard'] = $('#itemcontrol_gcard').val();
+        // ($('#iteminventory_giftcard [aria-checked="true"]').length > 0) ?
+        //     $('#iteminventory_giftcard [aria-checked="true"]').data('val') :
+        //     0;
         data['Group'] =
         ($('#iteminventory_group [aria-checked="true"]').length > 0) ?
             $('#iteminventory_group [aria-checked="true"]').data('val') :

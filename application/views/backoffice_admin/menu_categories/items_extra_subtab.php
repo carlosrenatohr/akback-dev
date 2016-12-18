@@ -5,20 +5,25 @@
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Gift Card?</div>
                 <div style=" float:left; width:120px;">
-                    <div id="itemcontrol_giftcard"
-                         style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
-                        <jqx-radio-button jqx-settings="checkboxExtraSet"
-                                          jqx-group-name="'item_gift'"
-                                          data-val="1"
-                                          class="cbxExtraTab">
-                            <span class="text-rb">Yes</span>
-                        </jqx-radio-button>
-                        <jqx-radio-button jqx-settings="checkboxExtraSet"
-                                          jqx-group-name="'item_gift'"
-                                          data-val="0"
-                                          class="cbxExtraTab">
-                            <span class="text-rb">No</span>
-                        </jqx-radio-button>
+                    <div id="itemcontrol_giftcard" style="margin-top: 5px;">
+<!--                        <jqx-radio-button jqx-settings="checkboxExtraSet"-->
+<!--                                          jqx-group-name="'item_gift'"-->
+<!--                                          data-val="1"-->
+<!--                                          class="cbxExtraTab">-->
+<!--                            <span class="text-rb">Yes</span>-->
+<!--                        </jqx-radio-button>-->
+<!--                        <jqx-radio-button jqx-settings="checkboxExtraSet"-->
+<!--                                          jqx-group-name="'item_gift'"-->
+<!--                                          data-val="0"-->
+<!--                                          class="cbxExtraTab">-->
+<!--                            <span class="text-rb">No</span>-->
+<!--                        </jqx-radio-button>-->
+                        <jqx-drop-down-list id="itemcontrol_gcard" class="menuitem_extraControls"
+                                            jqx-width="100">
+                            <option value="0"></option>
+                            <option value="1">Internal</option>
+                            <option value="2">Gift Pay</option>
+                        </jqx-drop-down-list>
                     </div>
                 </div>
                 <div style=" float:left; width: 165px;padding:8px; text-align:right; font-weight:bold;">Group?</div>

@@ -7,18 +7,24 @@
                 <div style=" float:left; width:120px;">
                     <div id="iteminventory_giftcard"
                          style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
-                        <jqx-radio-button jqx-settings="checkBoxInventory"
-                                          jqx-group-name="'item_gift'"
-                                          data-val="1"
-                                          class="cbxExtraTab">
-                            <span class="text-rb">Yes</span>
-                        </jqx-radio-button>
-                        <jqx-radio-button jqx-settings="checkBoxInventory"
-                                          jqx-group-name="'item_gift'"
-                                          data-val="0" jqx-checked="true"
-                                          class="cbxExtraTab">
-                            <span class="text-rb">No</span>
-                        </jqx-radio-button>
+<!--                        <jqx-radio-button jqx-settings="checkBoxInventory"-->
+<!--                                          jqx-group-name="'item_gift'"-->
+<!--                                          data-val="1"-->
+<!--                                          class="cbxExtraTab">-->
+<!--                            <span class="text-rb">Yes</span>-->
+<!--                        </jqx-radio-button>-->
+<!--                        <jqx-radio-button jqx-settings="checkBoxInventory"-->
+<!--                                          jqx-group-name="'item_gift'"-->
+<!--                                          data-val="0" jqx-checked="true"-->
+<!--                                          class="cbxExtraTab">-->
+<!--                            <span class="text-rb">No</span>-->
+<!--                        </jqx-radio-button>-->
+                        <jqx-drop-down-list id="itemcontrol_gcard" class="cbxExtraTab"
+                                            jqx-width="100" style="margin-top: 10px;">
+                            <option value="0"></option>
+                            <option value="1">Internal</option>
+                            <option value="2">Gift Pay</option>
+                        </jqx-drop-down-list>
                     </div>
                 </div>
                 <!--   -->

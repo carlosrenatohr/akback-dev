@@ -603,10 +603,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'price4': parseFloat($('#menuitem_price4').val()),
                     'price5': parseFloat($('#menuitem_price5').val()),
                     // Extra Values
-                    'GiftCard':
-                        ($('#itemcontrol_giftcard [aria-checked="true"]').length > 0) ?
-                            $('#itemcontrol_giftcard [aria-checked="true"]').data('val') :
-                            0,
+                    'GiftCard': $('#itemcontrol_gcard').val(),
+                        // ($('#itemcontrol_giftcard [aria-checked="true"]').length > 0) ?
+                        //     $('#itemcontrol_giftcard [aria-checked="true"]').data('val') :
+                        //     0,
                     'Group':
                         ($('#itemcontrol_group [aria-checked="true"]').length > 0) ?
                             $('#itemcontrol_group [aria-checked="true"]').data('val') :
@@ -864,9 +864,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         $('#menuitem_price5').val(data.price5 != null ? data.price5 : 0);
                         // Extra tab values
                         var gc;
-                        gc = $('#itemcontrol_giftcard .cbxExtraTab[data-val=' +
-                            ((data.GiftCard == 0 || data.GiftCard == null) ? '0' : '1') +']');
-                        gc.jqxRadioButton({ checked:true });
+                        // gc = $('#itemcontrol_giftcard .cbxExtraTab[data-val=' +
+                        //     ((data.GiftCard == 0 || data.GiftCard == null) ? '0' : '1') +']');
+                        // gc.jqxRadioButton({ checked:true });
+                        $('#itemcontrol_gcard').val(data.GiftCard);
                         gc = $('#itemcontrol_group .cbxExtraTab[data-val=' +
                             ((data.Group == 0 || data.Group == null) ? '0' : '1') +']');
                         gc.jqxRadioButton({ checked:true });
