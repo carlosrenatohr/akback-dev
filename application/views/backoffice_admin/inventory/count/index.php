@@ -31,8 +31,7 @@
                             </a>
                         </li>
                         <li>
-<!--                            <a href="--><?php //echo base_url('dashboard/items/count/import')?><!--" style="outline:0;">-->
-                            <a href="#" style="outline:0;">
+                            <a href="<?php echo base_url('dashboard/items/count/import')?>" style="outline:0;">
                                 <span class="icon-import"></span>
                                 Import
                             </a>
