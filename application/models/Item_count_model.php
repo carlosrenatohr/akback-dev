@@ -197,10 +197,10 @@ class Item_count_model extends CI_Model
         $select = "select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 4 as \"Type\", ICL.\"Difference\" as \"Quantity\",
             ICL.\"CreatedBy\" as \"CreatedBy\", now() as \"Created\", IC.\"CountDate\" as \"TransactionDate\",
             ICL.\"Comment\" as \"Comment\", 
-            IC.\"CountDate\"::date as \"trans_date\",
+            IC.\"CountDate\"::date as \"trans_date\", 
             1 as \"status\", ICL.\"Unique\" as \"CountUnique\"";
         $from = "from item_count IC
-            join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\"
+            join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\" 
             where ICL.\"CountUnique\" = {$countID}
             and ICL.\"CountStock\" is not null"; // and "Difference" is not null
         //
@@ -237,6 +237,11 @@ class Item_count_model extends CI_Model
 
         return $status;
     }
+//            ITL.\"Cost\"::numeric as unit_cost, ITL.\"Cost\"::numeric as Cost,"
+//            ITL.\"CostExtra\"::numeric as CostExtra, ITL.\"CostFreight\"::numeric as CostFreight,
+//            ITL.\"CostDuty\"::numeric as CostDuty"
+
+//            join item_transfer_list ITL on IC.\"Unique\" = ITL.\"ItemUnique\"
 
     /**
      * ITEM COUNT SCAN
