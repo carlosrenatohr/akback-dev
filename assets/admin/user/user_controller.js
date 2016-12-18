@@ -178,7 +178,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //} else {}
     };
 
-    $('body').on('click', '.icon-32-trash.user-del-btn', function(e) {
+    $('body').on('click', '#deleteAddUserForm', function(e) {
+        $('#tabsUser').jqxTabs('select', 0);
         $('#sureToDeleteUser').show();
         $('#addUserButtons').hide();
     });
