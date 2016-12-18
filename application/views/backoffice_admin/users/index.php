@@ -32,7 +32,7 @@
                                 </li>
                                 <li>
                                     <a style="outline:0;" ng-click="openAddUserWindows()">
-                                        <span class="icon--new"></span>
+                                        <span class="icon-new"></span>
                                         New
                                     </a>
                                 </li>
