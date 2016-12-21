@@ -256,7 +256,7 @@ class Item_count_model extends CI_Model
         $this->db->join('config_location cl', 'cl.Unique = item_count_scan.Location', 'left');
         $this->db->join('config_user cu1', 'cu1.Unique = item_count_scan.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count_scan.UpdatedBy', 'left');
-//        $this->db->where('item_count_scan.Status!=', 0);
+        $this->db->where('item_count_scan.Status!=', 0);
         $this->db->order_by('item_count_scan.Created', 'DESC');
         return $this->db->get()->result_array();
     }
@@ -270,7 +270,7 @@ class Item_count_model extends CI_Model
         $this->db->from('item_count_scan_list');
         $this->db->join('config_user cu1', 'cu1.Unique = item_count_scan_list.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count_scan_list.UpdatedBy', 'left');
-//        $this->db->where('item_count_scan.Status!=', 0);
+        $this->db->where('item_count_scan_list.Status!=', 0);
         $this->db->order_by('item_count_scan_list.Created', 'DESC');
         return $this->db->get()->result_array();
     }
@@ -297,6 +297,31 @@ class Item_count_model extends CI_Model
         //
         $this->db->where('Unique', $id);
         $status = $this->db->update('item_count_scan', $data);
+
+        return $status;
+    }
+
+    public function deleteScan($id) {
+        $updated = date('Y-m-d H:i:s');
+        $updatedBy = $this->session->userdata('userid');
+        // Soft Delete item_count_scan table
+        $this->db->trans_start();
+        $this->db->where('Unique', $id);
+        $status = $this->db->update('item_count_scan', [
+            'Status' => 0,
+            'Updated' => $updated,
+            'UpdatedBy' => $updatedBy,
+        ]);
+        $this->db->trans_complete();
+        // Soft Delete item_count_scan_list table
+        $this->db->trans_start();
+        $this->db->where('CountScanUnique', $id);
+        $this->db->update('item_count_scan_list', [
+            'Status' => 0,
+            'Updated' => $updated,
+            'UpdatedBy' => $updatedBy,
+        ]);
+        $this->db->trans_complete();
 
         return $status;
     }

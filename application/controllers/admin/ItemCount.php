@@ -177,6 +177,23 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    public function deleteItemScan($id) {
+        if (isset($_POST)) {
+            $status = $this->count->deleteScan($id);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Scan deleted!',
+                ];
+            } else {
+                $response = $this->dbErrorMsg();
+            }
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
     public function itemMatchScan($id) {
         if (isset($_POST)) {
             $status = $this->count->itemMatchScan($id);

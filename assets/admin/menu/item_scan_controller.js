@@ -70,7 +70,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
             }).on('uploadEnd', function(e) {
             $scope.csvFileSelected = JSON.parse(e.args.response);
-            console.log($scope.csvFileSelected);
             if ($scope.csvFileSelected.success === true) {
                 $('#fileLoadedTemp').show();
                     $('#icount_file').data('filename', $scope.csvFileSelected.name);
@@ -121,7 +120,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').html('Save');
                 $('#saveIscanBtn').prop('disabled', true);
             }, 100);
-            iscanwind.setTitle('Edit Item Count Scan | ID: ' + row.Unique);
+            var btn = $('<button/>', {
+                'id': 'deleteIscanBtn'
+            }).addClass('icon-trash user-del-btn').css('left', 0);
+            var title = $('<div/>').html('Edit Item Count Scan | ID: ' + row.Unique).prepend(btn)
+                .css('padding-left', '2em');
+            iscanwind.setTitle(title);
+            // iscanwind.setTitle('Edit Item Count Scan | ID: ' + row.Unique);
             iscanwind.open();
         };
 
@@ -159,14 +164,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#iscanTabs').jqxTabs('select', 0);
                             $('#iscanTabs').jqxTabs('enableAt', 1);
                             //
-                            // var btn = $('<button/>', {
-                            //     'ng-click': 'finishIcount()',
-                            //     'id': 'deleteIcountBtn'
-                            // }).addClass('icon-32-trash user-del-btn').css('left', 0);
-                            // var title = $('<div/>').html(' Edit Item Count | ID: '+ response.id + ' | ' + data.Comment).prepend(btn)
-                            //     .css('padding-left', '2em');
-                            // iscanwind.setTitle(title);
-                            iscanwind.setTitle('Edit Item Scan List | ID: ' + response.id);
+                            var btn = $('<button/>', {
+                                'id': 'deleteIscanBtn'
+                            }).addClass('icon-trash user-del-btn').css('left', 0);
+                            var title = $('<div/>').html('Edit Item Scan List | ID: '+ response.id).prepend(btn)
+                                .css('padding-left', '2em');
+                            iscanwind.setTitle(title);
+                            // iscanwind.setTitle('Edit Item Scan List | ID: ' + response.id);
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
                         } else {
@@ -183,6 +187,47 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     } else {}
                 }
             })
+        };
+
+        $('body').on('click', '#deleteIscanBtn', function(e) {
+            $scope.deleteIscan();
+        });
+
+        $scope.deleteIscan = function(option) {
+            if(option != undefined) {
+                $('#mainIscanBtns').show();
+                $('#closeIscanBtns').hide();
+                $('#deleteIscanBtns').hide();
+                $('#matchIscanBtnContainer').hide();
+            }
+            if (option == 0) {
+                $.ajax({
+                    url: SiteRoot + 'admin/ItemCount/deleteItemScan/' + $scope.iscanID,
+                    method: 'post',
+                    dataType: 'json',
+                    success: function(response) {
+                        if(response.status == 'success') {
+                            updateIscanGrid();
+                            iscanwind.close();
+                            // $('#icountTabs').jqxTabs('select', 0);
+                            // $('#icountTabs').jqxTabs('disableAt', 2);
+                        }
+                        else if (data.status == 'error') {}
+                        else {}
+                    }
+                });
+            } else if (option == 1) {
+                iscanwind.close();
+                // $('#iscanTabs').jqxTabs('select', 0);
+                // $('#iscanTabs').jqxTabs('disableAt', 2);
+            } else if (option == 2) {
+            } else {
+                $('#iscanTabs').jqxTabs('select', 0);
+                $('#mainIscanBtns').hide();
+                $('#closeIscanBtns').hide();
+                $('#deleteIscanBtns').show();
+                $('#matchIscanBtnContainer').hide();
+            }
         };
 
         $scope.closeIscan = function(option) {
