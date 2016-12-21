@@ -81,7 +81,7 @@
                                         <button type="button" id="saveIscanBtn"
                                                 ng-click="saveScan()" class="btn btn-primary" disabled
                                             >Import</button>
-                                        <button type="button" id="matchIscanBtn" ng-click=""
+                                        <button type="button" id="matchIscanBtn" ng-click="matchIscan()"
                                                 class="btn btn-success" style="overflow:auto;display: none;"
                                             >Item Match</button>
                                     </div>
@@ -127,7 +127,7 @@
                             <div id="matchIscanBtnContainer" class="" style="display: none">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <p>Ready to find into items?</p>
+                                        <p>Ready to find into items to complete information?</p>
                                         <button type="button" ng-click="matchIscan(0)" class="btn btn-primary">Find</button>
                                         <button type="button" ng-click="matchIscan(1)" class="btn btn-info">Cancel</button>
                                     </div>

@@ -6,7 +6,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         $('#iscanTabs').on('tabclick', function(e) {
             var tab = e.args.item;
-            var tabTitle = $('#icountTabs').jqxTabs('getTitleAt', tab);
+            var tabTitle = $('#iscanTabs').jqxTabs('getTitleAt', tab);
             if (tab == 0) {
                 $('#matchIscanBtn').hide();
                 // Filters tab
@@ -29,9 +29,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
             showCloseButton: false
         };
 
-        function updateIscanGrid(id) {
-            $('#iscanlistGrid').jqxGrid({
-                source: itemCountService.getIscanTableSettings(id).source
+        function updateIscanGrid() {
+            $('#iscanGrid').jqxGrid({
+                source: itemCountService.getIscanTableSettings().source
             });
         }
 
@@ -94,9 +94,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icount_location').val(1);
             $('#icount_comment').val('');
             setTimeout(function() {
+                $('#icount_location').jqxDropDownList({disabled: false});
                 $('#icount_file').jqxFileUpload({disabled: false});
                 $('#iscanTabs').jqxTabs('select', 0);
                 $('#iscanTabs').jqxTabs('disableAt', 1);
+                $('#saveIscanBtn').html('Import');
+                $('#saveIscanBtn').prop('disabled', true);
             }, 100);
             iscanwind.setTitle('New Item Count Scan');
             iscanwind.open();
@@ -111,32 +114,42 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icount_location').val(row.Location);
             $('#icount_comment').val(row.Comment);
             setTimeout(function() {
+                $('#icount_location').jqxDropDownList({disabled: true});
                 $('#icount_file').jqxFileUpload({disabled: true});
                 $('#iscanTabs').jqxTabs('select', 0);
                 $('#iscanTabs').jqxTabs('enableAt', 1);
+                $('#saveIscanBtn').html('Save');
+                $('#saveIscanBtn').prop('disabled', true);
             }, 100);
             iscanwind.setTitle('Edit Item Count Scan | ID: ' + row.Unique);
             iscanwind.open();
         };
 
         $scope.saveScan = function(toClose) {
-            if ($scope.csvFileSelected == null || !$scope.csvFileSelected.success) {
-                $('#iscanErrorMsg #msg').html('You need to load a csv file.');
-                $scope.iscanErrorMsg.apply('open');
-                return;
-            }
+            var url = '';
             var data = {
-                'Location': $('#icount_location').val(),
                 'Comment': $('#icount_comment').val(),
-                'filename': $('#icount_file').data('filename')
             };
+            if ($scope.createOrEditIscan == 'create') {
+                if ($scope.csvFileSelected == null || !$scope.csvFileSelected.success) {
+                    $('#iscanErrorMsg #msg').html('You need to load a csv file.');
+                    $scope.iscanErrorMsg.apply('open');
+                    return;
+                }
+                url = SiteRoot + 'admin/ItemCount/createItemScan';
+                data['Location']= $('#icount_location').val();
+                data['Comment']= $('#icount_comment').val();
+                data['filename']= $('#icount_file').data('filename');
+            } else if ($scope.createOrEditIscan == 'edit') {
+                url = SiteRoot + 'admin/ItemCount/updateItemScan/' + $scope.iscanID;
+            }
 
             $.ajax({
                 method: 'post',
-                url: SiteRoot + 'admin/ItemCount/createItemScan',
+                url: url,
                 data: data,
+                dataType: 'json',
                 success: function(response) {
-                    console.log(response);
                     if (response.status == 'success') {
                         $('#saveIscanBtn').prop('disabled', true);
                         if ($scope.createOrEditIscan == 'create') {
@@ -177,6 +190,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#mainIscanBtns').show();
                 $('#closeIscanBtns').hide();
                 $('#deleteIscanBtns').hide();
+                $('#matchIscanBtnContainer').hide();
             }
             if (option == 0) {
                 $scope.saveScan(1);
@@ -190,7 +204,45 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     $('#mainIscanBtns').hide();
                     $('#closeIscanBtns').show();
                     $('#deleteIscanBtns').hide();
+                    $('#matchIscanBtnContainer').hide();
                 }
+            }
+        };
+
+        $scope.matchIscan = function(option) {
+            if (option != undefined) {
+                $('#mainIscanBtns').show();
+                $('#closeIscanBtns').hide();
+                $('#deleteIscanBtns').hide();
+                $('#matchIscanBtnContainer').hide();
+            }
+
+            if (option == 0) {
+                $.ajax({
+                    method: 'post',
+                    url: SiteRoot + 'admin/ItemCount/itemMatchScan/' + $scope.iscanID ,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            updateIscanGrid();
+                            updateIscanlistGrid($scope.iscanID);
+                            $('#matchIscanBtn').hide();
+                            // $('#icountGrid').jqxGrid('refresh');
+                            // $('#icountGrid').jqxGrid('render');
+                            $('#icountSuccessMsg #msg').html('List was updated with Items found.');
+                            $scope.icountSuccessMsg.apply('open');
+                            // icountwind.close();
+                        }
+                        else if (response.status == 'error') {}
+                        else {}
+                    }
+                });
+            } else if (option == 1) {
+            } else {
+                $('#mainIscanBtns').hide();
+                $('#closeIscanBtns').hide();
+                $('#deleteIscanBtns').hide();
+                $('#matchIscanBtnContainer').show();
             }
         };
     });

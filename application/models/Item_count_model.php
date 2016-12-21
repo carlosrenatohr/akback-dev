@@ -290,14 +290,23 @@ class Item_count_model extends CI_Model
         return $id;
     }
 
+    public function updateScan($id, $data) {
+        $data['Status'] = 1;
+        $data['Updated'] = date('Y-m-d H:i:s');
+        $data['UpdatedBy'] = $this->session->userdata('userid');
+        //
+        $this->db->where('Unique', $id);
+        $status = $this->db->update('item_count_scan', $data);
+
+        return $status;
+    }
+
     protected function insert_scan_list($scanUnique, $filename = null) {
         if (!is_null($filename)) {
             $this->load->library('PHPExcel');
             $this->load->library('PHPExcel/IOFactory');
             //
-            $this->getSettingLocation('DecimalsQuantity', $this->session->userdata("station_number"));
             $decimalQty = $this->session->userdata('admin_DecimalsQuantity');
-            //
             $file = "./assets/csv/{$filename}";
             try {
                 $inputFileType = IOFactory::identify($file);
@@ -331,6 +340,18 @@ class Item_count_model extends CI_Model
         }
 
         return false;
+    }
+
+    public function itemMatchScan($id) {
+        $sql = "
+        update item_count_scan_list
+        set \"ItemUnique\" = item.\"Unique\", \"Item\" = item.\"Item\", \"Part\" = item.\"Part\", \"Description\" = item.\"Description\"
+        from item
+        where item_count_scan_list.\"Barcode\" = item.\"Part\" and item.\"Status\" = 1
+        and item_count_scan_list.\"CountScanUnique\" = {$id}
+        ";
+
+        return $this->db->query($sql);
     }
 
 }

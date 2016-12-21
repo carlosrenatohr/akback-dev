@@ -143,12 +143,48 @@ class ItemCount extends AK_Controller
     public function createItemScan() {
         if (isset($_POST) && !empty($_POST)) {
             $data = $_POST;
+            $this->getSettingLocation('DecimalsQuantity', $this->session->userdata("station_number"));
             $id = $this->count->createScan($data);
             if ($id) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Item  Scan created successfully',
                     'id' => $id,
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function updateItemScan($id) {
+        if (isset($_POST) && !empty($_POST)) {
+            $data = $_POST;
+            $status = $this->count->updateScan($id, $data);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Item Scan updated successfully',
+                    'id' => $status
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function itemMatchScan($id) {
+        if (isset($_POST)) {
+            $status = $this->count->itemMatchScan($id);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Item Scan updated successfully.',
+                    'id' => $status
                 ];
             } else
                 $response = $this->dbErrorMsg();
