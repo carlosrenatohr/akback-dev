@@ -21,7 +21,7 @@
 <!--                        </jqx-radio-button>-->
                         <jqx-drop-down-list id="itemcontrol_gcard" class="cbxExtraTab"
                                             jqx-width="100" style="margin-top: 10px;">
-                            <option value="0"></option>
+                            <option value="0">No</option>
                             <option value="1">Internal</option>
                             <option value="2">Gift Pay</option>
                         </jqx-drop-down-list>
