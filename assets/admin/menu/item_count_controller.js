@@ -114,6 +114,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 },
                 success: function(response) {
                     $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
+                    $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "NewCost", nCost);
+                    $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "AdjustedCost", aCost);
                 }
             });
         } else if (datafield  == 'Comment') {
