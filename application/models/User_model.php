@@ -201,11 +201,18 @@ class User_model extends CI_Model
             'UpdatedBy' => $this->session->userdata('userid')
         ];
         $this->db->where('Unique', $id);
-        $query = $this->db->update('config_user', $values);
+        $status = $this->db->update('config_user', $values);
         // config_user_email
         $this->db->where('UserUnique', $id)->delete('config_user_email');
+        // config_user_position
+        $this->db->where('ConfigUserUnique', $id);
+        $this->db->update('config_user_position',
+            ['Status' => 0,
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+            ]);
 
-        return $query;
+        return $status;
     }
 
     public function updatePositionByUser($values)
