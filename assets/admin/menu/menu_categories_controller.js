@@ -178,11 +178,18 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_MenuItemColumn').val(values['MenuItemColumn']);
         $('#add_ItemLength').val(values['ItemLength']);
 
-        $('#deleteMenuBtn').show();
+        // $('#deleteMenuBtn').show();
         $scope.newOrEditOption = 'edit';
         $scope.menuId = values['Unique'];
         $('#saveMenuBtn').prop('disabled', true);
-        menuWindow.setTitle('Edit Menu ID: ' + values['Unique'] + ' | Menu: <b>' + values['MenuName'] +'</b>');
+        //
+        var btn = $('<button/>', {
+            'id': 'deleteMenuBtn'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Menu ID: ' + values['Unique'] + ' | Menu: <b>' + values['MenuName'] +'</b>')
+            .prepend(btn)
+            .css('padding-left', '2em');
+        menuWindow.setTitle(title);
         menuWindow.open();
     };
 
@@ -287,7 +294,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
 
     var resetMenuWindows = function() {
         $('.menuFormContainer .required-field').css({"border-color": "#ccc"});
-        $('#deleteMenuBtn').hide();
+        // $('#deleteMenuBtn').hide();
         $('.alertButtonsMenuCategories').hide();
         $('#mainButtonsForMenus').show();
 
@@ -301,6 +308,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_ItemLength').val(25);
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
+
+    $('body').on('click', '#deleteMenuBtn', function() {
+        $scope.beforeDeleteMenu();
+    });
 
     $scope.beforeDeleteMenu = function(option) {
         $('#mainButtonsForMenus').hide();
@@ -509,10 +520,16 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
 
-        $('#deleteCategoryBtn').show();
+        // $('#deleteCategoryBtn').show();
         $('#saveCategoryBtn').prop('disabled', true);
-        categoryWindow.setTitle('Edit Menu Category: ' + values['Unique'] + ' | Category: <b>' +
-            values['CategoryName'] + '</b>');
+        var btn = $('<button/>', {
+            'id': 'deleteCategoryBtn'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Menu Category: ' + values['Unique'] + ' | Category: <b>' +
+            values['CategoryName'] + '</b>')
+            .prepend(btn)
+            .css('padding-left', '2em');
+        categoryWindow.setTitle(title);
         categoryWindow.open();
     };
 
@@ -661,8 +678,12 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         //
         $('#saveCategoryBtn').prop('disabled', true);
-        $('#deleteCategoryBtn').hide();
+        // $('#deleteCategoryBtn').hide();
     };
+
+    $('body').on('click', '#deleteCategoryBtn', function() {
+        $scope.beforeDeleteCategory();
+    });
 
     $scope.beforeDeleteCategory = function(option) {
         $('#mainButtonsForCategories').hide();

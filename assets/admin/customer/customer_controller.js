@@ -14,13 +14,13 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.changingCustomerTab = function(e) {
         var tabclick = e.args.item;
         var tabTitle = $('#customerTabs').jqxTabs('getTitleAt', tabclick);
-        var deleteBtn = angular.element('#deleteCustomerBtn');
+        // var deleteBtn = angular.element('#deleteCustomerBtn');
         if ($scope.newOrEditCustomerAction == 'edit') {
-            if (tabTitle == 'Info')
-            //if (tabclick == 0)
-                deleteBtn.show();
-            else
-                deleteBtn.hide();
+            // if (tabTitle == 'Info')
+            // //if (tabclick == 0)
+            //     deleteBtn.show();
+            // else
+            //     deleteBtn.hide();
             // Contacts tab
             if (tabTitle == 'Contacts') {
             //if(tabclick == 2) {
@@ -623,7 +623,7 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
     $scope.newOrEditCustomerAction = null;
 
     $scope.openAddCustomerWind = function() {
-        $('#deleteCustomerBtn').hide();
+        // $('#deleteCustomerBtn').hide();
         $('#saveCustomerBtn').prop('disabled', true);
         //
         $scope.newOrEditCustomerAction = 'create';
@@ -641,8 +641,8 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         customerWind.open();
     };
 
-    $('#gridCustomer').on('rowdoubleclick', function(e) {
-    //$scope.openEditCustomerWind = function(e) {
+    // $('#gridCustomer').on('rowdoubleclick', function(e) {
+    $scope.openEditCustomerWind = function(e) {
         var parent = $(e.args.originalEvent.target).parents('.jqx-grid')[0];
         if ($(parent).attr('id') != 'gridCustomer')
             return;
@@ -664,24 +664,29 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
                 : "Active"
         );
         //
-        $('#deleteCustomerBtn').show();
+        // $('#deleteCustomerBtn').show();
         $('#saveCustomerBtn').prop('disabled', true);
         //
         toggleTabs(true);
         setTimeout(function() {
             $('.customerForm .customer-field[data-control-type=text]:first input').focus();
         }, 100);
+        var btn = $('<button/>', {
+            'id': 'deleteCustomerBtn'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
         var fName = (row.FirstName != null) ? row.FirstName : '';
         var lName = (row.LastName != null) ? row.LastName : '';
         var fullName = fName + ' ' + lName;
-        customerWind.setTitle('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName);
+        var title = $('<div/>').html('Edit Customer: ' + row.Unique + ' | Customer: ' + fullName).prepend(btn)
+            .css('padding-left', '2em');
+        customerWind.setTitle(title);
         customerWind.open();
         //
         //updateCustomerContactTableData();
         //updateCustomerNotesTableData();
         //updateCustomerPurchasesTableData();
-    //};
-    });
+    };
+    // });
 
     /**
      * --- HELPERS TO FILL CONTROLS ON CUSTOMER
@@ -922,6 +927,10 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
             });
         }
     };
+
+    $('body').on('click', '#deleteCustomerBtn', function() {
+        $scope.deleteCustomerAction();
+    });
 
     $scope.deleteCustomerAction = function(option) {
         if (option != undefined) {

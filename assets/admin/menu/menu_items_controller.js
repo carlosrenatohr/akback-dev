@@ -30,10 +30,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var tabTitle = $('#jqxTabsMenuItemWindows').jqxTabs('getTitleAt', tabclicked);
         // ---
         if (tabclicked != 0) {
-            $('#deleteItemGridBtn').hide();
+            // $('#deleteItemGridBtn').hide();
             $('#editItem_ItemSelected').jqxComboBox({disabled: false});
         } else {
-            $('#deleteItemGridBtn').show();
+            // $('#deleteItemGridBtn').show();
             $('#editItem_ItemSelected').jqxComboBox({disabled: true});
             // Main Printer
             if ($scope.itemCellSelectedOnGrid != null) {
@@ -698,6 +698,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     };
 
+    $('body').on('click', '#deleteItemGridBtn', function(e) {
+        $scope.deleteItemGridBtn();
+    });
+
     $scope.deleteItemGridBtn = function(option) {
         if (option == 0) {
             var data = {
@@ -900,10 +904,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         }
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
-                        $('#deleteItemGridBtn').show();
                         $('#editItem_ItemSelected').jqxComboBox({disabled: true});
-                        itemWindow.setTitle(
-                            'Edit Menu Item: ' + data.MenuItemUnique + ' | Item: ' + data.Unique + ' | Label: ' + label);
+                        // $('#deleteItemGridBtn').show();
+                        var btn = $('<button/>', {
+                            'id': 'deleteItemGridBtn'
+                        }).addClass('icon-trash user-del-btn').css('left', 0);
+                        var title = $('<div/>').html('Edit Menu Item: ' + data.MenuItemUnique + ' | Item: ' + data.Unique + ' | Label: ' + label).prepend(btn)
+                            .css('padding-left', '2em');
+                        itemWindow.setTitle(title);
                         itemWindow.open();
                     }
                 });
@@ -1019,7 +1027,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('#editItem_Row').val(row);
             $('#editItem_Column').val(col);
 
-            $('#deleteItemGridBtn').hide();
+            // $('#deleteItemGridBtn').hide();
             $('#NewMenuItemBtn').prop('disabled', false);
             //$('#saveItemGridBtn').prop('disabled', false);
             $('#questionsTabOnMenuItemWindow').hide();
@@ -1358,7 +1366,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#itemq_Tab').val(1);
         //
         $('#saveQuestionItemBtn').prop('disabled', true);
-        $('#deleteQuestionItemBtn').hide();
+        // $('#deleteQuestionItemBtn').hide();
         $scope.addOrEditqItem = 'create';
         questionOnItemGridWindow.setTitle('Add New Question | Item: ' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value);
         questionOnItemGridWindow.open();
@@ -1381,10 +1389,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#itemq_Tab').val((row.Tab!=null) ? row.Tab : 1);
         //
         $('#saveQuestionItemBtn').prop('disabled', true);
-        $('#deleteQuestionItemBtn').show();
+        // $('#deleteQuestionItemBtn').show();
         $scope.addOrEditqItem = 'edit';
         $scope.qItemIdChosen = row.Unique;
-        questionOnItemGridWindow.setTitle('Edit Question: ' + row.QuestionUnique +' | Item: ' + row.ItemUnique);
+        //
+        var btn = $('<button/>', {
+            'id': 'deleteQuestionItemBtn'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Question: ' + row.QuestionUnique +' | Item: ' + row.ItemUnique).prepend(btn)
+            .css('padding-left', '2em');
+        questionOnItemGridWindow.setTitle(title);
         questionOnItemGridWindow.open();
     };
 
@@ -1500,6 +1514,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             });
         }
     };
+
+    $('body').on('click', '#deleteQuestionItemBtn', function() {
+        $scope.deleteQuestionItem();
+    });
 
     $scope.deleteQuestionItem = function(option) {
         if (option == 0) {
@@ -1679,7 +1697,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#primaryCheckItemContainer #primaryPrinterChbox').jqxCheckBox({checked: false});
         //
         $("#printerItemList").jqxDropDownList({selectedIndex: -1});
-        $('#deleteBtnPrinterItem').hide();
+        // $('#deleteBtnPrinterItem').hide();
         $('#saveBtnPrinterItem').prop('disabled', true);
         printerItemWind.setTitle('New Item Printer');
         printerItemWind.open();
@@ -1689,14 +1707,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var row = e.args.row.bounddata;
         $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
         $scope.openPrinterItemWin();
-        printerItemWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
+        var btn = $('<button/>', {
+            'id': 'deleteBtnPrinterItem'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique)
+            .prepend(btn)
+            .css('padding-left', '2em');
+        printerItemWind.setTitle(title);
         //
         $('#primaryCheckItemContainer').show();
         $('#primaryCheckItemContainer #primaryPrinterChbox').jqxCheckBox({checked: (row.Primary == 1) ? true : false});
         //
         $scope.createOrEditPitem = 'edit';
         $scope.itemPrinterID = row.Unique;
-        $('#deleteBtnPrinterItem').show();
+        // $('#deleteBtnPrinterItem').show();
         var item = $("#printerItemList").jqxDropDownList('getItemByValue', row.PrinterUnique);
         $("#printerItemList").jqxDropDownList('enableItem', item);
         $("#printerItemList").jqxDropDownList({selectedIndex: item.index});
@@ -1775,6 +1799,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             }
         }
     };
+
+    $('body').on('click', '#deleteBtnPrinterItem', function() {
+        $scope.beforeDeleteItemPrinter();
+    });
 
     // Deleting Item printer
     $scope.beforeDeleteItemPrinter = function(option) {

@@ -62,9 +62,9 @@
                                 <button	type="button" id="" ng-click="closeBtnPrinter()" class="btn btn-warning">
                                     Close
                                 </button>
-                                <button	type="button" id="deleteBtnPrinter" ng-click="beforeDeleteIPrinter()" class="btn btn-danger" style="overflow:auto;">
-                                    Delete
-                                </button>
+<!--                                <button	type="button" id="deleteBtnPrinter" ng-click="beforeDeleteIPrinter()" class="btn btn-danger" style="overflow:auto;">-->
+<!--                                    Delete-->
+<!--                                </button>-->
                             </div>
                         </div>
                     </div>

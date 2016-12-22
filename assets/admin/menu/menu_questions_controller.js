@@ -75,11 +75,11 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         //
         if (tabclicked == 0 ) {
             $(this).jqxTabs({height:"300px"});
-            $('#deleteQuestionBtn').show();
+            // $('#deleteQuestionBtn').show();
         }
         if (tabclicked == 1 ) {
             $(this).jqxTabs({height:"100%"});
-            $('#deleteQuestionBtn').hide();
+            // $('#deleteQuestionBtn').hide();
             if($scope.questionId != null) {
                 $scope.$apply(function() {
                     updateItemQuestiontable();
@@ -132,8 +132,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qt_sort').val((row.Sort != null) ? row.Sort : 0);
         $('#qt_max').val((row.Max != null) ? row.Max : 0);
         $('#qt_min').val((row.Min != null) ? row.Min : 0);
-        $('#deleteQuestionBtn').show();
-        questionsWindow.setTitle('Edit Question: ' + $scope.questionId + ' | Question: <b>' + row.QuestionName + '</b>');
+        // $('#deleteQuestionBtn').show();
+        var btn = $('<button/>', {
+            'id': 'deleteQuestionBtn'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Question: ' + $scope.questionId + ' | Question: <b>' + row.QuestionName + '</b>')
+            .prepend(btn)
+            .css('padding-left', '2em');
+        questionsWindow.setTitle(title);
         questionsWindow.open();
     };
 
@@ -149,7 +155,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         //
         $('#questionstabsWin').jqxTabs({selectedItem: 0});
         $('#questionWindowForm .required-field').css({"border-color": "#ccc"});
-        $('#deleteQuestionBtn').hide();
+        // $('#deleteQuestionBtn').hide();
         $('#saveQuestionBtn').prop('disabled', true);
     };
 
@@ -255,6 +261,10 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         }
     };
 
+    $('body').on('click', '#deleteQuestionBtn', function() {
+        $scope.beforeDeleteQuestion();
+    });
+
     // -- Question Delete actions
     $scope.beforeDeleteQuestion = function(option) {
         if (option != undefined) {
@@ -327,7 +337,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
 
     $scope.openQuestionItemWin = function (e) {
         $scope.newOrEditQItemOption = 'create';
-        $('#deleteQuestionItemBtnOnQuestionTab').hide();
+        // $('#deleteQuestionItemBtnOnQuestionTab').hide();
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
         question_item_window.setTitle('Add New Question Item');
         question_item_window.open();
@@ -347,9 +357,15 @@ app.controller('menuQuestionController', function ($scope, questionService) {
 
         $('#qItem_sort').val(row.Sort);
         $('#qItem_Label').val(row.Label);
-        $('#deleteQuestionItemBtnOnQuestionTab').show();
+        // $('#deleteQuestionItemBtnOnQuestionTab').show();
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
-        question_item_window.setTitle('Edit Question Item: ' + $scope.qitemId + ' | Question ID: ' + $scope.questionId);
+        //
+        var btn = $('<button/>', {
+            'id': 'deleteQuestionItemBtnOnQuestionTab'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Question Item: ' + $scope.qitemId + ' | Question ID: ' + $scope.questionId).prepend(btn)
+            .css('padding-left', '2em');
+        question_item_window.setTitle(title);
         question_item_window.open();
     };
 
@@ -506,6 +522,10 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             });
         }
     };
+
+    $('body').on('click', '#deleteQuestionItemBtnOnQuestionTab', function(){
+        $scope.deleteItemByQuestion();
+    });
 
     $scope.deleteItemByQuestion = function(option) {
         if (option != undefined) {

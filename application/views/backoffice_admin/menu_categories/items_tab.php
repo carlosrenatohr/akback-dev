@@ -104,7 +104,7 @@
                                 </span>
                                 <button type="button" id="saveItemGridBtn" ng-click="saveItemGridBtn()" class="btn btn-primary" disabled>Save</button>
                                 <button	type="button" id="" ng-click="closeItemGridWindows()" class="btn btn-warning">Close</button>
-                                <button	type="button" id="deleteItemGridBtn" ng-click="deleteItemGridBtn()" class="btn btn-danger " style="overflow:auto;">Delete</button>
+<!--                                <button	type="button" id="deleteItemGridBtn" ng-click="deleteItemGridBtn()" class="btn btn-danger " style="overflow:auto;">Delete</button>-->
                             </div>
                         </div>
                     </div>

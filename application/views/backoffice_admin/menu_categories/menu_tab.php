@@ -123,7 +123,7 @@
                             <div class="col-sm-12">
                                 <button type="button" id="saveMenuBtn" ng-click="SaveMenuWindows()" class="btn btn-primary" disabled>Save</button>
                                 <button	type="button" id="" ng-click="CloseMenuWindows()" class="btn btn-warning">Close</button>
-                                <button	type="button" id="deleteMenuBtn" ng-click="beforeDeleteMenu()" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>
+                                <!--<button	type="button" id="deleteMenuBtn" ng-click="beforeDeleteMenu()" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>-->
                             </div>
                         </div>
                     </div>

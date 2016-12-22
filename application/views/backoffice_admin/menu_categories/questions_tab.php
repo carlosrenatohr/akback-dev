@@ -239,11 +239,11 @@
                                                                 class="btn btn-warning">
                                                             Close
                                                         </button>
-                                                        <button type="button" id="deleteQuestionItemBtnOnQuestionTab"
-                                                                ng-click="deleteItemByQuestion()"
-                                                                class="btn btn-danger" style="overflow:auto;">
-                                                            Delete
-                                                        </button>
+<!--                                                        <button type="button" id="deleteQuestionItemBtnOnQuestionTab"-->
+<!--                                                                ng-click="deleteItemByQuestion()"-->
+<!--                                                                class="btn btn-danger" style="overflow:auto;">-->
+<!--                                                            Delete-->
+<!--                                                        </button>-->
                                                     </div>
                                                 </div>
                                             </div>

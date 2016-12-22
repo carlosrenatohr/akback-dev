@@ -213,6 +213,14 @@ app.controller('menuPrintersController', function($scope, adminService) {
 
     $('#printerTable').on('rowdoubleclick', function(e) {
         var row = e.args.row.bounddata;
+        var btn = $('<button/>', {
+            'id': 'deleteBtnPrinter'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique)
+            .prepend(btn)
+            .css('padding-left', '2em');
+        printerWind.setTitle(title);
+        //
         if (row.Unique == null) {
             $scope.createOrEditPrinter = 'create';
             $scope.printerSelectedID = null;
@@ -253,7 +261,7 @@ app.controller('menuPrintersController', function($scope, adminService) {
         //$('#saveBtnPrinter').prop('disabled', true);
         anyChangePrompt = false;
         $('#itemMainList').jqxComboBox({disabled: true});
-        printerWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
+        // printerWind.setTitle('Edit Item Printer | Item: ' + row.ItemUnique + ' | Printer ID: ' + row.PrinterUnique);
         printerWind.open();
     });
 
@@ -404,6 +412,10 @@ app.controller('menuPrintersController', function($scope, adminService) {
             }
         }
     };
+
+    $('body').on('click', '#deleteBtnPrinter', function() {
+        $scope.beforeDeleteIPrinter();
+    });
 
     // Deleting Item printer
     $scope.beforeDeleteIPrinter = function(option) {

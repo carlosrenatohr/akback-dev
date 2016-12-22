@@ -1,46 +1,8 @@
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jquery-1.12.0.min.js"></script>-->
-<?php
-//angularplugins();
-//angulartheme_arctic();
-//angulartheme_metrodark();
-//angulartheme_darkblue();
-//jqxplugindatetime();
-//customerangular();
-//jqxangularjs();
-?>
-<!--<link rel="stylesheet" href="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/styles/jqx.base.css" type="text/css"/>-->
-<!--<link rel="stylesheet" href="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/styles/jqx.darkblue.css" type="text/css"/>-->
-<!--<link rel="stylesheet" href="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/styles/jqx.mobile.css" type="text/css"/>-->
-<!-- Assets -->
-<!--<link rel="stylesheet" href="--><?php //echo base_url() ?><!--assets/js/jqwidgets/styles/jqx.summer.css" type="text/css" />-->
-<!--<link rel="stylesheet" href="--><?php //echo base_url()?><!--assets/admin/styles.css">-->
 <script>
     // --Global Variable
 //    var SiteRoot = "<?php //echo base_url()?>//";
     $("#tabtitle").html("Customer administrator");
 </script>
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.sort.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.pager.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.selection.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.edit.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.columnsresize.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.columnsreorder.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxdata.export.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.export.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.storage.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.grouping.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.pager.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.sort.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/jqwidgets/jqxgrid.filter.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxgrid.aggregates.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxradiobutton.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxnumberinput.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxdatetimeinput.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxcalendar.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxscrollbar.js"></script>-->
-<!--<script src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxlistbox.js"></script>-->
-<!---->
 <script src="<?php echo base_url()?>assets/admin/customer/customer_controller.js"></script>
 <script src="<?php echo base_url()?>assets/admin/customer/customer_service.js"></script>
 <script src="<?php echo base_url()?>assets/admin/customer/customer_filter.js"></script>
@@ -93,7 +55,7 @@
                 <jqx-grid jqx-settings="customerTableSettings"
                           id="gridCustomer"
                           jqx-create="customerTableSettings"
-                          jqx-on-row-double-click="openEditCustomerWind($event)"
+                          jqx-on-rowdoubleclick="openEditCustomerWind($event)"
                           style="overflow: inherit;"
                 ></jqx-grid>
                 <jqx-window jqx-settings="addCustomerWindSettings" jqx-on-create="addCustomerWindSettings"
@@ -195,11 +157,11 @@
                                                     class="btn btn-warning">
                                                 Close
                                             </button>
-                                            <button type="button" id="deleteCustomerBtn"
-                                                    ng-click="deleteCustomerAction()"
-                                                    class="btn btn-danger" style="overflow:auto;">
-                                                Delete
-                                            </button>
+<!--                                            <button type="button" id="deleteCustomerBtn"-->
+<!--                                                    ng-click="deleteCustomerAction()"-->
+<!--                                                    class="btn btn-danger" style="overflow:auto;">-->
+<!--                                                Delete-->
+<!--                                            </button>-->
                                         </div>
                                     </div>
                                 </div>

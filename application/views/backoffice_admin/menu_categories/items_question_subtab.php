@@ -112,10 +112,10 @@
                             <button type="button" id="" ng-click="closeQuestionItemWin()" class="btn btn-warning">
                                 Close
                             </button>
-                            <button type="button" id="deleteQuestionItemBtn" ng-click="deleteQuestionItem()"
-                                    class="btn btn-danger " style="overflow:auto;">
-                                Delete
-                            </button>
+<!--                            <button type="button" id="deleteQuestionItemBtn" ng-click="deleteQuestionItem()"-->
+<!--                                    class="btn btn-danger " style="overflow:auto;">-->
+<!--                                Delete-->
+<!--                            </button>-->
                         </div>
                     </div>
                 </div>
