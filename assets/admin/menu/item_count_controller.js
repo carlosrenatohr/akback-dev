@@ -64,9 +64,24 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.icountSuccessMsg = adminService.setNotificationSettings(1, notifContainer);
     $scope.icountErrorMsg = adminService.setNotificationSettings(0, notifContainer);
 
-    $('#icountTabs .icountField').on('keypress keyup paste change select', function(){
-        $('#saveIcountBtn').prop('disabled', false);
+    $('#icountTabs .icountField').on('keypress keyup paste change', function(){
+        if (!$(this).hasClass('filters')) {
+            $('#saveIcountBtn').prop('disabled', false);
+        }
     });
+
+    $('#icountTabs .icountField.filters').on('select', function(e) {
+        if (e.args) {
+            $('#saveIcountBtn').prop('disabled', false);
+        }
+    });
+
+    $('body').on('focus', '#icountTabs .icountField.filters .jqx-combobox-input', function(e) {
+        var $this = $(this).parents('.icountField.filters');
+        // $this.jqxComboBox({showArrow: true});
+        $this.jqxComboBox('open');
+    });
+
     $('#icountTabs #icount_countdate').on('change valueChanged', function() {
         $('#saveIcountBtn').prop('disabled', false);
     });
@@ -258,6 +273,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'success') {
+                        $('#saveIcountBtn').html('Save');
                         $('#saveIcountBtn').prop('disabled', true);
                         if ($scope.createOrEditIcount == 'create') {
                             $scope.icountID = response.id;
@@ -277,7 +293,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             var btn = $('<button/>', {
                                 'ng-click': 'finishIcount()',
                                 'id': 'deleteIcountBtn'
-                            }).addClass('icon-32-trash user-del-btn').css('left', 0);
+                            }).addClass('icon-trash user-del-btn').css('left', 0);
                             var title = $('<div/>').html(' Edit Item Count | ID: '+ response.id + ' | ' + data.Comment).prepend(btn)
                                 .css('padding-left', '2em');
                             icountwind.setTitle(title);
