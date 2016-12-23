@@ -46,7 +46,10 @@ class Item_count_model extends CI_Model
               ic.\"Location\", ic.\"Status\" as \"StatusCount\",
               cu1.\"UserName\" as CreatedByName, cu2.\"UserName\" as UpdatedByName,
               to_char(date_trunc('minutes', ic.\"Created\"::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Created\",
-              to_char(date_trunc('minutes', ic.\"Updated\"::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Updated\"
+              to_char(date_trunc('minutes', ic.\"Updated\"::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Updated\",
+              (COALESCE (icl.\"Cost\", 0) + COALESCE (icl.\"CostExtra\", 0)
+               + COALESCE(icl.\"CostFreight\", 0) + COALESCE(icl.\"CostDuty\", 0))
+                as \"TotalCost\"
             FROM item_count ic
             left join item_count_list icl on icl.\"CountUnique\" = ic.\"Unique\"
             left join config_location cl on cl.\"Unique\" = ic.\"Location\"

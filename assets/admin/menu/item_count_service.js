@@ -138,7 +138,7 @@
             var cellsNCount = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var diff = parseFloat(row.CountStock) * parseFloat(row.Cost);
+                var diff = parseFloat(row.CountStock) * parseFloat(row.TotalCost); //row.Cost
                 diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
                 element.html(diff);
                 if (diff < 0) {
@@ -150,7 +150,7 @@
             var cellsACount = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var diff = parseFloat(row.Cost) * parseFloat(row.Difference);
+                var diff = parseFloat(row.TotalCost) * parseFloat(row.Difference);
                 diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
                 element.html(diff);
                 if (diff < 0) {
@@ -161,7 +161,7 @@
 
             var aggregates = function (aggregatedValue, currentValue, column, record) {
                 var fixed = 0;
-                if (column == 'Cost' || column == 'NewCost' || column == 'AdjustedCost') {
+                if (column == 'Cost' || column == 'NewCost' || column == 'AdjustedCost' || column == 'TotalCost') {
                     fixed = decimalCost;
                 }
                 if (column == 'CurrentStock' || column == 'CountStock' || column == 'Difference') {
@@ -194,6 +194,7 @@
                         {name: 'SupplierPart', type: 'string'},
                         {name: 'Category', type: 'string'},
                         {name: 'Cost', type: 'number'},
+                        {name: 'TotalCost', type: 'number'},
                         {name: 'CurrentStock', type: 'number'},
                         {name: 'CountStock', type: 'number'},
                         {name: 'Difference', type: 'number'},
@@ -214,6 +215,7 @@
                 }),
                 columns: [
                     {dataField: 'Unique', hidden: true},
+                    {dataField: 'Cost', hidden: true},
                     {text: 'Item', dataField: 'Item', editable: false, width: '8%'},
                     {text: 'Part', dataField: 'Part', editable: false, width: '7%'},
                     {text: 'Description', dataField: 'Description', editable: false, width: '10%'},
@@ -221,7 +223,7 @@
                         filtertype: 'checkedlist', width: '8%'},
                     {text: 'Category', dataField: 'Category', editable: false,
                         filtertype: 'checkedlist', width: '8%'},
-                    {text: 'Cost', dataField: 'Cost', editable: false,
+                    {text: 'Cost', dataField: 'TotalCost', editable: false,
                         filtertype: 'number', width: '8%',
                         aggregates: [{ 'Total': aggregates }],
                         aggregatesrenderer: aggregatesrender,

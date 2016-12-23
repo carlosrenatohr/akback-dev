@@ -100,8 +100,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
             var current = (isNaN(parseFloat(row.CurrentStock))) ? 0 : parseFloat(row.CurrentStock);
             var newDiff = parseFloat(value) - (current);
-            var nCost = parseFloat(value) * parseFloat(row.Cost);
-            var aCost = parseFloat(row.Cost) * newDiff;
+            var nCost = parseFloat(value) * parseFloat(row.TotalCost);// parseFloat(row.Cost);
+            var aCost = newDiff * parseFloat(row.TotalCost);
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
