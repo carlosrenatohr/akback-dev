@@ -168,9 +168,3 @@
 
     </div>
 </div>
-
-<style>
-    #itemcountWindow {
-        max-height: 99%!important;max-width:99%!important;
-    }
-</style>

@@ -426,3 +426,7 @@ div[id="filterrow.inventoryItemsGrid"].jqx-grid-cell-pinned {
     border:0;
     outline: 0;
 }
+
+#itemcountWindow {
+    max-height: 99%!important;max-width:99%!important;
+}
