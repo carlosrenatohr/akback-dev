@@ -44,11 +44,26 @@
 
     <div class="row">
         <div class="col-md-12">
-            <jqx-grid id="icountGrid"
-                      jqx-settings="icountGridSettings"
-                      jqx-create="icountGridSettings"
-                      jqx-on-rowdoubleclick="editIcount(e)"
-            ></jqx-grid>
+            <jqx-tabs id="">
+                <ul>
+                    <li>In Progress</li>
+                    <li>Complete</li>
+                </ul>
+                <div>
+                    <jqx-grid id="icountGrid1" jqx-theme="'artic'"
+                              jqx-settings="icountGridProgressSettings"
+                              jqx-create="icountGridProgressSettings"
+                              jqx-on-rowdoubleclick="editIcount(e)"
+                    ></jqx-grid>
+                </div>
+                <div>
+                    <jqx-grid id="icountGrid2"
+                              jqx-settings="icountGridCompleteSettings"
+                              jqx-create="icountGridCompleteSettings"
+                              jqx-on-rowdoubleclick="editIcount(e)"
+                    ></jqx-grid>
+                </div>
+            </jqx-tabs>
             <jqx-window jqx-on-close="close()" jqx-settings="icountWindowSettings"
                         jqx-create="icountWindowSettings" id="itemcountWindow"
                         >

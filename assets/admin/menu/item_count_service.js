@@ -9,7 +9,10 @@
     function iCountService($http, adminService) {
 
         var pager = adminService.loadPagerConfig();
-        this.getIcountTableSettings = function() {
+        this.getIcountTableSettings = function(status) {
+            if (status == undefined) {
+                status = '';
+            }
             return {
                 source: new $.jqx.dataAdapter({
                     dataType: 'json',
@@ -34,19 +37,19 @@
                         {name: 'SupplierFilter', type: 'string'}
                     ],
                     id: 'Unique',
-                    url: SiteRoot + 'admin/ItemCount/load_itemcount'
+                    url: SiteRoot + 'admin/ItemCount/load_itemcount/' + status
                 }),
                 columns: [
                     {text: 'ID', dataField: 'Unique', width: '8%', filterable: false},
                     {dataField: 'Location', hidden: true},
                     {dataField: 'Station', hidden: true},
-                    {text: 'Location', dataField: 'LocationName', width: '12%',
+                    {text: 'Location', dataField: 'LocationName', width: '15%',
                         filtertype: 'list'},
-                    {text: 'Comment', dataField: 'Comment', width: '20%'},
+                    {text: 'Comment', dataField: 'Comment', width: '30%'},
                     {text:'Count Date', dataField: 'CountDateFormatted', width: '10%',
                         cellsformat:'MM/dd/yyyy', filtertype: 'date'},
-                    {text:'Status', dataField: 'StatusName', width: '10%',
-                        filtertype: 'list'},
+                    // {text:'Status', dataField: 'StatusName', width: '10%',
+                    //     filtertype: 'list'},
                     {text: 'Created By', dataField: 'CreatedByName', width: '12%',
                         filtertype: 'list'},
                     {dataField: 'CountDate', hidden: true},

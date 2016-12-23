@@ -8,7 +8,7 @@ class Item_count_model extends CI_Model
         parent::__construct();
     }
 
-    public function mainList() {
+    public function mainList($status) {
         $this->db->select('item_count.*, cl."LocationName",
           cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
           to_char(date_trunc(\'minutes\', item_count."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
@@ -28,7 +28,10 @@ class Item_count_model extends CI_Model
         $this->db->join('config_user cu1', 'cu1.Unique = item_count.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count.UpdatedBy', 'left');
         $this->db->join('item_count_filter icf', 'icf.CountUnique = item_count.Unique', 'left');
+        if (is_null($status) || empty($status))
         $this->db->where('item_count.Status!=', 0);
+        else
+        $this->db->where('item_count.Status', $status);
         $this->db->order_by('item_count.Created', 'DESC');
         return $this->db->get()->result_array();
     }

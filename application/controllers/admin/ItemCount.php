@@ -11,9 +11,9 @@ class ItemCount extends AK_Controller
         $this->load->model('Item_count_model', 'count');
     }
 
-    public function load_itemcount()
+    public function load_itemcount($status)
     {
-        $result = $this->count->mainList();
+        $result = $this->count->mainList($status);
         echo json_encode($result);
     }
 

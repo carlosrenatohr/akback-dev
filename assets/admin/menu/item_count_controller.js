@@ -34,15 +34,19 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     // Item Count Grid
-    $scope.icountGridSettings = itemCountService.getIcountTableSettings();
+    $scope.icountGridProgressSettings = itemCountService.getIcountTableSettings(1);
+    $scope.icountGridCompleteSettings = itemCountService.getIcountTableSettings(2);
     $scope.icountlistGridSettings = itemCountService.getIcountlistTableSettings();
     $scope.icategoryFilterSettings = itemCountService.getCategoryFilter();
     $scope.isubcategoryFilterSettings = itemCountService.getSubcategoryFilter();
     $scope.isupplierFilterSettings = itemCountService.getSupplierFilter();
 
     function updateIcountGrid() {
-        $('#icountGrid').jqxGrid({
-            source: itemCountService.getIcountTableSettings().source
+        $('#icountGrid1').jqxGrid({
+            source: itemCountService.getIcountTableSettings(1).source
+        });
+        $('#icountGrid2').jqxGrid({
+            source: itemCountService.getIcountTableSettings(2).source
         });
     }
 
@@ -409,8 +413,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
                         $('#finishIcountBtn').hide();
-                        $('#icountGrid').jqxGrid('refresh');
-                        $('#icountGrid').jqxGrid('render');
+                        $('#icountGrid1').jqxGrid('refresh');
+                        $('#icountGrid2').jqxGrid('refresh');
+                        $('#icountGrid2').jqxGrid('render');
                         $('#icountSuccessMsg #msg').html('Item Count has been completed and Stock Adjusted.');
                         $scope.icountSuccessMsg.apply('open');
                         // icountwind.close();
