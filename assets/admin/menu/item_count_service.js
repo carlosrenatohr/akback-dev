@@ -235,7 +235,7 @@
                         cellsrenderer: cellsCost,
                         cellsalign: 'right', align: 'right'
                     },
-                    {text: 'Current', dataField: 'CurrentStock', editable: false,
+                    {text: 'Stock', dataField: 'CurrentStock', editable: false,
                         cellsrenderer: cellsCurrentStock, filtertype: 'number',
                         cellsalign: 'right', align: 'right', width: '8%',
                         aggregates: [{ 'Total': aggregates }],
