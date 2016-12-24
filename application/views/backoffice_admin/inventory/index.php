@@ -92,9 +92,9 @@
                                     Save
                                 </button>
                                 <button type="button" ng-click="closeInventoryAction()" class="btn btn-warning">Close</button>
-                                <button type="button" id="deleteInventoryBtn" ng-click="deleteInventoryAction()" class="btn btn-danger"
-                                        style="overflow:auto;display: none;">Delete
-                                </button>
+<!--                                <button type="button" id="deleteInventoryBtn" ng-click="deleteInventoryAction()" class="btn btn-danger"-->
+<!--                                        style="overflow:auto;display: none;">Delete-->
+<!--                                </button>-->
                             </div>
                         </div>
                     </div>

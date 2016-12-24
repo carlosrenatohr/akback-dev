@@ -12,10 +12,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var tabclick = e.args.item;
         var tabTitle = $('#inventoryTabs').jqxTabs('getTitleAt', tabclick);
         $('#uploadItemPictureBtn').hide();
-        if (tabTitle == 'Item')
-            $('#deleteInventoryBtn').show();
-        else
-            $('#deleteInventoryBtn').hide();
+        // if (tabTitle == 'Item')
+        //     $('#deleteInventoryBtn').show();
+        // else
+        //     $('#deleteInventoryBtn').hide();
         // Required tabs to create item
         var itemCreatedRequired = ['Stock Level', 'Barcode', 'Questions', 'Printers'];
         if (itemCreatedRequired.indexOf(tabTitle) > -1) {
@@ -214,7 +214,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }, 100);
         //
         $('#invMainWindow #picture_tab').hide();
-        $('#deleteInventoryBtn').hide();
+        // $('#deleteInventoryBtn').hide();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('New Item');
         inventoryWind.open();
@@ -301,8 +301,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //
         $('#invMainWindow #picture_tab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         $('#invMainWindow #picture_tab').show();
-        $('#deleteInventoryBtn').show();
-        inventoryWind.setTitle('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description);
+        // $('#deleteInventoryBtn').show();
+        var btn = $('<button/>', {
+            'id': 'deleteInventoryBtn'
+        }).addClass('icon-trash user-del-btn').css('left', 0);
+        var title = $('<div/>').html('Edit Item PID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description).prepend(btn)
+            .css('padding-left', '2em');
+        inventoryWind.setTitle(title);
         inventoryWind.open();
     };
 
@@ -513,6 +518,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             }
         }
     };
+
+    $('body').on('click', '#deleteInventoryBtn', function(e) {
+        $scope.deleteInventoryAction();
+    });
 
     $scope.deleteInventoryAction = function(option) {
         if(option != undefined) {

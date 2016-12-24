@@ -225,11 +225,6 @@ demoApp.controller("customerController", function ($scope, $http, customerServic
         });
     };
 
-    $('#customerCardTabGrid').on('bindingComplete', function() {
-        console.log('bc');
-    });
-
-
     var updateCustomerVisitsTableData = function() {
         if ($scope.customerID != undefined) {
             var tablesettings = customerService.getVisitsTableTabSettings($scope.customerID);
