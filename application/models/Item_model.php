@@ -30,6 +30,7 @@ class Item_model extends CI_Model
         $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');
         $this->db->join("item_stock_line isl", "isl.ItemUnique=item.Unique", 'left');
         $this->db->where("item.\"Status\"", 1);
+        $this->db->where("isl.\"status\"", 1);
         $this->db->group_by("item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\", supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
             category_main.\"Unique\", category_sub.\"Name\", category_sub.\"Unique\", \"CostLanded\", item.\"Cost_Duty\"");
         $this->db->order_by("item.\"Unique\" DESC");
@@ -191,9 +192,6 @@ class Item_model extends CI_Model
      * @return mixed
      *
      */
-
-
-
     public function getStockItemByLocation($id, $location = null) {
         $locationQuery = ($location == 0) ? "" : " AND a.\"LocationUnique\"=".$location;
         $sql = "SELECT  a.\"Unique\", a.\"ItemUnique\", a.\"LocationUnique\",
@@ -201,7 +199,7 @@ class Item_model extends CI_Model
 			SUM(a.\"Quantity\") OVER (PARTITION BY a.\"LocationUnique\"
             ORDER BY a.\"TransactionDate\",a.\"Unique\") as \"Total\"
 			FROM item_stock_line a, config_location b, item_types c
-			WHERE a.\"LocationUnique\"=b.\"Unique\"
+			WHERE a.\"LocationUnique\"=b.\"Unique\" and a.\"status\"=1
 			AND a.\"Type\"=c.\"Unique\"
 			AND a.\"ItemUnique\" = ".$id." {$locationQuery}
 			ORDER BY a.\"TransactionDate\" DESC, a.\"Unique\" DESC";
@@ -232,6 +230,7 @@ class Item_model extends CI_Model
         $this->db->from('item_stock_line');
         $this->db->where('ItemUnique', $unique);
         $this->db->where('LocationUnique', $store);
+        $this->db->where('status', 1);
         $this->db->group_by('ItemUnique');
 
         return $this->db->get()->row_array();
