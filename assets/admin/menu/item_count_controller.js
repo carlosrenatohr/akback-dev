@@ -315,6 +315,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#icountSuccessMsg #msg').html('Item Count created successfully! <br>' +
                                 'Item Count list was built. You can check it at count list subtab. ');
                             $scope.icountSuccessMsg.apply('open');
+                            updateIcountGrid(1);
                         // UPDATING
                         } else {
                             var btn = $('<button/>', {
@@ -326,8 +327,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             icountwind.setTitle(title);
                             $('#icountSuccessMsg #msg').html('Item Count updated successfully!');
                             $scope.icountSuccessMsg.apply('open');
+                            $('#icountGrid1').jqxGrid('updatebounddata', 'filter');
+                            $('#icountGrid2').jqxGrid('updatebounddata', 'filter');
                         }
-                        updateIcountGrid();
                         if (toClose) {
                             icountwind.close();
                             $('#icountTabs').jqxTabs('select', 0);
