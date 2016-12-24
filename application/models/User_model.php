@@ -110,6 +110,10 @@ class User_model extends CI_Model
     public function update($data, $id) {
         $position_id = $data['position'];
         unset($data['position']);
+        if (empty($data['Email'])) {
+            $defaults = $this->defaultsUserEmail();
+            $data['Email'] = $defaults['ReplyToEmail'];
+        }
         $data['Updated'] = date('Y-m-d H:i:s');
         $data['UpdatedBy'] = $this->session->userdata('userid');
         $query = $this->db->update('config_user', $data, "Unique = {$id}");
