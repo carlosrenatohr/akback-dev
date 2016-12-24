@@ -104,7 +104,6 @@ app.controller('menuPrintersController', function($scope, adminService) {
         pageable: true,
         // pageSize: 15,
         pageSize: pager.pageSize,
-        // pagesizeoptions: ['5', '10', '15'],
         pagesizeoptions: pager.pagesizeoptions,
         altRows: true,
         autoheight: true,

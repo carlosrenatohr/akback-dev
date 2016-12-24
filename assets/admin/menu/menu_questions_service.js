@@ -78,8 +78,10 @@
                 sortable: true,
                 filterable: true,
                 showfilterrow: true,
-                filterMode: 'simple',
-                //sortable: true,
+                ready: function() {
+                    $('#questionMainTable').jqxGrid('updatebounddata', 'filter');
+                },
+                // filterMode: 'simple',
                 pageSize: pager.pageSize,
                 pagesizeoptions: pager.pagesizeoptions,
                 altRows: true,

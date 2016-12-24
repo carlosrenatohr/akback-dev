@@ -13,7 +13,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 $('#qItem_ItemUnique').jqxComboBox({
                     source: dataAdapterItems()
                 });
-                updateQuestionMainTable();
+                setTimeout(function() {
+                    updateQuestionMainTable();
+                }, 200);
                 once = true;
             }
             else {
@@ -59,7 +61,12 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         });
     };
 
-    // -- Question Item table settings
+    $('#questionMainTable').on('bindingcomplete', function(){
+        console.log('bc');
+    });
+
+
+        // -- Question Item table settings
     $scope.questionItemTableSettings = questionService.getQuestionChoicesTableSettings();
     // -- Question tabs settings
     $scope.questionstabsSettings = {
