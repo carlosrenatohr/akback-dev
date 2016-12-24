@@ -82,8 +82,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $('body').on('focus', '#icountTabs .icountField.filters .jqx-combobox-input', function(e) {
         var $this = $(this).parents('.icountField.filters');
-        // $this.jqxComboBox({showArrow: true});
+        $this.jqxComboBox({showArrow: true});
         $this.jqxComboBox('open');
+    });
+
+    $('body').on('bindingComplete', '#icountTabs .icountField.filters .jqx-combobox-input', function(e) {
+        var $this = $(this).parents('.icountField.filters');
+        $this.jqxComboBox({showArrow: true});
     });
 
     $('#icountTabs #icount_countdate').on('change valueChanged', function() {
@@ -172,6 +177,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#isupplierFilter').jqxComboBox('clearSelection');
         $('.icountField.filters').jqxComboBox({disabled: false});
         $('#saveIcountBtn').html('Build Count List');
+        $('#saveIcountBtn').show();
         icountwind.setTitle('New Item Count');
         icountwind.open();
     };
@@ -219,6 +225,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icountTabs').jqxTabs('enableAt', 2);
         $('.icountField.filters').jqxComboBox({disabled: true});
         $('#saveIcountBtn').html('Save');
+        $('#saveIcountBtn').hide();
         var btn = $('<button/>', {
             'ng-click': 'finishIcount()',
             'id': 'deleteIcountBtn'
@@ -281,6 +288,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     if (response.status == 'success') {
                         $('#saveIcountBtn').html('Save');
                         $('#saveIcountBtn').prop('disabled', true);
+                        $('#saveIcountBtn').hide();
+                        // CREATING
                         if ($scope.createOrEditIcount == 'create') {
                             $scope.icountID = response.id;
                             $scope.createOrEditIbrand = 'edit';
@@ -306,7 +315,15 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#icountSuccessMsg #msg').html('Item Count created successfully! <br>' +
                                 'Item Count list was built. You can check it at count list subtab. ');
                             $scope.icountSuccessMsg.apply('open');
+                        // UPDATING
                         } else {
+                            var btn = $('<button/>', {
+                                'ng-click': 'finishIcount()',
+                                'id': 'deleteIcountBtn'
+                            }).addClass('icon-trash user-del-btn').css('left', 0);
+                            var title = $('<div/>').html(' Edit Item Count | ID: '+ $scope.icountID + ' | ' + $('#icount_comment').val()).prepend(btn)
+                                .css('padding-left', '2em');
+                            icountwind.setTitle(title);
                             $('#icountSuccessMsg #msg').html('Item Count updated successfully!');
                             $scope.icountSuccessMsg.apply('open');
                         }

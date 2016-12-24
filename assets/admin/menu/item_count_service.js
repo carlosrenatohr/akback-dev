@@ -45,8 +45,8 @@
                     {dataField: 'Station', hidden: true},
                     {text: 'Location', dataField: 'LocationName', width: '15%',
                         filtertype: 'list'},
-                    {text: 'Comment', dataField: 'Comment', width: '30%'},
-                    {text:'Count Date', dataField: 'CountDateFormatted', width: '10%',
+                    {text: 'Comment', dataField: 'Comment', width: '25%'},
+                    {text:'Count Date', dataField: 'CountDateFormatted', width: '14%',
                         cellsformat:'MM/dd/yyyy', filtertype: 'date'},
                     // {text:'Status', dataField: 'StatusName', width: '10%',
                     //     filtertype: 'list'},
@@ -60,7 +60,6 @@
                     {text: 'Updated', dataField: '_Updated', width: '14%',
                         cellsformat:'MM/dd/yyyy hh:mmtt', filtertype: 'date'}
                 ],
-                // carrion_sofi
                 width: "99.7%",
                 theme: 'arctic',
                 filterable: true,

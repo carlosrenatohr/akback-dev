@@ -7,6 +7,5 @@
                       jqx-on-rowdoubleclick="editIcountlist(e)"
             ></jqx-grid>
         </div>
-
     </div>
 </div>
