@@ -388,7 +388,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         if (data.status == 'success') {
                             $('.addUserField').css({"border-color": "#ccc"});
                             // reload table
-                            updateUserGrid();
+                            // updateUserGrid();
+                            $('#userMainGrid').jqxGrid('updatebounddata', 'filter');
                             $('#notificationSuccessSettings #notification-content').html('User updated successfully!');
                             $('#notificationSuccessSettings').jqxNotification('open');
 
