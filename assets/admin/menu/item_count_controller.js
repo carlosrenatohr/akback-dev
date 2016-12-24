@@ -10,6 +10,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#finishIcountBtn').hide();
         // Filters tab
         } else if (tab == 1) {
+            $('#finishIcountBtn').hide();
         // Item Count list tab
         } else if (tab == 2) {
             // $('#deleteIcountBtn').hide();
@@ -157,6 +158,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         // $('#deleteIcountBtn').hide();
         $('#finishIcountBtn').hide();
+        $('#icountTabs').jqxTabs('select', 0);
         $('#icountTabs').jqxTabs('disableAt', 2);
         //
         $('#icount_location').jqxDropDownList('val', $('#loc_id').val());
@@ -190,8 +192,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         setTimeout(function(){
             updateIcountlistGrid(row.Unique);
-            $('#icountTabs').jqxTabs('enableAt', 2);
-        }, 350);
+        }, 150);
         $('#icountlistGrid').hide();
         //
         $('#icount_location').val(row.Location);
@@ -222,6 +223,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
         //
         // $('#deleteIcountBtn').show();
+        $('#icountTabs').jqxTabs('select', 0);
         $('#icountTabs').jqxTabs('enableAt', 2);
         $('.icountField.filters').jqxComboBox({disabled: true});
         $('#saveIcountBtn').html('Save');
