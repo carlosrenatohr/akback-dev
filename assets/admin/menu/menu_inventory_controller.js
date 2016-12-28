@@ -305,7 +305,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var btn = $('<button/>', {
             'id': 'deleteInventoryBtn'
         }).addClass('icon-trash user-del-btn').css('left', 0);
-        var title = $('<div/>').html('Edit Item PID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description).prepend(btn)
+        var title = $('<div/>').html('Edit Item ID: '+ row.Unique + ' | Item: ' + row.Item + '| ' + row.Description).prepend(btn)
             .css('padding-left', '2em');
         inventoryWind.setTitle(title);
         inventoryWind.open();
