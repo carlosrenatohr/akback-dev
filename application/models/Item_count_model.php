@@ -201,14 +201,15 @@ class Item_count_model extends CI_Model
 
     public function finalize_count_list($countID) {
         // TODO missing ICL."Cost" as "Cost", after TransactionDate
-        $select = "select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 4 as \"Type\", ICL.\"Difference\" as \"Quantity\",
+        $select = "select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 1 as \"Type\", ICL.\"Difference\" as \"Quantity\",
             ICL.\"CreatedBy\" as \"CreatedBy\", now() as \"Created\", IC.\"CountDate\" as \"TransactionDate\",
             ICL.\"Comment\" as \"Comment\", 
             IC.\"CountDate\"::date as \"trans_date\", 
             1 as \"status\", ICL.\"Unique\" as \"CountUnique\",
             (ICL.\"Cost\" + ICL.\"CostExtra\" + ICL.\"CostFreight\" + ICL.\"CostDuty\") as \"unit_cost\",
             ICL.\"Cost\" as \"Cost\", ICL.\"CostExtra\" as \"CostExtra\",
-            ICL.\"CostFreight\" as \"CostFreight\", ICL.\"CostDuty\" as \"CostDuty\" 
+            ICL.\"CostFreight\" as \"CostFreight\", ICL.\"CostDuty\" as \"CostDuty\",
+            ICL.\"CountUnique\" as \"TransID\" 
             ";
         $from = " from item_count IC 
             join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\" 
@@ -218,7 +219,7 @@ class Item_count_model extends CI_Model
         $sql = "(". $select . $from . ")";
         $insert = "insert into item_stock_line(\"ItemUnique\",\"LocationUnique\",\"Type\",\"Quantity\",\"CreatedBy\",     
                     \"Created\",\"TransactionDate\",\"Comment\",\"trans_date\", \"status\", \"CountUnique\",
-                    \"unit_cost\", \"Cost\", \"CostExtra\", \"CostFreight\",\"CostDuty\") " . $sql;
+                    \"unit_cost\", \"Cost\", \"CostExtra\", \"CostFreight\",\"CostDuty\",\"TransID\") " . $sql;
         // Insert into item_stock_line
         $this->db->trans_start();
         $status = $this->db->query($insert);

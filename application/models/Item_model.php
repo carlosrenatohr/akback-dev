@@ -194,7 +194,7 @@ class Item_model extends CI_Model
      */
     public function getStockItemByLocation($id, $location = null) {
         $locationQuery = ($location == 0) ? "" : " AND a.\"LocationUnique\"=".$location;
-        $sql = "SELECT  a.\"Unique\", a.\"ItemUnique\", a.\"LocationUnique\",
+        $sql = "SELECT  a.\"Unique\", a.\"ItemUnique\", a.\"LocationUnique\", a.\"TransID\",
             a.\"Quantity\", a.\"TransactionDate\", a.\"Comment\", b.\"LocationName\", c.\"Description\",
 			SUM(a.\"Quantity\") OVER (PARTITION BY a.\"LocationUnique\"
             ORDER BY a.\"TransactionDate\",a.\"Unique\") as \"Total\"
@@ -206,14 +206,18 @@ class Item_model extends CI_Model
         return $this->db->query($sql)->result_array();
     }
 
+    // CREATING item_stock_line
     public function updateStockByItem($data) {
         $data["CreatedBy"] = $this->session->userdata('userid');
         $data["Created"] = date('Y-m-d H:i:s');
         $result = $this->db->insert('item_stock_line', $data);
+        $id = $this->db->insert_id();
+        $this->db->update('item_stock_line', ['TransID' => $id], ['Unique'=> $id]);
         return $result;
     }
 
     public function updatingItemInStock($id, $data) {
+        $data["TransID"] = $id;
         $data["UpdatedBy"] = $this->session->userdata('userid');
         $data["Updated"] = date('Y-m-d H:i:s');
         $this->db->where('Unique', $id);
