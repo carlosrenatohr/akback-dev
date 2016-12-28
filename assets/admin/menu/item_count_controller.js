@@ -144,7 +144,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
     })
     .on('bindingcomplete', '#icountlistGrid', function(e) {
-        $(this).show();
+        // $(this).show();
+        $(this).jqxGrid('hideloadelement');
     });
 
     $scope.openIcount = function() {
@@ -171,7 +172,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIcountBtn').prop('disabled', true);
             }, 50);
         }, 50);
-        $('#icountlistGrid').hide();
+        // $('#icountlistGrid').hide();
+        $('#icountlistGrid').jqxGrid('showloadelement');
+        $('#icountlistGrid').jqxGrid('showloadelement');
 
         // $('#buildCountListBtn').prop('disabled', true);
         $('#icategoryFilter').jqxComboBox('clearSelection');
@@ -193,7 +196,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         setTimeout(function(){
             updateIcountlistGrid(row.Unique);
         }, 150);
-        $('#icountlistGrid').hide();
+        // $('#icountlistGrid').hide();
+        $('#icountlistGrid').jqxGrid('showloadelement');
         //
         $('#icount_location').val(row.Location);
         $('#icount_comment').val(row.Comment);
