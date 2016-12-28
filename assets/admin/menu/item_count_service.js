@@ -41,11 +41,11 @@
                     url: SiteRoot + 'admin/ItemCount/load_itemcount/' + status
                 }),
                 columns: [
-                    {text: 'ID', dataField: 'Unique', width: '8%', filterable: false},
+                    {text: 'ID', dataField: 'Unique', width: '8%'},
                     {dataField: 'Location', hidden: true},
                     {dataField: 'Station', hidden: true},
                     {text: 'Location', dataField: 'LocationName', width: '10%',
-                        filtertype: 'list'},
+                        filtertype: 'checkedlist'},
                     {text: 'Comment', dataField: 'Comment', width: '20%'},
                     {text:'Count Date', dataField: 'CountDateFormatted', width: '10%',
                         cellsformat:'MM/dd/yyyy', filtertype: 'date'},
@@ -54,14 +54,14 @@
                     {text: 'Created', dataField: '_Created', width: '16%',
                         cellsformat:'MM/dd/yyyy hh:mmtt', filtertype: 'date'},
                     {text: 'Created By', dataField: 'CreatedByName', width: '10%',
-                        filtertype: 'list'},
+                        filtertype: 'checkedlist'},
                     {dataField: 'Created', hidden: true},
                     {dataField: 'CountDate', hidden: true},
                     {dataField: '_CountDate', hidden: true},
                     {text: 'Updated', dataField: '_Updated', width: '16%',
                         cellsformat:'MM/dd/yyyy hh:mmtt', filtertype: 'date'},
                     {text: 'Updated By', dataField: 'UpdatedByName', width: '10%',
-                        filtertype: 'list'}
+                        filtertype: 'checkedlist'}
                 ],
                 width: "99.7%",
                 theme: 'arctic',

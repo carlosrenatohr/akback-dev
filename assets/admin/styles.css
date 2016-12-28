@@ -431,6 +431,8 @@ div[id="filterrow.inventoryItemsGrid"].jqx-grid-cell-pinned {
     max-height: 99%!important;max-width:99%!important;
 }
 
-#icountGrid1 .jqx-action-button {
-    left:0!important;
-}
+/*#icountGrid1 .jqx-action-button,*/
+/*#icountGrid2 .jqx-action-button*/
+/*{*/
+    /*left:0!important;*/
+/*}*/
