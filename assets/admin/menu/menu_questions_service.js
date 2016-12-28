@@ -48,7 +48,7 @@
             var pager = adminService.loadPagerConfig(true);
 
             return {
-                source: {
+                source: new $.jqx.dataAdapter({
                     dataType: 'json',
                         dataFields: [
                         {name: 'Unique', type: 'int'},
@@ -60,7 +60,7 @@
                         {name: 'Max', type: 'string'}
                     ],
                         url: ''
-                },
+                }),
                 columns: [
                     {text: 'ID', dataField: 'Unique', width: '20%'},
                     {text: 'Question Name', dataField: 'QuestionName', width: '20%'},

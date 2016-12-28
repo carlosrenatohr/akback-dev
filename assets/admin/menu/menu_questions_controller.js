@@ -15,7 +15,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 });
                 setTimeout(function() {
                     updateQuestionMainTable();
-                }, 200);
+                }, 100);
                 once = true;
             }
             else {
@@ -45,7 +45,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     $scope.questionTableSettings = questionService.getQuestionTableSettings();
     var updateQuestionMainTable = function() {
         $('#questionMainTable').jqxGrid({
-            source: new $.jqx.dataAdapter({
+            source: {
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -57,7 +57,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                     {name: 'Max', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
-            })
+            }
         });
     };
 
@@ -65,8 +65,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         console.log('bc');
     });
 
-
-        // -- Question Item table settings
+    // -- Question Item table settings
     $scope.questionItemTableSettings = questionService.getQuestionChoicesTableSettings();
     // -- Question tabs settings
     $scope.questionstabsSettings = {
