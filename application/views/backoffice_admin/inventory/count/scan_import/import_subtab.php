@@ -3,7 +3,7 @@
         <div style="float:left; padding:2px; width:500px;">
             <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Location:</div>
             <div style="float:left; width:210px;">
-                <jqx-drop-down-list id="icount_location" class="icountField"
+                <jqx-drop-down-list id="icount_location" class="icountField" jqx-width="210"
                     >
                     <?php foreach ($locations as $loc) { ?>
                         <option value="<?php echo $loc['Unique']?>"
@@ -31,9 +31,7 @@
 <!--                <input type="file" class="icountField" id="icount_file">-->
             </div>
         </div>
-        <div style="float:left; padding:2px; width:500px;display: none;" id="fileLoadedTemp">
-            <label for="" class="control-label"
-                style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">File Loaded:</label>
+        <div style="float:left; padding:2px; width:500px;display: none;word-break: break-word" id="fileLoadedTemp">
         </div>
 
         <input type="hidden" id="loc_id" value="<?php echo $station; ?>">
