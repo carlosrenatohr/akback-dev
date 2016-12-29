@@ -290,4 +290,66 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#matchIscanBtnContainer').show();
             }
         };
+
+        $("body").on('cellvaluechanged', '#iscanlistGrid', function (event)
+        {
+            var value = event.args.newvalue;
+            var oldvalue = event.args.oldvalue;
+            var datafield = event.args.datafield;
+            var rowBoundIndex = event.args.rowindex;
+            var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
+            var data = {};
+            if (datafield  == 'Barcode') {
+                data['Barcode'] = value;
+            }
+            if (datafield  == 'Quantity') {
+                data['Quantity'] = value;
+            }
+            if (datafield  == 'Comment') {
+                data['Comment'] = value;
+            }
+            // if (data.length > 0) {
+                $.ajax({
+                    method: 'post',
+                    url: SiteRoot + 'admin/ItemCount/updateItemScanList/' + row.Unique,
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                        console.log(response)
+                    }
+                });
+            // }
+        })
+        .on('rowselect rowunselect', '#iscanlistGrid', function(e) {
+            var len = $('#iscanlistGrid').jqxGrid('selectedrowindexes').length;
+            var delDisabled = true;
+            if (len > 0) {
+                delDisabled = false;
+            }
+            $('#delScanListBtn').prop('disabled', delDisabled);
+        });
+
+        $scope.delScanList = function() {
+            var scangrid = $('#iscanlistGrid')
+            if (confirm('Are you sure to delete selected items on item scan list?')) {
+                var ids = [];
+                var idx = scangrid.jqxGrid('selectedrowindexes');
+                $.each(idx, function(i, el) {
+                    ids.push(scangrid.jqxGrid('getrowdata', el).Unique);
+                });
+                $.ajax({
+                    method: 'post',
+                    url: SiteRoot + 'admin/ItemCount/massDeleteItemScanList',
+                    dataType: 'json',
+                    data: {ids: ids.join()},
+                    success: function (response) {
+                        updateIscanGrid();
+                        updateIscanlistGrid($scope.iscanID);
+                        scangrid.jqxGrid('unselectallrows');
+                    }
+                });
+            }
+        }
+
+
     });

@@ -3,8 +3,6 @@
 class ItemCount extends AK_Controller
 {
 
-
-
     public function __construct()
     {
         parent::__construct();
@@ -179,7 +177,7 @@ class ItemCount extends AK_Controller
 
     public function deleteItemScan($id) {
         if (isset($_POST)) {
-            $status = $this->count->deleteScan($id);
+                    $status = $this->count->deleteScan($id);
             if ($status) {
                 $response = [
                     'status' => 'success',
@@ -205,6 +203,42 @@ class ItemCount extends AK_Controller
                 ];
             } else
                 $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function updateItemScanList($id) {
+        if (isset($_POST) && !empty($_POST)) {
+            $data = $_POST;
+            $status = $this->count->update_scan_list($id, $data);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Scan list updated successfully',
+                    'id' => $status
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function massDeleteItemScanList() {
+        if (isset($_POST)  && !empty($_POST)) {
+            $ids = $_POST['ids'];
+            $status = $this->count->delete_scan_list($ids);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Scan list item deleted!',
+                ];
+            } else {
+                $response = $this->dbErrorMsg();
+            }
         } else
             $response = $this->dbErrorMsg(0);
 

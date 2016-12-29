@@ -449,14 +449,21 @@
                     url: url
                 }),
                 columns: [
-                    {text: 'ID', dataField: 'Unique', width: '8%', editable:false},
+                    {text: 'ID', dataField: 'Unique', width: '8%', editable:false,
+                     filtertype: 'number'},
                     {dataField: 'CountScanUnique', hidden: true},
-                    {text: 'Barcode', dataField: 'Barcode', width: '10%'},
-                    {text: 'Quantity', dataField: 'Quantity', width: '10%'},
-                    {text: 'Item', dataField: 'Item', width: '10%'},
-                    {text: 'Part', dataField: 'Part', width: '10%'},
-                    {text: 'Description', dataField: 'Description', width: '10%'},
-                    {text: 'Comment', dataField: 'Comment', width: '20%'},
+                    {text: 'Barcode', dataField: 'Barcode', width: '10%',
+                     filtertype: 'input'},
+                    {text: 'Quantity', dataField: 'Quantity', width: '10%',
+                     filtertype: 'number'},
+                    {text: 'Item', dataField: 'Item', width: '10%', editable: false,
+                     filtertype: 'input'},
+                    {text: 'Part', dataField: 'Part', width: '10%', editable: false,
+                     filtertype: 'input'},
+                    {text: 'Description', dataField: 'Description', width: '10%',editable: false,
+                     filtertype: 'input'},
+                    {text: 'Comment', dataField: 'Comment', width: '20%',
+                     filtertype: 'input'},
                     {dataField: 'Status', hidden: true},
                     // {text: 'Created By', dataField: 'CreatedByName', width: '12%',
                     //     filtertype: 'list', editable:false},
@@ -466,19 +473,20 @@
                     // {text: 'Updated', dataField: '_Updated', width: '14%',
                     //     cellsformat:'MM/dd/yyyy hh:mmtt', filtertype: 'date', editable:false}
                 ],
-                //
                 width: "99.7%",
                 theme: 'arctic',
                 filterable: true,
                 showfilterrow: true,
                 sortable: true,
                 pageable: true,
-                editable: false,
+                editable: true,
                 pageSize: pager.pageSize,
                 pagesizeoptions: pager.pagesizeoptions,
                 altRows: true,
                 autoheight: true,
-                autorowheight: true
+                autorowheight: true,
+                selectionmode: 'checkbox',
+                enablehover: true
             };
         };
     }
