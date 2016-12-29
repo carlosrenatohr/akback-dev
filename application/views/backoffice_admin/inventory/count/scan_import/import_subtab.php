@@ -28,7 +28,6 @@
             <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Browse:</div>
             <div style="float:left; width:320px;">
                 <div class="icountField" id="icount_file" data-filename=""></div>
-<!--                <input type="file" class="icountField" id="icount_file">-->
             </div>
         </div>
         <div style="float:left; padding:2px; width:500px;display: none;word-break: break-word" id="fileLoadedTemp">

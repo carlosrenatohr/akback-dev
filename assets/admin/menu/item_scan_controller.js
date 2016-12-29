@@ -56,7 +56,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_file').jqxFileUpload({
             width: 300,
             uploadUrl: SiteRoot + 'admin/ItemCount/upload',
-            fileInputName: 'file',
+            'fileInputName': 'file',
             multipleFilesUpload: true,
             autoUpload: true
         });
