@@ -13,11 +13,13 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 $('#qItem_ItemUnique').jqxComboBox({
                     source: dataAdapterItems()
                 });
+                $scope.questionTableSettings = questionService.getQuestionTableSettings(1);
                 setTimeout(function() {
                     updateQuestionMainTable();
-                }, 200);
+                }, 250);
                 once = true;
             }
+            // http://es.aleteia.org/2016/12/29/antes-de-ser-sacerdote-tuve-un-gran-amor/
             else {
                 $('#qItem_ItemUnique').jqxComboBox({
                     source: dataAdapterItems()
@@ -62,7 +64,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     };
 
     $('#questionMainTable').on('bindingcomplete', function(){
-        console.log('bc');
+        // console.log('bc');
     });
 
     // -- Question Item table settings

@@ -43,10 +43,12 @@
             };
         };
 
-        this.getQuestionTableSettings = function() {
+        var pager = adminService.loadPagerConfig(true);
+        this.getQuestionTableSettings = function(flag) {
+            var url = '';
+            if (flag != undefined)
+                url = SiteRoot + 'admin/MenuQuestion/load_allquestions';
             var initrowdetails = _this.getRowdetailsFromChoices();
-            var pager = adminService.loadPagerConfig(true);
-
             return {
                 source: new $.jqx.dataAdapter({
                     dataType: 'json',
@@ -59,7 +61,7 @@
                         {name: 'Min', type: 'string'},
                         {name: 'Max', type: 'string'}
                     ],
-                        url: ''
+                    url: url
                 }),
                 columns: [
                     {text: 'ID', dataField: 'Unique', width: '20%'},
@@ -78,9 +80,9 @@
                 sortable: true,
                 filterable: true,
                 showfilterrow: true,
-                ready: function() {
-                    $('#questionMainTable').jqxGrid('updatebounddata', 'filter');
-                },
+                // ready: function() {
+                //     $('#questionMainTable').jqxGrid('updatebounddata', 'filter');
+                // },
                 // filterMode: 'simple',
                 pageSize: pager.pageSize,
                 pagesizeoptions: pager.pagesizeoptions,
