@@ -19,7 +19,6 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 }, 250);
                 once = true;
             }
-            // http://es.aleteia.org/2016/12/29/antes-de-ser-sacerdote-tuve-un-gran-amor/
             else {
                 $('#qItem_ItemUnique').jqxComboBox({
                     source: dataAdapterItems()
