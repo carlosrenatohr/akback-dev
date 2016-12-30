@@ -378,12 +378,6 @@
                         {name: 'CreatedByName', type: 'string'},
                         {name: 'Updated', type: 'date'},
                         {name: 'UpdatedByName', type: 'string'}
-                        // {name: 'CountDate', type: 'string'},
-                        // {name: '_CountDate', type: 'string'},
-                        // {name: 'CountDateFormatted', type: 'date'},
-                        // {name: 'CategoryFilter', type: 'string'},
-                        // {name: 'SubCategoryFilter', type: 'string'},
-                        // {name: 'SupplierFilter', type: 'string'}
                     ],
                     id: 'Unique',
                     url: SiteRoot + 'admin/ItemCount/load_itemcountscan'

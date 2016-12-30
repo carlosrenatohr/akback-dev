@@ -359,6 +359,5 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 });
             }
         }
-
-
+                
     });

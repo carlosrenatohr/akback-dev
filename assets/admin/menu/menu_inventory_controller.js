@@ -669,14 +669,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.stockitemLocationSettings = inventoryExtraService.getStockLocationListSettings(0);
     $scope.stockitemLocation2Settings = inventoryExtraService.getStockLocationListSettings();
     $scope.onSelectStockLocationList = function(e) {
-        if (e.args.item) {
+        if (e.args.item != undefined) {
             var location = e.args.item.value;
             $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, location);
         }
     };
 
     $scope.onSelectLocationAdjustQty = function(e) {
-        if (e.args.item) {
+        if (e.args.item != undefined) {
             var location = e.args.item.value;
             var url = SiteRoot + 'admin/MenuItem/totalQuantityByLocation/';
             if ($scope.itemInventoryID) {
