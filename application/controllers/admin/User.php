@@ -70,7 +70,6 @@ class User extends AK_Controller
     public function store_user()
     {
         if (isset($_POST) and !empty($_POST)) {
-            $this->load->model('User_model', 'user_model');
             $values = $positionValues = [];
             foreach ($_POST as $index => $element) {
                 $pos = strpos($index, '_');
@@ -201,11 +200,7 @@ class User extends AK_Controller
     }
 
     protected function setEmailStatusOnUser($id, $isEnabled, $data) {
-        if ($isEnabled == 'yes')
-            $isEnabled = true;
-        elseif ($isEnabled == 'no')
-            $isEnabled = false;
-
+        $isEnabled = ($isEnabled == 'yes') ? 1 : 0;
         $this->user_model->setEmailStatusOnUser($id, $isEnabled, $data);
     }
 

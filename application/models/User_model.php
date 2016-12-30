@@ -82,10 +82,8 @@ class User_model extends CI_Model
     {
         $position_id = $data['position'];
         unset($data['position']);
-        if (empty($data['Email'])) {
-            $defaults = $this->defaultsUserEmail();
-            $data['Email'] = $defaults['ReplyToEmail'];
-        }
+        if (empty($data['Email']) && $data['EmailEnabled'] == 'yes')
+            $data['Email'] = $this->defaultsUserEmail('ReplyToEmail');
         $data['Status'] = 1;
         $data['Created'] = date('Y-m-d H:i:s');
         $data['CreatedBy'] = $this->session->userdata('userid');
@@ -110,10 +108,8 @@ class User_model extends CI_Model
     public function update($data, $id) {
         $position_id = $data['position'];
         unset($data['position']);
-        if (empty($data['Email'])) {
-            $defaults = $this->defaultsUserEmail();
-            $data['Email'] = $defaults['ReplyToEmail'];
-        }
+        if (empty($data['Email']) && $data['EmailEnabled'] == 'yes')
+            $data['Email'] = $this->defaultsUserEmail('ReplyToEmail');
         $data['Updated'] = date('Y-m-d H:i:s');
         $data['UpdatedBy'] = $this->session->userdata('userid');
         $query = $this->db->update('config_user', $data, "Unique = {$id}");
@@ -124,22 +120,24 @@ class User_model extends CI_Model
 
     public function setEmailStatusOnUser($id, $isEnabled, $data) {
         $this->db->trans_start();
-        $exists = $this->db->where('UserUnique', $id)->get('config_user_email')->row_array();
+        $exists = $this->db->where('UserUnique', $id)
+                        ->where('Status', 1)
+                        ->get('config_user_email')->row_array();
         $this->db->trans_complete();
         $this->db->trans_start();
-        if ($isEnabled) {
-            if (count($exists)) {
-                $req['ReplyToEmail'] = (empty($data)) ? '' : $data['Email'];
-                $req['ReplyToName'] = (empty($data)) ? '' : $data['FullName'];
+        if ($isEnabled == 1) {
+            $defaults = $this->defaultsUserEmail();
+            if (count($exists) > 0) {
+                $req['ReplyToEmail'] = (empty($data['Email'])) ? $defaults['ReplyToEmail'] : $data['Email'];
+                $req['ReplyToName'] = (empty($data['FullName'])) ? '' : $data['FullName'];
                 $req['Updated'] = date('Y-m-d H:i:s');
                 $req['UpdatedBy'] = $this->session->userdata('userid');
                 $req['Status'] = 1;
                 $this->db->where('UserUnique', $id);
                 $this->db->update('config_user_email', $req);
             } else {
-                $defaults = $this->defaultsUserEmail();
-                $req['ReplyToEmail'] = (empty($data)) ? '' : $data['Email'];
-                $req['ReplyToName'] = (empty($data)) ? '' : $data['FullName'];
+                $req['ReplyToEmail'] = (empty($data['Email'])) ? $defaults['ReplyToEmail'] : $data['Email'];
+                $req['ReplyToName'] = (empty($data['FullName'])) ? '' : $data['FullName'];
                 $req['Host'] = $defaults['Host'];
                 $req['SmtpServer'] = $defaults['SmtpServer'];
                 $req['UserName'] = $defaults['UserName'];
@@ -152,20 +150,20 @@ class User_model extends CI_Model
                 $req['CreatedBy'] = $this->session->userdata('userid');
                 $req['UserUnique'] = $id;
                 $req['Status'] = 1;
-
                 $this->db->insert('config_user_email', $req);
             }
-        }
-        else {
+        } else {
             $this->db->where('UserUnique', $id);
             $this->db->delete('config_user_email');
         }
         $this->db->trans_complete();
     }
 
-    protected function defaultsUserEmail() {
-        $sql = "SELECT * FROM config_user_email WHERE \"UserUnique\" = 0";
-        return $this->db->query($sql)->row_array();
+    protected function defaultsUserEmail($field = null) {
+        if(!is_null($field)) $this->db->select($field);
+        $row = $this->db->from('config_user_email')->where('UserUnique', 0)->get()->row_array();
+
+        return (is_null($field)) ? $row : $row[$field];
     }
 
     public function createOrUpdatePositionUser($position_id, $user_id) {

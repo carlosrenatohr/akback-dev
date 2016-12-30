@@ -324,9 +324,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
         var needValidation = userValidationFields();
         var params = {};
-        var ee = ($('#emailEnabledField [aria-checked="true"]').length > 0)
-            ? $('#emailEnabledField [aria-checked="true"]').data('msg')
-            : 'no';
+        var emailEn = $('#emailEnabledField [aria-checked="true"]');
+        var ee = (emailEn.length > 0) ? emailEn.data('msg') : "no";
         // Check if some is missing
         if (!needValidation) {
             // Creating..
