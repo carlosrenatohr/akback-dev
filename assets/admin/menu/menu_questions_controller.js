@@ -13,7 +13,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 $('#qItem_ItemUnique').jqxComboBox({
                     source: dataAdapterItems()
                 });
-                $scope.questionTableSettings = questionService.getQuestionTableSettings(1);
+                // $scope.questionTableSettings = questionService.getQuestionTableSettings(1);
+                updateQuestionMainTable();
+
                 setTimeout(function() {
                     updateQuestionMainTable();
                 }, 250);
