@@ -121,21 +121,22 @@ class User_model extends CI_Model
         return $query;
     }
 
-    public function setEmailStatusOnUser($id, $isEnabled, $data) {
+    public function setEmailStatusOnUser($id, $isEnabled, $data, $load = null) {
         $this->db->trans_start();
         $exists = $this->db->where('UserUnique', $id)
                         ->where('Status', 1)
                         ->get('config_user_email')->row_array();
         $this->db->trans_complete();
         $this->db->trans_start();
-        if ($isEnabled == 1) {
+        if ($isEnabled) {
             $defaults = $this->defaultsUserEmail();
             if (count($exists) > 0) {
-                $req['ReplyToEmail'] = (empty($data['Email'])) ? $defaults['ReplyToEmail'] : $data['Email'];
-                $req['ReplyToName'] = (empty($data['FullName'])) ? '' : $data['FullName'];
+//                $req['ReplyToEmail'] = (empty($data['Email'])) ? $defaults['ReplyToEmail'] : $data['Email'];
+//                $req['ReplyToName'] = (empty($data['FullName'])) ? '' : $data['FullName'];
                 $req['Updated'] = date('Y-m-d H:i:s');
                 $req['UpdatedBy'] = $this->session->userdata('userid');
                 $req['Status'] = 1;
+                $req = array_merge($req, $data);
                 $this->db->where('UserUnique', $id);
                 $this->db->update('config_user_email', $req);
             } else {

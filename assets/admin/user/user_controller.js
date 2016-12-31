@@ -89,16 +89,16 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.editing_username = values['UserName'];
 
         //inputsCode
-        var inputsCode = $('#add_code, #add_password');
+        var inputsCode = $('#add_code, #add_password, #add_epassword');
         inputsCode.val('******');
         inputsCode.on('focus', function() {
             $(this).select();
         });
 
         $('#position_itemTab, #info_itemTab').show();
-        $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
-          '#info_itemTab .jqx-tabs-titleContentWrapper, ' +
-            '#email_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
+            $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
+              '#info_itemTab .jqx-tabs-titleContentWrapper, ' +
+                '#email_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         //
         var btn = $('<button/>', {
             'ng-click': 'pressDeleteButton()',
@@ -120,14 +120,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#addUserConfirm').hide();
         $('#addUserAnotherRow').hide();
         $('#sureToDeleteUser').hide();
+        $('#email_itemTab').hide();
         //
         //$('.new-user-form input.required-field').css({'border-color':'#ccc'});
-        // $('#addtab1').unblock();
-        // $('#addtab2').unblock();
-        // $('#addtab3').unblock();
-        // $('#addtab4').unblock();
-        // $('#addtab5').unblock();
-        $('.tabs').unblock();
+        $('#addtab1, #addtab2, #addtab3, #addtab4, #addtab5, #addtab6').unblock();
         //
         $('#submitAddUserForm').prop('disabled', true);
         // $('#deleteAddUserForm').hide();
@@ -139,16 +135,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     var blockTabs = function () {
-        // $('#addtab1').block({message: null});
-        // $('#addtab2').block({message: null});
-        // $('#addtab3').block({message: null});
-        // $('#addtab4').block({message: null});
-        // $('#addtab5').block({message: null});
-        $('.tabs').block({message: null});
+        $('#addtab1, #addtab2, #addtab3, #addtab4, #addtab5, #addtab6').block({message: null});
     };
 
     $scope.closeUserWindows = function (selected) {
-
         if (selected == 0) {
             $scope.submitUserForm(selected);
             //$('#addUserConfirm').hide();
@@ -245,12 +235,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $('#tabsUser').on('tabclick', function (event) {
         var tabclicked = event.args.item;
         var tabTitle = $(this).jqxTabs('getTitleAt', tabclicked);
-        //
-        // if (tabclicked == 0) {
-        //     $('#deleteAddUserForm').show();
-        // } else {
-        //     $('#deleteAddUserForm').hide();
-        // }
         // POSITION TAB
         if(tabTitle == 'Position') {
             if ($scope.userId != null) {
@@ -375,6 +359,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                                 blockTabs();
                                 if (params.EmailEnabled == 'yes') {
                                     $('#email_itemTab').show();
+                                    $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
+                                    '#info_itemTab .jqx-tabs-titleContentWrapper, ' +
+                                    '#email_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
                                 } else {
                                     $('#email_itemTab').hide();
                                 }

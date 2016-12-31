@@ -85,7 +85,7 @@
                                     <!-- ------------  -->
                                     <!-- EMAIL SETTINGS TAB  -->
                                     <!-- ------------  -->
-                                    <div class="col-md-12 col-md-offset-0 tabs" id="" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="addtab6" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <?php $this->load->view($email_tab_view); ?>
                                     </div>
                                     <!-- ------------  -->

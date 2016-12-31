@@ -160,7 +160,7 @@ class User extends AK_Controller
                         'FullName' => $values['FirstName'] . ' ' . $values['LastName'],
                         'Email' => $values['Email']
                     ];
-                    $this->setEmailStatusOnUser($id, $values['EmailEnabled'], $emailData);
+                    $this->setEmailStatusOnUser($id, $values['EmailEnabled'], $emailConfig);
                     $response = [
                         'status' => 'success',
                         'message' => 'Updated: ' . $status
@@ -204,7 +204,7 @@ class User extends AK_Controller
     }
 
     protected function setEmailStatusOnUser($id, $isEnabled, $data) {
-        $isEnabled = ($isEnabled == 'yes') ? 1 : 0;
+        $isEnabled = ($isEnabled == 'yes') ? true : false;
         $this->user_model->setEmailStatusOnUser($id, $isEnabled, $data);
     }
 
