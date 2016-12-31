@@ -114,6 +114,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').html('Import');
                 $('#saveIscanBtn').prop('disabled', true);
                 $('#matchIscanBtn').hide();
+                $('#delScanListBtn').hide();
             }, 100);
             iscanwind.setTitle('New Item Count Scan');
             iscanwind.open();
@@ -124,9 +125,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $scope.iscanID = row.Unique;
             $scope.createOrEditIscan = 'edit';
             //
+            updateIscanlistGrid();
             setTimeout(function() {
                 updateIscanlistGrid(row.Unique);
-            }, 100);
+            }, 150);
             $('#icount_location').val(row.Location);
             $('#icount_comment').val(row.Comment);
             var fimp = row.FilesImported ? row.FilesImported : '-';
@@ -140,6 +142,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').html('Save');
                 $('#saveIscanBtn').prop('disabled', true);
                 $('#matchIscanBtn').hide();
+                $('#delScanListBtn').hide();
             }, 100);
             var btn = $('<button/>', {
                 'id': 'deleteIscanBtn'

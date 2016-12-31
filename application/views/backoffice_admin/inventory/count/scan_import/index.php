@@ -43,6 +43,7 @@
                       jqx-settings="iscanGridSettings"
                       jqx-create="iscanGridSettings"
                       jqx-on-rowdoubleclick="editScan(e)"
+                      style="padding: 0;"
             ></jqx-grid>
             <jqx-window jqx-on-close="close()" jqx-settings="iscanWindowSettings"
                         jqx-create="iscanWindowSettings" id="itemcountWindow"
@@ -71,51 +72,6 @@
 <!--                    <input type="hidden" id="decimalCost" value="--><?php //echo $decimalCost;?><!--">-->
 <!--                    <input type="hidden" id="decimalQty" value="--><?php //echo $decimalQty;?><!--">-->
 
-                    <!-- Prompt before saving item on grid -->
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="row">
-                            <div id="closeIscanBtns" class="" style="display: none">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <div class="message">Do you want to save your changes?</div>
-                                        <button type="button" ng-click="closeIscan(0)" class="btn btn-primary">Yes</button>
-                                        <button type="button" ng-click="closeIscan(1)" class="btn btn-warning">No</button>
-                                        <button type="button" ng-click="closeIscan(2)" class="btn btn-info">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Prompt before delete an item on grid -->
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="row">
-                            <div id="deleteIscanBtns" class="" style="display: none">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        Do you really want to delete it?
-                                        <button type="button" ng-click="deleteIscan(0)" class="btn btn-primary">Yes</button>
-                                        <button type="button" ng-click="deleteIscan(1)" class="btn btn-warning">No</button>
-                                        <button type="button" ng-click="deleteIscan(2)" class="btn btn-info">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Prompt before finish count on item count list -->
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="row">
-                            <div id="matchIscanBtnContainer" class="" style="display: none">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <p>Ready to find into items to complete information?</p>
-                                        <button type="button" ng-click="matchIscan(0)" class="btn btn-primary">Find</button>
-                                        <button type="button" ng-click="matchIscan(1)" class="btn btn-info">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- NOTIFICATIONS AREA -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
@@ -139,5 +95,6 @@
 <style>
     #itemcountWindow {
         max-height: 99%!important;max-width:99%!important;
+        padding: 0!important;
     }
 </style>
