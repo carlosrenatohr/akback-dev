@@ -370,8 +370,8 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             // url: SiteRoot + 'admin/MenuCategory/load_allcategories'
         },
         columns: [
-            {text: 'Menu', dataField: 'MenuName', type: 'string', filtertype: 'list'},
             {text: 'ID', dataField: 'Unique', type: 'int'},
+            {text: 'Menu', dataField: 'MenuName', type: 'string', filtertype: 'list'},
             {text: 'Category Name', dataField: 'CategoryName', type: 'string'},
             {dataField: 'MenuUnique', type: 'string', hidden: true},
             {text: 'Row', dataField: 'Row', type: 'number'},
