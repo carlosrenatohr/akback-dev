@@ -4,7 +4,11 @@
 <script type="application/javascript" src="<?= base_url()?>assets/admin/user/user_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/user/user_helpers.js"></script>
 <!-- -->
-
+<style>
+    #userMainWindows {
+        max-width: 95%!important;
+    }
+</style>
 <div ng-controller="userController" ng-cloak>
     <div class="container-fluid">
         <div class="col-md-12 col-md-offset-0">
@@ -48,7 +52,7 @@
                           jqx-on-rowdoubleclick="openEditUserWindows(event)">
                 </jqx-grid>
                 <jqx-window jqx-on-close="onCloseUserWindowsEvent($event)" jqx-settings="addUserWindowSettings"
-                            jqx-create="addUserWindowSettings" class="userJqxwindows">
+                            jqx-create="addUserWindowSettings" class="userJqxwindows" id="userMainWindows">
                     <div>
                         TITLE
                     </div>
@@ -61,6 +65,7 @@
                                     <ul style=" margin-left: 30px;">
                                         <li id="user_itemTab">User</li>
                                         <li id="contact_itemTab">Contact</li>
+                                        <li id="email_itemTab" style="display: none;">Email Settings</li>
                                         <li id="position_itemTab" style="display: none;">Position</li>
                                         <li id="notes_itemTab">Notes</li>
                                         <li id="info_itemTab">Info</li>
@@ -70,13 +75,18 @@
                                     <!-- ------------  -->
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab1" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px; ">
                                         <?php $this->load->view($user_tab_view); ?>
-                                    </div><!--End Tab1-->
-
+                                    </div>
                                     <!-- ------------  -->
                                     <!-- CONTACT TAB  -->
                                     <!-- ------------  -->
                                     <div class="col-md-12 col-md-offset-0 tabs" id="addtab2" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
                                         <?php $this->load->view($contact_tab_view); ?>
+                                    </div>
+                                    <!-- ------------  -->
+                                    <!-- EMAIL SETTINGS TAB  -->
+                                    <!-- ------------  -->
+                                    <div class="col-md-12 col-md-offset-0 tabs" id="" style="padding-top:10px; padding-bottom:5px; background-color: #f5f5f5; border: 1px solid #dddddd; height: 390px;">
+                                        <?php $this->load->view($email_tab_view); ?>
                                     </div>
                                     <!-- ------------  -->
                                     <!-- POSITION TAB  -->

@@ -10,6 +10,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.thetabsadd = 'darkblue';
     $scope.disabled = true;
 
+
     // User Tabs settings
     $scope.tabsSettings = {
         created: function (args) {
@@ -48,7 +49,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         //
         $('#emailEnabledField .eecx[data-msg="no"]')
             .jqxRadioButton({ checked:true });
-        $('#position_itemTab, #info_itemTab').hide();
+        $('#position_itemTab, #info_itemTab, #email_itemTab').hide();
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('Add New User');
         addUserDialog.open();
@@ -77,6 +78,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var eec = (values.EmailEnabled == 'yes') ? 'yes' : 'no';
         var emailEn = $('#emailEnabledField .eecx[data-msg="' + eec +'"]');
         emailEn.jqxRadioButton({ checked:true });
+        if (eec == 'yes') {
+            $('#email_itemTab').show();
+        } else {
+            $('#email_itemTab').hide();
+        }
         // $('#deleteAddUserForm').show();
         $('#positionCombobox').jqxComboBox('val', values['PrimaryPosition']);
         $scope.userId = values['Unique'];
@@ -91,7 +97,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         $('#position_itemTab, #info_itemTab').show();
         $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
-          '#info_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
+          '#info_itemTab .jqx-tabs-titleContentWrapper, ' +
+            '#email_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         //
         var btn = $('<button/>', {
             'ng-click': 'pressDeleteButton()',
@@ -115,11 +122,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#sureToDeleteUser').hide();
         //
         //$('.new-user-form input.required-field').css({'border-color':'#ccc'});
-        $('#addtab1').unblock();
-        $('#addtab2').unblock();
-        $('#addtab3').unblock();
-        $('#addtab4').unblock();
-        $('#addtab5').unblock();
+        // $('#addtab1').unblock();
+        // $('#addtab2').unblock();
+        // $('#addtab3').unblock();
+        // $('#addtab4').unblock();
+        // $('#addtab5').unblock();
+        $('.tabs').unblock();
         //
         $('#submitAddUserForm').prop('disabled', true);
         // $('#deleteAddUserForm').hide();
@@ -131,11 +139,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
     };
 
     var blockTabs = function () {
-        $('#addtab1').block({message: null});
-        $('#addtab2').block({message: null});
-        $('#addtab3').block({message: null});
-        $('#addtab4').block({message: null});
-        $('#addtab5').block({message: null});
+        // $('#addtab1').block({message: null});
+        // $('#addtab2').block({message: null});
+        // $('#addtab3').block({message: null});
+        // $('#addtab4').block({message: null});
+        // $('#addtab5').block({message: null});
+        $('.tabs').block({message: null});
     };
 
     $scope.closeUserWindows = function (selected) {
@@ -324,17 +333,24 @@ angular.module("akamaiposApp", ['jqwidgets'])
         var comboboxPosition = $('#positionCombobox').jqxComboBox('getSelectedItem');
         var needValidation = userValidationFields();
         var params = {};
+        var mailing = {};
         var emailEn = $('#emailEnabledField [aria-checked="true"]');
         var ee = (emailEn.length > 0) ? emailEn.data('msg') : "no";
         // Check if some is missing
         if (!needValidation) {
+            $.each($('#new-user-form').serializeArray(), function (i, el) {
+                var len = $('.emailtab[name='+ el.name+ ']').length;
+                if (len > 0) {
+                    mailing[el.name] = el.value;
+                } else {
+                    params[el.name] = el.value;
+                }
+            });
+            params['position'] = comboboxPosition.value;
+            params['EmailEnabled'] = ee;
+            params['emailConfig'] = mailing;
             // Creating..
             if ($scope.newOrEditSelected == 'new') {
-                $.each($('#new-user-form').serializeArray(), function (i, el) {
-                    params[el.name] = el.value;
-                });
-                params['EmailEnabled'] = ee;
-                params['position'] = comboboxPosition.value;
                 $.ajax({
                     'url': SiteRoot + 'admin/user/store_user',
                     'method': 'POST',
@@ -357,6 +373,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
                                 $('#addUserAnotherRow').show();
                                 $('#addUserButtons').hide();
                                 blockTabs();
+                                if (params.EmailEnabled == 'yes') {
+                                    $('#email_itemTab').show();
+                                } else {
+                                    $('#email_itemTab').hide();
+                                }
                             }
                         }
                         else {
@@ -372,11 +393,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }
             // AJAX updating user
             else if ($scope.newOrEditSelected == 'edit') {
-                $.each($('#new-user-form').serializeArray(), function (i, el) {
-                    params[el.name] = el.value;
-                });
-                params['position'] = comboboxPosition.value;
-                params['EmailEnabled'] = ee;
                 params['Unique'] = $scope.userId;
                 $.ajax({
                     'url': SiteRoot + 'admin/user/update_user',
@@ -398,7 +414,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             if (closed == 0) {
                                 $('#savePositionuserBtn').prop('disabled', true);
                                 $scope.closeUserWindows();
+                            } else {
+                                if (params.EmailEnabled == 'yes') {
+                                    $('#email_itemTab').show();
+                                } else {
+                                    $('#email_itemTab').hide();
+                                }
                             }
+
                         }
                         else {
                             $.each(data.message, function (i, msg) {

@@ -50,22 +50,21 @@
 
     </div><!--End Grid1-->
 
-    <div style="float:left; padding:2px; width:350px;">
-        <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Primary:</div>
-        <div style="float:left; width:180px;">
-            <jqx-combo-box  jqx-on-select="positionSelectChanged(event)" id="positionCombobox" class="required-field"
-                            jqx-settings="positionSelectSetting"
-                            ng-disabled='disabled'>
-            </jqx-combo-box>
-        </div>
-        <div style="float:left;">
-            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-        </div>
-
-    </div>
-
     <div style="width:330px;float:left;">
         <div style="float:left; padding:2px; width:350px;">
+            <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Primary:</div>
+            <div style="float:left; width:180px;">
+                <jqx-combo-box  jqx-on-select="positionSelectChanged(event)" id="positionCombobox" class="required-field"
+                                jqx-settings="positionSelectSetting"
+                                ng-disabled='disabled'>
+                </jqx-combo-box>
+            </div>
+            <div style="float:left;">
+                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+            </div>
+        </div>
+
+        <div style=" float:left; padding:2px; width:350px;">
             <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Phone 1:</div>
             <div style="float:left; width:180px;">
                 <input type="text" class="form-control addUserField phone" id="add_phone1" name="add_phone1" placeholder="Phone1">

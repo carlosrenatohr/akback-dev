@@ -23,7 +23,9 @@ class User_model extends CI_Model
             config_position.\"PositionName\" as \"PrimaryPositionName\",
             cuc.\"UserName\" as \"CreatedByName\", cuu.\"UserName\" as \"UpdatedByName\",
             to_char(date_trunc('minutes', config_user.\"Created\" ::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Created\", 
-            to_char(date_trunc('minutes', config_user.\"Updated\" ::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Updated\" 
+            to_char(date_trunc('minutes', config_user.\"Updated\" ::timestamp), 'MM/DD/YYYY HH:MI AM') as \"Updated\",
+            cue.\"SmtpServer\" as eserver, cue.\"UserName\" as eusername, cue.\"FromEmail\", cue.\"ReplyToEmail\",cue.\"Signature\", 
+            cue.\"SMTPSecure\" as esecure, cue.\"Password\" as epassword, cue.\"FromName\", cue.\"ReplyToName\",cue.\"Port\"
             ", false
         );
         $this->db->from('config_user');
@@ -34,6 +36,7 @@ class User_model extends CI_Model
         );
         $this->db->join('config_user cuc', 'cuc.Unique = config_user.CreatedBy', 'left');
         $this->db->join('config_user cuu', 'cuu.Unique = config_user.UpdatedBy', 'left');
+        $this->db->join('config_user_email cue', 'cue.UserUnique = config_user.Unique', 'left');
         $where = "config_user_position.PrimaryPosition = 1 AND config_user.Status = 1 AND 
                     (config_user.Suppress = 0 OR config_user.Suppress IS NULL)";
         $query = $this->db

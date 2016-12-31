@@ -23,6 +23,7 @@ class User extends AK_Controller
         $user_views_path = "backoffice_admin/users/";
         $data['user_tab_view'] = $user_views_path . "user_tab";
         $data['contact_tab_view'] = $user_views_path . "contact_tab";
+        $data['email_tab_view'] = $user_views_path . "email_tab";
         $data['position_tab_view'] = $user_views_path. "position_tab";
         $data['notes_tab_view'] = $user_views_path. "notes_tab";
         $data['metadata_tab_view'] = $user_views_path. "metadata_tab";
@@ -71,6 +72,8 @@ class User extends AK_Controller
     {
         if (isset($_POST) and !empty($_POST)) {
             $values = $positionValues = [];
+            $emailConfig = ($_POST['emailConfig']);
+            unset($_POST['emailConfig']);
             foreach ($_POST as $index => $element) {
                 $pos = strpos($index, '_');
                 if ($pos !== false) {
@@ -119,10 +122,11 @@ class User extends AK_Controller
     public function update_user()
     {
         if (isset($_POST) && !empty($_POST)) {
-//            var_dump($_POST);exit;
             $values = $positionValues = [];
             $id = $_POST['Unique'];
             unset($_POST['Unique']);
+            $emailConfig = ($_POST['emailConfig']);
+            unset($_POST['emailConfig']);
             foreach ($_POST as $index => $element) {
                 $pos = strpos($index, '_');
                 if ($pos !== false) {
