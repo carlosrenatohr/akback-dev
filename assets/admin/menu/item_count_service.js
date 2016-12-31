@@ -426,7 +426,7 @@
                     dataFields: [
                         {name: 'Unique', type: 'int'},
                         {name: 'CountScanUnique', type: 'string'},
-                        {name: 'Barcode', type: 'number'},
+                        {name: 'Barcode', type: 'string'},
                         {name: 'Quantity', type: 'number'},
                         {name: 'Comment', type: 'string'},
                         {name: 'ItemUnique', type: 'string'},
@@ -451,19 +451,24 @@
                     {dataField: 'CountScanUnique', hidden: true},
                     {text: 'Barcode', dataField: 'Barcode', width: '10%',
                      filtertype: 'input'},
-                    {text: 'Quantity', dataField: 'Quantity', width: '10%',
-                     filtertype: 'number'},
+                    {text: 'Quantity', dataField: 'Quantity', width: '8%',
+                     filtertype: 'number', validation: function (cell, value) {
+                        if ( isNaN(value) || value < 0 ) {
+                            return { result: false, message: "Quantity must be a number." };
+                        }
+                        return true;
+                     }},
                     {text: 'Item', dataField: 'Item', width: '10%', editable: false,
                      filtertype: 'input'},
                     {text: 'Part', dataField: 'Part', width: '10%', editable: false,
                      filtertype: 'input'},
-                    {text: 'Description', dataField: 'Description', width: '16%',editable: false,
+                    {text: 'Description', dataField: 'Description', width: '14%',editable: false,
                      filtertype: 'input'},
-                    {text: 'Comment', dataField: 'Comment', width: '16%',
+                    {text: 'Comment', dataField: 'Comment', width: '14%',
                      filtertype: 'input'},
                     {dataField: 'Status', hidden: true},
-                    {text: 'ImportFile',dataField: 'ImportFile', width: '18%', editable:false,
-                    filtertype: 'input'},
+                    {text: 'ImportFile',dataField: 'ImportFile', width: '24%', editable:false,
+                    filtertype: 'checkedlist'},
                     // {text: 'Created By', dataField: 'CreatedByName', width: '12%',
                     //     filtertype: 'list', editable:false},
                     // {dataField: 'Created', hidden: true},

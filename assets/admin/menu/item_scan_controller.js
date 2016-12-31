@@ -7,12 +7,21 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#iscanTabs').on('tabclick', function(e) {
             var tab = e.args.item;
             var tabTitle = $('#iscanTabs').jqxTabs('getTitleAt', tab);
+            // $('.matchIscanBtnsContainer.newone').remove();
+            // var btns = $('.mainIscanBtnsContainer:not(.newone)').clone();
+            // btns.addClass('newone');
             if (tab == 0) {
+                // $('#scan_tab1').prependTo(btns);
+                $('#saveIscanBtn').show();
                 $('#matchIscanBtn').hide();
+                $('#delScanListBtn').hide();
                 // Filters tab
             } else if (tab == 1) {
                 // $('#deleteIcountBtn').hide();
+                // $('#scan_tab2').prependTo(btns);
+                $('#saveIscanBtn').hide();
                 $('#matchIscanBtn').show();
+                $('#delScanListBtn').show();
             }
         });
 

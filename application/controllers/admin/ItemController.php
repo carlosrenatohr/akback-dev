@@ -82,11 +82,12 @@ class ItemController extends AK_Controller
         $data['page_title'] = "Item Scan Import";
         $data['storename'] = $this->displaystore();
         $data['locations'] = $this->getLocations();
-        $count_path = 'backoffice_admin/inventory/count/scan_import/';
-        $data['import_subtab'] = $count_path . 'import_subtab';
-        $data['list_subtab'] = $count_path . 'scan_list_subtab';
+        $scan_path = 'backoffice_admin/inventory/count/scan_import/';
+        $data['import_subtab'] = $scan_path . 'import_subtab';
+        $data['list_subtab'] = $scan_path . 'scan_list_subtab';
+        $data['btns_template'] = $scan_path . '_btns';
         //
-        $data['main_content'] = $count_path . "index";
+        $data['main_content'] = $scan_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
 

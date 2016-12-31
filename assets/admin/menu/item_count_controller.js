@@ -437,7 +437,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     if (response.status == 'success') {
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
-                        $('#finishIcountBtn').hide();
+                        // $('#finishIcountBtn').hide();
                         $('#icountGrid1').jqxGrid('refresh');
                         $('#icountGrid2').jqxGrid('refresh');
                         $('#icountGrid2').jqxGrid('render');

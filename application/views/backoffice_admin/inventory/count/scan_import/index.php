@@ -51,6 +51,7 @@
                     Item Count | Details
                 </div>
                 <div >
+                    <?php $this->load->view($btns_template); ?>
                     <jqx-tabs jqx-width="'100%'"
                               id="iscanTabs">
                         <ul>
@@ -58,37 +59,17 @@
                             <li>Scan List</li>
                         </ul>
                         <!-- Import subtab -->
-                        <div class="">
+                        <div class="" id="scan_tab1">
+<!--                            --><?php //$this->load->view($btns_template); ?>
                             <?php $this->load->view($import_subtab); ?>
                         </div>
                         <!-- Scan List subtab -->
-                        <div class="">
+                        <div class="" id="scan_tab2">
                             <?php $this->load->view($list_subtab); ?>
                         </div>
                     </jqx-tabs>
 <!--                    <input type="hidden" id="decimalCost" value="--><?php //echo $decimalCost;?><!--">-->
 <!--                    <input type="hidden" id="decimalQty" value="--><?php //echo $decimalQty;?><!--">-->
-
-<!--                    <!-- Main buttons before saving item on grid -->
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="row">
-                            <div id="mainIscanBtns" class="">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button type="button" ng-click="closeIscan()"
-                                                class="btn btn-warning"
-                                        >Close</button>
-                                        <button type="button" id="saveIscanBtn"
-                                                ng-click="saveScan()" class="btn btn-primary" disabled
-                                            >Import</button>
-                                        <button type="button" id="matchIscanBtn" ng-click="matchIscan()"
-                                                class="btn btn-success" style="overflow:auto;display: none;"
-                                            >Item Match</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Prompt before saving item on grid -->
                     <div class="col-md-12 col-md-offset-0">
