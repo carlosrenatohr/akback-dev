@@ -6,7 +6,7 @@
 <!-- -->
 <style>
     #userMainWindows {
-        max-width: 95%!important;
+        /*max-width: 95%!important;*/
     }
 </style>
 <div ng-controller="userController" ng-cloak>

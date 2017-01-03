@@ -323,8 +323,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         // Check if some is missing
         if (!needValidation) {
             $.each($('#new-user-form').serializeArray(), function (i, el) {
-                var len = $('.emailtab[name='+ el.name+ ']').length;
-                if (len > 0) {
+                var len = $('[name='+ el.name+ ']');
+                if (len.length > 0 && (len.hasClass('emailtab') || len.siblings().hasClass('emailtab'))) {
                     mailing[el.name] = el.value;
                 } else {
                     params[el.name] = el.value;
