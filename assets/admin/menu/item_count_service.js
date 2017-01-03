@@ -67,9 +67,9 @@
                 theme: 'arctic',
                 filterable: true,
                 showfilterrow: true,
-                ready: function() {
-                    $('#icountlistGrid').jqxGrid('updatebounddata', 'filter');
-                },
+                // ready: function() {
+                //     $('#icountlistGrid').jqxGrid('updatebounddata', 'filter');
+                // },
                 sortable: true,
                 pageable: true,
                 pageSize: pager.pageSize,
@@ -221,7 +221,7 @@
                 columns: [
                     {dataField: 'Unique', hidden: true},
                     {dataField: 'Cost', hidden: true},
-                    {text: 'Item', dataField: 'Item', editable: false, width: '8%'},
+                    {text: 'Item', dataField: 'Item', editable: false, width: '7%'},
                     {text: 'Part', dataField: 'Part', editable: false, width: '7%'},
                     {text: 'Description', dataField: 'Description', editable: false, width: '10%'},
                     {text: 'Supplier', dataField: 'Supplier', editable: false,
@@ -240,7 +240,7 @@
                         cellsalign: 'right', align: 'right', width: '8%',
                         aggregates: [{ 'Total': aggregates }],
                         aggregatesrenderer: aggregatesrender},
-                    {text: 'Count', dataField: 'CountStock', width: '8%',
+                    {text: 'Count', dataField: 'CountStock', width: '7%',
                          cellbeginedit: cellbeginedit,
                          cellsrenderer: cellsCountStock, filtertype: 'number',
                          cellsalign: 'right', align: 'right',
@@ -292,7 +292,9 @@
                 autoheight: true,
                 autorowheight: true,
                 editable: true,
-                editmode: 'click'
+                editmode: 'click',
+                selectionmode: 'checkbox',
+                enablehover: true
             }
         };
 

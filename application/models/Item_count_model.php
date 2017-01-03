@@ -199,6 +199,14 @@ class Item_count_model extends CI_Model
         return $this->db->update('item_count_list', $data);
     }
 
+    public function delete_count_list($ids) {
+        $data['Updated'] = date('Y-m-d H:i:s');
+        $data['UpdatedBy'] = $this->session->userdata('userid');
+        $data['Status'] = 0;
+        $this->db->where_in('Unique', explode(',', $ids))   ;
+        return $this->db->update('item_count_list', $data);
+    }
+
     public function finalize_count_list($countID) {
         // TODO missing ICL."Cost" as "Cost", after TransactionDate
         $select = "select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 1 as \"Type\", ICL.\"Difference\" as \"Quantity\",

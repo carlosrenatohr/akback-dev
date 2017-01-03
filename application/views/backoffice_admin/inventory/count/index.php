@@ -71,6 +71,7 @@
                     Item Count | Details
                 </div>
                 <div >
+                    <?php $this->load->view($btns_template); ?>
                     <jqx-tabs jqx-width="'100%'"
                               id="icountTabs">
                         <ul>

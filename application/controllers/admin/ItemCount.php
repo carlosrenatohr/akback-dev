@@ -111,6 +111,24 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    public function massDeleteItemCountList() {
+        if (isset($_POST)  && !empty($_POST)) {
+            $ids = $_POST['ids'];
+            $status = $this->count->delete_count_list($ids);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Count item list item deleted!',
+                ];
+            } else {
+                $response = $this->dbErrorMsg();
+            }
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
     public function finalizeCount($id) {
         $status = $this->count->finalize_count_list($id);
         if ($status) {
