@@ -34,7 +34,7 @@
                                         Back
                                     </a>
                                 </li>
-                                <li>
+                                <li>g
                                     <a style="outline:0;" ng-click="openAddUserWindows()">
                                         <span class="icon-new"></span>
                                         New
