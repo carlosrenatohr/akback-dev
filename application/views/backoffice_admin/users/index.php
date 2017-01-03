@@ -4,21 +4,11 @@
 <script type="application/javascript" src="<?= base_url()?>assets/admin/user/user_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/user/user_helpers.js"></script>
 <!-- -->
-<style>
-    #userMainWindows {
-        /*max-width: 95%!important;*/
-    }
-</style>
 <div ng-controller="userController" ng-cloak>
     <div class="container-fluid">
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
                 <nav class="navbar navbar-default" role="navigation" style="background:#CCC;">
-                    <!--
-                    <div class="col-md-3">
-                         <a class="navbar-brand" style="color: #146295;"><b>List of Customer:</b></a>
-                    </div>
-                    -->
                     <div class="col-md-12">
                         <div id="toolbar" class="toolbar-list">
                             <ul class="nav navbar-nav navbar-left">
@@ -34,7 +24,7 @@
                                         Back
                                     </a>
                                 </li>
-                                <li>g
+                                <li>
                                     <a style="outline:0;" ng-click="openAddUserWindows()">
                                         <span class="icon-new"></span>
                                         New

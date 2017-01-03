@@ -160,6 +160,7 @@ class User extends AK_Controller
                         'FullName' => $values['FirstName'] . ' ' . $values['LastName'],
                         'Email' => $values['Email']
                     ];
+                    $emailConfig['SMTPSecure'] = (empty($emailConfig['SMTPSecure'])) ? null : $emailConfig['SMTPSecure'];
                     $this->setEmailStatusOnUser($id, $values['EmailEnabled'], $emailConfig);
                     $response = [
                         'status' => 'success',

@@ -47,7 +47,7 @@
             <div style="float:left; width:220px;">
                 <jqx-drop-down-list class="form-control addUserField emailtab" id="add_esecure" name="SMTPSecure"
                     jqx-place-holder="Secure" jqx-height="20" jqx-width="195">
-                    <option value="null">None</option>
+                    <option value="">None</option>
                     <option value="ssl">SSL</option>
                     <option value="tls">TLS</option>
                 </jqx-drop-down-list>
