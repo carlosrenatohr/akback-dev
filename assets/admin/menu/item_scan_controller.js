@@ -298,8 +298,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             updateIscanGrid();
                             updateIscanlistGrid($scope.iscanID);
                             // $('#matchIscanBtn').hide();
-                            $('#iscanGrid').jqxGrid('refresh');
-                            $('#iscanGrid').jqxGrid('render');
+                            // $('#iscanGrid').jqxGrid('refresh');
+                            // $('#iscanGrid').jqxGrid('render');
                             $('#icountSuccessMsg #msg').html('List was updated with Items found.');
                             $scope.icountSuccessMsg.apply('open');
                             // icountwind.close();
