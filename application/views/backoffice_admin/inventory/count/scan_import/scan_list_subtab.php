@@ -5,7 +5,7 @@
 <!--                disabled id="delScanListBtn">Delete item</button>-->
 <!--        </div>-->
         <div class="">
-            <jqx-grid id="iscanlistGrid" style=""
+            <jqx-grid id="iscanlistGrid" style="display: none;"
                       jqx-settings="iscanlistGridSettings"
                       jqx-create="iscanlistGridSettings"
             ></jqx-grid>

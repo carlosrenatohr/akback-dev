@@ -15,6 +15,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').show();
                 $('#matchIscanBtn').hide();
                 $('#delScanListBtn').hide();
+                $('#iscanlistGrid').hide();
                 // Filters tab
             } else if (tab == 1) {
                 // $('#deleteIcountBtn').hide();
@@ -22,6 +23,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').hide();
                 $('#matchIscanBtn').show();
                 $('#delScanListBtn').show();
+                $('#iscanlistGrid').show();
             }
         });
 
@@ -46,7 +48,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         function updateIscanlistGrid(id) {
             $('#iscanlistGrid').jqxGrid({
-                source: itemCountService.getIscanListTableSettings(id).source
+                source: itemCountService.getIscanListTableSettings(id).source,
+                width: "99.7%"
             });
         }
 
@@ -125,10 +128,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $scope.iscanID = row.Unique;
             $scope.createOrEditIscan = 'edit';
             //
-            updateIscanlistGrid();
+            // updateIscanlistGrid();
             setTimeout(function() {
                 updateIscanlistGrid(row.Unique);
-            }, 150);
+            }, 200);
             $('#icount_location').val(row.Location);
             $('#icount_comment').val(row.Comment);
             var fimp = row.FilesImported ? row.FilesImported : '-';
@@ -294,9 +297,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         if (response.status == 'success') {
                             updateIscanGrid();
                             updateIscanlistGrid($scope.iscanID);
-                            $('#matchIscanBtn').hide();
-                            // $('#icountGrid').jqxGrid('refresh');
-                            // $('#icountGrid').jqxGrid('render');
+                            // $('#matchIscanBtn').hide();
+                            $('#iscanGrid').jqxGrid('refresh');
+                            $('#iscanGrid').jqxGrid('render');
                             $('#icountSuccessMsg #msg').html('List was updated with Items found.');
                             $scope.icountSuccessMsg.apply('open');
                             // icountwind.close();

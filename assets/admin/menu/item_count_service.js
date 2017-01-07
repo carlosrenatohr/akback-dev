@@ -438,10 +438,9 @@
                         {name: 'CountUnique', type: 'string'},
                         {name: 'Status', type: 'string'},
                         {name: 'ImportFile', type: 'string'},
-                        {name: 'Created', type: 'string'},
+                        {name: 'Created', type: 'date'},
                         {name: 'CreatedByName', type: 'string'},
-                        {name: 'Updated', type: 'string'},
-                        // {name: '_Updated', type: 'date'},
+                        {name: 'Updated', type: 'date'},
                         {name: 'UpdatedByName', type: 'string'}
                     ],
                     id: 'Unique',
@@ -470,16 +469,12 @@
                      filtertype: 'input'},
                     {dataField: 'Status', hidden: true},
                     {text: 'ImportFile',dataField: 'ImportFile', width: '24%', editable:false,
-                    filtertype: 'checkedlist'},
-                    // {text: 'Created By', dataField: 'CreatedByName', width: '12%',
-                    //     filtertype: 'list', editable:false},
-                    // {dataField: 'Created', hidden: true},
-                    // {text: 'Updated By', dataField: 'UpdatedByName', width: '12%',
-                    //     filtertype: 'list', editable:false},
-                    // {text: 'Updated', dataField: '_Updated', width: '14%',
-                    //     cellsformat:'MM/dd/yyyy hh:mmtt', filtertype: 'date', editable:false}
+                    filtertype: 'checkedlist'}
                 ],
                 width: "99.7%",
+                // ready: function() {
+                //     $('iscanlistGrid').jqxGrid('updatebounddata', 'filter');
+                // },
                 theme: 'arctic',
                 filterable: true,
                 showfilterrow: true,
