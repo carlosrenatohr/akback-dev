@@ -364,7 +364,11 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 {name: 'Status', type: 'number'},
                 {name: 'StatusName', type: 'string'},
                 {name: 'MenuUnique', type: 'number'},
-                {name: 'MenuName', type: 'string'}
+                {name: 'MenuName', type: 'string'},
+                {name: 'ButtonPrimaryColor', type: 'string'},
+                {name: 'ButtonSecondaryColor', type: 'string'},
+                {name: 'LabelFontColor', type: 'string'},
+                {name: 'LabelFontSize', type: 'string'}
             ],
             url: ''
             // url: SiteRoot + 'admin/MenuCategory/load_allcategories'
@@ -378,7 +382,11 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             {text: 'Column', dataField: 'Column', type: 'number'},
             {text: 'Sort', dataField: 'Sort', type: 'number'},
             {dataField: 'Status', type: 'number', hidden: true},
-            {text: 'Status', dataField: 'StatusName', type: 'string'}
+            {text: 'Status', dataField: 'StatusName', type: 'string'},
+            {dataField: 'ButtonPrimaryColor', hidden: true},
+            {dataField: 'ButtonSecondaryColor', hidden: true},
+            {dataField: 'LabelFontColor', hidden: true},
+            {dataField: 'LabelFontSize', hidden: true}
         ],
         columnsResize: true,
         width: "99.7%",
@@ -452,7 +460,11 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                     {name: 'Status', type: 'number'},
                     {name: 'StatusName', type: 'string'},
                     {name: 'MenuUnique', type: 'number'},
-                    {name: 'MenuName', type: 'string'}
+                    {name: 'MenuName', type: 'string'},
+                    {name: 'ButtonPrimaryColor', type: 'string'},
+                    {name: 'ButtonSecondaryColor', type: 'string'},
+                    {name: 'LabelFontColor', type: 'string'},
+                    {name: 'LabelFontSize', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuCategory/load_allcategories'
             })
@@ -499,6 +511,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         setTimeout(function() {
             $('#add_CategoryName').focus();
         }, 100);
+        $('#sty_subtab').hide();
         $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Add New Menu Category');
         categoryWindow.open();
@@ -517,10 +530,15 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_CategoryRow').val(values['Row']);
         $('#add_CategoryColumn').val(values['Column']);
         $('#add_Sort').val(values['Sort']);
+        $('#lfontSize').val(values['LabelFontSize']);
+        $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonPrimaryColor'] })));
+        $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonSecondaryColor'] })));
+        $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['LabelFontColor'] })));
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
 
         // $('#deleteCategoryBtn').show();
+        $('#sty_subtab').show();
         $('#saveCategoryBtn').prop('disabled', true);
         var btn = $('<button/>', {
             'id': 'deleteCategoryBtn'
@@ -622,6 +640,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             if ($scope.newOrEditCategoryOption == 'new') {
                 url = SiteRoot + 'admin/MenuCategory/add_newCategory';
             } else if ($scope.newOrEditCategoryOption == 'edit') {
+                values['ButtonPrimaryColor'] = $('#bPrimaryColor').jqxColorPicker('getColor').hex;
+                values['ButtonSecondaryColor'] = $('#bSecondaryColor').jqxColorPicker('getColor').hex;
+                values['LabelFontColor'] = $('#lfontColor').jqxColorPicker('getColor').hex;
+                values['LabelFontSize'] = $('#lfontSize').val();
                 url = SiteRoot + 'admin/MenuCategory/update_Category/' + $scope.categoryId;
             }
             $http({
@@ -640,6 +662,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                             categoryWindow.close();
                             resetCategoryWindows();
                         }, 2000);
+                        // $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonPrimaryColor'] })));
+                        // $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonSecondaryColor'] })));
+                        // $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['LabelFontColor'] })));
+                        // $('#sty_subtab').show();
                     } else if ($scope.newOrEditCategoryOption == 'edit') {
                         $('#categoryNotificationsSuccessSettings #notification-content')
                             .html('Category updated!');
@@ -677,6 +703,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         //
+        $('#category_subtabs').jqxTabs('select', 0);
         $('#saveCategoryBtn').prop('disabled', true);
         // $('#deleteCategoryBtn').hide();
     };
@@ -706,8 +733,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $http({
             method: 'POST',
             url: SiteRoot + 'admin/MenuCategory/remove_category/' + $scope.categoryId
-        }).then(function(response){
-            console.info(response);
+        }).then(function(response) {
             if (response.data.status == "success") {
                 updateCategoryGridTable();
                 categoryWindow.close();
@@ -730,4 +756,35 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         textAlign: 'left',
     }
 
+    function getTextElementByColor(color) {
+        if (color == 'transparent' || color.hex == "") {
+            $('#lfontSize').val('12px');
+            return $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>transparent</div>");
+        }
+        var element = $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#" + color.hex + "</div>");
+        var nThreshold = 105;
+        var bgDelta = (color.r * 0.299) + (color.g * 0.587) + (color.b * 0.114);
+        var foreColor = (255 - bgDelta < nThreshold) ? 'Black' : 'White';
+        element.css('color', foreColor);
+        element.css('background', "#" + color.hex);
+        element.addClass('jqx-rc-all');
+        return element;
+    }
+
+    $scope.createColorPicker = false;
+    $scope.ddb_bPrimaryColor = {};
+    $scope.ddb_bSecondaryColor = {};
+    $scope.ddb_lfontColor  = {};
+    $scope.opening = function (event) {
+        $scope.createColorPicker = true;
+    }
+    $scope.colorChange = function (event) {
+        var id = $(event.target).attr('id');
+        $scope['ddb_' + id].setContent(getTextElementByColor(event.args.color));
+        $('#saveCategoryBtn').prop('disabled', false);
+    };
+
+    $scope.$on('jqxDropDownButtonCreated', function (event, arguments) {
+        arguments.instance.setContent(getTextElementByColor(new $.jqx.color({ hex: "000000" })));
+    });
 });

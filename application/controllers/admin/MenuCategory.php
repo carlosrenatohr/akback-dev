@@ -27,20 +27,11 @@ class MenuCategory extends AK_Controller
         // Partials Views
         $menu_path = 'backoffice_admin/menu_categories/';
         $data['menu_tab_view'] = $menu_path . "menu_tab";
+        $data['cat_data_subview'] = $menu_path . "categories_data_subtab";
+        $data['cat_style_subview'] = $menu_path . "categories_styles_subtab";
         $data['category_tab_view'] = $menu_path . "categories_tab";
         $data['items_tab_view'] = $menu_path . "items_tab";
         $data['categoryName_form'] = $menu_path . "categoryname_form";
-//        $data['inventory_tab_view'] = $menu_path . "inventory/index";
-//        $data['inventory_item_subtab_view'] = $menu_path . "inventory/item_subtab";
-//        $data['inventory_cost_subtab_view'] = $menu_path . "inventory/cost_subtab";
-//        $data['inventory_price_subtab_view'] = $menu_path . "inventory/price_subtab";
-//        $data['inventory_stocklevel_subtab_view'] = $menu_path . "inventory/stocklevel_subtab";
-//        $data['inventory_tax_subtab_view'] = $menu_path . "inventory/tax_subtab";
-//        $data['inventory_barcode_subtab_view'] = $menu_path . "inventory/barcode_subtab";
-//        $data['inventory_question_subtab_view'] = $menu_path . "inventory/question_subtab";
-//        $data['inventory_printer_subtab_view'] = $menu_path . "inventory/printer_subtab";
-//        $data['inventory_options_subtab_view'] = $menu_path . "inventory/options_subtab";
-//        $data['inventory_picture_subtab_view'] = $menu_path . "inventory/picture_subtab";
         $data['items_menuitem_subtab_view'] = $menu_path . "items_menuitem_subtab";
         $data['items_price_subtab_view'] = $menu_path . "items_price_subtab";
         $data['items_questions_subtab_view'] = $menu_path . "items_question_subtab";
