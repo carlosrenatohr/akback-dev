@@ -485,7 +485,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'success') {
-                        console.log(response);
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
                         $('#icountGrid1').jqxGrid('refresh');
