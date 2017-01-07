@@ -259,6 +259,13 @@ class Item_count_model extends CI_Model
         return $status;
     }
 
+    public function setZero_NotCounted_list($id) {
+        $this->db->where('CountUnique', $id);
+        $this->db->where('CountStock', null);
+        return $this->db->update('item_count_list', ['CountStock' => 0]);
+//        return $this->db->get('item_count_list')->result_array();
+    }
+
     /**
      * ITEM COUNT SCAN
      */

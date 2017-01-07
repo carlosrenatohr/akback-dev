@@ -5,15 +5,20 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $('#icountTabs').on('tabclick', function(e) {
         var tab = e.args.item;
         var tabTitle = $('#icountTabs').jqxTabs('getTitleAt', tab);
+        var hidingBtns = function() {
+            $('#finishIcountBtn').hide();
+            $('#setZeroIcountBtn').hide();
+            $('#deleteIcounlistBtn').hide();
+        };
         if (tab == 0) {
-            // $('#deleteIcountBtn').show();
-            $('#finishIcountBtn').hide();
         // Filters tab
+            hidingBtns();
         } else if (tab == 1) {
-            $('#finishIcountBtn').hide();
+            hidingBtns();
         // Item Count list tab
         } else if (tab == 2) {
-            // $('#deleteIcountBtn').hide();
+            $('#setZeroIcountBtn').show();
+            $('#deleteIcounlistBtn').show();
             if ($scope.icountStatus == 1)
                 $('#finishIcountBtn').show();
             else // 0=deleted; 2=finished; null
@@ -354,6 +359,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').hide();
+            $('#setZeroIcountBtns').hide();
         }
         if (option == 0) {
             $scope.saveIcount(1);
@@ -374,6 +380,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#closeIcountBtns').show();
                 $('#deleteIcountBtns').hide();
                 $('#finishIcountBtns').hide();
+                $('#setZeroIcountBtns').hide();
             }
         }
     };
@@ -388,6 +395,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').hide();
+            $('#setZeroIcountBtns').hide();
         }
         if (option == 0) {
             $.ajax({
@@ -417,6 +425,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').show();
             $('#finishIcountBtns').hide();
+            $('#setZeroIcountBtns').hide();
         }
     };
 
@@ -426,6 +435,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').hide();
+            $('#setZeroIcountBtns').hide();
         }
 
         if (option == 0) {
@@ -455,29 +465,69 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').show();
+            $('#setZeroIcountBtns').hide();
         }
     };
 
-        $scope.delItemCountList = function() {
-            var countgrid = $('#icountlistGrid');
-            if (confirm('Are you sure to delete selected items on grid?')) {
-                var ids = [];
-                var idx = countgrid.jqxGrid('selectedrowindexes');
-                $.each(idx, function(i, el) {
-                    ids.push(countgrid.jqxGrid('getrowdata', el).Unique);
-                });
-                $.ajax({
-                    method: 'post',
-                    url: SiteRoot + 'admin/ItemCount/massDeleteItemCountList',
-                    dataType: 'json',
-                    data: {ids: ids.join()},
-                    success: function (response) {
+    $scope.setZeroIcount = function(option) {
+        if (option != undefined) {
+            $('#mainIcountBtns').show();
+            $('#closeIcountBtns').hide();
+            $('#deleteIcountBtns').hide();
+            $('#finishIcountBtns').hide();
+            $('#setZeroIcountBtns').hide();
+        }
+
+        if (option == 0) {
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/ItemCount/setZeroCount/' + $scope.icountID ,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        console.log(response);
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
-                        countgrid.jqxGrid('unselectallrows');
+                        $('#icountGrid1').jqxGrid('refresh');
+                        $('#icountGrid2').jqxGrid('refresh');
+                        $('#icountGrid2').jqxGrid('render');
+                        $('#icountSuccessMsg #msg').html('Items have set successfully!.');
+                        $scope.icountSuccessMsg.apply('open');
                     }
-                });
-            }
+                    else if (response.status == 'error') {}
+                    else {}
+                }
+            });
+        } else if (option == 1) {
+        } else {
+            $('#mainIcountBtns').hide();
+            $('#closeIcountBtns').hide();
+            $('#deleteIcountBtns').hide();
+            $('#finishIcountBtns').hide();
+            $('#setZeroIcountBtns').show();
         }
+    };
+
+    $scope.delItemCountList = function() {
+        var countgrid = $('#icountlistGrid');
+        if (confirm('Are you sure to delete selected items on grid?')) {
+            var ids = [];
+            var idx = countgrid.jqxGrid('selectedrowindexes');
+            $.each(idx, function(i, el) {
+                ids.push(countgrid.jqxGrid('getrowdata', el).Unique);
+            });
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/ItemCount/massDeleteItemCountList',
+                dataType: 'json',
+                data: {ids: ids.join()},
+                success: function (response) {
+                    updateIcountGrid();
+                    updateIcountlistGrid($scope.icountID);
+                    countgrid.jqxGrid('unselectallrows');
+                }
+            });
+        }
+    }
 
 });
