@@ -292,7 +292,7 @@ class Item_count_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    public function itemCountScanList() {
+    public function itemCountScanList($id) {
         $this->db->select('item_count_scan_list.*,
           cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
           to_char(date_trunc(\'minutes\', item_count_scan_list."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as Created,
@@ -302,6 +302,7 @@ class Item_count_model extends CI_Model
         $this->db->join('config_user cu1', 'cu1.Unique = item_count_scan_list.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count_scan_list.UpdatedBy', 'left');
         $this->db->where('item_count_scan_list.Status!=', 0);
+        $this->db->where('item_count_scan_list.CountScanUnique', $id);
         $this->db->order_by('item_count_scan_list.Created', 'DESC');
         return $this->db->get()->result_array();
     }
