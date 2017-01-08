@@ -10,17 +10,23 @@
     <!-- Category window -->
     <jqx-window jqx-on-close="close()" jqx-settings="addCategoryWindowSettings"
                 jqx-create="addCategoryWindowSettings" class="">
+        <!--  Window's Title -->
         <div>
             Add new Category
         </div>
-        <div>
+        <!--  Window's body -->
+        <div >
             <jqx-tabs id="category_subtabs">
                 <ul>
                     <li id="cat_subtab">Category</li>
+                    <li id="picture_subtab">Picture</li>
                     <li id="sty_subtab">Style</li>
                 </ul>
                 <div class="col-md-12 col-md-offset-0">
                     <?php $this->load->view($cat_data_subview); ?>
+                </div>
+                <div>
+                    <?php $this->load->view($cat_picture_subview); ?>
                 </div>
                 <div>
                     <?php $this->load->view($cat_style_subview); ?>
@@ -34,6 +40,7 @@
                             <div class="col-sm-12">
                                 <button type="button" id="saveCategoryBtn" ng-click="SaveCategoryWindows()" class="btn btn-primary" disabled>Save</button>
                                 <button	type="button" id="" ng-click="CloseCategoryWindows()" class="btn btn-warning">Close</button>
+<!--                                <span class="btn btn-success" id="categoryPictureBtn" flow-btn style="display: none;">Upload Picture</span>-->
                                 <button	type="button" id="deleteCategoryBtn" ng-click="beforeDeleteCategory()" class="btn btn-danger " style="display:none; overflow:auto;">Delete</button>
                             </div>
                         </div>

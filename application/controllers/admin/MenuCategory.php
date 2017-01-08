@@ -28,6 +28,7 @@ class MenuCategory extends AK_Controller
         $menu_path = 'backoffice_admin/menu_categories/';
         $data['menu_tab_view'] = $menu_path . "menu_tab";
         $data['cat_data_subview'] = $menu_path . "categories_data_subtab";
+        $data['cat_picture_subview'] = $menu_path . "categories_picture_subtab";
         $data['cat_style_subview'] = $menu_path . "categories_styles_subtab";
         $data['category_tab_view'] = $menu_path . "categories_tab";
         $data['items_tab_view'] = $menu_path . "items_tab";

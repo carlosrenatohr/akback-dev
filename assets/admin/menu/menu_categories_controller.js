@@ -352,6 +352,16 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
      * CATEGORIES TAB LOGIC
      * --------------------
      */
+    $('#category_subtabs').on('selecting', function(e) {
+        var tabclicked = e.args.item;
+        var tabTitle = $(this).jqxTabs('getTitleAt', tabclicked);
+        if(tabTitle == 'Picture') {
+            $('#categoryPictureBtn').show();
+        } else {
+            $('#categoryPictureBtn').hide();
+        }
+    });
+
     $scope.categoriesTableSettings = {
         source: {
             dataType: 'json',
@@ -754,8 +764,9 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         width: 165,
         height: 25,
         textAlign: 'left',
-    }
+    };
 
+    // Styles tab
     function getTextElementByColor(color) {
         if (color == 'transparent' || color.hex == "") {
             $('#lfontSize').val('12px');
@@ -787,4 +798,65 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     $scope.$on('jqxDropDownButtonCreated', function (event, arguments) {
         arguments.instance.setContent(getTextElementByColor(new $.jqx.color({ hex: "000000" })));
     });
+
+    // Picture Tab
+    // Move it on module to load easier on other sections (Same on menu_items_controller)
+    $scope.currentImages = [];
+    $scope.uploader = {};
+    $scope.successUploadNames = [];
+    var mimesAvailable = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
+    $scope.submitUpload = function (files, e, flow) {
+        var type = files[0].file.type;
+        if (mimesAvailable.indexOf(type) > -1) {
+            $scope.uploader.flow.upload();
+        } else {
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html('Only PNG, JPG and GIF files types allowed.');
+            $scope.menuitemNotificationsErrorSettings.apply('open');
+            var last = $scope.uploader.flow.files.length - 1;
+            $scope.uploader.flow.files.splice(last, 1);
+        }
+    };
+
+    $scope.successUpload = function (e, response, flow) {
+        // console.log('sucess upload...', arguments);
+        var resp = JSON.parse(response);
+        var last = $scope.uploader.flow.files.length - 1;
+        if (!resp.success) {
+            $scope.uploader.flow.files.splice(last, 1);
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html(resp.errors);
+            $scope.menuitemNotificationsErrorSettings.apply('open');
+        } else {
+            $scope.uploader.flow.files[last]['newName'] = resp.newName;
+            $scope.successUploadNames.push(resp.newName);
+            $scope.currentImages.splice(0, 1);
+            $('#saveItemGridBtn').prop('disabled', false);
+        }
+    };
+
+    $scope.errorUpload = function (file, msg, flow) {};
+
+    $scope.fileAddedUpload = function (file, event, flow) {
+        var type = file.file.type;
+    };
+
+    $scope.removingImageSelected = function(i, option) {
+        if (option == 1)
+            var list = $scope.uploader.flow.files;
+        else
+            var list = $scope.currentImages;
+        var foundPic =
+            $scope.successUploadNames.indexOf(list[i].newName);
+        //
+        $scope.successUploadNames.splice(foundPic, 1);
+        $scope.currentImages.splice(0, 1);
+        $scope.uploader.flow.files.splice(i, 1);
+        if (option == 1) {
+            if ($scope.successUploadNames.length <= 0)
+                $('#saveItemGridBtn').prop('disabled', true);
+        } else if (option == 2) {
+            $('#saveItemGridBtn').prop('disabled', false);
+        }
+    }
 });
