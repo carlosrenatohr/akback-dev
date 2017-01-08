@@ -328,9 +328,13 @@ class Item_count_model extends CI_Model
         $data['Status'] = 1;
         $data['Updated'] = date('Y-m-d H:i:s');
         $data['UpdatedBy'] = $this->session->userdata('userid');
+        $filenameToGetData = $data['filename'];
+        $filenameToGetData = explode(',', $filenameToGetData);
+        unset($data['filename']);
         //
         $this->db->where('Unique', $id);
         $status = $this->db->update('item_count_scan', $data);
+        $this->insert_scan_list($id, $filenameToGetData);
 
         return $status;
     }

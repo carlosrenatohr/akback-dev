@@ -83,13 +83,16 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 }, 100);
             }).on('remove', function(e) {
             }).on('uploadEnd', function(e) {
-            $scope.csvFileSelected = JSON.parse(e.args.response);
+                console.log(e.args.response);
+                $scope.csvFileSelected = JSON.parse(e.args.response);
                 if ($scope.csvFileSelected.success === true) {
                     $('#fileLoadedTemp').show();
                     uploadedFilesSelected.push($scope.csvFileSelected.name);
-                    uploadedFilesOriginal.push($scope.csvFileSelected.original_name);
+                    uploadedFilesOriginal.push($scope.csvFileSelected.name);
+                    // uploadedFilesOriginal.push($scope.csvFileSelected.original_name);
                     $('#icount_file').data('filename', uploadedFilesSelected.join());
                     $('#fileLoadedTemp').html('Files loaded: <br><b>' + uploadedFilesOriginal.join(', ') + '</b>');
+                    // $('#fileLoadedTemp').html('Files loaded: <br><b>' + uploadedFilesSelected.join(', ') + '</b>');
                     $('#iscanSuccessMsg #msg').html($scope.csvFileSelected.message);
                     $scope.iscanSuccessMsg.apply('open');
                 } else {
@@ -109,6 +112,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icount_location').val(1);
             $('#icount_comment').val('');
             $('#fileLoadedTemp').hide();
+            uploadedFilesSelected = [];
             setTimeout(function() {
                 $('#icount_location').jqxDropDownList({disabled: false});
                 $('#icount_file').jqxFileUpload({disabled: false});
@@ -135,11 +139,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icount_location').val(row.Location);
             $('#icount_comment').val(row.Comment);
             var fimp = row.FilesImported ? row.FilesImported : '-';
+            uploadedFilesOriginal = fimp.split(',');
             $('#fileLoadedTemp').html('Files loaded: <br><b>' + fimp + '</b>');
             $('#fileLoadedTemp').show();
             setTimeout(function() {
                 $('#icount_location').jqxDropDownList({disabled: true});
-                $('#icount_file').jqxFileUpload({disabled: true});
+                $('#icount_file').jqxFileUpload({disabled: false});
                 $('#iscanTabs').jqxTabs('select', 0);
                 $('#iscanTabs').jqxTabs('enableAt', 1);
                 $('#saveIscanBtn').html('Save');
@@ -160,6 +165,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var url = '';
             var data = {
                 'Comment': $('#icount_comment').val(),
+                'filename': $('#icount_file').data('filename')
             };
             if ($scope.createOrEditIscan == 'create') {
                 if ($scope.csvFileSelected == null || !$scope.csvFileSelected.success) {
@@ -169,8 +175,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 }
                 url = SiteRoot + 'admin/ItemCount/createItemScan';
                 data['Location']= $('#icount_location').val();
-                data['Comment']= $('#icount_comment').val();
-                data['filename']= $('#icount_file').data('filename');
+                // data['Comment']= $('#icount_comment').val();
             } else if ($scope.createOrEditIscan == 'edit') {
                 url = SiteRoot + 'admin/ItemCount/updateItemScan/' + $scope.iscanID;
             }
