@@ -114,7 +114,9 @@ class ItemCount extends AK_Controller
     public function massDeleteItemCountList() {
         if (isset($_POST)  && !empty($_POST)) {
             $ids = $_POST['ids'];
-            $status = $this->count->delete_count_list($ids);
+            $status = true;
+            if (!empty($ids))
+                $status = $this->count->delete_count_list($ids);
             if ($status) {
                 $response = [
                     'status' => 'success',
@@ -263,7 +265,9 @@ class ItemCount extends AK_Controller
     public function massDeleteItemScanList() {
         if (isset($_POST)  && !empty($_POST)) {
             $ids = $_POST['ids'];
-            $status = $this->count->delete_scan_list($ids);
+            $status = true;
+            if (!empty($ids))
+                $status = $this->count->delete_scan_list($ids);
             if ($status) {
                 $response = [
                     'status' => 'success',

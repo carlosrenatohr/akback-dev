@@ -42,14 +42,19 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
         function updateIscanGrid() {
             $('#iscanGrid').jqxGrid({
-                source: itemCountService.getIscanTableSettings().source
+                source: itemCountService.getIscanTableSettings().source,
+                width: "99.7%",
+                autoheight: true,
+                autorowheight: true
             });
         }
 
         function updateIscanlistGrid(id) {
             $('#iscanlistGrid').jqxGrid({
                 source: itemCountService.getIscanListTableSettings(id).source,
-                width: "99.7%"
+                width: "99.7%",
+                autoheight: true,
+                autorowheight: true
             });
         }
 

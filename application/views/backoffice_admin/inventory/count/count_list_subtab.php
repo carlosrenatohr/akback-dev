@@ -1,7 +1,7 @@
 <div class="row" style="margin: 0;">
-    <div style="width:100%;float:left; ">
+    <div style="width:100%;float:left;">
         <div id="listGridContainer">
-            <jqx-grid id="icountlistGrid"
+            <jqx-grid id="icountlistGrid" style="display: none;"
                       jqx-settings="icountlistGridSettings"
                       jqx-create="icountlistGridSettings"
                       jqx-on-rowdoubleclick="editIcountlist(e)"

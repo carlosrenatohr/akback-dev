@@ -217,7 +217,7 @@
                     ],
                     id: 'Unique',
                     url: url
-                }),
+                }, {async: false}),
                 columns: [
                     {dataField: 'Unique', hidden: true},
                     {dataField: 'Cost', hidden: true},
@@ -383,7 +383,7 @@
                     ],
                     id: 'Unique',
                     url: SiteRoot + 'admin/ItemCount/load_itemcountscan'
-                }),
+                }, {async: false}),
                 columns: [
                     {text: 'ID', dataField: 'Unique', width: '8%', filtertype: 'number'},
                     {dataField: 'Location', hidden: true},
@@ -445,7 +445,7 @@
                     ],
                     id: 'Unique',
                     url: url
-                }),
+                }, {async: false}),
                 columns: [
                     {text: 'ID', dataField: 'Unique', width: '8%', editable:false,
                      filtertype: 'number'},

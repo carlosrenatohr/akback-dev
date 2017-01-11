@@ -9,6 +9,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#finishIcountBtn').hide();
             $('#setZeroIcountBtn').hide();
             $('#deleteIcounlistBtn').hide();
+            $('#icountlistGrid').hide();
         };
         if (tab == 0) {
         // Filters tab
@@ -17,6 +18,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             hidingBtns();
         // Item Count list tab
         } else if (tab == 2) {
+            $('#icountlistGrid').show();
             $('#setZeroIcountBtn').show();
             $('#deleteIcounlistBtn').show();
             if ($scope.icountStatus == 1)
@@ -49,16 +51,22 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     function updateIcountGrid() {
         $('#icountGrid1').jqxGrid({
-            source: itemCountService.getIcountTableSettings(1).source
+            source: itemCountService.getIcountTableSettings(1).source,
+            autoheight: true,
+            autorowheight: true
         });
         $('#icountGrid2').jqxGrid({
-            source: itemCountService.getIcountTableSettings(2).source
+            source: itemCountService.getIcountTableSettings(2).source,
+            autoheight: true,
+            autorowheight: true
         });
     }
 
     function updateIcountlistGrid(id) {
         $('#icountlistGrid').jqxGrid({
-            source: itemCountService.getIcountlistTableSettings(id).source
+            source: itemCountService.getIcountlistTableSettings(id).source,
+            autoheight: true,
+            autorowheight: true
         });
     }
 
@@ -198,9 +206,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.icountStatus = row.Status;
         $scope.createOrEditIcount = 'edit';
         //
-        setTimeout(function(){
+        // setTimeout(function(){
             updateIcountlistGrid(row.Unique);
-        }, 150);
+        // }, 150);
         // $('#icountlistGrid').hide();
         // $('#icountlistGrid').jqxGrid('showloadelement');
         //
