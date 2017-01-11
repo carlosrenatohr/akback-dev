@@ -375,6 +375,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 {name: 'StatusName', type: 'string'},
                 {name: 'MenuUnique', type: 'number'},
                 {name: 'MenuName', type: 'string'},
+                {name: 'Picture', type: 'string'},
                 {name: 'ButtonPrimaryColor', type: 'string'},
                 {name: 'ButtonSecondaryColor', type: 'string'},
                 {name: 'LabelFontColor', type: 'string'},
@@ -393,6 +394,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             {text: 'Sort', dataField: 'Sort', type: 'number'},
             {dataField: 'Status', type: 'number', hidden: true},
             {text: 'Status', dataField: 'StatusName', type: 'string'},
+            {dataField: 'Picture', hidden: true},
             {dataField: 'ButtonPrimaryColor', hidden: true},
             {dataField: 'ButtonSecondaryColor', hidden: true},
             {dataField: 'LabelFontColor', hidden: true},
@@ -471,6 +473,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                     {name: 'StatusName', type: 'string'},
                     {name: 'MenuUnique', type: 'number'},
                     {name: 'MenuName', type: 'string'},
+                    {name: 'Picture', type: 'string'},
                     {name: 'ButtonPrimaryColor', type: 'string'},
                     {name: 'ButtonSecondaryColor', type: 'string'},
                     {name: 'LabelFontColor', type: 'string'},
@@ -512,10 +515,19 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#saveCategoryBtn').prop('disabled', false);
     });
 
+    $('.styles-control').on('change', function(e) {
+        $('#saveCategoryBtn').prop('disabled', false);
+    });
+
+    $('body').on('change', '#lfontSize_jqxDropDownList', function(e) {
+        $('#saveCategoryBtn').prop('disabled', false);
+    });
+
     $scope.newCategoryAction = function() {
         $scope.newOrEditCategoryOption = 'new';
         $scope.categoryId = null;
-
+        // CaTegory Picture
+        $scope.uploader.flow.files = [];
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         setTimeout(function() {
@@ -546,7 +558,16 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['LabelFontColor'] })));
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
-
+        // CaTegory Picture
+        $scope.uploader.flow.files = [];
+        if (values.Picture) {
+            $scope.categoryImages.push({
+                name: '',
+                newName: values.Picture,
+                path: $('#location_path').val() + '/' + values.Picture
+            });
+        }
+        //
         // $('#deleteCategoryBtn').show();
         $('#sty_subtab').show();
         $('#saveCategoryBtn').prop('disabled', true);
@@ -636,6 +657,12 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     }
 
     $scope.SaveCategoryWindows = function(closed) {
+        var imgs = [];
+        angular.forEach($scope.uploader.flow.files, function(el, key) {
+            if ($scope.successUplodCategories.indexOf(el.newName) > -1) {
+                imgs.push(el.newName);
+            }
+        });
         if (!validationCategoryItem()) {
             var values = {
                 'CategoryName': $('#add_CategoryName').val(),
@@ -643,16 +670,20 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 'Column': $('#add_CategoryColumn').val(),
                 'Sort': $('#add_Sort').val(),
                 'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
-                'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value
+                'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value,
+                'Picture': imgs.join(',')
             };
 
             var url;
             if ($scope.newOrEditCategoryOption == 'new') {
                 url = SiteRoot + 'admin/MenuCategory/add_newCategory';
             } else if ($scope.newOrEditCategoryOption == 'edit') {
-                values['ButtonPrimaryColor'] = $('#bPrimaryColor').jqxColorPicker('getColor').hex;
-                values['ButtonSecondaryColor'] = $('#bSecondaryColor').jqxColorPicker('getColor').hex;
-                values['LabelFontColor'] = $('#lfontColor').jqxColorPicker('getColor').hex;
+                var bprimary = $('#bPrimaryColor').jqxColorPicker('getColor');
+                var bsecondary = $('#bSecondaryColor').jqxColorPicker('getColor');
+                var lfont = $('#lfontColor').jqxColorPicker('getColor');
+                values['ButtonPrimaryColor'] = (bprimary) ? bprimary.hex : '#000';
+                values['ButtonSecondaryColor'] = bsecondary ? bsecondary.hex: '#000';
+                values['LabelFontColor'] = lfont ? lfont.hex : '#000';
                 values['LabelFontSize'] = $('#lfontSize').val();
                 url = SiteRoot + 'admin/MenuCategory/update_Category/' + $scope.categoryId;
             }
@@ -801,9 +832,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
 
     // Picture Tab
     // Move it on module to load easier on other sections (Same on menu_items_controller)
-    $scope.currentImages = [];
+    // TODO missing to store picture on db
+    $scope.categoryImages = [];
     $scope.uploader = {};
-    $scope.successUploadNames = [];
+    $scope.successUplodCategories = [];
     var mimesAvailable = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
     $scope.submitUpload = function (files, e, flow) {
         var type = files[0].file.type;
@@ -819,19 +851,18 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     };
 
     $scope.successUpload = function (e, response, flow) {
-        // console.log('sucess upload...', arguments);
         var resp = JSON.parse(response);
         var last = $scope.uploader.flow.files.length - 1;
         if (!resp.success) {
             $scope.uploader.flow.files.splice(last, 1);
-            $('#menuitemNotificationsErrorSettings #notification-content')
+            $('#menuNotificationsErrorSettings #notification_container')
                 .html(resp.errors);
-            $scope.menuitemNotificationsErrorSettings.apply('open');
+            $scope.menuNotificationsErrorSettings.apply('open');
         } else {
             $scope.uploader.flow.files[last]['newName'] = resp.newName;
-            $scope.successUploadNames.push(resp.newName);
-            $scope.currentImages.splice(0, 1);
-            $('#saveItemGridBtn').prop('disabled', false);
+            $scope.successUplodCategories.push(resp.newName);
+            $scope.categoryImages.splice(0, 1);
+            $('#saveCategoryBtn').prop('disabled', false);
         }
     };
 
@@ -841,22 +872,22 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         var type = file.file.type;
     };
 
-    $scope.removingImageSelected = function(i, option) {
+    $scope.removingImageCategory = function(i, option) {
         if (option == 1)
             var list = $scope.uploader.flow.files;
         else
-            var list = $scope.currentImages;
+            var list = $scope.categoryImages;
         var foundPic =
-            $scope.successUploadNames.indexOf(list[i].newName);
+            $scope.successUplodCategories.indexOf(list[i].newName);
         //
-        $scope.successUploadNames.splice(foundPic, 1);
-        $scope.currentImages.splice(0, 1);
+        $scope.successUplodCategories.splice(foundPic, 1);
+        $scope.categoryImages.splice(0, 1);
         $scope.uploader.flow.files.splice(i, 1);
         if (option == 1) {
-            if ($scope.successUploadNames.length <= 0)
-                $('#saveItemGridBtn').prop('disabled', true);
+            if ($scope.successUplodCategories.length <= 0)
+                $('#saveCategoryBtn').prop('disabled', true);
         } else if (option == 2) {
-            $('#saveItemGridBtn').prop('disabled', false);
+            $('#saveCategoryBtn').prop('disabled', false);
         }
     }
 });

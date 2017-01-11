@@ -46,6 +46,13 @@ class AK_Controller extends \CI_Controller
         $this->Config_location_model->getConfigSetting($setting, $value, $field);
     }
 
+    public function getPicturePath() {
+        $this->getSettingLocation('ItemPictureLocation', $this->session->userdata("station_number"));
+        $picturesPath = base_url() . $this->session->userdata('admin_ItemPictureLocation');
+        $sep = DIRECTORY_SEPARATOR;
+        return str_replace(['/', "\\"], [$sep, $sep], $picturesPath);
+    }
+
     public function dbErrorMsg($type = null)
     {
         if(is_null($type))

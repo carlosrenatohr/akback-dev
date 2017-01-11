@@ -43,6 +43,7 @@ class MenuCategory extends AK_Controller
         $data['questions_tab_view'] = $menu_path . "questions_tab";
         $data['printers_tab_view'] = $menu_path . "printer_tab";
         // Main page
+        $data['location_path'] = $this->getPicturePath();
         $data['main_content'] = $menu_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
     }
@@ -246,7 +247,6 @@ class MenuCategory extends AK_Controller
      * @returnType json
      */
     public function add_newCategory() {
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $table = 'config_menu_category';
@@ -273,6 +273,8 @@ class MenuCategory extends AK_Controller
 
         echo json_encode($response);
     }
+
+
 
     /**
      * @description Validation before creating
