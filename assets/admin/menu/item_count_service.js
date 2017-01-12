@@ -157,7 +157,6 @@
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 var diff = '';
                 if (row.Difference == null) {
-                    // var diff = '';
                 } else {
                     diff = parseFloat(row.TotalCost) * parseFloat(row.Difference);
                     diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);

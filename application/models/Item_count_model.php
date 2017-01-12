@@ -268,14 +268,6 @@ class Item_count_model extends CI_Model
                           \"AdjustedCost\"=0, \"NewCost\"=0
                     WHERE \"CountStock\" is NULL AND \"CountUnique\" = {$id}";
         return $this->db->query($query);
-
-//SET customer=subquery.customer,
-//    address=subquery.address,
-//    partn=subquery.partn
-//FROM (SELECT address_id, customer, address, partn
-//      FROM  /* big hairy SQL */ ...) AS subquery
-//WHERE dummy.address_id=subquery.address_id;
-//        return $this->db->get('item_count_list')->result_array();
     }
 
     /**
