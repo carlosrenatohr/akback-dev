@@ -155,8 +155,13 @@
             var cellsACount = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var diff = parseFloat(row.TotalCost) * parseFloat(row.Difference);
-                diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
+                var diff = '';
+                if (row.Difference == null) {
+                    // var diff = '';
+                } else {
+                    diff = parseFloat(row.TotalCost) * parseFloat(row.Difference);
+                    diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
+                }
                 element.html(diff);
                 if (diff < 0) {
                     element.css('color', 'red');
@@ -247,7 +252,7 @@
                          aggregates: [{ 'Total': aggregates }],
                          aggregatesrenderer: aggregatesrender,
                          validation: function (cell, value) {
-                            if (value < 0) {
+                            if (value < 0 || value == '' || isNaN(value)) {
                                 return { result: false, message: "Count must be greater than or equal to 0." };
                             }
                             return true;
@@ -259,8 +264,8 @@
                         aggregates: [{ 'Total': aggregates }],
                         aggregatesrenderer: aggregatesrender},
                     {text: 'Comment', dataField: 'Comment', width: '10%'},
-                    {text: 'New Cost', dataField: 'NewCost', editable: false, width: '8%',
-                        cellsrenderer: cellsNCount,
+                    {text: 'New Cost', dataField: 'NewCost', editable: false,
+                        cellsrenderer: cellsNCount, width: '8%',
                         cellsalign: 'right', align: 'right',
                         aggregates: [{ 'Total': aggregates }],
                         aggregatesrenderer: aggregatesrender

@@ -260,9 +260,21 @@ class Item_count_model extends CI_Model
     }
 
     public function setZero_NotCounted_list($id) {
-        $this->db->where('CountUnique', $id);
-        $this->db->where('CountStock', null);
-        return $this->db->update('item_count_list', ['CountStock' => 0]);
+//        $this->db->where('CountUnique', $id);
+//        $this->db->where('CountStock', null);
+//        return $this->db->update('item_count_list', ['CountStock' => 0]);
+        $query = "UPDATE item_count_list
+                    SET  \"CountStock\" = 0, \"Difference\" = (0 - \"CurrentStock\"),
+                          \"AdjustedCost\"=0, \"NewCost\"=0
+                    WHERE \"CountStock\" is NULL AND \"CountUnique\" = {$id}";
+        return $this->db->query($query);
+
+//SET customer=subquery.customer,
+//    address=subquery.address,
+//    partn=subquery.partn
+//FROM (SELECT address_id, customer, address, partn
+//      FROM  /* big hairy SQL */ ...) AS subquery
+//WHERE dummy.address_id=subquery.address_id;
 //        return $this->db->get('item_count_list')->result_array();
     }
 
