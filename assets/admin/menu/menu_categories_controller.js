@@ -854,7 +854,6 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
 
     // Picture Tab
     // Move it on module to load easier on other sections (Same on menu_items_controller)
-    // TODO missing to store picture on db
     $scope.categoryImages = [];
     $scope.uploader = {};
     $scope.successUplodCategories = [];

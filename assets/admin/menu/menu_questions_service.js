@@ -59,7 +59,11 @@
                         {name: 'Status', type: 'number'},
                         {name: 'Sort', type: 'number'},
                         {name: 'Min', type: 'string'},
-                        {name: 'Max', type: 'string'}
+                        {name: 'Max', type: 'string'},
+                        {name: 'ButtonPrimaryColor', type: 'string'},
+                        {name: 'ButtonSecondaryColor', type: 'string'},
+                        {name: 'LabelFontColor', type: 'string'},
+                        {name: 'LabelFontSize', type: 'string'}
                     ],
                     url: url
                 }),
@@ -69,7 +73,11 @@
                     {text: 'Question', dataField: 'Question', type: 'string', width: '20%'},
                     {text: 'Status', dataField: 'Status', type: 'number', hidden: true},
                     {text: 'Minimum', dataField: 'Min', type: 'string', width: '20%'},
-                    {text: 'Maximum', dataField: 'Max', type: 'string', width: '20%'}
+                    {text: 'Maximum', dataField: 'Max', type: 'string', width: '20%'},
+                    {dataField: 'ButtonPrimaryColor', hidden: true},
+                    {dataField: 'ButtonSecondaryColor', hidden: true},
+                    {dataField: 'LabelFontColor', hidden: true},
+                    {dataField: 'LabelFontSize', hidden: true}
                 ],
                 columnsResize: true,
                 //height: 900,

@@ -21,6 +21,12 @@ class MenuQuestion extends AK_Controller
         $return = [];
         foreach ($result as $row) {
 //            $row['Sort'] = $row['sort'];
+            $bpc = explode('#', $row['ButtonPrimaryColor']);
+            $row['ButtonPrimaryColor'] = (!is_null($row['ButtonPrimaryColor'])) ? $bpc[1] : null;
+            $bpc = explode('#', $row['ButtonSecondaryColor']);
+            $row['ButtonSecondaryColor'] = (!is_null($row['ButtonPrimaryColor'])) ? $bpc[1]: null;
+            $bpc = explode('#', $row['LabelFontColor']);
+            $row['LabelFontColor'] = (!is_null($row['LabelFontColor'])) ? $bpc[1]: null;
             $return[] = $row;
         }
         echo json_encode($return);

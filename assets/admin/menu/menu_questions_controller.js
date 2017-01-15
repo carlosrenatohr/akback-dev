@@ -13,6 +13,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 $('#qItem_ItemUnique').jqxComboBox({
                     source: dataAdapterItems()
                 });
+                // TODO IMPLEMENT this on item count and item scan to refresh filters and avoid loadin issue
+                // TODO Read http://www.jqwidgets.com/community/topic/uncaught-typeerror-cannot-read-property-visiblerecords-of-null/
+                // TODO about grids and 'visiblerecords' issues present on load a grid on subtab
                 // $scope.questionTableSettings = questionService.getQuestionTableSettings(1);
                 updateQuestionMainTable();
 
@@ -57,7 +60,11 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                     {name: 'Status', type: 'number'},
                     {name: 'Sort', type: 'number'},
                     {name: 'Min', type: 'string'},
-                    {name: 'Max', type: 'string'}
+                    {name: 'Max', type: 'string'},
+                    {name: 'ButtonPrimaryColor', type: 'string'},
+                    {name: 'ButtonSecondaryColor', type: 'string'},
+                    {name: 'LabelFontColor', type: 'string'},
+                    {name: 'LabelFontSize', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
             })
@@ -141,6 +148,12 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qt_sort').val((row.Sort != null) ? row.Sort : 0);
         $('#qt_max').val((row.Max != null) ? row.Max : 0);
         $('#qt_min').val((row.Min != null) ? row.Min : 0);
+        $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '#' + row['ButtonPrimaryColor'] })));
+        $('#qbPrimaryColor').jqxColorPicker('setColor', row['ButtonPrimaryColor']);
+        $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: row['ButtonSecondaryColor'] })));
+        $('#qbSecondaryColor').jqxColorPicker('setColor', row['ButtonSecondaryColor']);
+        $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: row['LabelFontColor'] })));
+        $('#qlfontColor').jqxColorPicker('setColor', row['LabelFontColor']);
         // $('#deleteQuestionBtn').show();
         var btn = $('<button/>', {
             'id': 'deleteQuestionBtn'
@@ -164,6 +177,10 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         //
         $('#questionstabsWin').jqxTabs({selectedItem: 0});
         $('#questionWindowForm .required-field').css({"border-color": "#ccc"});
+        $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $('#qlfontSize').val('12px');
         // $('#deleteQuestionBtn').hide();
         $('#saveQuestionBtn').prop('disabled', true);
     };
@@ -225,12 +242,20 @@ app.controller('menuQuestionController', function ($scope, questionService) {
 
     $scope.saveQuestionWindow = function(closed) {
         if (validationQuestionForm()) {
+            var bprimary = $('#qbPrimaryColor').jqxColorPicker('getColor');
+            var bsecondary = $('#qbSecondaryColor').jqxColorPicker('getColor');
+            var lfont = $('#qlfontColor').jqxColorPicker('getColor');
             var values = {
                 'Question': $('#qt_Question').val(),
                 'QuestionName': $('#qt_QuestionName').val(),
                 'Sort': $('#qt_sort').val(),
                 'Min': $('#qt_min').val(),
-                'Max': $('#qt_max').val()
+                'Max': $('#qt_max').val(),
+                //
+                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
+                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
+                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+                'LabelFontSize': $('#qlfontSize').val()
             };
             var url = '';
             if ($scope.newOrEditQuestionOption == 'edit') {
@@ -595,5 +620,44 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         width: '290px',
         height: 25
     };
+
+    /**
+     * Style Subtab
+     */
+    function getTextElementByColor(color) {
+        if (color == 'transparent' || color.hex == "") {
+            $('#qlfontSize').val('12px');
+            var el =  $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#000000</div>");
+            el.css({'color': 'white', 'background': '#000000'});
+            el.addClass('jqx-rc-all');
+            return el;
+        }
+        var element = $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#" + color.hex + "</div>");
+        var nThreshold = 105;
+        var bgDelta = (color.r * 0.299) + (color.g * 0.587) + (color.b * 0.114);
+        var foreColor = (255 - bgDelta < nThreshold) ? 'black' : 'white';
+        element.css({'color': foreColor, 'background': "#" + color.hex});
+        element.addClass('jqx-rc-all');
+        return element;
+    }
+
+    $scope.qColorCreated = false;
+    $scope.ddb_qbPrimaryColor = {};
+    $scope.ddb_qbSecondaryColor = {};
+    $scope.ddb_qlfontColor  = {};
+    $scope.qOpening = function (event) {
+        $scope.qColorCreated = true;
+    };
+
+    $scope.qColorChange = function (event) {
+        var id = $(event.target).attr('id');
+        $scope['ddb_' + id].setContent(getTextElementByColor(event.args.color));
+        // $('#' + id).jqxColorPicker('setColor', (event.args.color) ? event.args.color.hex : '333333');
+        $('#saveQuestionBtn').prop('disabled', false);
+    };
+
+    $scope.$on('jqxDropDownButtonCreated', function (event, arguments) {
+        arguments.instance.setContent(getTextElementByColor(new $.jqx.color({ hex: "000000" })));
+    });
 
 });
