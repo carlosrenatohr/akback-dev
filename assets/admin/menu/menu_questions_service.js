@@ -119,7 +119,11 @@
                         {name: 'Description', type: 'string'},
                         {name: 'Label', type: 'string'},
                         {name: 'sprice', type: 'string'},
-                        {name: 'Sort', type: 'string'}
+                        {name: 'Sort', type: 'string'},
+                        {name: 'ButtonPrimaryColor', type: 'string'},
+                        {name: 'ButtonSecondaryColor', type: 'string'},
+                        {name: 'LabelFontColor', type: 'string'},
+                        {name: 'LabelFontSize', type: 'string'}
                     ],
                     id: 'Unique',
                     url: SiteRoot + 'admin/MenuQuestion/load_questions_items/'
@@ -129,7 +133,11 @@
                     {text: 'Name', dataField: 'Description', width: '32%'},
                     {text: 'Label', dataField: 'Label', width: '32%'},
                     {text: 'Sell Price', dataField: 'sprice', width: '16%'},
-                    {text: 'Sort', dataField: 'Sort', width: '10%'}
+                    {text: 'Sort', dataField: 'Sort', width: '10%'},
+                    {dataField: 'ButtonPrimaryColor', hidden: true},
+                    {dataField: 'ButtonSecondaryColor', hidden: true},
+                    {dataField: 'LabelFontColor', hidden: true},
+                    {dataField: 'LabelFontSize', hidden: true}
                 ],
                 width: "100%",
                 columnsResize: true,
@@ -157,7 +165,11 @@
                     {name: 'Description', type: 'string'},
                     {name: 'Label', type: 'string'},
                     {name: 'sprice', type: 'string'},
-                    {name: 'Sort', type: 'string'}
+                    {name: 'Sort', type: 'string'},
+                    {name: 'ButtonPrimaryColor', type: 'string'},
+                    {name: 'ButtonSecondaryColor', type: 'string'},
+                    {name: 'LabelFontColor', type: 'string'},
+                    {name: 'LabelFontSize', type: 'string'}
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + questionId
