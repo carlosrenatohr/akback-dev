@@ -76,6 +76,13 @@ class MenuCategory extends AK_Controller
         $formatted_categories = [];
         foreach($categories as $category) {
             $category['StatusName'] = ($category['Status'] == 1) ? 'Enabled' : 'Disabled';
+            //
+            $bpc = explode('#', $category['ButtonPrimaryColor']);
+            $category['ButtonPrimaryColor'] = (!is_null($category['ButtonPrimaryColor'])) ? $bpc[1] : null;
+            $bpc = explode('#', $category['ButtonSecondaryColor']);
+            $category['ButtonSecondaryColor'] = (!is_null($category['ButtonPrimaryColor'])) ? $bpc[1]: null;
+            $bpc = explode('#', $category['LabelFontColor']);
+            $category['LabelFontColor'] = (!is_null($category['LabelFontColor'])) ? $bpc[1]: null;
             $formatted_categories[] = $category;
         }
         echo json_encode($formatted_categories);

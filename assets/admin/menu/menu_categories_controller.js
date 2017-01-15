@@ -530,10 +530,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $scope.uploader.flow.files = [];
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
+        $('#lfontSize').val('12px');
         setTimeout(function() {
             $('#add_CategoryName').focus();
         }, 100);
-        $('#sty_subtab').hide();
         $('#saveCategoryBtn').prop('disabled', true);
         categoryWindow.setTitle('Add New Menu Category');
         categoryWindow.open();
@@ -543,19 +543,22 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         var values = e.args.row.bounddata;
         var statusCombo = $('#add_CategoryStatus').jqxDropDownList('getItemByValue', values['Status']);
         $('#add_CategoryStatus').jqxDropDownList({'selectedIndex': statusCombo.index});
-
         var menuCombo = $('#add_MenuUnique').jqxDropDownList('getItemByValue', values['MenuUnique']);
         var indexSelected = (menuCombo != undefined) ? menuCombo.index : -1;
         $('#add_MenuUnique').jqxDropDownList({'selectedIndex': indexSelected});
-
         $('#add_CategoryName').val(values['CategoryName']);
         $('#add_CategoryRow').val(values['Row']);
         $('#add_CategoryColumn').val(values['Column']);
         $('#add_Sort').val(values['Sort']);
         $('#lfontSize').val(values['LabelFontSize']);
-        $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonPrimaryColor'] })));
-        $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonSecondaryColor'] })));
-        $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['LabelFontColor'] })));
+        // setTimeout(function() {
+            $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '#' + values['ButtonPrimaryColor'] })));
+            $('#bPrimaryColor').jqxColorPicker('setColor', values['ButtonPrimaryColor']);
+            $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonSecondaryColor'] })));
+            $('#bSecondaryColor').jqxColorPicker('setColor', values['ButtonSecondaryColor']);
+            $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['LabelFontColor'] })));
+            $('#lfontColor').jqxColorPicker('setColor', values['LabelFontColor']);
+        // }, 200);
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
         // CaTegory Picture
@@ -664,6 +667,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             }
         });
         if (!validationCategoryItem()) {
+            var bprimary = $('#bPrimaryColor').jqxColorPicker('getColor');
+            var bsecondary = $('#bSecondaryColor').jqxColorPicker('getColor');
+            var lfont = $('#lfontColor').jqxColorPicker('getColor');
+            //
             var values = {
                 'CategoryName': $('#add_CategoryName').val(),
                 'Row': $('#add_CategoryRow').val(),
@@ -671,20 +678,17 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 'Sort': $('#add_Sort').val(),
                 'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
                 'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value,
-                'Picture': imgs.join(',')
+                'Picture': imgs.join(','),
+                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
+                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
+                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+                'LabelFontSize': $('#lfontSize').val()
             };
 
             var url;
             if ($scope.newOrEditCategoryOption == 'new') {
                 url = SiteRoot + 'admin/MenuCategory/add_newCategory';
             } else if ($scope.newOrEditCategoryOption == 'edit') {
-                var bprimary = $('#bPrimaryColor').jqxColorPicker('getColor');
-                var bsecondary = $('#bSecondaryColor').jqxColorPicker('getColor');
-                var lfont = $('#lfontColor').jqxColorPicker('getColor');
-                values['ButtonPrimaryColor'] = (bprimary) ? bprimary.hex : '#000';
-                values['ButtonSecondaryColor'] = bsecondary ? bsecondary.hex: '#000';
-                values['LabelFontColor'] = lfont ? lfont.hex : '#000';
-                values['LabelFontSize'] = $('#lfontSize').val();
                 url = SiteRoot + 'admin/MenuCategory/update_Category/' + $scope.categoryId;
             }
             $http({
@@ -744,6 +748,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         //
+        $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        //
         $('#category_subtabs').jqxTabs('select', 0);
         $('#saveCategoryBtn').prop('disabled', true);
         // $('#deleteCategoryBtn').hide();
@@ -794,21 +802,25 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         spinButtons: true,
         width: 165,
         height: 25,
-        textAlign: 'left',
+        textAlign: 'left'
     };
 
     // Styles tab
     function getTextElementByColor(color) {
+        // console.log(color.hex);
         if (color == 'transparent' || color.hex == "") {
             $('#lfontSize').val('12px');
-            return $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>transparent</div>");
+            // return $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>transparent</div>");
+            var el =  $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#000000</div>");
+            el.css({'color': 'white', 'background': '#000000'});
+            el.addClass('jqx-rc-all');
+            return el;
         }
         var element = $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#" + color.hex + "</div>");
         var nThreshold = 105;
         var bgDelta = (color.r * 0.299) + (color.g * 0.587) + (color.b * 0.114);
-        var foreColor = (255 - bgDelta < nThreshold) ? 'Black' : 'White';
-        element.css('color', foreColor);
-        element.css('background', "#" + color.hex);
+        var foreColor = (255 - bgDelta < nThreshold) ? 'black' : 'white';
+        element.css({'color': foreColor, 'background': "#" + color.hex});
         element.addClass('jqx-rc-all');
         return element;
     }
@@ -819,10 +831,12 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     $scope.ddb_lfontColor  = {};
     $scope.opening = function (event) {
         $scope.createColorPicker = true;
-    }
+    };
+
     $scope.colorChange = function (event) {
         var id = $(event.target).attr('id');
         $scope['ddb_' + id].setContent(getTextElementByColor(event.args.color));
+        // $('#' + id).jqxColorPicker('setColor', (event.args.color) ? event.args.color.hex : '333333');
         $('#saveCategoryBtn').prop('disabled', false);
     };
 
