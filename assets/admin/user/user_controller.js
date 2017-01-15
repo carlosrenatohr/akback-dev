@@ -632,6 +632,28 @@ angular.module("akamaiposApp", ['jqwidgets'])
         });
     };
 
+    $('body').on('change', '#add_esecure', function(e) {
+        $('#submitAddUserForm').prop('disabled', false);
+    });
+
+    // $('.addUserField#add_port').on('keydown keyup', function(e) {
+    //     // if (parseInt(this.value) == 0) {
+    //     //     $(this).val(1)
+    //     // }
+    //     var max = 4;
+    //     // if (parseInt($(this).val()) >= max || parseInt($(this).val()) < 0) {
+    //     //     $(this).val(1);
+    //     // }
+    //     if ($(this).val().length >= max) {
+    //         // return false;
+    //         $(this).val($(this).val().substr(0, max));
+    //     }
+    // }).on('keypress', function(e) {
+    //         if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+    //             return false;
+    //         }
+    //     });
+
 });
 
 // -- User controller //

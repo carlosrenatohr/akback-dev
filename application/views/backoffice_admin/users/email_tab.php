@@ -78,8 +78,14 @@
         <div style="float:left;">
             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Port</div>
             <div style="float:left; width:220px;">
-                <input type="number" class="form-control addUserField emailtab" id="add_port" name="Port"
-                       placeholder="Port" max="9999" min="1" maxlength="4" value="465">
+                <jqx-number-input
+                    style='margin-top: 3px;padding-left: 10px;' class="form-control addUserField emailtab"
+                    id="add_port" name="Port" jqx-input-mode="'simple'" jqx-decimal-digits="0"
+                    jqx-spin-buttons="false" jqx-text-align="'left'" jqx-min="0"
+                    jqx-digits="4"
+                ></jqx-number-input>
+<!--                <input type="number" class="form-control addUserField emailtab" id="add_port" name="Port"-->
+<!--                       placeholder="Port" max="9999" min="1" maxlength="4" value="465">-->
             </div>
         </div>
 
