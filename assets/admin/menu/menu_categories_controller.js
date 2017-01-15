@@ -375,7 +375,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 {name: 'StatusName', type: 'string'},
                 {name: 'MenuUnique', type: 'number'},
                 {name: 'MenuName', type: 'string'},
-                {name: 'Picture', type: 'string'},
+                {name: 'PictureFile', type: 'string'},
                 {name: 'ButtonPrimaryColor', type: 'string'},
                 {name: 'ButtonSecondaryColor', type: 'string'},
                 {name: 'LabelFontColor', type: 'string'},
@@ -394,7 +394,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             {text: 'Sort', dataField: 'Sort', type: 'number'},
             {dataField: 'Status', type: 'number', hidden: true},
             {text: 'Status', dataField: 'StatusName', type: 'string'},
-            {dataField: 'Picture', hidden: true},
+            {dataField: 'PictureFile', hidden: true},
             {dataField: 'ButtonPrimaryColor', hidden: true},
             {dataField: 'ButtonSecondaryColor', hidden: true},
             {dataField: 'LabelFontColor', hidden: true},
@@ -473,7 +473,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                     {name: 'StatusName', type: 'string'},
                     {name: 'MenuUnique', type: 'number'},
                     {name: 'MenuName', type: 'string'},
-                    {name: 'Picture', type: 'string'},
+                    {name: 'PictureFile', type: 'string'},
                     {name: 'ButtonPrimaryColor', type: 'string'},
                     {name: 'ButtonSecondaryColor', type: 'string'},
                     {name: 'LabelFontColor', type: 'string'},
@@ -498,7 +498,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             categoryWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "65%",
+        width: "60%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -527,6 +527,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $scope.newOrEditCategoryOption = 'new';
         $scope.categoryId = null;
         // CaTegory Picture
+        $scope.categoryImages = [];
         $scope.uploader.flow.files = [];
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
@@ -562,12 +563,13 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
         // CaTegory Picture
+        $scope.categoryImages = [];
         $scope.uploader.flow.files = [];
-        if (values.Picture) {
+        if (values.PictureFile) {
             $scope.categoryImages.push({
                 name: '',
-                newName: values.Picture,
-                path: $('#location_path').val() + '/' + values.Picture
+                newName: values.PictureFile,
+                path: $('#location_path').val() + '/' + values.PictureFile
             });
         }
         //
@@ -604,6 +606,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 $('#mainButtonsForCategories').hide();
                 $('.alertButtonsMenuCategories').hide();
                 $('#promptToSaveInCloseButtonCategory').show();
+                $('#category_subtabs').jqxTabs('select', 0);
             }
         }
     };
@@ -642,13 +645,18 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                     dataFields: [
                         {name: 'Unique', type: 'int'},
                         {name: 'CategoryName', type: 'string'},
+                        {name: 'Sort', type: 'number'},
                         {name: 'Row', type: 'number'},
                         {name: 'Column', type: 'number'},
-                        {name: 'Sort', type: 'number'},
                         {name: 'Status', type: 'number'},
                         {name: 'StatusName', type: 'string'},
                         {name: 'MenuUnique', type: 'number'},
-                        {name: 'MenuName', type: 'string'}
+                        {name: 'MenuName', type: 'string'},
+                        {name: 'PictureFile', type: 'string'},
+                        {name: 'ButtonPrimaryColor', type: 'string'},
+                        {name: 'ButtonSecondaryColor', type: 'string'},
+                        {name: 'LabelFontColor', type: 'string'},
+                        {name: 'LabelFontSize', type: 'string'}
                     ],
                     url: SiteRoot + 'admin/MenuCategory/load_allcategories'
                 })
@@ -678,7 +686,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 'Sort': $('#add_Sort').val(),
                 'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
                 'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value,
-                'Picture': imgs.join(','),
+                'PictureFile': imgs.join(','),
                 'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
                 'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
                 'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
