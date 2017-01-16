@@ -326,6 +326,13 @@ class MenuItem extends AK_Controller
             $item['ListPrice'] = number_format($item['ListPrice'], $this->decimalPrice);
             $item['price1'] = number_format($item['price1'], $this->decimalPrice);
             $item['Quantity'] = number_format($item['Quantity'], $this->decimalQuantity);
+            //
+//            $bpc = explode('#', $item['ButtonPrimaryColor']);
+//            $item['ButtonPrimaryColor'] = (!is_null($item['ButtonPrimaryColor'])) ? $bpc[1] : null;
+//            $bpc = explode('#', $item['ButtonSecondaryColor']);
+//            $item['ButtonSecondaryColor'] = (!is_null($item['ButtonPrimaryColor'])) ? $bpc[1]: null;
+//            $bpc = explode('#', $item['LabelFontColor']);
+//            $item['LabelFontColor'] = (!is_null($item['LabelFontColor'])) ? $bpc[1]: null;
             $items[] = $item;
         }
         echo json_encode($items);

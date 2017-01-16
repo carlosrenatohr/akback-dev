@@ -45,7 +45,11 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
                     {name: 'Group', type: 'string'},
                     {name: 'MinimumAge', type: 'int'},
                     {name: 'CountDown', type: 'int'},
-                    {name: 'Points', type: 'string'}
+                    {name: 'Points', type: 'string'},
+                    {name: 'ButtonPrimaryColor', type: 'string'},
+                    {name: 'ButtonSecondaryColor', type: 'string'},
+                    {name: 'LabelFontColor', type: 'string'},
+                    {name: 'LabelFontSize', type: 'string'}
                 ],
                 id: 'Unique',
                 url: url
@@ -85,7 +89,11 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
                 {text: '', dataField: 'Group', hidden:true},
                 {text: '', dataField: 'MinimumAge', hidden:true},
                 {text: '', dataField: 'CountDown', hidden:true},
-                {text: '', dataField: 'Points', hidden:true}
+                {text: '', dataField: 'Points', hidden:true},
+                {dataField: 'ButtonPrimaryColor', hidden: true},
+                {dataField: 'ButtonSecondaryColor', hidden: true},
+                {dataField: 'LabelFontColor', hidden: true},
+                {dataField: 'LabelFontSize', hidden: true}
             ],
             width: "100%",
             theme: 'arctic',

@@ -19,7 +19,7 @@ class ItemController extends AK_Controller
         // Data to send
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['station'] = $this->session->userdata("station_number");
-        $data['page_title'] = "Menu Categories";
+        $data['page_title'] = "Items";
         $data['storename'] = $this->displaystore();
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");
         $data['decimalsQuantity'] = (int)$this->session->userdata("DecimalsQuantity");
@@ -35,6 +35,8 @@ class ItemController extends AK_Controller
         $data['inventory_printer_subtab_view'] = $menu_path . "printer_subtab";
         $data['inventory_options_subtab_view'] = $menu_path . "options_subtab";
         $data['inventory_picture_subtab_view'] = $menu_path . "picture_subtab";
+        $data['inventory_style_subtab_view'] = $menu_path . "style_subtab";
+        $data['inventory_btns'] = $menu_path . "__btns";
         // Main page
         $data['main_content'] = $menu_path . "main";
         $this->load->view('backoffice_admin/templates/main_layout', $data);

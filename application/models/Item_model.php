@@ -20,7 +20,8 @@ class Item_model extends CI_Model
 			(item.\"Cost\" + item.\"Cost_Extra\" + item.\"Cost_Freight\" + item.\"Cost_Duty\") AS \"CostLanded\",
 			case when SUM(isl.\"Quantity\") is null then 0 else SUM(isl.\"Quantity\") end AS \"Quantity\",
 			item.PromptPrice, item.PromptDescription, item.EBT, item.GiftCard, item.Group,
-			item.MinimumAge, item.CountDown, item.Points");
+			item.MinimumAge, item.CountDown, item.Points 
+			");
         $this->db->from('item');
         $this->db->join("supplier", "item.SupplierUnique = supplier.Unique", 'left');
         $this->db->join("brand", "item.BrandUnique = brand.Unique", 'left');

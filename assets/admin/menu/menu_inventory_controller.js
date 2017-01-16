@@ -209,6 +209,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         //
+        // $scope.ddb_itbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        // $scope.ddb_itbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        // $scope.ddb_itlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        //
         setTimeout(function(){
             $('.inventory_tab #item_Item').focus();
         }, 100);
@@ -263,6 +267,27 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         gc = $('#iteminventory_EBT .cbxExtraTab[data-val=' +
             ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
         gc.jqxRadioButton({ checked:true });
+        // Color Styles
+        // var bpc;
+        // if (row['ButtonPrimaryColor'])
+        //     bpc = row['ButtonPrimaryColor'];
+        // else
+        //     bpc = '000000';
+        // $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+        // $('#qibPrimaryColor').jqxColorPicker('setColor', bpc);
+        // if (row['ButtonSecondaryColor'])
+        //     bpc = row['ButtonSecondaryColor'];
+        // else
+        //     bpc = '000000';
+        // $scope.ddb_qibSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+        // $('#qibSecondaryColor').jqxColorPicker('setColor', bpc);
+        // if (row['LabelFontColor'])
+        //     bpc = row['LabelFontColor'];
+        // else
+        //     bpc = '000000';
+        // $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+        // $('#qilfontColor').jqxColorPicker('setColor', bpc);
+        // $('#qilfontSize').val(row['LabelFontSize']);
         //
         //$('#stockl_currentQty').jqxNumberInput('val', row['Quantity']);
         $scope.inventoryData.stockQty = row['Quantity'];
@@ -375,6 +400,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             ($('#iteminventory_EBT [aria-checked="true"]').length > 0)
             ? $('#iteminventory_EBT [aria-checked="true"]').data('val')
             : 0;
+        //
+        // var bprimary = $('#itbPrimaryColor').jqxColorPicker('getColor');
+        // var bsecondary = $('#itbSecondaryColor').jqxColorPicker('getColor');
+        // var lfont = $('#itlfontColor').jqxColorPicker('getColor');
+        // data['ButtonPrimaryColor'] = "#" + ((bprimary) ? bprimary.hex : '000');
+        // data['ButtonSecondaryColor'] = "#" + ((bsecondary) ? bsecondary.hex: '000');
+        // data['LabelFontColor'] = "#" + ((lfont) ? lfont.hex : '000');
+        // data['LabelFontSize'] = $('#itlfontSize').val();
 
         // TAXES VALUES
         var taxesByItem = [];
@@ -1362,5 +1395,44 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         } else if (option == 2) {
             $('#saveInventoryBtn').prop('disabled', false);
         }
+    };
+
+    /**
+     * Style Subtab
+     */
+    function getTextElementByColor(color) {
+        if (color == 'transparent' || color.hex == "") {
+            $('#itlfontSize').val('12px');
+            var el =  $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#000000</div>");
+            el.css({'color': 'white', 'background': '#000000'});
+            el.addClass('jqx-rc-all');
+            return el;
+        }
+        var element = $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#" + color.hex + "</div>");
+        var nThreshold = 105;
+        var bgDelta = (color.r * 0.299) + (color.g * 0.587) + (color.b * 0.114);
+        var foreColor = (255 - bgDelta < nThreshold) ? 'black' : 'white';
+        element.css({'color': foreColor, 'background': "#" + color.hex});
+        element.addClass('jqx-rc-all');
+        return element;
     }
+
+    $scope.qColorCreated = false;
+    $scope.ddb_itbPrimaryColor = {};
+    $scope.ddb_itbSecondaryColor = {};
+    $scope.ddb_itlfontColor  = {};
+    $scope.qOpening = function (event) {
+        $scope.qColorCreated = true;
+    };
+
+    $scope.qColorChange = function (event) {
+        var id = $(event.target).attr('id');
+        // var el = ($(event.target).data('layout'));
+        $scope['ddb_' + id].setContent(getTextElementByColor(event.args.color));
+        $('#saveInventoryBtn').prop('disabled', false);
+    };
+
+    $scope.$on('jqxDropDownButtonCreated', function (event, arguments) {
+        arguments.instance.setContent(getTextElementByColor(new $.jqx.color({ hex: "000000" })));
+    });
 });
