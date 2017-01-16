@@ -578,6 +578,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             }
         });
         if (!validationDataOnItemGrid()) {
+            var bprimary = $('#mitbPrimaryColor').jqxColorPicker('getColor');
+            var bsecondary = $('#mitbSecondaryColor').jqxColorPicker('getColor');
+            var lfont = $('#mitlfontColor').jqxColorPicker('getColor');
+            //
             var idxSelected = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').index;
             var dataToSend = {
                 'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
@@ -628,7 +632,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'Points': parseFloat($('#itemcontrol_points').val()),
                     'Description': $('#itemcontrol_description').val(),
                 },
-                'pictures': imgs.join(',')
+                'pictures': imgs.join(','),
+                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
+                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
+                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+                'LabelFontSize': $('#mitlfontSize').val()
             };
             // -- Main printer on item subtab
             if ($('#mainPrinterSelect').val() != '') {
@@ -822,6 +830,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'url': SiteRoot + 'admin/MenuItem/getItemByPositions',
                     'method': 'post',
                     'data': data,
+                    // 'async': false,
                     'dataType': 'json',
                     'success': function(data) {
                         $scope.itemCellSelectedOnGrid = data;
@@ -893,6 +902,29 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         // New fields on main tab for Item table
                         var description = (data.Description != null) ? data.Description : '';
                         $('#itemcontrol_description').val($.trim(description));
+                        // Styles
+                        var bpc;
+                        if (data['ButtonPrimaryColor'])
+                            bpc = data['ButtonPrimaryColor'];
+                        else
+                            bpc = '000000';
+                        $('#ddb_mitbPrimaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                        $('#mitbPrimaryColor').jqxColorPicker('setColor', bpc);
+                        if (data['ButtonSecondaryColor'])
+                            bpc = data['ButtonSecondaryColor'];
+                        else
+                            bpc = '000000';
+                        // $scope.ddb_mitbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                        $('#ddb_mitbSecondaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                        $('#mitbSecondaryColor').jqxColorPicker('setColor', bpc);
+                        if (data['LabelFontColor'])
+                            bpc = data['LabelFontColor'];
+                        else
+                            bpc = '000000';
+                        // $scope.ddb_mitlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                        $('#ddb_mitlfontColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                        $('#mitlfontColor').jqxColorPicker('setColor', bpc);
+                        $('#mitlfontSize').val(data['LabelFontSize']);
                         // Main Printer
                         if (data.PrimaryPrinter != null) {
                             var printer = $('#mainPrinterSelect').jqxDropDownList('getItemByValue', data.PrimaryPrinter);
@@ -1958,6 +1990,47 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         } else if (option == 2) {
             $('#saveItemGridBtn').prop('disabled', false);
         }
+    };
+
+    /**
+     * Style Subtab
+     */
+    function getTextElementByColor(color) {
+        if (color == 'transparent' || color.hex == "") {
+            $('#mitlfontSize').val('12px');
+            var el =  $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#000000</div>");
+            el.css({'color': 'white', 'background': '#000000'});
+            el.addClass('jqx-rc-all');
+            return el;
+        }
+        var element = $("<div style='text-shadow: none; position: relative; padding-bottom: 2px; margin-top: 2px;'>#" + color.hex + "</div>");
+        var nThreshold = 105;
+        var bgDelta = (color.r * 0.299) + (color.g * 0.587) + (color.b * 0.114);
+        var foreColor = (255 - bgDelta < nThreshold) ? 'black' : 'white';
+        element.css({'color': foreColor, 'background': "#" + color.hex});
+        element.addClass('jqx-rc-all');
+        return element;
     }
+
+    $scope.qColorCreated = false;
+    $scope.ddb_mitbPrimaryColor = {};
+    $('#mitbPrimaryColor').jqxColorPicker('setContent', getTextElementByColor(new $.jqx.color({ hex: "000000" })));
+    $scope.ddb_mitbSecondaryColor = {};
+    $scope.ddb_mitlfontColor  = {};
+    $scope.qOpening = function (event) {
+        $scope.qColorCreated = true;
+    };
+
+    $scope.mitColorChange = function (event) {
+        var id = $(event.target).attr('id');
+        // var el = ($(event.target).data('layout'));
+        // $scope['ddb_' + id].setContent(getTextElementByColor(event.args.color));
+        $('#ddb_' + id).jqxDropDownButton('setContent', getTextElementByColor(event.args.color));
+        $('#saveItemGridBtn').prop('disabled', false);
+    };
+
+    $scope.$on('jqxDropDownButtonCreated', function (event, arguments) {
+        arguments.instance.setContent(getTextElementByColor(new $.jqx.color({ hex: "000000" })));
+    });
 
 });

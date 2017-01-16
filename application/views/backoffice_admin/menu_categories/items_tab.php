@@ -62,6 +62,7 @@
                     <li>Options</li>
                     <li>Layout</li>
                     <li>Picture</li>
+                    <li>Style</li>
                 </ul>
                 <!-- Menu Item subtab -->
                 <div class="">
@@ -90,6 +91,10 @@
                 <!-- Pictue subtab -->
                 <div class="">
                     <?php $this->load->view($items_picture_subtab_view);?>
+                </div>
+                <!-- Pictue subtab -->
+                <div class="">
+                    <?php $this->load->view($items_style_subtab_view);?>
                 </div>
             </jqx-tabs>
 
