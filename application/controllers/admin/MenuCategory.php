@@ -241,7 +241,12 @@ class MenuCategory extends AK_Controller
 
     public function get_oneCategory($id) {
         $status = $this->menu->getCategory($id);
-
+        $bpc = explode('#', $status['ButtonPrimaryColor']);
+        $status['ButtonPrimaryColor'] = (!is_null($status['ButtonPrimaryColor'])) ? $bpc[1] : null;
+        $bpc = explode('#', $status['ButtonSecondaryColor']);
+        $status['ButtonSecondaryColor'] = (!is_null($status['ButtonPrimaryColor'])) ? $bpc[1]: null;
+        $bpc = explode('#', $status['LabelFontColor']);
+        $status['LabelFontColor'] = (!is_null($status['LabelFontColor'])) ? $bpc[1]: null;
         if ($status) {
             $response = [
                 'status' => 'success',

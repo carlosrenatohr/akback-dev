@@ -102,7 +102,8 @@ class Menu_model extends CI_Model
      *
      */
     public function getCategory($id) {
-        $this->db->select('Unique, CategoryName');
+        $this->db->select('Unique, CategoryName, 
+            ButtonPrimaryColor,ButtonSecondaryColor,LabelFontColor,LabelFontSize');
 
         return $this->db->get_where($this->category_table, ['Unique' => $id])->row_array();
     }

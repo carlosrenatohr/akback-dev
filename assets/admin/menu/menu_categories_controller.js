@@ -553,7 +553,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_Sort').val(values['Sort']);
         $('#lfontSize').val(values['LabelFontSize']);
         // setTimeout(function() {
-            $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '#' + values['ButtonPrimaryColor'] })));
+            $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonPrimaryColor'] })));
             $('#bPrimaryColor').jqxColorPicker('setColor', values['ButtonPrimaryColor']);
             $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonSecondaryColor'] })));
             $('#bSecondaryColor').jqxColorPicker('setColor', values['ButtonSecondaryColor']);

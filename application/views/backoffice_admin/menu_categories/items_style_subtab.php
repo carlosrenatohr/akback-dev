@@ -7,7 +7,7 @@
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_mitbPrimaryColor"
                                       id="ddb_mitbPrimaryColor" class="styles-control" jqx-height="22">
                     <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="'000000'"
-                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="choice"
+                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="item"
                                       id="mitbPrimaryColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
@@ -21,7 +21,7 @@
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_mitbSecondaryColor"
                                       id="ddb_mitbSecondaryColor" class="styles-control" jqx-height="22">
                     <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="'000000'"
-                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="choice"
+                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="item"
                                       id="mitbSecondaryColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
@@ -35,7 +35,7 @@
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_mitlfontColor"
                                       id="ddb_mitlfontColor" jqx-height="22" class="styles-control">
                     <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="'000000'"
-                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="choice"
+                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="item"
                                       id="mitlfontColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
