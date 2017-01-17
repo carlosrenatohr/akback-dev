@@ -52,10 +52,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 {name: 'MenuName', type: 'string'},
                 {name: 'Status', type: 'string'},
                 {name: 'StatusName', type: 'string'},
-                {name: 'Column', type: 'string'},
-                {name: 'Row', type: 'string'},
-                {name: 'MenuItemRow', type: 'string'},
-                {name: 'MenuItemColumn', type: 'string'},
+                {name: 'CategoryColumn', type: 'string'},
+                {name: 'CategoryRow', type: 'string'},
+                {name: 'ItemRow', type: 'string'},
+                {name: 'ItemColumn', type: 'string'},
                 {name: 'ItemLength', type: 'string'}
             ],
             // url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -66,10 +66,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             {text: 'Menu Name', dataField: 'MenuName', type: 'number'},
             {text: 'Status', dataField: 'Status', type: 'int', hidden:true},
             {text: 'Status', dataField: 'StatusName', type: 'string'},
-            {text: 'Column', dataField: 'Column', type: 'number'},
-            {text: 'Row', dataField: 'Row', type: 'number'},
-            {text: 'Menu Item Row', dataField: 'MenuItemRow', type: 'number', hidden: true},
-            {text: 'Menu Item Column', dataField: 'MenuItemColumn', type: 'number', hidden: true},
+            {text: 'Column', dataField: 'CategoryColumn', type: 'number'},
+            {text: 'Row', dataField: 'CategoryRow', type: 'number'},
+            {dataField: 'ItemRow', hidden: true},
+            {dataField: 'ItemColumn', hidden: true},
             {text: 'Item Length', dataField: 'ItemLength', type: 'number'}
         ],
         // ready: function() {
@@ -105,10 +105,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                     {name: 'MenuName', type: 'string'},
                     {name: 'Status', type: 'string'},
                     {name: 'StatusName', type: 'string'},
-                    {name: 'Column', type: 'string'},
-                    {name: 'Row', type: 'string'},
-                    {name: 'MenuItemRow', type: 'string'},
-                    {name: 'MenuItemColumn', type: 'string'},
+                    {name: 'CategoryColumn', type: 'string'},
+                    {name: 'CategoryRow', type: 'string'},
+                    {name: 'ItemRow', type: 'string'},
+                    {name: 'ItemColumn', type: 'string'},
                     {name: 'ItemLength', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuCategory/load_allmenus'
@@ -172,10 +172,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         var statusCombo = $('#add_Status').jqxDropDownList('getItemByValue', values['Status']);
         $('#add_Status').jqxDropDownList({'selectedIndex': statusCombo.index});
         $('#add_MenuName').val(values['MenuName']);
-        $('#add_MenuColumn').val(values['Column']);
-        $('#add_MenuRow').val(values['Row']);
-        $('#add_MenuItemRow').val(values['MenuItemRow']);
-        $('#add_MenuItemColumn').val(values['MenuItemColumn']);
+        $('#add_MenuColumn').val(values['CategoryColumn']);
+        $('#add_MenuRow').val(values['CategoryRow']);
+        $('#add_MenuItemRow').val(values['ItemRow']);
+        $('#add_MenuItemColumn').val(values['ItemColumn']);
         $('#add_ItemLength').val(values['ItemLength']);
 
         // $('#deleteMenuBtn').show();
@@ -235,10 +235,10 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     $scope.SaveMenuWindows = function (closed) {
         var values = {
             'MenuName': $('#add_MenuName').val(),
-            'Row': $('#add_MenuRow').val(),
-            'Column': $('#add_MenuColumn').val(),
-            'MenuItemRow': $('#add_MenuItemRow').val(),
-            'MenuItemColumn': $('#add_MenuItemColumn').val(),
+            'CategoryRow': $('#add_MenuRow').val(),
+            'CategoryColumn': $('#add_MenuColumn').val(),
+            'ItemRow': $('#add_MenuItemRow').val(),
+            'ItemColumn': $('#add_MenuItemColumn').val(),
             'ItemLength': $('#add_ItemLength').val(),
             'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value
         };

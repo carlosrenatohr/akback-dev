@@ -25,6 +25,10 @@ class Menu_model extends CI_Model
         }
         if (!is_null($withCategories) && $withCategories == 'on') {
             $this->db->select('config_menu.*,
+                            config_menu.CategoryRow as Row,
+                            config_menu.CategoryColumn as Column,
+                            config_menu.ItemRow as MenuItemRow,
+                            config_menu.ItemColumn as MenuItemColumn,
                             config_menu_category.CategoryName,
                             config_menu_category.Unique as CategoryUnique,
                             config_menu_category.Sort as CategorySort,
