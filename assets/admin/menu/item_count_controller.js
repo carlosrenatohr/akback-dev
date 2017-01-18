@@ -483,7 +483,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').hide();
-            $('#setZeroIcountBtns').hide();
+            // $('#setZeroIcountBtns').hide();
+            $('#setzeroItemCountListWin').jqxWindow('close');
         }
 
         if (option == 0) {
@@ -500,6 +501,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         // $('#icountGrid2').jqxGrid('render');
                         $('#icountSuccessMsg #msg').html('Items have set successfully!.');
                         $scope.icountSuccessMsg.apply('open');
+                        $('#setzeroItemCountListWin').jqxWindow('close');
                     }
                     else if (response.status == 'error') {}
                     else {}
@@ -511,7 +513,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').hide();
-            $('#setZeroIcountBtns').show();
+            $('#setzeroItemCountListWin').jqxWindow('open');
+            // $('#setZeroIcountBtns').show();
         }
     };
 
