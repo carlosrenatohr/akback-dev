@@ -24,16 +24,19 @@ class Menu_question_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getQuestionItemData($id) {
-        $this->db->select(
+    public function getQuestionItemData($id = null) {
+        if (!is_null($id)) {
+            $this->db->select(
                 "{$this->question_items_table}.*,
                 item.Description, item.Item, item.Status, item.price1 as sprice");
-        if ($id != 'null') {
-            $this->db->where("{$this->question_items_table}.QuestionUnique", $id);
-        }
-        $this->db->join('item', "item.Unique = {$this->question_items_table}.ItemUnique");
-        $this->db->order_by("Sort", 'ASC');
-        $query = $this->db->get($this->question_items_table)->result_array();
+            if ($id != 'null') {
+                $this->db->where("{$this->question_items_table}.QuestionUnique", $id);
+            }
+            $this->db->join('item', "item.Unique = {$this->question_items_table}.ItemUnique");
+            $this->db->order_by("Sort", 'ASC');
+            $query = $this->db->get($this->question_items_table)->result_array();
+        } else
+            $query = [];
         return $query;
     }
 

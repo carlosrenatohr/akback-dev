@@ -32,7 +32,7 @@ class MenuQuestion extends AK_Controller
         echo json_encode($return);
     }
 
-    public function load_questions_items($id)
+    public function load_questions_items($id = null)
     {
         $result = $this->question->getQuestionItemData($id);
         $return = [];
