@@ -515,9 +515,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
     };
 
-    $scope.delItemCountList = function() {
-        var countgrid = $('#icountlistGrid');
-        if (confirm('Are you sure to delete selected items on grid?')) {
+    $scope.delItemCountList = function(option) {
+        if(option == 0) {
+            var countgrid = $('#icountlistGrid');
             var ids = [];
             var idx = countgrid.jqxGrid('selectedrowindexes');
             $.each(idx, function(i, el) {
@@ -532,9 +532,15 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     updateIcountGrid();
                     updateIcountlistGrid($scope.icountID);
                     countgrid.jqxGrid('unselectallrows');
+                    $('#delItemCountListWin').jqxWindow('close');
                 }
             });
+        } else if(option == 1) {
+            $('#delItemCountListWin').jqxWindow('close');
+        } else {
+            $('#delItemCountListWin').jqxWindow('open');
         }
+        // if (confirm('Are you sure to delete selected items on grid?')) {}
     }
 
 });

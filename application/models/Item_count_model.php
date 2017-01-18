@@ -59,7 +59,7 @@ class Item_count_model extends CI_Model
             left join config_location cl on cl.\"Unique\" = ic.\"Location\"
             left join config_user cu1 on cu1.\"Unique\" = ic.\"CreatedBy\"
             left join config_user cu2 on cu2.\"Unique\" = ic.\"UpdatedBy\"
-            WHERE ic.\"Status\" != 0 " . $where . $orderby
+            WHERE ic.\"Status\" != 0 AND icl.\"Status\" != 0 " . $where . $orderby
         ;
 
         return $this->db->query($query)->result_array();

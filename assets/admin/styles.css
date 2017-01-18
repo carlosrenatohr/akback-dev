@@ -427,6 +427,11 @@ div[id="filterrow.inventoryItemsGrid"].jqx-grid-cell-pinned {
     outline: 0;
 }
 
+#MenuCategoriesTabs .gridContentTab {
+    height: 100%;
+    /*max-height: 500px;*/
+}
+
 #itemcountWindow {
     max-height: 99%!important;max-width:99%!important;
 }

@@ -43,19 +43,12 @@
                         <li>Menu</li><?//0?>
                     </ul>
                     <div></div>
-<!--                    <div></div>-->
                     <!-- -------------- -->
                     <!-- MENU ITEMS TAB      -->
                     <!-- -------------- -->
                     <div class="" ng-controller="menuItemController">
                         <?php $this->load->view($items_tab_view); ?>
                     </div>
-                    <!-- ------------------------- -->
-                    <!-- NEW ITEMS TAB (INVENTORY) -->
-                    <!-- ------------------------- -->
-<!--                    <div class="" ng-controller="menuItemsInventoryController">-->
-<!--                        --><?php //$this->load->view($inventory_tab_view); ?>
-<!--                    </div>-->
                     <!-- -------------- -->
                     <!-- QUESTIONS TAB  -->
                     <!-- -------------- -->
@@ -87,11 +80,3 @@
     </div>
     <input type="hidden" id="userid" ng-model="userid" />
 </div>
-    <style>
-        #MenuCategoriesTabs .gridContentTab {
-            height: 100%;
-            /*max-height: 500px;*/
-        }
-    </style>
-
-<?php //$this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>
