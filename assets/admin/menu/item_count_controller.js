@@ -319,6 +319,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#finishIcountBtn').show();
                             //
                             updateIcountlistGrid($scope.icountID);
+                            $('#icountlistGrid').show();
                             setTimeout(function() {
                                 $('#icountTabs').jqxTabs('enableAt', 2);
                                 $('#icountTabs').jqxTabs('select', 2);
