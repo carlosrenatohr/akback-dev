@@ -65,7 +65,6 @@ class Customer_model extends CI_Model
             $this->db->order_by("customer.\"Unique\"", 'DESC');
 
         $query = $this->db->get()->result_array();
-//        var_dump($this->db->last_query());exit;
 
         if ($isCount) {
             return count($query);
@@ -192,7 +191,7 @@ class Customer_model extends CI_Model
             left join config_user CU1 on RH."CreatedBy" = CU1."Unique"
             left join config_user CU2 on RH."CreatedBy" = CU2."Unique"
             left join config_location CL on RH."LocationUnique" = CL."Unique" 
-            left join receipt_details RD on RH."Unique" = RD."ReceiptHeaderUnique" and RH."Status" = 4 '
+            left join receipt_details RD on RH."Unique" = RD."ReceiptHeaderUnique" '
             . $whereAttached .
             'order by RH."Unique" DESC '
         ;
@@ -203,15 +202,15 @@ class Customer_model extends CI_Model
 
     public function receiptDetailsByHeader($receipt_id) {
         $sql = "select \"ReceiptHeaderUnique\" as \"ReceiptID\", \"Item\",\"Description\",\"Quantity\" as \"Quantity\",
-		round(\"ListPrice\",2) as \"ListPrice\",
+		round(\"ListPrice\",2) as \"ListPrice\", RD.\"Status\",
 		round(\"SellPrice\",2) as \"SellPrice\" ,round(\"Tax\",2) as \"Tax\",round(\"Total\",2) as \"Total\",
-		case when (RD.\"ReturnUnique\" > 0 or null) then 'Removed' else 'Complete' end as \"Status\",
+		case when (RD.\"ReturnUnique\" > 0 or null) then 'Removed' else 'Complete' end as \"StatusName\",
 		date_trunc('min', RD.\"created\"::timestamp) as \"Created\",CU1.\"UserName\" as \"CreatedBy\",
 		date_trunc('min', RD.\"updated\"::timestamp) as \"Updated\",CU2.\"UserName\" as \"UpdatedBy\"
 		from receipt_details RD
 		left join config_user CU1 on RD.\"created_by\" = CU1.\"Unique\"
 		left join config_user CU2 on RD.\"updated_by\" = CU2.\"Unique\"
-		Where \"ReceiptHeaderUnique\" = '".$receipt_id."' and RD.\"Status\" in (1,10) order by \"LineNo\" asc";
+		Where \"ReceiptHeaderUnique\" = {$receipt_id} and RD.\"Status\" in (1,10) order by \"LineNo\" asc";
 
         return $this->db->query($sql)->result_array();
     }

@@ -768,40 +768,11 @@ angular.module('akamaiposApp')
         }
         var initrowdetails = function (index, parentElement, gridElement, datarecord) {
             var grid = $($(parentElement).children()[0]);
-            var unique = datarecord.Unique;
+            var unique = datarecord.ReceiptID;
+            var detailsUrl = '';
             if (unique != undefined) {
-                urlToRequest = SiteRoot + 'admin/Customer/getReceiptDetailsByHeader/' + unique;
+                detailsUrl = SiteRoot + 'admin/Customer/getReceiptDetailsByHeader/' + unique;
             }
-            // var receiptnumber = (datarecord.Receipt != null) ? datarecord.Receipt : '';
-            // var description = (datarecord.Description != null) ? datarecord.Description : '';
-            // var location = datarecord.Location;
-            // // var quantity = datarecord.Quantity;
-            // var listPrice = datarecord.ListPrice;
-            // var sellprice = datarecord.SellPrice;
-            // // var discount =  datarecord.Discount;
-            // var tax = datarecord.Tax ;
-            // var total = datarecord.Total;
-            // var created = datarecord.Created;
-            // var createdby = datarecord.CreatedBy;
-            // var updated = datarecord.Updated;
-            // var updatedby = datarecord.UpdatedBy;
-            // var moreDetails =
-            //         "<span>Location: <b>" + location + " </b></span> " +
-            //         "<span>Receipt: <b>" + receiptnumber + " </b></span> " +
-            //         "<span>Created By: <b>" + createdby + " </b> at <b>" + created + "</b></span> " +
-            //         "<span>Updated By: <b>" + updatedby + " </b> at <b>" + updated + "</b></span><br>" +
-            //         "<span>ID: <b>" + datarecord.ReceiptID + " </b></span> " +
-            //         "<span>Description: <b>" + description + " </b></span><br>" +
-            //         "<span>List: <b>" + listPrice + " </b></span> " +
-            //         // "<span>Discount: <b>" + discount + " </b></span> " +
-            //         "<span>Sell: <b>" + sellprice + " </b></span>" +
-            //         // "<span>Quantity: <b>" + quantity + " </b></span>" +
-            //         "<span>Tax: <b>" + tax + " </b></span>" +
-            //         "<span>Total: <b>" + total + " </b></span><br>"
-            //     ;
-            // //
-            // var rowDetailsContainer = $($(parentElement).children()[0]);
-            // rowDetailsContainer.html(moreDetails);
             if (grid != null) {
                 grid.jqxGrid({
                     source: new $.jqx.dataAdapter({
@@ -809,19 +780,21 @@ angular.module('akamaiposApp')
                         dataFields: [
                             {name: 'ReceiptID', type: 'int'},
                             {name: 'Item', type: 'string'},
+                            {name: 'Description', type: 'string'},
                             {name: 'ListPrice', type: 'string'},
                             {name: 'SellPrice', type: 'string'},
                             {name: 'Quantity', type: 'string'},
                             {name: 'Tax', type: 'string'},
                             {name: 'Total', type: 'string'},
                             {name: 'Status', type: 'string'},
+                            {name: 'StatusName', type: 'string'},
                             {name: 'Created', type: 'string'},
                             {name: 'CreatedBy', type: 'string'},
                             {name: 'Updated', type: 'string'},
                             {name: 'UpdatedBy', type: 'string'},
                         ],
                         id: 'ReceiptID',
-                        url: urlToRequest
+                        url: detailsUrl
                     }),
                     width: '99%',
                     height: '100',
@@ -837,7 +810,7 @@ angular.module('akamaiposApp')
                             width:'8%', cellsalign: 'right', align: 'right'},
                         {text: 'Total', dataField: 'Total', filtertype: 'input',
                             width:'8%', cellsalign: 'right', align: 'right'},
-                        {text: 'Status', dataField: 'Status', width: '10%', filtertype: 'list'},
+                        {text: 'Status', dataField: 'StatusName', width: '10%', filtertype: 'list'},
                         {text: 'Created', dataField: 'Created', width: '8%', filtertype: 'date'},
                         {text: 'Created By', dataField: 'CreatedBy', filtertype: 'list',
                             width: '10%'},
