@@ -552,14 +552,39 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_CategoryColumn').val(values['Column']);
         $('#add_Sort').val(values['Sort']);
         $('#lfontSize').val(values['LabelFontSize']);
-        // setTimeout(function() {
-            $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonPrimaryColor'] })));
-            $('#bPrimaryColor').jqxColorPicker('setColor', values['ButtonPrimaryColor']);
-            $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['ButtonSecondaryColor'] })));
-            $('#bSecondaryColor').jqxColorPicker('setColor', values['ButtonSecondaryColor']);
-            $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: values['LabelFontColor'] })));
-            $('#lfontColor').jqxColorPicker('setColor', values['LabelFontColor']);
-        // }, 200);
+        // Primary Color
+        var tempColor;
+        if (values['ButtonPrimaryColor'])
+            tempColor = values['ButtonPrimaryColor'];
+        else
+            tempColor = '000000';
+        $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
+        if ($('#bSecondaryColor').jqxColorPicker('getColor') == undefined)
+            $scope.bPrimaryColor = tempColor;
+        else
+            $('#bPrimaryColor').jqxColorPicker('setColor', '#' + tempColor);
+        // Secondary Color
+        if (values['ButtonSecondaryColor'])
+            tempColor = values['ButtonSecondaryColor'];
+        else
+            tempColor = '000000';
+        $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
+        if ($('#bSecondaryColor').jqxColorPicker('getColor')  == undefined)
+            $scope.bSecondaryColor = tempColor;
+        else
+            $('#bSecondaryColor').jqxColorPicker('setColor', '#' + tempColor);
+        // Font Color
+        if (values['LabelFontColor'])
+            tempColor = values['LabelFontColor'];
+        else
+            tempColor = '000000';
+        $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
+        $('#lfontColor').jqxColorPicker('setColor', tempColor);
+        if ($('#lfontColor').jqxColorPicker('getColor')  == undefined)
+            $scope.lfontColor = tempColor;
+        else
+            $('#lfontColor').jqxColorPicker('setColor', '#' + tempColor);
+        //
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
         // CaTegory Picture
