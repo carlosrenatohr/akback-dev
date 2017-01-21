@@ -2,13 +2,13 @@
 <jqx-window jqx-on-close="close()" jqx-settings="itemsMenuChangeCategNameWind"
             jqx-create="itemsMenuChangeCategNameWind" class="">
     <div class="">
-        Edmitc Category Name
+        Edit Category Name
     </div>
     <div class="">
         <div class="row">
             <div style="float:left; padding:2px; width:650px;">
-                <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">mitcem:</div>
-                <div style="float:left; width:300px;">
+                <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">item:</div>
+                <div style="float:left; width:220px;">
                     <input type="text" class="form-control"
                            id="OneCategoryName" placeholder="Category Name" />
                     <input type="hidden" id="OneCategoryId"  />
@@ -16,12 +16,12 @@
             </div>
             <!-- STYLES  -->
             <div style="float:left; padding:2px; width:450px;">
-                <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Button Primary Color:</div>
+                <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Button Primary Color:</div>
                 <div style="float:left; width:180px;">
                     <div style="margin: 3px; float: left;" class="dropDownParent">
                         <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_mitcbPrimaryColor"
                                               id="ddb_mitcbPrimaryColor" class="styles-control" jqx-height="22">
-                            <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="'000000'"
+                            <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="mitcbPrimaryColor"
                                               jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="categ"
                                               id="mitcbPrimaryColor"></jqx-color-picker>
                         </jqx-drop-down-button>
@@ -30,12 +30,12 @@
             </div>
 
             <div style="float:left; padding:2px; width:450px;">
-                <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Button Secondary Color:</div>
+                <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Button Secondary Color:</div>
                 <div style="float:left; width:180px;">
                     <div style="margin: 3px; float: left;">
                         <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_mitcbSecondaryColor"
                                               id="ddb_mitcbSecondaryColor" class="styles-control" jqx-height="22">
-                            <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="'000000'"
+                            <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="mitcbSecondaryColor"
                                               jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="categ"
                                               id="mitcbSecondaryColor"></jqx-color-picker>
                         </jqx-drop-down-button>
@@ -44,12 +44,12 @@
             </div>
 
             <div style="float:left; padding:2px; width:450px;">
-                <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Label Font Color</div>
+                <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Label Font Color</div>
                 <div style="float:left; width:180px;">
                     <div style="margin: 3px; float: left;">
                         <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_mitclfontColor"
                                               id="ddb_mitclfontColor" jqx-height="22" class="styles-control">
-                            <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="'000000'"
+                            <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="mitColorChange(event)" jqx-color="mitclfontColor"
                                               jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="categ"
                                               id="mitclfontColor"></jqx-color-picker>
                         </jqx-drop-down-button>
@@ -58,9 +58,9 @@
             </div>
 
             <div style="float:left; padding:2px; width:450px;">
-                <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Label Font Size</div>
-                <div style="float:left; width:180px;">
-                    <jqx-drop-down-list id="mitclfontSize" class="styles-control">
+                <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Label Font Size</div>
+                <div style="float:left; width:220px;">
+                    <jqx-drop-down-list id="mitclfontSize" class="styles-control" jqx-width="220">
                         <option value="4px">4px</option>
                         <option value="6px">6px</option>
                         <option value="8px">8px</option>

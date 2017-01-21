@@ -255,40 +255,57 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $('#OneCategoryName').on('keypress keyup paste change', function(e) {
         $('#saveItemOneCategoryBtn').prop('disabled', false);
+        $('#savemitcemOneCategoryBtn').prop('disabled', false);
     });
 
+    $scope.mitcbPrimaryColor = null;
+    $scope.mitcbSecondaryColor = null;
+    $scope.mitclfontColor = null;
     $scope.dblclickCategoryCell = function(e, row) {
         $http.get(SiteRoot + 'admin/MenuCategory/get_oneCategory/' + row.Unique)
             .then(function(response) {
                 if (response.data) {
                     var category = response.data.row;
-                    console.log(category);
                     $('#OneCategoryName').val(category.CategoryName);
                     $('#OneCategoryId').val(category.Unique);
                     // Styles
+                    // -- PRIMARY BUTTON
                     var bpc;
                     if (category['ButtonPrimaryColor'])
                         bpc = category['ButtonPrimaryColor'];
                     else
                         bpc = '000000';
                     $('#ddb_mitcbPrimaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    $('#mitcbPrimaryColor').jqxColorPicker('setColor', bpc);
+                    if ($('#mitcbPrimaryColor').jqxColorPicker('getColor') == undefined)
+                        $scope.mitcbPrimaryColor = bpc;
+                    else
+                        $('#mitcbPrimaryColor').jqxColorPicker('setColor', '#' + bpc);
+                    // $scope.ddb_mitcbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    // -- SECONDARY BUTTON
                     if (category['ButtonSecondaryColor'])
                         bpc = category['ButtonSecondaryColor'];
                     else
                         bpc = '000000';
-                    // $scope.ddb_mitbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
                     $('#ddb_mitcbSecondaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    $('#mitcbSecondaryColor').jqxColorPicker('setColor', bpc);
+                    // $scope.ddb_mitbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    if ($('#mitcbSecondaryColor').jqxColorPicker('getColor') == undefined)
+                        $scope.mitcbSecondaryColor = bpc;
+                    else
+                        $('#mitcbSecondaryColor').jqxColorPicker('setColor', '#' + bpc);
+                    // -- LABEL FONT
                     if (category['LabelFontColor'])
                         bpc = category['LabelFontColor'];
                     else
                         bpc = '000000';
                     // $scope.ddb_mitlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
                     $('#ddb_mitclfontColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    $('#mitclfontColor').jqxColorPicker('setColor', bpc);
+                    if ($('#mitclfontColor').jqxColorPicker('getColor') == undefined)
+                        $scope.mitclfontColor = bpc;
+                    else
+                        $('#mitclfontColor').jqxColorPicker('setColor', '#' + bpc);
+                    // -- LABEL SIZE
                     $('#mitclfontSize').val(category['LabelFontSize']);
-                    //
+                    $('#savemitcemOneCategoryBtn').prop('disabled', true);
                     categNameWind.open();
                 }
             }, function(){})
@@ -941,7 +958,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         else
                             bpc = '000000';
                         $('#ddb_mitbPrimaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                        $('#mitbPrimaryColor').jqxColorPicker('setColor', bpc);
+                        $('#mitbPrimaryColor').jqxColorPicker('setColor', new $.jqx.color({ hex: bpc }));
                         if (data['ButtonSecondaryColor'])
                             bpc = data['ButtonSecondaryColor'];
                         else
@@ -2055,7 +2072,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.mitColorChange = function (event) {
         var id = $(event.target).attr('id');
         var el = $(event.target).data('layout');
-        console.log(el);
         // $scope['ddb_' + id].setContent(getTextElementByColor(event.args.color));
         $('#ddb_' + id).jqxDropDownButton('setContent', getTextElementByColor(event.args.color));
         if (el == 'item')
