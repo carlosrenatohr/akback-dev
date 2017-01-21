@@ -146,12 +146,38 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qt_sort').val((row.Sort != null) ? row.Sort : 0);
         $('#qt_max').val((row.Max != null) ? row.Max : 0);
         $('#qt_min').val((row.Min != null) ? row.Min : 0);
-        $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: row['ButtonPrimaryColor'] })));
-        $('#qbPrimaryColor').jqxColorPicker('setColor', row['ButtonPrimaryColor']);
-        $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: row['ButtonSecondaryColor'] })));
-        $('#qbSecondaryColor').jqxColorPicker('setColor', row['ButtonSecondaryColor']);
-        $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: row['LabelFontColor'] })));
-        $('#qlfontColor').jqxColorPicker('setColor', row['LabelFontColor']);
+        //-- Primary Color Button
+        var bpc;
+        if (row['ButtonPrimaryColor'])
+            bpc = row['ButtonPrimaryColor'];
+        else
+            bpc = '000000';
+        $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+        if ($('#qbPrimaryColor').jqxColorPicker('getColor') == undefined)
+            $scope.qbPrimaryColor = bpc;
+        else
+            $('#qbPrimaryColor').jqxColorPicker('setColor', '#' + bpc);
+        //-- Secondary Button color
+        if (row['ButtonSecondaryColor'])
+            bpc = row['ButtonSecondaryColor'];
+        else
+            bpc = '000000';
+        $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+        if ($('#qbSecondaryColor').jqxColorPicker('getColor') == undefined)
+            $scope.qbSecondaryColor = bpc;
+        else
+            $('#qbSecondaryColor').jqxColorPicker('setColor', '#' + bpc);
+        // Label Font Color
+        if (row['LabelFontColor'])
+            bpc = row['LabelFontColor'];
+        else
+            bpc = '000000';
+        $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+        if ($('#qlfontColor').jqxColorPicker('getColor') == undefined)
+            $scope.qlfontColor = bpc;
+        else
+            $('#qlfontColor').jqxColorPicker('setColor', '#' + bpc);
+        // Label Font Size
         $('#qlfontSize').val(row['LabelFontSize']);
         // $('#deleteQuestionBtn').show();
         var btn = $('<button/>', {
@@ -177,8 +203,11 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#questionstabsWin').jqxTabs({selectedItem: 0});
         $('#questionWindowForm .required-field').css({"border-color": "#ccc"});
         $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $('#qbPrimaryColor').jqxColorPicker('setColor', '#000000');
         $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $('#qbSecondaryColor').jqxColorPicker('setColor', '#000000');
         $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $('#qlfontColor').jqxColorPicker('setColor', '#000000');
         $('#qlfontSize').val('12px');
         // $('#deleteQuestionBtn').hide();
         $('#saveQuestionBtn').prop('disabled', true);
@@ -361,8 +390,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Label').val('');
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.qibPrimaryColor = '#000000';
+        $('#qibPrimaryColor').jqxColorPicker('setColor', '#000000');
         $scope.ddb_qibSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.qibSecondaryColor = '#000000';
+        $('#qibSecondaryColor').jqxColorPicker('setColor', '#000000');
         $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.qilfontColor = '#000000';
+        $('#qilfontColor').jqxColorPicker('setColor', '#000000');
         $('#qilfontSize').val('12px');
         //
         $('#questionschoicestabsWin').jqxTabs('select', 0);
@@ -376,6 +411,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     $scope.openQuestionItemWin = function (e) {
         $scope.newOrEditQItemOption = 'create';
         // $('#deleteQuestionItemBtnOnQuestionTab').hide();
+        resetQuestionItemForm();
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
         question_item_window.setTitle('Add New Question Item');
         question_item_window.open();
@@ -385,36 +421,47 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         var row = e.args.row.bounddata;
         $scope.newOrEditQItemOption = 'edit';
         $scope.qitemId = row.Unique;
-
+        //
         var selectedItem;
         var itemCbx = $('#qItem_ItemUnique').jqxComboBox('getItemByValue', row.ItemUnique);
         if (itemCbx != undefined) {
             selectedItem = itemCbx.index
         } else selectedItem = -1;
         $('#qItem_ItemUnique').jqxComboBox({'selectedIndex': selectedItem});
-
         $('#qItem_sort').val(row.Sort);
         $('#qItem_Label').val(row.Label);
-        //
+        //-- Primary Button Color
         var bpc;
         if (row['ButtonPrimaryColor'])
             bpc = row['ButtonPrimaryColor'];
         else
             bpc = '000000';
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-        $('#qibPrimaryColor').jqxColorPicker('setColor', bpc);
+        if ($('#qibPrimaryColor').jqxColorPicker('getColor') == undefined)
+            $scope.qibPrimaryColor = bpc;
+        else
+            $('#qibPrimaryColor').jqxColorPicker('setColor', '#' + bpc);
+        //-- Secondary Button Color
         if (row['ButtonSecondaryColor'])
             bpc = row['ButtonSecondaryColor'];
         else
             bpc = '000000';
         $scope.ddb_qibSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-        $('#qibSecondaryColor').jqxColorPicker('setColor', bpc);
+        if ($('#qibSecondaryColor').jqxColorPicker('getColor') == undefined)
+            $scope.qibSecondaryColor = bpc;
+        else
+            $('#qibSecondaryColor').jqxColorPicker('setColor', '#' + bpc);
+        //-- Label Font Color
         if (row['LabelFontColor'])
             bpc = row['LabelFontColor'];
         else
             bpc = '000000';
         $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-        $('#qilfontColor').jqxColorPicker('setColor', bpc);
+        if ($('#qilfontColor').jqxColorPicker('getColor') == undefined)
+            $scope.qilfontColor = bpc;
+        else
+            $('#qilfontColor').jqxColorPicker('setColor', '#' + bpc);
+
         $('#qilfontSize').val(row['LabelFontSize']);
         // $('#deleteQuestionItemBtnOnQuestionTab').show();
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);

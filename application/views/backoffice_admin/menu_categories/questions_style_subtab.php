@@ -6,9 +6,9 @@
             <div style="margin: 3px; float: left;" class="dropDownParent">
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_qbPrimaryColor"
                                       class="styles-control" jqx-height="22">
-                    <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="qColorChange(event)" jqx-color="'000000'"
+                    <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="qColorChange(event)"
                                       jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="question"
-                                      id="qbPrimaryColor"></jqx-color-picker>
+                                      jqx-color="qbPrimaryColor" id="qbPrimaryColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
         </div>
@@ -20,9 +20,9 @@
             <div style="margin: 3px; float: left;">
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_qbSecondaryColor"
                                       class="styles-control" jqx-height="22">
-                    <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="qColorChange(event)" jqx-color="'000000'"
+                    <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="qColorChange(event)"
                                       jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="question"
-                                      id="qbSecondaryColor"></jqx-color-picker>
+                                      jqx-color="qbSecondaryColor" id="qbSecondaryColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
         </div>
@@ -34,9 +34,9 @@
             <div style="margin: 3px; float: left;">
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_qlfontColor"
                                       jqx-height="22" class="styles-control">
-                    <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="qColorChange(event)" jqx-color="'000000'"
+                    <jqx-color-picker jqx-create="qColorCreated" jqx-on-colorchange="qColorChange(event)"
                                       jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="question"
-                                      id="qlfontColor"></jqx-color-picker>
+                                      jqx-color="qlfontColor" id="qlfontColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
         </div>
