@@ -45,7 +45,7 @@
         <div class="header">Delete Item Count List</div>
         <div class="body">
             <div class="text-content" style="text-align: center;font-size: 15px;margin-bottom: 15px;"
-            >Are you sure to delete selected items on grid?</div>
+            >Delete selected items on grid?</div>
             <div class="button-content">
                 <div style="float: right; margin-top: 15px;">
                     <jqx-button id="ok" jqx-width="65" ng-click="delItemCountList(0)"

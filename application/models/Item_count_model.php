@@ -200,11 +200,22 @@ class Item_count_model extends CI_Model
     }
 
     public function delete_count_list($ids) {
+        $ids = explode(',', $ids);
         $data['Updated'] = date('Y-m-d H:i:s');
         $data['UpdatedBy'] = $this->session->userdata('userid');
         $data['Status'] = 0;
-        $this->db->where_in('Unique', explode(',', $ids))   ;
-        return $this->db->update('item_count_list', $data);
+        $this->db->trans_start();
+        $this->db->where_in('Unique', $ids);
+        $status = $this->db->update('item_count_list', $data);
+        $this->db->trans_complete();
+        // Delete item_stock_line registered
+        $data['status'] = 0;
+        unset($data['Status']);
+        $this->db->trans_start();
+        $this->db->where_in('CountUnique', $ids);
+        $this->db->update('item_stock_line', $data);
+        $this->db->trans_complete();
+        return $status;
     }
 
     public function finalize_count_list($countID) {

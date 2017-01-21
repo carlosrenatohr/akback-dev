@@ -21,6 +21,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icountlistGrid').show();
             $('#setZeroIcountBtn').show();
             $('#deleteIcounlistBtn').show();
+            $('#icountlistGrid').jqxGrid('unselectallrows');
             if ($scope.icountStatus == 1)
                 $('#finishIcountBtn').show();
             else // 0=deleted; 2=finished; null
@@ -166,6 +167,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.icountStatus = null;
         $scope.createOrEditIcount = 'create';
         //
+        // $('#icountlistGrid').jqxGrid('unselectallrows');
         $('#icount_location').val(1);
         $('#icount_comment').val('');
         $('#icount_countdate').jqxDateTimeInput({'disabled': false});
@@ -211,6 +213,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         // setTimeout(function(){
             updateIcountlistGrid(row.Unique);
         // }, 150);
+        // $('#icountlistGrid').jqxGrid('unselectallrows');
         // $('#icountlistGrid').hide();
         // $('#icountlistGrid').jqxGrid('showloadelement');
         //
