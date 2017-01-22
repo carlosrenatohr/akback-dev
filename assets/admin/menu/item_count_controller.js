@@ -114,7 +114,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#saveIcountBtn').prop('disabled', false);
     });
 
-    $("body").on('cellvaluechanged', '#icountlistGrid', function (event)
+    $("#icountlistGrid").on('cellvaluechanged', function (event)
     {
         var value = event.args.newvalue;
         var oldvalue = event.args.oldvalue;
@@ -157,7 +157,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             });
         }
     })
-    .on('bindingcomplete', '#icountlistGrid', function(e) {
+    .on('bindingcomplete', function(e) {
         // $(this).show();
         // $(this).jqxGrid('hideloadelement');
     });
@@ -210,9 +210,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.icountStatus = row.Status;
         $scope.createOrEditIcount = 'edit';
         //
-        // setTimeout(function(){
+        setTimeout(function(){
             updateIcountlistGrid(row.Unique);
-        // }, 150);
+        }, 200);
         // $('#icountlistGrid').jqxGrid('unselectallrows');
         // $('#icountlistGrid').hide();
         // $('#icountlistGrid').jqxGrid('showloadelement');
