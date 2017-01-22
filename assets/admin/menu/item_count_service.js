@@ -98,7 +98,6 @@
             var cellbeginedit = function (index, datafield, columntype, value) {
                 // var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 // if (row.Status == 2) return false;
-                console.log('beggining');
                 return true;
             };
 

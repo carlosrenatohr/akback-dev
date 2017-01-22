@@ -20,6 +20,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         // Item Count list tab
         } else if (tab == 2) {
             $('#icountlistGrid').show();
+            setTimeout(function(){
+                updateIcountlistGrid($scope.icountID);
+            }, 100);
             $('#setZeroIcountBtn').show();
             $('#deleteIcounlistBtn').show();
             if ($scope.icountStatus == 1)
@@ -209,9 +212,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.icountStatus = row.Status;
         $scope.createOrEditIcount = 'edit';
         //
-        setTimeout(function(){
-            updateIcountlistGrid(row.Unique);
-        }, 200);
+        // setTimeout(function(){
+        //     updateIcountlistGrid(row.Unique);
+        // }, 200);
         // $('#icountlistGrid').jqxGrid('unselectallrows');
         // $('#icountlistGrid').hide();
         // $('#icountlistGrid').jqxGrid('showloadelement');
@@ -224,6 +227,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_countdate').jqxDateTimeInput({'disabled': true});
         $('#icount_location').jqxDropDownList({'disabled': true});
         //
+        $('#icategoryFilter').jqxComboBox('clearSelection');
+        $('#isubcategoryFilter').jqxComboBox('clearSelection');
+        $('#isupplierFilter').jqxComboBox('clearSelection');
         if (row.CategoryFilter != null && row.CategoryFilter != '') {
             $('#icategoryFilter').jqxComboBox('selectItem', row.CategoryFilter);
         }
