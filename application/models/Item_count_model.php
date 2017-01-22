@@ -194,9 +194,20 @@ class Item_count_model extends CI_Model
     public function update_count_list($id, $data) {
         $data['Updated'] = date('Y-m-d H:i:s');
         $data['UpdatedBy'] = $this->session->userdata('userid');
-
         $this->db->where('Unique', $id);
-        return $this->db->update('item_count_list', $data);
+        $status = $this->db->update('item_count_list', $data);
+        // -- Update on item_stock_line -- //
+        $islData = [];
+        $islData['Updated'] = date('Y-m-d H:i:s');
+        $islData['UpdatedBy'] = $this->session->userdata('userid');
+        if (isset($data['Difference']))
+            $islData['Quantity'] = $data['Difference'];
+        if (isset($data['Comment']))
+            $islData['Comment'] = $data['Comment'];
+        $this->db->where('CountUnique', $id);
+        $this->db->update('item_stock_line', $islData);
+
+        return $status;
     }
 
     public function delete_count_list($ids) {

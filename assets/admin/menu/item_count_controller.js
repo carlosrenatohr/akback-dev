@@ -9,6 +9,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#finishIcountBtn').hide();
             $('#setZeroIcountBtn').hide();
             $('#deleteIcounlistBtn').hide();
+            $('#icountlistGrid').jqxGrid('unselectallrows');
             $('#icountlistGrid').hide();
         };
         if (tab == 0) {
@@ -21,7 +22,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icountlistGrid').show();
             $('#setZeroIcountBtn').show();
             $('#deleteIcounlistBtn').show();
-            $('#icountlistGrid').jqxGrid('unselectallrows');
             if ($scope.icountStatus == 1)
                 $('#finishIcountBtn').show();
             else // 0=deleted; 2=finished; null
@@ -132,7 +132,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 dataType: 'json',
                 data: {
                     CountStock: value,
-                    Difference: newDiff,
+                    Difference: newDiff, // Quantity on item_stock_line
                     NewCost: nCost,
                     AdjustedCost: aCost
                 },
@@ -149,18 +149,17 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
                 dataType: 'json',
                 data: {
-                    Comment: value
+                    Comment: value // Comment on item_stock_line
                 },
                 success: function(response) {
                     $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Comment", value);
                 }
             });
         }
-    })
-    .on('bindingcomplete', function(e) {
+    }); //.on('bindingcomplete', function(e) {
         // $(this).show();
         // $(this).jqxGrid('hideloadelement');
-    });
+     // });
 
     $scope.openIcount = function() {
         $scope.icountID = null;
@@ -465,10 +464,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     if (response.status == 'success') {
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
-                        // $('#finishIcountBtn').hide();
+                        $('#finishIcountBtn').hide();
                         $('#icountGrid1').jqxGrid('refresh');
                         $('#icountGrid2').jqxGrid('refresh');
-                        $('#icountGrid2').jqxGrid('render');
+                        // $('#icountGrid2').jqxGrid('render');
                         $('#icountSuccessMsg #msg').html('Item Count has been completed and Stock Adjusted.');
                         $scope.icountSuccessMsg.apply('open');
                         // icountwind.close();

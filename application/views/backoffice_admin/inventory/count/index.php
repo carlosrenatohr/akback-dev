@@ -50,7 +50,7 @@
                     <li>Complete</li>
                 </ul>
                 <div>
-                    <jqx-grid id="icountGrid1" jqx-theme="'artic'"
+                    <jqx-grid id="icountGrid1"
                               jqx-settings="icountGridProgressSettings"
                               jqx-create="icountGridProgressSettings"
                               jqx-on-rowdoubleclick="editIcount(e)"
@@ -65,9 +65,8 @@
                 </div>
             </jqx-tabs>
             <jqx-window jqx-on-close="close()" jqx-settings="icountWindowSettings"
-                        jqx-create="icountWindowSettings" id="itemcountWindow"
-                        >
-                <div >
+                        jqx-create="icountWindowSettings" id="itemcountWindow">
+                <div>
                     Item Count | Details
                 </div>
                 <div >

@@ -96,8 +96,10 @@
                 }
             };
             var cellbeginedit = function (index, datafield, columntype, value) {
-                var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                if (row.Status == 2) return false;
+                // var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
+                // if (row.Status == 2) return false;
+                console.log('beggining');
+                return true;
             };
 
             var cellsCost = function(index, column, value, defaultHtml) {

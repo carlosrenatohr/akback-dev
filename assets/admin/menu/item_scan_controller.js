@@ -15,6 +15,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').show();
                 $('#matchIscanBtn').hide();
                 $('#delScanListBtn').hide();
+                $('#iscanlistGrid').jqxGrid('unselectallrows');
                 $('#iscanlistGrid').hide();
                 // Filters tab
             } else if (tab == 1) {
@@ -24,7 +25,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#matchIscanBtn').show();
                 $('#delScanListBtn').show();
                 $('#iscanlistGrid').show();
-                $('#iscanlistGrid').jqxGrid('unselectallrows');
             }
         });
 
