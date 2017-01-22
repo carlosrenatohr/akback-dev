@@ -319,9 +319,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var lfont = $('#mitclfontColor').jqxColorPicker('getColor');
         var data = {
             CategoryName: name,
-            'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
-            'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
-            'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+            'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000000'),
+            'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000000'),
+            'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000000'),
             'LabelFontSize': $('#mitclfontSize').val()
         };
 
@@ -682,9 +682,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'Description': $('#itemcontrol_description').val(),
                 },
                 'pictures': imgs.join(','),
-                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
-                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
-                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000000'),
+                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000000'),
+                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000000'),
                 'LabelFontSize': $('#mitlfontSize').val()
             };
             // -- Main printer on item subtab
@@ -951,28 +951,41 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         // New fields on main tab for Item table
                         var description = (data.Description != null) ? data.Description : '';
                         $('#itemcontrol_description').val($.trim(description));
-                        // Styles
+                        //-- Styles --//
                         var bpc;
+                        // Primary Button Color
                         if (data['ButtonPrimaryColor'])
                             bpc = data['ButtonPrimaryColor'];
                         else
                             bpc = '000000';
                         $('#ddb_mitbPrimaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                        $('#mitbPrimaryColor').jqxColorPicker('setColor', new $.jqx.color({ hex: bpc }));
+                        if ($('#mitbPrimaryColor').jqxColorPicker('getColor') == undefined)
+                            $scope.mitbPrimaryColor = bpc;
+                        else
+                            $('#mitbPrimaryColor').jqxColorPicker('setColor', '#' + bpc);
+                        // Secondary Button Color
                         if (data['ButtonSecondaryColor'])
                             bpc = data['ButtonSecondaryColor'];
                         else
                             bpc = '000000';
                         // $scope.ddb_mitbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
                         $('#ddb_mitbSecondaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                        $('#mitbSecondaryColor').jqxColorPicker('setColor', bpc);
+                        if ($('#mitbSecondaryColor').jqxColorPicker('getColor') == undefined)
+                            $scope.mitbSecondaryColor = bpc;
+                        else
+                            $('#mitbSecondaryColor').jqxColorPicker('setColor', '#' + bpc);
+                        // Label Font Color
                         if (data['LabelFontColor'])
                             bpc = data['LabelFontColor'];
                         else
                             bpc = '000000';
                         // $scope.ddb_mitlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
                         $('#ddb_mitlfontColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                        $('#mitlfontColor').jqxColorPicker('setColor', bpc);
+                        if ($('#mitlfontColor').jqxColorPicker('getColor') == undefined)
+                            $scope.mitlfontColor = bpc;
+                        else
+                            $('#mitlfontColor').jqxColorPicker('setColor', '#' + bpc);
+                        // Label Font Size
                         $('#mitlfontSize').val(data['LabelFontSize']);
                         // Main Printer
                         if (data.PrimaryPrinter != null) {
