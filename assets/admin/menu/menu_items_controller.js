@@ -830,6 +830,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $('body').on('select', '#itemcontrol_gcard', function(){
         $('#saveItemGridBtn').prop('disabled', false);
     });
+    $('body').on('select', '#mitlfontSize', function(){
+        $('#saveItemGridBtn').prop('disabled', false);
+    });
 
     $scope.countChangesOnSelectingItemCbx = 0;
     $('#editItem_ItemSelected').on('select', function(e) {
