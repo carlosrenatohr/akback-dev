@@ -186,6 +186,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         var title = $('<div/>').html('Edit Question: ' + $scope.questionId + ' | Question: <b>' + row.QuestionName + '</b>')
             .prepend(btn)
             .css('padding-left', '2em');
+        $('#saveQuestionBtn').prop('disabled', true);
         questionsWindow.setTitle(title);
         questionsWindow.open();
     };
