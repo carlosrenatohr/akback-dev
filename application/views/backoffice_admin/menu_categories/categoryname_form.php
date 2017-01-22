@@ -7,7 +7,7 @@
     <div class="">
         <div class="row">
             <div style="float:left; padding:2px; width:650px;">
-                <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">item:</div>
+                <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Category Name:</div>
                 <div style="float:left; width:220px;">
                     <input type="text" class="form-control"
                            id="OneCategoryName" placeholder="Category Name" />

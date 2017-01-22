@@ -782,8 +782,12 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         //
         $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $('#bPrimaryColor').jqxColorPicker('setColor', '000000');
         $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $('#bSecondaryColor').jqxColorPicker('setColor', '000000');
         $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $('#lfontColor').jqxColorPicker('setColor', '000000');
+        $('#lfontSize').val('12px');
         //
         $('#category_subtabs').jqxTabs('select', 0);
         $('#saveCategoryBtn').prop('disabled', true);
