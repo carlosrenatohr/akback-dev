@@ -270,7 +270,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $scope.ibrandsErrorMsg.apply('open');
                 return false;
             }
-
             return true;
         };
 
@@ -325,9 +324,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#icount_location').jqxDropDownList({'disabled': true});
                             $('.icountField.filters').jqxComboBox({disabled: true});
                             $('#finishIcountBtn').show();
-                            //
-                            updateIcountlistGrid($scope.icountID);
+                            $('#setZeroIcountBtn').show();
+                            $('#deleteIcounlistBtn').show();
                             $('#icountlistGrid').show();
+                            updateIcountlistGrid($scope.icountID);
+                            //
                             setTimeout(function() {
                                 $('#icountTabs').jqxTabs('enableAt', 2);
                                 $('#icountTabs').jqxTabs('select', 2);
