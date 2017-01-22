@@ -24,6 +24,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#matchIscanBtn').show();
                 $('#delScanListBtn').show();
                 $('#iscanlistGrid').show();
+                $('#iscanlistGrid').jqxGrid('unselectallrows');
             }
         });
 
@@ -58,7 +59,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             });
         }
 
-        $('.icountField').on('change', function() {
+        $('.icountField').on('change keyup keypress', function() {
             $('#saveIscanBtn').prop('disabled', false);
         });
 
@@ -88,7 +89,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 }, 100);
             }).on('remove', function(e) {
             }).on('uploadEnd', function(e) {
-                console.log(e.args.response);
                 $scope.csvFileSelected = JSON.parse(e.args.response);
                 if ($scope.csvFileSelected.success === true) {
                     $('#fileLoadedTemp').show();
@@ -118,6 +118,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icount_comment').val('');
             $('#fileLoadedTemp').hide();
             uploadedFilesSelected = [];
+            uploadedFilesOriginal = [];
+            $('#fileLoadedTemp').html('');
             setTimeout(function() {
                 $('#icount_location').jqxDropDownList({disabled: false});
                 $('#icount_file').jqxFileUpload({disabled: false});
@@ -125,6 +127,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#iscanTabs').jqxTabs('disableAt', 1);
                 $('#saveIscanBtn').html('Import');
                 $('#saveIscanBtn').prop('disabled', true);
+                $('#saveIscanBtn').show();
                 $('#matchIscanBtn').hide();
                 $('#delScanListBtn').hide();
             }, 100);
@@ -154,6 +157,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#iscanTabs').jqxTabs('enableAt', 1);
                 $('#saveIscanBtn').html('Save');
                 $('#saveIscanBtn').prop('disabled', true);
+                $('#saveIscanBtn').show();
                 $('#matchIscanBtn').hide();
                 $('#delScanListBtn').hide();
             }, 100);
@@ -197,6 +201,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $scope.iscanID = response.id;
                             $scope.createOrEditIscan = 'edit';
                             updateIscanlistGrid(response.id);
+                            $('#saveIscanBtn').html('Save');
+                            $('#saveIscanBtn').hide();
                             $('#iscanTabs').jqxTabs('enableAt', 1);
                             $('#iscanTabs').jqxTabs('select', 1);
                             //
@@ -213,6 +219,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
                         }
+                        $('#matchIscanBtn').show();
+                        $('#delScanListBtn').show();
+                        $('#iscanlistGrid').show();
                         updateIscanGrid();
                         if (toClose) {
                             iscanwind.close();
@@ -310,8 +319,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             // $('#matchIscanBtn').hide();
                             // $('#iscanGrid').jqxGrid('refresh');
                             // $('#iscanGrid').jqxGrid('render');
-                            $('#icountSuccessMsg #msg').html('List was updated with Items found.');
-                            $scope.icountSuccessMsg.apply('open');
+                            $('#iscanSuccessMsg #msg').html('List was updated with Items found.');
+                            $scope.iscanSuccessMsg.apply('open');
                             // icountwind.close();
                         }
                         else if (response.status == 'error') {}
@@ -364,7 +373,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         });
 
         $scope.delScanList = function() {
-            var scangrid = $('#iscanlistGrid')
+            var scangrid = $('#iscanlistGrid');
             if (confirm('Are you sure to delete selected items on item scan list?')) {
                 var ids = [];
                 var idx = scangrid.jqxGrid('selectedrowindexes');
