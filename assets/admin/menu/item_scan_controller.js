@@ -25,6 +25,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#matchIscanBtn').show();
                 $('#delScanListBtn').show();
                 $('#iscanlistGrid').show();
+                setTimeout(function() {
+                    updateIscanlistGrid($scope.iscanID);
+                }, 100);
             }
         });
 
@@ -141,9 +144,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $scope.createOrEditIscan = 'edit';
             //
             // updateIscanlistGrid();
-            setTimeout(function() {
-                updateIscanlistGrid(row.Unique);
-            }, 200);
             $('#icount_location').val(row.Location);
             $('#icount_comment').val(row.Comment);
             var fimp = row.FilesImported ? row.FilesImported : '-';
@@ -200,9 +200,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         if ($scope.createOrEditIscan == 'create') {
                             $scope.iscanID = response.id;
                             $scope.createOrEditIscan = 'edit';
-                            updateIscanlistGrid(response.id);
+                            // updateIscanlistGrid(response.id);
                             $('#saveIscanBtn').html('Save');
                             $('#saveIscanBtn').hide();
+                            $('#matchIscanBtn').show();
+                            $('#delScanListBtn').show();
                             $('#iscanTabs').jqxTabs('enableAt', 1);
                             $('#iscanTabs').jqxTabs('select', 1);
                             //
@@ -219,10 +221,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
                         }
-                        $('#matchIscanBtn').show();
-                        $('#delScanListBtn').show();
                         $('#iscanlistGrid').show();
                         updateIscanGrid();
+                        updateIscanlistGrid($scope.iscanID);
                         if (toClose) {
                             iscanwind.close();
                             // $('#icountTabs').jqxTabs('select', 0);

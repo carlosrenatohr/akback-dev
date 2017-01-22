@@ -354,8 +354,9 @@ class Item_count_model extends CI_Model
         $data['Status'] = 1;
         $data['Updated'] = date('Y-m-d H:i:s');
         $data['UpdatedBy'] = $this->session->userdata('userid');
-        $filenameToGetData = $data['filename'];
-        $filenameToGetData = explode(',', $filenameToGetData);
+        $filenameToGetData = null;
+        if(!empty($data['filename']))
+             $filenameToGetData = explode(',', $data['filename']);
         unset($data['filename']);
         //
         $this->db->where('Unique', $id);
@@ -396,7 +397,6 @@ class Item_count_model extends CI_Model
             $this->load->library('PHPExcel/IOFactory');
             //
             $decimalQty = $this->session->userdata('admin_DecimalsQuantity');
-
             foreach ($filenames as $filename) {
                 $file = "./assets/csv/{$filename}";
                 try {
