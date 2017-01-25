@@ -324,7 +324,7 @@ class ItemCount extends AK_Controller
             'message' => $msg,
             'path' => $target_file,
             'name' => $target_name,
-            'original_name' => basename($_FILES["file"]["name"]),
+            'original_name' => basename($_FILES["file"]["name"])
         ]);
     }
 

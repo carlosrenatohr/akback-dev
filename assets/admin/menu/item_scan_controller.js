@@ -25,9 +25,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#matchIscanBtn').show();
                 $('#delScanListBtn').show();
                 $('#iscanlistGrid').show();
-                setTimeout(function() {
+                // setTimeout(function() {
                     updateIscanlistGrid($scope.iscanID);
-                }, 100);
+                // }, 100);
             }
         });
 
@@ -77,9 +77,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_file').jqxFileUpload({
             width: 300,
             uploadUrl: SiteRoot + 'admin/ItemCount/upload',
-            'fileInputName': 'file',
+            fileInputName: 'file',
             multipleFilesUpload: true,
-            autoUpload: true
+            autoUpload: true,
+            accept: 'text/csv'
         });
 
         $scope.csvFileSelected = null;
@@ -91,7 +92,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     $('.jqx-file-upload-buttons-container').css({display: 'none'});
                 }, 100);
             }).on('remove', function(e) {
+            }).on('uploadStart', function(e) {
             }).on('uploadEnd', function(e) {
+                if (e.args.file == undefined)
+                    return;
                 $scope.csvFileSelected = JSON.parse(e.args.response);
                 if ($scope.csvFileSelected.success === true) {
                     $('#fileLoadedTemp').show();
