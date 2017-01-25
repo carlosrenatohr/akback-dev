@@ -288,7 +288,7 @@ class ItemCount extends AK_Controller
         if (!file_exists($target_dir)) {
             mkdir($target_dir);
         }
-        $target_name = time(). '_' . basename($_FILES["file"]["name"]);
+        $target_name = basename($_FILES["file"]["name"]) . '_' . time();
         $target_file = $target_dir . $target_name;
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
