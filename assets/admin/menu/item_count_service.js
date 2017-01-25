@@ -326,41 +326,44 @@
             if (parent != undefined)
                 url = SiteRoot + 'admin/MenuItem/getSubcategoryList/' + parent;
             return {
-                source: {
+                source: new $.jqx.dataAdapter({
                     datatype: "json",
                     datafields: [
                         {name: 'Unique'},
                         {name: 'Name'}
                     ],
-                    url: url
-                },
+                    url: url,
+                    async: false
+                }),
                 valueMember: "Unique",
                 displayMember: "Name",
                 placeHolder: 'Select Subcategory..',
                 multiSelect: true,
                 showArrow: true,
-                height: 30,
+                width: 300,
+                height: 30
                 // autoOpen: true
             };
         };
 
         this.getSupplierFilter = function() {
             return {
-                source: {
+                source: new $.jqx.dataAdapter({
                     datatype: "json",
                     datafields: [
                         {name: 'Unique'},
                         {name: 'Company'}
                     ],
                     url: SiteRoot + 'admin/MenuItem/getSupplierList',
-                    //async: false
-                },
+                    async: false
+                }),
                 valueMember: "Unique",
                 displayMember: "Company",
                 placeHolder: 'Select Supplier..',
                 multiSelect: true,
                 showArrow: true,
-                height: 30,
+                width: 300,
+                height: 30
                 // autoOpen: true
             };
         };

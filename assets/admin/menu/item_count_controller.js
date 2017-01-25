@@ -100,13 +100,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
 
     $('body').on('focus', '#icountTabs .icountField.filters .jqx-combobox-input', function(e) {
         var $this = $(this).parents('.icountField.filters');
-        $this.jqxComboBox({showArrow: true});
+        // $this.jqxComboBox({showArrow: true});
         $this.jqxComboBox('open');
     });
 
     $('body').on('bindingComplete', '#icountTabs .icountField.filters .jqx-combobox-input', function(e) {
-        var $this = $(this).parents('.icountField.filters');
-        $this.jqxComboBox({showArrow: true});
+        // var $this = $(this).parents('.icountField.filters');
+        // $this.jqxComboBox({showArrow: true});
     });
 
     $('#icountTabs #icount_countdate').on('change valueChanged', function() {

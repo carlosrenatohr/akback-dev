@@ -6,7 +6,7 @@
                     <div style="float:left; width:320px;">
                         <jqx-combo-box id="icategoryFilter" class="icountField filters"
                                        jqx-settings="icategoryFilterSettings"
-                                       jqx-width="300"
+                                       jqx-width="300" jqx-show-arrow="true"
                                        jqx-on-change="categoryOnChange($event)"></jqx-combo-box>
                     </div>
                 </div>
@@ -14,8 +14,7 @@
                     <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">SubCategory</div>
                     <div style="float:left; width:320px;">
                         <jqx-combo-box id="isubcategoryFilter" class="icountField filters"
-                                       jqx-settings="isubcategoryFilterSettings"
-                                       jqx-width="300"
+                                       jqx-settings="isubcategoryFilterSettings" jqx-show-arrow="true"
                         ></jqx-combo-box>
                     </div>
                 </div>
@@ -23,8 +22,7 @@
                     <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Supplier</div>
                     <div style="float:left; width:320px;">
                         <jqx-combo-box id="isupplierFilter" class="icountField filters"
-                                       jqx-settings="isupplierFilterSettings"
-                                       jqx-width="300"
+                                       jqx-settings="isupplierFilterSettings" jqx-show-arrow="true"
                         ></jqx-combo-box>
                     </div>
                 </div>
