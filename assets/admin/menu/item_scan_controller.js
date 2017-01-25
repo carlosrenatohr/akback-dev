@@ -25,9 +25,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#matchIscanBtn').show();
                 $('#delScanListBtn').show();
                 $('#iscanlistGrid').show();
-                // setTimeout(function() {
+                setTimeout(function() {
                     updateIscanlistGrid($scope.iscanID);
-                // }, 100);
+                }, 100);
             }
         });
 
@@ -137,6 +137,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').show();
                 $('#matchIscanBtn').hide();
                 $('#delScanListBtn').hide();
+                $('#iscanlistGrid').hide();
             }, 100);
             iscanwind.setTitle('New Item Count Scan');
             iscanwind.open();
@@ -164,6 +165,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').show();
                 $('#matchIscanBtn').hide();
                 $('#delScanListBtn').hide();
+                $('#iscanlistGrid').hide();
             }, 100);
             var btn = $('<button/>', {
                 'id': 'deleteIscanBtn'
@@ -226,8 +228,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $scope.iscanSuccessMsg.apply('open');
                         }
                         $('#iscanlistGrid').show();
-                        updateIscanGrid();
-                        updateIscanlistGrid($scope.iscanID);
+                        setTimeout(function(){
+                            updateIscanGrid();
+                            updateIscanlistGrid($scope.iscanID);
+                        }, 250);
                         if (toClose) {
                             iscanwind.close();
                             // $('#icountTabs').jqxTabs('select', 0);
