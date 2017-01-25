@@ -384,6 +384,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // ($('#iteminventory_giftcard [aria-checked="true"]').length > 0) ?
         //     $('#iteminventory_giftcard [aria-checked="true"]').data('val') :
         //     0;
+        data['Label'] = $('#itemcontrol_labelpos').val();
         data['Group'] =
         ($('#iteminventory_group [aria-checked="true"]').length > 0) ?
             $('#iteminventory_group [aria-checked="true"]').data('val') :

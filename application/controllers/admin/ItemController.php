@@ -13,6 +13,7 @@ class ItemController extends AK_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Item_model', 'item');
     }
 
     public function index() {
@@ -23,6 +24,7 @@ class ItemController extends AK_Controller
         $data['storename'] = $this->displaystore();
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");
         $data['decimalsQuantity'] = (int)$this->session->userdata("DecimalsQuantity");
+        $data['labelPos'] = $this->item->getLabelPosList();
         // Partials Views
         $menu_path = 'backoffice_admin/inventory/';
         $data['inventory_item_subtab_view'] = $menu_path . "item_subtab";

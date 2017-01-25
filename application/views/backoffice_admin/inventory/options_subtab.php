@@ -7,18 +7,6 @@
                 <div style=" float:left; width:120px;">
                     <div id="iteminventory_giftcard"
                          style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
-<!--                        <jqx-radio-button jqx-settings="checkBoxInventory"-->
-<!--                                          jqx-group-name="'item_gift'"-->
-<!--                                          data-val="1"-->
-<!--                                          class="cbxExtraTab">-->
-<!--                            <span class="text-rb">Yes</span>-->
-<!--                        </jqx-radio-button>-->
-<!--                        <jqx-radio-button jqx-settings="checkBoxInventory"-->
-<!--                                          jqx-group-name="'item_gift'"-->
-<!--                                          data-val="0" jqx-checked="true"-->
-<!--                                          class="cbxExtraTab">-->
-<!--                            <span class="text-rb">No</span>-->
-<!--                        </jqx-radio-button>-->
                         <jqx-drop-down-list id="itemcontrol_gcard" class="cbxExtraTab"
                                             jqx-width="100" style="margin-top: 10px;">
                             <option value="0">No</option>
@@ -144,6 +132,20 @@
                         jqx-width="100" jqx-height="25" jqx-min=""
                         data-field="MinimumAge"
                     ></jqx-number-input>
+                </div>
+            </div>
+            <!-- 5TH -->
+            <div style="float:left; padding:2px; width:750px; ">
+                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Label</div>
+                <div id="iteminventory_labelpos"
+                     style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
+                    <jqx-drop-down-list id="itemcontrol_labelpos" class="cbxExtraTab"
+                                        jqx-width="100" style="margin-top: 10px;">
+                        <option value="">None</option>
+                        <?php foreach ($labelPos as $label) { ?>
+                        <option value="<?php echo $label['Unique'];?>"><?php echo $label['Name'];?></option>
+                        <?php } ?>
+                    </jqx-drop-down-list>
                 </div>
             </div>
         </div>

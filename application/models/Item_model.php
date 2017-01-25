@@ -92,6 +92,14 @@ class Item_model extends CI_Model
         return $status;
     }
 
+    public function getLabelPosList() {
+        $this->db->select('Unique, Name');
+        $this->db->from('config_label_pos');
+        $this->db->where('Status', 1);
+        $this->db->order_by("Sort, Name");
+        return $this->db->get()->result_array();
+    }
+
     /**
      * @description Barcode list
      * @param null $id

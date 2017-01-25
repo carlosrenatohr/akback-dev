@@ -406,6 +406,7 @@ class MenuItem extends AK_Controller
         $data['MinimumAge'] = (isset($data['MinimumAge'])) ? (int)$data['MinimumAge'] : null;
         $data['CountDown'] = (isset($data['CountDown'])) ? (int)$data['CountDown'] : null;
         $data['Points'] = (isset($data['Points'])) ? (float)$data['Points'] : null;
+        $data['Label'] = (isset($data['Label']) && !empty($data['Label'])) ? $data['Label'] : null;
 
         return $data;
     }
