@@ -238,6 +238,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             updateIscanGrid();
                             updateIscanlistGrid($scope.iscanID);
                         }, 250);
+                        // Force to close notification
+                        setTimeout(function(){
+                            $scope.iscanSuccessMsg.apply('closeAll');
+                        }, 3000);
                         if (toClose) {
                             iscanwind.close();
                             // $('#icountTabs').jqxTabs('select', 0);
