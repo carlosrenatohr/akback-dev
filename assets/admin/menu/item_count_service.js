@@ -373,7 +373,10 @@
         /**
          * ITEM SCAN GRID
          */
-        this.getIscanTableSettings = function() {
+        this.getIscanTableSettings = function(status) {
+            var nStatus = '';
+            if (status != undefined)
+                nStatus = status;
             return {
                 source: new $.jqx.dataAdapter({
                     dataType: 'json',
@@ -392,7 +395,7 @@
                         {name: 'UpdatedByName', type: 'string'}
                     ],
                     id: 'Unique',
-                    url: SiteRoot + 'admin/ItemCount/load_itemcountscan'
+                    url: SiteRoot + 'admin/ItemCount/load_itemcountscan/' + nStatus
                 }, {async: false}),
                 columns: [
                     {text: 'ID', dataField: 'Unique', width: '8%', filtertype: 'number'},

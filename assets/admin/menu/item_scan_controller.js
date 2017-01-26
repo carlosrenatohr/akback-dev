@@ -45,8 +45,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
         };
 
         function updateIscanGrid() {
-            $('#iscanGrid').jqxGrid({
-                source: itemCountService.getIscanTableSettings().source,
+            $('#iscanGrid1').jqxGrid({
+                source: itemCountService.getIscanTableSettings(1).source,
+                width: "99.7%",
+                autoheight: true,
+                autorowheight: true
+            });
+            $('#iscanGrid2').jqxGrid({
+                source: itemCountService.getIscanTableSettings(1).source,
                 width: "99.7%",
                 autoheight: true,
                 autorowheight: true
@@ -66,7 +72,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#saveIscanBtn').prop('disabled', false);
         });
 
-        $scope.iscanGridSettings = itemCountService.getIscanTableSettings();
+        $scope.iscanGridPendingSettings = itemCountService.getIscanTableSettings(1);
+        $scope.iscanGridCompleteSettings = itemCountService.getIscanTableSettings(2);
         $scope.iscanlistGridSettings = itemCountService.getIscanListTableSettings();
 
         // Notifications settings

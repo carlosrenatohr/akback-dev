@@ -163,8 +163,8 @@ class ItemCount extends AK_Controller
     /**
      * ITEM COUNT SCAN
      */
-    public function load_itemcountscan() {
-        $result = $this->count->itemCountScan();
+    public function load_itemcountscan($status = '') {
+        $result = $this->count->itemCountScan($status);
         echo json_encode($result);
     }
 

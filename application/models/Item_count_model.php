@@ -316,7 +316,7 @@ class Item_count_model extends CI_Model
     /**
      * ITEM COUNT SCAN
      */
-    public function itemCountScan() {
+    public function itemCountScan($status = '') {
         $this->db->select('item_count_scan.*, cl."LocationName",
           array_to_string(array(
             select "ImportFile"
@@ -334,7 +334,11 @@ class Item_count_model extends CI_Model
         $this->db->join('config_location cl', 'cl.Unique = item_count_scan.Location', 'left');
         $this->db->join('config_user cu1', 'cu1.Unique = item_count_scan.CreatedBy', 'left');
         $this->db->join('config_user cu2', 'cu2.Unique = item_count_scan.UpdatedBy', 'left');
-        $this->db->where('item_count_scan.Status!=', 0);
+//        $this->db->where('item_count_scan.Status!=', 0);
+        if (!empty($status))
+            $this->db->where('item_count_scan.Status', $status);
+        else
+            $this->db->where('item_count_scan.Status!=', 0);
         $this->db->order_by('item_count_scan.Created', 'DESC');
         return $this->db->get()->result_array();
     }

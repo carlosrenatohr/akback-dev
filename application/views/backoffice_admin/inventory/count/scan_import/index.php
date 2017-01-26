@@ -40,12 +40,29 @@
 
     <div class="row">
         <div class="col-md-12">
-            <jqx-grid id="iscanGrid"
-                      jqx-settings="iscanGridSettings"
-                      jqx-create="iscanGridSettings"
-                      jqx-on-rowdoubleclick="editScan(e)"
-                      style="padding: 0;"
-            ></jqx-grid>
+            <jqx-tabs>
+                <ul>
+                    <li>Pending</li>
+                    <li>Complete</li>
+                </ul>
+                <div>
+                    <jqx-grid id="iscanGrid1"
+                              jqx-settings="iscanGridPendingSettings"
+                              jqx-create="iscanGridPendingSettings"
+                              jqx-on-rowdoubleclick="editScan(e)"
+                              style="padding: 0;"
+                    ></jqx-grid>
+                </div>
+                <div>
+                    <jqx-grid id="iscanGridComplete"
+                              jqx-settings="iscanGridCompleteSettings"
+                              jqx-create="iscanGridCompleteSettings"
+                              jqx-on-rowdoubleclick="editScan(e)"
+                              style="padding: 0;"
+                    ></jqx-grid>
+                </div>
+            </jqx-tabs>
+
             <jqx-window jqx-on-close="close()" jqx-settings="iscanWindowSettings"
                         jqx-create="iscanWindowSettings" id="itemcountWindow"
                         >
