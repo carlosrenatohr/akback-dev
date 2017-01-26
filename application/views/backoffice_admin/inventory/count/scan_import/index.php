@@ -54,7 +54,7 @@
                     ></jqx-grid>
                 </div>
                 <div>
-                    <jqx-grid id="iscanGridComplete"
+                    <jqx-grid id="iscanGrid2"
                               jqx-settings="iscanGridCompleteSettings"
                               jqx-create="iscanGridCompleteSettings"
                               jqx-on-rowdoubleclick="editScan(e)"

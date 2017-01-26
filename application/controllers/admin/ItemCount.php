@@ -312,7 +312,7 @@ class ItemCount extends AK_Controller
         // Was there an error?
         if ($uploadOk == 1) {
             if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                $msg = "The file ". $target_name. " has been uploaded.";
+                $msg = "The file ". $target_name. " has been uploaded successfully.";
             } else {
                 $msg = "Sorry, there was an error uploading your file.";
                 $uploadOk = 0;

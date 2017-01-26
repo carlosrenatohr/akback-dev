@@ -8,7 +8,7 @@
                         disabled id="delScanListBtn">Delete item</button>
                 <button type="button" id="saveIscanBtn"
                         ng-click="saveScan()" class="btn btn-primary" disabled
-                >Import</button>
+                >Save</button>
                 <button type="button" id="matchIscanBtn" ng-click="matchIscan()"
                         class="btn btn-success" style="overflow:auto;display: none;"
                 >Item Match</button>

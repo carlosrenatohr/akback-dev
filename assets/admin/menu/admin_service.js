@@ -9,10 +9,10 @@
 
     AdminService.$inject = ['$http'];
     function AdminService($http) {
-        this.setNotificationSettings = function (type, container) {
+        this.setNotificationSettings = function (type, container, timeOpened) {
             // if (container == undefined)
             //     container = '#notification_container_inventory';
-            return {
+            var settings = {
                 width: "auto",
                 appendContainer: container,
                 opacity: 0.9,
@@ -21,7 +21,12 @@
                 // autoCloseDelay: 1750,
                 showCloseButton: false,
                 template: (type == 1) ? 'success' : 'error'
+            };
+            if (timeOpened != undefined) {
+                settings.autoCloseDelay = timeOpened;
             }
+
+            return settings;
         };
         /**
          * @description
