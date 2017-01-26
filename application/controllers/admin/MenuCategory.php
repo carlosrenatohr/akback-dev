@@ -18,12 +18,29 @@ class MenuCategory extends AK_Controller
     public function index()
     {
         // Data to send
+        $this->initDefaultSession();
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");
         $data['decimalsQuantity'] = (int)$this->session->userdata("DecimalsQuantity");
+        $data['qitLabelFontSize'] = $this->session->userdata("admin_DefaultQuestionItemLabelFontSize");
+        $data['qitLabelFontColor'] = $this->session->userdata("admin_DefaultQuestionItemLabelFontColor");
+        $data['qitButtonSecondaryColor'] = $this->session->userdata("admin_DefaultQuestionItemButtonSecondaryColor");
+        $data['qitButtonPrimaryColor'] = $this->session->userdata("admin_DefaultQuestionItemButtonPrimaryColor");
+        $data['qLabelFont'] = $this->session->userdata("admin_DefaultQuestionLabelFontSize");
+        $data['qLabelFontColor'] = $this->session->userdata("admin_DefaultQuestionLabelFontColor");
+        $data['qButtonSecondaryColor'] = $this->session->userdata("admin_DefaultQuestionButtonSecondaryColor");
+        $data['qButtonPrimaryColor'] = $this->session->userdata("admin_DefaultQuestionButtonPrimaryColor");
+        $data['catLabelFontSize'] = $this->session->userdata("admin_DefaultCategoryButtonLabelFontSize");
+        $data['catLabelSizeColor'] = $this->session->userdata("admin_DefaultCategoryButtonLabelFontColor");
+        $data['catButtonSecondaryColor'] = $this->session->userdata("admin_DefaultCategoryButtonSecondaryColor");
+        $data['catButtonPrimaryColor'] = $this->session->userdata("admin_DefaultCategoryButtonPrimaryColor");
+        $data['mitLabelFontSizer'] = $this->session->userdata("admin_DefaultItemButtonLabelFontSize");
+        $data['mitLabelSizeColor'] = $this->session->userdata("admin_DefaultItemButtonLabelFontColor");
+        $data['mitButtonSecondaryColor'] = $this->session->userdata("admin_DefaultItemButtonSecondaryColor");
+        $data['mitButtonPrimaryColor'] = $this->session->userdata("admin_DefaultItemButtonPrimaryColor");
         // Partials Views
         $menu_path = 'backoffice_admin/menu_categories/';
         $data['menu_tab_view'] = $menu_path . "menu_tab";
@@ -53,6 +70,30 @@ class MenuCategory extends AK_Controller
         $data['location_path'] = $this->getPicturePath();
         $data['main_content'] = $menu_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);
+    }
+
+    protected function initDefaultSession() {
+        $st = $this->session->userdata("station_number");
+        $this->getSettingLocation('DefaultQuestionItemLabelFontSize', $st);
+        $this->getSettingLocation("DefaultQuestionItemLabelFontColor", $st);
+        $this->getSettingLocation("DefaultQuestionItemButtonSecondaryColor", $st);
+        $this->getSettingLocation("DefaultQuestionItemButtonPrimaryColor", $st);
+        $this->getSettingLocation("DefaultQuestionLabelFontSize", $st);
+        $this->getSettingLocation("DefaultQuestionLabelFontColor", $st);
+        $this->getSettingLocation("DefaultQuestionButtonSecondaryColor", $st);
+        $this->getSettingLocation("DefaultQuestionButtonPrimaryColor", $st);
+        $this->getSettingLocation("DefaultCategoryButtonLabelFontSize", $st);
+        $this->getSettingLocation("DefaultCategoryButtonLabelFontColor", $st);
+        $this->getSettingLocation("DefaultCategoryButtonSecondaryColor", $st);
+        $this->getSettingLocation("DefaultCategoryButtonPrimaryColor", $st);
+        $this->getSettingLocation("DefaultCategoryButtonLabelFontSize", $st);
+        $this->getSettingLocation("DefaultCategoryButtonLabelFontColor", $st);
+        $this->getSettingLocation("DefaultCategoryButtonSecondaryColor", $st);
+        $this->getSettingLocation("DefaultCategoryButtonPrimaryColor", $st);
+        $this->getSettingLocation("DefaultItemButtonLabelFontSize", $st);
+        $this->getSettingLocation("DefaultItemButtonLabelFontColor", $st);
+        $this->getSettingLocation("DefaultItemButtonSecondaryColor", $st);
+        $this->getSettingLocation("DefaultItemButtonPrimaryColor", $st);
     }
 
     /**

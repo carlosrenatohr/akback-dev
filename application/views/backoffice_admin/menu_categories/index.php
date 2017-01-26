@@ -79,4 +79,23 @@
         </div>
     </div>
     <input type="hidden" id="userid" ng-model="userid" />
+    <input type="hidden" value="<?php echo $decimalsPrice;?>" id="mitButtonPrimaryColor"/>
+    <input type="hidden" value="<?php echo $decimalsQuantity;?>" id="decimalsQuantity "/> 
+    <input type="hidden" value="<?php echo $qitLabelFontSize;?>" id="qitLabelFontSize"/>
+    <input type="hidden" value="<?php echo $qitLabelFontColor;?>" id="qitLabelFontColor" />
+    <input type="hidden" value="<?php echo $qitButtonSecondaryColor;?>" id="qitButtonSecondaryColor"/>
+    <input type="hidden" value="<?php echo $qitButtonPrimaryColor;?>" id="qitButtonPrimaryColor"/> 
+    <input type="hidden" value="<?php echo $qLabelFont;?>" id="qLabelFont"/> 
+    <input type="hidden" value="<?php echo $qLabelFontColor;?>" id="qLabelFontColor"/>
+    <input type="hidden" value="<?php echo $qButtonSecondaryColor;?>" id="qButtonSecondaryColor"/> 
+    <input type="hidden" value="<?php echo $qButtonPrimaryColor;?>" id="qButtonPrimaryColor"/>
+    <input type="hidden" value="<?php echo $catLabelFontSize;?>" id="catLabelFontSize"/>
+    <input type="hidden" value="<?php echo $catLabelSizeColor;?>" id="catLabelSizeColor"/>
+    <input type="hidden" value="<?php echo $catButtonSecondaryColor;?>" id="catButtonSecondaryColor"/>
+    <input type="hidden" value="<?php echo $catButtonPrimaryColor;?>" id="catButtonPrimaryColor"/> 
+    <input type="hidden" value="<?php echo $mitLabelFontSizer;?>" id="mitLabelFontSizer"/> 
+    <input type="hidden" value="<?php echo $mitLabelSizeColor;?>" id="mitLabelSizeColor"/> 
+    <input type="hidden" value="<?php echo $mitButtonSecondaryColor;?>" id="mitButtonSecondaryColor"/>
+    <input type="hidden" value="<?php echo $mitButtonPrimaryColor;?>" id="mitButtonPrimaryColor"/>
+    
 </div>
