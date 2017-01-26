@@ -258,6 +258,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#savemitcemOneCategoryBtn').prop('disabled', false);
     });
 
+    $('body').on('select change', '#mitclfontSize', function(e) {
+        $('#saveItemOneCategoryBtn').prop('disabled', false);
+        $('#savemitcemOneCategoryBtn').prop('disabled', false);
+    });
+
     $scope.mitcbPrimaryColor = null;
     $scope.mitcbSecondaryColor = null;
     $scope.mitclfontColor = null;
@@ -347,7 +352,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             categNameWind.close();
         } else if (option == 2) {
         } else {
-            if ($('#saveItemOneCategoryBtn').is(':disabled')) {
+            if ($('#savemitcemOneCategoryBtn').is(':disabled')) {
                 categNameWind.close();
             }
             else {

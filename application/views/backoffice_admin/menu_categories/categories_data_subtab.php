@@ -18,6 +18,9 @@
                                     jqx-on-select="">
                 </jqx-drop-down-list>
             </div>
+            <div style="float:left;">
+                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+            </div>
         </div>
 
         <div style="float:left; padding:2px; width:450px;">
