@@ -94,12 +94,12 @@
 
     <input type="hidden" value="<?php echo $catButtonPrimaryColor;?>" id="catButtonPrimaryColorDef"/>
     <input type="hidden" value="<?php echo $catButtonSecondaryColor;?>" id="catButtonSecondaryColorDef"/>
-    <input type="hidden" value="<?php echo $catLabelSizeColor;?>" id="catLabelSizeColorDef"/>
+    <input type="hidden" value="<?php echo $catLabelFontColor;?>" id="catLabelFontColorDef"/>
     <input type="hidden" value="<?php echo $catLabelFontSize;?>" id="catLabelFontSizeDef"/>
 
     <input type="hidden" value="<?php echo $mitButtonPrimaryColor;?>" id="mitButtonPrimaryColorDef"/>
     <input type="hidden" value="<?php echo $mitButtonSecondaryColor;?>" id="mitButtonSecondaryColorDef"/>
-    <input type="hidden" value="<?php echo $mitLabelSizeColor;?>" id="mitLabelSizeColorDef"/>
+    <input type="hidden" value="<?php echo $mitLabelFontColor;?>" id="mitLabelFontColorDef"/>
     <input type="hidden" value="<?php echo $mitLabelFontSize;?>" id="mitLabelFontSizeDef"/>
 
 </div>

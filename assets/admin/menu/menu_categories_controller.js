@@ -531,7 +531,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $scope.uploader.flow.files = [];
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
-        $('#lfontSize').val('12px');
+        resetCategoryWindows();
         setTimeout(function() {
             $('#add_CategoryName').focus();
         }, 100);
@@ -551,13 +551,12 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_CategoryRow').val(values['Row']);
         $('#add_CategoryColumn').val(values['Column']);
         $('#add_Sort').val(values['Sort']);
-        $('#lfontSize').val(values['LabelFontSize']);
         // Primary Color
         var tempColor;
         if (values['ButtonPrimaryColor'])
             tempColor = values['ButtonPrimaryColor'];
         else
-            tempColor = '000000';
+            tempColor = $('#catButtonPrimaryColorDef').val();
         $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
         if ($('#bSecondaryColor').jqxColorPicker('getColor') == undefined)
             $scope.bPrimaryColor = tempColor;
@@ -567,7 +566,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         if (values['ButtonSecondaryColor'])
             tempColor = values['ButtonSecondaryColor'];
         else
-            tempColor = '000000';
+            tempColor = $('#catButtonSecondaryColorDef').val();
         $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
         if ($('#bSecondaryColor').jqxColorPicker('getColor')  == undefined)
             $scope.bSecondaryColor = tempColor;
@@ -577,13 +576,16 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         if (values['LabelFontColor'])
             tempColor = values['LabelFontColor'];
         else
-            tempColor = '000000';
+            tempColor = $('#catLabelFontColorDef').val();
         $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
         $('#lfontColor').jqxColorPicker('setColor', tempColor);
         if ($('#lfontColor').jqxColorPicker('getColor')  == undefined)
             $scope.lfontColor = tempColor;
         else
             $('#lfontColor').jqxColorPicker('setColor', '#' + tempColor);
+        //-- Font Size
+        var lfs = (values['LabelFontSize']) ? values['LabelFontSize'] : $('#catLabelFontSizeDef').val();
+        $('#lfontSize').val(lfs);
         //
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];
@@ -781,13 +783,16 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         //
-        $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $('#bPrimaryColor').jqxColorPicker('setColor', '000000');
-        $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $('#bSecondaryColor').jqxColorPicker('setColor', '000000');
-        $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $('#lfontColor').jqxColorPicker('setColor', '000000');
-        $('#lfontSize').val('12px');
+        $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#catButtonPrimaryColorDef').val() })));
+        $scope.bPrimaryColor = '#' + $('#catButtonPrimaryColorDef').val();
+        $('#bPrimaryColor').jqxColorPicker('setColor', '#' + $('#catButtonPrimaryColorDef').val());
+        $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#catButtonSecondaryColorDef').val() })));
+        $scope.bSecondaryColor = '#' + $('#catButtonSecondaryColorDef').val();
+        $('#bSecondaryColor').jqxColorPicker('setColor', '#' + $('#catButtonSecondaryColorDef').val());
+        $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#catLabelFontColorDef').val() })));
+        $scope.lfontColor = '#' + $('#catLabelFontColorDef').val();
+        $('#lfontColor').jqxColorPicker('setColor', '#' + $('#catLabelFontColorDef').val());
+        $('#lfontSize').val($('#catLabelFontSizeDef').val());
         //
         $('#category_subtabs').jqxTabs('select', 0);
         $('#saveCategoryBtn').prop('disabled', true);
