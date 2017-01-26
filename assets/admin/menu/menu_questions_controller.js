@@ -70,9 +70,6 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             })
         });
     };
-
-    $('#questionMainTable').on('bindingcomplete', function(){});
-
     // -- Question Item table settings
     $scope.questionItemTableSettings = questionService.getQuestionChoicesTableSettings();
     // -- Question tabs settings
@@ -151,7 +148,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (row['ButtonPrimaryColor'])
             bpc = row['ButtonPrimaryColor'];
         else
-            bpc = '000000';
+            bpc = $('#qButtonPrimaryColorDef').val();
         $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
         if ($('#qbPrimaryColor').jqxColorPicker('getColor') == undefined)
             $scope.qbPrimaryColor = bpc;
@@ -161,7 +158,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (row['ButtonSecondaryColor'])
             bpc = row['ButtonSecondaryColor'];
         else
-            bpc = '000000';
+            bpc = $('#qButtonSecondaryColorDef').val();
         $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
         if ($('#qbSecondaryColor').jqxColorPicker('getColor') == undefined)
             $scope.qbSecondaryColor = bpc;
@@ -171,15 +168,16 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (row['LabelFontColor'])
             bpc = row['LabelFontColor'];
         else
-            bpc = '000000';
+            bpc = $('#qLabelFontColorDef').val();
         $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
         if ($('#qlfontColor').jqxColorPicker('getColor') == undefined)
             $scope.qlfontColor = bpc;
         else
             $('#qlfontColor').jqxColorPicker('setColor', '#' + bpc);
         // Label Font Size
-        $('#qlfontSize').val(row['LabelFontSize']);
-        // $('#deleteQuestionBtn').show();
+        var lfs = (row['LabelFontSize']) ? row['LabelFontSize'] : $('#qLabelFontSizeDef').val();
+        $('#qlfontSize').val(lfs);
+        // $('#deleteQuestionBtn').show();Size
         var btn = $('<button/>', {
             'id': 'deleteQuestionBtn'
         }).addClass('icon-trash user-del-btn').css('left', 0);
@@ -203,13 +201,16 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         //
         $('#questionstabsWin').jqxTabs({selectedItem: 0});
         $('#questionWindowForm .required-field').css({"border-color": "#ccc"});
-        $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $('#qbPrimaryColor').jqxColorPicker('setColor', '#000000');
-        $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $('#qbSecondaryColor').jqxColorPicker('setColor', '#000000');
-        $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $('#qlfontColor').jqxColorPicker('setColor', '#000000');
-        $('#qlfontSize').val('12px');
+        $scope.ddb_qbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex:$('#qButtonPrimaryColorDef').val() })));
+        $scope.qbPrimaryColor = $('#qButtonPrimaryColorDef').val();
+        $('#qbPrimaryColor').jqxColorPicker('setColor', '#' + $('#qButtonPrimaryColorDef').val());
+        $scope.ddb_qbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qButtonSecondaryColorDef').val() })));
+        $scope.qbSecondaryColor = $('#qButtonSecondaryColorDef').val();
+        $('#qbSecondaryColor').jqxColorPicker('setColor', '#' + $('#qButtonSecondaryColorDef').val());
+        $scope.ddb_qlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qLabelFontColorDef').val() })));
+        $scope.qlfontColor = $('#qLabelFontColorDef').val();
+        $('#qlfontColor').jqxColorPicker('setColor', '#' + $('#qLabelFontColorDef').val());
+        $('#qlfontSize').val($('#qLabelFontSizeDef').val());
         // $('#deleteQuestionBtn').hide();
         $('#saveQuestionBtn').prop('disabled', true);
     };
@@ -390,16 +391,18 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_sort').jqxNumberInput('val', 1);
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Label').val('');
-        $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $scope.qibPrimaryColor = '#000000';
-        $('#qibPrimaryColor').jqxColorPicker('setColor', '#000000');
-        $scope.ddb_qibSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $scope.qibSecondaryColor = '#000000';
-        $('#qibSecondaryColor').jqxColorPicker('setColor', '#000000');
-        $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
-        $scope.qilfontColor = '#000000';
-        $('#qilfontColor').jqxColorPicker('setColor', '#000000');
-        $('#qilfontSize').val('12px');
+        $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonPrimaryColorDef').val() })));
+        $scope.qibPrimaryColor = '#' + $('#qitButtonPrimaryColorDef').val();
+        $('#qibPrimaryColor').jqxColorPicker('setColor', '#' + $('#qitButtonPrimaryColorDef').val());
+
+        $scope.ddb_qibSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonSecondaryColorDef').val() })));
+        $scope.qibSecondaryColor = '#' + $('#qitButtonSecondaryColorDef').val();
+        $('#qibSecondaryColor').jqxColorPicker('setColor', '#' + $('#qitButtonSecondaryColorDef').val());
+
+        $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitLabelFontColorDef').val() })));
+        $scope.qilfontColor = '#' + $('#qitLabelFontColorDef').val();
+        $('#qilfontColor').jqxColorPicker('setColor', '#' + $('#qitLabelFontColorDef').val());
+        $('#qilfontSize').val($('#qitLabelFontSizeDef').val());
         //
         $('#questionschoicestabsWin').jqxTabs('select', 0);
         $('#mainQItemButtons').show();
@@ -436,7 +439,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (row['ButtonPrimaryColor'])
             bpc = row['ButtonPrimaryColor'];
         else
-            bpc = '000000';
+            bpc = $('#qitButtonPrimaryColorDef').val();
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
         if ($('#qibPrimaryColor').jqxColorPicker('getColor') == undefined)
             $scope.qibPrimaryColor = bpc;
@@ -446,7 +449,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (row['ButtonSecondaryColor'])
             bpc = row['ButtonSecondaryColor'];
         else
-            bpc = '000000';
+            bpc = $('#qitButtonSecondaryColorDef').val();
         $scope.ddb_qibSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
         if ($('#qibSecondaryColor').jqxColorPicker('getColor') == undefined)
             $scope.qibSecondaryColor = bpc;
@@ -456,14 +459,15 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (row['LabelFontColor'])
             bpc = row['LabelFontColor'];
         else
-            bpc = '000000';
+            bpc = $('#qitLabelFontColorDef').val();
         $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
         if ($('#qilfontColor').jqxColorPicker('getColor') == undefined)
             $scope.qilfontColor = bpc;
         else
             $('#qilfontColor').jqxColorPicker('setColor', '#' + bpc);
-
-        $('#qilfontSize').val(row['LabelFontSize']);
+        //-- Label Font Size
+        var lfs = (row['LabelFontSize']) ? row['LabelFontSize'] : $('#qitLabelFontSizeDef').val();
+        $('#qilfontSize').val(lfs);
         // $('#deleteQuestionItemBtnOnQuestionTab').show();
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
         //
