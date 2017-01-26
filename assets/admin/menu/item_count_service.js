@@ -215,6 +215,7 @@
                         {name: 'Station', type: 'string'},
                         {name: 'Comment', type: 'string'},
                         {name: 'Status', type: 'string'},
+                        {name: 'StatusCount', type: 'string'},
                         {name: 'Created', type: 'string'},
                         {name: 'CreatedBy', type: 'string'},
                         {name: 'Updated', type: 'string'},
@@ -276,6 +277,7 @@
                         aggregates: [{ 'Total': aggregates }],
                         aggregatesrenderer: aggregatesrender
                     },
+                    {dataField: 'StatusCount', hidden: true},
                     {dataField: 'Station', hidden: true},
                     {dataField: 'Created', hidden: true},
                     {dataField: 'Updated', hidden: true},

@@ -196,16 +196,37 @@ class Item_count_model extends CI_Model
         $data['UpdatedBy'] = $this->session->userdata('userid');
         $this->db->where('Unique', $id);
         $status = $this->db->update('item_count_list', $data);
-        // -- Update on item_stock_line -- //
+        // -- Insert/Update on item_stock_line -- //
         $islData = [];
-        $islData['Updated'] = date('Y-m-d H:i:s');
-        $islData['UpdatedBy'] = $this->session->userdata('userid');
-        if (isset($data['Difference']))
-            $islData['Quantity'] = $data['Difference'];
-        if (isset($data['Comment']))
-            $islData['Comment'] = $data['Comment'];
-        $this->db->where('CountUnique', $id);
-        $this->db->update('item_stock_line', $islData);
+        $isISL = $this->db->where('CountUnique', $id)->get('item_stock_line')->row_array();
+        if (count($isISL) > 0) {
+            $islData['Updated'] = date('Y-m-d H:i:s');
+            $islData['UpdatedBy'] = $this->session->userdata('userid');
+            if (isset($data['Difference']))
+                $islData['Quantity'] = $data['Difference'];
+            if (isset($data['Comment']))
+                $islData['Comment'] = $data['Comment'];
+            $this->db->where('CountUnique', $id);
+            $this->db->update('item_stock_line', $islData);
+        } else {
+            $select = "select ICL.\"ItemUnique\",IC.\"Location\" as \"LocationUnique\", 1 as \"Type\", ICL.\"Difference\" as \"Quantity\",
+            ICL.\"CreatedBy\" as \"CreatedBy\", now() as \"Created\", IC.\"CountDate\" as \"TransactionDate\",
+            ICL.\"Comment\" as \"Comment\", 
+            IC.\"CountDate\"::date as \"trans_date\", 
+            1 as \"status\", ICL.\"Unique\" as \"CountUnique\",
+            (ICL.\"Cost\" + ICL.\"CostExtra\" + ICL.\"CostFreight\" + ICL.\"CostDuty\") as \"unit_cost\",
+            ICL.\"Cost\" as \"Cost\", ICL.\"CostExtra\" as \"CostExtra\",
+            ICL.\"CostFreight\" as \"CostFreight\", ICL.\"CostDuty\" as \"CostDuty\",
+            ICL.\"CountUnique\" as \"TransID\"
+             from item_count IC 
+            join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\" 
+            where ICL.\"Unique\" = {$id}";
+            $sql = "(". $select . ")";
+            $insert = "insert into item_stock_line(\"ItemUnique\",\"LocationUnique\",\"Type\",\"Quantity\",\"CreatedBy\",     
+                    \"Created\",\"TransactionDate\",\"Comment\",\"trans_date\", \"status\", \"CountUnique\",
+                    \"unit_cost\", \"Cost\", \"CostExtra\", \"CostFreight\",\"CostDuty\",\"TransID\") " . $sql;
+            $this->db->query($insert);
+        }
 
         return $status;
     }

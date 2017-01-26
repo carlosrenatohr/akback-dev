@@ -129,16 +129,20 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var newDiff = parseFloat(value) - (current);
             var nCost = parseFloat(value) * parseFloat(row.TotalCost);// parseFloat(row.Cost);
             var aCost = newDiff * parseFloat(row.TotalCost);
+            var dataToSend = {
+                CountStock: value,
+                Difference: newDiff, // Quantity on item_stock_line
+                NewCost: nCost,
+                AdjustedCost: aCost
+            };
+            if (oldvalue == null && row.StatusCount == 2) {
+                dataToSend['Status'] = row.StatusCount;
+            }
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
                 dataType: 'json',
-                data: {
-                    CountStock: value,
-                    Difference: newDiff, // Quantity on item_stock_line
-                    NewCost: nCost,
-                    AdjustedCost: aCost
-                },
+                data: dataToSend,
                 success: function(response) {
                     $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
                     $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "NewCost", nCost);
