@@ -179,6 +179,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //
         // $('#iteminventory_giftcard .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#itemcontrol_gcard').val(0);
+        $('#itemcontrol_labelpos').val('');
         $('#iteminventory_group .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#iteminventory_promptprice .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#iteminventory_promptdescription .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
@@ -205,7 +206,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.openInventoryWind = function() {
         $scope.createOrEditItemInventory = 'create';
         $scope.itemInventoryID = null;
-        $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID)
+        $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings($scope.itemInventoryID);
         $scope.stockInventoryGrid = inventoryExtraService.getStockGridData($scope.itemInventoryID, 0);
         $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData($scope.itemInventoryID);
         //
@@ -267,6 +268,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         gc = $('#iteminventory_EBT .cbxExtraTab[data-val=' +
             ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
         gc.jqxRadioButton({ checked:true });
+        $('#itemcontrol_labelpos').val(row.ItemLabelVal);
         // Color Styles
         // var bpc;
         // if (row['ButtonPrimaryColor'])

@@ -13,6 +13,7 @@ class MenuCategory extends AK_Controller
     {
         parent::__construct();
         $this->load->model('Menu_model', 'menu');
+        $this->load->model('Item_model', 'item');
     }
 
     public function index()
@@ -23,6 +24,7 @@ class MenuCategory extends AK_Controller
         $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
+        $data['labelPos'] = $this->item->getLabelPosList();
         // Partials Views
         $menu_path = 'backoffice_admin/menu_categories/';
         $data['menu_tab_view'] = $menu_path . "menu_tab";

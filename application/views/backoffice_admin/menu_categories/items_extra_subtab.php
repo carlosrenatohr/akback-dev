@@ -124,9 +124,10 @@
                     ></jqx-number-input>
                 </div>
             </div>
+
             <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Countdown</div>
-                <div style=" float:left; width:300px;">
+                <div style="float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Countdown</div>
+                <div style="float:left; width:120px;">
                     <jqx-number-input
                         style='margin-top: 3px;' class="menuitem_extraControls"
                         id="itemcontrol_countdown" name="itemcontrol_countdown"
@@ -134,6 +135,20 @@
                     ></jqx-number-input>
                 </div>
             </div>
+
+            <div style="float:left; padding:2px; width:650px; ">
+                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Label</div>
+                <div id="iteminventory_labelpos">
+                    <jqx-drop-down-list id="itemcontrol_itemlabelpos" class="menuitem_extraControls"
+                                        jqx-width="100" style="margin-top: 10px;">
+                        <option value="">None</option>
+                        <?php foreach ($labelPos as $label) { ?>
+                            <option value="<?php echo $label['Unique'];?>"><?php echo $label['Name'];?></option>
+                        <?php } ?>
+                    </jqx-drop-down-list>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -686,6 +686,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'CountDown': parseInt($('#itemcontrol_countdown').val()),
                     'Points': parseFloat($('#itemcontrol_points').val()),
                     'Description': $('#itemcontrol_description').val(),
+                    'Label': $('#itemcontrol_itemlabelpos').val()
                 },
                 'pictures': imgs.join(','),
                 'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : $('#mitButtonPrimaryColorDef').val()),
@@ -835,6 +836,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $('body').on('select', '#itemcontrol_gcard', function(){
         $('#saveItemGridBtn').prop('disabled', false);
     });
+    $('body').on('select', '#itemcontrol_itemlabelpos', function(){
+        $('#saveItemGridBtn').prop('disabled', false);
+    });
     $('body').on('select', '#mitlfontSize', function(){
         $('#saveItemGridBtn').prop('disabled', false);
     });
@@ -956,6 +960,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         $('#itemcontrol_minimumage').val(data.MinimumAge != null ? data.MinimumAge : 0);
                         $('#itemcontrol_points').val(data.Points != null ? data.Points : 0);
                         $('#itemcontrol_countdown').val(data.CountDown != null ? data.CountDown : 0);
+                        $('#itemcontrol_itemlabelpos').val(data.ItemLabelVal != null ? data.ItemLabelVal : '');
                         // New fields on main tab for Item table
                         var description = (data.Description != null) ? data.Description : '';
                         $('#itemcontrol_description').val($.trim(description));
@@ -1002,9 +1007,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             $('#mainPrinterSelect').jqxDropDownList({
                                 selectedIndex: (printer) ? printer.index : -1
                             });
-                        } else {
+                        } else
                             mainPrinterSet();
-                        }
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         $('#editItem_ItemSelected').jqxComboBox({disabled: true});

@@ -134,13 +134,13 @@
                         <?php $this->load->view($inventory_options_subtab_view); ?>
                     </div>
                     <!-- Picture subtab -->
-<!--                    <div class="">-->
-<!--                        --><?php //$this->load->view($inventory_picture_subtab_view); ?>
-<!--                    </div>-->
-                    <!-- Style subtab -->
                     <div class="">
-                        <?php $this->load->view($inventory_style_subtab_view); ?>
+                        <?php $this->load->view($inventory_picture_subtab_view); ?>
                     </div>
+                    <!-- Style subtab -->
+<!--                    <div class="">-->
+<!--                        --><?php //$this->load->view($inventory_style_subtab_view); ?>
+<!--                    </div>-->
                 </jqx-tabs>
                 <?php $this->load->view($inventory_btns); ?>
             </div>
