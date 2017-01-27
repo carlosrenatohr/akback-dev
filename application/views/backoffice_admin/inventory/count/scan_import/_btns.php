@@ -55,8 +55,9 @@
     <div class="row">
         <div class="form-group">
             <div class="col-sm-12">
-                <p>Ready to find into items to complete information?</p>
-                <button type="button" ng-click="matchIscan(0)" class="btn btn-primary">Find</button>
+                <p>This operation will find matching items based on barcode in import file. <br>
+                After update, you will see any matching items in the Item Column.</p>
+                <button type="button" ng-click="matchIscan(0)" class="btn btn-primary">Match</button>
                 <button type="button" ng-click="matchIscan(1)" class="btn btn-info">Cancel</button>
             </div>
         </div>
