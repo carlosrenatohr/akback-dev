@@ -354,7 +354,7 @@ class Item_count_model extends CI_Model
         $this->db->join('config_user cu2', 'cu2.Unique = item_count_scan_list.UpdatedBy', 'left');
         $this->db->where('item_count_scan_list.Status!=', 0);
         $this->db->where('item_count_scan_list.CountScanUnique', $id);
-        $this->db->order_by('item_count_scan_list.Created', 'DESC');
+        $this->db->order_by('item_count_scan_list.Unique, item_count_scan_list.Created', 'DESC');
         return $this->db->get()->result_array();
     }
 
