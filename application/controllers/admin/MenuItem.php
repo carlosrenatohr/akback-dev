@@ -145,6 +145,7 @@ class MenuItem extends AK_Controller
         else {
             // ITEM fields to save
             if (isset($request['extraValues'])) {
+                $request['extraValues']['Label'] = ($request['extraValues']['Label'] != '' ? $request['extraValues']['Label'] : null);
                 $request['extraValues']['Description'] = trim($request['extraValues']['Description']);
                 $extraValues = $request['extraValues'];
                 unset($request['extraValues']);
