@@ -24,10 +24,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#saveIscanBtn').hide();
                 $('#matchIscanBtn').show();
                 $('#delScanListBtn').show();
-                $('#iscanlistGrid').show();
                 setTimeout(function() {
+                    $('#iscanlistGrid').show();
                     updateIscanlistGrid($scope.iscanID);
-                }, 100);
+                }, 200);
             }
         });
 
@@ -214,9 +214,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $scope.iscanID = response.id;
                             $scope.createOrEditIscan = 'edit';
                             // updateIscanlistGrid(response.id);
-                            $('#saveIscanBtn').hide();
-                            $('#matchIscanBtn').show();
-                            $('#delScanListBtn').show();
                             //
                             var btn = $('<button/>', {
                                 'id': 'deleteIscanBtn'
@@ -233,9 +230,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         }
                         $('#iscanTabs').jqxTabs('enableAt', 1);
                         $('#iscanTabs').jqxTabs('select', 1);
-                        $('#iscanlistGrid').show();
-                        setTimeout(function(){
+                        $('#saveIscanBtn').hide();
+                        $('#matchIscanBtn').show();
+                        $('#delScanListBtn').show();
+                        setTimeout(function() {
                             updateIscanGrid();
+                            $('#iscanlistGrid').show();
                             updateIscanlistGrid($scope.iscanID);
                         }, 250);
                         // Force to close notification
@@ -333,8 +333,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == 'success') {
-                            updateIscanGrid();
-                            updateIscanlistGrid($scope.iscanID);
+                            setTimeout(function(){
+                                updateIscanGrid();
+                                $('#iscanlistGrid').show();
+                                updateIscanlistGrid($scope.iscanID);
+                            }, 250);
                             // $('#matchIscanBtn').hide();
                             // $('#iscanGrid').jqxGrid('refresh');
                             // $('#iscanGrid').jqxGrid('render');
@@ -378,7 +381,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
                     url: SiteRoot + 'admin/ItemCount/updateItemScanList/' + row.Unique,
                     dataType: 'json',
                     data: data,
-                    success: function (response) {}
+                    success: function (response) {
+                        setTimeout(function() {
+                            $('#iscanlistGrid').show();
+                            updateIscanlistGrid($scope.iscanID);
+                        }, 200);
+                    }
                 });
             // }
         })
