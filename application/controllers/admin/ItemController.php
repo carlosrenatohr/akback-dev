@@ -73,6 +73,7 @@ class ItemController extends AK_Controller
         $data['count_subtab'] = $count_path . 'count_subtab';
         $data['list_subtab'] = $count_path . 'count_list_subtab';
         $data['filters_subtab'] = $count_path . 'filters_subtab';
+        $data['applyscan_subtab'] = $count_path . 'apply_scan_subtab';
         $data['btns_template'] = $count_path . '_btns';
         //
         $data['main_content'] = $count_path . "index";

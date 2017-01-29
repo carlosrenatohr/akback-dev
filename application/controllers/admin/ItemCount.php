@@ -78,6 +78,47 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    public function load_itemscanInCount($id = null) {
+        echo json_encode($this->count->getScanListInCount($id));
+    }
+
+    public function addScanFileToCurrentCount($countID, $scanSelected = null) {
+        if (!is_null($scanSelected)) {
+            $status = $this->count->addToCountSelectedScan($countID, $scanSelected);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Count Updated on Selected Items'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function closeScanFileToImport($scanSelected = null) {
+        if (!is_null($scanSelected)) {
+            $status = $this->count->closeScanFileToImport($scanSelected);
+            if ($status) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Scan File Selected marked as completed'
+                ];
+            } else
+                $response = $this->dbErrorMsg();
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    /**
+     * ITEM COUNT LIST ACTIONS
+     * @param $countID
+     * @param $location
+     */
     public function create_countlistById($countID, $location) {
         if (isset($countID) && isset($location)) {
             $status = $this->count->insert_count_list($countID, $location);
@@ -164,7 +205,11 @@ class ItemCount extends AK_Controller
      * ITEM COUNT SCAN
      */
     public function load_itemcountscan($status = '') {
-        $result = $this->count->itemCountScan($status);
+        $orderBy = null;
+        if (isset($_GET['orderBy'])) {
+            $orderBy = $_GET['orderBy'] . ' ' . $_GET['orderType'];
+        }
+        $result = $this->count->itemCountScan($status, $orderBy);
         echo json_encode($result);
     }
 

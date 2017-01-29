@@ -370,6 +370,92 @@
             };
         };
 
+        this.getScanFileSettings = function() {
+            return {
+                source: new $.jqx.dataAdapter({
+                    datatype: "json",
+                    datafields: [
+                        {name: 'Unique'},
+                        {name: 'Comment'}
+                    ],
+                    url: SiteRoot + 'admin/ItemCount/load_itemcountscan/1/?orderBy=Unique&orderType=DESC',
+                    async: false
+                }),
+                valueMember: "Unique",
+                displayMember: "Comment",
+                placeHolder: 'Select Scan File..',
+                showArrow: true,
+                width: 400,
+                height: 30
+                // autoOpen: true
+            };
+        };
+
+        this.getIscanlistInCount = function(id) {
+            var url = '';
+            if (id != undefined)
+                url = SiteRoot + 'admin/ItemCount/load_itemscanInCount/' + id;
+            return {
+                source: new $.jqx.dataAdapter({
+                    dataType: 'json',
+                    dataFields: [
+                        {name: 'Unique', type: 'int'},
+                        {name: 'CountScanUnique', type: 'string'},
+                        {name: 'Barcode', type: 'string'},
+                        {name: 'Quantity', type: 'number'},
+                        {name: 'Comment', type: 'string'},
+                        {name: 'ItemUnique', type: 'string'},
+                        {name: 'Item', type: 'string'},
+                        {name: 'Part', type: 'string'},
+                        {name: 'Description', type: 'string'},
+                        {name: 'CountUnique', type: 'string'},
+                        {name: 'Status', type: 'string'},
+                        {name: 'ImportFile', type: 'string'},
+                        {name: 'Created', type: 'date'},
+                        {name: 'Updated', type: 'date'}
+                    ],
+                    id: 'Unique',
+                    url: url
+                }, {async: false}),
+                columns: [
+                    {text: 'ID', dataField: 'Unique', width: '10%', editable:false,
+                        filtertype: 'number'},
+                    {dataField: 'CountScanUnique', hidden: true},
+                    {text: 'Barcode', dataField: 'Barcode', width: '15%', editable:false,
+                        filtertype: 'input'},
+                    {text: 'Quantity', dataField: 'Quantity', width: '15%', editable:false,
+                        filtertype: 'number', validation: function (cell, value) {
+                        if ( isNaN(value) || value < 0 ) {
+                            return { result: false, message: "Quantity must be a number." };
+                        }
+                        return true;
+                    }},
+                    {text: 'Item', dataField: 'Item', width: '15%', editable: false,
+                        filtertype: 'input'},
+                    {text: 'Part', dataField: 'Part', width: '15%', editable: false,
+                        filtertype: 'input'},
+                    {text: 'Description', dataField: 'Description', width: '15%',editable: false,
+                        filtertype: 'input'},
+                    {text: 'Comment', dataField: 'Comment', width: '15%',
+                        filtertype: 'input'},
+                    {dataField: 'Status', hidden: true},
+                    {dataField: 'ImportFile', hidden: true}
+                ],
+                width: "99.7%",
+                theme: 'arctic',
+                filterable: true,
+                showfilterrow: true,
+                sortable: true,
+                pageable: true,
+                editable: true,
+                pageSize: pager.pageSize,
+                pagesizeoptions: pager.pagesizeoptions,
+                altRows: true,
+                autoheight: true,
+                autorowheight: true
+            };
+        };
+
         /**
          * ITEM SCAN GRID
          */

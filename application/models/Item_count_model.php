@@ -316,7 +316,7 @@ class Item_count_model extends CI_Model
     /**
      * ITEM COUNT SCAN
      */
-    public function itemCountScan($status = '') {
+    public function itemCountScan($status = '', $orderby = null) {
         $this->db->select('item_count_scan.*, cl."LocationName",
           array_to_string(array(
             select "ImportFile"
@@ -339,7 +339,11 @@ class Item_count_model extends CI_Model
             $this->db->where('item_count_scan.Status', $status);
         else
             $this->db->where('item_count_scan.Status!=', 0);
-        $this->db->order_by('item_count_scan.Created', 'DESC');
+        if (!is_null($orderby)) {
+            $this->db->order_by($orderby);
+        } else {
+            $this->db->order_by('item_count_scan.Created', 'DESC');
+        }
         return $this->db->get()->result_array();
     }
 
@@ -356,6 +360,33 @@ class Item_count_model extends CI_Model
         $this->db->where('item_count_scan_list.CountScanUnique', $id);
         $this->db->order_by('item_count_scan_list.Unique, item_count_scan_list.Created', 'DESC');
         return $this->db->get()->result_array();
+    }
+
+    public function getScanListInCount($scanUnique) {
+        $this->db->where('CountScanUnique', $scanUnique);
+        $this->db->where('Status', 1);
+        $this->db->where('ItemUnique!=', null);
+        $this->db->order_by('Description ASC');
+        return $this->db->get('item_count_scan_list')->result_array();
+    }
+
+    public function addToCountSelectedScan($countID, $scanSelected = null) {
+        $current = $this->session->userdata('userid');
+        $sql = 'update item_count_list
+        set "CountStock" = a."Quantity" + "CountStock", "Updated" = now(), "UpdatedBy" ='. $current . ' 
+        from
+          (select "ItemUnique", sum("Quantity") as "Quantity"
+           from item_count_scan_list
+           where "Status" = 1 and "CountScanUnique" = ' . $scanSelected . '
+           group by "ItemUnique") a
+        where item_count_list."ItemUnique" = a."ItemUnique"
+        and item_count_list."CountUnique" = ' . $countID;
+
+        return $this->db->query($sql);
+    }
+
+    public function closeScanFileToImport($scanSelected) {
+        return $this->db->update('item_count_scan', ['Status' => 2], ['Unique' => $scanSelected]);
     }
 
     public function createScan($data) {

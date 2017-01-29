@@ -4,6 +4,9 @@
             <button type="button" ng-click="closeIcount()"
                     class="btn btn-warning"
             >Close</button>
+            <button type="button" id="addToCountBtn" class="btn btn-info" disabled
+                    ng-click="addScanToCount()" style="display: none;"
+            >Add To Count</button>
             <button type="button" id="saveIcountBtn"
                     ng-click="saveIcount()" class="btn btn-primary" disabled
             >Build Count List</button>

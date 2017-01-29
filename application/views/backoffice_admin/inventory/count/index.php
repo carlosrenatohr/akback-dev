@@ -77,6 +77,7 @@
                         <ul>
                             <li>Count</li>
                             <li>Filters</li>
+                            <li>Apply Scans</li>
                             <li>Count List</li>
                         </ul>
                         <!-- Count subtab -->
@@ -86,6 +87,10 @@
                         <!-- Count Filters subtab -->
                         <div class="">
                             <?php $this->load->view($filters_subtab); ?>
+                        </div>
+                        <!-- Apply Scans subtab -->
+                        <div class="">
+                            <?php $this->load->view($applyscan_subtab); ?>
                         </div>
                         <!-- Count List subtab -->
                         <div class="">
