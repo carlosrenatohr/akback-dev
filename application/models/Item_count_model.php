@@ -327,6 +327,7 @@ class Item_count_model extends CI_Model
             ), \',\'
           ) as "FilesImported",
           cu1."UserName" as "CreatedByName", cu2."UserName" as "UpdatedByName",
+          to_char(item_count_scan."Created"::timestamp, \'MM-DD-YYYY HH12:MI AM\') as "_nCreated",
           to_char(date_trunc(\'minutes\', item_count_scan."Created"::timestamp), \'MM/DD/YYYY HH:MI AM\') as "Created",
           to_char(date_trunc(\'minutes\', item_count_scan."Updated"::timestamp), \'MM/DD/YYYY HH:MI AM\') as "Updated",
           ', false);
@@ -373,9 +374,9 @@ class Item_count_model extends CI_Model
     public function addToCountSelectedScan($countID, $scanSelected = null) {
         $current = $this->session->userdata('userid');
         $sql = 'update item_count_list
-        set "CountStock" = a."Quantity" + "CountStock", "Updated" = now(), "UpdatedBy" ='. $current . ' 
+        set "CountStock" = a."Quantity" + coalesce("CountStock",0), "Updated" = now(), "UpdatedBy" ='. $current . ' 
         from
-          (select "ItemUnique", sum("Quantity") as "Quantity"
+          (select "ItemUnique", coalesce(sum("Quantity"),0) as "Quantity"
            from item_count_scan_list
            where "Status" = 1 and "CountScanUnique" = ' . $scanSelected . '
            group by "ItemUnique") a
@@ -386,7 +387,12 @@ class Item_count_model extends CI_Model
     }
 
     public function closeScanFileToImport($scanSelected) {
-        return $this->db->update('item_count_scan', ['Status' => 2], ['Unique' => $scanSelected]);
+        return $this->db->update('item_count_scan',
+            ['Status' => 2,
+            'Updated' => date('Y-m-d H:i:s'),
+            'UpdatedBy' => $this->session->userdata('userid')
+            ],
+            ['Unique' => $scanSelected]);
     }
 
     public function createScan($data) {

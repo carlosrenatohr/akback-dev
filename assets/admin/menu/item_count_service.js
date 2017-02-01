@@ -371,12 +371,13 @@
         };
 
         this.getScanFileSettings = function() {
-            return {
+            var settings = {
                 source: new $.jqx.dataAdapter({
                     datatype: "json",
                     datafields: [
                         {name: 'Unique'},
-                        {name: 'Comment'}
+                        {name: 'Comment'},
+                        {name: '_nCreated'}
                     ],
                     url: SiteRoot + 'admin/ItemCount/load_itemcountscan/1/?orderBy=Unique&orderType=DESC',
                     async: false
@@ -389,6 +390,25 @@
                 height: 30
                 // autoOpen: true
             };
+            settings.renderer = function(index, label, value) {
+                var item = settings.source.records[index];
+                var template =
+                    '<div class="item-row-content">' +
+                    '<span>' + item.Unique + ' - '+ item.Comment +'</span><br>' +
+                    '<span>' + item._nCreated +'</span>' +
+                    '</div>';
+                return template;
+            };
+
+            settings.renderSelectedItem = function(index, item) {
+                var item = item.originalItem;
+                if (item != null) {
+                    return item.Unique + ' - ' + item.Comment;
+                }
+                return '';
+            };
+
+            return settings;
         };
 
         this.getIscanlistInCount = function(id) {
