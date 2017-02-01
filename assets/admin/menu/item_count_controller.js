@@ -13,14 +13,17 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icountlistGrid').hide();
         };
         if (tab == 0) {
-        // Filters tab
             hidingBtns();
             $('#addToCountBtn').hide();
+        // Filters tab
         } else if (tab == 1) {
             hidingBtns();
             $('#addToCountBtn').hide();
+        // Apply Scan tab
         } else if (tab == 2) {
             hidingBtns();
+            $('#scanFileCbx').val('');
+            $('#icountscanGrid').hide();
             $('#addToCountBtn').show();
         // Item Count list tab
         } else if (tab == 3) {
@@ -611,6 +614,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         setTimeout(function(){
                             $scope.completeScanFile();
                         }, 500);
+                        updateIcountGrid();
+                        updateIcountlistGrid($scope.icountID);
                         // $('#markFileCompleteWind').jqxWindow('open');
                     } else {
                         console.log('There was an error..');
