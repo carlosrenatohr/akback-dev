@@ -52,7 +52,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 autorowheight: true
             });
             $('#iscanGrid2').jqxGrid({
-                source: itemCountService.getIscanTableSettings(1).source,
+                source: itemCountService.getIscanTableSettings(2).source,
                 width: "99.7%",
                 autoheight: true,
                 autorowheight: true
