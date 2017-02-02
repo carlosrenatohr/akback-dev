@@ -498,15 +498,38 @@ class Item_count_model extends CI_Model
     }
 
     public function itemMatchScan($id) {
-        $sql = "
-        update item_count_scan_list
-        set \"ItemUnique\" = item.\"Unique\", \"Item\" = item.\"Item\", \"Part\" = item.\"Part\", \"Description\" = item.\"Description\"
-        from item
-        where item_count_scan_list.\"Barcode\" = item.\"Part\" and item.\"Status\" = 1
-        and item_count_scan_list.\"CountScanUnique\" = {$id}
-        ";
-
-        return $this->db->query($sql);
+        $this->db->select('item_count_scan_list.Unique as ScanUnique, item_count_scan_list.CountScanUnique, item_count_scan_list.ItemUnique,
+                        item_count_scan_list.Barcode, item_count_scan_list.Quantity,
+                        it.Unique, it.Item, it.Part, it.Status, it.Description');
+        $this->db->where('CountScanUnique', $id);
+//        $this->db->where('it.Status', 1);
+        $this->db->join('item it', 'it.Part = item_count_scan_list.Barcode', 'left');
+        $rows = $this->db->get('item_count_scan_list')->result_array();
+        $nRows = [];
+        foreach ($rows as $row) {
+            $isset = (trim($row['Barcode']) == trim($row['Part']) && $row['Status'] == 1) ? true : false;
+            $nRows[] = [
+                'Unique' => $row['ScanUnique'],
+                'ItemUnique' => $row['Unique'],
+                'Item' => $isset ? $row['Item'] : null,
+                'Part' => $isset ? trim($row['Part']) : null,
+                'Description' => $isset ? $row['Description'] : null,
+                'Updated' => date('Y-m-d H:i:s'),
+                'UpdatedBy' => $this->session->userdata('userid')
+            ];
+        }
+        $this->db->update_batch('item_count_scan_list', $nRows, 'Unique');
+        return true;
+//        $where = "item_count_scan_list.\"Barcode\" = item.\"Part\" and item.\"Status\" = 1";
+//        $where2 = " item_count_scan_list.\"CountScanUnique\" = {$id}" ;
+//        $sql = "update item_count_scan_list
+//            set \"ItemUnique\" = (CASE WHEN {$where} and {$where2} THEN item.\"Unique\" ELSE null END),
+//                \"Item\" = (CASE WHEN {$where} and {$where2} THEN item.\"Item\" ELSE null END),
+//                \"Part\" = (CASE WHEN {$where} and {$where2}THEN item.\"Part\" ELSE null END),
+//                \"Description\" = (CASE WHEN {$where} and {$where2}THEN item.\"Description\" ELSE null END)
+//            from item
+//            where {$where}
+//            and $where2";
     }
 
     public function update_scan_list($id, $data) {

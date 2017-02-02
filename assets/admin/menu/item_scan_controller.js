@@ -304,10 +304,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
             if (option == 0) {
                 $scope.saveScan(1);
             } else if (option == 1) {
+                $scope.matchIscan(0);
                 iscanwind.close();
             } else if (option == 2) {
             } else {
                 if ($('#saveIscanBtn').is(':disabled')) {
+                    $scope.matchIscan(0);
                     iscanwind.close();
                 } else {
                     $('#mainIscanBtns').hide();
@@ -367,13 +369,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
             var data = {};
             if (datafield  == 'Barcode') {
-                data['Barcode'] = value;
+                data['Barcode'] = $.trim(value);
             }
             if (datafield  == 'Quantity') {
-                data['Quantity'] = value;
+                data['Quantity'] = $.trim(value);
             }
             if (datafield  == 'Comment') {
-                data['Comment'] = value;
+                data['Comment'] = $.trim(value);
             }
             // if (data.length > 0) {
                 $.ajax({
