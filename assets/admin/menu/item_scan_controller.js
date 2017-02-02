@@ -228,13 +228,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
                         }
-                        $('#iscanTabs').jqxTabs('enableAt', 1);
-                        $('#iscanTabs').jqxTabs('select', 1);
                         $('#saveIscanBtn').hide();
                         $('#matchIscanBtn').show();
                         $('#delScanListBtn').show();
                         setTimeout(function() {
                             updateIscanGrid();
+                            $('#iscanTabs').jqxTabs('enableAt', 1);
+                            $('#iscanTabs').jqxTabs('select', 1);
                             $('#iscanlistGrid').show();
                             updateIscanlistGrid($scope.iscanID);
                         }, 250);
