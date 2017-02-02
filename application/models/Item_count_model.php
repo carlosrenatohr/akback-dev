@@ -220,7 +220,7 @@ class Item_count_model extends CI_Model
             ICL.\"CountUnique\" as \"TransID\"
              from item_count IC 
             join item_count_list ICL on IC.\"Unique\" = ICL.\"CountUnique\" 
-            where ICL.\"Unique\" = {$id}";
+            where ICL.\"Unique\" = {$id} AND ICL.\"Status\" = 2";
             $sql = "(". $select . ")";
             $insert = "insert into item_stock_line(\"ItemUnique\",\"LocationUnique\",\"Type\",\"Quantity\",\"CreatedBy\",     
                     \"Created\",\"TransactionDate\",\"Comment\",\"trans_date\", \"status\", \"CountUnique\",
