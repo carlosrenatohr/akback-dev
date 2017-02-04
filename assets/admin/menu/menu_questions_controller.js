@@ -392,15 +392,15 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Label').val('');
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonPrimaryColorDef').val() })));
-        $scope.qibPrimaryColor = '#' + $('#qitButtonPrimaryColorDef').val();
+        $scope.qibPrimaryColor = $('#qitButtonPrimaryColorDef').val();
         $('#qibPrimaryColor').jqxColorPicker('setColor', '#' + $('#qitButtonPrimaryColorDef').val());
 
         $scope.ddb_qibSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonSecondaryColorDef').val() })));
-        $scope.qibSecondaryColor = '#' + $('#qitButtonSecondaryColorDef').val();
+        $scope.qibSecondaryColor = $('#qitButtonSecondaryColorDef').val();
         $('#qibSecondaryColor').jqxColorPicker('setColor', '#' + $('#qitButtonSecondaryColorDef').val());
 
         $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitLabelFontColorDef').val() })));
-        $scope.qilfontColor = '#' + $('#qitLabelFontColorDef').val();
+        $scope.qilfontColor = $('#qitLabelFontColorDef').val();
         $('#qilfontColor').jqxColorPicker('setColor', '#' + $('#qitLabelFontColorDef').val());
         $('#qilfontSize').val($('#qitLabelFontSizeDef').val());
         //

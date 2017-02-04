@@ -784,13 +784,13 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         //
         $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#catButtonPrimaryColorDef').val() })));
-        $scope.bPrimaryColor = '#' + $('#catButtonPrimaryColorDef').val();
+        $scope.bPrimaryColor = $('#catButtonPrimaryColorDef').val();
         $('#bPrimaryColor').jqxColorPicker('setColor', '#' + $('#catButtonPrimaryColorDef').val());
         $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#catButtonSecondaryColorDef').val() })));
-        $scope.bSecondaryColor = '#' + $('#catButtonSecondaryColorDef').val();
+        $scope.bSecondaryColor = $('#catButtonSecondaryColorDef').val();
         $('#bSecondaryColor').jqxColorPicker('setColor', '#' + $('#catButtonSecondaryColorDef').val());
         $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#catLabelFontColorDef').val() })));
-        $scope.lfontColor = '#' + $('#catLabelFontColorDef').val();
+        $scope.lfontColor = $('#catLabelFontColorDef').val();
         $('#lfontColor').jqxColorPicker('setColor', '#' + $('#catLabelFontColorDef').val());
         $('#lfontSize').val($('#catLabelFontSizeDef').val());
         //
