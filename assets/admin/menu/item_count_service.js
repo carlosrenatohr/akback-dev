@@ -156,15 +156,16 @@
             var cellsACount = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var diff = '';
-                if (row.Difference == null) {
+                var diff;
+                // if (row.Difference == null) {
+                if (isNaN(row.Difference)) {
+                    element.html('');
                 } else {
                     diff = parseFloat(row.TotalCost) * parseFloat(row.Difference);
                     diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
-                }
-                element.html(diff);
-                if (diff < 0) {
-                    element.css('color', 'red');
+                    element.html(diff);
+                    if (diff < 0)
+                        element.css('color', 'red');
                 }
                 return element[0].outerHTML;
             };

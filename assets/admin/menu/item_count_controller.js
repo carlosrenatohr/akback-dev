@@ -22,8 +22,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         // Apply Scan tab
         } else if (tab == 2) {
             hidingBtns();
-            $('#scanFileCbx').val('');
-            $('#icountscanGrid').hide();
+            // $('#scanFileCbx').val('');
+            // $('#icountscanGrid').hide();
             $('#addToCountBtn').show();
         // Item Count list tab
         } else if (tab == 3) {
@@ -153,9 +153,11 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 dataType: 'json',
                 data: dataToSend,
                 success: function(response) {
-                    $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
-                    $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "NewCost", nCost);
-                    $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "AdjustedCost", aCost);
+                    setTimeout(function() {
+                        $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
+                        $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "NewCost", nCost);
+                        $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "AdjustedCost", aCost);
+                    }, 100);
                 }
             });
         } else if (datafield  == 'Comment') {

@@ -374,7 +374,9 @@ class Item_count_model extends CI_Model
     public function addToCountSelectedScan($countID, $scanSelected = null) {
         $current = $this->session->userdata('userid');
         $sql = 'update item_count_list
-        set "CountStock" = a."Quantity" + coalesce("CountStock",0), "Updated" = now(), "UpdatedBy" ='. $current . ' 
+        set "CountStock" = a."Quantity" + coalesce("CountStock",0), "Updated" = now(), "UpdatedBy" ='. $current . ',
+            "NewCost" = (a."Quantity" + coalesce("CountStock", 0)) * "Cost",
+            "AdjustedCost" = ((a."Quantity" + coalesce("CountStock",0)) - coalesce("CurrentStock", 0)) * "Cost" 
         from
           (select "ItemUnique", coalesce(sum("Quantity"),0) as "Quantity"
            from item_count_scan_list
