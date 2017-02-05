@@ -693,8 +693,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         textAlign: 'left',
         width: '290px',
         height: 25,
-        min: 2,
-        max: 5,
+        min:1,
         value: 0
     };
 

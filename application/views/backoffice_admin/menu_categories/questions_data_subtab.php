@@ -34,8 +34,9 @@
                 <jqx-number-input
                     style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
                     id="qt_sort" name="qt_sort"
-                    jqx-settings="numberQuestion"
-                    jqx-digits="2"
+                    jqx-min="2" jqx-max="5" jqx-value="2" jqx-decimal-digits="0"
+                    jqx-spin-buttons="true" jqx-width="290" jqx-height="25"
+                    jqx-input-mode="'simple'" jqx-text-align="'left'"
                 ></jqx-number-input>
             </div>
             <div style="float:left;">

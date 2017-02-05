@@ -447,6 +447,12 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     $scope.settingsMenuSelect =
         { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique", width: 180};
 
+    $('#add_MenuUnique').on('select', function(e) {
+        if (e.args) {
+            console.log(e.args.item.originalItem);
+        }
+    });
+
     function reloadMenuSelectOnCategories() {
         $('#add_MenuUnique').jqxDropDownList({
             source: new $.jqx.dataAdapter({
@@ -454,7 +460,11 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                     datafields: [
                         { name: 'MenuName' },
                         { name: 'Status' },
-                        { name: 'Unique' }
+                        { name: 'Unique' },
+                        { name: 'CategoryButtonPrimaryColor' },
+                        { name: 'CategoryButtonSecondaryColor' },
+                        { name: 'CategoryButtonLabelFontColor' },
+                        { name: 'CategoryButtonLabelFontSize' }
                     ],
                     url: SiteRoot + 'admin/MenuCategory/load_allmenus/1'
                 })
