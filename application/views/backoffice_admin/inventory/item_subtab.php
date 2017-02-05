@@ -35,6 +35,35 @@
     </div>
     <div class="row">
         <div class="form-group control-cont">
+            <label for="inputType" class="control-label">Category:</label>
+
+            <div class="input">
+                <jqx-combo-box id="item_category" jqx-width="'250px'" jqx-height="'30px'" class="item_combobox req"
+                               jqx-settings="categoryCbxSettings" jqx-on-select="onSelectCategoryCbx($event)"
+                               data-field="Category" style="float: left;"
+                ></jqx-combo-box>
+                <span class="required-ast">*</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group control-cont">
+            <label for="inputType" class="control-label">SubCategory:</label>
+
+            <div class="input">
+                <!--                <jqx-combo-box id="item_subcategory" jqx-width="'220px'" jqx-height="'30px'" class="item_combobox"-->
+                <!--                               jqx-settings="subcategoryCbxSettings" jqx-on-select=""-->
+                <!--                               data-field="Subcategory"-->
+                <!--                ></jqx-combo-box>-->
+                <jqx-drop-down-list id="item_subcategory" jqx-width="'250px'" jqx-height="'30px'" class="item_combobox"
+                                    jqx-settings="subcategoryCbxSettings" jqx-on-select=""
+                                    data-field="Subcategory"
+                ></jqx-drop-down-list>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group control-cont">
             <label for="inputType" class="control-label">Supplier:</label>
 
             <div class="input">
@@ -66,35 +95,6 @@
                                jqx-settings="brandCbxSettings" jqx-on-select=""
                                data-field="Brand" class="item_combobox"
                 ></jqx-combo-box>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group control-cont">
-            <label for="inputType" class="control-label">Category:</label>
-
-            <div class="input">
-                <jqx-combo-box id="item_category" jqx-width="'250px'" jqx-height="'30px'" class="item_combobox req"
-                               jqx-settings="categoryCbxSettings" jqx-on-select="onSelectCategoryCbx($event)"
-                               data-field="Category" style="float: left;"
-                ></jqx-combo-box>
-                <span class="required-ast">*</span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group control-cont">
-            <label for="inputType" class="control-label">SubCategory:</label>
-
-            <div class="input">
-<!--                <jqx-combo-box id="item_subcategory" jqx-width="'220px'" jqx-height="'30px'" class="item_combobox"-->
-<!--                               jqx-settings="subcategoryCbxSettings" jqx-on-select=""-->
-<!--                               data-field="Subcategory"-->
-<!--                ></jqx-combo-box>-->
-                <jqx-drop-down-list id="item_subcategory" jqx-width="'250px'" jqx-height="'30px'" class="item_combobox"
-                               jqx-settings="subcategoryCbxSettings" jqx-on-select=""
-                               data-field="Subcategory"
-                ></jqx-drop-down-list>
             </div>
         </div>
     </div>
