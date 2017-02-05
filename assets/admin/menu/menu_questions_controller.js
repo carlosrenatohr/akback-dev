@@ -402,6 +402,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitLabelFontColorDef').val() })));
         $scope.qilfontColor = $('#qitLabelFontColorDef').val();
         $('#qilfontColor').jqxColorPicker('setColor', '#' + $('#qitLabelFontColorDef').val());
+
         $('#qilfontSize').val($('#qitLabelFontSizeDef').val());
         //
         $('#questionschoicestabsWin').jqxTabs('select', 0);
