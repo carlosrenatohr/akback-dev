@@ -612,7 +612,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         // Restriction label length: Menu.ItemLength
         if ($scope.itemLengthOfMenuSelected != null) {
             var labelField = $('.editItemFormContainer #editItem_label');
-            if ($scope.itemLengthOfMenuSelected > labelField.val().length) {
+            if (labelField.val().length > $scope.itemLengthOfMenuSelected) {
                 needValidation = true;
                 $('#menuitemNotificationsErrorSettings #notification-content')
                     .html('You have exceeded limit of characters!');

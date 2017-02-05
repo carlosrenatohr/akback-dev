@@ -840,7 +840,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     $scope.number_mainmenuTab = {
         inputMode: 'simple',
         decimalDigits: 0,
-        digits: 2,
+        digits: 3,
         spinButtons: true,
         width: 165,
         height: 25,
