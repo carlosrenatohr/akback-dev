@@ -57,7 +57,8 @@
         <div style="float:left; padding:2px;">
             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Password</div>
             <div style="float:left; width:220px;">
-                <input type="password" class="form-control addUserField emailtab" id="add_epassword" name="Password" placeholder="Password">
+                <input type="password" class="form-control addUserField emailtab" id="add_epassword_label" name="Password" placeholder="Password">
+                <input type="hidden" class="form-control addUserField emailtab" id="add_epassword">
             </div>
         </div>
 

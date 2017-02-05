@@ -170,6 +170,12 @@ class User_model extends CI_Model
         return (is_null($field)) ? $row : $row[$field];
     }
 
+    public function getEmailDataRowByUser($id) {
+        return $this->db->where('UserUnique', $id)
+            ->where('Status', 1)
+            ->get('config_user_email')->row_array();
+    }
+
     public function createOrUpdatePositionUser($position_id, $user_id) {
         $user_position = [
             'PrimaryPosition' => 1,

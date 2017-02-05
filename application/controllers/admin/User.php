@@ -95,9 +95,11 @@ class User extends AK_Controller
                         'Email' => $values['Email']
                     ];
                     $this->setEmailStatusOnUser($lastId, $values['EmailEnabled'], $emailData);
+                    $emailUserSel = $this->user_model->getEmailDataRowByUser($lastId);
                     $response = [
                         'status' => 'success',
-                        'message' => $lastId
+                        'message' => $lastId,
+                        'emailData' => count($emailUserSel) ? $emailUserSel : []
                     ];
                 } else
                     $response = $this->dbErrorMsg();
@@ -162,9 +164,11 @@ class User extends AK_Controller
                     ];
                     $emailConfig['SMTPSecure'] = (empty($emailConfig['SMTPSecure'])) ? null : $emailConfig['SMTPSecure'];
                     $this->setEmailStatusOnUser($id, $values['EmailEnabled'], $emailConfig);
+                    $emailUserSel = $this->user_model->getEmailDataRowByUser($id);
                     $response = [
                         'status' => 'success',
-                        'message' => 'Updated: ' . $status
+                        'message' => 'Updated: ' . $status,
+                        'emailData' => count($emailUserSel) ? $emailUserSel : []
                     ];
                 } else
                     $response = $this->dbErrorMsg();
@@ -206,7 +210,7 @@ class User extends AK_Controller
 
     protected function setEmailStatusOnUser($id, $isEnabled, $data) {
         $isEnabled = ($isEnabled == 'yes') ? true : false;
-        $this->user_model->setEmailStatusOnUser($id, $isEnabled, $data);
+       $this->user_model->setEmailStatusOnUser($id, $isEnabled, $data);
     }
 
     /**

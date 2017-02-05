@@ -74,6 +74,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 el.jqxDateTimeInput({formatString: 'MM-dd-yyyy hh:mm tt'});
                 el.jqxDateTimeInput('setDate', dt);
             }
+            if (ind == 'epassword') {
+                $('#add_epassword').val(values[i]);
+                $('#add_epassword_label').val(values[i]);
+            }
         }
         var eec = (values.EmailEnabled == 'yes') ? 'yes' : 'no';
         var emailEn = $('#emailEnabledField .eecx[data-msg="' + eec +'"]');
@@ -89,7 +93,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.editing_username = values['UserName'];
 
         //inputsCode
-        var inputsCode = $('#add_code, #add_password, #add_epassword');
+        var inputsCode = $('#add_code, #add_password'); //#add_epassword
         inputsCode.val('******');
         inputsCode.on('focus', function() {
             $(this).select();
@@ -362,6 +366,16 @@ angular.module("akamaiposApp", ['jqwidgets'])
                                     $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
                                     '#info_itemTab .jqx-tabs-titleContentWrapper, ' +
                                     '#email_itemTab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
+                                    console.log(data.emailData);
+                                    if (data.emailData) {
+                                        $.each(data.emailData, function (i, el) {
+                                            var len = $('[name='+i+ ']');
+                                            if (len.length > 0 && (len.hasClass('emailtab') || len.siblings().hasClass('emailtab'))) {
+                                                len.val(el);
+                                                // mailing[el.name] = el.value;
+                                            }
+                                        });
+                                    }
                                 } else {
                                     $('#email_itemTab').hide();
                                 }
@@ -403,7 +417,16 @@ angular.module("akamaiposApp", ['jqwidgets'])
                                 $scope.closeUserWindows();
                             } else {
                                 if (params.EmailEnabled == 'yes') {
+                                    console.log(data.emailData);
                                     $('#email_itemTab').show();
+                                    if (data.emailData) {
+                                        $.each(data.emailData, function (i, el) {
+                                            var len = $('[name='+ i+ ']');
+                                            if (len.length > 0 && (len.hasClass('emailtab') || len.siblings().hasClass('emailtab'))) {
+                                                len.val(el);
+                                            }
+                                        });
+                                    }
                                 } else {
                                     $('#email_itemTab').hide();
                                 }
