@@ -1,8 +1,7 @@
 <div class="row">
     <div style=" width:500px;float:left;">
         <div style="float:left; padding:2px; width:450px;">
-            <div
-                style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                 Name:
             </div>
             <div style=" float:left; width:300px;">
@@ -10,14 +9,12 @@
                        name="qt_QuestionName" placeholder="Question Name" autofocus>
             </div>
             <div style="float:left;">
-                                            <span
-                                                style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
             </div>
         </div>
 
         <div style="float:left; padding:2px; width:450px;">
-            <div
-                style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                 Question:
             </div>
             <div style="float:left; width:300px;">
@@ -25,14 +22,12 @@
                        name="qt_Question" placeholder="Question">
             </div>
             <div style="float:left;">
-                                            <span
-                                                style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
             </div>
         </div>
 
         <div style="float:left; padding:2px; width:450px;">
-            <div
-                style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                 Sort:
             </div>
             <div style=" float:left; width:300px;">
@@ -44,14 +39,12 @@
                 ></jqx-number-input>
             </div>
             <div style="float:left;">
-                                            <span
-                                                style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
             </div>
         </div>
 
         <div style=" float:left; padding:2px; width:500px; ">
-            <div
-                style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                 Minimum:
             </div>
             <div style=" float:left; width:300px;">
@@ -68,8 +61,7 @@
         </div>
 
         <div style=" float:left; padding:2px; width:500px; ">
-            <div
-                style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                 Maximum:
             </div>
             <div style=" float:left; width:300px;">
@@ -81,8 +73,7 @@
                 ></jqx-number-input>
             </div>
             <div style="float:left;">
-                                                        <span
-                                                            style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
             </div>
         </div>
     </div>

@@ -1069,7 +1069,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
         $('#editItem_Status').jqxDropDownList({'selectedIndex': 0});
         //$('#editItem_label').val('');
-        $('#editItem_sort').val(1);
+        $('#editItem_sort').val(2);
         $('#editItem_Row').val('');
         $('#editItem_Column').val('');
         //
@@ -1971,7 +1971,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         spinButtons: true,
         width: 300,
         height: 25,
-        min: 1,
+        min: 2,
+        max: 5,
         textAlign: 'left'
     };
 

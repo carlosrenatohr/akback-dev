@@ -779,7 +779,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_CategoryName').val('');
         $('#add_CategoryRow').val(1);
         $('#add_CategoryColumn').val(1);
-        $('#add_Sort').val(1);
+        $('#add_Sort').val(2);
         $('#add_CategoryStatus').jqxDropDownList({selectedIndex: 0});
         $('#add_MenuUnique').jqxDropDownList({selectedIndex: -1});
         //

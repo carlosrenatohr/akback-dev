@@ -60,7 +60,7 @@
                     <jqx-number-input
                         style='margin-top: 3px;padding-left: 10px;' class="form-control required-in"
                         id="qItem_sort" name="qItem_sort"
-                        jqx-settings="numberItemQuestion" jqx-min="1" jqx-value="1"
+                        jqx-settings="numberItemQuestion" jqx-min="2" jqx-max="5" jqx-value="1"
                     ></jqx-number-input>
                 </div>
                 <div style="float:left;">

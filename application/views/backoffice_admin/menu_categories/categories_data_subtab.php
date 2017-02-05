@@ -29,7 +29,7 @@
                 <jqx-number-input
                     style='margin-top: 3px;padding-left: 12px;' class="required-field form-control"
                     id="add_Sort" name="add_Sort"
-                    jqx-settings="number_mainmenuTab" jqx-min="0"  jqx-value="1"
+                    jqx-settings="number_mainmenuTab" jqx-min="2" jqx-max="5" jqx-value="2"
                 ></jqx-number-input>
             </div>
             <div style="float:left;">

@@ -195,7 +195,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('.alertButtonsQuestionForm').hide();
         $('#qt_QuestionName').val('');
         $('#qt_Question').val('');
-        $('#qt_sort').val(1);
+        $('#qt_sort').val(2);
         $('#qt_min').val(0);
         $('#qt_max').val(0);
         //
@@ -388,7 +388,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     var resetQuestionItemForm = function() {
         $('.itemQuestionFormContainer .required-in').css({"border-color": "#ccc"});
         $('#qItem_ItemUnique').jqxComboBox('val', '');
-        $('#qItem_sort').jqxNumberInput('val', 1);
+        $('#qItem_sort').jqxNumberInput('val', 2);
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Label').val('');
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonPrimaryColorDef').val() })));
@@ -693,7 +693,8 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         textAlign: 'left',
         width: '290px',
         height: 25,
-        min: 0,
+        min: 2,
+        max: 5,
         value: 0
     };
 
