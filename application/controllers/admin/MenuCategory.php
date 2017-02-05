@@ -396,8 +396,9 @@ class MenuCategory extends AK_Controller
         $gridPosition = $this->menu->isCategoryPositionBusy($request);
         if ($gridPosition) {
             $sure = false;
-            $message['CategoryColumn'] = 'Row and Column cannot be the same as another Category';
-            $message['CategoryRow'] = 'Row and Column cannot be the same as another Category';
+            $message['CategoryColumn'] = 'Menu, Row and Column cannot be the same as another Category';
+            $message['CategoryRow'] = 'Menu, Row and Column cannot be the same as another Category';
+            $message['MenuUnique'] = 'Menu, Row and Column cannot be the same as another Category';
         };
 
         return [
@@ -475,8 +476,9 @@ class MenuCategory extends AK_Controller
         $gridPosition = $this->menu->isCategoryPositionBusy($request, $id);
         if ($gridPosition) {
             $sure = false;
-            $message['CategoryColumn'] = 'Row and Column cannot be the same as another Category';
-            $message['CategoryRow'] = 'Row and Column cannot be the same as another Category';
+            $message['CategoryColumn'] = 'Menu, Row and Column cannot be the same as another Category';
+            $message['CategoryRow'] = 'Menu, Row and Column cannot be the same as another Category';
+            $message['MenuUnique'] = 'Menu, Row and Column cannot be the same as another Category';
         };
 
         return [

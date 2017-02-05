@@ -142,14 +142,16 @@ class Menu_model extends CI_Model
 
     public function isCategoryPositionBusy($request, $id = null) {
         $where = [
-            'CategoryName' => $request['CategoryName'],
+//            'CategoryName' => $request['CategoryName'],
             'Row' => $request['Row'],
             'Column' => $request['Column'],
+            'MenuUnique' => $request['MenuUnique']
         ];
         if (!is_null($id)) {
             $this->db->where('Unique!=', $id);
         }
-        $this->db->where('Status!=', 0);
+//        $this->db->where('Status!=', 0);
+        $this->db->where('Status', 1);
         $result = $this->db->get_where($this->category_table, $where)->result_array();
 
         return count($result);
