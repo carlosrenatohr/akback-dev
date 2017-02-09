@@ -224,6 +224,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             iscanwind.setTitle(title);
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
+                            //
+                            $scope.matchIscan(0);
                         } else {
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
