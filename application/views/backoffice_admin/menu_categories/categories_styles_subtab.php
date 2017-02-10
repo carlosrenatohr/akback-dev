@@ -7,8 +7,8 @@
                 <jqx-drop-down-button jqx-on-opening="opening(event)" jqx-width="150" jqx-instance="ddb_bPrimaryColor"
                                       class="styles-control" jqx-height="22">
                     <jqx-color-picker jqx-create="createColorPicker" jqx-on-colorchange="colorChange(event)"
-                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220"
-                                      jqx-color="bPrimaryColor" id="bPrimaryColor"></jqx-color-picker>
+                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="category"
+                                      jqx-color="bPrimaryColor" id="bPrimaryColor" ></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <jqx-drop-down-button jqx-on-opening="opening(event)" jqx-width="150" jqx-instance="ddb_bSecondaryColor"
                                       class="styles-control" jqx-height="22">
                     <jqx-color-picker jqx-create="createColorPicker" jqx-on-colorchange="colorChange(event)"
-                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220"
+                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="category"
                                       jqx-color="bSecondaryColor" id="bSecondaryColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>
@@ -35,7 +35,7 @@
                 <jqx-drop-down-button jqx-on-opening="opening(event)" jqx-width="150" jqx-instance="ddb_lfontColor"
                                       jqx-height="22" class="styles-control">
                     <jqx-color-picker jqx-create="createColorPicker" jqx-on-colorchange="colorChange(event)"
-                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220"
+                                      jqx-color-mode="'hue'" jqx-width="220" jqx-height="220" data-layout="category"
                                       jqx-color="lfontColor" id="lfontColor"></jqx-color-picker>
                 </jqx-drop-down-button>
             </div>

@@ -39,7 +39,7 @@
                             <?php $this->load->view($questions_style_subtab); ?>
                         </div>
                     </jqx-tabs>
-            </div>
+                </div>
             <!-- MAIN BUTTONS FOR QUESTIONS FORM -->
             <div class="col-md-12 col-md-offset-0 QuestionWindowsRow">
                 <div class="row">

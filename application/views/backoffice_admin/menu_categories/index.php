@@ -4,6 +4,7 @@
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/config.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/admin_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_categories_controller.js"></script>
+<script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_categories_service.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_items_controller.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_controller.js"></script>
 <script type="application/javascript" src="<?= base_url()?>assets/admin/menu/menu_inventory_service.js"></script>

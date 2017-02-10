@@ -2,7 +2,7 @@
  * Created by carlosrenato on 05-13-16.
  */
 
-app.controller('menuCategoriesController', function($scope, $http, adminService){
+app.controller('menuCategoriesController', function($scope, $http, adminService, menuCategoriesService){
 
     var menuonce = false;
     var cateonce = false;
@@ -44,49 +44,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
      */
     var pager = adminService.loadPagerConfig();
     var menuWindow, categoryWindow;
-    $scope.menuTableSettings = {
-        source: new $.jqx.dataAdapter({
-            dataType: 'json',
-            dataFields: [
-                {name: 'Unique', type: 'int'},
-                {name: 'MenuName', type: 'string'},
-                {name: 'Status', type: 'string'},
-                {name: 'StatusName', type: 'string'},
-                {name: 'CategoryColumn', type: 'string'},
-                {name: 'CategoryRow', type: 'string'},
-                {name: 'ItemRow', type: 'string'},
-                {name: 'ItemColumn', type: 'string'},
-                {name: 'ItemLength', type: 'string'}
-            ],
-            // url: SiteRoot + 'admin/MenuCategory/load_allmenus'
-            url: ''
-        }),
-        columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int'},
-            {text: 'Menu Name', dataField: 'MenuName', type: 'number'},
-            {text: 'Status', dataField: 'Status', type: 'int', hidden:true},
-            {text: 'Status', dataField: 'StatusName', type: 'string'},
-            {text: 'Column', dataField: 'CategoryColumn', type: 'number'},
-            {text: 'Row', dataField: 'CategoryRow', type: 'number'},
-            {dataField: 'ItemRow', hidden: true},
-            {dataField: 'ItemColumn', hidden: true},
-            {text: 'Item Length', dataField: 'ItemLength', type: 'number'}
-        ],
-        // ready: function() {
-        //     $('#menuGridTable').jqxGrid('updatebounddata', 'filter');
-        // },
-        width: "99.8%",
-        theme: 'arctic',
-        filterable: true,
-        sortable: true,
-        pageable: true,
-        showfilterrow: true,
-        pageSize: pager.pageSize,
-        pagesizeoptions: pager.pagesizeoptions,
-        altRows: true,
-        autoheight: true,
-        autorowheight: true
-    };
+    $scope.menuTableSettings = menuCategoriesService.getMenuGridSettings();
 
     function updateMainMenuGrid() {
         if ($scope.newOrEditOption == 'new') {
@@ -98,7 +56,8 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
 
     function updateMenuGridReq() {
         $('#menuGridTable').jqxGrid({
-            source: new $.jqx.dataAdapter({
+            source: //menuCategoriesService.getMenuGridSettings(1).source
+            new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -167,6 +126,18 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         menuWindow.open();
     };
 
+    function updateColorControl(value, textScope) {
+        var tempColor;
+        if (value)
+            tempColor = value;
+        else
+            tempColor = '000000';
+        $scope['ddb_' + textScope].setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
+        if ($('#' + textScope).jqxColorPicker('getColor') == undefined)
+            $scope[textScope] = tempColor;
+        else
+            $('#' + textScope).jqxColorPicker('setColor', '#' + tempColor);
+    }
     $scope.updateMenuAction = function(e) {
         var values = e.args.row.bounddata;
         var statusCombo = $('#add_Status').jqxDropDownList('getItemByValue', values['Status']);
@@ -177,11 +148,19 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_MenuItemRow').val(values['ItemRow']);
         $('#add_MenuItemColumn').val(values['ItemColumn']);
         $('#add_ItemLength').val(values['ItemLength']);
-
+        //
         // $('#deleteMenuBtn').show();
         $scope.newOrEditOption = 'edit';
         $scope.menuId = values['Unique'];
         $('#saveMenuBtn').prop('disabled', true);
+        // -- DEFAULT COLORS - Category
+        console.log(values);
+        updateColorControl(values['CategoryButtonPrimaryColor'], 'menudCatbPrimaryColor');
+        updateColorControl(values['CategoryButtonSecondaryColor'], 'menudCatbSecondaryColor');
+        updateColorControl(values['CategoryButtonLabelFontColor'], 'menudCatlfontColor');
+        //-- Font Size
+        var lfs = (values['LabelFontSize']) ? values['LabelFontSize'] : $('#catLabelFontSizeDef').val();
+        $('#lfontSize').val(lfs);
         //
         var btn = $('<button/>', {
             'id': 'deleteMenuBtn'
@@ -232,6 +211,20 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         return needValidation;
     };
 
+    function getColorSelected(textScope) {
+        var colorValue; // without hash
+        var el = $('#' + textScope);
+        if (el.jqxColorPicker('getColor') != undefined)
+            colorValue = el.jqxColorPicker('getColor').hex;
+        else
+            colorValue = $scope.qibPrimaryColor;
+
+        if (colorValue != '' && colorValue != null)
+            return '#' + colorValue;
+        else
+            return null;
+    }
+
     $scope.SaveMenuWindows = function (closed) {
         var values = {
             'MenuName': $('#add_MenuName').val(),
@@ -240,7 +233,12 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             'ItemRow': $('#add_MenuItemRow').val(),
             'ItemColumn': $('#add_MenuItemColumn').val(),
             'ItemLength': $('#add_ItemLength').val(),
-            'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value
+            'Status': $('#add_Status').jqxDropDownList('getSelectedItem').value,
+            //
+            'CategoryButtonPrimaryColor' : getColorSelected('menudCatbPrimaryColor'),
+            'CategoryButtonSecondaryColor' : getColorSelected('menudCatbSecondaryColor'),
+            'CategoryButtonLabelFontColor' : getColorSelected('menudCatlfontColor'),
+            'CategoryButtonLabelFontSize': $('#menudCatlfontSize').val()
         };
         if (!validationMenuItem(values)) {
             var url;
@@ -306,6 +304,18 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         $('#add_MenuItemColumn').val(5);
         $('#add_MenuItemRow').val(5);
         $('#add_ItemLength').val(25);
+        //
+        $scope.ddb_menudCatbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.menudCatbPrimaryColor = '000000';
+        $('#menudCatbPrimaryColor').jqxColorPicker('setColor', '#' + '000000');
+        $scope.ddb_menudCatbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.menudCatbSecondaryColor = '000000';
+        $('#menudCatbSecondaryColor').jqxColorPicker('setColor', '#' + '000000');
+        $scope.ddb_menudCatlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
+        $scope.menudCatlfontColor = '000000';
+        $('#menudCatlfontColor').jqxColorPicker('setColor', '#' + '000000');
+        $('#menudCatlfontSize').val('12px');
+        //
         $('#add_Status').jqxDropDownList({'selectedIndex': 0});
     };
 
@@ -568,7 +578,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
         else
             tempColor = $('#catButtonPrimaryColorDef').val();
         $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
-        if ($('#bSecondaryColor').jqxColorPicker('getColor') == undefined)
+        if ($('#bPrimaryColor').jqxColorPicker('getColor') == undefined)
             $scope.bPrimaryColor = tempColor;
         else
             $('#bPrimaryColor').jqxColorPicker('setColor', '#' + tempColor);
@@ -892,6 +902,11 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
     }
 
     $scope.createColorPicker = false;
+    // Menu Colors
+    $scope.ddb_menudCatbPrimaryColor = {};
+    $scope.ddb_menudCatbSecondaryColor = {};
+    $scope.ddb_menudCatlfontColor  = {};
+    // Category Colors
     $scope.ddb_bPrimaryColor = {};
     $scope.ddb_bSecondaryColor = {};
     $scope.ddb_lfontColor  = {};
@@ -901,9 +916,13 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
 
     $scope.colorChange = function (event) {
         var id = $(event.target).attr('id');
+        var el = ($(event.target).data('layout'));
         $scope['ddb_' + id].setContent(getTextElementByColor(event.args.color));
-        // $('#' + id).jqxColorPicker('setColor', (event.args.color) ? event.args.color.hex : '333333');
-        $('#saveCategoryBtn').prop('disabled', false);
+        if (el == 'category') {
+            $('#saveCategoryBtn').prop('disabled', false);
+        } else if (el == 'menu') {
+            $('#saveMenuBtn').prop('disabled', false);
+        }
     };
 
     $scope.$on('jqxDropDownButtonCreated', function (event, arguments) {
