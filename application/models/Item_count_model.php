@@ -39,6 +39,17 @@ class Item_count_model extends CI_Model
 
     public function getLists($id)
     {
+        // -- Update dynamic values first before to load all values
+        // Difference = CountStock - CurrentStock
+        // NewCost = CountStock * TotalCost (sum of 4 type of costs)
+        // AdjustedCost = Difference * TotalCost (sum of 4 type of costs)
+        $sql = 'update item_count_list
+        set "Difference" = "CountStock" - coalesce("CurrentStock",0),
+            "NewCost" = "CountStock" * (coalesce("Cost", 0) + coalesce("CostExtra", 0) + coalesce("CostFreight", 0) + coalesce("CostDuty", 0)),
+            "AdjustedCost" = ("CountStock" - "CurrentStock") * (coalesce("Cost", 0) + coalesce("CostExtra", 0) + coalesce("CostFreight", 0) + coalesce("CostDuty", 0)) 
+        where "Status" != 0 AND "CountUnique" = ' . $id;
+        $this->db->query($sql);
+        // Current query to get all item_count_list by item_count id selected
         $where = '';
         if (!is_null($id)) {
             $where = " AND icl.\"CountUnique\" = " . $id;
@@ -373,12 +384,13 @@ class Item_count_model extends CI_Model
 
     public function addToCountSelectedScan($countID, $scanSelected = null) {
         $current = $this->session->userdata('userid');
+        // ITEM == 8888769
         $sql = 'update item_count_list
         set "CountStock" = a."Quantity" + coalesce("CountStock",0), "Updated" = now(), "UpdatedBy" ='. $current . ',
-            "NewCost" = (a."Quantity" + coalesce("CountStock", 0)) * "Cost",
-            "AdjustedCost" = ((a."Quantity" + coalesce("CountStock",0)) - coalesce("CurrentStock", 0)) * "Cost" 
+            "NewCost" = (a."Quantity" + coalesce("CountStock", 0)) * (coalesce("Cost", 0) + coalesce("CostExtra", 0) + coalesce("CostFreight", 0) + coalesce("CostDuty", 0)),
+            "AdjustedCost" = ((a."Quantity" + coalesce("CountStock",0)) - coalesce("CurrentStock", 0)) * (coalesce("Cost", 0) + coalesce("CostExtra", 0) + coalesce("CostFreight", 0) + coalesce("CostDuty", 0)) 
         from
-          (select "ItemUnique", coalesce(sum("Quantity"),0) as "Quantity"
+          (select "ItemUnique", sum(coalesce("Quantity", 0)) as "Quantity"
            from item_count_scan_list
            where "Status" = 1 and "CountScanUnique" = ' . $scanSelected . '
            group by "ItemUnique") a

@@ -144,11 +144,21 @@
             var cellsNCount = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var diff = parseFloat(row.CountStock) * parseFloat(row.TotalCost); //row.Cost
-                diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
-                element.html(diff);
-                if (diff < 0) {
-                    element.css('color', 'red');
+                // var diff = parseFloat(row.CountStock) * parseFloat(row.TotalCost); //row.Cost
+                // diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
+                // element.html(diff);
+                // if (diff < 0) {
+                //     element.css('color', 'red');
+                // }
+                if (!isNaN(value) && value != '') {
+                    var diff = value.toFixed(decimalCost);
+                    if (diff < 0)
+                        element.css('color', 'red');
+                    element.html(diff);
+                } else if (row.CountStock != null) {
+                    element.html(0);
+                } else {
+                    element.html('');
                 }
                 return element[0].outerHTML;
             };
@@ -156,16 +166,22 @@
             var cellsACount = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var diff;
-                // if (row.Difference == null) {
-                if (isNaN(row.Difference)) {
-                    element.html('');
-                } else {
-                    diff = parseFloat(row.TotalCost) * parseFloat(row.Difference);
-                    diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
-                    element.html(diff);
+                // var diff;
+                // if (isNaN(row.Difference)) {
+                //     element.html('');
+                // } else {
+                //     diff = parseFloat(row.TotalCost) * parseFloat(row.Difference);
+                //     diff = (isNaN(diff)) ? '' : diff.toFixed(decimalCost);
+                //     element.html(diff);
+                if (!isNaN(value) && value != '') {
+                    var diff = value.toFixed(decimalCost);
                     if (diff < 0)
                         element.css('color', 'red');
+                    element.html(diff);
+                } else if (row.CountStock != null) {
+                element.html(0);
+                } else {
+                    element.html('');
                 }
                 return element[0].outerHTML;
             };

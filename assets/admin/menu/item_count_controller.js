@@ -30,7 +30,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icountlistGrid').show();
             setTimeout(function(){
                 updateIcountlistGrid($scope.icountID);
-            }, 100);
+            }, 250);
             $('#addToCountBtn').hide();
             $('#setZeroIcountBtn').show();
             $('#deleteIcounlistBtn').show();
