@@ -128,14 +128,23 @@
             var cellsDiff = function (index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
-                var current = parseFloat(row.CurrentStock);
-                current = (!isNaN(current)) ? current : 0;
-                var diff = parseFloat(row.CountStock) - current;
-                diff = (isNaN(diff)) ? '' : diff.toFixed(decimalQty);
-                element.html(diff);
-                // element.css('text-align', 'right');
-                if (diff < 0) {
-                    element.css('color', 'red');
+                // var current = parseFloat(row.CurrentStock);
+                // current = (!isNaN(current)) ? current : 0;
+                // var diff = parseFloat(row.CountStock) - current;
+                // diff = (isNaN(diff)) ? '' : diff.toFixed(decimalQty);
+                // element.html(diff);
+                // if (diff < 0) {
+                //     element.css('color', 'red');
+                // }
+                if (!isNaN(value) && value != '') {
+                    var diff = value.toFixed(decimalQty);
+                    if (diff < 0)
+                        element.css('color', 'red');
+                    element.html(diff);
+                } /*else if (row.CountStock != null) {
+                    element.html(0);
+                }*/ else {
+                    element.html('');
                 }
 
                 return element[0].outerHTML;
