@@ -298,7 +298,8 @@ class User_model extends CI_Model
 
     public function validateUsername($value, $whereNot = null) {
         $this->db->where('Status', 1);
-        $this->db->where(" LOWER(\"UserName\") LIKE LOWER('%". $value . "%')", NULL, false);
+//        $this->db->where(" LOWER(\"UserName\") LIKE LOWER('%". $value . "%')", NULL, false);
+        $this->db->where("UserName", $value);
         if (!is_null($whereNot))
             $this->db->where($whereNot);
         $query = $this->db->get('config_user')->result_array();
