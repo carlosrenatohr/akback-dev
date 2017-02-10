@@ -272,9 +272,24 @@ app.controller('menuQuestionController', function ($scope, questionService) {
 
     $scope.saveQuestionWindow = function(closed) {
         if (validationQuestionForm()) {
-            var bprimary = $('#qbPrimaryColor').jqxColorPicker('getColor');
-            var bsecondary = $('#qbSecondaryColor').jqxColorPicker('getColor');
-            var lfont = $('#qlfontColor').jqxColorPicker('getColor');
+            var bprimary;
+            if ($('#qbPrimaryColor').jqxColorPicker('getColor') != undefined)
+                bprimary = $('#qbPrimaryColor').jqxColorPicker('getColor').hex;
+            else
+                bprimary = $scope.qbPrimaryColor;
+            //
+            var bsecondary;
+            if ($('#qbSecondaryColor').jqxColorPicker('getColor') != undefined)
+                bsecondary = $('#qbSecondaryColor').jqxColorPicker('getColor').hex;
+            else
+                bsecondary = $scope.qbSecondaryColor;
+            //
+            var lfont;
+            if ($('#qlfontColor').jqxColorPicker('getColor') != undefined)
+                lfont = $('#qlfontColor').jqxColorPicker('getColor').hex;
+            else
+                lfont = $scope.qlfontColor;
+            //
             var values = {
                 'Question': $('#qt_Question').val(),
                 'QuestionName': $('#qt_QuestionName').val(),
@@ -282,9 +297,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 'Min': $('#qt_min').val(),
                 'Max': $('#qt_max').val(),
                 //
-                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
-                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
-                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+                'ButtonPrimaryColor': "#" + (bprimary),
+                'ButtonSecondaryColor': "#" + (bsecondary),
+                'LabelFontColor': "#" + (lfont),
                 'LabelFontSize': $('#qlfontSize').val()
             };
             var url = '';
@@ -591,18 +606,33 @@ app.controller('menuQuestionController', function ($scope, questionService) {
 
     $scope.saveItemByQuestion = function(closed) {
         if (!beforeValidationsSaveItemQuestion()) {
-            var bprimary = $('#qibPrimaryColor').jqxColorPicker('getColor');
-            var bsecondary = $('#qibSecondaryColor').jqxColorPicker('getColor');
-            var lfont = $('#qilfontColor').jqxColorPicker('getColor');
+            var bprimary;
+            if ($('#qibPrimaryColor').jqxColorPicker('getColor') != undefined)
+                bprimary = $('#qibPrimaryColor').jqxColorPicker('getColor').hex;
+            else
+                bprimary = $scope.qibPrimaryColor;
+            //
+            var bsecondary;
+            if ($('#qibSecondaryColor').jqxColorPicker('getColor') != undefined)
+                bsecondary = $('#qibSecondaryColor').jqxColorPicker('getColor').hex;
+            else
+                bsecondary = $scope.qibSecondaryColor;
+            //
+            var lfont;
+            if ($('#qilfontColor').jqxColorPicker('getColor') != undefined)
+                lfont = $('#qilfontColor').jqxColorPicker('getColor').hex;
+            else
+                lfont = $scope.qilfontColor;
+            //
             var data = {
                 'QuestionUnique': $scope.questionId,
                 'ItemUnique': $('#qItem_ItemUnique').jqxComboBox('getSelectedItem').value,
                 'Sort': $('#qItem_sort').val(),
                 'Label': $('#qItem_Label').val(),
                 //
-                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
-                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
-                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+                'ButtonPrimaryColor': "#" + (bprimary),
+                'ButtonSecondaryColor': "#" + (bsecondary),
+                'LabelFontColor': "#" + (lfont),
                 'LabelFontSize': $('#qilfontSize').val()
             };
             var url;

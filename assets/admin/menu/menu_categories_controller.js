@@ -712,9 +712,23 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
             }
         });
         if (!validationCategoryItem()) {
-            var bprimary = $('#bPrimaryColor').jqxColorPicker('getColor');
-            var bsecondary = $('#bSecondaryColor').jqxColorPicker('getColor');
-            var lfont = $('#lfontColor').jqxColorPicker('getColor');
+            var bprimary;
+            if ($('#bPrimaryColor').jqxColorPicker('getColor') != undefined)
+                bprimary = $('#bPrimaryColor').jqxColorPicker('getColor').hex;
+            else
+                 bprimary = $scope.bPrimaryColor;
+            //
+            var bsecondary;
+            if ($('#bSecondaryColor').jqxColorPicker('getColor') != undefined)
+                bsecondary = $('#bSecondaryColor').jqxColorPicker('getColor').hex;
+            else
+                bsecondary = $scope.bSecondaryColor;
+            //
+            var lfont;
+            if ($('#lfontColor').jqxColorPicker('getColor') != undefined)
+                lfont = $('#lfontColor').jqxColorPicker('getColor').hex;
+            else
+                lfont = $scope.lfontColor;
             //
             var values = {
                 'CategoryName': $('#add_CategoryName').val(),
@@ -724,9 +738,9 @@ app.controller('menuCategoriesController', function($scope, $http, adminService)
                 'Status': $('#add_CategoryStatus').jqxDropDownList('getSelectedItem').value,
                 'MenuUnique': $('#add_MenuUnique').jqxDropDownList('getSelectedItem').value,
                 'PictureFile': imgs.join(','),
-                'ButtonPrimaryColor': "#" + ((bprimary) ? bprimary.hex : '000'),
-                'ButtonSecondaryColor': "#" + ((bsecondary) ? bsecondary.hex: '000'),
-                'LabelFontColor': "#" + ((lfont) ? lfont.hex : '000'),
+                'ButtonPrimaryColor': "#" + (bprimary),
+                'ButtonSecondaryColor': "#" + (bsecondary),
+                'LabelFontColor': "#" + (lfont),
                 'LabelFontSize': $('#lfontSize').val()
             };
 
