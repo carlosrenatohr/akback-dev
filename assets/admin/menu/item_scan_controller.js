@@ -306,12 +306,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
             if (option == 0) {
                 $scope.saveScan(1);
             } else if (option == 1) {
-                $scope.matchIscan(0);
+                $scope.matchIscan(0, true);
                 iscanwind.close();
             } else if (option == 2) {
             } else {
                 if ($('#saveIscanBtn').is(':disabled')) {
-                    $scope.matchIscan(0);
+                    $scope.matchIscan(0, true);
                     iscanwind.close();
                 } else {
                     $('#mainIscanBtns').hide();
@@ -322,7 +322,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }
         };
 
-        $scope.matchIscan = function(option) {
+        $scope.matchIscan = function(option, close) {
             if (option != undefined) {
                 $('#mainIscanBtns').show();
                 $('#closeIscanBtns').hide();
@@ -331,28 +331,29 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }
 
             if (option == 0) {
-                $.ajax({
-                    method: 'post',
-                    url: SiteRoot + 'admin/ItemCount/itemMatchScan/' + $scope.iscanID ,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status == 'success') {
-                            setTimeout(function(){
-                                updateIscanGrid();
-                                $('#iscanlistGrid').show();
-                                updateIscanlistGrid($scope.iscanID);
-                            }, 250);
-                            // $('#matchIscanBtn').hide();
-                            // $('#iscanGrid').jqxGrid('refresh');
-                            // $('#iscanGrid').jqxGrid('render');
-                            $('#iscanSuccessMsg #msg').html('List was updated with Items found.');
-                            $scope.iscanSuccessMsg.apply('open');
-                            // icountwind.close();
+                if ($scope.iscanID != null) {
+                    $.ajax({
+                        method: 'post',
+                        url: SiteRoot + 'admin/ItemCount/itemMatchScan/' + $scope.iscanID ,
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status == 'success') {
+                                // $('#matchIscanBtn').hide();
+                                if (close == undefined) {
+                                    setTimeout(function(){
+                                        updateIscanGrid();
+                                        $('#iscanlistGrid').show();
+                                        updateIscanlistGrid($scope.iscanID);
+                                    }, 250);
+                                    $('#iscanSuccessMsg #msg').html('List was updated with Items found.');
+                                    $scope.iscanSuccessMsg.apply('open');
+                                }
+                            }
+                            else if (response.status == 'error') {}
+                            else {}
                         }
-                        else if (response.status == 'error') {}
-                        else {}
-                    }
-                });
+                    });
+                }
             } else if (option == 1) {
             } else {
                 $('#mainIscanBtns').hide();
