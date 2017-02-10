@@ -155,6 +155,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var row = e.args.row.bounddata;
             $scope.iscanID = row.Unique;
             $scope.createOrEditIscan = 'edit';
+            console.log($scope.iscanID);
             //
             // updateIscanlistGrid();
             $('#icount_location').val(row.Location);
@@ -207,6 +208,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 url: url,
                 data: data,
                 dataType: 'json',
+                async: false,
                 success: function(response) {
                     if (response.status == 'success') {
                         $('#saveIscanBtn').prop('disabled', true);
@@ -225,7 +227,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
                             //
-                            $scope.matchIscan(0);
+                            $scope.matchIscan(0, true);
                         } else {
                             $('#iscanSuccessMsg #msg').html(response.message);
                             $scope.iscanSuccessMsg.apply('open');
@@ -233,21 +235,23 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         $('#saveIscanBtn').hide();
                         $('#matchIscanBtn').show();
                         $('#delScanListBtn').show();
-                        setTimeout(function() {
-                            updateIscanGrid();
-                            $('#iscanTabs').jqxTabs('enableAt', 1);
-                            $('#iscanTabs').jqxTabs('select', 1);
-                            $('#iscanlistGrid').show();
-                            updateIscanlistGrid($scope.iscanID);
-                        }, 250);
                         // Force to close notification
                         setTimeout(function(){
                             $scope.iscanSuccessMsg.apply('closeAll');
                         }, 3000);
+                        // Close or show grids
                         if (toClose) {
                             iscanwind.close();
                             // $('#icountTabs').jqxTabs('select', 0);
                             // $('#icountTabs').jqxTabs('disableAt', 2);
+                        } else {
+                            setTimeout(function() {
+                                updateIscanGrid();
+                                $('#iscanTabs').jqxTabs('enableAt', 1);
+                                $('#iscanTabs').jqxTabs('select', 1);
+                                $('#iscanlistGrid').show();
+                                updateIscanlistGrid($scope.iscanID);
+                            }, 250);
                         }
                     } else if (response.status == 'error') {
                     } else {}
