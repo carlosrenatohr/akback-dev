@@ -3,7 +3,7 @@
         <span class="icon-new"></span>
         New
     </a>
-    <jqx-grid id="categoriesDataTable"
+    <jqx-grid id="categoriesDataTable" style="display: none;"
                     jqx-settings="categoriesTableSettings"
                     jqx-on-rowdoubleclick="updateCategoryAction(e)">
     </jqx-grid>

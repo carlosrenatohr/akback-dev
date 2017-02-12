@@ -5,7 +5,7 @@
             New
         </a>
     </div>
-    <jqx-grid id="menuGridTable"
+    <jqx-grid id="menuGridTable" style="display: none;"
                 jqx-settings="menuTableSettings"
                 jqx-on-rowdoubleclick="updateMenuAction(event)">
     </jqx-grid>
@@ -16,7 +16,7 @@
             Add new menu
         </div>
         <div>
-            <jqx-tabs jqx-width="'100%'">
+            <jqx-tabs jqx-width="'100%'" id="menuTopTabs">
                 <ul>
                     <li>Menu</li>
                     <li>Styles</li>
