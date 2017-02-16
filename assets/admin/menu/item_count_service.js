@@ -203,8 +203,13 @@
                 if (column == 'CurrentStock' || column == 'CountStock' || column == 'Difference') {
                     fixed = decimalQty;
                 }
-
-                return (Math.floor(aggregatedValue) + Math.floor(currentValue)).toFixed(fixed); //.toFixed(decimals);
+                var sum;
+                if (currentValue != null && currentValue != '') {
+                    sum = (parseFloat(aggregatedValue) + parseFloat(currentValue));
+                } else {
+                    sum = parseFloat(aggregatedValue);
+                }
+                return sum.toFixed(fixed); //.toFixed(decimals);
                 // return aggregatedValue + 1; //.toFixed(decimals);
             };
 
