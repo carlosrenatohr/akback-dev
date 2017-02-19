@@ -28,10 +28,6 @@
             <label for="inputType" class="control-label">SubCategory:</label>
 
             <div class="input">
-                <!--                <jqx-combo-box id="item_subcategory" jqx-width="'220px'" jqx-height="'30px'" class="item_combobox"-->
-                <!--                               jqx-settings="subcategoryCbxSettings" jqx-on-select=""-->
-                <!--                               data-field="Subcategory"-->
-                <!--                ></jqx-combo-box>-->
                 <jqx-drop-down-list id="item_subcategory" jqx-width="'250px'" jqx-height="'30px'" class="item_combobox"
                                     jqx-settings="subcategoryCbxSettings" jqx-on-select=""
                                     data-field="Subcategory"
@@ -46,8 +42,11 @@
             <div class="input" >
                 <input type="text" class="form-control item_textcontrol req" id="item_Item" name="item_Item"
                        ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
-                       data-field="Item" placeholder="Item Number" autofocus>
+                       data-field="Item" placeholder="Item Number" autofocus
+                       style="float: left;width: 170px;">
                 <span class="required-ast">*</span>
+                <button id="generateItemNumberBtn" class="btn btn-info pull-left"
+                    ng-click="generateItemNumber()">Generate</button>
             </div>
         </div>
     </div>

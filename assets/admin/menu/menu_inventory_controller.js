@@ -220,6 +220,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         //
         $('#invMainWindow #picture_tab').hide();
         // $('#deleteInventoryBtn').hide();
+        $('#generateItemNumberBtn').show();
         $('#saveInventoryBtn').prop('disabled', true);
         inventoryWind.setTitle('New Item');
         inventoryWind.open();
@@ -329,6 +330,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#invMainWindow #picture_tab .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         $('#invMainWindow #picture_tab').show();
         // $('#deleteInventoryBtn').show();
+        $('#generateItemNumberBtn').hide();
         var btn = $('<button/>', {
             'id': 'deleteInventoryBtn'
         }).addClass('icon-trash user-del-btn').css('left', 0);
@@ -338,10 +340,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         inventoryWind.open();
     };
 
-    var beforeSaveInventory = function() {
+    var beforeSaveInventory = function(fieldsToSkip) {
         var needValidation = false;
+        if (fieldsToSkip == undefined) {
+            fieldsToSkip = [];
+        }
         $('.inventory_tab .req').each(function(i, el) {
-            if (el.value == '') {
+            var fieldName = $(el).data('field');
+            if (el.value == '' && fieldsToSkip.indexOf(fieldName) < 0) {
                 showingNotif($(el).attr('placeholder') + " is required", 0);
                 $(el).css({'border-color': '#F00'});
                 needValidation = true;
@@ -486,8 +492,9 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
-    $scope.saveInventoryAction = function(toClose, toTab) {
-        if (!beforeSaveInventory()) {
+    $scope.saveInventoryAction = function(toClose, toTab, skipItemF) {
+        var isValidated = beforeSaveInventory(skipItemF);
+        if (!isValidated) {
             var url = '', dataRequest = gettingInventoryValues();
             if ($scope.createOrEditItemInventory == 'create')
                 url = SiteRoot + 'admin/MenuItem/postItemInventory';
@@ -498,6 +505,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 url: url,
                 data: dataRequest,
                 dataType: 'json',
+                async: false,
                 success: function(data) {
                     if (data.status == 'success') {
                         if ($scope.createOrEditItemInventory == 'create') {
@@ -507,6 +515,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                             inventoryWind.setTitle('Edit Item ID: '+ data.id + ' | Item: ' + dataRequest.Item + '| ' + dataRequest.Description);
                             stocklWind.setTitle('Adjust Quantity | Item: ' + dataRequest.Item + ' | ' + dataRequest.Description);
                             updateItemsInventoryGrid();
+                            $('#generateItemNumberBtn').hide();
                             if(toTab) {
                                 $('#inventoryTabs').jqxTabs({'selectedItem': toTab})
                                 tabSelectedOnCreate = null;
@@ -530,6 +539,37 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         showingNotif(data.message, 0);
                 }
             });
+        }
+    };
+
+    $scope.generateItemNumber = function(option) {
+        if (option != undefined) {
+            $('#mainButtonsOnItemInv').show();
+            $('#promptCloseItemInv').hide();
+            $('#promptToDeleteItemInv').hide();
+            $('#generateItemNItemInv').hide();
+        }
+        if (option == 0) {
+            $scope.saveInventoryAction(false, false, ['Item']);
+            $('#item_Item').val($scope.itemInventoryID);
+            $('#item_Part').val($scope.itemInventoryID);
+            $('#item_SupplierPart').val($scope.itemInventoryID);
+            setTimeout(function(){
+                $scope.saveInventoryAction(false, false, ['Item']);
+            }, 200);
+
+        } else if (option == 1) {
+            $scope.closeInventoryWind(1);
+        } else if (option == 2) {
+        } else {
+            // if ($('#saveInventoryBtn').is(':disabled')) {
+            //     $scope.closeInventoryWind(1);
+            // } else {
+                $('#mainButtonsOnItemInv').hide();
+                $('#promptCloseItemInv').hide();
+                $('#promptToDeleteItemInv').hide();
+                $('#generateItemNItemInv').show();
+            // }
         }
     };
 

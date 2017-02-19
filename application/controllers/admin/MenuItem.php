@@ -415,7 +415,6 @@ class MenuItem extends AK_Controller
 
     public function postItemInventory() {
         $data = $_POST;
-//        var_dump($_POST);exit;
         if (!empty($data) || !is_null($_POST)) {
             $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
                         ? $_POST['taxesValues']

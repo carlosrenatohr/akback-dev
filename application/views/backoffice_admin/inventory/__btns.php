@@ -56,6 +56,20 @@
         </div>
     </div>
 </div>
+
+<!-- Prompt before pressing generate number on item -->
+<div class="col-md-12 col-md-offset-0">
+    <div id="generateItemNItemInv" class="rowMsgInv" style="display: none">
+        <div class="form-group">
+            <div class="col-sm-12">
+                would like you to right save the New Item into Item Table?
+                <button type="button" ng-click="generateItemNumber(0)" class="btn btn-primary">Yes</button>
+                <button type="button" ng-click="generateItemNumber(1)" class="btn btn-warning">No</button>
+                <button type="button" ng-click="generateItemNumber(2)" class="btn btn-info">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- NOTIFICATIONS AREA -->
 <div class="col-md-12 col-md-offset-0">
     <div class="row">
