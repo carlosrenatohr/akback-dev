@@ -77,6 +77,7 @@ angular.module("akamaiposApp")
     };
 
     // -- BARCODES LIST
+    // ListBox
     this.getBarcodesListSettings = function (id) {
         var url = '';
         if (id != undefined)
@@ -96,6 +97,39 @@ angular.module("akamaiposApp")
             displayMember: "Barcode",
             valueMember: "Unique",
             theme: 'arctic'
+        }
+    };
+
+    // Grid
+    this.getBarcodesListSettings2 = function (id) {
+        var url = '';
+        if (id != undefined)
+            url = SiteRoot + 'admin/MenuItem/getBarcodesByItem/' + id;
+        return {
+            source:new $.jqx.dataAdapter({
+                dataType: 'json',
+                dataFields: [
+                    {name: 'Unique', type: 'int'},
+                    {name: 'Barcode', type: 'string'},
+                    {name: 'Sort', type: 'string'}
+                ],
+                url: url
+            }),
+            columns: [
+                {dataField: 'Unique', hidden: true},
+                {text: 'Barcode', dataField: 'Barcode', width: '75%'},
+                {text: 'Sort', dataField: 'Sort', width: '20%'},
+            ],
+            width: "100%",
+            theme: 'arctic',
+            filterable: true,
+            showfilterrow: true,
+            altRows: true,
+            sortable: true,
+            autoheight: true,
+            autorowheight: true,
+            pageable: true,
+            pageSize: 10
         }
     };
 

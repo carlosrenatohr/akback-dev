@@ -106,13 +106,13 @@ class Item_model extends CI_Model
      * @return mixed
      */
     public function getBarcodesByItem($id = null) {
-        $this->db->select('Unique, Barcode');
+        $this->db->select('Unique, Barcode, Sort');
         $this->db->from('item_barcode');
         if (!is_null($id))
             $this->db->where('ItemUnique', $id);
         $this->db->where('Barcode!=', '');
         $this->db->where('Status', 1);
-        $this->db->order_by('Created DESC');
+        $this->db->order_by('Sort ASC');
         return $this->db->get()->result_array();
     }
 
