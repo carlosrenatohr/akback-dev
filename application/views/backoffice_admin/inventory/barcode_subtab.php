@@ -5,7 +5,14 @@
                 <div style="width:40%; float:left;">
                     <input type="text" id="item_barcodeinput" class="form-control item_textcontrol"
                            placeholder="Enter Barcode" ng-model="barcodeData.mainValue"
-                           ng-enter="saveItemBarcode()"/>
+                           ng-enter="saveItemBarcode()" style="width:80%;float: left;"/>
+                    <jqx-number-input id="item_barcodesort" class="item_textcontrol"
+                                      jqx-width="'50px'" jqx-height="'30px'"
+                                      jqx-spin-buttons="false" jqx-input-mode="simple"
+                                      jqx-symbol="''"
+                                      jqx-min="1" jqx-max="5" jqx-value="1"
+                                      jqx-decimal-digits="0"
+                    ></jqx-number-input>
                 </div>
                 <div style="width:40%; float:left; margin-left:10px;">
                     <button ng-click="saveItemBarcode()" class="btn btn-primary">Add</button>
