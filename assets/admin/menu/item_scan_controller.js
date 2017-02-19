@@ -241,6 +241,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         }, 3000);
                         // Close or show grids
                         if (toClose) {
+                            setTimeout(function() {
+                                updateIscanGrid();
+                            }, 250);
                             iscanwind.close();
                             // $('#icountTabs').jqxTabs('select', 0);
                             // $('#icountTabs').jqxTabs('disableAt', 2);
