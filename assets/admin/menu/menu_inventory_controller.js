@@ -101,7 +101,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.onSelectCategoryCbx = function(e) {
         //var id = e.args.index;
-        if (e.args.item) {
+        if (e.args) {
             var id = e.args.item.value;
             $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
         } else {
@@ -215,7 +215,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         // $scope.ddb_itlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: '000000' })));
         //
         setTimeout(function(){
-            $('.inventory_tab #item_Item').focus();
+            $('.inventory_tab #item_Description').focus();
         }, 100);
         //
         $('#invMainWindow #picture_tab').hide();
@@ -309,7 +309,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             //$('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
             // $('#item_subcategory').jqxComboBox('val', row.SubCategoryId);
             $('#item_subcategory').jqxDropDownList('val', row.SubCategoryId);
-            $('.inventory_tab #item_Item').focus();
+            $('.inventory_tab #item_Description').focus();
             $('#saveInventoryBtn').prop('disabled', true);
         }, 400);
         // Load images
@@ -549,28 +549,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             $('#promptToDeleteItemInv').hide();
             $('#generateItemNItemInv').hide();
         }
-        if (option == 0) {
+        $scope.saveInventoryAction(false, false, ['Item']);
+        $('#item_Item').val($scope.itemInventoryID);
+        $('#item_Part').val($scope.itemInventoryID);
+        $('#item_SupplierPart').val($scope.itemInventoryID);
+        setTimeout(function(){
             $scope.saveInventoryAction(false, false, ['Item']);
-            $('#item_Item').val($scope.itemInventoryID);
-            $('#item_Part').val($scope.itemInventoryID);
-            $('#item_SupplierPart').val($scope.itemInventoryID);
-            setTimeout(function(){
-                $scope.saveInventoryAction(false, false, ['Item']);
-            }, 200);
-
-        } else if (option == 1) {
-            $scope.closeInventoryWind(1);
-        } else if (option == 2) {
-        } else {
-            // if ($('#saveInventoryBtn').is(':disabled')) {
-            //     $scope.closeInventoryWind(1);
-            // } else {
-                $('#mainButtonsOnItemInv').hide();
-                $('#promptCloseItemInv').hide();
-                $('#promptToDeleteItemInv').hide();
-                $('#generateItemNItemInv').show();
-            // }
-        }
+        }, 200);
     };
 
     $scope.closeInventoryAction = function(option) {
