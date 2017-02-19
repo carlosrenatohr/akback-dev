@@ -477,8 +477,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#mainIcountBtns').show();
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
-            $('#finishIcountBtns').hide();
-            $('#setZeroIcountBtns').hide();
+            // $('#finishIcountBtns').hide();
+            // $('#setZeroIcountBtns').hide();
+            $('#finishIcountWin').jqxWindow('close');
         }
 
         if (option == 0) {
@@ -491,6 +492,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
                         $('#finishIcountBtn').hide();
+                        $('#finishIcountWin').jqxWindow('close');
                         $('#icountGrid1').jqxGrid('refresh');
                         $('#icountGrid2').jqxGrid('refresh');
                         // $('#icountGrid2').jqxGrid('render');
@@ -507,8 +509,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#mainIcountBtns').hide();
             $('#closeIcountBtns').hide();
             $('#deleteIcountBtns').hide();
-            $('#finishIcountBtns').show();
-            $('#setZeroIcountBtns').hide();
+            // $('#finishIcountBtns').show();
+            // $('#setZeroIcountBtns').hide();
+            $('#finishIcountWin').jqxWindow('open');
         }
     };
 

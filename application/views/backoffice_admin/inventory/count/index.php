@@ -152,20 +152,20 @@
                         </div>
                     </div>
                     <!-- Prompt before finish count on item count list -->
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="row">
-                            <div id="finishIcountBtns" class="" style="display: none">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <p>Your stock will be adjusted based on above counts. <br>
-                                            Press Finalize to continue or Cancel to continue editing</p>
-                                        <button type="button" ng-click="finishIcount(0)" class="btn btn-primary">Finalize</button>
-                                        <button type="button" ng-click="finishIcount(1)" class="btn btn-info">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="col-md-12 col-md-offset-0">-->
+<!--                        <div class="row">-->
+<!--                            <div id="finishIcountBtns" class="" style="display: none">-->
+<!--                                <div class="form-group">-->
+<!--                                    <div class="col-sm-12">-->
+<!--                                        <p>Your stock will be adjusted based on above counts. <br>-->
+<!--                                            Press Finalize to continue or Cancel to continue editing</p>-->
+<!--                                        <button type="button" ng-click="finishIcount(0)" class="btn btn-primary">Finalize</button>-->
+<!--                                        <button type="button" ng-click="finishIcount(1)" class="btn btn-info">Cancel</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                     <!-- Prompt before finish count on item count list -->
                     <div class="col-md-12 col-md-offset-0">
