@@ -314,13 +314,19 @@ class Item_count_model extends CI_Model
     }
 
     public function setZero_NotCounted_list($id) {
-//        $this->db->where('CountUnique', $id);
-//        $this->db->where('CountStock', null);
-//        return $this->db->update('item_count_list', ['CountStock' => 0]);
         $query = "UPDATE item_count_list
                     SET  \"CountStock\" = 0, \"Difference\" = (0 - \"CurrentStock\"),
                           \"AdjustedCost\"=0, \"NewCost\"=0
                     WHERE \"CountStock\" is NULL AND \"CountUnique\" = {$id}";
+        return $this->db->query($query);
+    }
+
+    public function setZero_AllList($id) {
+        $query = 'UPDATE item_count_list
+                    SET  "CountStock" = 0, "Difference" = (0 - coalesce("CurrentStock", 0)),
+                         "NewCost" = 0, 
+                         "AdjustedCost" = (0 - coalesce("CurrentStock", 0)) * (coalesce("Cost", 0) + coalesce("CostExtra", 0) + coalesce("CostFreight", 0) + coalesce("CostDuty", 0))
+                    WHERE "CountUnique" = ' . $id;
         return $this->db->query($query);
     }
 

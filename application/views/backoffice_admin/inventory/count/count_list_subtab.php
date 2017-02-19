@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <!-- WINDOW TO DELETE ITEM COUNT LIST    -->
+    <!-- WINDOW TO SET ZERO ALL NON-COUNTED ITEMS COUNT LIST    -->
     <jqx-window id="setzeroItemCountListWin"
                 jqx-is-modal="true" jqx-width="450" jqx-height="200"
                 jqx-auto-open="false" jqx-show-close-button="true"
@@ -29,6 +29,34 @@
                     >OK
                     </jqx-button>
                     <jqx-button id="ok" jqx-width="65" ng-click="setZeroIcount(1)"
+                                style="margin-right: 10px"
+                    >CANCEL
+                    </jqx-button>
+                </div>
+            </div>
+        </div>
+    </jqx-window>
+    <!-- WINDOW TO SET ZERO ALL ITEMS COUNT LIST    -->
+    <jqx-window id="setzeroAllItemCountListWin"
+                jqx-is-modal="true" jqx-width="450" jqx-height="200"
+                jqx-auto-open="false" jqx-show-close-button="true"
+                jqx-resizable="false"
+    >
+        <div class="header">Set Zero ALL Items</div>
+        <div class="body">
+            <div class="text-content" style="text-align: center;font-size: 15px;margin-bottom: 15px;">
+                <b>Warning:</b><br>
+                Everything in the Count Column will be set to Zero.
+                This means any quantities already in Count Column will be changed to 0 as well.
+                Are you sure you want to do this ?
+            </div>
+            <div class="button-content">
+                <div style="float: right; margin-top: 15px;">
+                    <jqx-button id="ok" jqx-width="65" ng-click="setZeroAllIcount(0)"
+                                style="margin-right: 10px"
+                    >OK
+                    </jqx-button>
+                    <jqx-button id="ok" jqx-width="65" ng-click="setZeroAllIcount(1)"
                                 style="margin-right: 10px"
                     >CANCEL
                     </jqx-button>

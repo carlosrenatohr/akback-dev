@@ -16,6 +16,9 @@
             <button type="button" id="setZeroIcountBtn" ng-click="setZeroIcount()"
                     class="btn btn-info" style="overflow:auto;display: none;"
             >Zero Not Counted</button>
+            <button type="button" id="setZeroAllIcountBtn" ng-click="setZeroAllIcount()"
+                    class="btn btn-info" style="overflow:auto;display: none;background: #022561;"
+            >Zero All</button>
             <button type="button" id="finishIcountBtn" ng-click="finishIcount()"
                     class="btn btn-success" style="overflow:auto;display: none;"
             >Finish Count</button>

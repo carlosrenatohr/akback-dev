@@ -201,6 +201,21 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
+    public function setZeroAllCount($id) {
+        $status = $this->count->setZero_AllList($id);
+        if ($status) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Set successfully!',
+                'data' => $status
+            ];
+        } else {
+            $response = $this->dbErrorMsg();
+        }
+
+        echo json_encode($response);
+    }
+
     /**
      * ITEM COUNT SCAN
      */
