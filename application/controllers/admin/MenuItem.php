@@ -70,7 +70,8 @@ class MenuItem extends AK_Controller
     public function load_allItems()
     {
         $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
-        $items = $this->menuItem->getItems($sort);
+        $search = isset($_GET['search']) ? $_GET['search'] : null;
+        $items = $this->menuItem->getItems($sort, $search);
         $new_items = [];
         foreach($items as $item) {
             $item['ListPrice'] = number_format((float)$item['ListPrice'], $this->decimalPrice);

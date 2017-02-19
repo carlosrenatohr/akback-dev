@@ -24,6 +24,17 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     });
 
+    $('body').on('keypress', '#itemListboxSearch .jqx-listbox-filter-input', function(e) {
+        var kcode = e.keyCode;
+        var inputEntered = $('#itemListboxSearch .jqx-listbox-filter-input').val();
+        if (kcode == 13) {
+            $('#loadingMenuItem').show();
+            $('#itemListboxSearch').jqxListBox({
+                source: dataAdapterItems('ASC', inputEntered)
+            });
+        }
+    });
+
     var printerTabOnce = true;
     $('#jqxTabsMenuItemWindows').on('selecting', function(e) { // tabclick
         var tabclicked = e.args.item;
@@ -400,10 +411,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     /**
      * -- ITEMS COMBO BOX SIDE
      */
-    var dataAdapterItems = function(sort, empty) {
+    var dataAdapterItems = function(sort, search) {
         var url = '';
-        if (empty == undefined)
+        var settings = {};
+        if (sort != undefined) {
             url = SiteRoot + 'admin/MenuItem/load_allItems?sort=' + sort;
+            if (search != undefined) {
+                url += ('&search=' + search);
+                settings.loadComplete = function() {
+                    $('#loadingMenuItem').hide();
+                }
+            }
+        }
         return new $.jqx.dataAdapter(
             {
                 dataType: 'json',
@@ -419,7 +438,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'SubCategory', type: 'string'},
                 ],
                 url: url
-            }
+            }, settings
         );
     };
 
@@ -434,7 +453,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         itemHeight: 50,
         //height: '100%',
         //height: 300,
-        source: dataAdapterItems('ASC', 1),
+        source: dataAdapterItems('ASC'),
         theme: 'arctic'
     };
     $scope.itemsComboboxSelecting = function(e) {
@@ -458,7 +477,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         width: "100%",
         itemHeight: 40,
         height: '550px',
-        source: dataAdapterItems('ASC'),
+        source: [],
         theme: 'arctic',
         filterable: true,
         filterHeight: 30,

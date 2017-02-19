@@ -12,12 +12,16 @@
             <div id="selectedItemInfo" class="selectedItemInfoClass">
                 {{ selectedItemInfo.Description }}
             </div>
-            <jqx-list-box
-                jqx-on-select="itemListBoxOnSelect(event)"
-                jqx-settings="itemsListboxSettings"
-                id="itemListboxSearch"
+            <div>
+                <img id="loadingMenuItem" src="<?php echo base_url()?>assets/img/loadinfo.gif" alt=""
+                    style="position: absolute;width: 20%;left: 35%;display: none;">
+                <jqx-list-box
+                        jqx-on-select="itemListBoxOnSelect(event)"
+                        jqx-settings="itemsListboxSettings"
+                        id="itemListboxSearch"
                 >
-            </jqx-list-box>
+                </jqx-list-box>
+            </div>
         </div>
     </div>
     <div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container" style="padding: 0;">

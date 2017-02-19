@@ -18,13 +18,16 @@ class Menu_item_model extends CI_Model
         $this->load->library('session');
     }
 
-    public function getItems($sort = null)
+    public function getItems($sort = null, $search = null)
     {
         $this->db->select('item.Unique, item.Description, item.Item, item.Status, item.ListPrice, item.price1,
                         category_sub.Name as SubCategory, category_main.MainName as Category');
         $this->db->from($this->itemTable);
         $this->db->where(['item.Status!=' => 0]);
         $this->db->where(['item.Description!=' => '']);
+        if (!is_null($search)) {
+            $this->db->where('LOWER("item"."Description") like \'%' .$search . '%\'', null);
+        }
         $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
         $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');
         $this->db->order_by('item.Description', (!is_null($sort)) ? $sort : 'DESC');
