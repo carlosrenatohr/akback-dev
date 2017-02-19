@@ -1,29 +1,6 @@
 <div class="col-md-12 inventory_tab">
     <div class="row">
         <div class="form-group control-cont">
-            <label for="inputType" class="control-label">Item Number:</label>
-
-            <div class="input" >
-                <input type="text" class="form-control item_textcontrol req" id="item_Item" name="item_Item"
-                       ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
-                       data-field="Item" placeholder="Item Number" autofocus>
-                <span class="required-ast">*</span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group control-cont">
-            <label for="inputType" class="control-label">Barcode:</label>
-
-            <div class="input">
-                <input type="text" class="form-control item_textcontrol" id="item_Part" name="item_Part"
-                       data-field="Part" placeholder="Barcode" ng-model="inventoryData.part"
-                    >
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group control-cont">
             <label for="inputType" class="control-label">Description:</label>
 
             <div class="input">
@@ -59,6 +36,29 @@
                                     jqx-settings="subcategoryCbxSettings" jqx-on-select=""
                                     data-field="Subcategory"
                 ></jqx-drop-down-list>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group control-cont">
+            <label for="inputType" class="control-label">Item Number:</label>
+
+            <div class="input" >
+                <input type="text" class="form-control item_textcontrol req" id="item_Item" name="item_Item"
+                       ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
+                       data-field="Item" placeholder="Item Number" autofocus>
+                <span class="required-ast">*</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group control-cont">
+            <label for="inputType" class="control-label">Barcode:</label>
+
+            <div class="input">
+                <input type="text" class="form-control item_textcontrol" id="item_Part" name="item_Part"
+                       data-field="Part" placeholder="Barcode" ng-model="inventoryData.part"
+                    >
             </div>
         </div>
     </div>
@@ -134,6 +134,27 @@
                                       data-field="price1"
                                       ng-change="setStaticPrices()"
                                       ng-model="inventoryData.price1"
+                    ></jqx-number-input>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group control-cont">
+            <label for="inputType" class="control-label">Cost:</label>
+
+            <div class="input">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <jqx-number-input id="" class="item_textcontrol"
+                                      jqx-width="220" jqx-height="30"
+                                      jqx-spin-buttons="false" jqx-input-mode="simple"
+                                      jqx-symbol="''"
+                                      jqx-decimal-digits="<?= $decimalsPrice; ?>"
+                                      ng-change=""
+                                      ng-model="inventoryData.cost"
+                                      data-field="Cost"
                     ></jqx-number-input>
                 </div>
             </div>

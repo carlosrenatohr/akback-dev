@@ -166,7 +166,7 @@
 
 <style>
     #invMainWindow {
-        max-height: 85%!important;
+        max-height: 90%!important;
     }
     .required-ast {
         color: #F00;
