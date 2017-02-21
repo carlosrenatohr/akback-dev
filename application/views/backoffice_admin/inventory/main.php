@@ -148,5 +148,6 @@
 
     </div>
 </div>
-
+    <input type="hidden" id="decimalCost" value="<?php echo $decimalsCost; ?>">
+    <input type="hidden" id="decimalQty" value="<?php echo $decimalsQuantity;?>">
 <?php $this->load->view('backoffice_includes/backoffice_mainmenu_footer'); ?>

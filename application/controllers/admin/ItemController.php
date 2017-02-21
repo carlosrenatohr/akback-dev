@@ -17,13 +17,17 @@ class ItemController extends AK_Controller
     }
 
     public function index() {
+        $station = $this->session->userdata("station_number");
+        $this->getSettingLocation('DecimalsCost', $station);
+        $this->getSettingLocation('DecimalsQuantity', $station);
         // Data to send
+        $data['station'] = $station;
         $data['currentuser'] = $this->session->userdata("currentuser");
-        $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Items";
         $data['storename'] = $this->displaystore();
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");
         $data['decimalsQuantity'] = (int)$this->session->userdata("DecimalsQuantity");
+        $data['decimalsCost'] = (int)$this->session->userdata("DecimalsCost");
         $data['labelPos'] = $this->item->getLabelPosList();
         // Partials Views
         $menu_path = 'backoffice_admin/inventory/';
