@@ -101,7 +101,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
 
     $scope.onSelectCategoryCbx = function(e) {
         //var id = e.args.index;
-        if (e.args) {
+        if (e.args && e.args.item != null) {
             var id = e.args.item.value;
             $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
         } else {

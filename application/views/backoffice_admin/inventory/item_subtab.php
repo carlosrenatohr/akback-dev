@@ -39,11 +39,11 @@
         <div class="form-group control-cont">
             <label for="inputType" class="control-label">Item Number:</label>
 
-            <div class="input" >
+            <div class="input" style="width: 380px;">
                 <input type="text" class="form-control item_textcontrol req" id="item_Item" name="item_Item"
                        ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
                        data-field="Item" placeholder="Item Number" autofocus
-                       style="float: left;width: 170px;">
+                       style="float: left;width: 250px;">
                 <span class="required-ast">*</span>
                 <button id="generateItemNumberBtn" class="btn btn-info pull-left"
                     ng-click="generateItemNumber()">Generate</button>
