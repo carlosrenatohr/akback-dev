@@ -174,8 +174,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#item_supplier').jqxComboBox({'selectedIndex': -1});
         $('#item_brand').jqxComboBox({'selectedIndex': -1});
         $('#item_category').jqxComboBox({'selectedIndex': -1});
-        // $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
-        $('#item_subcategory').jqxDropDownList({'selectedIndex': -1});
+        $('#item_subcategory').jqxComboBox({'selectedIndex': -1});
+        // $('#item_subcategory').jqxDropDownList({'selectedIndex': -1});
         //
         // $('#iteminventory_giftcard .cbxExtraTab[data-val=0]').jqxRadioButton({ checked:true });
         $('#itemcontrol_gcard').val(0);
@@ -307,8 +307,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         setTimeout(function() {
             //var subcategory = $('#item_subcategory').jqxComboBox('getItemByValue', row['SubCategoryId']);
             //$('#item_subcategory').jqxComboBox({selectedIndex: ((subcategory != null) ? subcategory.index : -1)});
-            // $('#item_subcategory').jqxComboBox('val', row.SubCategoryId);
-            $('#item_subcategory').jqxDropDownList('val', row.SubCategoryId);
+            $('#item_subcategory').jqxComboBox('val', row.SubCategoryId);
+            // $('#item_subcategory').jqxDropDownList('val', row.SubCategoryId);
             $('.inventory_tab #item_Description').focus();
             $('#saveInventoryBtn').prop('disabled', true);
         }, 400);
@@ -384,9 +384,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         data['BrandUnique'] = (brand != null) ? $.trim(brand.value) : null;
         var category = $('#item_category').jqxComboBox('getSelectedItem');
         data['MainCategory'] = (category != null) ? (category.value) : null;
+        var subcategory = $('#item_subcategory').val();
         // var subcategory = $('#item_subcategory').jqxComboBox('getSelectedItem');
-        var subcategory = $('#item_subcategory').jqxDropDownList('getSelectedItem');
-        data['CategoryUnique'] = (subcategory != null) ? (subcategory.value) : null;
+        // var subcategory = $('#item_subcategory').jqxDropDownList('getSelectedItem');
+        // data['CategoryUnique'] = (subcategory != null) ? (subcategory.value) : null;
+        data['CategoryUnique'] = (subcategory != null) ? (subcategory) : null;
         //
         data['GiftCard'] = $('#itemcontrol_gcard').val();
         // ($('#iteminventory_giftcard [aria-checked="true"]').length > 0) ?

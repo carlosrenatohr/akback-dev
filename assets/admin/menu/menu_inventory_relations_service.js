@@ -42,14 +42,14 @@ angular.module("akamaiposApp")
     // Source for categories table
     this.getCategoriesSettings = function () {
         return {
-            source: {
+            source: new $.jqx.dataAdapter({
                 datatype: "json",
                 datafields: [
                     {name: 'Unique'},
                     {name: 'MainName'}
                 ],
                 url: SiteRoot + 'admin/MenuItem/getCategoryList',
-            },
+            }, {async: false}),
             valueMember: "Unique",
             displayMember: "MainName",
             placeHolder: 'Select Category..'
@@ -62,14 +62,14 @@ angular.module("akamaiposApp")
         if (parent != undefined)
             url = SiteRoot + 'admin/MenuItem/getSubcategoryList/' + parent;
         return {
-            source: {
+            source: new $.jqx.dataAdapter({
                 datatype: "json",
                 datafields: [
                     {name: 'Unique'},
                     {name: 'Name'}
                 ],
                 url: url
-            },
+            }, {async: false}),
             valueMember: "Unique",
             displayMember: "Name",
             placeHolder: 'Select Subcategory..'
