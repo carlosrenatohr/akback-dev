@@ -24,15 +24,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     });
 
-    $('body').on('keypress', '#itemListboxSearch .jqx-listbox-filter-input', function(e) {
+    $('#ListBoxSearchInput').on('keypress', function(e) {
         var kcode = e.keyCode;
-        var inputEntered = $('#itemListboxSearch .jqx-listbox-filter-input').val();
+        var inputEntered = $(this).val();
         if (kcode == 13) {
             $('#loadingMenuItem').show();
             $('#itemListboxSearch').jqxListBox({
                 source: dataAdapterItems('ASC', inputEntered)
             });
         }
+    });
+    $('#ListBoxSearchBtn').on('click', function() {
+        var inputEntered = $('#ListBoxSearchInput').val();
+        $('#loadingMenuItem').show();
+        $('#itemListboxSearch').jqxListBox({
+            source: dataAdapterItems('ASC', inputEntered)
+        });
     });
 
     var printerTabOnce = true;
@@ -157,6 +164,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('#menuListDropdown').jqxDropDownList({selectedIndex: 0 });
             setTimeout(function(){
                 $('#itemListboxSearch .jqx-listbox-filter-input').focus();
+                $('#ListBoxSearchInput').focus();
             }, 250);
         }
     };
@@ -479,10 +487,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         height: '550px',
         source: [],
         theme: 'arctic',
-        filterable: true,
-        filterHeight: 30,
-        searchMode: 'containsignorecase',
-        filterPlaceHolder: 'Search',
+        // filterable: true,
+        // filterHeight: 30,
+        // searchMode: 'containsignorecase',
+        // filterPlaceHolder: 'Search',
         renderer: function(index, label, value) {
             var item = $('#itemListboxSearch').jqxListBox('getItem', index).originalItem;
             var template =

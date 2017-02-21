@@ -26,7 +26,11 @@ class Menu_item_model extends CI_Model
         $this->db->where(['item.Status!=' => 0]);
         $this->db->where(['item.Description!=' => '']);
         if (!is_null($search)) {
-            $this->db->where('LOWER("item"."Description") like \'%' .$search . '%\'', null);
+            if(empty($search)) {
+                $this->db->limit(1000);
+            } else {
+                $this->db->where('LOWER("item"."Description") like \'%' . strtolower($search) . '%\'', null);
+            }
         }
         $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
         $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');

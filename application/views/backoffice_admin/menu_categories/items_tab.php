@@ -12,6 +12,14 @@
             <div id="selectedItemInfo" class="selectedItemInfoClass">
                 {{ selectedItemInfo.Description }}
             </div>
+            <div class="col-md-12" style="padding: 0;margin: 1px 0;">
+                <div class="col-md-9" style="padding: 0 2px;">
+                    <input type="text" id="ListBoxSearchInput" class="form-control" placeholder="Search.."
+                        style="padding: 0 5px;height: 24px;" autofocus>
+                </div>
+                <button class="btn btn-info col-md-3" id="ListBoxSearchBtn" type="button"
+                    style="height: 24px;padding: 0 5px;">Search</button>
+            </div>
             <div>
                 <img id="loadingMenuItem" src="<?php echo base_url()?>assets/img/loadinfo.gif" alt=""
                     style="position: absolute;width: 20%;left: 35%;display: none;">
