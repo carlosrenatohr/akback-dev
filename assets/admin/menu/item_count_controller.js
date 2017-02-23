@@ -451,7 +451,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         icountwind.close();
                         $('#icountTabs').jqxTabs('select', 0);
                         $('#icountTabs').jqxTabs('disableAt', 3);
-
                     }
                     else if (data.status == 'error') {}
                     else {}
@@ -483,6 +482,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
 
         if (option == 0) {
+            $('#loadingMenuItem').show();
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/finalizeCount/' + $scope.icountID ,
@@ -492,7 +492,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         updateIcountGrid();
                         updateIcountlistGrid($scope.icountID);
                         $('#finishIcountBtn').hide();
+                        $('#loadingMenuItem').hide();
                         $('#finishIcountWin').jqxWindow('close');
+                        $('#finishIcountSuccessWin').jqxWindow('open');
                         $('#icountGrid1').jqxGrid('refresh');
                         $('#icountGrid2').jqxGrid('refresh');
                         // $('#icountGrid2').jqxGrid('render');
@@ -505,6 +507,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 }
             });
         } else if (option == 1) {
+        // Window with Success msg after finalize count
+        } else if (option == 2) {
+            $('#finishIcountSuccessWin').jqxWindow('close');
+            icountwind.close();
         } else {
             $('#mainIcountBtns').hide();
             $('#closeIcountBtns').hide();
