@@ -151,6 +151,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             if (oldvalue == null && row.StatusCount == 2) {
                 dataToSend['Status'] = row.StatusCount;
             }
+            $('#loadingMenuCountList').show();
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
@@ -161,11 +162,13 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
                         $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "NewCost", nCost);
                         $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "AdjustedCost", aCost);
+                        $('#loadingMenuCountList').hide();
                     }, 100);
                 }
             });
         } else if (datafield  == 'Comment') {
             var row = $(this).jqxGrid('getrowdata', rowBoundIndex);
+            $('#loadingMenuCountList').show();
             $.ajax({
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/update_countlistById/' + row.Unique,
@@ -175,6 +178,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 },
                 success: function(response) {
                     $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Comment", value);
+                    $('#loadingMenuCountList').hide();
                 }
             });
         }

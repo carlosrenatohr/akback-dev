@@ -37,18 +37,22 @@ class Item_count_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    public function getLists($id)
+    public function getLists($id, $rowCountListId = null)
     {
         // -- Update dynamic values first before to load all values
         // Difference = CountStock - CurrentStock
         // NewCost = CountStock * TotalCost (sum of 4 type of costs)
         // AdjustedCost = Difference * TotalCost (sum of 4 type of costs)
+        //-------------------------
+        /**
         $sql = 'update item_count_list
         set "Difference" = "CountStock" - coalesce("CurrentStock",0),
             "NewCost" = "CountStock" * (coalesce("Cost", 0) + coalesce("CostExtra", 0) + coalesce("CostFreight", 0) + coalesce("CostDuty", 0)),
             "AdjustedCost" = ("CountStock" - "CurrentStock") * (coalesce("Cost", 0) + coalesce("CostExtra", 0) + coalesce("CostFreight", 0) + coalesce("CostDuty", 0)) 
         where "Status" != 0 AND "CountUnique" = ' . $id;
         $this->db->query($sql);
+        **/
+        //-------------------------
         // Current query to get all item_count_list by item_count id selected
         $where = '';
         if (!is_null($id)) {
