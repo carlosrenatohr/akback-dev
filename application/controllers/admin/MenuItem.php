@@ -331,7 +331,8 @@ class MenuItem extends AK_Controller
 
     public function getItemsData() {
         $items = [];
-        foreach($this->item->getItemsData() as $count=> $item) {
+        $search = (isset($_GET['custom'])) ? $_GET['custom'] : null;
+        foreach($this->item->getItemsData($search) as $count=> $item) {
             $item['ListPrice'] = number_format($item['ListPrice'], $this->decimalPrice);
             $item['price1'] = number_format($item['price1'], $this->decimalPrice);
             $item['Quantity'] = number_format($item['Quantity'], $this->decimalQuantity);
@@ -344,7 +345,10 @@ class MenuItem extends AK_Controller
 //            $item['LabelFontColor'] = (!is_null($item['LabelFontColor'])) ? $bpc[1]: null;
             $items[] = $item;
         }
-        echo json_encode($items);
+        echo json_encode([
+            'source' => $items,
+            'totalrecords' => count($items)
+        ]);
     }
 
     public function get_picturesByItem($id) {

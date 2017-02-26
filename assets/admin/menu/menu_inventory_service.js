@@ -6,11 +6,19 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
     // Data for items inventory grid
     var decimalCost = parseInt($('#decimalCost').val());
     var decimalQty = parseInt($('#decimalQty').val());
-    this.getInventoryGridData = function (empty) {
+    this.getInventoryGridData = function (empty, match) {
         var url = '';
+        var extraSettings = {};
         var pages = adminService.loadPagerConfig();
-        if (empty == undefined)
+        if (empty == undefined) {
             url = SiteRoot + 'admin/MenuItem/getItemsData';
+            if (match != undefined) {
+                url += ('/?custom=') + match;
+                extraSettings.loadComplete = function() {
+                    $('#loadingMenuItem').hide();
+                }
+            }
+        }
         return {
             source: new $.jqx.dataAdapter({
                 dataType: 'json',
@@ -56,7 +64,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
                 ],
                 id: 'Unique',
                 url: url
-            }),
+            }, extraSettings),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
                 {text: 'Item Number', dataField: 'Item', type: 'string', width: '12%'},
@@ -104,9 +112,10 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
             theme: 'arctic',
             filterable: true,
             showfilterrow: true,
-            ready: function() {
-                $('#inventoryItemsGrid').jqxGrid('updatebounddata', 'filter');
-            },
+            // autoshowfiltericon: true,
+            // ready: function() {
+            //     $('#inventoryItemsGrid').jqxGrid('updatebounddata', 'filter');
+            // },
             sortable: true,
             pageable: true,
             pageSize: pages.pageSize,

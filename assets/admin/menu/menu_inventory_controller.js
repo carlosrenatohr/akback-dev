@@ -7,6 +7,21 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     $scope.inventoryDisabled = true;
     // Events added
     itemInventoryService.onChangeEvents();
+    // Search Filter
+    $('#InventorySearchField').on('keypress', function(e) {
+        if (e.keyCode == 13) {
+            searchOnItemGrid($(this).val());
+        }
+    });
+    $('#InventorySearchBtn').on('click', function() {
+        searchOnItemGrid($('#InventorySearchField').val());
+    });
+    function searchOnItemGrid(inputEntered) {
+        $('#loadingMenuItem').show();
+        $('#inventoryItemsGrid').jqxGrid({
+            source: updateItemsInventoryGrid(undefined, inputEntered)
+        });
+    }
     //
     $('#inventoryTabs').on('selecting', function(e) {
         var tabclick = e.args.item;
@@ -64,12 +79,13 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     }
 
     $scope.inventoryItemsGrid = itemInventoryService.getInventoryGridData();
-    var updateItemsInventoryGrid = function(init) {
+    function updateItemsInventoryGrid(init, search) {
         var el = (init != undefined) ? this : '#inventoryItemsGrid';
+        var match = (search != undefined) ? search : '';
         $(el).jqxGrid({
-            source: itemInventoryService.getInventoryGridData().source
+            source: itemInventoryService.getInventoryGridData(undefined, match).source
         });
-    };
+    }
 
     var inventoryWind;
     $scope.itemsInventoryWindowSettings = {

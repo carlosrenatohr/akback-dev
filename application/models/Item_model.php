@@ -9,7 +9,7 @@ class Item_model extends CI_Model
         return $this->db->update('item', $request);
     }
 
-    public function getItemsData() {
+    public function getItemsData($search = null) {
         $this->db->select("item.Unique, item.Description, item.Item, item.Part,
             item.SupplierUnique AS SupplierId, supplier.Company AS Supplier, item.SupplierPart,
             item.BrandUnique AS BrandId, brand.Name AS Brand,
@@ -32,6 +32,13 @@ class Item_model extends CI_Model
         $this->db->join("item_stock_line isl", "isl.ItemUnique=item.Unique", 'left');
         $this->db->where("item.\"Status\"", 1);
         $this->db->where("isl.\"status\"", 1);
+        if (!is_null($search)) {
+            if(empty($search)) {
+                $this->db->limit(1000);
+            } else {
+                $this->db->where('LOWER("item"."Description") like \'%' . strtolower($search) . '%\'', null);
+            }
+        }
         $this->db->group_by("item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\", supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
             category_main.\"Unique\", category_sub.\"Name\", category_sub.\"Unique\", \"CostLanded\", item.\"Cost_Duty\"");
         $this->db->order_by("item.\"Unique\" DESC");
