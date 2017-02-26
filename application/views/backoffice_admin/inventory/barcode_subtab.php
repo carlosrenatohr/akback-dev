@@ -2,23 +2,31 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <div style="width:40%; float:left;">
+                <div style="width:45%; float:left;">
                     <input type="text" id="item_barcodeinput" class="form-control item_textcontrol"
                            placeholder="Enter Barcode" ng-model="barcodeData.mainValue"
-                           ng-enter="saveItemBarcode()" style="width:80%;float: left;"/>
-                    <span style="width: 30px;display: inline-block">Sort:</span>
-                    <jqx-number-input id="item_barcodesort" class="item_textcontrol"
-                                      jqx-width="'60px'" jqx-height="'25px'"
-                                      jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''"
-                                      jqx-min="1" jqx-max="5" jqx-value="1"
-                                      jqx-decimal-digits="0" style="display: inline-block"
-                    ></jqx-number-input>
+                           ng-enter="saveItemBarcode()" style="width:70%;height:30px;float: left;"/>
+                    <span style="width: 30px;display: inline-block;vertical-align: top;margin: 5px 0;">Sort:</span>
+<!--                    <jqx-number-input id="item_barcodesort" class="item_textcontrol"-->
+<!--                                      jqx-width="'50px'" jqx-height="'30px'"-->
+<!--                                      jqx-spin-buttons="false" jqx-input-mode="simple"-->
+<!--                                      jqx-symbol="''"-->
+<!--                                      jqx-min="1" jqx-max="99999" jqx-value="1" jqx-digits="5"-->
+<!--                                      jqx-decimal-digits="0" style="display: inline-block"-->
+<!--                    ></jqx-number-input>-->
+                    <jqx-drop-down-list jqx-width="'50px'" class="item_textcontrol"
+                                        id="item_barcodesort">
+                        <option value=""></option>
+                        <?php for ($i=1;$i<=10;$i++) { ?>
+                        <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                        <?php } ?>
+                    </jqx-drop-down-list>
+                    <span class="required-ast" style="top: 0;position: absolute;">*</span>
                 </div>
                 <div style="width:40%; float:left; margin-left:10px;">
                     <button ng-click="saveItemBarcode()" class="btn btn-primary">Add</button>
                     <button ng-click="saveItemBarcode(true)" class="btn btn-warning">Update</button>
-                    <button ng-click="deleteItemBarcode()" class="btn btn-danger">Delete Barcode</button>
+                    <button ng-click="deleteItemBarcode()" class="btn btn-danger">Delete</button>
                 </div>
             </div>
             <br>
@@ -43,3 +51,9 @@
         </div>
     </div>
 </div>
+
+<style>
+    #item_barcodesort {
+        display: inline-block;
+    }
+</style>

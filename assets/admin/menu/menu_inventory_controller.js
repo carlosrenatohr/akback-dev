@@ -55,6 +55,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
         if (tabTitle == 'Barcode') {
             $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings2($scope.itemInventoryID)
+            disableSortForBarcodes();
         }
         if (tabTitle == 'Questions') {
             if ($scope.createOrEditItemInventory != 'create') {
@@ -640,13 +641,28 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $('#inventory_barcodesList').jqxGrid({
             source: inventoryExtraService.getBarcodesListSettings2($scope.itemInventoryID).source
         });
+        disableSortForBarcodes();
+    }
+    function disableSortForBarcodes() {
+        //
+        var sortUsed = [];
+        setTimeout(function() {
+            $.each($('#inventory_barcodesList').jqxGrid('getrows'), function(i, el) {
+                sortUsed.push(el.Sort);
+            });
+            for (var idx = 1;idx<=10;idx++) {
+                if (sortUsed.indexOf(idx) >= 0) {
+                    $('#item_barcodesort').jqxDropDownList('disableItem', idx);
+                } else {
+                    $('#item_barcodesort').jqxDropDownList('enableItem', idx);
+                }
+            }
+        }, 500);
     }
 
     $scope.onSelectBarcodeList = function(e) {
         if (e.args != null) {
             var row = e.args.row.bounddata;
-            // var barcode = e.args.item.originalItem.Barcode;
-            // $scope.barcodeData.idSelected = e.args.item.originalItem.Unique;
             $scope.barcodeData.idSelected = row.Unique;
             $('#item_barcodeinput').val(row.Barcode);
             $('#item_barcodesort').val(row.Sort);
@@ -658,7 +674,11 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         var input = $scope.barcodeData.mainValue;
         var currentSort = $('#item_barcodesort').val();
         if (input == '') {
-            alert('Please enter the barcode number!');
+            showingNotif('Please enter the barcode number!', 0);
+            return;
+        }
+        if (currentSort == '') {
+            showingNotif('Please select a sort for barcode!', 0);
             return;
         }
         if(input != undefined) {
@@ -669,7 +689,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 $.each($('#inventory_barcodesList').jqxGrid('getRows'), function(i, val) {
                     if (val.Barcode == input && val.Sort == currentSort) {
                         equalBarcode = true;
-                        alert(input + ' not added because duplicates another barcode assigned to this item or sort was already assigned.');
+                        showingNotif(input + ' not added because duplicates another barcode assigned to this item or sort was already assigned.', 0);
                         return false;
                     }
                 });
@@ -678,7 +698,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 $.each($('#inventory_barcodesList').jqxGrid('getRows'), function(i, val) {
                     if (val.Barcode == input || val.Sort == currentSort) {
                         equalBarcode = true;
-                        alert(input + ' not added because duplicates another barcode assigned to this item or sort was already assigned.');
+                        showingNotif(input + ' not added because duplicates another barcode assigned to this item or sort was already assigned.', 0);
                         return false;
                     }
                 });
@@ -702,9 +722,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                             updateBarcodeGrid();
                             $scope.barcodeData.mainValue = '';
                             $('#item_barcodeinput').val("");
-                            $('#item_barcodesort').val(1);
+                            $('#item_barcodesort').val("");
                             // $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
                             $('#inventory_barcodesList').jqxGrid('selectrow', -1);
+                            showingNotif('Barcodes list updated', 1);
                         }
                         else if (data.status == 'error')
                             showingNotif(data.message, 0);
@@ -716,29 +737,44 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
     };
 
-    $scope.deleteItemBarcode = function() {
-        var id = $scope.barcodeData.idSelected;
-        if (id != undefined && id != null) {
-            $.ajax({
-                method: 'post',
-                url: SiteRoot + 'admin/MenuItem/deleteBarcodeItem/' + id,
-                dataType: 'json',
-                success: function(data) {
-                    if (data.status == 'success') {
-                        // $('#inventory_barcodesList').jqxListBox('refresh');
-                        // $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings2($scope.itemInventoryID);
-                        updateBarcodeGrid();
-                        $scope.barcodeData.mainValue = '';
-                        $('#item_barcodeinput').val("");
-                        $('#item_barcodesort').val(1);
-                        // $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
+    $scope.deleteItemBarcode = function(option) {
+        if (option != undefined) {
+            $('.rowMsgInv').hide();
+            // $('#promptToDeleteBarcodeInv').hide();
+            $('#mainButtonsOnItemInv').show();
+        }
+        if (option == 0) {
+            var id = $scope.barcodeData.idSelected;
+            if (id != undefined && id != null) {
+                $.ajax({
+                    method: 'post',
+                    url: SiteRoot + 'admin/MenuItem/deleteBarcodeItem/' + id,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status == 'success') {
+                            // $('#inventory_barcodesList').jqxListBox('refresh');
+                            // $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings2($scope.itemInventoryID);
+                            updateBarcodeGrid();
+                            $scope.barcodeData.mainValue = '';
+                            $('#item_barcodeinput').val("");
+                            $('#item_barcodesort').val("");
+                            showingNotif('Barcode was removed', 1);
+                            // $('#inventory_barcodesList').jqxListBox({selectedIndex: -1});
+                        }
+                        else if (data.status == 'error')
+                            showingNotif(data.message, 0);
+                        else
+                            showingNotif(data.message, 0);
                     }
-                    else if (data.status == 'error')
-                        showingNotif(data.message, 0);
-                    else
-                        showingNotif(data.message, 0);
-                }
-            });
+                });
+            } else {
+                showingNotif('You have to select a barcode from grid.', 0);
+            }
+        } else if (option == 1) {
+        } else {
+            $('#barcode-span').html($scope.barcodeData.idSelected);
+            $('.rowMsgInv').hide();
+            $('#promptToDeleteBarcodeInv').show();
         }
     };
 

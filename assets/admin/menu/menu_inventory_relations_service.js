@@ -117,8 +117,8 @@ angular.module("akamaiposApp")
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text: 'Barcode', dataField: 'Barcode', width: '75%'},
-                {text: 'Sort', dataField: 'Sort', width: '20%'},
+                {text: 'Barcode', dataField: 'Barcode', width: '30%'},
+                {text: 'Sort', dataField: 'Sort', width: '15%'}
             ],
             width: "100%",
             theme: 'arctic',

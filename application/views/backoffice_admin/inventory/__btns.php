@@ -70,6 +70,18 @@
         </div>
     </div>
 </div>
+<!-- Prompt before delete a BARCODE item on grid -->
+<div class="col-md-12 col-md-offset-0">
+    <div id="promptToDeleteBarcodeInv" class="rowMsgInv" style="display: none">
+        <div class="form-group">
+            <div class="col-sm-12">
+                Are you sure want to delete list barcode <span id="barcode-span"></span> ?
+                <button type="button" ng-click="deleteItemBarcode(0)" class="btn btn-primary">Yes</button>
+                <button type="button" ng-click="deleteItemBarcode(1)" class="btn btn-warning">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- NOTIFICATIONS AREA -->
 <div class="col-md-12 col-md-offset-0">
     <div class="row">
