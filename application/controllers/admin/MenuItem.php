@@ -345,10 +345,7 @@ class MenuItem extends AK_Controller
 //            $item['LabelFontColor'] = (!is_null($item['LabelFontColor'])) ? $bpc[1]: null;
             $items[] = $item;
         }
-        echo json_encode([
-            'source' => $items,
-            'totalrecords' => count($items)
-        ]);
+        echo json_encode($items);
     }
 
     public function get_picturesByItem($id) {

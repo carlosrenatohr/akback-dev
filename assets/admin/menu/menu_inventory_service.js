@@ -63,7 +63,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
                     {name: 'LabelFontSize', type: 'string'}
                 ],
                 id: 'Unique',
-                url: url
+                url: url,
             }, extraSettings),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
