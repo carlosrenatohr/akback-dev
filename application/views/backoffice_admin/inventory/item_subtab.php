@@ -151,7 +151,7 @@
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
                                       jqx-symbol="''"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
-                                      ng-change=""
+                                      ng-change="onChangeCostFields()"
                                       ng-model="inventoryData.cost"
                                       data-field="Cost"
                     ></jqx-number-input>

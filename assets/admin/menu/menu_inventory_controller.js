@@ -133,9 +133,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             itemNumber = $scope.inventoryData.item;
             $scope.inventoryData.part = itemNumber;
             // $scope.inventoryData.supplierPart = itemNumber;
-        } else if ($scope.createOrEditItemInventory == 'edit') {
-
-        }
+        } else if ($scope.createOrEditItemInventory == 'edit') {}
     };
 
     $scope.onChangeCostFields = function() {
@@ -153,14 +151,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     };
 
     $scope.setStaticPrices = function(listprice) {
-        if ($scope.createOrEditItemInventory == 'create') {
+        // if ($scope.createOrEditItemInventory == 'create') {
             if (listprice == 1) {
                 var lprice = $scope.inventoryData.listPrice;
                 $scope.inventoryData.price1 = lprice;
             }
             $('#itemp_listprice').val($scope.inventoryData.listPrice);
             $('#itemp_price1').val($scope.inventoryData.price1);
-        }
+        // }
     };
 
     $scope.modifyCurrentQty = function(elect, stockTotal) {
