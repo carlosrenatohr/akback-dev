@@ -11,8 +11,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         // ITEMS TAB - Reload queries
         if (tabTitle == 'Layout') {
             updateQuestionsCbx();
-            $('#itemListboxSearch').jqxListBox('refresh');
-            $('#itemListboxSearch').val(-1);
+            // $('#itemListboxSearch').jqxListBox('refresh');
+            // $('#itemListboxSearch').val(-1);
 
             $('#itemListboxSearch .jqx-listbox-filter-input').val('');
             $('#menuListDropdown').jqxDropDownList({source: dataAdapterMenu });
@@ -450,6 +450,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         );
     }
 
+    var comboboxItems;
     $scope.itemsComboboxSettings = {
         created: function (args) {
             comboboxItems = args.instance;
@@ -475,10 +476,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     };
 
+    var listboxItems;
     $scope.itemsListboxSettings =
     {
         created: function (args) {
-            comboboxItems = args.instance;
+            listboxItems = args.instance;
         },
         selectedIndex: -1,
         displayMember: "Description",
@@ -488,10 +490,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         height: '550px',
         source: [],
         theme: 'arctic',
-        // filterable: true,
-        // filterHeight: 30,
-        // searchMode: 'containsignorecase',
-        // filterPlaceHolder: 'Search',
         renderer: function(index, label, value) {
             var item = $('#itemListboxSearch').jqxListBox('getItem', index).originalItem;
             var template =
@@ -501,9 +499,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 '</div>';
             return template;
         }
-        //allowDrop: true,
-        //allowDrag: true,
-        //dragEnd: function(dragItem, dropItem) {}
     };
 
     $scope.selectedItemInfo = {};
@@ -628,7 +623,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         });
 
         var itemCombo = $('#editItem_ItemSelected');
-        if (!itemCombo.jqxComboBox('getSelectedItem')) {
+        if (itemCombo.val() == '') {
             needValidation = true;
             $('#menuitemNotificationsErrorSettings #notification-content')
                 .html('You must select an item');
@@ -665,14 +660,16 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             var bsecondary = $('#mitbSecondaryColor').jqxColorPicker('getColor');
             var lfont = $('#mitlfontColor').jqxColorPicker('getColor');
             //
-            var idxSelected = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').index;
+            // var idxSelected = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').index;
+            var idxSelected = $('#editItem_ItemSelected').val();
             var dataToSend = {
                 'MenuCategoryUnique': $scope.itemCellSelectedOnGrid.MenuCategoryUnique,
                 'Row': $('#editItem_Row').val(),
                 //'Row': $scope.itemCellSelectedOnGrid.Row,
                 'Column': $('#editItem_Column').val(),
                 //'Column': $scope.itemCellSelectedOnGrid.Column,
-                'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
+                // 'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value,
+                'ItemUnique': $('#editItem_ItemSelected').val(),
                 'Status': $('#editItem_Status').jqxDropDownList('getSelectedItem').value,
                 'Label': $('#editItem_label').val(),
                 //
@@ -759,9 +756,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             itemsMenuWindow.close();
                         } else {
                             setTimeout(function() {
-                                $('#editItem_ItemSelected').jqxComboBox({
-                                    'selectedIndex': idxSelected
-                                });
+                                // $('#editItem_ItemSelected').jqxComboBox({
+                                //     'selectedIndex': idxSelected
+                                // });
                                 $('#editItem_label').val(dataToSend['Label']);
                                 $('#saveItemGridBtn').prop('disabled', true);
                             }, 300);
@@ -947,8 +944,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         //}, 250);
 
                         $('#editItem_Status').val(data['LayoutStatus']);
+                        // TODO Maybe load via ajax name of item
                         var label = (data['Label'] == '' || data['Label'] == null)
-                                    ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
+                                    // ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
+                                    ? ''
                                     : data['Label'];
                         // Item length limit applied (Taken from menu selected)
                         if ($scope.itemLengthOfMenuSelected != null)
@@ -1085,6 +1084,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     var resetMenuItemForm = function() {
         var itemCombo, selectedIndexItem;
+            // itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.selectedItemInfo.Unique);
             itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', $scope.selectedItemInfo.Unique);
         $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
         if (itemCombo != undefined) {
@@ -1412,7 +1412,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     var updateQuestionItemTable = function() {
         $('#questionItemTable').jqxGrid({
             source: new $.jqx.dataAdapter(
-                inventoryExtraService.getQuestionGridData($('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value).source
+                // inventoryExtraService.getQuestionGridData($('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value).source
+                inventoryExtraService.getQuestionGridData($('#editItem_ItemSelected').val()).source
             ),
             rowdetails: true,
             initrowdetails: questionService.getRowdetailsFromChoices('QuestionUnique'),
@@ -1504,7 +1505,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#saveQuestionItemBtn').prop('disabled', true);
         // $('#deleteQuestionItemBtn').hide();
         $scope.addOrEditqItem = 'create';
-        questionOnItemGridWindow.setTitle('Add New Question | Item: ' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value);
+        questionOnItemGridWindow.setTitle('Add New Question | Item: ' + $('#editItem_ItemSelected').val());
         questionOnItemGridWindow.open();
     };
 
@@ -1609,7 +1610,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 'Status': $('#itemq_Status').jqxDropDownList('getSelectedItem').value,
                 'Sort': $('#itemq_Sort').val(),
                 'Tab': $('#itemq_Tab').val(),
-                'ItemUnique': $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
+                'ItemUnique': $('#editItem_ItemSelected').val()
             };
             var url, msg;
             if ($scope.addOrEditqItem == 'create') {
@@ -1749,7 +1750,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'Primary', type: 'string'},
                     {name: 'fullDescription', type: 'string'}
                 ],
-                url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
+                // url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
+                url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + $('#editItem_ItemSelected').val()
             })
         });
     };
@@ -1819,7 +1821,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.itemPrinterID = null;
     $scope.createOrEditPitem = null;
     $scope.openPrinterItemWin = function(e) {
-        $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
+        $scope.itemSelectedChangedID = $('#editItem_ItemSelected').val();
         $scope.createOrEditPitem = 'create';
         $scope.itemPrinterID = null;
         // Printers saved by Item
@@ -1841,7 +1843,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $scope.updateItemPrinter = function(e) {
         var row = e.args.row.bounddata;
-        $scope.itemSelectedChangedID = $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value;
+        $scope.itemSelectedChangedID = $('#editItem_ItemSelected').val();
         $scope.openPrinterItemWin();
         var btn = $('<button/>', {
             'id': 'deleteBtnPrinterItem'
