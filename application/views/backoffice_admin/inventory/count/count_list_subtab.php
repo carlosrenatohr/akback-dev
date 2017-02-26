@@ -36,6 +36,56 @@
             </div>
         </div>
     </jqx-window>
+    <!-- WINDOW TO PROMPT CHANGES on ITEM COUNT-->
+    <jqx-window id="closeItemCountWin"
+                jqx-is-modal="true" jqx-width="300" jqx-height="120"
+                jqx-auto-open="false" jqx-show-close-button="true"
+                jqx-resizable="false"
+    >
+        <div class="header">Edit Item Count</div>
+        <div class="body">
+            <div class="text-content" style="text-align: center;font-size: 15px;margin-bottom: 15px;">
+                Do you want to save your changes?
+            </div>
+            <div class="button-content">
+                <div style="float: right; margin-top: 15px;">
+                    <jqx-button id="ok" jqx-width="65" ng-click="closeIcount(0)"
+                                style="margin-right: 10px"
+                    >OK
+                    </jqx-button>
+                    <jqx-button id="ok" jqx-width="65" ng-click="closeIcount(1)"
+                                style="margin-right: 10px"
+                    >CANCEL
+                    </jqx-button>
+                </div>
+            </div>
+        </div>
+    </jqx-window>
+    <!-- WINDOW TO REMOVE ITEM COUNT-->
+    <jqx-window id="removeItemCountWin"
+                jqx-is-modal="true" jqx-width="300" jqx-height="120"
+                jqx-auto-open="false" jqx-show-close-button="true"
+                jqx-resizable="false"
+    >
+        <div class="header">Delete Item Count</div>
+        <div class="body">
+            <div class="text-content" style="text-align: center;font-size: 15px;margin-bottom: 15px;">
+                Do you really want to delete it?
+            </div>
+            <div class="button-content">
+                <div style="float: right; margin-top: 15px;">
+                    <jqx-button id="ok" jqx-width="65" ng-click="deleteIcount(0)"
+                                style="margin-right: 10px"
+                    >OK
+                    </jqx-button>
+                    <jqx-button id="ok" jqx-width="65" ng-click="deleteIcount(2)"
+                                style="margin-right: 10px"
+                    >CANCEL
+                    </jqx-button>
+                </div>
+            </div>
+        </div>
+    </jqx-window>
     <!-- WINDOW TO SET ZERO ALL ITEMS COUNT LIST    -->
     <jqx-window id="setzeroAllItemCountListWin"
                 jqx-is-modal="true" jqx-width="450" jqx-height="200"

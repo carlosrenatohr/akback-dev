@@ -399,7 +399,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
     $scope.closeIcount = function(option) {
         if (option != undefined) {
             $('#mainIcountBtns').show();
-            $('#closeIcountBtns').hide();
+            // $('#closeIcountBtns').hide();
+            $('#closeItemCountWin').jqxWindow('close');
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').hide();
             $('#setZeroIcountBtns').hide();
@@ -420,7 +421,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#icountTabs').jqxTabs('disableAt', 3);
             } else {
                 $('#mainIcountBtns').hide();
-                $('#closeIcountBtns').show();
+                // $('#closeIcountBtns').show();
+                $('#closeItemCountWin').jqxWindow('open');
                 $('#deleteIcountBtns').hide();
                 $('#finishIcountBtns').hide();
                 $('#setZeroIcountBtns').hide();
@@ -439,6 +441,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#deleteIcountBtns').hide();
             $('#finishIcountBtns').hide();
             $('#setZeroIcountBtns').hide();
+            $('#removeItemCountWin').jqxWindow('close');
         }
         if (option == 0) {
             $.ajax({
@@ -465,7 +468,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#icountTabs').jqxTabs('select', 0);
             $('#mainIcountBtns').hide();
             $('#closeIcountBtns').hide();
-            $('#deleteIcountBtns').show();
+            // $('#deleteIcountBtns').show();
+            $('#removeItemCountWin').jqxWindow('open');
             $('#finishIcountBtns').hide();
             $('#setZeroIcountBtns').hide();
         }

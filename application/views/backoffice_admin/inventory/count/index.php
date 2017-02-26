@@ -137,20 +137,20 @@
                     </div>
 
                     <!-- Prompt before delete an item on grid -->
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="row">
-                            <div id="deleteIcountBtns" class="" style="display: none">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        Do you really want to delete it?
-                                        <button type="button" ng-click="deleteIcount(0)" class="btn btn-primary">Yes</button>
-                                        <button type="button" ng-click="deleteIcount(1)" class="btn btn-warning">No</button>
-                                        <button type="button" ng-click="deleteIcount(2)" class="btn btn-info">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="col-md-12 col-md-offset-0">-->
+<!--                        <div class="row">-->
+<!--                            <div id="deleteIcountBtns" class="" style="display: none">-->
+<!--                                <div class="form-group">-->
+<!--                                    <div class="col-sm-12">-->
+<!--                                        Do you really want to delete it?-->
+<!--                                        <button type="button" ng-click="deleteIcount(0)" class="btn btn-primary">Yes</button>-->
+<!--                                        <button type="button" ng-click="deleteIcount(1)" class="btn btn-warning">No</button>-->
+<!--                                        <button type="button" ng-click="deleteIcount(2)" class="btn btn-info">Cancel</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!-- Prompt before finish count on item count list -->
 <!--                    <div class="col-md-12 col-md-offset-0">-->
 <!--                        <div class="row">-->
@@ -168,23 +168,23 @@
 <!--                    </div>-->
 
                     <!-- Prompt before finish count on item count list -->
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="row">
-                            <div id="setZeroIcountBtns" class="" style="display: none">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <p>
-                                            This will add Zero Quantity to all items that don't already have a Quantity in Count Column.<br>
-                                            Items that already have a quantity in Count Column will not be changed. <br>
-                                            Are you sure you want to do this?
-                                        </p>
-                                        <button type="button" ng-click="setZeroIcount(0)" class="btn btn-primary">Yes</button>
-                                        <button type="button" ng-click="setZeroIcount(1)" class="btn btn-info">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="col-md-12 col-md-offset-0">-->
+<!--                        <div class="row">-->
+<!--                            <div id="setZeroIcountBtns" class="" style="display: none">-->
+<!--                                <div class="form-group">-->
+<!--                                    <div class="col-sm-12">-->
+<!--                                        <p>-->
+<!--                                            This will add Zero Quantity to all items that don't already have a Quantity in Count Column.<br>-->
+<!--                                            Items that already have a quantity in Count Column will not be changed. <br>-->
+<!--                                            Are you sure you want to do this?-->
+<!--                                        </p>-->
+<!--                                        <button type="button" ng-click="setZeroIcount(0)" class="btn btn-primary">Yes</button>-->
+<!--                                        <button type="button" ng-click="setZeroIcount(1)" class="btn btn-info">Cancel</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!-- NOTIFICATIONS AREA -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
