@@ -1998,12 +1998,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.numberMenuItem = {
         inputMode: 'simple',
         decimalDigits: 0,
-        digits: 2,
         spinButtons: true,
         width: 300,
         height: 25,
-        min: 2,
-        max: 5,
+        min: 1,
         textAlign: 'left'
     };
 

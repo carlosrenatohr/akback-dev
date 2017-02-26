@@ -140,7 +140,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#item-tab-2 .jqx-tabs-titleContentWrapper').css('margin-top', '0');
         $('#qt_QuestionName').val(row.QuestionName);
         $('#qt_Question').val(row.Question);
-        $('#qt_sort').val((row.Sort != null) ? row.Sort : 0);
+        $('#qt_sort').val((row.Sort != null) ? row.Sort : 1);
         $('#qt_max').val((row.Max != null) ? row.Max : 0);
         $('#qt_min').val((row.Min != null) ? row.Min : 0);
         //-- Primary Color Button
@@ -195,7 +195,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('.alertButtonsQuestionForm').hide();
         $('#qt_QuestionName').val('');
         $('#qt_Question').val('');
-        $('#qt_sort').val(2);
+        $('#qt_sort').val(1);
         $('#qt_min').val(0);
         $('#qt_max').val(0);
         //
@@ -403,7 +403,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     var resetQuestionItemForm = function() {
         $('.itemQuestionFormContainer .required-in').css({"border-color": "#ccc"});
         $('#qItem_ItemUnique').jqxComboBox('val', '');
-        $('#qItem_sort').jqxNumberInput('val', 2);
+        $('#qItem_sort').jqxNumberInput('val', 1);
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Label').val('');
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonPrimaryColorDef').val() })));
@@ -730,7 +730,6 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     $scope.numberItemQuestion = {
         inputMode: 'simple',
         decimalDigits: 0,
-        digits: 2,
         spinButtons: true,
         textAlign: 'left',
         width: '290px',

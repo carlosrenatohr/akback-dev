@@ -7,7 +7,7 @@
                     <jqx-number-input
                         style='margin-top: 3px;' class="form-control required-field"
                         id="editItem_Row" name="editItem_Row"
-                        jqx-settings="numberMenuItem"
+                        jqx-settings="numberMenuItem"  jqx-digits="2"
                     ></jqx-number-input>
                 </div>
                 <div style="float:left;">
@@ -21,7 +21,7 @@
                     <jqx-number-input
                         style='margin-top: 3px;' class="form-control required-field"
                         id="editItem_Column" name="editItem_Column"
-                        jqx-settings="numberMenuItem"
+                        jqx-settings="numberMenuItem"  jqx-digits="2"
                     ></jqx-number-input>
                 </div>
                 <div style="float:left;">
@@ -35,7 +35,8 @@
                     <jqx-number-input
                         style='margin-top: 3px;' class="form-control required-field"
                         id="editItem_sort" name="editItem_sort"
-                        jqx-settings="numberMenuItem"
+                        jqx-settings="numberMenuItem" jqx-min="1" jqx-max="99999"
+                        jqx-value="1" jqx-digits="5"
                     ></jqx-number-input>
                 </div>
                 <div style="float:left;">
