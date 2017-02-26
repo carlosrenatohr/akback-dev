@@ -132,7 +132,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         if ($scope.createOrEditItemInventory == 'create') {
             itemNumber = $scope.inventoryData.item;
             $scope.inventoryData.part = itemNumber;
-            $scope.inventoryData.supplierPart = itemNumber;
+            // $scope.inventoryData.supplierPart = itemNumber;
         } else if ($scope.createOrEditItemInventory == 'edit') {
 
         }
@@ -570,7 +570,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         $scope.saveInventoryAction(false, false, ['Item']);
         $('#item_Item').val($scope.itemInventoryID);
         $('#item_Part').val($scope.itemInventoryID);
-        $('#item_SupplierPart').val($scope.itemInventoryID);
+        // $('#item_SupplierPart').val($scope.itemInventoryID);
         setTimeout(function(){
             $scope.saveInventoryAction(false, false, ['Item']);
         }, 200);
