@@ -419,7 +419,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     /**
      * -- ITEMS COMBO BOX SIDE
      */
-    var dataAdapterItems = function(sort, search) {
+    function dataAdapterItems(sort, search) {
         var url = '';
         var settings = {};
         if (sort != undefined) {
@@ -448,7 +448,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 url: url
             }, settings
         );
-    };
+    }
 
     $scope.itemsComboboxSettings = {
         created: function (args) {
@@ -461,7 +461,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         itemHeight: 50,
         //height: '100%',
         //height: 300,
-        source: dataAdapterItems('ASC'),
+        source: [],
+        // source: dataAdapterItems('ASC'),
         theme: 'arctic'
     };
     $scope.itemsComboboxSelecting = function(e) {
@@ -886,7 +887,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('.draggable')
             .on('dblclick', function(e) {
             $('#editItem_ItemSelected').jqxComboBox({
-                source:  dataAdapterItems('ASC')
+                // source:  dataAdapterItems('ASC')
+                source:  []
             });
             //
             $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
