@@ -95,6 +95,17 @@
                     return 'greater_than';
                 }
             };
+            var setThousands = function (input) {
+                var output = input;
+                if (parseFloat(input)) {
+                    input = new String(input); // so you can perform string operations
+                    var parts = input.split("."); // remove the decimal part
+                    parts[0] = parts[0].split("").reverse().join("").replace(/(\d{3})(?!$)/g, "$1,").split("").reverse().join("");
+                    output = parts.join(".");
+                }
+
+                return output;
+            };
             var cellbeginedit = function (index, datafield, columntype, value) {
                 // var row = $('#icountlistGrid').jqxGrid('getrowdata', index);
                 // if (row.Status == 2) return false;
@@ -104,14 +115,14 @@
             var cellsCost = function(index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var val = (isNaN(value) || value === '') ? '' : value.toFixed(decimalCost);
-                element.html(val);
+                element.html(setThousands(val));
                 return element[0].outerHTML;
             };
 
             var cellsCountStock = function(index, column, value, defaultHtml) {
                 var element = $(defaultHtml);
                 var val = (isNaN(value) || value === '') ? '' : value.toFixed(decimalQty);
-                element.html(val);
+                element.html(val); //-- NO setThousands(val)
                 return element[0].outerHTML;
             };
 
@@ -120,7 +131,7 @@
                 if (value === '' || value == null) {
                     value = 0;
                 }
-                element.html(value.toFixed(decimalQty));
+                element.html(setThousands(value.toFixed(decimalQty)));
 
                 return element[0].outerHTML;
             };
@@ -140,7 +151,7 @@
                     var diff = value.toFixed(decimalQty);
                     if (diff < 0)
                         element.css('color', 'red');
-                    element.html(diff);
+                    element.html(setThousands(diff));
                 } /*else if (row.CountStock != null) {
                     element.html(0);
                 }*/ else {
@@ -163,7 +174,7 @@
                     var diff = value.toFixed(decimalCost);
                     if (diff < 0)
                         element.css('color', 'red');
-                    element.html(diff);
+                    element.html(setThousands(diff));
                 } else if (row.CountStock != null) {
                     element.html(0);
                 } else {
@@ -186,7 +197,7 @@
                     var diff = value.toFixed(decimalCost);
                     if (diff < 0)
                         element.css('color', 'red');
-                    element.html(diff);
+                    element.html(setThousands(diff));
                 } else if (row.CountStock != null) {
                 element.html(0);
                 } else {
@@ -277,7 +288,7 @@
                         cellsalign: 'right', align: 'right', width: '8%',cellsformat: 'f' + decimalQty,
                         aggregates: [{ 'Total': aggregates }],
                         aggregatesrenderer: aggregatesrender},
-                    {text: 'Count', dataField: 'CountStock', width: '7%',cellsformat: 'd' + decimalQty,
+                    {text: 'Count', dataField: 'CountStock', width: '7%',cellsformat: 'f' + decimalQty,
                          cellbeginedit: cellbeginedit,
                          cellsrenderer: cellsCountStock, filtertype: 'number',
                          cellsalign: 'right', align: 'right',
