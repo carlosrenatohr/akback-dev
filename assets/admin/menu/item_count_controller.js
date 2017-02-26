@@ -28,10 +28,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $('#addToCountBtn').show();
         // Item Count list tab
         } else if (tab == 3) {
+            $('#loadingMenuCountList').show();
             $('#icountlistGrid').show();
-            setTimeout(function(){
+            setTimeout(function() {
+                $('#loadingMenuCountList').hide();
                 updateIcountlistGrid($scope.icountID);
-            }, 250);
+            }, 400);
             $('#addToCountBtn').hide();
             $('#setZeroIcountBtn').show();
             $('#setZeroAllIcountBtn').show();

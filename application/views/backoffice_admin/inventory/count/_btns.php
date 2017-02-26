@@ -22,6 +22,8 @@
             <button type="button" id="finishIcountBtn" ng-click="finishIcount()"
                     class="btn btn-success" style="overflow:auto;display: none;"
             >Finish Count</button>
+            <img id="loadingMenuCountList" src="<?php echo base_url()?>assets/img/loadinfo.gif" alt=""
+                 style="position: absolute;width: 5%;right: 2%;top: 0;z-index: 10;display: none;">
         </div>
     </div>
 </div>
