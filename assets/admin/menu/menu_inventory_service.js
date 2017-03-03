@@ -109,7 +109,7 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
                 {dataField: 'LabelFontColor', hidden: true},
                 {dataField: 'LabelFontSize', hidden: true}
             ],
-            width: "100%",
+            width: "99.7%",
             theme: 'arctic',
             filterable: true,
             showfilterrow: true,

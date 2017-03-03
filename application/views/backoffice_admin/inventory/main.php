@@ -65,7 +65,7 @@
         </nav>
     </div>
 
-    <div class="">
+    <div class="" style="width:100%;height: 1200px;max-height: 500px;overflow-y: scroll;">
 <!--        <div class="col-md-12" style="padding: 0;margin: 5px 0;">-->
 <!--            <div class="col-md-5" style="padding: 0 2px;">-->
 <!--                <input type="text" id="InventorySearchField" class="form-control" placeholder="Search.."-->
