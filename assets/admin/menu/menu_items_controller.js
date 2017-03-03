@@ -26,21 +26,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $('#ListBoxSearchInput').on('keypress', function(e) {
         var kcode = e.keyCode;
-        var inputEntered = $(this).val();
         if (kcode == 13) {
-            $('#loadingMenuItem').show();
-            $('#itemListboxSearch').jqxListBox({
-                source: dataAdapterItems('ASC', inputEntered)
-            });
+            searchActionOnItemList($(this).val());
         }
     });
     $('#ListBoxSearchBtn').on('click', function() {
-        var inputEntered = $('#ListBoxSearchInput').val();
+        searchActionOnItemList($('#ListBoxSearchInput').val());
+    });
+    function searchActionOnItemList(inputEntered) {
         $('#loadingMenuItem').show();
         $('#itemListboxSearch').jqxListBox({
             source: dataAdapterItems('ASC', inputEntered)
         });
-    });
+        setTimeout(function() {
+            selectedItemEvents();
+        }, 500);
+    }
 
     var printerTabOnce = true;
     $('#jqxTabsMenuItemWindows').on('selecting', function(e) { // tabclick
@@ -1177,7 +1178,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
      */
     // ---- DRAG ITEMS ON ABOVE GRID FOR Selected item from combobox
     function selectedItemEvents () {
-
         $('#selectedItemInfo, #itemListboxSearch .jqx-listitem-element').jqxDragDrop(
             {
                 dropTarget: $('div[id^="draggable-"]'),
