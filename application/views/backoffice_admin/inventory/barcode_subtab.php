@@ -5,8 +5,8 @@
                 <div style="width:45%; float:left;">
                     <input type="text" id="item_barcodeinput" class="form-control item_textcontrol"
                            placeholder="Enter Barcode" ng-model="barcodeData.mainValue"
-                           ng-enter="saveItemBarcode()" style="width:70%;height:30px;float: left;"/>
-                    <span style="width: 30px;display: inline-block;vertical-align: top;margin: 5px 0;">Sort:</span>
+                           ng-enter="saveItemBarcode()" style="width:67%;height:30px;float: left;"/>
+                    <span style="width: 30px;display: inline-block;vertical-align: top;margin: 5px 8px;">Sort:</span>
 <!--                    <jqx-number-input id="item_barcodesort" class="item_textcontrol"-->
 <!--                                      jqx-width="'50px'" jqx-height="'30px'"-->
 <!--                                      jqx-spin-buttons="false" jqx-input-mode="simple"-->

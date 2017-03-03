@@ -655,8 +655,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             for (var idx = 1;idx<=10;idx++) {
                 if (sortUsed.indexOf(idx) >= 0) {
                     $('#item_barcodesort').jqxDropDownList('disableItem', idx);
+                    $('.jqx-listitem-element:eq('+ idx + ') span').css({'background-color':'red'}); // #listBoxContentinnerListBoxitem_barcodesort'
                 } else {
                     $('#item_barcodesort').jqxDropDownList('enableItem', idx);
+                    $(' .jqx-listitem-element:eq('+ idx + ') span').css({'background-color':'#fff'});
                 }
             }
         }, 500);
