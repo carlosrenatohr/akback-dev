@@ -73,7 +73,7 @@
 <!--            </div>-->
 <!--            <button class="btn btn-info col-md-1" id="InventorySearchBtn" type="button"-->
 <!--                    style="height: 24px;padding: 0 5px;">Search</button>-->
-<!--            <img id="loadingMenuItem" src="--><?php //echo base_url()?><!--assets/img/loadinfo.gif" alt=""-->
+<!--            <img id="loadingMenuItem" src="--><?php //echo base_url()?><!--asset s/img/loadinfo.gif" alt=""-->
 <!--                 style="position: absolute;width: 3%;left: 1%;top: -25px;z-index: 999;display: none;">-->
 <!--            <div class="col-md-offset-4"></div>-->
 <!--        </div>-->

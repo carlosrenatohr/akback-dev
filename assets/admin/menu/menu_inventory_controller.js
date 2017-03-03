@@ -17,10 +17,12 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         searchOnItemGrid($('#InventorySearchField').val());
     });
     function searchOnItemGrid(inputEntered) {
-        $('#loadingMenuItem').show();
-        $('#inventoryItemsGrid').jqxGrid({
-            source: updateItemsInventoryGrid(undefined, inputEntered)
-        });
+        setTimeout(function() {
+            $('#loadingMenuItem').show();
+            $('#inventoryItemsGrid').jqxGrid({
+                source: updateItemsInventoryGrid(undefined, inputEntered)
+            });
+        }, 500);
     }
     //
     $('#inventoryTabs').on('selecting', function(e) {
@@ -152,14 +154,14 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     };
 
     $scope.setStaticPrices = function(listprice) {
-        // if ($scope.createOrEditItemInventory == 'create') {
+        if ($scope.createOrEditItemInventory == 'create') {
             if (listprice == 1) {
                 var lprice = $scope.inventoryData.listPrice;
                 $scope.inventoryData.price1 = lprice;
             }
+        }
             $('#itemp_listprice').val($scope.inventoryData.listPrice);
             $('#itemp_price1').val($scope.inventoryData.price1);
-        // }
     };
 
     $scope.modifyCurrentQty = function(elect, stockTotal) {
