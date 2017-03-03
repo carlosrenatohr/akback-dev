@@ -63,11 +63,11 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
                     {name: 'LabelFontSize', type: 'string'}
                 ],
                 id: 'Unique',
-                url: url,
+                url: url
             }, extraSettings),
             columns: [
                 {text: 'ID', dataField: 'Unique', type: 'int', width: '6%', filterType:'number'},
-                {text: 'Item Number', dataField: 'Item', type: 'string', width: '12%'},
+                {text: 'Item', dataField: 'Item', type: 'string', width: '12%', filterType:'input'},
                 {text: 'Category', dataField: 'Category', type: 'string', width: '12%',
                     filtertype: 'checkedlist'},
                 {text: 'SubCategory', dataField: 'SubCategory', filtertype: 'checkedlist', width: '12%'},
