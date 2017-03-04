@@ -654,23 +654,49 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             });
             for (var idx = 1;idx<=10;idx++) {
                 if (sortUsed.indexOf(idx) >= 0) {
+                    console.log('number: ', idx);
+                    console.log(sortUsed.indexOf(idx));
                     $('#item_barcodesort').jqxDropDownList('disableItem', idx);
-                    $('.jqx-listitem-element:eq('+ idx + ') span').css({'background-color':'red'}); // #listBoxContentinnerListBoxitem_barcodesort'
+                    $('#listBoxContentinnerListBoxitem_barcodesort .jqx-listitem-element')
+                    .filter(function() {
+                        return $(this).text() == (idx)
+                    })
+                    .find('span').css({'color':'red'});
+                    // #listBoxContentinnerListBoxitem_barcodesort'
                 } else {
+                    console.log('number: ', idx);
+                    console.log(sortUsed.indexOf(idx));
                     $('#item_barcodesort').jqxDropDownList('enableItem', idx);
-                    $(' .jqx-listitem-element:eq('+ idx + ') span').css({'background-color':'#fff'});
+                    $('#listBoxContentinnerListBoxitem_barcodesort .jqx-listitem-element')
+                    .filter(function() {
+                        return $(this).text() == (idx)
+                    })
+                    .find('span').css({'color':'#000'});
                 }
             }
-        }, 500);
+        }, 100);
     }
 
     $scope.onSelectBarcodeList = function(e) {
         if (e.args != null) {
             var row = e.args.row.bounddata;
             $scope.barcodeData.idSelected = row.Unique;
+            // $scope.barcodeData.sort = row.Sort;
             $('#item_barcodeinput').val(row.Barcode);
-            $('#item_barcodesort').val(row.Sort);
-            $scope.barcodeData.mainValue = row.Barcode;
+            //
+            disableSortForBarcodes();
+            setTimeout(function() {
+                $('#item_barcodesort').jqxDropDownList('enableItem', row.Sort);
+                $('#item_barcodesort').val(row.Sort);
+                $scope.barcodeData.mainValue = row.Barcode;
+                setTimeout(function(){
+                    $('#listBoxContentinnerListBoxitem_barcodesort .jqx-listitem-element')
+                        .filter(function() {
+                            return $(this).text() == (row.Sort)
+                        })
+                        .find('span').css({'color':'#000'});
+                }, 100);
+            }, 250);
         }
     };
 
