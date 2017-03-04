@@ -653,25 +653,25 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 sortUsed.push(el.Sort);
             });
             for (var idx = 1;idx<=10;idx++) {
-                if (sortUsed.indexOf(idx) >= 0) {
-                    console.log('number: ', idx);
-                    console.log(sortUsed.indexOf(idx));
-                    $('#item_barcodesort').jqxDropDownList('disableItem', idx);
-                    $('#listBoxContentinnerListBoxitem_barcodesort .jqx-listitem-element')
-                    .filter(function() {
-                        return $(this).text() == (idx)
-                    })
-                    .find('span').css({'color':'red'});
-                    // #listBoxContentinnerListBoxitem_barcodesort'
-                } else {
+                if (sortUsed.indexOf(idx) == -1) {
                     console.log('number: ', idx);
                     console.log(sortUsed.indexOf(idx));
                     $('#item_barcodesort').jqxDropDownList('enableItem', idx);
-                    $('#listBoxContentinnerListBoxitem_barcodesort .jqx-listitem-element')
-                    .filter(function() {
-                        return $(this).text() == (idx)
-                    })
-                    .find('span').css({'color':'#000'});
+                    $('#listBoxContentinnerListBoxitem_barcodesort .jqx-item')
+                        .filter(function() {
+                            return $(this).text() == (idx)
+                        })
+                        .css({'color':'#000'});
+                } else {
+                    console.log('number: ', idx);
+                    console.log(sortUsed.indexOf(idx));
+                    $('#item_barcodesort').jqxDropDownList('disableItem', idx);
+                    $('#listBoxContentinnerListBoxitem_barcodesort .jqx-item')
+                        .filter(function() {
+                            return $(this).text() == (idx)
+                        })
+                        .css({'color':'red'});
+                    // #listBoxContentinnerListBoxitem_barcodesort'
                 }
             }
         }, 100);
