@@ -9,41 +9,38 @@ class Item_model extends CI_Model
         return $this->db->update('item', $request);
     }
 
-    public function getItemsData($search = null) {
-        $this->db->select("item.Unique, item.Description, item.Item, item.Part,
-            item.SupplierUnique AS SupplierId, supplier.Company AS Supplier, item.SupplierPart,
-            item.BrandUnique AS BrandId, brand.Name AS Brand,
-			item.ListPrice, item.price1, item.price2, item.price3, item.price4, item.price5,
-			category_main.Unique AS CategoryId, category_main.MainName AS Category,
-			category_sub.Name AS SubCategory, category_sub.Unique AS SubCategoryId,
-			item.Cost, item.Cost_Extra, item.Cost_Freight, item.Cost_Duty,
+    public function getItemsData($search = null) { // Quantity excluded
+        $query = "SELECT item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\",
+            item.\"SupplierUnique\" AS \"SupplierId\", supplier.\"Company\" AS \"Supplier\", item.\"SupplierPart\",
+            item.\"BrandUnique\" AS \"BrandId\", brand.\"Name\" AS \"Brand\",
+			item.\"ListPrice\", item.\"price1\", item.\"price2\", item.\"price3\", item.\"price4\", item.\"price5\",
+			category_main.\"Unique\" AS \"CategoryId\", category_main.\"MainName\" AS \"Category\",
+			category_sub.\"Name\" AS \"SubCategory\", category_sub.\"Unique\" AS \"SubCategoryId\",
+			item.\"Cost\", item.\"Cost_Extra\", item.\"Cost_Freight\", item.\"Cost_Duty\",
 			(item.\"Cost\" + item.\"Cost_Extra\" + item.\"Cost_Freight\" + item.\"Cost_Duty\") AS \"CostLanded\",
-			case when SUM(isl.\"Quantity\") is null then 0 else SUM(isl.\"Quantity\") end AS \"Quantity\",
-			item.PromptPrice, item.PromptDescription, item.EBT, item.GiftCard, item.Group,
-			item.MinimumAge, item.CountDown, item.Points, item.Label as ItemLabelVal
-			");
-        $this->db->from('item');
-        $this->db->join("supplier", "item.SupplierUnique = supplier.Unique", 'left');
-        $this->db->join("brand", "item.BrandUnique = brand.Unique", 'left');
-//        $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
-//        $this->db->join("category_main", "category_main.Unique = category_sub.CategoryMainUnique", 'left');
-        $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
-        $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');
-        $this->db->join("item_stock_line isl", "isl.ItemUnique=item.Unique", 'left');
-        $this->db->where("item.\"Status\"", 1);
-        $this->db->where("isl.\"status\"", 1);
-        if (!is_null($search)) {
-            if(empty($search)) {
-                $this->db->limit(1000);
-            } else {
-                $this->db->where('LOWER("item"."Description") like \'%' . strtolower($search) . '%\'', null);
-            }
-        }
-        $this->db->group_by("item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\", supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
-            category_main.\"Unique\", category_sub.\"Name\", category_sub.\"Unique\", \"CostLanded\", item.\"Cost_Duty\"");
-        $this->db->order_by("item.\"Unique\" DESC");
+			case when SUM(isl1.\"Quantity\") is null then 0 else SUM(isl1.\"Quantity\") end AS \"QuantityLoc1\",
+			case when SUM(isl2.\"Quantity\") is null then 0 else SUM(isl2.\"Quantity\") end AS \"QuantityLoc2\",
+            case when SUM(isl3.\"Quantity\") is null then 0 else SUM(isl3.\"Quantity\") end AS \"QuantityLoc3\",
+			item.\"PromptPrice\", item.\"PromptDescription\", item.\"EBT\", item.\"GiftCard\", item.\"Group\",
+			item.\"MinimumAge\", item.\"CountDown\", item.\"Points\", item.\"Label\" as \"ItemLabelVal\"
+			FROM item
+            LEFT JOIN supplier on item.\"SupplierUnique\" = supplier.\"Unique\"
+            LEFT JOIN brand on item.\"BrandUnique\" = brand.\"Unique\" 
+            LEFT JOIN category_sub on item.\"CategoryUnique\" = category_sub.\"Unique\" 
+            LEFT JOIN category_main on item.\"MainCategory\" = category_main.\"Unique\"
+            LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 group by \"ItemUnique\") ISL on isl.\"ItemUnique\" = item.\"Unique\"
+            LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 1 group by \"ItemUnique\") ISL1 on isl1.\"ItemUnique\" = item.\"Unique\"
+            LEFT JOIN (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 1 group by \"ItemUnique\")  ISL2 on isl2.\"ItemUnique\" = item.\"Unique\"
+            LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 1 group by \"ItemUnique\") ISL3 on isl3.\"ItemUnique\" = item.\"Unique\"
+            LEFT JOIN  item_barcode IB on IB.\"ItemUnique\" = Item.\"Unique\"
+            WHERE item.\"Status\" = 1 " .
+            (!is_null($search) ? " AND (IB.\"Barcode\" like {$search} OR item.\"Description\" like {$search})" : " ").
+            "GROUP BY item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\",
+                    supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
+                    category_main.\"Unique\", category_sub.\"Name\", category_sub.\"Unique\", \"CostLanded\", item.\"Cost_Duty\";";
 
-        return $this->db->get()->result_array();
+        return $this->db->query($query)->result_array();
+
     }
 
     public function getSupplierList() {

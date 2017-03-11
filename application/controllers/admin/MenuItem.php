@@ -335,7 +335,9 @@ class MenuItem extends AK_Controller
         foreach($this->item->getItemsData($search) as $count=> $item) {
             $item['ListPrice'] = number_format($item['ListPrice'], $this->decimalPrice);
             $item['price1'] = number_format($item['price1'], $this->decimalPrice);
-            $item['Quantity'] = number_format($item['Quantity'], $this->decimalQuantity);
+            $item['QuantityLoc1'] = number_format($item['QuantityLoc1'], $this->decimalQuantity);
+            $item['QuantityLoc2'] = number_format($item['QuantityLoc2'], $this->decimalQuantity);
+            $item['QuantityLoc3'] = number_format($item['QuantityLoc3'], $this->decimalQuantity);
             //
 //            $bpc = explode('#', $item['ButtonPrimaryColor']);
 //            $item['ButtonPrimaryColor'] = (!is_null($item['ButtonPrimaryColor'])) ? $bpc[1] : null;
