@@ -436,6 +436,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
     };
 
+    $('#itemcountWindow').on('close', function() {
+        $('#icountlistGrid').hide();
+    });
+
     $('body').on('click', '#deleteIcountBtn', function(e) {
         $scope.deleteIcount();
     });
