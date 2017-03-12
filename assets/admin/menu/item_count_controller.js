@@ -158,12 +158,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 dataType: 'json',
                 data: dataToSend,
                 success: function(response) {
-                    setTimeout(function() {
+                    // setTimeout(function() {
                         $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "Difference", newDiff);
                         $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "NewCost", nCost);
                         $('#icountlistGrid').jqxGrid('setcellvalue', rowBoundIndex, "AdjustedCost", aCost);
                         $('#loadingMenuCountList').hide();
-                    }, 100);
+                    // }, 100);
                 }
             });
         } else if (datafield  == 'Comment') {
