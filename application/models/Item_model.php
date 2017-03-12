@@ -34,7 +34,7 @@ class Item_model extends CI_Model
             LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 1 group by \"ItemUnique\") ISL3 on isl3.\"ItemUnique\" = item.\"Unique\"
             LEFT JOIN  item_barcode IB on IB.\"ItemUnique\" = Item.\"Unique\"
             WHERE item.\"Status\" = 1 " .
-            (!is_null($search) ? " AND (IB.\"Barcode\" like {$search} OR item.\"Description\" like {$search})" : " ").
+            ((!is_null($search) && $search != '') ? " AND (IB.\"Barcode\" like {$search} OR item.\"Description\" like {$search})" : " ").
             "GROUP BY item.\"Unique\", item.\"Description\", item.\"Item\", item.\"Part\", item.\"SupplierUnique\",
                     supplier.\"Company\", item.\"SupplierPart\", item.\"BrandUnique\", brand.\"Name\",
                     category_main.\"Unique\", category_sub.\"Name\", category_sub.\"Unique\", \"CostLanded\", item.\"Cost_Duty\";";

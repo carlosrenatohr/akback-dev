@@ -54,6 +54,15 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 $scope.inventoryData.lprice = row.ListPrice;
                 $scope.inventoryData.sprice = row.price1;
             }
+            setTimeout(function() {
+                $scope.setStaticPrices();
+            }, 200);
+        }
+        if (tabTitle == 'Cost') {
+            setTimeout(function() {
+                $scope.onChangeCostFields();
+            }, 200);
+            console.log('cost');
         }
         if (tabTitle == 'Barcode') {
             $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings2($scope.itemInventoryID)
@@ -160,8 +169,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                 $scope.inventoryData.price1 = lprice;
             }
         }
-            $('#itemp_listprice').val($scope.inventoryData.listPrice);
-            $('#itemp_price1').val($scope.inventoryData.price1);
+        $('#itemp_listprice').val($scope.inventoryData.listPrice);
+        $('#itemp_price1').val($scope.inventoryData.price1);
     };
 
     $scope.modifyCurrentQty = function(elect, stockTotal) {
