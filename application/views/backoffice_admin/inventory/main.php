@@ -13,6 +13,7 @@
     $("#tabtitle").text("Items");
 </script>
 <!--<script type="application/javascript" src="--><?php //echo base_url()?><!--assets/js/angular/jqwidgets/jqxradiobutton.js"></script>-->
+<script type="application/javascript" src="<?php echo base_url()?>assets/js/angular/jqwidgets/jqxinput.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/config.js"></script>
     <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/admin_service.js"></script>
     <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/menu_questions_service.js"></script>

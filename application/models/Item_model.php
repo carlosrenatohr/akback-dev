@@ -110,13 +110,22 @@ class Item_model extends CI_Model
      * @return mixed
      */
     public function getBarcodesByItem($id = null) {
-        $this->db->select('Unique, Barcode, Sort');
-        $this->db->from('item_barcode');
-        if (!is_null($id))
-            $this->db->where('ItemUnique', $id);
-        $this->db->where('Barcode!=', '');
-        $this->db->where('Status', 1);
-        $this->db->order_by('Sort ASC');
+        $sql = "SELECT IB.\"Unique\", IB.\"Barcode\", IB.\"Sort\",
+            CASE WHEN IB.\"Updated\" is null then to_char(date_trunc('minutes', IB.\"Created\"::timestamp), 'MM/DD/YYYY HH:MI AM') 
+            ELSE to_char(date_trunc('minutes', IB.\"Updated\"::timestamp), 'MM/DD/YYYY HH:MIAM')
+            END AS \"createdAt\",
+            cu1.\"UserName\" as \"createdBy\"
+            FROM item_barcode IB
+            LEFT JOIN config_user cu1 
+              ON cu1.\"Unique\" =
+                (case when IB.\"UpdatedBy\" is null then IB.\"CreatedBy\" else IB.\"UpdatedBy\" end) 
+            WHERE IB.\"Barcode\" <> '' AND IB.\"Status\" = 1 " .
+            (!is_null($id) ? " AND IB.\"ItemUnique\" = '{$id}' " : " ") . " 
+            ORDER BY IB.\"Sort\" ASC
+            ";
+        return $this->db->query($sql)->result_array();
+        
+        
         return $this->db->get()->result_array();
     }
 

@@ -111,14 +111,18 @@ angular.module("akamaiposApp")
                 dataFields: [
                     {name: 'Unique', type: 'int'},
                     {name: 'Barcode', type: 'string'},
-                    {name: 'Sort', type: 'string'}
+                    {name: 'Sort', type: 'string'},
+                    {name: 'createdAt', type: 'string'},
+                    {name: 'createdBy', type: 'string'}
                 ],
                 url: url
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text: 'Barcode', dataField: 'Barcode', width: '30%'},
-                {text: 'Sort', dataField: 'Sort', width: '10%'}
+                {text: 'Barcode', dataField: 'Barcode', width: '18%'},
+                {text: 'Sort', dataField: 'Sort', width: '12%'},
+                {text: 'By', dataField: 'createdBy', width: '20%'},
+                {text: 'Date', dataField: 'createdAt', width: '25%'}
             ],
             width: "100%",
             theme: 'arctic',
