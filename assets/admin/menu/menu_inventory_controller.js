@@ -62,7 +62,6 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             setTimeout(function() {
                 $scope.onChangeCostFields();
             }, 200);
-            console.log('cost');
         }
         if (tabTitle == 'Barcode') {
             $scope.barcodeListSettings = inventoryExtraService.getBarcodesListSettings2($scope.itemInventoryID)
@@ -663,8 +662,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             });
             for (var idx = 1;idx<=10;idx++) {
                 if (sortUsed.indexOf(idx) == -1) {
-                    console.log('number: ', idx);
-                    console.log(sortUsed.indexOf(idx));
+                    // console.log('number: ', idx);
+                    // console.log(sortUsed.indexOf(idx));
                     $('#item_barcodesort').jqxDropDownList('enableItem', idx);
                     $('#listBoxContentinnerListBoxitem_barcodesort .jqx-item')
                         .filter(function() {
@@ -672,8 +671,8 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
                         })
                         .css({'color':'#000'});
                 } else {
-                    console.log('number: ', idx);
-                    console.log(sortUsed.indexOf(idx));
+                    // console.log('number: ', idx);
+                    // console.log(sortUsed.indexOf(idx));
                     $('#item_barcodesort').jqxDropDownList('disableItem', idx);
                     $('#listBoxContentinnerListBoxitem_barcodesort .jqx-item')
                         .filter(function() {

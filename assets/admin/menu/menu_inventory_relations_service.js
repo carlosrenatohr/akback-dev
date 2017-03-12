@@ -119,12 +119,12 @@ angular.module("akamaiposApp")
             }),
             columns: [
                 {dataField: 'Unique', hidden: true},
-                {text: 'Barcode', dataField: 'Barcode', width: '18%'},
-                {text: 'Sort', dataField: 'Sort', width: '12%'},
-                {text: 'By', dataField: 'createdBy', width: '20%'},
-                {text: 'Date', dataField: 'createdAt', width: '25%'}
+                {text: 'Barcode', dataField: 'Barcode', width: '24%'},
+                {text: 'Sort', dataField: 'Sort', width: '21%'},
+                {text: 'By', dataField: 'createdBy', width: '20%', filtertype: 'list'},
+                {text: 'Date', dataField: 'createdAt', width: '35%'}
             ],
-            width: "100%",
+            width: "75%",
             theme: 'arctic',
             filterable: true,
             showfilterrow: true,

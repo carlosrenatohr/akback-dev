@@ -19,7 +19,7 @@
 <!--                                      jqx-min="1" jqx-max="99999" jqx-value="1" jqx-digits="5"-->
 <!--                                      jqx-decimal-digits="0" style="display: inline-block"-->
 <!--                    ></jqx-number-input>-->
-                    <jqx-drop-down-list jqx-width="'80px'" class="item_textcontrol"
+                    <jqx-drop-down-list jqx-width="'75px'" class="item_textcontrol"
                                         id="item_barcodesort">
                         <option value=""></option>
                         <?php for ($i=1;$i<=10;$i++) { ?>
