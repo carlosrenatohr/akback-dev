@@ -164,6 +164,14 @@ app.service('itemInventoryService', function ($http, inventoryExtraService, admi
         $('#primaryCheckContainer #primaryPrinterChbox').on('change', function(e) {
             $('#saveBtnPrinterInv').prop('disabled', false);
         });
+        // Height resizing
+        $('.inventoryItemsGridContainer').css({'height':  $(window).height()- 100, 'max-height': $(window).height() - 100});
+        $(window).on('resize', function() {
+            var windHeight = $(window).height();
+            console.log(windHeight- 100);
+            $('.inventoryItemsGridContainer').css({'height':  windHeight- 100});
+            $('.inventoryItemsGridContainer').css({'max-height': windHeight - 100});
+        })
     };
 
     this.setNotificationSettings = function (type, container) {

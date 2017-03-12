@@ -65,17 +65,17 @@
         </nav>
     </div>
 
-    <div class="" style="width:100%;height: 1200px;max-height: 500px;overflow-y: scroll;">
-<!--        <div class="col-md-12" style="padding: 0;margin: 5px 0;">-->
-<!--            <div class="col-md-5" style="padding: 0 2px;">-->
-<!--                <input type="text" id="InventorySearchField" class="form-control" placeholder="Search.."-->
-<!--                       style="padding: 0 5px;height: 24px;" autofocus>-->
-<!--            </div>-->
-<!--            <button class="btn btn-info col-md-1" id="InventorySearchBtn" type="button"-->
-<!--                    style="height: 24px;padding: 0 5px;">Search</button>-->
-<!--            <img id="loadingMenuItem" src="--><?php //echo base_url()?><!--asset s/img/loadinfo.gif" alt=""-->
-<!--                 style="position: absolute;width: 3%;left: 1%;top: -25px;z-index: 999;display: none;">-->
-<!--            <div class="col-md-offset-4"></div>-->
+    <div class="inventoryItemsGridContainer" style="width:100%;height: 100%;max-height: 700px;overflow-y: scroll;">
+        <div class="col-md-12" style="padding: 0;margin: 5px 0;">
+            <div class="col-md-5" style="padding: 0 2px;">
+                <input type="text" id="InventorySearchField" class="form-control" placeholder="Search.."
+                       style="padding: 0 5px;height: 24px;" autofocus>
+            </div>
+            <button class="btn btn-info col-md-1" id="InventorySearchBtn" type="button"
+                    style="height: 24px;padding: 0 5px;">Search</button>
+            <img id="loadingMenuItem" src="<?php echo base_url()?>asset s/img/loadinfo.gif" alt=""
+                 style="position: absolute;width: 3%;left: 1%;top: -25px;z-index: 999;display: none;">
+            <div class="col-md-offset-4"></div>
 <!--        </div>-->
         <jqx-grid id="inventoryItemsGrid"
                   jqx-settings="inventoryItemsGrid"
