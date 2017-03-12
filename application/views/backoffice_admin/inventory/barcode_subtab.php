@@ -26,7 +26,7 @@
                         <option value="<?php echo $i;?>"><?php echo $i;?></option>
                         <?php } ?>
                     </jqx-drop-down-list>
-                    <span class="required-ast" style="top: 0;position: absolute;">*</span>
+                    <span class="required-ast" style="top: 2.5em;position: absolute;">*</span>
                 </div>
             </div>
             <br>
