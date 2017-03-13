@@ -18,6 +18,7 @@ class Item_model extends CI_Model
 			category_sub.\"Name\" AS \"SubCategory\", category_sub.\"Unique\" AS \"SubCategoryId\",
 			item.\"Cost\", item.\"Cost_Extra\", item.\"Cost_Freight\", item.\"Cost_Duty\",
 			(item.\"Cost\" + item.\"Cost_Extra\" + item.\"Cost_Freight\" + item.\"Cost_Duty\") AS \"CostLanded\",
+			case when SUM(isl.\"Quantity\") is null then 0 else SUM(isl.\"Quantity\") end AS \"Quantity\",
 			case when SUM(isl1.\"Quantity\") is null then 0 else SUM(isl1.\"Quantity\") end AS \"QuantityLoc1\",
 			case when SUM(isl2.\"Quantity\") is null then 0 else SUM(isl2.\"Quantity\") end AS \"QuantityLoc2\",
             case when SUM(isl3.\"Quantity\") is null then 0 else SUM(isl3.\"Quantity\") end AS \"QuantityLoc3\",
@@ -30,8 +31,8 @@ class Item_model extends CI_Model
             LEFT JOIN category_main on item.\"MainCategory\" = category_main.\"Unique\"
             LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 group by \"ItemUnique\") ISL on isl.\"ItemUnique\" = item.\"Unique\"
             LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 1 group by \"ItemUnique\") ISL1 on isl1.\"ItemUnique\" = item.\"Unique\"
-            LEFT JOIN (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 1 group by \"ItemUnique\")  ISL2 on isl2.\"ItemUnique\" = item.\"Unique\"
-            LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 1 group by \"ItemUnique\") ISL3 on isl3.\"ItemUnique\" = item.\"Unique\"
+            LEFT JOIN (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 2 group by \"ItemUnique\")  ISL2 on isl2.\"ItemUnique\" = item.\"Unique\"
+            LEFT JOIN  (select \"ItemUnique\",sum(\"Quantity\") as \"Quantity\" from item_stock_line where \"status\" = 1 and \"LocationUnique\" = 3 group by \"ItemUnique\") ISL3 on isl3.\"ItemUnique\" = item.\"Unique\"
             LEFT JOIN  item_barcode IB on IB.\"ItemUnique\" = Item.\"Unique\"
             WHERE item.\"Status\" = 1 " .
             ((!is_null($search) && $search != '') ? " AND (IB.\"Barcode\" like {$search} OR item.\"Description\" like {$search})" : " ").
