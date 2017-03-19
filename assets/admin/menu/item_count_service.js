@@ -97,11 +97,20 @@
             };
             var setThousands = function (input) {
                 var output = input;
+                var mult = 1;
                 if (parseFloat(input)) {
-                    input = new String(input); // so you can perform string operations
-                    var parts = input.split("."); // remove the decimal part
+                    if (parseFloat(input) < 0) {
+                        mult = -1;
+                        input = input.split('-');
+                        input = input[1];
+                    }
+                    input = new String(input);
+                    var parts = input.split(".");
                     parts[0] = parts[0].split("").reverse().join("").replace(/(\d{3})(?!$)/g, "$1,").split("").reverse().join("");
                     output = parts.join(".");
+                    if (mult == -1) {
+                        output = ('-' + output);
+                    }
                 }
 
                 return output;
