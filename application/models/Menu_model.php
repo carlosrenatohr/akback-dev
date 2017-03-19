@@ -106,10 +106,14 @@ class Menu_model extends CI_Model
      *
      */
     public function getCategory($id) {
-        $this->db->select('Unique, CategoryName, 
-            ButtonPrimaryColor,ButtonSecondaryColor,LabelFontColor,LabelFontSize');
-
-        return $this->db->get_where($this->category_table, ['Unique' => $id])->row_array();
+        $this->db->select('config_menu_category.Unique, config_menu_category.CategoryName, 
+            config_menu_category.ButtonPrimaryColor, config_menu_category.ButtonSecondaryColor,config_menu_category.LabelFontColor,
+            config_menu_category.LabelFontSize,
+            cm.CategoryButtonPrimaryColor as dcpc, cm.CategoryButtonSecondaryColor as dcsc, 
+            cm.CategoryButtonLabelFontColor as dcfc, cm.CategoryButtonLabelFontSize as dcfs
+            ');
+        $this->db->join('config_menu cm', 'cm.Unique = config_menu_category.MenuUnique', 'left');
+        return $this->db->get_where($this->category_table, ['config_menu_category.Unique' => $id])->row_array();
     }
 
     public function storeCategory($values) {

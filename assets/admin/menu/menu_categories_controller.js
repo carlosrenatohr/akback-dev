@@ -355,8 +355,16 @@ app.controller('menuCategoriesController', function($scope, $http, adminService,
         { source: dataAdapter, displayMember: "MenuName", valueMember: "Unique", width: 180};
 
     $('#add_MenuUnique').on('select', function(e) {
-        if (e.args) {
-            console.log(e.args.item.originalItem);
+        if (e.args.item) {
+            var item = e.args.item.originalItem;
+            console.log(item);
+            if ($scope.newOrEditCategoryOption == 'new') {
+                menuCategoriesService.updateColorControl(item.CategoryButtonPrimaryColor, 'bPrimaryColor', $scope);
+                menuCategoriesService.updateColorControl(item.CategoryButtonSecondaryColor, 'bSecondaryColor', $scope);
+                menuCategoriesService.updateColorControl(item.CategoryButtonLabelFontColor, 'lfontColor', $scope);
+                var lfs = (item.CategoryButtonLabelFontSize) ? item.CategoryButtonLabelFontSize : '12px';
+                $('#lfontSize').val(lfs);
+            }
         }
     });
 
@@ -450,40 +458,45 @@ app.controller('menuCategoriesController', function($scope, $http, adminService,
         $('#add_CategoryColumn').val(values['Column']);
         $('#add_Sort').val(values['Sort']);
         // Primary Color
-        var tempColor;
-        if (values['ButtonPrimaryColor'])
-            tempColor = values['ButtonPrimaryColor'];
-        else
-            tempColor = $('#catButtonPrimaryColorDef').val();
-        $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
-        if ($('#bPrimaryColor').jqxColorPicker('getColor') == undefined)
-            $scope.bPrimaryColor = tempColor;
-        else
-            $('#bPrimaryColor').jqxColorPicker('setColor', '#' + tempColor);
-        // Secondary Color
-        if (values['ButtonSecondaryColor'])
-            tempColor = values['ButtonSecondaryColor'];
-        else
-            tempColor = $('#catButtonSecondaryColorDef').val();
-        $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
-        if ($('#bSecondaryColor').jqxColorPicker('getColor')  == undefined)
-            $scope.bSecondaryColor = tempColor;
-        else
-            $('#bSecondaryColor').jqxColorPicker('setColor', '#' + tempColor);
-        // Font Color
-        if (values['LabelFontColor'])
-            tempColor = values['LabelFontColor'];
-        else
-            tempColor = $('#catLabelFontColorDef').val();
-        $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
-        $('#lfontColor').jqxColorPicker('setColor', tempColor);
-        if ($('#lfontColor').jqxColorPicker('getColor')  == undefined)
-            $scope.lfontColor = tempColor;
-        else
-            $('#lfontColor').jqxColorPicker('setColor', '#' + tempColor);
-        //-- Font Size
-        var lfs = (values['LabelFontSize']) ? values['LabelFontSize'] : $('#catLabelFontSizeDef').val();
+        menuCategoriesService.updateColorControl('#' + values['ButtonPrimaryColor'], 'bPrimaryColor', $scope, values['dcpc']);
+        menuCategoriesService.updateColorControl('#' + values['ButtonSecondaryColor'], 'bSecondaryColor', $scope, values['dcsc']);
+        menuCategoriesService.updateColorControl('#' + values['LabelFontColor'], 'lfontColor', $scope, values['dcfc']);
+        var lfs = (values['LabelFontSize']) ? values['LabelFontSize'] : '12px';
         $('#lfontSize').val(lfs);
+        // var tempColor;
+        // if (values['ButtonPrimaryColor'])
+        //     tempColor = values['ButtonPrimaryColor'];
+        // else
+        //     tempColor = $('#catButtonPrimaryColorDef').val();
+        // $scope.ddb_bPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
+        // if ($('#bPrimaryColor').jqxColorPicker('getColor') == undefined)
+        //     $scope.bPrimaryColor = tempColor;
+        // else
+        //     $('#bPrimaryColor').jqxColorPicker('setColor', '#' + tempColor);
+        // // Secondary Color
+        // if (values['ButtonSecondaryColor'])
+        //     tempColor = values['ButtonSecondaryColor'];
+        // else
+        //     tempColor = $('#catButtonSecondaryColorDef').val();
+        // $scope.ddb_bSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
+        // if ($('#bSecondaryColor').jqxColorPicker('getColor')  == undefined)
+        //     $scope.bSecondaryColor = tempColor;
+        // else
+        //     $('#bSecondaryColor').jqxColorPicker('setColor', '#' + tempColor);
+        // // Font Color
+        // if (values['LabelFontColor'])
+        //     tempColor = values['LabelFontColor'];
+        // else
+        //     tempColor = $('#catLabelFontColorDef').val();
+        // $scope.ddb_lfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
+        // $('#lfontColor').jqxColorPicker('setColor', tempColor);
+        // if ($('#lfontColor').jqxColorPicker('getColor')  == undefined)
+        //     $scope.lfontColor = tempColor;
+        // else
+        //     $('#lfontColor').jqxColorPicker('setColor', '#' + tempColor);
+        // //-- Font Size
+        // var lfs = (values['LabelFontSize']) ? values['LabelFontSize'] : $('#catLabelFontSizeDef').val();
+        // $('#lfontSize').val(lfs);
         //
         $scope.newOrEditCategoryOption = 'edit';
         $scope.categoryId = values['Unique'];

@@ -21,13 +21,19 @@ app.service('menuCategoriesService', function ($http, adminService) {
     }
 
     // Helper to set color in dropdownlist and jqxcolor selected
-    this.updateColorControl = function(value, textScope, $scope) {
+    this.updateColorControl = function(value, textScope, $scope, defaultColor) {
         var tempColor;
         if (value) {
             var withoutHash = value.split('#');
             tempColor = withoutHash[1];
-        } else
-            tempColor = '000000';
+        } else {
+            if (defaultColor == undefined) {
+                tempColor = '000000';
+            } else {
+                tempColor = defaultColor.split('#');
+                tempColor = tempColor[1];
+            }
+        }
         $scope['ddb_' + textScope].setContent(getTextElementByColor(new $.jqx.color({ hex: tempColor })));
         if ($('#' + textScope).jqxColorPicker('getColor') == undefined)
             $scope[textScope] = tempColor;

@@ -2,7 +2,7 @@
  * Created by carlosrenato on 05-19-16.
  */
 
-app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService, questionService) {
+app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService, questionService, menuCategoriesService) {
 
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
@@ -291,46 +291,53 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             .then(function(response) {
                 if (response.data) {
                     var category = response.data.row;
+                    console.log(category);
                     $('#OneCategoryName').val(category.CategoryName);
                     $('#OneCategoryId').val(category.Unique);
                     // Styles
                     // -- PRIMARY BUTTON
-                    var bpc;
-                    if (category['ButtonPrimaryColor'])
-                        bpc = category['ButtonPrimaryColor'];
-                    else
-                        bpc = $('#catButtonPrimaryColorDef').val();
-                    $('#ddb_mitcbPrimaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    if ($('#mitcbPrimaryColor').jqxColorPicker('getColor') == undefined)
-                        $scope.mitcbPrimaryColor = bpc;
-                    else
-                        $('#mitcbPrimaryColor').jqxColorPicker('setColor', '#' + bpc);
-                    // $scope.ddb_mitcbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // -- SECONDARY BUTTON
-                    if (category['ButtonSecondaryColor'])
-                        bpc = category['ButtonSecondaryColor'];
-                    else
-                        bpc = $('#catButtonSecondaryColorDef').val();
-                    $('#ddb_mitcbSecondaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // $scope.ddb_mitbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    if ($('#mitcbSecondaryColor').jqxColorPicker('getColor') == undefined)
-                        $scope.mitcbSecondaryColor = bpc;
-                    else
-                        $('#mitcbSecondaryColor').jqxColorPicker('setColor', '#' + bpc);
-                    // -- LABEL FONT
-                    if (category['LabelFontColor'])
-                        bpc = category['LabelFontColor'];
-                    else
-                        bpc = $('#catLabelFontColorDef').val();
-                    // $scope.ddb_mitlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    $('#ddb_mitclfontColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    if ($('#mitclfontColor').jqxColorPicker('getColor') == undefined)
-                        $scope.mitclfontColor = bpc;
-                    else
-                        $('#mitclfontColor').jqxColorPicker('setColor', '#' + bpc);
-                    // -- LABEL SIZE
-                    var lfs = (category['LabelFontSize']) ? category['LabelFontSize'] : $('#catLabelFontSizeDef').val();
+                    menuCategoriesService.updateColorControl('#' + category['ButtonPrimaryColor'], 'mitcbPrimaryColor', $scope);
+                    menuCategoriesService.updateColorControl('#' + category['ButtonSecondaryColor'], 'mitcbSecondaryColor', $scope);
+                    menuCategoriesService.updateColorControl('#' + category['LabelFontColor'], 'mitclfontColor', $scope);
+                    var lfs = (category['LabelFontSize']) ? category['LabelFontSize'] : '12px';
                     $('#mitclfontSize').val(lfs);
+                    // var bpc;
+                    // if (category['ButtonPrimaryColor'])
+                    //     bpc = category['ButtonPrimaryColor'];
+                    // else
+                    //     bpc = $('#catButtonPrimaryColorDef').val();
+                    // $('#ddb_mitcbPrimaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    // if ($('#mitcbPrimaryColor').jqxColorPicker('getColor') == undefined)
+                    //     $scope.mitcbPrimaryColor = bpc;
+                    // else
+                    //     $('#mitcbPrimaryColor').jqxColorPicker('setColor', '#' + bpc);
+                    // // $scope.ddb_mitcbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    // // -- SECONDARY BUTTON
+                    // if (category['ButtonSecondaryColor'])
+                    //     bpc = category['ButtonSecondaryColor'];
+                    // else
+                    //     bpc = $('#catButtonSecondaryColorDef').val();
+                    // $('#ddb_mitcbSecondaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    // // $scope.ddb_mitbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    // if ($('#mitcbSecondaryColor').jqxColorPicker('getColor') == undefined)
+                    //     $scope.mitcbSecondaryColor = bpc;
+                    // else
+                    //     $('#mitcbSecondaryColor').jqxColorPicker('setColor', '#' + bpc);
+                    // // -- LABEL FONT
+                    // if (category['LabelFontColor'])
+                    //     bpc = category['LabelFontColor'];
+                    // else
+                    //     bpc = $('#catLabelFontColorDef').val();
+                    // // $scope.ddb_mitlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    // $('#ddb_mitclfontColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
+                    // if ($('#mitclfontColor').jqxColorPicker('getColor') == undefined)
+                    //     $scope.mitclfontColor = bpc;
+                    // else
+                    //     $('#mitclfontColor').jqxColorPicker('setColor', '#' + bpc);
+                    // // -- LABEL SIZE
+                    // var lfs = (category['LabelFontSize']) ? category['LabelFontSize'] : $('#catLabelFontSizeDef').val();
+                    // $('#mitclfontSize').val(lfs);
+
                     $('#savemitcemOneCategoryBtn').prop('disabled', true);
                     categNameWind.open();
                 }
