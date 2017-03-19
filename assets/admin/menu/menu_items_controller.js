@@ -885,8 +885,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('.draggable')
             .on('dblclick', function(e) {
             $('#editItem_ItemSelected').jqxComboBox({
-                // source:  dataAdapterItems('ASC')
-                source:  []
+                source:  dataAdapterItems('ASC')
+                // source:  []
             });
             //
             $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
@@ -1040,7 +1040,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             mainPrinterSet();
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
-                        $('#editItem_ItemSelected').jqxComboBox({disabled: true});
+                        // $('#editItem_ItemSelected').jqxComboBox({disabled: true});
                         // $('#deleteItemGridBtn').show();
                         var btn = $('<button/>', {
                             'id': 'deleteItemGridBtn'

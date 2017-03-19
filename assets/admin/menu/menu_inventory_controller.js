@@ -8,22 +8,22 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
     // Events added
     itemInventoryService.onChangeEvents();
     // Search Filter
-    $('#InventorySearchField').on('keypress', function(e) {
-        if (e.keyCode == 13) {
-            searchOnItemGrid($(this).val());
-        }
-    });
-    $('#InventorySearchBtn').on('click', function() {
-        searchOnItemGrid($('#InventorySearchField').val());
-    });
-    function searchOnItemGrid(inputEntered) {
-        setTimeout(function() {
-            $('#loadingMenuItem').show();
-            $('#inventoryItemsGrid').jqxGrid({
-                source: updateItemsInventoryGrid(undefined, inputEntered)
-            });
-        }, 500);
-    }
+    // $('#InventorySearchField').on('keypress', function(e) {
+    //     if (e.keyCode == 13) {
+    //         searchOnItemGrid($(this).val());
+    //     }
+    // });
+    // $('#InventorySearchBtn').on('click', function() {
+    //     searchOnItemGrid($('#InventorySearchField').val());
+    // });
+    // function searchOnItemGrid(inputEntered) {
+    //     setTimeout(function() {
+    //         $('#loadingMenuItem').show();
+    //         $('#inventoryItemsGrid').jqxGrid({
+    //             source: updateItemsInventoryGrid(undefined, inputEntered)
+    //         });
+    //     }, 500);
+    // }
     //
     $('#inventoryTabs').on('selecting', function(e) {
         var tabclick = e.args.item;
