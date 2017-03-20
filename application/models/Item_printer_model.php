@@ -17,8 +17,10 @@ class Item_printer_model extends CI_Model
     public function getAllItemPrinters($itemUnique = null)
     {
         $this->db->select('item_printer.*, config_station_printers.name, config_station_printers.description,
-                    config_station_printers.printer_port, item.Item, item.Description as ItemDescription
-                ');
+                    config_station_printers.printer_port, item."Item", item."Description" as ItemDescription,
+                    CASE WHEN item_printer."Primary" = 1 THEN \'yes\'    
+                     ELSE \'-\' END AS "primaryLabel"
+                ', false);
         $this->db->from('item_printer');
         if(!is_null($itemUnique)) {
             $this->db->where(['item_printer.ItemUnique' => $itemUnique]);

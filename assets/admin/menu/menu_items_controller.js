@@ -1043,10 +1043,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         if (data.PrimaryPrinter != null) {
                             var printer = $('#mainPrinterSelect').jqxDropDownList('getItemByValue', data.PrimaryPrinter);
                             $('#mainPrinterSelect').jqxDropDownList({
-                                selectedIndex: (printer) ? printer.index : -1
+                                selectedIndex: (printer) ? printer.index : -1,
+                                disabled: true
                             });
-                        } else
+                        } else {
                             mainPrinterSet();
+                            setTimeout(function() {
+                                $('#mainPrinterSelect').jqxDropDownList({
+                                    selectedIndex: -1,
+                                    disabled: false
+                                });
+                            }, 100);
+                        }
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
                         // $('#deleteItemGridBtn').show();
@@ -1718,19 +1726,21 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 {name: 'Item', type: 'string'},
                 {name: 'Status', type: 'number'},
                 {name: 'Primary', type: 'string'},
+                {name: 'primaryLabel', type: 'string'},
                 {name: 'fullDescription', type: 'string'}
             ],
             url: ''
         },
         columns: [
-            {text: 'ID', dataField: 'Unique', type: 'int'},
+            {text: 'ID', dataField: 'Unique', type: 'int', width: '10%'},
             {text: 'Item', dataField: 'Item', type: 'string', hidden: true},
-            {text: 'Name', dataField: 'name', type: 'string'},
-            {text: 'Description', dataField: 'description', type: 'string'},
+            {text: 'Name', dataField: 'name', type: 'string', width: '25%'},
+            {text: 'Description', dataField: 'description', type: 'string', width: '55%'},
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-            {text: '', dataField: 'Primary', type: 'string', hidden: true}
+            {text: 'Primary', dataField: 'Primary', hidden: true},
+            {text: 'Primary', dataField: 'primaryLabel', type: 'string', width: '10%'}
         ],
         width: "99%",
         theme: 'arctic',
@@ -1756,6 +1766,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'Item', type: 'string'},
                     {name: 'Status', type: 'number'},
                     {name: 'Primary', type: 'string'},
+                    {name: 'primaryLabel', type: 'string'},
                     {name: 'fullDescription', type: 'string'}
                 ],
                 // url: SiteRoot + 'admin/MenuPrinter/load_allItemPrinters/' + $('#editItem_ItemSelected').jqxComboBox('getSelectedItem').value
@@ -1782,6 +1793,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     // Printer dropdownlist
     var printerDataadapter = function(empty) {
+        console.log(empty)
         var url = '';
         if (empty == undefined)
             url = SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig';
@@ -1806,7 +1818,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#saveBtnPrinterItem').prop('disabled', false);
     });
 
-    $scope.printerItemList = { source: printerDataadapter(1), displayMember: "fullDescription", valueMember: "unique" };
+    $scope.printerItemList = { source: printerDataadapter(), displayMember: "fullDescription", valueMember: "unique" };
 
     function setPrinterStoredArray() {
         // Fill with printers by item
