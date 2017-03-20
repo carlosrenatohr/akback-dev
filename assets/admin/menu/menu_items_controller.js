@@ -1739,7 +1739,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             {text: '', dataField: 'ItemUnique', type: 'int', hidden: true},
             {text: '', dataField: 'Status', type: 'int', hidden: true},
             {text: '', dataField: 'fullDescription', type: 'string', hidden: true},
-            {text: 'Primary', dataField: 'Primary', hidden: true},
+            {dataField: 'Primary', hidden: true},
             {text: 'Primary', dataField: 'primaryLabel', type: 'string', width: '10%'}
         ],
         width: "99%",
