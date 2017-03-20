@@ -810,7 +810,7 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
             }
         } else if (option == 1) {
         } else {
-            $('#barcode-span').html($scope.barcodeData.idSelected);
+            $('#barcode-span').html($scope.barcodeData.mainValue);
             $('.rowMsgInv').hide();
             $('#promptToDeleteBarcodeInv').show();
         }

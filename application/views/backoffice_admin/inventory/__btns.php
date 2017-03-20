@@ -75,7 +75,7 @@
     <div id="promptToDeleteBarcodeInv" class="rowMsgInv" style="display: none">
         <div class="form-group">
             <div class="col-sm-12">
-                Are you sure want to delete list barcode <span id="barcode-span"></span> ?
+                Are you sure want to delete list barcode <strong id="barcode-span"></strong> ?
                 <button type="button" ng-click="deleteItemBarcode(0)" class="btn btn-primary">Yes</button>
                 <button type="button" ng-click="deleteItemBarcode(1)" class="btn btn-warning">Cancel</button>
             </div>
