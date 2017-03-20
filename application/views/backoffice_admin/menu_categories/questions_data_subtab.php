@@ -34,7 +34,7 @@
                 <jqx-number-input
                     style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
                     id="qt_sort" name="qt_sort"
-                    jqx-min="1" jqx-max="99999" jqx-value="1" jqx-decimal-digits="0"
+                    jqx-min="0" jqx-max="99999" jqx-value="1" jqx-decimal-digits="0"
                     jqx-digits="5"
                     jqx-spin-buttons="true" jqx-width="290" jqx-height="25"
                     jqx-input-mode="'simple'" jqx-text-align="'left'"
@@ -53,7 +53,8 @@
                 <jqx-number-input
                     style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
                     id="qt_min" name="qt_min"
-                    jqx-settings="numberQuestion"
+                    jqx-settings="numberQuestion" jqx-min="0" jqx-max="99999"
+                    jqx-value="1"
                     jqx-digits="3"
                 ></jqx-number-input>
             </div>
@@ -71,6 +72,8 @@
                     style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
                     id="qt_max" name="qt_max"
                     jqx-settings="numberQuestion"
+                    jqx-min="0" jqx-max="99999"
+                    jqx-value="1"
                     jqx-digits="3"
                 ></jqx-number-input>
             </div>
