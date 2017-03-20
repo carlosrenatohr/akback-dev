@@ -5,7 +5,7 @@
                 <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Item:</div>
                 <div style="float:left; width:300px;">
                     <jqx-combo-box
-                        jqx-on-select="itemsComboboxSelecting(event)"
+                        jqx-on-change="itemsComboboxSelecting(event)"
                         jqx-on-unselect=""
                         jqx-settings="itemsComboboxSettings"
                         id="editItem_ItemSelected"

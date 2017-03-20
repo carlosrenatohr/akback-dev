@@ -434,7 +434,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             url = SiteRoot + 'admin/MenuItem/load_allItems?sort=' + sort;
             if (search != undefined) {
                 url += ('&search=' + search);
-                settings.loadComplete = function() {
+                settings.loadComplete = function(e) {
                     $('#loadingMenuItem').hide();
                 }
             }
@@ -470,12 +470,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         itemHeight: 50,
         //height: '100%',
         //height: 300,
-        source: [],
-        // source: dataAdapterItems('ASC'),
+        // source: [],
+        source: dataAdapterItems('ASC'),
         theme: 'arctic'
     };
     $scope.itemsComboboxSelecting = function(e) {
-        if (e.args.item != null) {
+        if (e.args) {
             var item = e.args.item.originalItem;
             var description = item.Description;
             if ($scope.itemLengthOfMenuSelected != null)
@@ -877,7 +877,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     });
 
     $scope.countChangesOnSelectingItemCbx = 0;
-    $('#editItem_ItemSelected').on('select', function(e) {
+    $('#editItem_ItemSelected').on('change', function(e) {
         if (e.args.item) {
             $scope.changingItemOnSelect = e.args.item.originalItem;
         }
@@ -892,7 +892,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('.draggable')
             .on('dblclick', function(e) {
             $('#editItem_ItemSelected').jqxComboBox({
-                source:  dataAdapterItems('ASC')
+                source: dataAdapterItems('ASC')
                 // source:  []
             });
             //
@@ -925,7 +925,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'url': SiteRoot + 'admin/MenuItem/getItemByPositions',
                     'method': 'post',
                     'data': data,
-                    // 'async': false,
+                    'async': false,
                     'dataType': 'json',
                     'success': function(data) {
                         $scope.itemCellSelectedOnGrid = data;
@@ -940,16 +940,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             });
                         });
 
-                        // var selectedIndexItem;
-                        // var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['Unique']);
-                        // if (itemCombo)
-                        //     selectedIndexItem = itemCombo.index;
-                        // else selectedIndexItem = 0;
+                        var selectedIndexItem;
+                        var itemCombo = $('#editItem_ItemSelected').jqxComboBox('getItemByValue', data['Unique']);
+                        if (itemCombo)
+                            selectedIndexItem = itemCombo.index;
+                        else selectedIndexItem = 0;
                         // Pending..
-                        //setTimeout(function() {
-                        //     $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
-                            $('#editItem_ItemSelected').val(data['Unique']);
-                        //}, 250);
+                        setTimeout(function() {
+                            $('#editItem_ItemSelected').jqxComboBox({'selectedIndex': selectedIndexItem});
+                            $('#editItem_ItemSelected').jqxComboBox({disabled: true});
+                            $('#saveItemGridBtn').prop('disabled', true);
+                        //     $('#editItem_ItemSelected').val(data['Unique']);
+                        }, 250);
 
                         $('#editItem_Status').val(data['LayoutStatus']);
                         // TODO Maybe load via ajax name of item
@@ -1047,7 +1049,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             mainPrinterSet();
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
-                        // $('#editItem_ItemSelected').jqxComboBox({disabled: true});
                         // $('#deleteItemGridBtn').show();
                         var btn = $('<button/>', {
                             'id': 'deleteItemGridBtn'
