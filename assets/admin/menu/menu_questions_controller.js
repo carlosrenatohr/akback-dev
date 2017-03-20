@@ -732,7 +732,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         decimalDigits: 0,
         spinButtons: true,
         textAlign: 'left',
-        width: '290px',
+        // width: '290px',
         height: 25
     };
 
