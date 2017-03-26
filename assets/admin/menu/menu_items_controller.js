@@ -1046,6 +1046,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                                 selectedIndex: (printer) ? printer.index : -1,
                                 disabled: true
                             });
+                            $('#editMainPrinterBtn').show();
                         } else {
                             mainPrinterSet();
                             setTimeout(function() {
@@ -1054,6 +1055,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                                     disabled: false
                                 });
                             }, 100);
+                            $('#editMainPrinterBtn').hide();
                         }
                         //
                         $('#saveItemGridBtn').prop('disabled', true);
@@ -1098,6 +1100,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             selectedIndex: (printer) ? printer.index : -1
         });
     }
+
+    $scope.editMainPrinter = function() {
+        $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 3});
+    };
 
     var resetMenuItemForm = function() {
         var itemCombo, selectedIndexItem;
