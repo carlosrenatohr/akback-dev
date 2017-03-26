@@ -2,10 +2,10 @@
     <div class="row itemQuestionFormContainer">
         <div style=" width:100%;float:left;">
             <div style="float:left; padding:2px; width:500px;">
-                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                <div style="float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Item:
                 </div>
-                <div style="float:left; width:300px;">
+                <div style="float:left; width:250px;">
                     <jqx-combo-box
                         jqx-settings="itemsCbxSettings"
                         jqx-on-select="itemsCbxSelecting(event)"
@@ -15,13 +15,27 @@
                 <div style="float:left;">
                     <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                 </div>
+                <div style="float:left; padding:8px; text-align:right; width:50px; font-weight:bold;">
+                    Price:
+                </div>
+                <div style="float:left; width:80px;">
+                    <jqx-number-input id="qItem_SellPrice"
+                                      jqx-symbol="$ "
+                                      jqx-input-mode="'simple'"
+                                      jqx-disabled="questionDisabled"
+                                      jqx-width="'80px'"
+                                      jqx-height="25"
+                                      jqx-text-align="left"
+                                      jqx-decimal-digits="<?php echo $decimalsPrice; ?>"
+                    ></jqx-number-input>
+                </div>
             </div>
 
             <div style="float:left; padding:2px; width:500px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                <div style=" float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Label:
                 </div>
-                <div style=" float:left; width:300px; ">
+                <div style=" float:left; width:250px; ">
                     <textarea class="form-control required-in" id="qItem_Label"
                               name="qItem_Label" placeholder="Label"
                               cols="30" rows="3"></textarea>
@@ -31,29 +45,13 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:500px;">
-                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
-                    Sell Price:
-                </div>
-                <div style="float:left; width:300px;">
-                    <jqx-number-input id="qItem_SellPrice"
-                                      jqx-symbol="$ "
-                                      jqx-input-mode="'simple'"
-                                      jqx-disabled="questionDisabled"
-                                      jqx-width="'120px'"
-                                      jqx-height="25"
-                                      jqx-text-align="left"
-                                      jqx-decimal-digits="<?php echo $decimalsPrice; ?>"
-
-                    ></jqx-number-input>
-                </div>
-            </div>
+<!--            <div style="float:left; padding:2px; width:500px;"></div>-->
 
             <div style=" float:left; padding:2px; width:500px; ">
-                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                <div style="float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Sort:
                 </div>
-                <div style=" float:left; width:100px!important;">
+                <div style=" float:left; width:60px!important;">
                     <jqx-number-input
                         style='margin-top: 3px;padding-left: 10px;' class="form-control required-in"
                         id="qItem_sort" name="qItem_sort" jqx-width="110"

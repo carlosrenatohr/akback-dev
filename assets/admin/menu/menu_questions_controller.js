@@ -393,7 +393,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             question_item_window = args.instance;
         },
         resizable: false,
-        width: "40%", height: "65%",
+        width: "60%", height: "65%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
