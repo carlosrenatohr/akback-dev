@@ -33,6 +33,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $('#ListBoxSearchBtn').on('click', function() {
         searchActionOnItemList($('#ListBoxSearchInput').val());
     });
+    $('#CreateItemBtn').on('click', function() {
+        itemsModalCreate.open();
+    });
     function searchActionOnItemList(inputEntered) {
         $('#loadingMenuItem').show();
         $('#itemListboxSearch').jqxListBox({
@@ -108,6 +111,19 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.itemsMenuWindowsSetting = {
         created: function (args) {
             itemsMenuWindow = args.instance;
+        },
+        resizable: false,
+        width: "65%", height: "75%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
+
+    var itemsModalCreate;
+    $scope.itemsModalCreate = {
+        created: function (args) {
+            itemsModalCreate = args.instance;
         },
         resizable: false,
         width: "65%", height: "75%",

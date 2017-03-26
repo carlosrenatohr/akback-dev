@@ -17,8 +17,14 @@
                     <input type="text" id="ListBoxSearchInput" class="form-control" placeholder="Search.."
                         style="padding: 0 5px;height: 24px;" autofocus>
                 </div>
-                <button class="btn btn-info col-md-3" id="ListBoxSearchBtn" type="button"
-                    style="height: 24px;padding: 0 5px;">Search</button>
+                <button class="btn btn-info col-md-1" id="ListBoxSearchBtn" type="button"
+                    style="height: 24px;padding: 0 5px;margin: 0 5px;">
+                    <img width="16" height="16" src="<?php echo base_url('assets/js/angular/images/search.png')?>" alt="">
+                </button>
+                <button class="btn btn-info col-md-1" id="CreateItemBtn" type="button"
+                    style="height: 24px;padding: 0 5px;margin: 0 5px;">
+                    <img width="16" height="16" src="<?php echo base_url('assets/img/addnew.png')?>" alt="">
+                </button>
             </div>
             <div>
                 <img id="loadingMenuItem" src="<?php echo base_url()?>assets/img/loadinfo.gif" alt=""
@@ -192,4 +198,5 @@
             </div>
         </div>
     </jqx-window>
+    <?php $this->load->view('backoffice_admin/menu_categories/items_modal_create');?>
 </div>
