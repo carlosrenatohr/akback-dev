@@ -33,6 +33,19 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $('#ListBoxSearchBtn').on('click', function() {
         searchActionOnItemList($('#ListBoxSearchInput').val());
     });
+
+    var itemsModalCreate;
+    $scope.itemsModalCreate = {
+        created: function (args) {
+            itemsModalCreate = args.instance;
+        },
+        resizable: false,
+        width: "60%", height: "75%",
+        autoOpen: false,
+        theme: 'darkblue',
+        isModal: true,
+        showCloseButton: false
+    };
     $('#CreateItemBtn').on('click', function() {
         itemsModalCreate.open();
     });
@@ -126,7 +139,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             itemsModalCreate = args.instance;
         },
         resizable: false,
-        width: "65%", height: "75%",
+        width: "60%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,

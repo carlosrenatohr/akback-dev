@@ -1,4 +1,4 @@
-<!--  Windows to save data on items   -->
+<!--  Windows to save items   -->
 <jqx-window jqx-on-close="close()" jqx-settings="itemsModalCreate"
             jqx-create="itemsModalCreate" class="">
     <div>
