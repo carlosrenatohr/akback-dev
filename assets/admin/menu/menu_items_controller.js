@@ -34,6 +34,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         searchActionOnItemList($('#ListBoxSearchInput').val());
     });
 
+    // TODO add settings of controls on this
     var itemsModalCreate;
     $scope.itemsModalCreate = {
         created: function (args) {
@@ -49,6 +50,85 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $('#CreateItemBtn').on('click', function() {
         itemsModalCreate.open();
     });
+
+    $scope.categoryCbxSettings = inventoryExtraService.getCategoriesSettings();
+    $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
+    $scope.saveItemOnMenuItemGrid = function() {
+        var beforeSaveInventory = function(fieldsToSkip) {
+            var needValidation = false;
+            if (fieldsToSkip == undefined) {
+                fieldsToSkip = [];
+            }
+            $('.inventory_tab .req').each(function(i, el) {
+                var fieldName = $(el).data('field');
+                if (el.value == '' && fieldsToSkip.indexOf(fieldName) < 0) {
+                    console.log($(el).attr('placeholder') + " is required");
+                    showingNotif($(el).attr('placeholder') + " is required", 0);
+                    $(el).css({'border-color': '#F00'});
+                    needValidation = true;
+                } else
+                    $(el).css({'border-color': '#CCC'});
+            });
+            //
+            $('.item_combobox.req').each(function(i, el) {
+                var combo = $(el).jqxComboBox('selectedIndex');
+                if (combo < 0) {
+                    console.log($(el).data('field') + " is required");
+                    showingNotif($(el).data('field') + " is required", 0);
+                    $(el).css({'border-color': '#F00'});
+                    needValidation = true;
+                } else
+                    $(el).css({'border-color': '#CCC'});
+            });
+            return needValidation;
+        };
+        if (!beforeSaveInventory()) {
+            var dataRequest = {};
+            $('.inventory_tab .item_textcontrol').each(function(i, el) {
+                var field = $(el).data('field');
+                if (field != undefined) {
+                    dataRequest[field] = $.trim($(el).val());
+                } else {
+                    //console.log('Not found', $(el).attr('id'));
+                }
+            });
+            //
+            var category = $('#item_category').jqxComboBox('getSelectedItem');
+            dataRequest['MainCategory'] = (category != null) ? (category.value) : null;
+            var subcategory = $('#item_subcategory').val();
+            dataRequest['CategoryUnique'] = (subcategory != null) ? (subcategory) : null;
+            //
+            // if ($scope.createOrEditItemInventory == 'create')
+            //     url = SiteRoot + 'admin/MenuItem/postItemInventory';
+            // else if ($scope.createOrEditItemInventory = 'edit')
+            //     url = SiteRoot + 'admin/MenuItem/updateItemInventory/' + $scope.itemInventoryID;
+            var url = SiteRoot + 'admin/MenuItem/postItemInventory';
+            $.ajax({
+                method: 'POST',
+                url: url,
+                data: dataRequest,
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    if (data.status == 'success') {
+                        if ($scope.createOrEditItemInventory == 'create') {
+                            // updateItemsInventoryGrid();
+                            itemsModalCreate.close();
+                            console.log('done');
+                        }
+                        else if ($scope.createOrEditItemInventory = 'edit') {}
+                    }
+                    else if (data.status == 'error')
+                        showingNotif(data.message, 0);
+                    else
+                        showingNotif(data.message, 0);
+                }
+            });
+        } else {
+            console.log('lol')
+        }
+    };
+
     function searchActionOnItemList(inputEntered) {
         $('#loadingMenuItem').show();
         $('#itemListboxSearch').jqxListBox({

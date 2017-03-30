@@ -22,8 +22,8 @@
                 <div id="mainButtonsOnItemGrid">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="button" id="saveItemGridBtn" ng-click="saveItemGridBtn()" class="btn btn-primary" disabled>Save</button>
-                            <button	type="button" id="" ng-click="closeItemGridWindows()" class="btn btn-warning">Close</button>
+                            <button type="button" id="saveItemGridBtn" ng-click="saveItemOnMenuItemGrid()" class="btn btn-primary">Save</button>
+                            <button	type="button" id="" ng-click="itemsModalCreate.close()" class="btn btn-warning">Close</button>
                         </div>
                     </div>
                 </div>
