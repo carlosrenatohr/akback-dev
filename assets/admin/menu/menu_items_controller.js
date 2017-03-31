@@ -613,6 +613,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 '<div class="item-row-content">' +
                     '<span>' + item.Description + ' | '+ item.price1 +'</span><br>' +
                     '<span>' + item.Category + ' | '+ item.SubCategory +'</span>' +
+                    // '<div class="separator" style="width: 100px;border-bottom: #222 2px solid;"></div>' +
                 '</div>';
             return template;
         }
