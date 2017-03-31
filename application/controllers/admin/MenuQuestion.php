@@ -53,11 +53,12 @@ class MenuQuestion extends AK_Controller
     public function postQuestion()
     {
         $post = $_POST;
-        $status = $this->question->postQuestion($post);
+        $newId = $this->question->postQuestion($post);
         echo json_encode(
             [
                 'status' => 'success',
-                'message' => $status
+                'message' => '',
+                'newId' => $newId
             ]
         );
     }

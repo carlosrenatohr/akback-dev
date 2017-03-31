@@ -213,6 +213,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qlfontSize').val($('#qLabelFontSizeDef').val());
         // $('#deleteQuestionBtn').hide();
         $('#saveQuestionBtn').prop('disabled', true);
+        setTimeout(function() {
+            $('#qt_QuestionName').focus();
+        }, 100);
     };
 
     $scope.closeQuestionWindow = function (option) {
@@ -303,13 +306,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 'LabelFontSize': $('#qlfontSize').val()
             };
             var url = '';
-            if ($scope.newOrEditQuestionOption == 'edit') {
+            if ($scope.newOrEditQuestionOption == 'new') {
+                url = 'admin/MenuQuestion/postQuestion';
+            } else if ($scope.newOrEditQuestionOption == 'edit') {
                 url = 'admin/MenuQuestion/updateQuestion/' + $scope.questionId;
             }
-
             $.ajax({
                 method: 'post',
-                url: SiteRoot + ((url == '') ? 'admin/MenuQuestion/postQuestion' : url),
+                url: SiteRoot + url,
                 dataType: 'json',
                 data: values,
                 success: function(data) {
@@ -319,11 +323,26 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question created successfully!');
                         $scope.questionNotificationsSuccessSettings.apply('open');
-                        $scope.questionNotificationsSuccessSettings.apply('open');
-                        //setTimeout(function() {
-                            $scope.closeQuestionWindow();
-                        //}, 1500);
+                        //$scope.closeQuestionWindow();
                         updateQuestionMainTable();
+                        //
+                        $scope.newOrEditQuestionOption = 'edit';
+                        $scope.questionId = data.newId;
+                        var btn = $('<button/>', {
+                            'id': 'deleteQuestionBtn'
+                        }).addClass('icon-trash user-del-btn').css('left', 0);
+                        var title = $('<div/>').html('Edit Question: ' + data.newId + ' | Question: <b>' + values.QuestionName + '</b>')
+                            .prepend(btn)
+                            .css('padding-left', '2em');
+                        questionsWindow.setTitle(title);
+                        $('#item-tab-2').show();
+                        $('#questionstabsWin .jqx-tabs-titleContentWrapper').css('margin-top', '0');
+                        setTimeout(function() {
+                            $('#questionstabsWin').jqxTabs('select', 1);
+                            $('#saveQuestionBtn').prop('disabled', true);
+                        }, 250);
+                        $('#questionstabsWin').jqxTabs('select', 1);
+                        $('#saveQuestionBtn').prop('disabled', true);
                     } else if ($scope.newOrEditQuestionOption == 'edit') {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question updated successfully!');
@@ -334,8 +353,6 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                         $('#questionMainTable').jqxGrid('updatebounddata', 'filter');
                     }
                 }
-
-
             });
         }
     };

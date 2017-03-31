@@ -48,7 +48,7 @@ class Menu_question_model extends CI_Model
 
         $status = $this->db->insert($this->question_table, $request);
         $insert_id = $this->db->insert_id();
-        return $status;
+        return $insert_id;
     }
 
     public function postQuestionItem($request)
