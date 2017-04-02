@@ -239,18 +239,16 @@ class ItemCount extends AK_Controller
             $this->getSettingLocation('DecimalsQuantity', $this->session->userdata("station_number"));
             $id = $this->count->createScan($data);
             if ($id) {
-                $response = [
-                    'status' => 'success',
-                    'message' => 'Item  Scan created successfully',
-                    'id' => $id,
-                ];
+                $response = array(
+                    "status" => "success",
+                    "message" => "Item Scan created successfully",
+                    "id" => $id,
+                );
             } else
                 $response = $this->dbErrorMsg();
         } else
             $response = $this->dbErrorMsg(0);
-
-        echo json_encode($response);
-    }
+        echo json_encode($response);} //JSON_PRETTY_PRINT
 
     public function updateItemScan($id) {
         if (isset($_POST) && !empty($_POST)) {
@@ -365,7 +363,7 @@ class ItemCount extends AK_Controller
             $uploadOk = 0;
         }
         // File format validation
-        if($imageFileType != "csv") {
+        if(!in_array($imageFileType, ["csv", "txt"])) {
             $msg = "Sorry, only CSV files are accepted.";
             $uploadOk = 0;
         }

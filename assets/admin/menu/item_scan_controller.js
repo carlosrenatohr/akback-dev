@@ -87,7 +87,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             fileInputName: 'file',
             multipleFilesUpload: true,
             autoUpload: true,
-            accept: 'text/csv'
+            accept: 'text/csv, text/plain, application/text'
         });
 
         $scope.csvFileSelected = null;
@@ -155,7 +155,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var row = e.args.row.bounddata;
             $scope.iscanID = row.Unique;
             $scope.createOrEditIscan = 'edit';
-            console.log($scope.iscanID);
             //
             // updateIscanlistGrid();
             $('#icount_location').val(row.Location);
@@ -204,12 +203,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }
 
             $.ajax({
-                method: 'post',
+                method: 'POST',
                 url: url,
                 data: data,
-                dataType: 'json',
+                dataType: 'text',
                 async: false,
                 success: function(response) {
+                    response = response.replace(/<br\s*[\/]?>/gi, '');
+                    response = JSON.parse(response);
                     if (response.status == 'success') {
                         $('#saveIscanBtn').prop('disabled', true);
                         if ($scope.createOrEditIscan == 'create') {
