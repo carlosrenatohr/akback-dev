@@ -503,13 +503,14 @@ class Item_count_model extends CI_Model
                             FALSE,
                             TRUE
                         );
+                        echo "<br><br>";
                         $rowData = $rowData[0];
                         // Inserting into item_count_scan_list table
                         $icsl = [];
                         $icsl['ImportFile'] = $filename;
                         $icsl['CountScanUnique'] = $scanUnique;
                         $icsl['Barcode'] = $rowData[0];
-                        $icsl['Quantity'] = (float)number_format($rowData[1], $decimalQty);
+                        $icsl['Quantity'] = (is_null($rowData[1])) ? 0 : (float)$rowData[1]; // rounding to $decimalQty config
                         $icsl['Created'] = date('Y-m-d h:i:s');
                         $icsl['CreatedBy'] = $this->session->userdata('userid');
                         $icsl['Status'] = 1;

@@ -342,7 +342,7 @@ class ItemCount extends AK_Controller
         echo json_encode($response);
     }
 
-    // UPLOAD FILES
+    // UPLOAD CSV ON ITEM SCAN IMPORT
     public function upload() {
         $target_dir = "./assets/csv/";
         if (!file_exists($target_dir)) {
@@ -369,6 +369,11 @@ class ItemCount extends AK_Controller
             $msg = "Sorry, only CSV files are accepted.";
             $uploadOk = 0;
         }
+        $validation = $this->excelValidated($_FILES["file"]["tmp_name"]);
+        if (!$validation['isOk']) {
+            $msg = "Validation Error: Line {$validation['line']} Quantity greater than 6 digits.";
+            $uploadOk = 0;
+        }
         // Was there an error?
         if ($uploadOk == 1) {
             if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
@@ -386,6 +391,44 @@ class ItemCount extends AK_Controller
             'name' => $target_name,
             'original_name' => basename($_FILES["file"]["name"])
         ]);
+    }
+
+    private function excelValidated($file) {
+        $this->load->library('PHPExcel');
+        $this->load->library('PHPExcel/IOFactory');
+        try {
+            $inputFileType = IOFactory::identify($file);
+            $objReader = IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($file);
+            //
+            $sheet = $objPHPExcel->getSheet(0);
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
+            for ($row = 1; $row <= $highestRow; $row++) {
+                $rowData = $sheet->rangeToArray(
+                    'A' . $row . ':' . $highestColumn . $row,
+                    NULL,
+                    FALSE,
+                    TRUE
+                );
+                $rowData = $rowData[0];
+                $qty = $rowData[1];
+                if (!is_null($qty)) {
+                    $qty = explode('.', (string)$qty);
+                    if (strlen($qty[0]) > 6) {
+                        return [
+                            'isOk' => false,
+                            'line' => $row
+                        ];
+                    }
+                }
+            }
+            return [
+                'isOk' => true
+            ];
+        } catch(Exception $e) {
+            die('Error loading file "'.pathinfo($file,PATHINFO_BASENAME).'": '.$e->getMessage());
+        }
     }
 
 }
