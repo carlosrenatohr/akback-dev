@@ -1,6 +1,7 @@
 <script type="text/javascript">
     $("#tabtitle").text("Items Count");
 </script>
+<script type="text/javascript" src="<?php echo base_url() ?>assets/js/angular/jqwidgets/jqxfileupload.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_count_controller.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/admin_service.js"></script>
 <script type="application/javascript" src="<?php echo base_url() ?>assets/admin/menu/item_count_service.js"></script>

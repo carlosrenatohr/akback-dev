@@ -80,15 +80,25 @@ class Item_count_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
-    public function create($data, $filters = null) {
+    public function create($data, $filters = null, $scanFilename = null) {
         $data['Station'] = $data['Location'];
         $data['Status'] = 1;
         $data['Created'] = date('Y-m-d H:i:s');
         $data['CreatedBy'] = $this->session->userdata('userid');
-
         $this->db->insert('item_count', $data);
         $id = $this->db->insert_id();
         $this->insert_count_list($id, $data['Location'], $filters);
+
+        if (!is_null($scanFilename) && !empty($scanFilename)) {
+            $scanData = [
+                'Station' => $this->session->userdata("station_number"),
+                'Location' => $data['Location'],
+                'Comment' => $data['Comment'],
+                'filename' => $scanFilename
+            ];
+            // TODO pending to store it in case to be linked to item_count table or item_count_scan table
+            $scanId = $this->createScan($scanData);
+        }
 
         return $id;
     }

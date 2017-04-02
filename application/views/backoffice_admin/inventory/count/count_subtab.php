@@ -34,6 +34,13 @@
                 <input type="text" class="form-control icountField" id="icount_comment" placeholder="Comment">
             </div>
         </div>
+        <div style="float:left; padding:2px; width:500px;" ng-show="createOrEditIcount == 'create'">
+            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Import:</div>
+            <div style="float:left; width:320px;">
+                <div class="icountField" id="icount_file" data-filename=""></div>
+            </div>
+            <div style="float:left; padding:2px; width:500px;display: none;word-break: break-word" id="fileLoadedTemp"></div>
+        </div>
 
         <input type="hidden" id="loc_id" value="<?php echo $station; ?>">
 
