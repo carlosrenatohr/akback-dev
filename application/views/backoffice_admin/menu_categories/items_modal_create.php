@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             <button type="button" id="saveItemGridBtn" ng-click="saveItemOnMenuItemGrid()" class="btn btn-primary">Save</button>
-                            <button	type="button" id="" ng-click="itemsModalCreate.close()" class="btn btn-warning">Close</button>
+                            <button	type="button" id="" ng-click="closeItemModal()" class="btn btn-warning">Close</button>
                         </div>
                     </div>
                 </div>
@@ -31,31 +31,31 @@
         </div>
 
         <!-- Prompt before saving item on grid -->
-        <div class="col-md-12 col-md-offset-0">
-            <div class="row">
-                <div id="promptToCloseItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            Do you want to save your changes?
-                            <button type="button" ng-click="" class="btn btn-primary">Yes</button>
-                            <button type="button" ng-click="" class="btn btn-warning">No</button>
-                            <button type="button" ng-click="" class="btn btn-info">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="col-md-12 col-md-offset-0">-->
+<!--            <div class="row">-->
+<!--                <div id="promptToCloseItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">-->
+<!--                    <div class="form-group">-->
+<!--                        <div class="col-sm-12">-->
+<!--                            Do you want to save your changes?-->
+<!--                            <button type="button" ng-click="" class="btn btn-primary">Yes</button>-->
+<!--                            <button type="button" ng-click="" class="btn btn-warning">No</button>-->
+<!--                            <button type="button" ng-click="" class="btn btn-info">Cancel</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!-- NOTIFICATIONS AREA -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <jqx-notification jqx-settings="menuitemNotificationsSuccessSettings" id="menuitemNotificationsSuccessSettings">
+                <jqx-notification jqx-settings="nitemSuccess" id="nitemSuccess">
                     <div id="notification-content"></div>
                 </jqx-notification>
-                <jqx-notification jqx-settings="menuitemNotificationsErrorSettings" id="menuitemNotificationsErrorSettings">
+                <jqx-notification jqx-settings="nitemError" id="nitemError">
                     <div id="notification-content"></div>
                 </jqx-notification>
-                <div id="notification_container_menuitem" style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
+                <div id="nitemNotification" style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
             </div>
         </div>
     </div>

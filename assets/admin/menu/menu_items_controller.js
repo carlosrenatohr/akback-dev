@@ -2,7 +2,7 @@
  * Created by carlosrenato on 05-19-16.
  */
 
-app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService, questionService, menuCategoriesService) {
+app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService, questionService, menuCategoriesService, adminService) {
 
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
@@ -34,7 +34,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         searchActionOnItemList($('#ListBoxSearchInput').val());
     });
 
-    // TODO add settings of controls on this
+    /**
+     * -- MODAL TO CREATE NEW ITEM FROM MENU ITEM GRID
+     */
     var itemsModalCreate;
     $scope.itemsModalCreate = {
         created: function (args) {
@@ -53,6 +55,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $scope.categoryCbxSettings = inventoryExtraService.getCategoriesSettings();
     $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
+    $scope.nitemSuccess = adminService.setNotificationSettings(1, '#nitemNotification');
+    $scope.nitemError = adminService.setNotificationSettings(0, '#nitemNotification');
     $scope.saveItemOnMenuItemGrid = function() {
         var beforeSaveInventory = function(fieldsToSkip) {
             var needValidation = false;
@@ -62,8 +66,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('.inventory_tab .req').each(function(i, el) {
                 var fieldName = $(el).data('field');
                 if (el.value == '' && fieldsToSkip.indexOf(fieldName) < 0) {
-                    console.log($(el).attr('placeholder') + " is required");
-                    showingNotif($(el).attr('placeholder') + " is required", 0);
+                    $('#nitemError #notification-content')
+                        .html($(el).attr('placeholder') + " is required");
+                    $scope.nitemError.apply('open');
                     $(el).css({'border-color': '#F00'});
                     needValidation = true;
                 } else
@@ -73,8 +78,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $('.item_combobox.req').each(function(i, el) {
                 var combo = $(el).jqxComboBox('selectedIndex');
                 if (combo < 0) {
-                    console.log($(el).data('field') + " is required");
-                    showingNotif($(el).data('field') + " is required", 0);
+                    $('#nitemError #notification-content')
+                        .html($(el).data('field') + " is required");
+                    $scope.nitemError.apply('open');
                     $(el).css({'border-color': '#F00'});
                     needValidation = true;
                 } else
@@ -118,17 +124,30 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         }
                         else if ($scope.createOrEditItemInventory = 'edit') {}
                     }
-                    else if (data.status == 'error')
-                        showingNotif(data.message, 0);
-                    else
-                        showingNotif(data.message, 0);
+                    else if (data.status == 'error') {
+                        $('#nitemError #notification-content')
+                            .html(data.message);
+                        $scope.nitemError.apply('open');
+                    }
+                    else {
+                        $('#nitemError #notification-content')
+                            .html(data.message);
+                        $scope.nitemError.apply('open');
+                    }
                 }
             });
         } else {
-            console.log('lol')
+            console.log('Validation error!')
         }
     };
 
+    $scope.closeItemModal = function() {
+        itemsModalCreate.close();
+    };
+
+    /**
+     * -- SEARCH ITEM ON LEFT SIDEBAR
+     */
     function searchActionOnItemList(inputEntered) {
         $('#loadingMenuItem').show();
         $('#itemListboxSearch').jqxListBox({
@@ -139,6 +158,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }, 500);
     }
 
+    /**
+     * -- MENU ITEM TABS ACTIONS
+     */
     var printerTabOnce = true;
     $('#jqxTabsMenuItemWindows').on('selecting', function(e) { // tabclick
         var tabclicked = e.args.item;
@@ -200,6 +222,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     });
 
+    /**
+     * -- MAIN MODAL FOR MENU ITEM ON GRID
+     */
     var itemsMenuWindow;
     $scope.itemsMenuWindowsSetting = {
         created: function (args) {
@@ -207,19 +232,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         },
         resizable: false,
         width: "65%", height: "75%",
-        autoOpen: false,
-        theme: 'darkblue',
-        isModal: true,
-        showCloseButton: false
-    };
-
-    var itemsModalCreate;
-    $scope.itemsModalCreate = {
-        created: function (args) {
-            itemsModalCreate = args.instance;
-        },
-        resizable: false,
-        width: "60%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -279,6 +291,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     };
 
+    /**
+     * -- EVENT ON MAIN LISTBOX MENU TO SELECT AND LOAD ON GRID
+     */
     $scope.categoriesByMenu = [];
     $scope.menuListBoxSelecting = function (e) {
         $('.category-cell-grid').removeClass('clicked');
@@ -369,6 +384,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
     };
 
+    /**
+     * -- CATEGORY MODAL OPENED BY DOUBLE CLICK AT BOTTOM GRID OF CATEGORIES
+     */
     var categNameWind;
     $scope.itemsMenuChangeCategNameWind = {
         created: function (args) {
@@ -498,6 +516,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     };
 
+    /**
+     * -- HELPER TO DRAW DATA ON MAIN MENU ITEM GRID
+     */
     function drawExistsItemsOnGrid() {
         $.ajax({
             'url': SiteRoot + 'admin/MenuItem/getItemsByCategoryMenu/' + $scope.selectedCategoryInfo.Unique,
@@ -627,8 +648,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $scope.selectedItemInfo = _args;
         }
     };
-    // -- CATEGORIES BOTTON GRID
-    // -- TO FIX
+
+    /**
+     * -- CATEGORIES BOTTOM GRID
+     * // -- TO FIX
+     */
     $scope.categoriesMenuShownSettings = {
         columns: [
             {text: 'ID', dataField: 'Unique', type: 'int'},
@@ -663,8 +687,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             template: (type == 1) ? 'success' : 'error'
         }
     };
-    $scope.menuitemNotificationsSuccessSettings = setNotificationInit(1);
-    $scope.menuitemNotificationsErrorSettings = setNotificationInit(0);
+    $scope.menuitemNotificationsSuccessSettings = adminService.setNotificationSettings(1, '#notification_container_menuitem');
+    $scope.menuitemNotificationsErrorSettings = adminService.setNotificationSettings(0, '#notification_container_menuitem');
 
     $scope.closeItemGridWindows = function(option) {
         // --REMOVING HIGHLIGHTED from selected item cell
@@ -726,6 +750,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         });
     };
 
+    /**
+     * VAlidaTion of Data Before saving Menu Item on main modal
+     * @returns {boolean}
+     */
     var validationDataOnItemGrid = function() {
         var needValidation = false;
         $('.editItemFormContainer .required-field').each(function(i, el) {
@@ -765,6 +793,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
         return needValidation;
     };
+
+    /**
+     * Save BTN action on Main Modal to store data of menu_item
+     * @type {boolean}
+     */
     $scope.disabledControl = true;
     $scope.saveItemGridBtn = function(fromPrompt) {
         var imgs = [];
@@ -904,6 +937,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     };
 
+    /**
+     * Deleting a menu item from main modal
+     */
     $('body').on('click', '#deleteItemGridBtn', function(e) {
         $scope.deleteItemGridBtn();
     });
@@ -950,7 +986,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
     };
 
-    // Events item form controls
+    /**
+     * // Events item form controls
+     */
     $('.editItemFormContainer .required-field,' +
         ' .menuitem_pricesControls, .cbxExtraTab, .menuitem_extraControls')
         .on('keypress keyup paste change', function (e) {
