@@ -19,11 +19,11 @@
         <!-- Main buttons before saving item on grid -->
         <div class="col-md-12 col-md-offset-0">
             <div class="row">
-                <div id="mainButtonsOnItemGrid">
+                <div id="mainButtonsOnItemCreateModal">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="button" id="saveItemGridBtn" ng-click="saveItemOnMenuItemGrid()" class="btn btn-primary">Save</button>
-                            <button	type="button" id="" ng-click="closeItemModal()" class="btn btn-warning">Close</button>
+                            <button type="button" id="saveItemMBtn" ng-click="saveItemOnMenuItemGrid()" class="btn btn-primary" disabled>Save</button>
+                            <button	type="button" id="" ng-click="closeMenuGridItemCreate()" class="btn btn-warning">Close</button>
                         </div>
                     </div>
                 </div>
@@ -31,20 +31,20 @@
         </div>
 
         <!-- Prompt before saving item on grid -->
-<!--        <div class="col-md-12 col-md-offset-0">-->
-<!--            <div class="row">-->
-<!--                <div id="promptToCloseItemGrid" class="RowOptionButtonsOnItemGrid" style="display: none">-->
-<!--                    <div class="form-group">-->
-<!--                        <div class="col-sm-12">-->
-<!--                            Do you want to save your changes?-->
-<!--                            <button type="button" ng-click="" class="btn btn-primary">Yes</button>-->
-<!--                            <button type="button" ng-click="" class="btn btn-warning">No</button>-->
-<!--                            <button type="button" ng-click="" class="btn btn-info">Cancel</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="col-md-12 col-md-offset-0">
+            <div class="row">
+                <div id="promptToCloseItemCreateModal" class="" style="display: none">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            Do you want to save your changes?
+                            <button type="button" ng-click="closeMenuGridItemCreate(0)" class="btn btn-primary">Yes</button>
+                            <button type="button" ng-click="closeMenuGridItemCreate(1)" class="btn btn-warning">No</button>
+                            <button type="button" ng-click="closeMenuGridItemCreate(2)" class="btn btn-info">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- NOTIFICATIONS AREA -->
         <div class="col-md-12 col-md-offset-0">

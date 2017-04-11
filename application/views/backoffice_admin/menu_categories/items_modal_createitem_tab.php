@@ -26,11 +26,9 @@
     <div class="row">
         <div class="form-group control-cont">
             <label for="inputType" class="control-label">SubCategory:</label>
-
             <div class="input">
                 <jqx-combo-box id="item_subcategory" jqx-width="'250px'" jqx-height="'30px'" class="item_combobox"
-                               jqx-settings="subcategoryCbxSettings" jqx-on-select=""
-                               data-field="Subcategory"
+                               jqx-settings="subcategoryCbxSettings" data-field="Subcategory"
                 ></jqx-combo-box>
             </div>
         </div>
@@ -38,22 +36,18 @@
     <div class="row">
         <div class="form-group control-cont">
             <label for="inputType" class="control-label">Item Number:</label>
-
             <div class="input" style="width: 380px;">
                 <input type="text" class="form-control item_textcontrol req" id="item_Item" name="item_Item"
                        ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
                        data-field="Item" placeholder="Item Number" autofocus
                        style="float: left;width: 250px;">
                 <span class="required-ast">*</span>
-                <button id="generateItemNumberBtn" class="btn btn-info pull-left"
-                        ng-click="generateItemNumber()">Generate</button>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="form-group control-cont">
             <label for="inputType" class="control-label">Barcode:</label>
-
             <div class="input">
                 <input type="text" class="form-control item_textcontrol" id="item_Part" name="item_Part"
                        data-field="Part" placeholder="Barcode" ng-model="inventoryData.part"

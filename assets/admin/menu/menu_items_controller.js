@@ -50,6 +50,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         showCloseButton: false
     };
     $('#CreateItemBtn').on('click', function() {
+        setTimeout(function() {
+            $('#item_Description').focus();
+        }, 150);
         itemsModalCreate.open();
     });
 
@@ -57,6 +60,51 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
     $scope.nitemSuccess = adminService.setNotificationSettings(1, '#nitemNotification');
     $scope.nitemError = adminService.setNotificationSettings(0, '#nitemNotification');
+
+    //-- Events on Item Create Modal
+    $('.item_textcontrol, .item_combobox').on('change keypress keyup paste', function() {
+        $('#saveItemMBtn').prop('disabled', false);
+        console.log('changed');
+    });
+
+    function resetItemCreateModalForm () {
+        $('.item_textcontrol').val('');
+        $('.item_combobox').val('');
+        $('#saveItemMBtn').prop('disabled', true);
+    }
+
+    $scope.onSelectCategoryCbx = function(e) {
+        if (e.args && e.args.item != null) {
+            var id = e.args.item.value;
+            $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings(id);
+        } else {
+            $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
+        }
+    };
+
+    $scope.closeMenuGridItemCreate = function(option) {
+        if (option != undefined) {
+            $('#mainButtonsOnItemCreateModal').show();
+            $('#promptToCloseItemCreateModal').hide();
+        }
+        if (option == 0) {
+            $scope.saveItemOnMenuItemGrid();
+        } else if (option == 1) {
+            itemsModalCreate.close();
+            resetItemCreateModalForm();
+        } else if (option == 2) {
+        } else {
+            if ($('#saveItemMBtn').is(':disabled')) {
+                itemsModalCreate.close();
+                resetItemCreateModalForm();
+            } else {
+                $('#mainButtonsOnItemCreateModal').hide();
+                $('#promptToCloseItemCreateModal').show();
+            }
+        }
+    };
+    //--
+
     $scope.saveItemOnMenuItemGrid = function() {
         var beforeSaveInventory = function(fieldsToSkip) {
             var needValidation = false;
@@ -94,10 +142,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 var field = $(el).data('field');
                 if (field != undefined) {
                     dataRequest[field] = $.trim($(el).val());
-                } else {
-                    //console.log('Not found', $(el).attr('id'));
-                }
+                } else {}
             });
+            //
+            if ($('#item_Part').val() == '' || $('#item_Part').val() == null) {
+                dataRequest['Part'] = $('#item_Item').val();
+            }
             //
             var category = $('#item_category').jqxComboBox('getSelectedItem');
             dataRequest['MainCategory'] = (category != null) ? (category.value) : null;
@@ -117,12 +167,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 async: false,
                 success: function(data) {
                     if (data.status == 'success') {
-                        if ($scope.createOrEditItemInventory == 'create') {
+                        // if ($scope.createOrEditItemInventory == 'create') {
                             // updateItemsInventoryGrid();
+                            searchActionOnItemList($('#ListBoxSearchInput').val());
+                            resetItemCreateModalForm();
                             itemsModalCreate.close();
-                            console.log('done');
-                        }
-                        else if ($scope.createOrEditItemInventory = 'edit') {}
+                        // }
+                        // else if ($scope.createOrEditItemInventory = 'edit') {}
                     }
                     else if (data.status == 'error') {
                         $('#nitemError #notification-content')
@@ -139,10 +190,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         } else {
             console.log('Validation error!')
         }
-    };
-
-    $scope.closeItemModal = function() {
-        itemsModalCreate.close();
     };
 
     /**
