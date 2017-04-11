@@ -64,7 +64,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     //-- Events on Item Create Modal
     $('.item_textcontrol, .item_combobox').on('change keypress keyup paste', function() {
         $('#saveItemMBtn').prop('disabled', false);
-        console.log('changed');
     });
 
     function resetItemCreateModalForm () {
@@ -465,7 +464,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             .then(function(response) {
                 if (response.data) {
                     var category = response.data.row;
-                    console.log(category);
                     $('#OneCategoryName').val(category.CategoryName);
                     $('#OneCategoryId').val(category.Unique);
                     // Styles
@@ -1994,7 +1992,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     // Printer dropdownlist
     var printerDataadapter = function(empty) {
-        console.log(empty)
         var url = '';
         if (empty == undefined)
             url = SiteRoot + 'admin/MenuPrinter/load_allPrintersFromConfig';

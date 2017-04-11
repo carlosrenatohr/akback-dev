@@ -29,7 +29,7 @@ class Menu_item_model extends CI_Model
             if(empty($search)) {
                 $this->db->limit(1000);
             } else {
-                $this->db->or_where('LOWER("item"."Description") like \'%' . strtolower($search) . '%\'', null);
+                $this->db->where('LOWER("item"."Description") like \'%' . strtolower($search) . '%\'', null);
                 $this->db->or_where('LOWER("category_sub"."Name") like \'%' . strtolower($search) . '%\'', null);
                 $this->db->or_where('LOWER("category_main"."MainName") like \'%' . strtolower($search) . '%\'', null);
                 if (is_numeric($search)) {
