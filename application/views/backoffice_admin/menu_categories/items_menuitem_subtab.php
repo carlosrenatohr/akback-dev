@@ -48,7 +48,7 @@
                 <div id="editMainPrinterBtn" style="float:left;display: none;">
                     <button ng-click="editMainPrinter()"
                             style="border: 0;margin: -0.5em 0;background: none;">
-                        <img src="<?php echo base_url("/assets/img/edit.png")?>" >
+                        <img src="<?php echo base_url("/assets/img/edit.png")?>" style="width: 18px;margin-top: 5px;">
                     </button>
                 </div>
             </div>
