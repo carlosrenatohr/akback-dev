@@ -39,12 +39,19 @@
         </div>
 
         <div style="float:left; padding:2px;  width:350px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Code:</div>
+            <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Code:</div>
             <div style="float:left; width:180px;">
                 <input type="password" class="form-control addUserField required-field" id="add_code" name="add_code" placeholder="Code">
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+            </div>
+        </div>
+
+        <div style=" float:left; padding:2px; width:350px;">
+            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Access Card:</div>
+            <div style="float:left; width:180px;">
+                <input type="text" class="form-control addUserField" id="add_accesscard" name="add_accessCard" placeholder="Access Card">
             </div>
         </div>
 
@@ -61,6 +68,13 @@
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+            </div>
+        </div>
+
+        <div style=" float:left; padding:2px; width:350px;">
+            <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">Employee ID:</div>
+            <div style="float:left; width:180px;">
+                <input type="text" class="form-control addUserField" id="add_employeeid" name="add_employeeID" placeholder="Employee ID">
             </div>
         </div>
 

@@ -41,6 +41,8 @@ angular.module('akamaiposApp')
                     {name: 'ReplyToEmail', type: 'string'},
                     {name: 'ReplyToName', type: 'string'},
                     {name: 'Signature', type: 'string'},
+                    {name: 'EmployeeID', type: 'string'},
+                    {name: 'AccessCard', type: 'string'},
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/user/load_users'
@@ -78,6 +80,8 @@ angular.module('akamaiposApp')
                 {dataField: 'ReplyToEmail', hidden: true},
                 {dataField: 'ReplyToName', hidden: true},
                 {dataField: 'Signature', hidden: true},
+                {dataField: 'EmployeeID', hidden: true},
+                {dataField: 'AccessCard', hidden: true}
             ],
             columnsResize: true,
             width: "99.7%",
