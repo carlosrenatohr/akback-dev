@@ -100,7 +100,10 @@ class Item_count_model extends CI_Model
             $scanId = $this->createScan($scanData);
         }
 
-        return $id;
+        return [
+            'countID' => $id,
+            'scanID' => isset($scanId) ? $scanId : ''
+        ];
     }
 
     public function update($id, $data) {

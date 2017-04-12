@@ -424,8 +424,16 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             setTimeout(function() {
                                 $('#icountTabs').jqxTabs('enableAt', 3);
                                 $('#icountTabs').jqxTabs('select', 3);
-                                $scope.scanFileCbxSettings = itemCountService.getScanFileSettings();
-                            }, 150);
+                                if (response.scanID != '') {
+                                    // $scope.scanFileCbxSettings = itemCountService.getScanFileSettings();
+                                    $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
+                                    setTimeout(function () {
+                                        console.log(response.scanID);
+                                        $('#fileLoadedTemp').hide();
+                                        $('#scanFileCbx').jqxComboBox('val', response.scanID);
+                                    }, 250);
+                                }
+                            }, 250);
                             //
                             var btn = $('<button/>', {
                                 'ng-click': 'finishIcount()',

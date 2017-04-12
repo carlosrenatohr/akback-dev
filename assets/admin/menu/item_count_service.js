@@ -443,18 +443,21 @@
             };
             settings.renderer = function(index, label, value) {
                 var item = settings.source.records[index];
-                var template =
-                    '<div class="item-row-content">' +
-                    '<span>' + item.Unique + ' - '+ item.Comment +'</span><br>' +
-                    '<span>' + item._nCreated +'</span>' +
-                    '</div>';
-                return template;
+                if (item != undefined) {
+                    var template =
+                        '<div class="item-row-content">' +
+                        '<span>' + ((item.Unique != undefined) ? item.Unique : '') + ' - '+ ((item.Comment != undefined) ? item.Comment : '') +'</span><br>' +
+                        '<span>' + ((item._nCreated != null) ? item._nCreated : '') +'</span>' +
+                        '</div>';
+                    return template;
+                }
+                return '';
             };
 
             settings.renderSelectedItem = function(index, item) {
                 var item = item.originalItem;
                 if (item != null) {
-                    return item.Unique + ' - ' + item.Comment;
+                    return ((item.Unique != undefined) ? item.Unique : '') + ' - ' + (item.Comment ? item.Comment : '');
                 }
                 return '';
             };

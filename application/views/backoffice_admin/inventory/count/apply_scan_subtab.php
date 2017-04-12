@@ -1,6 +1,18 @@
 <div class="row" style="margin: 10px 0;">
+<!--    <div style="float:left; padding:2px; width:500px;" ng-show="createOrEditIcount == 'create'">-->
+    <div class="col-md-offstet-1 col-md-8" ng-show="createOrEditIcount == 'create'">
+        <div class="col-md-1" style="float:left; padding:8px; text-align:right; font-weight:bold;">Import:</div>
+        <div style="float:left;" class="col-md-8">
+            <div class="icountField" id="icount_file" data-filename=""></div>
+        </div>
+        <div style="float:left; padding:2px; width:500px;display: none;word-break: break-word;margin: 12px 0;"
+             class="alert alert-info" id="fileLoadedTemp">
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+    <br><br><br>
     <div class="col-md-offstet-1 col-md-8">
-        <label for="" class="col-md-1">Scan File</label>
+        <label class="col-md-1" style="text-align: right">Scan File</label>
         <div class="col-md-10">
             <jqx-combo-box id="scanFileCbx" jqx-settings="scanFileCbxSettings"
                            jqx-on-change="scanFileCbxChange($event)"

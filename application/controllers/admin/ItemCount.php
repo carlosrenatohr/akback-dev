@@ -34,12 +34,13 @@ class ItemCount extends AK_Controller
             $filename = $data['filename'];
             unset($data['filename']);
             //
-            $id = $this->count->create($data, $filters, $filename);
-            if ($id) {
+            $ids = $this->count->create($data, $filters, $filename);
+            if ($ids['countID']) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Count created successfully',
-                    'id' => $id,
+                    'id' => $ids['countID'],
+                    'scanID' => $ids['scanID']
                 ];
             } else
                 $response = $this->dbErrorMsg();

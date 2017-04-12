@@ -78,7 +78,7 @@
                         <ul>
                             <li>Count</li>
                             <li>Filters</li>
-                            <li>Apply Scans</li>
+                            <li>Import</li>
                             <li>Count List</li>
                         </ul>
                         <!-- Count subtab -->
