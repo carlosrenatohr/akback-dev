@@ -53,7 +53,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         addUserDialog.setTitle('Add New User');
         addUserDialog.open();
-        setTimeout(function(){
+        setTimeout(function() {
+            $('#add_accesscard').attr('type', 'text');
             $('#add_username').focus();
         }, 100);
     };
@@ -93,12 +94,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.editing_username = values['UserName'];
 
         //inputsCode
-        var inputsCode = $('#add_code, #add_password'); //#add_epassword
+        $('#add_accesscard').attr('type', 'password');
+        var inputsCode = $('#add_code, #add_password, #add_accesscard'); //#add_epassword
         inputsCode.val('******');
         inputsCode.on('focus', function() {
             $(this).select();
         });
-
         $('#position_itemTab, #info_itemTab').show();
             $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
               '#info_itemTab .jqx-tabs-titleContentWrapper, ' +
@@ -111,6 +112,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('.submitUserBtn#submitAddUserForm').prop('disabled', true);
         var title = $('<div/>').html('User ID ' + values.Unique + ': | User Name: ' + values.UserName).append(btn)
             .css('padding-left', '2em');
+        //
         addUserDialog.setTitle(title);
         addUserDialog.open();
     };

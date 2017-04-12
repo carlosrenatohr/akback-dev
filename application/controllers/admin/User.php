@@ -154,6 +154,12 @@ class User extends AK_Controller
                     $values['Code'] = md5($values['Code']);
                 else
                     unset($values['Code']);
+                // Access Card is not empty?
+                $values['AccessCard'] = ($values['AccessCard'] == '******') ? '' : $values['AccessCard'];
+                if (!empty($values[ 'AccessCard']))
+                    $values['AccessCard'] = ($values['AccessCard']);
+                else
+                    unset($values['AccessCard']);
                 // Rest of values
 //            $values['Status'] = 1;
                 $status = $this->user_model->update($values, $id);
