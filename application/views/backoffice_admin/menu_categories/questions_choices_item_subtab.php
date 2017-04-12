@@ -1,7 +1,7 @@
 <div class="col-md-12 col-md-offset-0">
     <div class="row itemQuestionFormContainer">
         <div style=" width:100%;float:left;">
-            <div style="float:left; padding:2px; width:500px;">
+            <div style="float:left; padding:2px; width:750px;">
                 <div style="float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Item:
                 </div>
@@ -15,7 +15,15 @@
                 <div style="float:left;">
                     <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                 </div>
-                <div style="float:left; padding:8px; text-align:right; width:50px; font-weight:bold;">
+                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                    Description:
+                </div>
+                <div style="float:left; width:200px;">
+                    <input id="qItem_Description" class="form-control" style="width: 120px" readonly/>
+                </div>
+            </div>
+            <div style="width: 500px">
+                <div style="float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Price:
                 </div>
                 <div style="float:left; width:80px;">
@@ -30,7 +38,7 @@
                     ></jqx-number-input>
                 </div>
             </div>
-
+            <br><br><br><br><br>
             <div style="float:left; padding:2px; width:500px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Label:

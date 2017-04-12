@@ -408,7 +408,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             question_item_window = args.instance;
         },
         resizable: false,
-        width: "60%", height: "65%",
+        width: "60%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -420,6 +420,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_ItemUnique').jqxComboBox('val', '');
         $('#qItem_sort').jqxNumberInput('val', 1);
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
+        $('#qItem_Description').val('');
         $('#qItem_Label').val('');
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonPrimaryColorDef').val() })));
         $scope.qibPrimaryColor = $('#qitButtonPrimaryColorDef').val();
@@ -584,6 +585,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             var item = e.args.item;
             $('#qItem_Label').val(item.label);
             $('#qItem_SellPrice').val(item.originalItem.price1);
+            $('#qItem_Description').val(item.originalItem.Description);
             $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         }
     };

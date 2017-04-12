@@ -23,7 +23,7 @@
     </div>
     <div>
         <div class="col-md-12 col-md-offset-0">
-            <jqx-tabs jqx-width="'100%'" jqx-height="'200px'"
+            <jqx-tabs jqx-width="'100%'" jqx-height="'320px'"
                       id="questionschoicestabsWin">
                 <ul>
                     <li>Item</li>

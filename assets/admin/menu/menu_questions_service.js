@@ -132,7 +132,7 @@
                     {text: 'ID', dataField: 'Unique', width: '10%'},
                     {text: 'Name', dataField: 'Description', width: '32%'},
                     {text: 'Label', dataField: 'Label', width: '32%'},
-                    {text: 'Sell Price', dataField: 'sprice', width: '16%'},
+                    {text: 'Price', dataField: 'sprice', width: '16%'},
                     {text: 'Sort', dataField: 'Sort', width: '10%'},
                     {dataField: 'ButtonPrimaryColor', hidden: true},
                     {dataField: 'ButtonSecondaryColor', hidden: true},
