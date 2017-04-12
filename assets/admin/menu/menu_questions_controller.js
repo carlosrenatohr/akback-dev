@@ -338,11 +338,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                         $('#item-tab-2').show();
                         $('#questionstabsWin .jqx-tabs-titleContentWrapper').css('margin-top', '0');
                         setTimeout(function() {
-                            $('#questionstabsWin').jqxTabs('select', 1);
+                            // $('#questionstabsWin').jqxTabs('select', 1);
                             $('#saveQuestionBtn').prop('disabled', true);
-                        }, 250);
-                        $('#questionstabsWin').jqxTabs('select', 1);
-                        $('#saveQuestionBtn').prop('disabled', true);
+                        }, 100);
                     } else if ($scope.newOrEditQuestionOption == 'edit') {
                         $('#questionNotificationsSuccessSettings #notification-content')
                             .html('Question updated successfully!');
