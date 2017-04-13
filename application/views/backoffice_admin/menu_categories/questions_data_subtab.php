@@ -26,36 +26,52 @@
             </div>
         </div>
 
-        <div style="float:left; padding:2px; width:450px;">
+        <!--  SORT -->
+        <div style="float:left; padding:2px; width:700px;">
             <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                 Sort:
             </div>
-            <div style=" float:left; width:300px;">
+            <div style=" float:left; width:70px;">
                 <jqx-number-input
                     style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
                     id="qt_sort" name="qt_sort"
                     jqx-min="0" jqx-max="99999" jqx-value="1" jqx-decimal-digits="0"
                     jqx-digits="5"
-                    jqx-spin-buttons="true" jqx-width="290" jqx-height="25"
+                    jqx-spin-buttons="true" jqx-width="60" jqx-height="25"
                     jqx-input-mode="'simple'" jqx-text-align="'left'"
                 ></jqx-number-input>
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
             </div>
-        </div>
-
-        <div style=" float:left; padding:2px; width:500px; ">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
-                Minimum:
+            <!--  MIN -->
+            <div style="float:left; padding:8px; text-align:right; width:40px; font-weight:bold; ">
+                Min:
             </div>
-            <div style=" float:left; width:300px;">
+            <div style="float:left; width:70px;">
                 <jqx-number-input
-                    style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
-                    id="qt_min" name="qt_min"
-                    jqx-settings="numberQuestion" jqx-min="0" jqx-max="99999"
-                    jqx-value="1"
-                    jqx-digits="3"
+                        style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
+                        id="qt_min" name="qt_min"
+                        jqx-settings="numberQuestion" jqx-min="0" jqx-max="99999"
+                        jqx-value="1"
+                        jqx-digits="3"
+                ></jqx-number-input>
+            </div>
+            <div style="float:left;">
+                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+            </div>
+            <!--    MAX  -->
+            <div style="float:left; padding:8px; text-align:right; width:40px; font-weight:bold;">
+                Max:
+            </div>
+            <div style="float:left; width:70px;">
+                <jqx-number-input
+                        style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
+                        id="qt_max" name="qt_max"
+                        jqx-settings="numberQuestion"
+                        jqx-min="0" jqx-max="99999"
+                        jqx-value="1"
+                        jqx-digits="3"
                 ></jqx-number-input>
             </div>
             <div style="float:left;">
@@ -63,23 +79,7 @@
             </div>
         </div>
 
-        <div style=" float:left; padding:2px; width:500px; ">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
-                Maximum:
-            </div>
-            <div style=" float:left; width:300px;">
-                <jqx-number-input
-                    style='margin-top: 3px;padding-left: 10px;' class="form-control required-field"
-                    id="qt_max" name="qt_max"
-                    jqx-settings="numberQuestion"
-                    jqx-min="0" jqx-max="99999"
-                    jqx-value="1"
-                    jqx-digits="3"
-                ></jqx-number-input>
-            </div>
-            <div style="float:left;">
-                <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
-            </div>
-        </div>
+<!--        <div style=" float:left; padding:2px; width:500px; "></div>-->
+<!--        <div style=" float:left; padding:2px; width:500px; "></div>-->
     </div>
 </div>

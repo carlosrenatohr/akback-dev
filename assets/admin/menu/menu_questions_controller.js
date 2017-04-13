@@ -738,7 +738,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         //digits: 2,
         spinButtons: true,
         textAlign: 'left',
-        width: '290px',
+        width: '50px',
         height: 25
     };
 
