@@ -79,7 +79,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         // Notifications settings
         var notifContainer = '#notification_container_iscan';
         $scope.iscanSuccessMsg = adminService.setNotificationSettings(1, notifContainer, 5000);
-        $scope.iscanErrorMsg = adminService.setNotificationSettings(0, notifContainer);
+        $scope.iscanErrorMsg = adminService.setNotificationSettings(0, notifContainer, undefined, false);
 
         $('#icount_file').jqxFileUpload({
             width: 300,

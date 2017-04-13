@@ -9,7 +9,7 @@
 
     AdminService.$inject = ['$http'];
     function AdminService($http) {
-        this.setNotificationSettings = function (type, container, timeOpened) {
+        this.setNotificationSettings = function (type, container, timeOpened, autoClose) {
             // if (container == undefined)
             //     container = '#notification_container_inventory';
             var settings = {
@@ -17,7 +17,7 @@
                 appendContainer: container,
                 opacity: 0.9,
                 closeOnClick: true,
-                autoClose: true,
+                autoClose: (autoClose != undefined) ? autoClose : true,
                 // autoCloseDelay: 1750,
                 showCloseButton: false,
                 template: (type == 1) ? 'success' : 'error'
