@@ -6,7 +6,7 @@
             </div>
             <div style=" float:left; width:300px;">
                 <input type="text" class="form-control required-field" id="qt_QuestionName"
-                       name="qt_QuestionName" placeholder="Question Name" autofocus>
+                       name="qt_QuestionName" placeholder="Question Name" maxlength="30" autofocus>
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
@@ -19,7 +19,7 @@
             </div>
             <div style="float:left; width:300px;">
                 <input type="text" class="form-control required-field" id="qt_Question"
-                       name="qt_Question" placeholder="Question">
+                       name="qt_Question" placeholder="Question" maxlength="30">
             </div>
             <div style="float:left;">
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
