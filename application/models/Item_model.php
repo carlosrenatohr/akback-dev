@@ -5,6 +5,8 @@ class Item_model extends CI_Model
 
     public function update($id, $request)
     {
+        $request['Updated'] = date('Y-m-d H:i:s');
+        $request['UpdatedBy'] = $this->session->userdata('userid');
         $this->db->where('Unique', $id);
         return $this->db->update('item', $request);
     }
