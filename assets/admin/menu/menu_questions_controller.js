@@ -247,6 +247,12 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#saveQuestionBtn').prop('disabled', false);
     });
 
+    setTimeout(function() {
+        $('#qlfontSize').on('change', function() {
+            $('#saveQuestionBtn').prop('disabled', false);
+        });
+    }, 1000);
+
     var validationQuestionForm = function() {
         var needValidation = true;
         $('#questionWindowForm .required-field').each(function(i, el) {
@@ -593,6 +599,12 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     $('.itemQuestionFormContainer .required-in').on('keypress keyup paste change', function(e) {
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
     });
+
+    setTimeout(function() {
+        $('#qilfontSize').on('change', function() {
+            $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
+        });
+    }, 1000);
 
     var beforeValidationsSaveItemQuestion = function() {
         var needvalidation = false;

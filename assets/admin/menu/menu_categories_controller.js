@@ -92,6 +92,13 @@ app.controller('menuCategoriesController', function($scope, $http, adminService,
         $('#saveMenuBtn').prop('disabled', false);
     });
 
+    setTimeout(function() {
+        $('#menudCatlfontSize, #menudItemlfontSize').on('change', function() {
+            $('#saveMenuBtn').prop('disabled', false);
+        });
+    }, 1000);
+    $('#saveMenuBtn').prop('disabled', true);
+
     $scope.newOrEditOption = null;
     $scope.menuId = null;
     $scope.newMenuAction = function() {
@@ -119,7 +126,6 @@ app.controller('menuCategoriesController', function($scope, $http, adminService,
         // $('#deleteMenuBtn').show();
         $scope.newOrEditOption = 'edit';
         $scope.menuId = values['Unique'];
-        $('#saveMenuBtn').prop('disabled', true);
         var lfs;
         // -- DEFAULT COLORS - Category
         menuCategoriesService.updateColorControl(values['CategoryButtonPrimaryColor'], 'menudCatbPrimaryColor', $scope);
@@ -140,6 +146,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService,
         var title = $('<div/>').html('Edit Menu ID: ' + values['Unique'] + ' | Menu: <b>' + values['MenuName'] +'</b>')
             .prepend(btn)
             .css('padding-left', '2em');
+        $('#saveMenuBtn').prop('disabled', true);
         menuWindow.setTitle(title);
         menuWindow.open();
     };
@@ -425,9 +432,11 @@ app.controller('menuCategoriesController', function($scope, $http, adminService,
         $('#saveCategoryBtn').prop('disabled', false);
     });
 
-    $('body').on('change', '#lfontSize_jqxDropDownList', function(e) {
-        $('#saveCategoryBtn').prop('disabled', false);
-    });
+    setTimeout(function() {
+        $('#lfontSize').on('change', function(e) {
+            $('#saveCategoryBtn').prop('disabled', false);
+        });
+    }, 1000);
 
     $scope.newCategoryAction = function() {
         $scope.newOrEditCategoryOption = 'new';
