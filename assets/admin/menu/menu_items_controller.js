@@ -68,7 +68,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     function resetItemCreateModalForm () {
         $('.item_textcontrol').val('');
-        $('.item_combobox').val('');
+        $('#item_category').val('');
+        $('#item_subcategory').val('');
+        $('#mainPrinterNewItem').jqxDropDownList({selectedIndex: -1 })
+        $('#item_ListPrice, #item_Price1, #item_Cost').val(0);
         $('#saveItemMBtn').prop('disabled', true);
     }
 
@@ -133,6 +136,17 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 } else
                     $(el).css({'border-color': '#CCC'});
             });
+            //
+            var el = $('#mainPrinterNewItem');
+            var mprinter = el.jqxDropDownList('selectedIndex');
+            if (mprinter < 0) {
+                $('#nitemError #notification-content')
+                    .html("Main Printer is required");
+                $scope.nitemError.apply('open');
+                $(el).css({'border-color': '#F00'});
+                needValidation = true;
+            } else
+                $(el).css({'border-color': '#CCC'});
             return needValidation;
         };
         if (!beforeSaveInventory()) {
@@ -151,13 +165,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             var category = $('#item_category').jqxComboBox('getSelectedItem');
             dataRequest['MainCategory'] = (category != null) ? (category.value) : null;
             var subcategory = $('#item_subcategory').val();
-            dataRequest['CategoryUnique'] = (subcategory != null) ? (subcategory) : null;
-            //
+            dataRequest['CategoryUnique'] = (subcategory != null) ? (subcategory.value) : null;
+            var mainPrinter = $("#mainPrinterNewItem").jqxDropDownList('getSelectedItem');
+            dataRequest['MainPrinter'] = (mainPrinter != null) ? (category.value) : null;
             // if ($scope.createOrEditItemInventory == 'create')
             //     url = SiteRoot + 'admin/MenuItem/postItemInventory';
             // else if ($scope.createOrEditItemInventory = 'edit')
             //     url = SiteRoot + 'admin/MenuItem/updateItemInventory/' + $scope.itemInventoryID;
-            var url = SiteRoot + 'admin/MenuItem/postItemInventory';
+            var url = SiteRoot + 'admin/MenuItem/simplePostItem';
             $.ajax({
                 method: 'POST',
                 url: url,
@@ -166,20 +181,17 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 async: false,
                 success: function(data) {
                     if (data.status == 'success') {
-                        // if ($scope.createOrEditItemInventory == 'create') {
-                            // updateItemsInventoryGrid();
-                            searchActionOnItemList($('#ListBoxSearchInput').val());
-                            resetItemCreateModalForm();
-                            itemsModalCreate.close();
-                        // }
-                        // else if ($scope.createOrEditItemInventory = 'edit') {}
-                    }
-                    else if (data.status == 'error') {
+                    // if ($scope.createOrEditItemInventory == 'create') {
+                        searchActionOnItemList($('#item_Description').val()); // $('#ListBoxSearchInput').val()
+                        $('#ListBoxSearchInput').val($('#item_Description').val());
+                        resetItemCreateModalForm();
+                        itemsModalCreate.close();
+                    // } else if ($scope.createOrEditItemInventory = 'edit') {}
+                    } else if (data.status == 'error') {
                         $('#nitemError #notification-content')
                             .html(data.message);
                         $scope.nitemError.apply('open');
-                    }
-                    else {
+                    } else {
                         $('#nitemError #notification-content')
                             .html(data.message);
                         $scope.nitemError.apply('open');

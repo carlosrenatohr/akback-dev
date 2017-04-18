@@ -37,11 +37,11 @@
         <div class="form-group control-cont">
             <label for="inputType" class="control-label">Item Number:</label>
             <div class="input" style="width: 380px;">
-                <input type="text" class="form-control item_textcontrol req" id="item_Item" name="item_Item"
+                <input type="text" class="form-control item_textcontrol" id="item_Item" name="item_Item"
                        ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
                        data-field="Item" placeholder="Item Number" autofocus
                        style="float: left;width: 250px;">
-                <span class="required-ast">*</span>
+<!--                <span class="required-ast">*</span>-->
             </div>
         </div>
     </div>
@@ -52,6 +52,17 @@
                 <input type="text" class="form-control item_textcontrol" id="item_Part" name="item_Part"
                        data-field="Part" placeholder="Barcode" ng-model="inventoryData.part"
                 >
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group control-cont">
+            <label for="inputType" class="control-label">Main Printer:</label>
+            <div class="input">
+                <jqx-drop-down-list id="mainPrinterNewItem" class=""
+                                    jqx-settings="printerItemList"
+                                    jqx-width="240">
+                </jqx-drop-down-list>
             </div>
         </div>
     </div>
@@ -102,7 +113,7 @@
             <div class="input">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
-                    <jqx-number-input id="" class="item_textcontrol"
+                    <jqx-number-input id="item_Cost" class="item_textcontrol"
                                       jqx-width="220" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
                                       jqx-symbol="''"

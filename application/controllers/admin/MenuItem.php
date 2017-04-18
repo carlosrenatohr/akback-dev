@@ -416,6 +416,47 @@ class MenuItem extends AK_Controller
         return $data;
     }
 
+    public function simplePostItem() {
+        $data = $_POST;
+        if (!empty($data) || !is_null($_POST)) {
+            $mainPrinter = $data['MainPrinter'];
+            unset($data['MainPrinter']);
+            $newid = $this->item->saveItem($data);
+            if ($newid) {
+                $ndata = [];
+                if ($data['Part'] == '') {
+                    $ndata['Part'] = $newid;
+                    $ndata['SupplierPart'] = $newid;
+                }
+                if ($data['Item'] == '') {
+                    $ndata['Item'] = $newid;
+                }
+                if (count($ndata) > 0) {
+                    $this->item->updateItem($newid, $ndata);
+                }
+                // Main Printer
+                if (isset($mainPrinter)) {
+                    $printerReq = ['ItemUnique' => $newid, 'PrinterUnique' => $mainPrinter];
+                } else {
+                    $printerReq = [];
+                }
+                if (count($printerReq) > 0) {
+                    $this->menuPrinter->verifyPrinterByItemToCreate($printerReq);
+                }
+                $response = [
+                    'status' => 'success',
+                    'id' => $newid,
+                    'message' => 'Item created successfully!'
+                ];
+            } else {
+                $response = $this->dbErrorMsg();
+            }
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
     public function postItemInventory() {
         $data = $_POST;
         if (!empty($data) || !is_null($_POST)) {
