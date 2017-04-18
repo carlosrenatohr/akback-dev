@@ -28,7 +28,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
             addUserDialog = args.instance;
         },
         resizable: false,
-        width: "100%", height: "100%",
+        width: "100%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -92,7 +92,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#positionCombobox').jqxComboBox('val', values['PrimaryPosition']);
         $scope.userId = values['Unique'];
         $scope.editing_username = values['UserName'];
-
         //inputsCode
         $('#add_accesscard').attr('type', 'password');
         var inputsCode = $('#add_code, #add_password, #add_accesscard'); //#add_epassword
@@ -100,6 +99,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         inputsCode.on('focus', function() {
             $(this).select();
         });
+        if (values['AccessCard'] == '' || values['AccessCard'] == null) {
+            $('#add_accesscard').val('');
+        }
+        //
         $('#position_itemTab, #info_itemTab').show();
             $('#position_itemTab .jqx-tabs-titleContentWrapper,' +
               '#info_itemTab .jqx-tabs-titleContentWrapper, ' +

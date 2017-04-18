@@ -1,8 +1,8 @@
 <div class="row">
-    <div style="width:330px;float:left;">
+    <div style="width:350px;float:left;">
         <!-- Start user fields-->
         <div style="float:left; padding:2px; width:350px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">User Name:</div>
+            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">User Name:</div>
             <div style="float:left; width:180px;">
                 <input type="text" class="form-control addUserField required-field" id="add_username" name="add_userName" placeholder="User Name" autofocus>
             </div>
@@ -12,7 +12,7 @@
         </div>
 
         <div style="float:left; padding:2px; width:350px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">First Name:</div>
+            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">First Name:</div>
             <div style="float:left; width:180px;">
                 <input type="text" class="form-control addUserField required-field" id="add_firstname" name="add_firstName" placeholder="First Name">
             </div>
@@ -22,14 +22,15 @@
         </div>
 
         <div style="float:left; padding:2px;  width:350px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Last Name:</div>
+            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Last Name:</div>
             <div style="float:left; width:180px;">
                 <input type="text" class="form-control addUserField" id="add_lastname" name="add_lastName" placeholder="Last Name">
             </div>
         </div>
 
-        <div style="float:left; padding:2px;  width:350px;" title="Password to Login, Numbers & Letters">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Password:</div>
+        <jqx-tooltip jqx-position="'mouse'" jqx-content="'Password to Login, Numbers & Letters'">
+        <div style="float:left; padding:2px;  width:350px;">
+            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Password:</div>
             <div style="float:left; width:180px;">
                 <input type="password" class="form-control addUserField required-field" id="add_password" name="add_password" placeholder="Password">
             </div>
@@ -37,9 +38,11 @@
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
             </div>
         </div>
+        </jqx-tooltip>
 
-        <div style="float:left; padding:2px;  width:350px;" title="Code for Security Screens, Numbers Only">
-            <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Code:</div>
+        <jqx-tooltip jqx-position="'mouse'" jqx-content="'Code for Security Screens, Numbers Only'">
+        <div style="float:left; padding:2px;  width:350px;">
+            <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Code:</div>
             <div style="float:left; width:180px;">
                 <input type="password" class="form-control addUserField required-field" id="add_code" name="add_code" placeholder="Code">
             </div>
@@ -47,13 +50,16 @@
                 <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
             </div>
         </div>
+        </jqx-tooltip>
 
-        <div title="Applies when using Access Card, Numbers & Letters" style=" float:left; padding:2px; width:350px;">
-            <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Access Card:</div>
+        <jqx-tooltip jqx-position="'mouse'" jqx-content="'Applies when using Access Card, Numbers & Letters'">
+        <div style=" float:left; padding:2px; width:350px;">
+            <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Access Card:</div>
             <div style="float:left; width:180px;">
                 <input type="password" class="form-control addUserField" id="add_accesscard" name="add_accessCard" placeholder="Access Card" >
             </div>
         </div>
+        </jqx-tooltip>
 
     </div><!--End Grid1-->
 

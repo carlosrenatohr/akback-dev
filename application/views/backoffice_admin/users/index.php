@@ -41,8 +41,13 @@
                           jqx-settings="userTableSettings"
                           jqx-on-rowdoubleclick="openEditUserWindows(event)">
                 </jqx-grid>
+                <style>
+                    #userMainWindows {
+                        max-width: 85%!important;max-height: 85%!important;
+                    }
+                </style>
                 <jqx-window jqx-on-close="onCloseUserWindowsEvent($event)" jqx-settings="addUserWindowSettings"
-                            jqx-create="addUserWindowSettings" class="userJqxwindows" id="userMainWindows">
+                            jqx-create="addUserWindowSettings" class="userJqxwindows" id="userMainWindows" style="">
                     <div>
                         TITLE
                     </div>
