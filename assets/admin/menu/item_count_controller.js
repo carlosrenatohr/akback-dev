@@ -84,7 +84,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (e.args.file == undefined)
             return;
         $scope.csvFileSelected = JSON.parse(e.args.response);
-        // $scope.icountImportErrorMsg.apply('closeAll');
+        $scope.icountImportErrorMsg.apply('closeAll');
         if ($scope.csvFileSelected.success === true) {
             // $('#iscanTabs').jqxTabs('disableAt', 1);
             $('#fileLoadedTemp').show();
@@ -410,6 +410,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         $('#saveIcountBtn').html('Save');
                         $('#saveIcountBtn').prop('disabled', true);
                         $('#saveIcountBtn').hide();
+                        $scope.icountImportErrorMsg.apply('closeAll');
                         // CREATING
                         if ($scope.createOrEditIcount == 'create') {
                             $scope.icountID = response.id;
