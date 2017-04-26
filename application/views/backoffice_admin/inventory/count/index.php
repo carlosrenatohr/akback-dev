@@ -195,6 +195,9 @@
                             <jqx-notification jqx-settings="icountErrorMsg" id="icountErrorMsg">
                                 <div id="msg"></div>
                             </jqx-notification>
+                            <jqx-notification jqx-settings="icountImportErrorMsg" id="icountImportErrorMsg">
+                                <div id="msg"></div>
+                            </jqx-notification>
                             <div id="notification_container_icount"
                                  style="width: 100%; height:60px; margin-top: 15px; background-color: #F2F2F2; border: 1px dashed #AAAAAA; overflow: auto;"></div>
                         </div>

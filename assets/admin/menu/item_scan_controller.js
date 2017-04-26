@@ -101,6 +101,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
             }).on('remove', function(e) {
             }).on('uploadStart', function(e) {
             }).on('uploadEnd', function(e) {
+                $scope.iscanSuccessMsg.apply('closeAll');
+                $scope.iscanErrorMsg.apply('closeAll');
                 if (e.args.file == undefined)
                     return;
                 $scope.csvFileSelected = JSON.parse(e.args.response);
@@ -184,6 +186,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
         };
 
         $scope.saveScan = function(toClose) {
+            //
+            $scope.iscanSuccessMsg.apply('closeAll');
+            $scope.iscanErrorMsg.apply('closeAll');
+            //
             var url = '';
             var data = {
                 'Comment': $('#icount_comment').val(),

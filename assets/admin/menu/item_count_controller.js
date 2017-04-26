@@ -84,6 +84,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (e.args.file == undefined)
             return;
         $scope.csvFileSelected = JSON.parse(e.args.response);
+        // $scope.icountImportErrorMsg.apply('closeAll');
         if ($scope.csvFileSelected.success === true) {
             // $('#iscanTabs').jqxTabs('disableAt', 1);
             $('#fileLoadedTemp').show();
@@ -96,8 +97,10 @@ angular.module("akamaiposApp", ['jqwidgets'])
             $scope.icountSuccessMsg.apply('open');
         } else {
             $('#fileLoadedTemp').hide();
-            $('#icountErrorMsg #msg').html($scope.csvFileSelected.message);
-            $scope.icountErrorMsg.apply('open');
+            // $('#icountErrorMsg #msg').html($scope.csvFileSelected.message);
+            // $scope.icountErrorMsg.apply('open');
+            $('#icountImportErrorMsg #msg').html($scope.csvFileSelected.message);
+            $scope.icountImportErrorMsg.apply('open');
         }
     });
 
@@ -142,6 +145,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     var notifContainer = '#notification_container_icount';
     $scope.icountSuccessMsg = adminService.setNotificationSettings(1, notifContainer);
     $scope.icountErrorMsg = adminService.setNotificationSettings(0, notifContainer);
+    $scope.icountImportErrorMsg = adminService.setNotificationSettings(0, notifContainer, undefined, false);
 
     // COunt controls Events
     $('#icountTabs .icountField').on('keypress keyup paste change', function(){

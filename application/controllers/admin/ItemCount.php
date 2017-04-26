@@ -357,25 +357,32 @@ class ItemCount extends AK_Controller
         $target_file = $target_dir . $target_name;
         $uploadOk = 1;
         // Current file exists
+        $maxSize = (500)*(1000); // 5Mb
         if (file_exists($target_file)) {
             $msg = "Sorry, file already exists.";
             $uploadOk = 0;
         }
         // File size validation
-        $maxSize = (500)*(1000); // 5Mb
-        if ($_FILES["file"]["size"] > $maxSize) {
+        else if ($_FILES["file"]["size"] == 0) {
+            $msg = "File is Empty, cannot import";
+            $uploadOk = 0;
+        }
+        else if ($_FILES["file"]["size"] > $maxSize) {
             $msg = "File is too large. Maximum 5Mb to upload.";
             $uploadOk = 0;
         }
+
         // File format validation
-        if(!in_array($imageFileType, ["csv", "txt"])) {
-            $msg = "Sorry, only CSV files are accepted.";
+        else if(!in_array($imageFileType, ["csv", "txt"])) {
+            $msg = "Sorry, only CSV and TXT files are accepted.";
             $uploadOk = 0;
         }
-        $validation = $this->excelValidated($_FILES["file"]["tmp_name"]);
-        if (!$validation['isOk']) {
-            $msg = "Validation Error: Line {$validation['line']} Quantity greater than 6 digits.";
-            $uploadOk = 0;
+        else {
+            $validation = $this->excelValidated($_FILES["file"]["tmp_name"]);
+            if (!$validation['isOk']) {
+                $msg = "Validation Error: Line {$validation['line']} Quantity greater than 6 digits.";
+                $uploadOk = 0;
+            }
         }
         // Was there an error?
         if ($uploadOk == 1) {
