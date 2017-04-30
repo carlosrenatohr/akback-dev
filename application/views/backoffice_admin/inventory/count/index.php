@@ -113,7 +113,7 @@
                                         <button type="button" ng-click="closeIcount(2)" class="btn btn-info">Cancel</button>
                                     </div>
                                 </div>
-                            </div> //se dio vule
+                            </div>
                         </div>
                     </div>
 
