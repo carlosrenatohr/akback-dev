@@ -257,7 +257,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#setZeroAllIcountBtn').hide();
         $('#deleteIcounlistBtn').hide();
         $('#icountTabs').jqxTabs('select', 0);
-        $('#icountTabs').jqxTabs('disableAt', 3);
+        $('#icountTabs').jqxTabs('disableAt', 2); // Disable Import Tab
+        $('#icountTabs').jqxTabs('disableAt', 3); // Disable Count List Tab
         //
         $('#icount_location').jqxDropDownList('val', $('#loc_id').val());
         $('#icount_location').jqxDropDownList({'disabled': false});
@@ -332,16 +333,19 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 $('#isupplierFilter').jqxComboBox('selectItem', el);
             });
         }
+        $("#scanFileCbx").jqxComboBox({selectedIndex: -1 });
         //
         // $('#deleteIcountBtn').show();
         $('#icountTabs').jqxTabs('select', 0);
-        $('#icountTabs').jqxTabs('enableAt', 3);
+        $('#icountTabs').jqxTabs('enableAt', 2); // Enable Import Tab
+        $('#icountTabs').jqxTabs('enableAt', 3); // Enable Count List Tab
         $('.icountField.filters').jqxComboBox({disabled: true});
         $('#saveIcountBtn').html('Save');
         $('#finishIcountBtn').hide();
         $('#setZeroIcountBtn').hide();
         $('#setZeroAllIcountBtn').hide();
         $('#deleteIcounlistBtn').hide();
+        $('#fileLoadedTemp').hide();
         $('#saveIcountBtn').hide();
         var btn = $('<button/>', {
             'ng-click': 'finishIcount()',
@@ -372,7 +376,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 'filters': {},
                 // Import Scan file
                 'filename': $('#icount_file').data('filename')
-            };
+        };
             if ($scope.createOrEditIcount == 'create') {
                 var category = $('#icategoryFilter').jqxComboBox('val');
                 if (category != '') {
@@ -429,15 +433,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             setTimeout(function() {
                                 $('#icountTabs').jqxTabs('enableAt', 3);
                                 $('#icountTabs').jqxTabs('select', 3);
-                                if (response.scanID != '') {
-                                    // $scope.scanFileCbxSettings = itemCountService.getScanFileSettings();
-                                    $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
-                                    setTimeout(function () {
-                                        console.log(response.scanID);
-                                        $('#fileLoadedTemp').hide();
-                                        $('#scanFileCbx').jqxComboBox('val', response.scanID);
-                                    }, 250);
-                                }
+                                // if (response.scanID != '') {
+                                //     // $scope.scanFileCbxSettings = itemCountService.getScanFileSettings();
+                                //     $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
+                                //     setTimeout(function () {
+                                //         $('#fileLoadedTemp').hide();
+                                //         $('#scanFileCbx').jqxComboBox('val', response.scanID);
+                                //     }, 250);
+                                // }
                             }, 250);
                             //
                             var btn = $('<button/>', {
@@ -453,6 +456,18 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             updateIcountGrid(1);
                         // UPDATING
                         } else {
+                            if (response.scanID != '') {
+                                $('#icountTabs').jqxTabs('enableAt', 3);
+                                $('#icountTabs').jqxTabs('select', 3);
+                                // $scope.scanFileCbxSettings = itemCountService.getScanFileSettings();
+                                $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
+                                setTimeout(function () {
+                                    console.log('updated');
+                                    console.log(response.scanID);
+                                    $('#fileLoadedTemp').hide();
+                                    $('#scanFileCbx').jqxComboBox('val', response.scanID);
+                                }, 250);
+                            }
                             var btn = $('<button/>', {
                                 'ng-click': 'finishIcount()',
                                 'id': 'deleteIcountBtn'

@@ -54,12 +54,16 @@ class ItemCount extends AK_Controller
         if (isset($_POST) && !empty($_POST)) {
             $data = $_POST;
             $data['CountDate'] = date('Y-m-d H:i:s', strtotime($data['CountDate']));
-            $status = $this->count->update($id, $data);
-            if ($status) {
+            // Scan filenames, empty is any was uploaded
+            $filename = $data['filename'];
+            unset($data['filename']);
+            $ids = $this->count->update($id, $data, $filename);
+            if ($ids['status']) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Count updated successfully',
-                    'id' => $status
+                    'updated' => $ids['status'],
+                    'scanID' => $ids['scanID']
                 ];
             } else
                 $response = $this->dbErrorMsg();

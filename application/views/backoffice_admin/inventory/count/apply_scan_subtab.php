@@ -1,6 +1,6 @@
 <div class="row" style="margin: 10px 0;">
 <!--    <div style="float:left; padding:2px; width:500px;" ng-show="createOrEditIcount == 'create'">-->
-    <div class="col-md-offstet-1 col-md-8" ng-show="createOrEditIcount == 'create'">
+    <div class="col-md-offstet-1 col-md-8" ng-show="createOrEditIcount == 'edit'">
         <div class="col-md-1" style="float:left; padding:8px; text-align:right; font-weight:bold;">Import:</div>
         <div style="float:left;" class="col-md-8">
             <div class="icountField" id="icount_file" data-filename=""></div>

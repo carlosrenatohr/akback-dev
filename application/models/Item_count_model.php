@@ -106,12 +106,27 @@ class Item_count_model extends CI_Model
         ];
     }
 
-    public function update($id, $data) {
+    public function update($id, $data, $scanFilename = null) {
         $data['Updated'] = date('Y-m-d H:i:s');
         $data['UpdatedBy'] = $this->session->userdata('userid');
 
         $this->db->where('Unique', $id);
-        return $this->db->update('item_count', $data);
+        $status =  $this->db->update('item_count', $data);
+        if (!is_null($scanFilename) && !empty($scanFilename)) {
+            $scanData = [
+                'Station' => $this->session->userdata("station_number"),
+                'Location' => $data['Location'],
+                'Comment' => $data['Comment'],
+                'filename' => $scanFilename
+            ];
+            // TODO pending to store it in case to be linked to item_count table or item_count_scan table
+            $scanId = $this->createScan($scanData);
+        }
+
+        return [
+            'status' => $status,
+            'scanID' => isset($scanId) ? $scanId : ''
+        ];
     }
 
     public function delete($id) {

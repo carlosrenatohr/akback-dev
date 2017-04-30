@@ -101,26 +101,6 @@
                     <input type="hidden" id="decimalCost" value="<?php echo $decimalCost;?>">
                     <input type="hidden" id="decimalQty" value="<?php echo $decimalQty;?>">
 
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <div id="mainIcountBtns" class="">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="col-sm-12">-->
-<!--                                        <button type="button" ng-click="closeIcount()"-->
-<!--                                                class="btn btn-warning"-->
-<!--                                        >Close</button>-->
-<!--                                        <button type="button" id="saveIcountBtn"-->
-<!--                                                ng-click="saveIcount()" class="btn btn-primary" disabled-->
-<!--                                            >Build Count List</button>-->
-<!--                                        <button type="button" id="finishIcountBtn" ng-click="finishIcount()"-->
-<!--                                                class="btn btn-success" style="overflow:auto;display: none;"-->
-<!--                                            >Finish Count</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
                     <!-- Prompt before saving item on grid -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
@@ -133,59 +113,10 @@
                                         <button type="button" ng-click="closeIcount(2)" class="btn btn-info">Cancel</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> //se dio vule
                         </div>
                     </div>
 
-                    <!-- Prompt before delete an item on grid -->
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <div id="deleteIcountBtns" class="" style="display: none">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="col-sm-12">-->
-<!--                                        Do you really want to delete it?-->
-<!--                                        <button type="button" ng-click="deleteIcount(0)" class="btn btn-primary">Yes</button>-->
-<!--                                        <button type="button" ng-click="deleteIcount(1)" class="btn btn-warning">No</button>-->
-<!--                                        <button type="button" ng-click="deleteIcount(2)" class="btn btn-info">Cancel</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <!-- Prompt before finish count on item count list -->
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <div id="finishIcountBtns" class="" style="display: none">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="col-sm-12">-->
-<!--                                        <p>Your stock will be adjusted based on above counts. <br>-->
-<!--                                            Press Finalize to continue or Cancel to continue editing</p>-->
-<!--                                        <button type="button" ng-click="finishIcount(0)" class="btn btn-primary">Finalize</button>-->
-<!--                                        <button type="button" ng-click="finishIcount(1)" class="btn btn-info">Cancel</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-                    <!-- Prompt before finish count on item count list -->
-<!--                    <div class="col-md-12 col-md-offset-0">-->
-<!--                        <div class="row">-->
-<!--                            <div id="setZeroIcountBtns" class="" style="display: none">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="col-sm-12">-->
-<!--                                        <p>-->
-<!--                                            This will add Zero Quantity to all items that don't already have a Quantity in Count Column.<br>-->
-<!--                                            Items that already have a quantity in Count Column will not be changed. <br>-->
-<!--                                            Are you sure you want to do this?-->
-<!--                                        </p>-->
-<!--                                        <button type="button" ng-click="setZeroIcount(0)" class="btn btn-primary">Yes</button>-->
-<!--                                        <button type="button" ng-click="setZeroIcount(1)" class="btn btn-info">Cancel</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <!-- NOTIFICATIONS AREA -->
                     <div class="col-md-12 col-md-offset-0">
                         <div class="row">
