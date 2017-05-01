@@ -27,10 +27,17 @@
                       id="questionschoicestabsWin">
                 <ul>
                     <li>Item</li>
+                    <li>Picture</li>
                     <li>Style</li>
                 </ul>
                 <div>
                     <?php $this->load->view($qChoices_item_subtab); ?>
+                </div>
+                <div flow-init flow-name="uploaderQI.flow"
+                     flow-files-submitted="submitUploadQI($files, $event, $flow)"
+                     flow-file-added="fileAddedUpload($file, $event, $flow)"
+                     flow-file-success="successUploadQI($file, $message, $flow)">
+                    <?php $this->load->view($qChoices_picture_subtab); ?>
                 </div>
                 <div>
                     <?php $this->load->view($qChoices_style_subtab); ?>

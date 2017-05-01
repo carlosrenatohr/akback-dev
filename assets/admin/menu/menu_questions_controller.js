@@ -324,6 +324,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             });
             //todo
             var pictures = imgs.join(',');
+            console.log(pictures);
             //
             var values = {
                 'Question': $('#qt_Question').val(),
@@ -895,6 +896,63 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $scope.uploaderQ.flow.files.splice(i, 1);
         if (option == 1) {
             if ($scope.successUploadNames.length <= 0)
+                $('#saveInventoryBtn').prop('disabled', true);
+        } else if (option == 2) {
+            $('#saveInventoryBtn').prop('disabled', false);
+        }
+    };
+
+    /**
+     * QUESTION CHOICE UPLOADER PICTURES
+     * @type {{}}
+     */
+    $scope.uploaderQI = {};
+    $scope.successUploadNamesQI = [];
+    $scope.currentImagesQI = [];
+
+    var mimesAvailable = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
+    $scope.submitUploadQI = function (files, e, flow) {
+        var type = files[0].file.type;
+        if (mimesAvailable.indexOf(type) > -1) {
+            $scope.uploaderQ.flow.upload();
+        } else {
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html('Only PNG, JPG and GIF files types allowed.');
+            $scope.menuitemNotificationsErrorSettings.apply('open');
+            var last = $scope.uploaderQ.flow.files.length - 1;
+            $scope.uploaderQ.flow.files.splice(last, 1);
+        }
+    };
+
+    $scope.successUploadQI = function (e, response, flow) {
+        var resp = JSON.parse(response);
+        var last = $scope.uploaderQI.flow.files.length - 1;
+        if (!resp.success) {
+            $scope.uploaderQI.flow.files.splice(last, 1);
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html(resp.errors);
+            $scope.menuitemNotificationsErrorSettings.apply('open');
+        } else {
+            $scope.uploaderQI.flow.files[last]['newName'] = resp.newName;
+            $scope.successUploadNamesQI.push(resp.newName);
+            $scope.currentImagesQI.splice(0, 1);
+            $('#saveInventoryBtn').prop('disabled', false);
+        }
+    };
+
+    $scope.removingImageSelectedQI = function(i, option) {
+        if (option == 1)
+            var list = $scope.uploaderQI.flow.files;
+        else
+            var list = $scope.currentImagesQI;
+        var foundPic =
+            $scope.successUploadNamesQI.indexOf(list[i].newName);
+        //
+        $scope.successUploadNamesQI.splice(foundPic, 1);
+        $scope.currentImagesQI.splice(0, 1);
+        $scope.uploaderQI.flow.files.splice(i, 1);
+        if (option == 1) {
+            if ($scope.successUploadNamesQI.length <= 0)
                 $('#saveInventoryBtn').prop('disabled', true);
         } else if (option == 2) {
             $('#saveInventoryBtn').prop('disabled', false);

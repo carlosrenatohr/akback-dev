@@ -51,6 +51,7 @@ class MenuCategory extends AK_Controller
         $data['questions_data_subtab'] = $menu_path . "questions/data_subtab";
         $data['questions_choices_subtab'] = $menu_path . "questions/choices_subtab";
         $data['qChoices_item_subtab'] = $menu_path . "questions/choices_item_subtab";
+        $data['qChoices_picture_subtab'] = $menu_path . "questions/choices_picture_subtab";
         $data['qChoices_style_subtab'] = $menu_path . "questions/choices_style_subtab";
         $data['qChoices_btns'] = $menu_path . "questions/choices_btns";
         $data['questions_picture_subtab'] = $menu_path . "questions/picture_subtab";
