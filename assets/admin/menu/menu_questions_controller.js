@@ -219,15 +219,18 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     };
 
     $scope.closeQuestionWindow = function (option) {
+        if (option != undefined) {
+            $('#mainButtonsQuestionForm').show();
+            $('.alertButtonsQuestionForm').hide();
+            $('#promptToCloseQuestionForm').hide();
+        }
         if (option == 0) {
             $scope.saveQuestionWindow(option);
-        } else if (option == 1) {
             questionsWindow.close();
+        } else if (option == 1) {
             resetQuestionForm();
+            questionsWindow.close();
         } else if (option == 2) {
-            $('.alertButtonsQuestionForm').hide();
-            $('#mainButtonsQuestionForm').show();
-            $('#promptToCloseQuestionForm').hide();
         } else {
             if ($('#saveQuestionBtn').is(':disabled')) {
                 questionsWindow.close();
