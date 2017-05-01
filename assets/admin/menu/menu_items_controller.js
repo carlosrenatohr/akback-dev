@@ -213,12 +213,62 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 async: false,
                 success: function(data) {
                     if (data.status == 'success') {
-                    // if ($scope.createOrEditItemInventory == 'create') {
                         searchActionOnItemList($('#item_Description').val()); // $('#ListBoxSearchInput').val()
                         $('#ListBoxSearchInput').val($('#item_Description').val());
-                        resetItemCreateModalForm();
+                        // IF SELECTED CELL ON GRID IS EMPTY
+                        // FILL IT WITH NEW ITEM CREATED ON MODAL
+                        var selectedItemOnGrid = $('.selectedItemOnGrid');
+                        if (selectedItemOnGrid[0] != undefined) {
+                            if (!selectedItemOnGrid.hasClass('filled')) {
+                                var newDataIt = {
+                                    'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
+                                    'ItemUnique': data.id, // Item Unique
+                                    'Label': $('#item_Description').val(), // description
+                                    'Row': selectedItemOnGrid.data('row'),
+                                    'Column': selectedItemOnGrid.data('col')
+                                };
+                                $.ajax({
+                                    'url': SiteRoot + 'admin/MenuItem/postMenuItems',
+                                    'method': 'post',
+                                    'data': newDataIt,
+                                    'dataType': 'json',
+                                    'success': function (data) {
+                                        var $this = selectedItemOnGrid;
+                                        if (data.status == 'success') {
+                                            $this.html(
+                                                "<div class='priceContent'>"+ $('#item_Price1').val() +
+                                                "</div>" +
+                                                "<div class='labelContent'>"+ newDataIt.Label +
+                                                "</div>"
+                                            );
+                                            $this.addClass('filled');
+                                            $this.addClass('itemOnGrid');
+                                            $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
+                                            $this.css('background-color', '#7C2F3F');
+                                            draggableEvents();
+                                            setTimeout(function() {
+                                                resetItemCreateModalForm();
+                                                angular.element('.category-cell-grid.clicked').triggerHandler('click');
+                                            }, 100);
+                                        } else if (data.status == 'error') {
+                                            $.each(data.message, function(i, value){
+                                                $('#notification-window .text-content').html('' +
+                                                    'Cell is already occupied. To use, please move or delete item.'
+                                                );
+                                                $('#notification-window').jqxWindow('open');
+                                                return;
+                                            });
+                                        } else {
+                                            console.error('error from ajax');
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            resetItemCreateModalForm();
+                        }
+                        //
                         itemsModalCreate.close();
-                    // } else if ($scope.createOrEditItemInventory = 'edit') {}
                     } else if (data.status == 'error') {
                         $('#nitemError #notification-content')
                             .html(data.message);
