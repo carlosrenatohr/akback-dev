@@ -20,7 +20,7 @@
         <div>
             <div id="questionWindowForm">
                 <div class="col-md-12 col-md-offset-0">
-                    <jqx-tabs jqx-width="'100%'" jqx-height="'300'"
+                    <jqx-tabs jqx-width="'100%'"
                               jqx-settings="questionstabsSettings"
                               id="questionstabsWin">
                         <ul style=" margin-left: 10px;">
@@ -36,7 +36,13 @@
                         <div class="col-md-12 question-tabs" id="question-tab2">
                             <?php $this->load->view($questions_choices_subtab); ?>
                         </div>
-                        <div class="col-md-12 question-tabs" id="question-tab4">
+                        <div class="col-md-12 question-tabs" id="question-tab4"
+                             flow-init flow-name="uploaderQ.flow"
+                             flow-files-submitted="submitUpload($files, $event, $flow)"
+                             flow-file-added="fileAddedUpload($file, $event, $flow)"
+                             flow-file-success="successUpload($file, $message, $flow)"
+                             flow-file-error="errorUpload($file, $message, $flow)"
+                            style="overflow-y: scroll;min-height: 200px;">
                             <?php $this->load->view($questions_picture_subtab); ?>
                         </div>
                         <div class="col-md-12 question-tabs" id="question-tab3">

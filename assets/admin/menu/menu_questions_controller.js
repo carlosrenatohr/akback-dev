@@ -178,6 +178,20 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         var lfs = (row['LabelFontSize']) ? row['LabelFontSize'] : $('#qLabelFontSizeDef').val();
         $('#qlfontSize').val(lfs);
         // $('#deleteQuestionBtn').show();Size
+        // Load Pictures TODO
+        // $scope.uploaderQ.flow.files = [];
+        // $scope.currentImages = [];
+        // $.get(SiteRoot + 'admin/MenuItem/get_picturesByItem/' + row.Unique)
+        //     .then(function(response) {
+        //         angular.forEach(response.data, function(el, key) {
+        //             $scope.currentImages.push({
+        //                 name: el.File,
+        //                 newName: el.File,
+        //                 path: el.path
+        //             });
+        //         });
+        //     }, function() {});
+        //
         var btn = $('<button/>', {
             'id': 'deleteQuestionBtn'
         }).addClass('icon-trash user-del-btn').css('left', 0);
@@ -301,6 +315,15 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 lfont = $('#qlfontColor').jqxColorPicker('getColor').hex;
             else
                 lfont = $scope.qlfontColor;
+            //
+            var imgs = [];
+            angular.forEach($scope.uploaderQ.flow.files, function(el, key) {
+                if ($scope.successUploadNames.indexOf(el.newName) > -1) {
+                    imgs.push(el.newName);
+                }
+            });
+            //todo
+            var pictures = imgs.join(',');
             //
             var values = {
                 'Question': $('#qt_Question').val(),
@@ -821,5 +844,61 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     $scope.$on('jqxDropDownButtonCreated', function (event, arguments) {
         arguments.instance.setContent(getTextElementByColor(new $.jqx.color({ hex: "000000" })));
     });
+
+    /**
+     * PICTURE UPLOAD SUBTABS
+     */
+    $scope.uploaderQ = {};
+    $scope.successUploadNames = [];
+    $scope.currentImages = [];
+
+    var mimesAvailable = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
+    $scope.submitUpload = function (files, e, flow) {
+        var type = files[0].file.type;
+        if (mimesAvailable.indexOf(type) > -1) {
+            $scope.uploaderQ.flow.upload();
+        } else {
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html('Only PNG, JPG and GIF files types allowed.');
+            $scope.menuitemNotificationsErrorSettings.apply('open');
+            var last = $scope.uploaderQ.flow.files.length - 1;
+            $scope.uploaderQ.flow.files.splice(last, 1);
+        }
+    };
+
+    $scope.successUpload = function (e, response, flow) {
+        var resp = JSON.parse(response);
+        var last = $scope.uploaderQ.flow.files.length - 1;
+        if (!resp.success) {
+            $scope.uploaderQ.flow.files.splice(last, 1);
+            $('#menuitemNotificationsErrorSettings #notification-content')
+                .html(resp.errors);
+            $scope.menuitemNotificationsErrorSettings.apply('open');
+        } else {
+            $scope.uploaderQ.flow.files[last]['newName'] = resp.newName;
+            $scope.successUploadNames.push(resp.newName);
+            $scope.currentImages.splice(0, 1);
+            $('#saveInventoryBtn').prop('disabled', false);
+        }
+    };
+
+    $scope.removingImageSelected = function(i, option) {
+        if (option == 1)
+            var list = $scope.uploaderQ.flow.files;
+        else
+            var list = $scope.currentImages;
+        var foundPic =
+            $scope.successUploadNames.indexOf(list[i].newName);
+        //
+        $scope.successUploadNames.splice(foundPic, 1);
+        $scope.currentImages.splice(0, 1);
+        $scope.uploaderQ.flow.files.splice(i, 1);
+        if (option == 1) {
+            if ($scope.successUploadNames.length <= 0)
+                $('#saveInventoryBtn').prop('disabled', true);
+        } else if (option == 2) {
+            $('#saveInventoryBtn').prop('disabled', false);
+        }
+    };
 
 });
