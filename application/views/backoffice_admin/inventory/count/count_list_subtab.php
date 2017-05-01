@@ -39,7 +39,7 @@
     <!-- WINDOW TO PROMPT CHANGES on ITEM COUNT-->
     <jqx-window id="closeItemCountWin"
                 jqx-is-modal="true" jqx-width="300" jqx-height="120"
-                jqx-auto-open="false" jqx-show-close-button="true"
+                jqx-auto-open="false" jqx-show-close-button="false"
                 jqx-resizable="false"
     >
         <div class="header">Edit Item Count</div>

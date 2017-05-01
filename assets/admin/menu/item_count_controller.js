@@ -281,6 +281,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('.icountField.filters').jqxComboBox({disabled: false});
         $('#saveIcountBtn').html('Build Count List');
         $('#saveIcountBtn').show();
+        $('#closeItemCountWin').jqxWindow('setTitle', 'New Item Count');
         icountwind.setTitle('New Item Count');
         icountwind.open();
     };
@@ -347,6 +348,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#deleteIcounlistBtn').hide();
         $('#fileLoadedTemp').hide();
         $('#saveIcountBtn').hide();
+        $('#closeItemCountWin').jqxWindow('setTitle', 'Edit Item Count');
         var btn = $('<button/>', {
             'ng-click': 'finishIcount()',
             'id': 'deleteIcountBtn'
