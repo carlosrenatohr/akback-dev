@@ -1,8 +1,8 @@
 <div id="styling_questions_section">
 
     <div style="float:left; padding:2px; width:450px;">
-        <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Button Primary Color:</div>
-        <div style="float:left; width:180px;">
+        <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Button Primary Color:</div>
+        <div style="float:left; width:200px;">
             <div style="margin: 3px; float: left;" class="dropDownParent">
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_qbPrimaryColor"
                                       class="styles-control" jqx-height="22">
@@ -15,8 +15,8 @@
     </div>
 
     <div style="float:left; padding:2px; width:450px;">
-        <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Button Secondary Color:</div>
-        <div style="float:left; width:180px;">
+        <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Button Secondary Color:</div>
+        <div style="float:left; width:200px;">
             <div style="margin: 3px; float: left;">
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_qbSecondaryColor"
                                       class="styles-control" jqx-height="22">
@@ -29,8 +29,8 @@
     </div>
 
     <div style="float:left; padding:2px; width:450px;">
-        <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Label Font Color</div>
-        <div style="float:left; width:180px;">
+        <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Label Font Color</div>
+        <div style="float:left; width:200px;">
             <div style="margin: 3px; float: left;">
                 <jqx-drop-down-button jqx-on-opening="qOpening(event)" jqx-width="150" jqx-instance="ddb_qlfontColor"
                                       jqx-height="22" class="styles-control">
@@ -43,8 +43,8 @@
     </div>
 
     <div style="float:left; padding:2px; width:450px;">
-        <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Label Font Size</div>
-        <div style="float:left; width:180px;">
+        <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Label Font Size</div>
+        <div style="float:left; width:195px;">
             <jqx-drop-down-list id="qlfontSize" class="styles-control">
                 <option value="4px">4px</option>
                 <option value="6px">6px</option>
@@ -60,3 +60,8 @@
         </div>
     </div>
 </div>
+<style>
+    #qlfontSize {
+        width: 150px!important;
+    }
+</style>
