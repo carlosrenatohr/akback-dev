@@ -18,42 +18,47 @@ class MenuCategory extends AK_Controller
 
     public function index()
     {
-        // Data to send
+        // |-- Data to send
         $data = $this->initDefaultSession();
         $data['currentuser'] = $this->session->userdata("currentuser");
         $data['station'] = $this->session->userdata("station_number");
         $data['page_title'] = "Menu Categories";
         $data['storename'] = $this->displaystore();
         $data['labelPos'] = $this->item->getLabelPosList();
-        // Partials Views
+        // |--Partials Views
         $menu_path = 'backoffice_admin/menu_categories/';
-        $data['menu_tab_view'] = $menu_path . "menu_tab";
-        $data['menu_data_subtab_view'] = $menu_path . "menu_data_subtab";
-        $data['menu_styles_subtab_view'] = $menu_path . "menu_styles_subtab";
-        $data['menu_btns'] = $menu_path . "menu_btns";
-        $data['cat_data_subview'] = $menu_path . "categories_data_subtab";
-        $data['cat_picture_subview'] = $menu_path . "categories_picture_subtab";
-        $data['cat_style_subview'] = $menu_path . "categories_styles_subtab";
-        $data['category_tab_view'] = $menu_path . "categories_tab";
-        $data['items_tab_view'] = $menu_path . "items_tab";
-        $data['categoryName_form'] = $menu_path . "categoryname_form";
-        $data['items_menuitem_subtab_view'] = $menu_path . "items_menuitem_subtab";
-        $data['items_price_subtab_view'] = $menu_path . "items_price_subtab";
-        $data['items_questions_subtab_view'] = $menu_path . "items_question_subtab";
-        $data['items_printers_subtab_view'] = $menu_path . "items_printer_subtab";
-        $data['items_extra_subtab_view'] = $menu_path . "items_extra_subtab";
-        $data['items_layout_subtab_view'] = $menu_path . "items_layout_subtab";
-        $data['items_picture_subtab_view'] = $menu_path . "items_picture_subtab";
-        $data['items_style_subtab_view'] = $menu_path . "items_style_subtab";
-        $data['questions_data_subtab'] = $menu_path . "questions_data_subtab";
-        $data['questions_choices_subtab'] = $menu_path . "questions_choices_subtab";
-        $data['qChoices_item_subtab'] = $menu_path . "questions_choices_item_subtab";
-        $data['qChoices_style_subtab'] = $menu_path . "questions_choices_style_subtab";
-        $data['qChoices_btns'] = $menu_path . "questions_choices_btns";
-        $data['questions_style_subtab'] = $menu_path . "questions_style_subtab";
-        $data['questions_tab_view'] = $menu_path . "questions_tab";
-        $data['printers_tab_view'] = $menu_path . "printer_tab";
-        // Main page
+        $data['menu_data_subtab_view'] = $menu_path . "menu/data_subtab";
+        $data['menu_styles_subtab_view'] = $menu_path . "menu/styles_subtab";
+        $data['menu_btns'] = $menu_path . "menu/btns";
+        $data['menu_tab_view'] = $menu_path . "menu/tab"; // menu tab
+        // |--
+        $data['cat_data_subview'] = $menu_path . "categories/data_subtab";
+        $data['cat_picture_subview'] = $menu_path . "categories/picture_subtab";
+        $data['cat_style_subview'] = $menu_path . "categories/styles_subtab";
+        $data['category_tab_view'] = $menu_path . "categories/tab"; // category tab
+        // |--
+        $data['categoryName_form'] = $menu_path . "layout/categoryname_form";
+        $data['items_menuitem_subtab_view'] = $menu_path . "layout/items_menuitem_subtab";
+        $data['items_price_subtab_view'] = $menu_path . "layout/items_price_subtab";
+        $data['items_questions_subtab_view'] = $menu_path . "layout/items_question_subtab";
+        $data['items_printers_subtab_view'] = $menu_path . "layout/items_printer_subtab";
+        $data['items_extra_subtab_view'] = $menu_path . "layout/items_extra_subtab";
+        $data['items_layout_subtab_view'] = $menu_path . "layout/items_layout_subtab";
+        $data['items_picture_subtab_view'] = $menu_path . "layout/items_picture_subtab";
+        $data['items_style_subtab_view'] = $menu_path . "layout/items_style_subtab";
+        $data['items_tab_view'] = $menu_path . "layout/items_tab"; // layout tab
+        // |--
+        $data['questions_data_subtab'] = $menu_path . "questions/data_subtab";
+        $data['questions_choices_subtab'] = $menu_path . "questions/choices_subtab";
+        $data['qChoices_item_subtab'] = $menu_path . "questions/choices_item_subtab";
+        $data['qChoices_style_subtab'] = $menu_path . "questions/choices_style_subtab";
+        $data['qChoices_btns'] = $menu_path . "questions/choices_btns";
+        $data['questions_picture_subtab'] = $menu_path . "questions/picture_subtab";
+        $data['questions_style_subtab'] = $menu_path . "questions/style_subtab";
+        $data['questions_tab_view'] = $menu_path . "questions/tab"; // question tab
+        // |--
+        $data['printers_tab_view'] = $menu_path . "printers/tab"; // printer tab
+        // |-- Main page
         $data['location_path'] = $this->getPicturePath();
         $data['main_content'] = $menu_path . "index";
         $this->load->view('backoffice_admin/templates/main_layout', $data);

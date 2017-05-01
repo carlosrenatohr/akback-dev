@@ -26,6 +26,7 @@
                         <ul style=" margin-left: 10px;">
                             <li id="question-tab-1">Question</li>
                             <li id="item-tab-2">Choices</li>
+                            <li id="item-tab-2">Picture</li>
                             <li id="item-tab-2">Style</li>
                         </ul>
                         <div class="col-md-12 question-tabs" id="question-tab1">
@@ -34,6 +35,9 @@
                         <!-- QUESTION TAB WITH ITEMS-QUESTIONS -->
                         <div class="col-md-12 question-tabs" id="question-tab2">
                             <?php $this->load->view($questions_choices_subtab); ?>
+                        </div>
+                        <div class="col-md-12 question-tabs" id="question-tab4">
+                            <?php $this->load->view($questions_picture_subtab); ?>
                         </div>
                         <div class="col-md-12 question-tabs" id="question-tab3">
                             <?php $this->load->view($questions_style_subtab); ?>
