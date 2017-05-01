@@ -419,6 +419,12 @@ class MenuItem extends AK_Controller
     public function simplePostItem() {
         $data = $_POST;
         if (!empty($data) || !is_null($_POST)) {
+            // taxes
+            $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
+                ? $_POST['taxesValues']
+                : [];
+            unset($data['taxesValues']);
+            // main printer
             $mainPrinter = $data['MainPrinter'];
             unset($data['MainPrinter']);
             $newid = $this->item->saveItem($data);
@@ -434,6 +440,7 @@ class MenuItem extends AK_Controller
                 if (count($ndata) > 0) {
                     $this->item->updateItem($newid, $ndata);
                 }
+                $this->item->updateTaxesByItem($taxes, $newid);
                 // Main Printer
                 if (isset($mainPrinter)) {
                     $printerReq = ['ItemUnique' => $newid, 'PrinterUnique' => $mainPrinter];

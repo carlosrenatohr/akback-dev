@@ -9,10 +9,14 @@
                   id="itemsModalCreateTabs">
             <ul>
                 <li>Item</li>
+                <li>Tax</li>
             </ul>
             <!-- Menu Item subtab -->
             <div class="">
-                <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_tab');?>
+                <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_itemtab');?>
+            </div>
+            <div class="">
+                <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_taxtab');?>
             </div>
         </jqx-tabs>
 

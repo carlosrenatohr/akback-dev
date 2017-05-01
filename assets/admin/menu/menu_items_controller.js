@@ -50,9 +50,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         showCloseButton: false
     };
     $('#CreateItemBtn').on('click', function() {
+        $('#itemsModalCreateTabs').jqxTabs('select', 0);
         setTimeout(function() {
             $('#item_Description').focus();
         }, 150);
+        $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData(null);
         itemsModalCreate.open();
     });
 
@@ -60,6 +62,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
     $scope.nitemSuccess = adminService.setNotificationSettings(1, '#nitemNotification');
     $scope.nitemError = adminService.setNotificationSettings(0, '#nitemNotification');
+    $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData();
+    var taxesValuesChanged = [];
+    // Tax by item checkboxes change event
+    $("#taxesGrid").on('cellvaluechanged', function (event)
+    {
+        var args = event.args;
+        var datafield = event.args.datafield;
+        var rowBoundIndex = args.rowindex;
+        var value = args.newvalue;
+        var oldvalue = args.oldvalue;
+        if (datafield == 'taxed') {
+            if (taxesValuesChanged.indexOf(rowBoundIndex) == -1)
+                taxesValuesChanged.push(rowBoundIndex);
+            $('#saveItemMBtn').prop('disabled', false);
+        }
+    });
 
     //-- Events on Item Create Modal
     $('.item_textcontrol, .item_combobox').on('change keypress keyup paste', function() {
@@ -67,6 +85,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     });
 
     function resetItemCreateModalForm () {
+        $('#itemsModalCreateTabs').jqxTabs('select', 0);
         $('.item_textcontrol').val('');
         $('#item_category').val('');
         $('#item_subcategory').val('');
@@ -147,6 +166,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 needValidation = true;
             } else
                 $(el).css({'border-color': '#CCC'});
+            //
             return needValidation;
         };
         if (!beforeSaveInventory()) {
@@ -168,6 +188,18 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             dataRequest['CategoryUnique'] = (subcategory != null) ? (subcategory.value) : null;
             var mainPrinter = $("#mainPrinterNewItem").jqxDropDownList('getSelectedItem');
             dataRequest['MainPrinter'] = (mainPrinter != null) ? (category.value) : null;
+            //
+            var taxesByItem = [];
+            $.each($('#taxesGrid').jqxGrid('getrows'), function(i, row) {
+                if (row.taxed) {
+                    taxesByItem.push({
+                        TaxUnique: row.Unique,
+                        ItemUnique: $scope.itemInventoryID,
+                        Status: row.taxed
+                    });
+                }
+            });
+            dataRequest['taxesValues'] = (taxesByItem != '') ? JSON.stringify(taxesByItem) : '';
             // if ($scope.createOrEditItemInventory == 'create')
             //     url = SiteRoot + 'admin/MenuItem/postItemInventory';
             // else if ($scope.createOrEditItemInventory = 'edit')

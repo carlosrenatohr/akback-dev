@@ -180,7 +180,7 @@ class Item_model extends CI_Model
     public function updateTaxesByItem($taxesArray, $itemId = null) {
         $taxesArray = empty($taxesArray) ? [] : json_decode($taxesArray, true);
         foreach($taxesArray as $group) {
-            if (is_null($group['ItemUnique']) && !is_null($itemId))
+            if (!isset($group['ItemUnique']) && !is_null($itemId))
                 $group['ItemUnique'] = $itemId;
             $this->db->trans_start();
             $itemTaxFound = $this->db->get_where('item_tax',
