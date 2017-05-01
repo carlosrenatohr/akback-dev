@@ -40,7 +40,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             questionsWindow = args.instance;
         },
         resizable: false,
-        width: "65%", height: "100%",
+        width: "100%", // height: "100%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -414,7 +414,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             question_item_window = args.instance;
         },
         resizable: false,
-        width: "60%", height: "75%",
+        width: "100%", // height: "80%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -472,6 +472,10 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_ItemUnique').jqxComboBox({'selectedIndex': selectedItem});
         $('#qItem_sort').val(row.Sort);
         $('#qItem_Label').val(row.Label);
+        $('#qItem_Description').val(row.Description);
+        $('#qItem_SellPrice').val(row.sprice);
+        console.log('qq');
+        console.log(row);
         //-- Primary Button Color
         var bpc;
         if (row['ButtonPrimaryColor'])
@@ -590,8 +594,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (e.args) {
             var item = e.args.item;
             $('#qItem_Label').val(item.label);
+            $('#qItem_SellPrice').prop('disabled', false);
             $('#qItem_SellPrice').val(item.originalItem.price1);
+            $('#qItem_SellPrice').prop('disabled', true);
+            //
+            $('#qItem_Description').prop('disabled', false);
             $('#qItem_Description').val(item.originalItem.Description);
+            $('#qItem_Description').prop('disabled', true);
+            //
             $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         }
     };

@@ -17,7 +17,7 @@
 </div>
 <!-- WINDOWS WITH FORM OF ITEM QUESTIONS -->
 <jqx-window jqx-on-close="close()" jqx-settings="questionItemWindowsSettings"
-            jqx-create="questionItemWindowsSettings" class="">
+            jqx-create="questionItemWindowsSettings" class="" id="questionItemWindowsSettings">
     <div>
         Add New Question Item
     </div>
@@ -40,3 +40,9 @@
         <?php $this->load->view($qChoices_btns); ?>
     </div>
 </jqx-window>
+<style>
+    #questionItemWindowsSettings {
+        max-height: 85%!important;
+        max-width: 85%!important;
+    }
+</style>

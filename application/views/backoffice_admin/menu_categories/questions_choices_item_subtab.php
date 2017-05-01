@@ -1,14 +1,14 @@
 <div class="col-md-12 col-md-offset-0">
     <div class="row itemQuestionFormContainer">
         <div style=" width:100%;float:left;">
-            <div style="float:left; padding:2px; width:750px;">
+            <div style="float:left; padding:2px; width:100%;">
                 <div style="float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Item:
                 </div>
                 <div style="float:left; width:250px;">
                     <jqx-combo-box
                         jqx-settings="itemsCbxSettings"
-                        jqx-on-select="itemsCbxSelecting(event)"
+                        jqx-on-change="itemsCbxSelecting(event)"
                         id="qItem_ItemUnique" class="required-in">
                     </jqx-combo-box>
                 </div>
@@ -18,8 +18,8 @@
                 <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
                     Description:
                 </div>
-                <div style="float:left; width:200px;">
-                    <input id="qItem_Description" class="form-control" style="width: 120px" readonly/>
+                <div style="float:left; width:400px;">
+                    <input id="qItem_Description" class="form-control" style="width: 220px" readonly/>
                 </div>
             </div>
             <div style="width: 500px">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <br><br><br><br><br>
-            <div style="float:left; padding:2px; width:500px; ">
+            <div style="float:left; padding:2px; width:100%; ">
                 <div style=" float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Label:
                 </div>

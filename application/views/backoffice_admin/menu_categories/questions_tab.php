@@ -118,6 +118,10 @@
         </div>
     </jqx-window>
     <style>
+        #questionWindowsForm {
+            max-height: 85%!important;
+            max-width: 85%!important;
+        }
         #questionWindowForm .question-tabs {
             padding-top: 10px;
             padding-bottom: 5px;
