@@ -76,7 +76,7 @@ app.controller('menuCategoriesController', function($scope, $http, adminService,
             menuWindow = args.instance;
         },
         resizable: false,
-        width: "60%", height: "65%",
+        width: "90%", height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,

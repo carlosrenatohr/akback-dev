@@ -45,8 +45,9 @@
 
     <div style="float:left; padding:2px; width:450px;">
         <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Label Font Size</div>
-        <div style="float:left; width:180px;">
-            <jqx-drop-down-list id="menudCatlfontSize" class="styles-control">
+        <div style="float:left; width:150px;">
+            <jqx-drop-down-list id="menudCatlfontSize" class="styles-control"
+                jqx-width="150">
                 <option value="4px">4px</option>
                 <option value="6px">6px</option>
                 <option value="8px">8px</option>
@@ -108,8 +109,9 @@
 
     <div style="float:left; padding:2px; width:450px;">
         <div style="float:left; padding:8px; text-align:right; width:180px; font-weight:bold;">Label Font Size</div>
-        <div style="float:left; width:180px;">
-            <jqx-drop-down-list id="menudItemlfontSize" class="styles-control">
+        <div style="float:left; width:150px;">
+            <jqx-drop-down-list id="menudItemlfontSize" class="styles-control"
+                jqx-width="150">
                 <option value="4px">4px</option>
                 <option value="6px">6px</option>
                 <option value="8px">8px</option>
