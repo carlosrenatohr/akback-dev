@@ -455,6 +455,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_SellPrice').jqxNumberInput('val', 0);
         $('#qItem_Description').val('');
         $('#qItem_Label').val('');
+        $('#qItem_PriceLevel').val(1);
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonPrimaryColorDef').val() })));
         $scope.qibPrimaryColor = $('#qitButtonPrimaryColorDef').val();
         $('#qibPrimaryColor').jqxColorPicker('setColor', '#' + $('#qitButtonPrimaryColorDef').val());
@@ -501,8 +502,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_Label').val(row.Label);
         $('#qItem_Description').val(row.Description);
         $('#qItem_SellPrice').val(row.sprice);
-        console.log('qq');
-        console.log(row);
+        $('#qItem_PriceLevel').val(row.PriceLevel);
+        $('#qItem_PriceLevelVal').val(row.plPrice);
+
         //-- Primary Button Color
         var bpc;
         if (row['ButtonPrimaryColor'])
@@ -695,6 +697,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 'ItemUnique': $('#qItem_ItemUnique').jqxComboBox('getSelectedItem').value,
                 'Sort': $('#qItem_sort').val(),
                 'Label': $('#qItem_Label').val(),
+                'PriceLevel': $('#qItem_PriceLevel').val(),
                 //
                 'ButtonPrimaryColor': "#" + (bprimary),
                 'ButtonSecondaryColor': "#" + (bsecondary),

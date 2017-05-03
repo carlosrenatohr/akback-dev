@@ -26,15 +26,31 @@ class Menu_question_model extends CI_Model
 
     public function getQuestionItemData($id = null) {
         if (!is_null($id)) {
-            $this->db->select(
-                "{$this->question_items_table}.*,
-                item.Description, item.Item, item.Status, item.price1 as sprice");
-            if ($id != 'null') {
-                $this->db->where("{$this->question_items_table}.QuestionUnique", $id);
-            }
-            $this->db->join('item', "item.Unique = {$this->question_items_table}.ItemUnique");
-            $this->db->order_by("Sort", 'ASC');
-            $query = $this->db->get($this->question_items_table)->result_array();
+            $sql = "
+                SELECT config_questions_item.*,
+                item.\"Description\", item.\"Item\", item.\"Status\", item.\"price1\" as sprice,
+                CASE 
+                when config_questions_item.\"PriceLevel\" = 1 then item.price1 when config_questions_item.\"PriceLevel\" = 2 then item.price2
+                when config_questions_item.\"PriceLevel\" = 3 then item.price3 when config_questions_item.\"PriceLevel\" = 4 then item.price4
+                when config_questions_item.\"PriceLevel\" = 5 then item.price5 else item.price1 
+                END as \"plPrice\"
+                FROM config_questions_item 
+                JOIN item ON item.\"Unique\" = config_questions_item.\"ItemUnique\" ".
+                (($id != 'null') ?
+              ' WHERE config_questions_item."QuestionUnique" = ' . $id :
+                " ") .
+              " ORDER BY config_questions_item.\"Sort\" ASC "
+            ;
+            $query = $this->db->query($sql)->result_array();
+//            $this->db->select(
+//                "{$this->question_items_table}.*,
+//                item.Description, item.Item, item.Status, item.price1 as sprice");
+//            if ($id != 'null') {
+    //                $this->db->where("{$this->question_items_table}.QuestionUnique", $id);
+//            }
+//            $this->db->join('item', "item.Unique = {$this->question_items_table}.ItemUnique");
+//            $this->db->order_by("Sort", 'ASC');
+//            $query = $this->db->get($this->question_items_table)->result_array();
         } else
             $query = [];
         return $query;

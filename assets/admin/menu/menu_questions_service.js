@@ -165,6 +165,8 @@
                     {name: 'Description', type: 'string'},
                     {name: 'Label', type: 'string'},
                     {name: 'sprice', type: 'string'},
+                    {name: 'PriceLevel', type: 'string'},
+                    {name: 'plPrice', type: 'string'},
                     {name: 'Sort', type: 'string'},
                     {name: 'ButtonPrimaryColor', type: 'string'},
                     {name: 'ButtonSecondaryColor', type: 'string'},
