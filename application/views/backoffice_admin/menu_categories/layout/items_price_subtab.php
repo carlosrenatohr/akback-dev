@@ -62,6 +62,17 @@
                     ></jqx-number-input>
                 </div>
             </div>
+
+            <div style="float:left; padding:2px; width:650px; ">
+                <div style=" float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">Price Modify:</div>
+                <div style=" float:left; width:300px;">
+                    <jqx-number-input
+                        style='margin-top: 3px;' class="menuitem_pricesControls"
+                        id="menuitem_priceModify" name="menuitem_priceModify"
+                        jqx-settings="numberPricesSet"
+                    ></jqx-number-input>
+                </div>
+            </div>
         </div>
     </div>
 </div>

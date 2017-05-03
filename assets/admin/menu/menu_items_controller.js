@@ -983,6 +983,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'price3': parseFloat($('#menuitem_price3').val()),
                     'price4': parseFloat($('#menuitem_price4').val()),
                     'price5': parseFloat($('#menuitem_price5').val()),
+                    'PriceModify': parseFloat($('#menuitem_priceModify').val()),
                     // Extra Values
                     'GiftCard': $('#itemcontrol_gcard').val(),
                         // ($('#itemcontrol_giftcard [aria-checked="true"]').length > 0) ?
@@ -1271,6 +1272,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         $('#menuitem_price3').val(data.price3 != null ? data.price3 : 0);
                         $('#menuitem_price4').val(data.price4 != null ? data.price4 : 0);
                         $('#menuitem_price5').val(data.price5 != null ? data.price5 : 0);
+                        $('#menuitem_priceModify').val(data.PriceModify != null ? data.PriceModify : 0);
                         // Extra tab values
                         var gc;
                         // gc = $('#itemcontrol_giftcard .cbxExtraTab[data-val=' +
