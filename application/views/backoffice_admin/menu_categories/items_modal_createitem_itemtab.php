@@ -59,9 +59,10 @@
         <div class="form-group control-cont">
             <label for="inputType" class="control-label">Main Printer:</label>
             <div class="input">
-                <jqx-drop-down-list id="mainPrinterNewItem" class=""
+                <jqx-drop-down-list id="mainPrinterNewItem"
                                     jqx-settings="printerItemList"
-                                    jqx-width="240">
+                                    jqx-width="240"
+                                    jqx-on-change="onchangeMainPrinter($event)">
                 </jqx-drop-down-list>
             </div>
         </div>

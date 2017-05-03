@@ -442,7 +442,7 @@ class MenuItem extends AK_Controller
                 }
                 $this->item->updateTaxesByItem($taxes, $newid);
                 // Main Printer
-                if (isset($mainPrinter)) {
+                if (isset($mainPrinter) && $mainPrinter != null) {
                     $printerReq = ['ItemUnique' => $newid, 'PrinterUnique' => $mainPrinter];
                 } else {
                     $printerReq = [];

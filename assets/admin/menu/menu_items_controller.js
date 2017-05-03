@@ -54,7 +54,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         setTimeout(function() {
             $('#item_Description').focus();
         }, 150);
-        $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData(null);
         itemsModalCreate.open();
     });
 
@@ -84,14 +83,26 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#saveItemMBtn').prop('disabled', false);
     });
 
+    $scope.onchangeMainPrinter = function(e) {
+        $('#saveItemMBtn').prop('disabled', false);
+    }
+
     function resetItemCreateModalForm () {
         $('#itemsModalCreateTabs').jqxTabs('select', 0);
         $('.item_textcontrol').val('');
         $('#item_category').val('');
         $('#item_subcategory').val('');
         $('#mainPrinterNewItem').jqxDropDownList({selectedIndex: -1 })
-        $('#item_ListPrice, #item_Price1, #item_Cost').val(0);
-        $('#saveItemMBtn').prop('disabled', true);
+        $('#item_ListPrice').val(0);
+        $('#item_Price1').val(0);
+        $('#item_Cost').val(0);
+        // $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData();
+        $('#taxesGrid').jqxGrid({
+            'source':  inventoryExtraService.getTaxesGridData().source
+        });
+        setTimeout(function(){
+            $('#saveItemMBtn').prop('disabled', true);
+        }, 500);
     }
 
     $scope.onSelectCategoryCbx = function(e) {
@@ -157,15 +168,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             });
             //
             var el = $('#mainPrinterNewItem');
-            var mprinter = el.jqxDropDownList('selectedIndex');
-            if (mprinter < 0) {
-                $('#nitemError #notification-content')
-                    .html("Main Printer is required");
-                $scope.nitemError.apply('open');
-                $(el).css({'border-color': '#F00'});
-                needValidation = true;
-            } else
-                $(el).css({'border-color': '#CCC'});
+            // var mprinter = el.jqxDropDownList('selectedIndex');
+            // if (mprinter < 0) {
+            //     $('#nitemError #notification-content')
+            //         .html("Main Printer is required");
+            //     $scope.nitemError.apply('open');
+            //     $(el).css({'border-color': '#F00'});
+            //     needValidation = true;
+            // } else
+            //     $(el).css({'border-color': '#CCC'});
             //
             return needValidation;
         };
@@ -200,10 +211,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 }
             });
             dataRequest['taxesValues'] = (taxesByItem != '') ? JSON.stringify(taxesByItem) : '';
-            // if ($scope.createOrEditItemInventory == 'create')
-            //     url = SiteRoot + 'admin/MenuItem/postItemInventory';
-            // else if ($scope.createOrEditItemInventory = 'edit')
-            //     url = SiteRoot + 'admin/MenuItem/updateItemInventory/' + $scope.itemInventoryID;
             var url = SiteRoot + 'admin/MenuItem/simplePostItem';
             $.ajax({
                 method: 'POST',
