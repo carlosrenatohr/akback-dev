@@ -75,7 +75,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
     var uploadedFilesOriginal = [];
     $('#icount_file')
         .on('select', function(e) {
-            setTimeout(function(){
+            setTimeout(function() {
                 $('.jqx-file-upload-buttons-container').css({display: 'none'});
             }, 100);
         }).on('remove', function(e) {
@@ -95,6 +95,27 @@ angular.module("akamaiposApp", ['jqwidgets'])
             var msg = "<br>Please press Save to view the file.";
             $('#icountSuccessMsg #msg').html($scope.csvFileSelected.message + msg);
             $scope.icountSuccessMsg.apply('open');
+            //
+            $.ajax({
+                method: 'post',
+                url: SiteRoot + 'admin/ItemCount/createItemScan',
+                data: {
+                    'Comment': $('#icount_comment').val(),
+                    'Location': $('#icount_location').val(),
+                    'filename': $('#icount_file').data('filename')
+                },
+                dataType: 'text',
+                async: false,
+                success: function(resp) {
+                    resp = resp.replace(/<br\s*[\/]?>/gi, '');
+                    resp = JSON.parse(resp);
+                    $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
+                    setTimeout(function () {
+                        $('#fileLoadedTemp').hide();
+                        $('#scanFileCbx').jqxComboBox('val', resp.id);
+                    }, 250);
+                }
+            })
         } else {
             $('#fileLoadedTemp').hide();
             // $('#icountErrorMsg #msg').html($scope.csvFileSelected.message);
@@ -377,7 +398,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 'CountDate': $('#icount_countdate').val(),
                 'filters': {},
                 // Import Scan file
-                'filename': $('#icount_file').data('filename')
+                // 'filename': $('#icount_file').data('filename')
         };
             if ($scope.createOrEditIcount == 'create') {
                 var category = $('#icategoryFilter').jqxComboBox('val');
@@ -407,11 +428,12 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 url: url,
                 data: data,
                 method: 'post',
-                dataType: 'text',
+                // dataType: 'text',
+                dataType: 'json',
                 async: false,
                 success: function(response) {
-                    response = response.replace(/<br\s*[\/]?>/gi, '');
-                    response = JSON.parse(response);
+                    // response = response.replace(/<br\s*[\/]?>/gi, '');
+                    // response = JSON.parse(response);
                     if (response.status == 'success') {
                         $('#saveIcountBtn').html('Save');
                         $('#saveIcountBtn').prop('disabled', true);
@@ -433,7 +455,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             updateIcountlistGrid($scope.icountID);
                             //
                             setTimeout(function() {
-                                $('#icountTabs').jqxTabs('enableAt', 3);
+                                $('#icountTabs').jqxTabs('enableAt', 2); // Enable Import Tab
+                                $('#icountTabs').jqxTabs('enableAt', 3); // Enable Count List Tab
                                 $('#icountTabs').jqxTabs('select', 3);
                                 // if (response.scanID != '') {
                                 //     // $scope.scanFileCbxSettings = itemCountService.getScanFileSettings();
@@ -464,8 +487,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
                                 // $scope.scanFileCbxSettings = itemCountService.getScanFileSettings();
                                 $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
                                 setTimeout(function () {
-                                    console.log('updated');
-                                    console.log(response.scanID);
                                     $('#fileLoadedTemp').hide();
                                     $('#scanFileCbx').jqxComboBox('val', response.scanID);
                                 }, 250);

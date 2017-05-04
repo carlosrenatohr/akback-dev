@@ -121,6 +121,7 @@ class Item_count_model extends CI_Model
             ];
             // TODO pending to store it in case to be linked to item_count table or item_count_scan table
             $scanId = $this->createScan($scanData);
+            $this->itemMatchScan($scanId);
         }
 
         return [
@@ -463,6 +464,7 @@ class Item_count_model extends CI_Model
         $this->db->insert('item_count_scan', $data);
         $id = $this->db->insert_id();
         $this->insert_scan_list($id, $filenameToGetData);
+        $this->itemMatchScan($id);
 
         return $id;
     }
