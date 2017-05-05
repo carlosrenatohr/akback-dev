@@ -15,10 +15,10 @@
                 <div style="float:left;">
                     <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                 </div>
-                <div style="float:left; padding:8px; text-align:right; width:100px; font-weight:bold;">
+                <div style="float:left; padding:8px; text-align:right; width:90px; font-weight:bold;">
                     Description:
                 </div>
-                <div style="float:left; width:400px;">
+                <div style="float:left; width:300px;">
                     <input id="qItem_Description" class="form-control" style="width: 220px" readonly/>
                 </div>
             </div>
