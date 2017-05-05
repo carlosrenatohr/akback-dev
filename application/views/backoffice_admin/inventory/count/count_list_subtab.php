@@ -49,14 +49,15 @@
             </div>
             <div class="button-content">
                 <div style="float: right; margin-top: 15px;">
-                    <jqx-button id="ok" jqx-width="65" ng-click="closeIcount(0)"
-                                style="margin-right: 10px"
-                    >OK
-                    </jqx-button>
                     <jqx-button id="ok" jqx-width="65" ng-click="closeIcount(1)"
                                 style="margin-right: 10px"
-                    >CANCEL
+                    >NO
                     </jqx-button>
+                    <jqx-button id="ok" jqx-width="65" ng-click="closeIcount(0)"
+                                style="margin-right: 10px"
+                    >YES
+                    </jqx-button>
+
                 </div>
             </div>
         </div>
