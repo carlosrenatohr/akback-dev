@@ -45,18 +45,18 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }
     });
 
-    var icountwind;
+    // var icountwindows;
     $scope.icountWindowSettings = {
         created: function (args) {
-            icountwind = args.instance;
+            icountwindows = args.instance;
         },
         resizable: false,
-        width: "100%", height: "100%",
+        width: "100%", //height: "100%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
         showCloseButton: false
-    };
+    }
 
     /**
      * Import scan button on Count tab
@@ -285,12 +285,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#icount_location').jqxDropDownList({'disabled': false});
         $('#icount_countdate').jqxDateTimeInput({'disabled': false});
         $('#icount_countdate').jqxDateTimeInput('setDate', new Date());
-        setTimeout(function(){
-            $('#icount_comment').focus();
-            setTimeout(function(){
-                $('#saveIcountBtn').prop('disabled', true);
-            }, 50);
-        }, 50);
         // $('#icountlistGrid').hide();
         // $('#icountlistGrid').jqxGrid('showloadelement');
         // $('#icountlistGrid').jqxGrid('showloadelement');
@@ -303,8 +297,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $('#saveIcountBtn').html('Build Count List');
         $('#saveIcountBtn').show();
         $('#closeItemCountWin').jqxWindow('setTitle', 'New Item Count');
-        icountwind.setTitle('New Item Count');
-        icountwind.open();
+        setTimeout(function() {
+            $('#icount_comment').focus();
+            setTimeout(function(){
+                $('#saveIcountBtn').prop('disabled', true);
+            }, 50);
+        }, 50);
+        icountwindows.setTitle('New Item Count');
+        icountwindows.open();
     };
 
     $scope.editIcount = function(e) {
@@ -312,19 +312,6 @@ angular.module("akamaiposApp", ['jqwidgets'])
         $scope.icountID = row.Unique;
         $scope.icountStatus = row.Status;
         $scope.createOrEditIcount = 'edit';
-        // Scan import btn names
-        // TODO ng-show is hiding this control...
-        // var fimp = row.FilesImported ? row.FilesImported : '-';
-        // uploadedFilesOriginal = fimp.split(',');
-        // $('#fileLoadedTemp').html('Files loaded: <br><b>' + fimp + '</b>');
-        // $('#fileLoadedTemp').show();
-        //
-        // setTimeout(function(){
-        //     updateIcountlistGrid(row.Unique);
-        // }, 200);
-        // $('#icountlistGrid').jqxGrid('unselectallrows');
-        // $('#icountlistGrid').hide();
-        // $('#icountlistGrid').jqxGrid('showloadelement');
         //
         $('#icount_location').val(row.Location);
         $('#icount_comment').val(row.Comment);
@@ -376,8 +363,8 @@ angular.module("akamaiposApp", ['jqwidgets'])
         }).addClass('icon-trash user-del-btn');//.css('left', 0);
         var title = $('<div/>').html(' Edit Item Count | ID: '+ row.Unique + ' | ' + row.Comment).prepend(btn)
             .css('padding-left', '2em');
-        icountwind.setTitle(title);
-        icountwind.open();
+        icountwindows.setTitle(title);
+        icountwindows.open();
     };
 
     $scope.saveIcount = function(toClose) {
@@ -474,7 +461,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             }).addClass('icon-trash user-del-btn').css('left', 0);
                             var title = $('<div/>').html(' Edit Item Count | ID: '+ response.id + ' | ' + data.Comment).prepend(btn)
                                 .css('padding-left', '2em');
-                            icountwind.setTitle(title);
+                            icountwindows.setTitle(title);
                             $('#icountSuccessMsg #msg').html('Item Count created successfully! <br>' +
                                 'Item Count list was built. You can check it at count list subtab. ');
                             $scope.icountSuccessMsg.apply('open');
@@ -497,14 +484,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             }).addClass('icon-trash user-del-btn').css('left', 0);
                             var title = $('<div/>').html(' Edit Item Count | ID: '+ $scope.icountID + ' | ' + $('#icount_comment').val()).prepend(btn)
                                 .css('padding-left', '2em');
-                            icountwind.setTitle(title);
+                            icountwindows.setTitle(title);
                             $('#icountSuccessMsg #msg').html('Item Count updated successfully!');
                             $scope.icountSuccessMsg.apply('open');
                             $('#icountGrid1').jqxGrid('updatebounddata', 'filter');
                             $('#icountGrid2').jqxGrid('updatebounddata', 'filter');
                         }
                         if (toClose) {
-                            icountwind.close();
+                            icountwindows.close();
                             $('#icountTabs').jqxTabs('select', 0);
                             $('#icountTabs').jqxTabs('disableAt', 3);
                         }
@@ -527,14 +514,14 @@ angular.module("akamaiposApp", ['jqwidgets'])
         if (option == 0) {
             $scope.saveIcount(1);
         } else if (option == 1) {
-            icountwind.close();
+            icountwindows.close();
             $('#finishIcountBtn').hide();
             $('#icountTabs').jqxTabs('select', 0);
             $('#icountTabs').jqxTabs('disableAt', 3);
         } else if (option == 2) {
         } else {
             if ($('#saveIcountBtn').is(':disabled')) {
-                icountwind.close();
+                icountwindows.close();
                 $('#finishIcountBtn').hide();
                 $('#icountTabs').jqxTabs('select', 0);
                 $('#icountTabs').jqxTabs('disableAt', 3);
@@ -574,7 +561,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 success: function(response) {
                     if(response.status == 'success') {
                         updateIcountGrid();
-                        icountwind.close();
+                        icountwindows.close();
                         $('#icountTabs').jqxTabs('select', 0);
                         $('#icountTabs').jqxTabs('disableAt', 3);
                     }
@@ -583,7 +570,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 }
             });
         } else if (option == 1) {
-            icountwind.close();
+            icountwindows.close();
             $('#icountTabs').jqxTabs('select', 0);
             $('#icountTabs').jqxTabs('disableAt', 3);
         } else if (option == 2) {
@@ -627,7 +614,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                         // $('#icountGrid2').jqxGrid('render');
                         $('#icountSuccessMsg #msg').html('Item Count has been completed and Stock Adjusted.');
                         $scope.icountSuccessMsg.apply('open');
-                        // icountwind.close();
+                        // icountwindows.close();
                     }
                     else if (response.status == 'error') {}
                     else {}
@@ -637,7 +624,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
         // Window with Success msg after finalize count
         } else if (option == 2) {
             $('#finishIcountSuccessWin').jqxWindow('close');
-            icountwind.close();
+            icountwindows.close();
         } else {
             $('#mainIcountBtns').hide();
             $('#closeIcountBtns').hide();
