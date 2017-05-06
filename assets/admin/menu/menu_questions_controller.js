@@ -52,23 +52,6 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     var updateQuestionMainTable = function() {
         $('#questionMainTable').jqxGrid({
             source: questionService.getQuestionTableSettings().source
-            /*new $.jqx.dataAdapter({
-                dataType: 'json',
-                dataFields: [
-                    {name: 'Unique', type: 'int'},
-                    {name: 'QuestionName', type: 'string'},
-                    {name: 'Question', type: 'string'},
-                    {name: 'Status', type: 'number'},
-                    {name: 'Sort', type: 'number'},
-                    {name: 'Min', type: 'string'},
-                    {name: 'Max', type: 'string'},
-                    {name: 'ButtonPrimaryColor', type: 'string'},
-                    {name: 'ButtonSecondaryColor', type: 'string'},
-                    {name: 'LabelFontColor', type: 'string'},
-                    {name: 'LabelFontSize', type: 'string'}
-                ],
-                url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
-            })*/
         });
     };
     // -- Question Item table settings
@@ -179,11 +162,10 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         var lfs = (row['LabelFontSize']) ? row['LabelFontSize'] : $('#qLabelFontSizeDef').val();
         $('#qlfontSize').val(lfs);
         // $('#deleteQuestionBtn').show();Size
-        // Load Pictures TODO
+        // Load Pictures
         $scope.uploaderQ.flow.files = [];
         $scope.currentImages = [];
-        console.log(row)
-        if (row.PictureFile != null) {
+        if (row.PictureFile != null && row.PictureFile != '') {
             $scope.currentImages.push({
                 name: row.PictureFile,
                 newName: row.PictureFile,
@@ -226,6 +208,8 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qlfontSize').val($('#qLabelFontSizeDef').val());
         // $('#deleteQuestionBtn').hide();
         $('#saveQuestionBtn').prop('disabled', true);
+        $scope.uploaderQ.flow.files = [];
+        $scope.currentImages = [];
         setTimeout(function() {
             $('#qt_QuestionName').focus();
         }, 100);
@@ -314,16 +298,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 lfont = $('#qlfontColor').jqxColorPicker('getColor').hex;
             else
                 lfont = $scope.qlfontColor;
-            //
+            // Picture File
             var imgs = [];
             angular.forEach($scope.uploaderQ.flow.files, function(el, key) {
                 if ($scope.successUploadNames.indexOf(el.newName) > -1) {
                     imgs.push(el.newName);
                 }
             });
-            //todo
             var pictures = imgs.join(',');
-            console.log(pictures)
             //
             var values = {
                 'Question': $('#qt_Question').val(),
@@ -336,7 +318,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 'ButtonSecondaryColor': "#" + (bsecondary),
                 'LabelFontColor': "#" + (lfont),
                 'LabelFontSize': $('#qlfontSize').val(),
-                'PictureFile': pictures // only one
+                'PictureFile': (pictures != '') ? pictures : null // only one
             };
             var url = '';
             if ($scope.newOrEditQuestionOption == 'new') {
@@ -470,6 +452,8 @@ app.controller('menuQuestionController', function ($scope, questionService) {
 
         $('#qilfontSize').val($('#qitLabelFontSizeDef').val());
         //
+        $scope.uploaderQI.flow.files = [];
+        $scope.currentImagesQI = [];
         $('#questionschoicestabsWin').jqxTabs('select', 0);
         $('#mainQItemButtons').show();
         $('#promptToCloseQItemForm').hide();
@@ -539,7 +523,17 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         //-- Label Font Size
         var lfs = (row['LabelFontSize']) ? row['LabelFontSize'] : $('#qitLabelFontSizeDef').val();
         $('#qilfontSize').val(lfs);
-        // $('#deleteQuestionItemBtnOnQuestionTab').show();
+        // Load Pictures
+        $scope.uploaderQI.flow.files = [];
+        $scope.currentImagesQI = [];
+        if (row.PictureFile != null && row.PictureFile != '') {
+            $scope.currentImagesQI.push({
+                name: row.PictureFile,
+                newName: row.PictureFile,
+                path: row.PicturePath
+            });
+        }
+        //
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
         //
         var btn = $('<button/>', {
@@ -692,6 +686,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             else
                 lfont = $scope.qilfontColor;
             //
+            var imgs = [];
+            angular.forEach($scope.uploaderQI.flow.files, function(el, key) {
+                if ($scope.successUploadNamesQI.indexOf(el.newName) > -1) {
+                    imgs.push(el.newName);
+                }
+            });
+            var pictures = imgs.join(',');
+            //
             var data = {
                 'QuestionUnique': $scope.questionId,
                 'ItemUnique': $('#qItem_ItemUnique').jqxComboBox('getSelectedItem').value,
@@ -702,7 +704,8 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 'ButtonPrimaryColor': "#" + (bprimary),
                 'ButtonSecondaryColor': "#" + (bsecondary),
                 'LabelFontColor': "#" + (lfont),
-                'LabelFontSize': $('#qilfontSize').val()
+                'LabelFontSize': $('#qilfontSize').val(),
+                'PictureFile': (pictures != '') ? pictures : null
             };
             var url;
             if ($scope.newOrEditQItemOption == 'create') {
@@ -913,17 +916,16 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     $scope.successUploadNamesQI = [];
     $scope.currentImagesQI = [];
 
-    var mimesAvailable = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
     $scope.submitUploadQI = function (files, e, flow) {
         var type = files[0].file.type;
         if (mimesAvailable.indexOf(type) > -1) {
-            $scope.uploaderQ.flow.upload();
+            $scope.uploaderQI.flow.upload();
         } else {
-            $('#menuitemNotificationsErrorSettings #notification-content')
+            $('#qItemErrorNotif #notification-content')
                 .html('Only PNG, JPG and GIF files types allowed.');
-            $scope.menuitemNotificationsErrorSettings.apply('open');
-            var last = $scope.uploaderQ.flow.files.length - 1;
-            $scope.uploaderQ.flow.files.splice(last, 1);
+            $scope.qItemErrorNotif.apply('open');
+            var last = $scope.uploaderQI.flow.files.length - 1;
+            $scope.uploaderQI.flow.files.splice(last, 1);
         }
     };
 
@@ -932,14 +934,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         var last = $scope.uploaderQI.flow.files.length - 1;
         if (!resp.success) {
             $scope.uploaderQI.flow.files.splice(last, 1);
-            $('#menuitemNotificationsErrorSettings #notification-content')
+            $('#qItemErrorNotif #notification-content')
                 .html(resp.errors);
-            $scope.menuitemNotificationsErrorSettings.apply('open');
+            $scope.qItemErrorNotif.apply('open');
         } else {
             $scope.uploaderQI.flow.files[last]['newName'] = resp.newName;
             $scope.successUploadNamesQI.push(resp.newName);
             $scope.currentImagesQI.splice(0, 1);
-            $('#saveInventoryBtn').prop('disabled', false);
+            $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         }
     };
 
@@ -956,9 +958,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $scope.uploaderQI.flow.files.splice(i, 1);
         if (option == 1) {
             if ($scope.successUploadNamesQI.length <= 0)
-                $('#saveInventoryBtn').prop('disabled', true);
+                $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', true);
         } else if (option == 2) {
-            $('#saveInventoryBtn').prop('disabled', false);
+            $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         }
     };
 

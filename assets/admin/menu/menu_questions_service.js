@@ -92,10 +92,6 @@
                 sortable: true,
                 filterable: true,
                 showfilterrow: true,
-                // ready: function() {
-                //     $('#questionMainTable').jqxGrid('updatebounddata', 'filter');
-                // },
-                // filterMode: 'simple',
                 pageSize: pager.pageSize,
                 pagesizeoptions: pager.pagesizeoptions,
                 altRows: true,
@@ -127,7 +123,9 @@
                         {name: 'ButtonPrimaryColor', type: 'string'},
                         {name: 'ButtonSecondaryColor', type: 'string'},
                         {name: 'LabelFontColor', type: 'string'},
-                        {name: 'LabelFontSize', type: 'string'}
+                        {name: 'LabelFontSize', type: 'string'},
+                        {name: 'PictureFile', type: 'string'},
+                        {name: 'PicturePath', type: 'string'}
                     ],
                     id: 'Unique',
                     url: SiteRoot + 'admin/MenuQuestion/load_questions_items/'
@@ -141,7 +139,9 @@
                     {dataField: 'ButtonPrimaryColor', hidden: true},
                     {dataField: 'ButtonSecondaryColor', hidden: true},
                     {dataField: 'LabelFontColor', hidden: true},
-                    {dataField: 'LabelFontSize', hidden: true}
+                    {dataField: 'LabelFontSize', hidden: true},
+                    {dataField: 'PictureFile', hidden: true},
+                    {dataField: 'PicturePath', hidden: true}
                 ],
                 width: "100%",
                 columnsResize: true,
@@ -175,7 +175,9 @@
                     {name: 'ButtonPrimaryColor', type: 'string'},
                     {name: 'ButtonSecondaryColor', type: 'string'},
                     {name: 'LabelFontColor', type: 'string'},
-                    {name: 'LabelFontSize', type: 'string'}
+                    {name: 'LabelFontSize', type: 'string'},
+                    {name: 'PictureFile', type: 'string'},
+                    {name: 'PicturePath', type: 'string'}
                 ],
                 id: 'Unique',
                 url: SiteRoot + 'admin/MenuQuestion/load_questions_items/' + questionId

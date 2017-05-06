@@ -62,6 +62,9 @@ class MenuQuestion extends AK_Controller
             $row['ButtonSecondaryColor'] = (!is_null($row['ButtonPrimaryColor'])) ? $bpc[1]: null;
             $bpc = explode('#', $row['LabelFontColor']);
             $row['LabelFontColor'] = (!is_null($row['LabelFontColor'])) ? $bpc[1]: null;
+            // Picture Path
+            $path = $this->getPicturesPath(true);
+            $row['PicturePath'] = $path . DIRECTORY_SEPARATOR . $row['PictureFile'];
             $return[] = $row;
         }
         echo json_encode($return);
