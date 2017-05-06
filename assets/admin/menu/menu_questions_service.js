@@ -46,7 +46,7 @@
         var pager = adminService.loadPagerConfig(true);
         this.getQuestionTableSettings = function(flag) {
             var url = '';
-            if (flag != undefined)
+            if (flag == undefined)
                 url = SiteRoot + 'admin/MenuQuestion/load_allquestions';
             var initrowdetails = _this.getRowdetailsFromChoices();
             return {
@@ -63,7 +63,9 @@
                         {name: 'ButtonPrimaryColor', type: 'string'},
                         {name: 'ButtonSecondaryColor', type: 'string'},
                         {name: 'LabelFontColor', type: 'string'},
-                        {name: 'LabelFontSize', type: 'string'}
+                        {name: 'LabelFontSize', type: 'string'},
+                        {name: 'PictureFile', type: 'string'},
+                        {name: 'PicturePath', type: 'string'}
                     ],
                     url: url
                 }),
@@ -77,7 +79,9 @@
                     {dataField: 'ButtonPrimaryColor', hidden: true},
                     {dataField: 'ButtonSecondaryColor', hidden: true},
                     {dataField: 'LabelFontColor', hidden: true},
-                    {dataField: 'LabelFontSize', hidden: true}
+                    {dataField: 'LabelFontSize', hidden: true},
+                    {dataField: 'PictureFile', hidden: true},
+                    {dataField: 'PicturePath', hidden: true}
                 ],
                 columnsResize: true,
                 //height: 900,

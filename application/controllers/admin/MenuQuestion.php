@@ -9,10 +9,22 @@
 class MenuQuestion extends AK_Controller
 {
 
+    protected $picturesPath;
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Menu_question_model', 'question');
+    }
+
+    private function getPicturesPath($load = null) {
+        if (!is_null($load))
+            $root = base_url();
+        else
+            $root = '.';
+        $this->getSettingLocation('ItemPictureLocation', $this->session->userdata("station_number"));
+        $this->picturesPath = $root . $this->session->userdata('admin_ItemPictureLocation');
+        $sep = DIRECTORY_SEPARATOR;
+        return str_replace(['/', "\\"], [$sep, $sep], $this->picturesPath);
     }
 
     public function load_allquestions()
@@ -27,6 +39,11 @@ class MenuQuestion extends AK_Controller
             $row['ButtonSecondaryColor'] = (!is_null($row['ButtonPrimaryColor'])) ? $bpc[1]: null;
             $bpc = explode('#', $row['LabelFontColor']);
             $row['LabelFontColor'] = (!is_null($row['LabelFontColor'])) ? $bpc[1]: null;
+            // picture
+            $path = $this->getPicturesPath(true);
+            // $row['PictureFile']
+            $row['PicturePath'] = $path . DIRECTORY_SEPARATOR . $row['PictureFile'];
+
             $return[] = $row;
         }
         echo json_encode($return);

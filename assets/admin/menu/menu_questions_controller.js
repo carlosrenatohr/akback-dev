@@ -48,10 +48,11 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     };
 
     // -- Question table settings
-    $scope.questionTableSettings = questionService.getQuestionTableSettings();
+    $scope.questionTableSettings = questionService.getQuestionTableSettings(0);
     var updateQuestionMainTable = function() {
         $('#questionMainTable').jqxGrid({
-            source: new $.jqx.dataAdapter({
+            source: questionService.getQuestionTableSettings().source
+            /*new $.jqx.dataAdapter({
                 dataType: 'json',
                 dataFields: [
                     {name: 'Unique', type: 'int'},
@@ -67,7 +68,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                     {name: 'LabelFontSize', type: 'string'}
                 ],
                 url: SiteRoot + 'admin/MenuQuestion/load_allquestions'
-            })
+            })*/
         });
     };
     // -- Question Item table settings
@@ -179,18 +180,16 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qlfontSize').val(lfs);
         // $('#deleteQuestionBtn').show();Size
         // Load Pictures TODO
-        // $scope.uploaderQ.flow.files = [];
-        // $scope.currentImages = [];
-        // $.get(SiteRoot + 'admin/MenuItem/get_picturesByItem/' + row.Unique)
-        //     .then(function(response) {
-        //         angular.forEach(response.data, function(el, key) {
-        //             $scope.currentImages.push({
-        //                 name: el.File,
-        //                 newName: el.File,
-        //                 path: el.path
-        //             });
-        //         });
-        //     }, function() {});
+        $scope.uploaderQ.flow.files = [];
+        $scope.currentImages = [];
+        console.log(row)
+        if (row.PictureFile != null) {
+            $scope.currentImages.push({
+                name: row.PictureFile,
+                newName: row.PictureFile,
+                path: row.PicturePath
+            });
+        }
         //
         var btn = $('<button/>', {
             'id': 'deleteQuestionBtn'
@@ -324,7 +323,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             });
             //todo
             var pictures = imgs.join(',');
-            console.log(pictures);
+            console.log(pictures)
             //
             var values = {
                 'Question': $('#qt_Question').val(),
@@ -336,7 +335,8 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 'ButtonPrimaryColor': "#" + (bprimary),
                 'ButtonSecondaryColor': "#" + (bsecondary),
                 'LabelFontColor': "#" + (lfont),
-                'LabelFontSize': $('#qlfontSize').val()
+                'LabelFontSize': $('#qlfontSize').val(),
+                'PictureFile': pictures // only one
             };
             var url = '';
             if ($scope.newOrEditQuestionOption == 'new') {
@@ -850,7 +850,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     });
 
     /**
-     * PICTURE UPLOAD SUBTABS
+     * PICTURE UPLOAD SUBTAB
      */
     $scope.uploaderQ = {};
     $scope.successUploadNames = [];
@@ -862,9 +862,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (mimesAvailable.indexOf(type) > -1) {
             $scope.uploaderQ.flow.upload();
         } else {
-            $('#menuitemNotificationsErrorSettings #notification-content')
+            $('#questionNotificationsErrorSettings #notification-content')
                 .html('Only PNG, JPG and GIF files types allowed.');
-            $scope.menuitemNotificationsErrorSettings.apply('open');
+            $scope.questionNotificationsErrorSettings.apply('open');
             var last = $scope.uploaderQ.flow.files.length - 1;
             $scope.uploaderQ.flow.files.splice(last, 1);
         }
@@ -875,14 +875,14 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         var last = $scope.uploaderQ.flow.files.length - 1;
         if (!resp.success) {
             $scope.uploaderQ.flow.files.splice(last, 1);
-            $('#menuitemNotificationsErrorSettings #notification-content')
+            $('#questionNotificationsErrorSettings #notification-content')
                 .html(resp.errors);
-            $scope.menuitemNotificationsErrorSettings.apply('open');
+            $scope.questionNotificationsErrorSettings.apply('open');
         } else {
             $scope.uploaderQ.flow.files[last]['newName'] = resp.newName;
             $scope.successUploadNames.push(resp.newName);
             $scope.currentImages.splice(0, 1);
-            $('#saveInventoryBtn').prop('disabled', false);
+            $('#saveQuestionBtn').prop('disabled', false);
         }
     };
 
@@ -899,9 +899,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $scope.uploaderQ.flow.files.splice(i, 1);
         if (option == 1) {
             if ($scope.successUploadNames.length <= 0)
-                $('#saveInventoryBtn').prop('disabled', true);
+                $('#saveQuestionBtn').prop('disabled', true);
         } else if (option == 2) {
-            $('#saveInventoryBtn').prop('disabled', false);
+            $('#saveQuestionBtn').prop('disabled', false);
         }
     };
 
