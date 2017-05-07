@@ -1,7 +1,8 @@
-<div class="">
+<div class=""
+     style="/*width: 1200px!important;height:768px;overflow-x: scroll;*/">
     <!-- Left Tab | Menu and items picker   -->
     <div class="col-lg-2 col-lg-2-item col-md-2 col-md-2-item col-sm-2"
-        style="">
+        style="/*width: 30%!important;overflow-x: scroll;*/">
         <div style="margin: 20px 0;">
             <div class="">
                 <jqx-drop-down-list
@@ -42,7 +43,7 @@
     </div>
     <!-- Right Tab | Menu Item Grid  -->
     <div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container"
-         style="padding: 0;">
+         style="padding: 0;/*width: 70%!important;overflow-x: scroll;*/">
         <!--  ITEMS GRID -->
         <div class="row">
         <div class="col-md-12 col-sm-12 restricter-dragdrop">
@@ -60,7 +61,6 @@
             </div>
         </div>
         <?php $this->load->view($categoryName_form); ?>
-            <!--<div class="droppingTarget" style="height: 400px;width: 1200px;background-color: rebeccapurple;"></div>-->
     </div>
     <!--  Windows to save data on items   -->
     <jqx-window jqx-on-close="close()" jqx-settings="itemsMenuWindowsSetting"
@@ -131,7 +131,6 @@
                                 </span>
                                 <button type="button" id="saveItemGridBtn" ng-click="saveItemGridBtn()" class="btn btn-primary" disabled>Save</button>
                                 <button	type="button" id="" ng-click="closeItemGridWindows()" class="btn btn-warning">Close</button>
-<!--                                <button	type="button" id="deleteItemGridBtn" ng-click="deleteItemGridBtn()" class="btn btn-danger " style="overflow:auto;">Delete</button>-->
                             </div>
                         </div>
                     </div>
