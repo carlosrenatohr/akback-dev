@@ -1,5 +1,7 @@
 <div class="">
-    <div class="col-lg-2 col-lg-2-item col-md-2 col-md-2-item col-sm-2">
+    <!-- Left Tab | Menu and items picker   -->
+    <div class="col-lg-2 col-lg-2-item col-md-2 col-md-2-item col-sm-2"
+        style="">
         <div style="margin: 20px 0;">
             <div class="">
                 <jqx-drop-down-list
@@ -38,7 +40,9 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container" style="padding: 0;">
+    <!-- Right Tab | Menu Item Grid  -->
+    <div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container"
+         style="padding: 0;">
         <!--  ITEMS GRID -->
         <div class="row">
         <div class="col-md-12 col-sm-12 restricter-dragdrop">
