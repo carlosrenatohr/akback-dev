@@ -22,6 +22,7 @@
                     ></jqx-number-input>
                 </div>
             </div>
+
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:115px; font-weight:bold;">2 | Price 2:</div>
                 <div style=" float:left; width:300px;">
@@ -32,6 +33,7 @@
                     ></jqx-number-input>
                 </div>
             </div>
+
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:115px; font-weight:bold;">3 | Price 3:</div>
                 <div style=" float:left; width:300px;">
@@ -42,6 +44,7 @@
                     ></jqx-number-input>
                 </div>
             </div>
+
             <div style="float:left; padding:2px; width:650px; ">
                 <div style=" float:left; padding:8px; text-align:right; width:115px; font-weight:bold;">4 | Price 4:</div>
                 <div style=" float:left; width:300px;">
