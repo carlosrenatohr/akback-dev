@@ -81,6 +81,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     //-- Events on Item Create Modal
     $('.item_textcontrol, .item_combobox').on('change keypress keyup paste', function() {
         $('#saveItemMBtn').prop('disabled', false);
+        if ($(this).attr('id') == 'item_ListPrice') {
+            $('#item_Price1').val($(this).jqxNumberInput('val'));
+        }
     });
 
     $scope.onchangeMainPrinter = function(e) {
@@ -1365,6 +1368,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         itemWindow.open();
                     }
                 });
+            } else {
+                $('#itemsModalCreateTabs').jqxTabs('select', 0);
+                setTimeout(function() {
+                    $('#item_Description').focus();
+                }, 150);
+                itemsModalCreate.open();
             }
         })
         .on('click', function(e) {
