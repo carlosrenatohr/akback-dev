@@ -31,8 +31,11 @@ class ItemCount extends AK_Controller
                 unset($data['filters']);
             }
             // Scan filenames, empty is any was uploaded
-            $filename = $data['filename'];
-            unset($data['filename']);
+            $filename = '';
+            if (isset($data['filename'])) {
+                $filename = $data['filename'];
+                unset($data['filename']);
+            }
             //
             $ids = $this->count->create($data, $filters, $filename);
             if ($ids['countID']) {
