@@ -70,6 +70,13 @@ class MenuQuestion extends AK_Controller
         echo json_encode($return);
     }
 
+    public function getPriceByLevel() {
+        $itemUnique = ($_POST['itemUnique']) ? $_POST['itemUnique'] : null;
+        $lvl = ($_POST['level']) ? $_POST['level'] : null;
+        $result =  $this->question->getQuestionPriceByLevel($itemUnique, $lvl);
+        echo json_encode($result);
+    }
+
     public function postQuestion()
     {
         $post = $_POST;

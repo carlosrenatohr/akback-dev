@@ -30,9 +30,10 @@ class Menu_question_model extends CI_Model
                 SELECT config_questions_item.*,
                 item.\"Description\", item.\"Item\", item.\"Status\", item.\"price1\" as sprice,
                 CASE 
-                when config_questions_item.\"PriceLevel\" = 1 then item.price1 when config_questions_item.\"PriceLevel\" = 2 then item.price2
-                when config_questions_item.\"PriceLevel\" = 3 then item.price3 when config_questions_item.\"PriceLevel\" = 4 then item.price4
-                when config_questions_item.\"PriceLevel\" = 5 then item.price5 else item.price1 
+                when config_questions_item.\"PriceLevel\" = '1' then item.price1 when config_questions_item.\"PriceLevel\" = '2' then item.price2
+                when config_questions_item.\"PriceLevel\" = '3' then item.price3 when config_questions_item.\"PriceLevel\" = '4' then item.price4
+                when config_questions_item.\"PriceLevel\" = '5' then item.price5 when config_questions_item.\"PriceLevel\" = 'M' then item.\"PriceModify\"
+                else item.price1 
                 END as \"plPrice\"
                 FROM config_questions_item 
                 JOIN item ON item.\"Unique\" = config_questions_item.\"ItemUnique\" ".
@@ -42,17 +43,31 @@ class Menu_question_model extends CI_Model
               " ORDER BY config_questions_item.\"Sort\" ASC "
             ;
             $query = $this->db->query($sql)->result_array();
-//            $this->db->select(
-//                "{$this->question_items_table}.*,
-//                item.Description, item.Item, item.Status, item.price1 as sprice");
-//            if ($id != 'null') {
-    //                $this->db->where("{$this->question_items_table}.QuestionUnique", $id);
-//            }
-//            $this->db->join('item', "item.Unique = {$this->question_items_table}.ItemUnique");
-//            $this->db->order_by("Sort", 'ASC');
-//            $query = $this->db->get($this->question_items_table)->result_array();
         } else
             $query = [];
+        return $query;
+    }
+
+    public function getQuestionPriceByLevel($id = null, $lvl = null) {
+        $lvl = (string)$lvl;
+        if ($id != null) {
+            $select = "
+        select price1, price2 , price3, price4, price5, \"PriceModify\", 
+        config_questions_item.\"PriceLevel\",
+        case when \"PriceLevel\" = '1' then price1 when \"PriceLevel\" = '2' then price2
+        when \"PriceLevel\" = '3' then price3 when \"PriceLevel\" = '4' then price4
+        when \"PriceLevel\" = '5' then price5  when \"PriceLevel\" = 'M' then \"PriceModify\" 
+        else price1 end as \"Price\"
+        from item
+        join config_questions_item 
+        on item.\"Unique\" = config_questions_item.\"ItemUnique\"
+        where item.\"Unique\" = {$id}
+        order by item.\"Unique\" asc
+        "; // AND \"PriceLevel\" = '{$lvl}'
+        $query = $this->db->query($select)->row_array();
+        } else {
+            $query = [];
+        }
         return $query;
     }
 

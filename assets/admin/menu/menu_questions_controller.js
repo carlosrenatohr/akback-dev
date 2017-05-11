@@ -633,6 +633,39 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
     });
 
+    $("body").on('change', '#qItem_PriceLevel', function(e) {
+        $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
+        var level = $(this).val();
+        $.ajax({
+            url: SiteRoot + 'admin/MenuQuestion/getPriceByLevel',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                // itemUnique: $scope.qitemId
+                itemUnique: $('#qItem_ItemUnique').val(),
+                level: level
+            },
+            success: function(resp) {
+                var price;
+                if (level == '2') {
+                    price = (resp.price2);
+                } else if (level == '3') {
+                    price = (resp.price3);
+                } else if (level == '4') {
+                    price = (resp.price4);
+                }else if (level == '5') {
+                    price = (resp.price5);
+                }else if (level == 'M') {
+                    price = (resp.priceModify);
+                } else {
+                    price = (resp.price1);
+                }
+                price = (price != null) ? price : 0;
+                $('#qItem_PriceLevelVal').jqxNumberInput('val', price);
+            }
+        })
+    });
+
     setTimeout(function() {
         $('#qilfontSize').on('change', function() {
             $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
