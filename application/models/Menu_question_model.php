@@ -59,7 +59,7 @@ class Menu_question_model extends CI_Model
         when \"PriceLevel\" = '5' then price5  when \"PriceLevel\" = 'M' then \"PriceModify\" 
         else price1 end as \"Price\"
         from item
-        join config_questions_item 
+        left join config_questions_item 
         on item.\"Unique\" = config_questions_item.\"ItemUnique\"
         where item.\"Unique\" = {$id}
         order by item.\"Unique\" asc
