@@ -759,7 +759,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             var description = item.Description;
             if ($scope.itemLengthOfMenuSelected != null)
                 description = description.substring(0, $scope.itemLengthOfMenuSelected);
-            $('#editItem_label').val(description);
+            // todo
+            // $('#editItem_label').val(description);
         }
     };
 
@@ -1214,7 +1215,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             //
             var $this = $(e.currentTarget);
             if ($this.hasClass('filled')) {
-                var data = {
+                var dataToSend = {
                     'MenuCategoryUnique': $this.data('categoryId'),
                     'Column': $this.data('col'),
                     'Row': $this.data('row')
@@ -1222,7 +1223,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 $.ajax({
                     'url': SiteRoot + 'admin/MenuItem/getItemByPositions',
                     'method': 'post',
-                    'data': data,
+                    'data': dataToSend,
                     'async': false,
                     'dataType': 'json',
                     'success': function(data) {
@@ -1253,10 +1254,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
                         $('#editItem_Status').val(data['LayoutStatus']);
                         // TODO Maybe load via ajax name of item
-                        var label = (data['Label'] == '' || data['Label'] == null)
+                        var label = (data['MenuItemLabel'] == '' || data['MenuItemLabel'] == null)
                                     // ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
                                     ? ''
-                                    : data['Label'];
+                                    : data['MenuItemLabel'];
                         // Item length limit applied (Taken from menu selected)
                         if ($scope.itemLengthOfMenuSelected != null)
                             label = label.substring(0, $scope.itemLengthOfMenuSelected);

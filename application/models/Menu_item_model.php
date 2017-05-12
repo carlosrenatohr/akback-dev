@@ -48,7 +48,7 @@ class Menu_item_model extends CI_Model
     {
         $this->db->select('item.*, item.Label as ItemLabelVal, config_menu_items.Status as LayoutStatus,
                     config_menu_items.Unique as MenuItemUnique,
-                    config_menu_items.MenuCategoryUnique, config_menu_items.Label,
+                    config_menu_items.MenuCategoryUnique, config_menu_items.Label as MenuItemLabel,
                     config_menu_items.Sort, config_menu_items.Column,config_menu_items.Row,
                     config_menu_items.ButtonPrimaryColor, config_menu_items.ButtonSecondaryColor,
                     config_menu_items.LabelFontColor, config_menu_items.LabelFontSize');
