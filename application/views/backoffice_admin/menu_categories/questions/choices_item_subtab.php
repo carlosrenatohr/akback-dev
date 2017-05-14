@@ -1,11 +1,11 @@
 <div class="col-md-12 col-md-offset-0">
     <div class="row itemQuestionFormContainer">
-        <div style=" width:100%;float:left;">
+        <div style="width:100%;float:left;">
             <div style="float:left; padding:2px; width:100%;">
                 <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">
                     Item:
                 </div>
-                <div style="float:left; width:250px;">
+                <div style="float:left; width:380px; ">
                     <jqx-combo-box
                         jqx-settings="itemsCbxSettings"
                         jqx-on-change="itemsCbxSelecting(event)"
@@ -15,15 +15,18 @@
                 <div style="float:left;">
                     <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                 </div>
+            </div>
+            <br><br><br>
+            <div style="width: 100%;">
                 <!-- -->
-                <div style="float:left; padding:8px; text-align:right; width:90px; font-weight:bold;">
+                <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">
                     Description:
                 </div>
-                <div style="float:left; width:230px;">
+                <div style="float:left; width:240px;">
                     <input id="qItem_Description" class="form-control" style="width: 220px" readonly/>
                 </div>
                 <!--  -->
-                <div style="float:left; padding:8px; text-align:right; width:80px; font-weight:bold;">
+                <div style="float:left; padding:8px; text-align:right; width:60px; font-weight:bold;">
                     Price:
                 </div>
                 <div style="float:left; width:80px;">
@@ -38,7 +41,7 @@
                     ></jqx-number-input>
                 </div>
             </div>
-            <br>
+            <br><br><br>
             <div style="width: 100%;">
                 <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">
                     Price Level:
@@ -80,8 +83,6 @@
                     <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
                 </div>
             </div>
-
-<!--            <div style="float:left; padding:2px; width:500px;"></div>-->
 
             <div style=" float:left; padding:2px; width:500px; ">
                 <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">

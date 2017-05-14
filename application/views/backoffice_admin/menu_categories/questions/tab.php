@@ -129,7 +129,7 @@
     </jqx-window>
     <style>
         #questionWindowsForm {
-            max-height: 85%!important;
+            max-height: 80%!important;
             max-width: 95%!important;
         }
         #questionWindowForm .question-tabs {
