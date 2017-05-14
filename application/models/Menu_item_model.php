@@ -20,8 +20,11 @@ class Menu_item_model extends CI_Model
 
     public function getItems($sort = null, $search = null)
     {
-        $this->db->select('item.Unique, item.Description, item.Item, item.Status, item.ListPrice, item.price1,
-                        category_sub.Name as SubCategory, category_main.MainName as Category');
+        $this->db->select('item.Unique, item.Description, item.Item, item.Status,
+                           item.CategoryUnique, item.MainCategory, item.ListPrice, item.price1, item.Cost,
+                        category_sub.Name as SubCategory, category_main.MainName as Category
+                        
+                        ');
         $this->db->from($this->itemTable);
         $this->db->where(['item.Status!=' => 0]);
         $this->db->where(['item.Description!=' => '']);
@@ -39,6 +42,7 @@ class Menu_item_model extends CI_Model
         }
         $this->db->join("category_sub", "item.CategoryUnique = category_sub.Unique", 'left');
         $this->db->join("category_main", "category_main.Unique = item.MainCategory", 'left');
+//        $this->db->join("item_printer", "item_printer.ItemUnique = item.Unique", 'left');
         $this->db->order_by('item.Description', (!is_null($sort)) ? $sort : 'DESC');
         $result = $this->db->get()->result_array();
         return $result;

@@ -49,11 +49,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         isModal: true,
         showCloseButton: false
     };
+
+    $scope.ItemStateAction = null;
     $('#CreateItemBtn').on('click', function() {
+        $scope.ItemStateAction = 'new';
         $('#itemsModalCreateTabs').jqxTabs('select', 0);
         setTimeout(function() {
             $('#item_Description').focus();
         }, 150);
+        itemsModalCreate.setTitle('Create Item');
         itemsModalCreate.open();
     });
 
@@ -88,7 +92,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
 
     $scope.onchangeMainPrinter = function(e) {
         $('#saveItemMBtn').prop('disabled', false);
-    }
+    };
 
     function resetItemCreateModalForm () {
         $('#itemsModalCreateTabs').jqxTabs('select', 0);
@@ -169,18 +173,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 } else
                     $(el).css({'border-color': '#CCC'});
             });
-            //
-            var el = $('#mainPrinterNewItem');
-            // var mprinter = el.jqxDropDownList('selectedIndex');
-            // if (mprinter < 0) {
-            //     $('#nitemError #notification-content')
-            //         .html("Main Printer is required");
-            //     $scope.nitemError.apply('open');
-            //     $(el).css({'border-color': '#F00'});
-            //     needValidation = true;
-            // } else
-            //     $(el).css({'border-color': '#CCC'});
-            //
             return needValidation;
         };
         if (!beforeSaveInventory()) {
@@ -196,10 +188,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 dataRequest['Part'] = $('#item_Item').val();
             }
             //
-            var category = $('#item_category').jqxComboBox('getSelectedItem');
-            dataRequest['MainCategory'] = (category != null) ? (category.value) : null;
-            var subcategory = $('#item_subcategory').val();
-            dataRequest['CategoryUnique'] = (subcategory != null) ? (subcategory.value) : null;
+            dataRequest['MainCategory'] = $('#item_category').val();
+            dataRequest['CategoryUnique'] = $('#item_subcategory').val();
             var mainPrinter = $("#mainPrinterNewItem").jqxDropDownList('getSelectedItem');
             dataRequest['MainPrinter'] = (mainPrinter != null) ? (category.value) : null;
             //
@@ -726,11 +716,15 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'Description', type: 'string'},
                     {name: 'Item', type: 'string'},
                     {name: 'Part', type: 'string'},
-                    {name: 'Status', type: 'number'},
                     {name: 'ListPrice', type: 'string'},
                     {name: 'price1', type: 'string'},
+                    {name: 'Cost', type: 'string'},
                     {name: 'Category', type: 'string'},
                     {name: 'SubCategory', type: 'string'},
+                    {name: 'MainCategory', type: 'string'},
+                    {name: 'CategoryUnique', type: 'string'},
+                    {name: 'Status', type: 'number'},
+
                 ],
                 url: url
             }, settings
@@ -759,7 +753,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             var description = item.Description;
             if ($scope.itemLengthOfMenuSelected != null)
                 description = description.substring(0, $scope.itemLengthOfMenuSelected);
-            // todo
             // $('#editItem_label').val(description);
         }
     };
@@ -794,10 +787,39 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.itemListBoxOnSelect = function(e) {
         if (e.args != undefined) {
             var _args = e.args.item.originalItem;
-
             $scope.selectedItemInfo = _args;
         }
     };
+
+    $('#itemListboxSearch').on('change', function(e) {
+        if (e.args.item != null) {
+            var row = e.args.item.originalItem;
+            console.log(row);
+            var el = e.args.item.element;
+            $(el)
+                .unbind('dblclick')
+                .bind('dblclick', function(e) {
+                    $scope.ItemStateAction = 'edit';
+                    $('#item_Description').val(row.Description);
+                    $('#item_category').jqxComboBox('val', row.MainCategory);
+                    $('#item_Item').val(row.Item);
+                    $('#item_Part').val(row.Part);
+                    // $('#mainPrinterNewItem').val();
+                    $('#item_ListPrice').jqxNumberInput('val', row.ListPrice);
+                    $('#item_Price1').jqxNumberInput('val', row.price1);
+                    $('#item_Cost').jqxNumberInput('val', row.Cost);
+                    // Open Modal
+                    $('#itemsModalCreateTabs').jqxTabs('select', 0);
+                    setTimeout(function() {
+                        $('#item_subcategory').jqxComboBox('val', row.CategoryUnique);
+                        $('#item_Description').focus();
+                        $('#saveItemMBtn').prop('disabled', true);
+                    }, 300);
+                    itemsModalCreate.setTitle('Edit Item | ID: ' + row.Unique);
+                    itemsModalCreate.open();
+                });
+        }
+    });
 
     /**
      * -- CATEGORIES BOTTOM GRID
@@ -1253,7 +1275,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         }, 250);
 
                         $('#editItem_Status').val(data['LayoutStatus']);
-                        // TODO Maybe load via ajax name of item
                         var label = (data['MenuItemLabel'] == '' || data['MenuItemLabel'] == null)
                                     // ? $('#editItem_ItemSelected').jqxComboBox('getItem', selectedIndexItem).label
                                     ? ''
@@ -1370,10 +1391,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     }
                 });
             } else {
+                $scope.ItemStateAction = 'new';
                 $('#itemsModalCreateTabs').jqxTabs('select', 0);
                 setTimeout(function() {
                     $('#item_Description').focus();
                 }, 150);
+                itemsModalCreate.setTitle('Create Item');
                 itemsModalCreate.open();
             }
         })
