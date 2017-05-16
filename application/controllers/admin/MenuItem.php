@@ -80,6 +80,8 @@ class MenuItem extends AK_Controller
             $item['Item'] = trim($item['Item']);
             $item['Category'] = (is_null($item['Category'])) ? '-' : $item['Category'];
             $item['SubCategory'] = (is_null($item['SubCategory'])) ? '-' : $item['SubCategory'];
+            $printer = $this->menuPrinter->getPrimaryPrinterByItem($item['Unique']);
+            $item['PrimaryPrinter'] = $printer['PrimaryPrinter'];
             $new_items[] = $item;
         }
 
@@ -253,8 +255,6 @@ class MenuItem extends AK_Controller
         $status = $this->menuItem->setNewPosition($category, $element, $target);
         echo json_encode($status);
     }
-
-
 
     public function load_itemquestions($itemId = null) {
         $questions_format = [];
@@ -454,6 +454,51 @@ class MenuItem extends AK_Controller
                     'status' => 'success',
                     'id' => $newid,
                     'message' => 'Item created successfully!'
+                ];
+            } else {
+                $response = $this->dbErrorMsg();
+            }
+        } else
+            $response = $this->dbErrorMsg(0);
+
+        echo json_encode($response);
+    }
+
+    public function simpleUpdateItem($id) {
+        $data = $_POST;
+        if (!empty($data) || !is_null($_POST) || $id != null) {
+            // taxes
+            $taxes = (isset($_POST['taxesValues']) && !empty($_POST['taxesValues']))
+                ? $_POST['taxesValues']
+                : [];
+            unset($data['taxesValues']);
+            // main printer
+            $mainPrinter = $data['MainPrinter'];
+            unset($data['MainPrinter']);
+            //
+            if ($data['Part'] == '') {
+                $data['Part'] = $id;
+                $data['SupplierPart'] = $id;
+            }
+            if ($data['Item'] == '') {
+                $data['Item'] = $id;
+            }
+            $newid = $this->item->updateItem($id, $data);
+            if ($newid) {
+                $this->item->updateTaxesByItem($taxes, $id);
+                // Main Printer
+                if (isset($mainPrinter) && $mainPrinter != null) {
+                    $printerReq = ['ItemUnique' => $id, 'PrinterUnique' => $mainPrinter];
+                } else {
+                    $printerReq = [];
+                }
+                if (count($printerReq) > 0) {
+                    $this->menuPrinter->verifyPrinterByItemToCreate($printerReq);
+                }
+                $response = [
+                    'status' => 'success',
+                    'id' => $id,
+                    'message' => 'Item Updated successfully!'
                 ];
             } else {
                 $response = $this->dbErrorMsg();

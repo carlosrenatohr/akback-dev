@@ -20,7 +20,7 @@ class Menu_item_model extends CI_Model
 
     public function getItems($sort = null, $search = null)
     {
-        $this->db->select('item.Unique, item.Description, item.Item, item.Status,
+        $this->db->select('item.Unique, item.Description, item.Item, item.Part, item.Status,
                            item.CategoryUnique, item.MainCategory, item.ListPrice, item.price1, item.Cost,
                         category_sub.Name as SubCategory, category_main.MainName as Category
                         

@@ -50,9 +50,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         showCloseButton: false
     };
 
-    $scope.ItemStateAction = null;
+    $scope.ItemModalStateAction = null;
+    $scope.ItemModalID = null;
     $('#CreateItemBtn').on('click', function() {
-        $scope.ItemStateAction = 'new';
+        $scope.ItemModalStateAction = 'new';
+        $scope.ItemModalID = null;
         $('#itemsModalCreateTabs').jqxTabs('select', 0);
         setTimeout(function() {
             $('#item_Description').focus();
@@ -191,7 +193,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             dataRequest['MainCategory'] = $('#item_category').val();
             dataRequest['CategoryUnique'] = $('#item_subcategory').val();
             var mainPrinter = $("#mainPrinterNewItem").jqxDropDownList('getSelectedItem');
-            dataRequest['MainPrinter'] = (mainPrinter != null) ? (category.value) : null;
+            dataRequest['MainPrinter'] = (mainPrinter != null) ? (mainPrinter.value) : null;
             //
             var taxesByItem = [];
             $.each($('#taxesGrid').jqxGrid('getrows'), function(i, row) {
@@ -204,7 +206,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 }
             });
             dataRequest['taxesValues'] = (taxesByItem != '') ? JSON.stringify(taxesByItem) : '';
-            var url = SiteRoot + 'admin/MenuItem/simplePostItem';
+
+            if ($scope.ItemModalStateAction == 'new') {
+                var url = SiteRoot + 'admin/MenuItem/simplePostItem';
+            } else if ($scope.ItemModalStateAction == 'edit') {
+                var url = SiteRoot + 'admin/MenuItem/simpleUpdateItem/' + $scope.ItemModalID;
+            }
             $.ajax({
                 method: 'POST',
                 url: url,
@@ -213,59 +220,67 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 async: false,
                 success: function(data) {
                     if (data.status == 'success') {
-                        searchActionOnItemList($('#item_Description').val()); // $('#ListBoxSearchInput').val()
-                        $('#ListBoxSearchInput').val($('#item_Description').val());
-                        // IF SELECTED CELL ON GRID IS EMPTY
-                        // FILL IT WITH NEW ITEM CREATED ON MODAL
-                        var selectedItemOnGrid = $('.selectedItemOnGrid');
-                        if (selectedItemOnGrid[0] != undefined) {
-                            if (!selectedItemOnGrid.hasClass('filled')) {
-                                var newDataIt = {
-                                    'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
-                                    'ItemUnique': data.id, // Item Unique
-                                    'Label': $('#item_Description').val(), // description
-                                    'Row': selectedItemOnGrid.data('row'),
-                                    'Column': selectedItemOnGrid.data('col')
-                                };
-                                $.ajax({
-                                    'url': SiteRoot + 'admin/MenuItem/postMenuItems',
-                                    'method': 'post',
-                                    'data': newDataIt,
-                                    'dataType': 'json',
-                                    'success': function (data) {
-                                        var $this = selectedItemOnGrid;
-                                        if (data.status == 'success') {
-                                            $this.html(
-                                                "<div class='priceContent'>"+ $('#item_Price1').val() +
-                                                "</div>" +
-                                                "<div class='labelContent'>"+ newDataIt.Label +
-                                                "</div>"
-                                            );
-                                            $this.addClass('filled');
-                                            $this.addClass('itemOnGrid');
-                                            $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
-                                            $this.css('background-color', '#7C2F3F');
-                                            draggableEvents();
-                                            setTimeout(function() {
-                                                resetItemCreateModalForm();
-                                                angular.element('.category-cell-grid.clicked').triggerHandler('click');
-                                            }, 100);
-                                        } else if (data.status == 'error') {
-                                            $.each(data.message, function(i, value){
-                                                $('#notification-window .text-content').html('' +
-                                                    'Cell is already occupied. To use, please move or delete item.'
+                        if ($scope.ItemModalStateAction == 'new') {
+                            searchActionOnItemList($('#item_Description').val()); // $('#ListBoxSearchInput').val()
+                            $('#ListBoxSearchInput').val($('#item_Description').val());
+                            // IF SELECTED CELL ON GRID IS EMPTY
+                            // FILL IT WITH NEW ITEM CREATED ON MODAL
+                            var selectedItemOnGrid = $('.selectedItemOnGrid');
+                            if (selectedItemOnGrid[0] != undefined) {
+                                if (!selectedItemOnGrid.hasClass('filled')) {
+                                    var newDataIt = {
+                                        'MenuCategoryUnique': $scope.selectedCategoryInfo.Unique,
+                                        'ItemUnique': data.id, // Item Unique
+                                        'Label': $('#item_Description').val(), // description
+                                        'Row': selectedItemOnGrid.data('row'),
+                                        'Column': selectedItemOnGrid.data('col')
+                                    };
+                                    $.ajax({
+                                        'url': SiteRoot + 'admin/MenuItem/postMenuItems',
+                                        'method': 'post',
+                                        'data': newDataIt,
+                                        'dataType': 'json',
+                                        'success': function (data) {
+                                            var $this = selectedItemOnGrid;
+                                            if (data.status == 'success') {
+                                                $this.html(
+                                                    "<div class='priceContent'>"+ $('#item_Price1').val() +
+                                                    "</div>" +
+                                                    "<div class='labelContent'>"+ newDataIt.Label +
+                                                    "</div>"
                                                 );
-                                                $('#notification-window').jqxWindow('open');
-                                                return;
-                                            });
-                                        } else {
-                                            console.error('error from ajax');
+                                                $this.addClass('filled');
+                                                $this.addClass('itemOnGrid');
+                                                $this.data('categoryId', $scope.selectedCategoryInfo.Unique);
+                                                $this.css('background-color', '#7C2F3F');
+                                                draggableEvents();
+                                                setTimeout(function() {
+                                                    resetItemCreateModalForm();
+                                                    angular.element('.category-cell-grid.clicked').triggerHandler('click');
+                                                }, 100);
+                                            } else if (data.status == 'error') {
+                                                $.each(data.message, function(i, value){
+                                                    $('#notification-window .text-content').html('' +
+                                                        'Cell is already occupied. To use, please move or delete item.'
+                                                    );
+                                                    $('#notification-window').jqxWindow('open');
+                                                    return;
+                                                });
+                                            } else {
+                                                console.error('error from ajax');
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
+                            } else {
+                                resetItemCreateModalForm();
                             }
-                        } else {
-                            resetItemCreateModalForm();
+
+                        } else if ($scope.ItemModalStateAction == 'edit') {
+                            // todo
+                            console.log('item updated');
+                            console.log(data)
+                            searchActionOnItemList($('#item_Description').val())
                         }
                         //
                         itemsModalCreate.close();
@@ -567,43 +582,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     menuCategoriesService.updateColorControl('#' + category['LabelFontColor'], 'mitclfontColor', $scope);
                     var lfs = (category['LabelFontSize']) ? category['LabelFontSize'] : '12px';
                     $('#mitclfontSize').val(lfs);
-                    // var bpc;
-                    // if (category['ButtonPrimaryColor'])
-                    //     bpc = category['ButtonPrimaryColor'];
-                    // else
-                    //     bpc = $('#catButtonPrimaryColorDef').val();
-                    // $('#ddb_mitcbPrimaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // if ($('#mitcbPrimaryColor').jqxColorPicker('getColor') == undefined)
-                    //     $scope.mitcbPrimaryColor = bpc;
-                    // else
-                    //     $('#mitcbPrimaryColor').jqxColorPicker('setColor', '#' + bpc);
-                    // // $scope.ddb_mitcbPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // // -- SECONDARY BUTTON
-                    // if (category['ButtonSecondaryColor'])
-                    //     bpc = category['ButtonSecondaryColor'];
-                    // else
-                    //     bpc = $('#catButtonSecondaryColorDef').val();
-                    // $('#ddb_mitcbSecondaryColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // // $scope.ddb_mitbSecondaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // if ($('#mitcbSecondaryColor').jqxColorPicker('getColor') == undefined)
-                    //     $scope.mitcbSecondaryColor = bpc;
-                    // else
-                    //     $('#mitcbSecondaryColor').jqxColorPicker('setColor', '#' + bpc);
-                    // // -- LABEL FONT
-                    // if (category['LabelFontColor'])
-                    //     bpc = category['LabelFontColor'];
-                    // else
-                    //     bpc = $('#catLabelFontColorDef').val();
-                    // // $scope.ddb_mitlfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // $('#ddb_mitclfontColor').jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: bpc })));
-                    // if ($('#mitclfontColor').jqxColorPicker('getColor') == undefined)
-                    //     $scope.mitclfontColor = bpc;
-                    // else
-                    //     $('#mitclfontColor').jqxColorPicker('setColor', '#' + bpc);
-                    // // -- LABEL SIZE
-                    // var lfs = (category['LabelFontSize']) ? category['LabelFontSize'] : $('#catLabelFontSizeDef').val();
-                    // $('#mitclfontSize').val(lfs);
-
                     $('#savemitcemOneCategoryBtn').prop('disabled', true);
                     categNameWind.open();
                 }
@@ -723,8 +701,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'SubCategory', type: 'string'},
                     {name: 'MainCategory', type: 'string'},
                     {name: 'CategoryUnique', type: 'string'},
-                    {name: 'Status', type: 'number'},
-
+                    {name: 'PrimaryPrinter', type: 'string'},
+                    {name: 'Status', type: 'number'}
                 ],
                 url: url
             }, settings
@@ -799,12 +777,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             $(el)
                 .unbind('dblclick')
                 .bind('dblclick', function(e) {
-                    $scope.ItemStateAction = 'edit';
+                    $scope.ItemModalStateAction = 'edit';
+                    $scope.ItemModalID = row.Unique;
                     $('#item_Description').val(row.Description);
                     $('#item_category').jqxComboBox('val', row.MainCategory);
                     $('#item_Item').val(row.Item);
                     $('#item_Part').val(row.Part);
-                    // $('#mainPrinterNewItem').val();
+                    $('#mainPrinterNewItem').val(row.PrimaryPrinter);
                     $('#item_ListPrice').jqxNumberInput('val', row.ListPrice);
                     $('#item_Price1').jqxNumberInput('val', row.price1);
                     $('#item_Cost').jqxNumberInput('val', row.Cost);
@@ -1391,7 +1370,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     }
                 });
             } else {
-                $scope.ItemStateAction = 'new';
+                $scope.ItemModalStateAction = 'new';
+                $scope.ItemModalID = null;
                 $('#itemsModalCreateTabs').jqxTabs('select', 0);
                 setTimeout(function() {
                     $('#item_Description').focus();
