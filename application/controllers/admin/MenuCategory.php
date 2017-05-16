@@ -67,74 +67,70 @@ class MenuCategory extends AK_Controller
 
     protected function initDefaultSession() {
         $st = $this->session->userdata("station_number");
-        $this->getSettingLocation('DefaultQuestionItemLabelFontSize', $st);
-        $this->getSettingLocation("DefaultQuestionItemLabelFontColor", $st);
-        $this->getSettingLocation("DefaultQuestionItemButtonSecondaryColor", $st);
-        $this->getSettingLocation("DefaultQuestionItemButtonPrimaryColor", $st);
-        $this->getSettingLocation("DefaultQuestionLabelFontSize", $st);
-        $this->getSettingLocation("DefaultQuestionLabelFontColor", $st);
-        $this->getSettingLocation("DefaultQuestionButtonSecondaryColor", $st);
-        $this->getSettingLocation("DefaultQuestionButtonPrimaryColor", $st);
-        $this->getSettingLocation("DefaultCategoryButtonLabelFontSize", $st);
-        $this->getSettingLocation("DefaultCategoryButtonLabelFontColor", $st);
-        $this->getSettingLocation("DefaultCategoryButtonSecondaryColor", $st);
-        $this->getSettingLocation("DefaultCategoryButtonPrimaryColor", $st);
-        $this->getSettingLocation("DefaultCategoryButtonLabelFontSize", $st);
-        $this->getSettingLocation("DefaultCategoryButtonLabelFontColor", $st);
-        $this->getSettingLocation("DefaultCategoryButtonSecondaryColor", $st);
-        $this->getSettingLocation("DefaultCategoryButtonPrimaryColor", $st);
-        $this->getSettingLocation("DefaultItemButtonLabelFontSize", $st);
-        $this->getSettingLocation("DefaultItemButtonLabelFontColor", $st);
-        $this->getSettingLocation("DefaultItemButtonSecondaryColor", $st);
-        $this->getSettingLocation("DefaultItemButtonPrimaryColor", $st);
+//        $this->getSettingLocation('DefaultQuestionItemLabelFontSize', $st);
+//        $this->getSettingLocation("DefaultQuestionItemLabelFontColor", $st);
+//        $this->getSettingLocation("DefaultQuestionItemButtonSecondaryColor", $st);
+//        $this->getSettingLocation("DefaultQuestionItemButtonPrimaryColor", $st);
+//        $this->getSettingLocation("DefaultQuestionLabelFontSize", $st);
+//        $this->getSettingLocation("DefaultQuestionLabelFontColor", $st);
+//        $this->getSettingLocation("DefaultQuestionButtonSecondaryColor", $st);
+//        $this->getSettingLocation("DefaultQuestionButtonPrimaryColor", $st);
+//        $this->getSettingLocation("DefaultCategoryButtonLabelFontSize", $st);
+//        $this->getSettingLocation("DefaultCategoryButtonLabelFontColor", $st);
+//        $this->getSettingLocation("DefaultCategoryButtonSecondaryColor", $st);
+//        $this->getSettingLocation("DefaultCategoryButtonPrimaryColor", $st);
+//        $this->getSettingLocation("DefaultItemButtonLabelFontSize", $st);
+//        $this->getSettingLocation("DefaultItemButtonLabelFontColor", $st);
+//        $this->getSettingLocation("DefaultItemButtonSecondaryColor", $st);
+//        $this->getSettingLocation("DefaultItemButtonPrimaryColor", $st);
         //
         $data = [];
         $data['decimalsPrice'] = (int)$this->session->userdata("DecimalsPrice");
         $data['decimalsQuantity'] = (int)$this->session->userdata("DecimalsQuantity");
         //
-        $qitBPC = $this->session->userdata("admin_DefaultQuestionItemButtonPrimaryColor");
-        $qitBPC = explode('#', $qitBPC);
-        $data['qitButtonPrimaryColor'] = $qitBPC[1];
-        $qitBSC = $this->session->userdata("admin_DefaultQuestionItemButtonSecondaryColor");
-        $qitBSC = explode('#', $qitBSC);
-        $data['qitButtonSecondaryColor'] = $qitBSC[1];
-        $qitLFC = $this->session->userdata("admin_DefaultQuestionItemLabelFontColor");
-        $qitLFC = explode('#', $qitLFC);
-        $data['qitLabelFontColor'] = $qitLFC[1];
-        $data['qitLabelFontSize'] = $this->session->userdata("admin_DefaultQuestionItemLabelFontSize");
-        //
-        $qBPC = $this->session->userdata("admin_DefaultQuestionButtonPrimaryColor");
-        $qBPC = explode('#', $qBPC);
-        $data['qButtonPrimaryColor'] = $qBPC[1];
-        $qBSC = $this->session->userdata("admin_DefaultQuestionButtonSecondaryColor");
-        $qBSC = explode('#', $qBSC);
-        $data['qButtonSecondaryColor'] = $qBSC[1];
-        $qLFC = $this->session->userdata("admin_DefaultQuestionLabelFontColor");
-        $qLFC = explode('#', $qLFC);
-        $data['qLabelFontColor'] = $qLFC[1];
-        $data['qLabelFont'] = $this->session->userdata("admin_DefaultQuestionLabelFontSize");
-        //
-        $catBPC = $this->session->userdata("admin_DefaultCategoryButtonPrimaryColor");
-        $catBPC = explode('#', $catBPC);
-        $data['catButtonPrimaryColor'] = $catBPC[1];
-        $catBSC = $this->session->userdata("admin_DefaultCategoryButtonSecondaryColor");
-        $catBSC = explode('#', $catBSC);
-        $data['catButtonSecondaryColor'] = $catBSC[1];
-        $catLFC = $this->session->userdata("admin_DefaultCategoryButtonLabelFontColor");
-        $catLFC = explode('#', $catLFC);
-        $data['catLabelFontColor'] = $catLFC[1];
-        $data['catLabelFontSize'] = $this->session->userdata("admin_DefaultCategoryButtonLabelFontSize");
-        //
-        $mitBPC = $this->session->userdata("admin_DefaultItemButtonPrimaryColor");
-        $mitBPC = explode('#', $mitBPC);
-        $data['mitButtonPrimaryColor'] = $mitBPC[1];
-        $mitBSC = $this->session->userdata("admin_DefaultItemButtonSecondaryColor");
-        $mitBSC = explode('#', $mitBSC);
-        $data['mitButtonSecondaryColor'] = $mitBSC[1];
-        $mitLSC = $this->session->userdata("admin_DefaultItemButtonLabelFontColor");
-        $mitLSC = explode('#', $mitLSC);
-        $data['mitLabelFontColor'] = $mitLSC[1];
-        $data['mitLabelFontSize'] = $this->session->userdata("admin_DefaultItemButtonLabelFontSize");
+//        $qitBPC = $this->session->userdata("admin_DefaultQuestionItemButtonPrimaryColor");
+//        $qitBPC = explode('#', $qitBPC);
+//        $data['qitButtonPrimaryColor'] = $qitBPC[1];
+//        $qitBSC = $this->session->userdata("admin_DefaultQuestionItemButtonSecondaryColor");
+//        $qitBSC = explode('#', $qitBSC);
+//        $data['qitButtonSecondaryColor'] = $qitBSC[1];
+//        $qitLFC = $this->session->userdata("admin_DefaultQuestionItemLabelFontColor");
+//        $qitLFC = explode('#', $qitLFC);
+//        $data['qitLabelFontColor'] = $qitLFC[1];
+//        $data['qitLabelFontSize'] = $this->session->userdata("admin_DefaultQuestionItemLabelFontSize");
+//        //
+//        $qBPC = $this->session->userdata("admin_DefaultQuestionButtonPrimaryColor");
+//        $qBPC = explode('#', $qBPC);
+//        $data['qButtonPrimaryColor'] = $qBPC[1];
+//        $qBSC = $this->session->userdata("admin_DefaultQuestionButtonSecondaryColor");
+//        $qBSC = explode('#', $qBSC);
+//        $data['qButtonSecondaryColor'] = $qBSC[1];
+//        $qLFC = $this->session->userdata("admin_DefaultQuestionLabelFontColor");
+//        $qLFC = explode('#', $qLFC);
+//        $data['qLabelFontColor'] = $qLFC[1];
+//        $data['qLabelFont'] = $this->session->userdata("admin_DefaultQuestionLabelFontSize");
+//        //
+//        $catBPC = $this->session->userdata("admin_DefaultCategoryButtonPrimaryColor");
+//        $catBPC = explode('#', $catBPC);
+//        $data['catButtonPrimaryColor'] = $catBPC[1];
+//        $catBSC = $this->session->userdata("admin_DefaultCategoryButtonSecondaryColor");
+//        $catBSC = explode('#', $catBSC);
+//        $data['catButtonSecondaryColor'] = $catBSC[1];
+//        $catLFC = $this->session->userdata("admin_DefaultCategoryButtonLabelFontColor");
+//        $catLFC = explode('#', $catLFC);
+//        $data['catLabelFontColor'] = $catLFC[1];
+//        $data['catLabelFontSize'] = $this->session->userdata("admin_DefaultCategoryButtonLabelFontSize");
+//        //
+//        $mitBPC = $this->session->userdata("admin_DefaultItemButtonPrimaryColor");
+//        $mitBPC = explode('#', $mitBPC);
+//        $data['mitButtonPrimaryColor'] = $mitBPC[1];
+//        $mitBSC = $this->session->userdata("admin_DefaultItemButtonSecondaryColor");
+//        $mitBSC = explode('#', $mitBSC);
+//        $data['mitButtonSecondaryColor'] = $mitBSC[1];
+//        $mitLSC = $this->session->userdata("admin_DefaultItemButtonLabelFontColor");
+//        $mitLSC = explode('#', $mitLSC);
+//        $data['mitLabelFontColor'] = $mitLSC[1];
+//        $data['mitLabelFontSize'] = $this->session->userdata("admin_DefaultItemButtonLabelFontSize");
         return $data;
     }
 

@@ -83,24 +83,24 @@
 <!--    <input type="hidden" value="--><?php //echo $decimalsPrice;?><!--" id="mitButtonPrimaryColor"/>-->
     <input type="hidden" value="<?php echo $decimalsQuantity;?>" id="decimalsQuantity "/>
     <!-- Styles Default Settings  -->
-    <input type="hidden" value="<?php echo $qButtonPrimaryColor;?>" id="qButtonPrimaryColorDef"/>
-    <input type="hidden" value="<?php echo $qButtonSecondaryColor;?>" id="qButtonSecondaryColorDef"/>
-    <input type="hidden" value="<?php echo $qLabelFontColor;?>" id="qLabelFontColorDef"/>
-    <input type="hidden" value="<?php echo $qLabelFont;?>" id="qLabelFontSizeDef"/>
-
-    <input type="hidden" value="<?php echo $qitButtonPrimaryColor;?>" id="qitButtonPrimaryColorDef"/>
-    <input type="hidden" value="<?php echo $qitButtonSecondaryColor;?>" id="qitButtonSecondaryColorDef"/>
-    <input type="hidden" value="<?php echo $qitLabelFontColor;?>" id="qitLabelFontColorDef"/>
-    <input type="hidden" value="<?php echo $qitLabelFontSize;?>" id="qitLabelFontSizeDef"/>
-
-    <input type="hidden" value="<?php echo $catButtonPrimaryColor;?>" id="catButtonPrimaryColorDef"/>
-    <input type="hidden" value="<?php echo $catButtonSecondaryColor;?>" id="catButtonSecondaryColorDef"/>
-    <input type="hidden" value="<?php echo $catLabelFontColor;?>" id="catLabelFontColorDef"/>
-    <input type="hidden" value="<?php echo $catLabelFontSize;?>" id="catLabelFontSizeDef"/>
-
-    <input type="hidden" value="<?php echo $mitButtonPrimaryColor;?>" id="mitButtonPrimaryColorDef"/>
-    <input type="hidden" value="<?php echo $mitButtonSecondaryColor;?>" id="mitButtonSecondaryColorDef"/>
-    <input type="hidden" value="<?php echo $mitLabelFontColor;?>" id="mitLabelFontColorDef"/>
-    <input type="hidden" value="<?php echo $mitLabelFontSize;?>" id="mitLabelFontSizeDef"/>
+<!--    <input type="hidden" value="--><?php //echo $qButtonPrimaryColor;?><!--" id="qButtonPrimaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $qButtonSecondaryColor;?><!--" id="qButtonSecondaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $qLabelFontColor;?><!--" id="qLabelFontColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $qLabelFont;?><!--" id="qLabelFontSizeDef"/>-->
+<!---->
+<!--    <input type="hidden" value="--><?php //echo $qitButtonPrimaryColor;?><!--" id="qitButtonPrimaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $qitButtonSecondaryColor;?><!--" id="qitButtonSecondaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $qitLabelFontColor;?><!--" id="qitLabelFontColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $qitLabelFontSize;?><!--" id="qitLabelFontSizeDef"/>-->
+<!---->
+<!--    <input type="hidden" value="--><?php //echo $catButtonPrimaryColor;?><!--" id="catButtonPrimaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $catButtonSecondaryColor;?><!--" id="catButtonSecondaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $catLabelFontColor;?><!--" id="catLabelFontColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $catLabelFontSize;?><!--" id="catLabelFontSizeDef"/>-->
+<!---->
+<!--    <input type="hidden" value="--><?php //echo $mitButtonPrimaryColor;?><!--" id="mitButtonPrimaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $mitButtonSecondaryColor;?><!--" id="mitButtonSecondaryColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $mitLabelFontColor;?><!--" id="mitLabelFontColorDef"/>-->
+<!--    <input type="hidden" value="--><?php //echo $mitLabelFontSize;?><!--" id="mitLabelFontSizeDef"/>-->
 
 </div>
