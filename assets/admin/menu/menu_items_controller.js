@@ -221,8 +221,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 success: function(data) {
                     if (data.status == 'success') {
                         if ($scope.ItemModalStateAction == 'new') {
-                            searchActionOnItemList($('#item_Description').val()); // $('#ListBoxSearchInput').val()
-                            $('#ListBoxSearchInput').val($('#item_Description').val());
                             // IF SELECTED CELL ON GRID IS EMPTY
                             // FILL IT WITH NEW ITEM CREATED ON MODAL
                             var selectedItemOnGrid = $('.selectedItemOnGrid');
@@ -277,12 +275,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                             }
 
                         } else if ($scope.ItemModalStateAction == 'edit') {
-                            // todo
                             console.log('item updated');
-                            console.log(data)
-                            searchActionOnItemList($('#item_Description').val())
+                            // console.log(data)
                         }
                         //
+                        searchActionOnItemList($('#item_Description').val()); // $('#ListBoxSearchInput').val()
+                        $('#ListBoxSearchInput').val($('#item_Description').val());
+                        resetItemCreateModalForm();
                         itemsModalCreate.close();
                     } else if (data.status == 'error') {
                         $('#nitemError #notification-content')
@@ -702,6 +701,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'MainCategory', type: 'string'},
                     {name: 'CategoryUnique', type: 'string'},
                     {name: 'PrimaryPrinter', type: 'string'},
+                    // {name: 'taxes', type: 'string'},
                     {name: 'Status', type: 'number'}
                 ],
                 url: url
@@ -790,11 +790,14 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     // Open Modal
                     $('#itemsModalCreateTabs').jqxTabs('select', 0);
                     setTimeout(function() {
+                        $('#taxesGrid').jqxGrid({
+                            'source':  inventoryExtraService.getTaxesGridData(row.Unique).source
+                        });
                         $('#item_subcategory').jqxComboBox('val', row.CategoryUnique);
                         $('#item_Description').focus();
                         $('#saveItemMBtn').prop('disabled', true);
                     }, 300);
-                    itemsModalCreate.setTitle('Edit Item | ID: ' + row.Unique);
+                    itemsModalCreate.setTitle('Edit Item ID: ' + row.Unique + ' | Item: ' + row.Item);
                     itemsModalCreate.open();
                 });
         }

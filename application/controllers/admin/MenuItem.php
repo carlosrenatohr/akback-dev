@@ -82,6 +82,7 @@ class MenuItem extends AK_Controller
             $item['SubCategory'] = (is_null($item['SubCategory'])) ? '-' : $item['SubCategory'];
             $printer = $this->menuPrinter->getPrimaryPrinterByItem($item['Unique']);
             $item['PrimaryPrinter'] = $printer['PrimaryPrinter'];
+//            $item['taxes'] = ;
             $new_items[] = $item;
         }
 
