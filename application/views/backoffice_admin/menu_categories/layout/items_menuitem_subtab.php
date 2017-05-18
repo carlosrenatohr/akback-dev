@@ -1,7 +1,7 @@
 <div class="col-md-12 col-md-offset-0">
     <div class="row editItemFormContainer">
         <div style=" width:100%;float:left;margin: 15px 0;">
-            <div style="float:left; padding:2px; width:650px;">
+            <div style="float:left; padding:2px; width:100%;">
                 <div style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Item:</div>
                 <div style="float:left; width:300px;">
                     <jqx-combo-box
@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
+            <div style="float:left; padding:2px; width:100%; ">
                 <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Description:</div>
                 <div style=" float:left; width:300px;">
                     <input type="text" class="form-control menuitem_extraControls" id="itemcontrol_description"
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
+            <div style="float:left; padding:2px; width:100%; ">
                 <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Label:</div>
                 <div style=" float:left; width:300px;">
                     <input type="text" class="form-control required-field" id="editItem_label"
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
+            <div style="float:left; padding:2px; width:100%; ">
                 <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Main Printer:</div>
                 <div style=" float:left; width:300px;">
                     <jqx-drop-down-list id="mainPrinterSelect" class=""
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
+            <div style="float:left; padding:2px; width:100%; ">
                 <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">
                     List Price:
                 </div>
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
+            <div style="float:left; padding:2px; width:100%; ">
                 <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">
                     Sell Price:
                 </div>

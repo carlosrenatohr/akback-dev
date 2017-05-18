@@ -2,22 +2,10 @@
     <div class="row">
         <div style=" width:100%;float:left;margin: 15px 0;">
 
-            <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Gift Card?</div>
+            <div style="float:left; padding:2px; width:100%; ">
+                <div style=" float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Gift Card?</div>
                 <div style=" float:left; width:120px;">
                     <div id="itemcontrol_giftcard" style="margin-top: 5px;">
-<!--                        <jqx-radio-button jqx-settings="checkboxExtraSet"-->
-<!--                                          jqx-group-name="'item_gift'"-->
-<!--                                          data-val="1"-->
-<!--                                          class="cbxExtraTab">-->
-<!--                            <span class="text-rb">Yes</span>-->
-<!--                        </jqx-radio-button>-->
-<!--                        <jqx-radio-button jqx-settings="checkboxExtraSet"-->
-<!--                                          jqx-group-name="'item_gift'"-->
-<!--                                          data-val="0"-->
-<!--                                          class="cbxExtraTab">-->
-<!--                            <span class="text-rb">No</span>-->
-<!--                        </jqx-radio-button>-->
                         <jqx-drop-down-list id="itemcontrol_gcard" class="menuitem_extraControls"
                                             jqx-width="100">
                             <option value="0">No</option>
@@ -46,8 +34,8 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Ask for Price?</div>
+            <div style="float:left; padding:2px; width:100%; ">
+                <div style=" float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Ask for Price?</div>
                 <div style=" float:left; width:120px;">
                     <div id="itemcontrol_promptprice"
                          style="display: inline-block;margin: -8px 0 0 0;">
@@ -85,8 +73,8 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">EBT?</div>
+            <div style="float:left; padding:2px; width:100%; ">
+                <div style=" float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">EBT?</div>
                 <div style=" float:left; width:300px;">
                     <div id="itemcontrol_EBT"
                          style="display: inline-block;margin: -8px 0 0 0;/*margin: -8px 0 0 -10px*/">
@@ -105,8 +93,8 @@
                     </div>
                 </div>
             </div>
-            <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Points</div>
+            <div style="float:left; padding:2px; width:100%; ">
+                <div style=" float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Points</div>
                 <div style=" float:left; width:120px;">
                     <jqx-number-input
                         style='margin-top: 3px;' class="menuitem_extraControls"
@@ -125,8 +113,8 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
-                <div style="float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Countdown</div>
+            <div style="float:left; padding:2px; width:100%; ">
+                <div style="float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Countdown</div>
                 <div style="float:left; width:120px;">
                     <jqx-number-input
                         style='margin-top: 3px;' class="menuitem_extraControls"
@@ -136,8 +124,8 @@
                 </div>
             </div>
 
-            <div style="float:left; padding:2px; width:650px; ">
-                <div style=" float:left; padding:8px; text-align:right; width:220px; font-weight:bold;">Label</div>
+            <div style="float:left; padding:2px; width:100%; ">
+                <div style="float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Label</div>
                 <div id="iteminventory_labelpos">
                     <jqx-drop-down-list id="itemcontrol_itemlabelpos" class="menuitem_extraControls"
                                         jqx-width="100" style="margin-top: 10px;">

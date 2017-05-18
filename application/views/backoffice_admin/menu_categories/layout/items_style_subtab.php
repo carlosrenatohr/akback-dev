@@ -1,6 +1,58 @@
 <div id="styling_menu_items_section">
 
-    <div style="float:left; padding:2px; width:450px;">
+    <!--  LAYOUT CONTROLS  -->
+    <div style="float:left; padding:2px; width:100%; ">
+        <!-- Row -->
+        <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Row:</div>
+        <div style="float:left; width:52px;">
+            <jqx-number-input
+                    style='margin-top: 3px;' class="form-control required-field"
+                    id="editItem_Row" name="editItem_Row"
+                    jqx-settings="numberMenuItem" jqx-min="0" jqx-max="99999"
+                    jqx-value="1" jqx-digits="5"
+            ></jqx-number-input>
+        </div>
+        <div style="float:left;">
+            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+        </div>
+        <!-- Column -->
+        <div style="float:left; padding:8px; text-align:right; width:80px; font-weight:bold;">Column:</div>
+        <div style="float:left; width:52px; ">
+            <jqx-number-input
+                    style='margin-top: 3px;' class="form-control required-field"
+                    id="editItem_Column" name="editItem_Column"
+                    jqx-settings="numberMenuItem" jqx-min="0" jqx-max="99999"
+                    jqx-value="1" jqx-digits="5"
+            ></jqx-number-input>
+        </div>
+        <div style="float:left;">
+            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+        </div>
+        <!-- Sort -->
+        <div style="float:left; padding:8px; text-align:right; width:80px; font-weight:bold;">Sort:</div>
+        <div style="float:left; width:52px;">
+            <jqx-number-input
+                    style='margin-top: 3px;' class="form-control required-field"
+                    id="editItem_sort" name="editItem_sort"
+                    jqx-settings="numberMenuItem" jqx-min="0" jqx-max="99999"
+                    jqx-value="1" jqx-digits="5"
+            ></jqx-number-input>
+        </div>
+        <div style="float:left;">
+            <span style="color:#F00; text-align:left; padding:4px; font-weight:bold;">*</span>
+        </div>
+    </div>
+    <div style=" float:left; padding:2px; width:100%; ">
+        <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Status:</div>
+        <div style="float:left; width:80px;">
+            <select name="editItem_Status" id="editItem_Status">
+                <option value="1">Enabled</option>
+                <option value="2">Disabled</option>
+            </select>
+        </div>
+    </div>
+    <!--  STYLE COLOR CONTROLS  -->
+    <div style="float:left; padding:2px; width:100%;">
         <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Button Primary Color:</div>
         <div style="float:left; width:200px;">
             <div style="margin: 3px; float: left;" class="dropDownParent">
@@ -14,7 +66,7 @@
         </div>
     </div>
 
-    <div style="float:left; padding:2px; width:450px;">
+    <div style="float:left; padding:2px; width:100%;">
         <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Button Secondary Color:</div>
         <div style="float:left; width:200px;">
             <div style="margin: 3px; float: left;">
@@ -28,7 +80,7 @@
         </div>
     </div>
 
-    <div style="float:left; padding:2px; width:450px;">
+    <div style="float:left; padding:2px; width:100%;">
         <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Label Font Color</div>
         <div style="float:left; width:200px;">
             <div style="margin: 3px; float: left;">
@@ -42,7 +94,7 @@
         </div>
     </div>
 
-    <div style="float:left; padding:2px; width:450px;">
+    <div style="float:left; padding:2px; width:100%;">
         <div style="float:left; padding:8px; text-align:right; width:200px; font-weight:bold;">Label Font Size</div>
         <div style="float:left; width:180px;">
             <jqx-drop-down-list id="mitlfontSize" class="styles-control" jqx-width="150">

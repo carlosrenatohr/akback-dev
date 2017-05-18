@@ -64,7 +64,7 @@
     </div>
     <!--  Windows to save data on items   -->
     <jqx-window jqx-on-close="close()" jqx-settings="itemsMenuWindowsSetting"
-                jqx-create="itemsMenuWindowsSetting" class="">
+                jqx-create="itemsMenuWindowsSetting" id="itemsMenuMainWindow">
         <div>
             Edit Item
         </div>
@@ -82,7 +82,9 @@
                     <li id="questionsTabOnMenuItemWindow">Questions</li>
                     <li>Printers</li>
                     <li>Options</li>
-                    <li>Layout</li>
+                    <li>Cost</li>
+                    <li>Tax</li>
+<!--                    <li>Layout</li>-->
                     <li>Picture</li>
                     <li>Style</li>
                 </ul>
@@ -106,10 +108,18 @@
                 <div class="">
                     <?php $this->load->view($items_extra_subtab_view);?>
                 </div>
-                <!-- Layout subtab -->
+                <!-- Cost subtab -->
                 <div class="">
-                    <?php $this->load->view($items_layout_subtab_view);?>
+                    <?php $this->load->view($items_cost_subtab_view);?>
                 </div>
+                <!-- Tax subtab -->
+                <div class="">
+                    <?php $this->load->view($items_tax_subtab_view);?>
+                </div>
+                <!-- Layout subtab -->
+<!--                <div class="">-->
+<!--                    --><?php //$this->load->view($items_layout_subtab_view);?>
+<!--                </div>-->
                 <!-- Pictue subtab -->
                 <div class="">
                     <?php $this->load->view($items_picture_subtab_view);?>
@@ -203,3 +213,9 @@
     </jqx-window>
     <?php $this->load->view('backoffice_admin/menu_categories/items_modal_create');?>
 </div>
+<style>
+    #itemsMenuMainWindow {
+        max-width: 90%!important;
+        max-height: 90%!important;
+    }
+</style>

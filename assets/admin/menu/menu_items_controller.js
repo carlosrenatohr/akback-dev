@@ -4,6 +4,7 @@
 
 app.controller('menuItemController', function ($scope, $rootScope, $http, inventoryExtraService, questionService, menuCategoriesService, adminService) {
 
+    $scope.menuItemDisabled = true;
     // -- MenuCategoriesTabs Main Tabs
     $('#MenuCategoriesTabs').on('tabclick', function (e) {
         var tabclicked = e.args.item;
@@ -206,7 +207,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 }
             });
             dataRequest['taxesValues'] = (taxesByItem != '') ? JSON.stringify(taxesByItem) : '';
-
             if ($scope.ItemModalStateAction == 'new') {
                 var url = SiteRoot + 'admin/MenuItem/simplePostItem';
             } else if ($scope.ItemModalStateAction == 'edit') {
@@ -385,7 +385,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             itemsMenuWindow = args.instance;
         },
         resizable: false,
-        width: "65%", height: "75%",
+        width: "100%", // height: "75%",
         autoOpen: false,
         theme: 'darkblue',
         isModal: true,
@@ -992,6 +992,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     'price4': parseFloat($('#menuitem_price4').val()),
                     'price5': parseFloat($('#menuitem_price5').val()),
                     'PriceModify': parseFloat($('#menuitem_priceModify').val()),
+                    // Cost Values
+                    'Cost': parseFloat($('#item_cost').jqxNumberInput('val')),
+                    'Cost_Extra': parseFloat($('#item_Cost_Extra').jqxNumberInput('val')),
+                    'Cost_Freight': parseFloat($('#item_Cost_Freight').jqxNumberInput('val')),
+                    'Cost_Duty': parseFloat($('#item_Cost_Duty').jqxNumberInput('val')),
                     // Extra Values
                     'GiftCard': $('#itemcontrol_gcard').val(),
                         // ($('#itemcontrol_giftcard [aria-checked="true"]').length > 0) ?
@@ -1188,6 +1193,20 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('#saveItemGridBtn').prop('disabled', false);
     });
 
+    $scope.onChangeCostFieldsMenuItem = function() {
+        var cost = $('#item_cost').jqxNumberInput('val');
+        cost = (cost != undefined) ? parseFloat(cost) : 0.00;
+        var costDuty = $('#item_Cost_Duty').jqxNumberInput('val');
+        costDuty = (costDuty != undefined) ? parseFloat(costDuty) : 0.00;
+        var costFreight = $('#item_Cost_Freight').jqxNumberInput('val');
+        costFreight = (costFreight != undefined) ? parseFloat(costFreight) : 0.00;
+        var costExtra = $('#item_Cost_Extra').jqxNumberInput('val');
+        costExtra = (costExtra != undefined) ? parseFloat(costExtra) : 0.00;
+        //
+        var total = cost + costFreight  + costDuty + costExtra;
+        $('#item_Cost_Landed').jqxNumberInput('val', total);
+    };
+
     $scope.itemCellSelectedOnGrid = {};
     $scope.currentImages = [];
     function onClickDraggableItem() {
@@ -1280,6 +1299,21 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         $('#menuitem_price4').val(data.price4 != null ? data.price4 : 0);
                         $('#menuitem_price5').val(data.price5 != null ? data.price5 : 0);
                         $('#menuitem_priceModify').val(data.PriceModify != null ? data.PriceModify : 0);
+                        // Cost Tab
+                        var cost = (data.Cost == null) ? 0 : parseFloat(data.Cost);
+                        var costExtra = (data.Cost_Extra == null) ? 0 : parseFloat(data.Cost_Extra);
+                        var costFreight = (data.Cost_Freight == null) ? 0 : parseFloat(data.Cost_Freight);
+                        var costDuty = (data.Cost_Duty == null) ? 0 : parseFloat(data.Cost_Duty);
+                        var landed =  cost + costExtra + costFreight + costDuty;
+                        $('#item_cost').jqxNumberInput('val', cost);
+                        $('#item_Cost_Extra').jqxNumberInput('val', costExtra);
+                        $('#item_Cost_Freight').jqxNumberInput('val', costFreight);
+                        $('#item_Cost_Duty').jqxNumberInput('val', costDuty);
+                        $('#item_Cost_Landed').jqxNumberInput('val', landed);
+                        // Tax tab TODO Missing store taxes on menu item
+                        $('#taxesGridMitem').jqxGrid({                   // ↓ Item Unique ↓
+                            'source':  inventoryExtraService.getTaxesGridData(data.Unique).source
+                        });
                         // Extra tab values
                         var gc;
                         // gc = $('#itemcontrol_giftcard .cbxExtraTab[data-val=' +
@@ -2336,10 +2370,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         inputMode: 'simple',
         decimalDigits: 0,
         spinButtons: true,
-        width: 300,
-        height: 25,
         min: 1,
-        textAlign: 'left'
+        textAlign: 'left',
+        width: '50px',
+        height: 25
     };
 
     $scope.numberExtraSet = {
