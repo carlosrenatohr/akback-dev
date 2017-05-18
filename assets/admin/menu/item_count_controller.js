@@ -442,6 +442,7 @@ angular.module("akamaiposApp", ['jqwidgets'])
                             updateIcountlistGrid($scope.icountID);
                             //
                             setTimeout(function() {
+                                $('#icount_file').parent().parent().removeClass('ng-hide');
                                 $('#icountTabs').jqxTabs('enableAt', 2); // Enable Import Tab
                                 $('#icountTabs').jqxTabs('enableAt', 3); // Enable Count List Tab
                                 $('#icountTabs').jqxTabs('select', 3);
@@ -782,7 +783,9 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 success: function (response) {
                     if (response.status == 'success') {
                         $('#addToCountWind').jqxWindow('close');
-                        setTimeout(function(){
+                        setTimeout(function() {
+                            $('#scanFileCbx').jqxComboBox({selectedIndex: -1});
+                            $('#icountscanGrid').hide();
                             $scope.completeScanFile();
                         }, 500);
                         updateIcountGrid();
@@ -806,10 +809,20 @@ angular.module("akamaiposApp", ['jqwidgets'])
                 method: 'post',
                 url: SiteRoot + 'admin/ItemCount/closeScanFileToImport/' + $scope.scanFileSelected,
                 dataType: 'json',
+                async: false,
                 success: function (response) {
-                    $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
-                    $('#addToCountWind').jqxWindow('close');
-                    $('#markFileCompleteWind').jqxWindow('close');
+                    if (response.status == 'success') {
+                        var item = $('#scanFileCbx').jqxComboBox('getItemByValue', $scope.scanFileSelected);
+                        $('#scanFileCbx').jqxComboBox('removeItem', item);
+                        $('#scanFileCbx').jqxComboBox('removeAt', item.index);
+                        // $('#scanFileCbx').jqxComboBox({source: itemCountService.getScanFileSettings().source});
+                        $('#scanFileCbx').jqxComboBox(itemCountService.getScanFileSettings());
+                        //
+                        $('#addToCountWind').jqxWindow('close');
+                        $('#markFileCompleteWind').jqxWindow('close');
+                    } else {
+                        console.log('There was an error on request!');
+                    }
                 }
             });
         } else if(option == 1) {
