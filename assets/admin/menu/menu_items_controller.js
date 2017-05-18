@@ -1214,8 +1214,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         $('.draggable')
             .on('dblclick', function(e) {
             $('#editItem_ItemSelected').jqxComboBox({
-                source: dataAdapterItems('ASC')
-                // source:  []
+                source: dataAdapterItems('ASC') // []
             });
             //
             $('#jqxTabsMenuItemWindows').jqxTabs({selectedItem: 0});
@@ -1400,7 +1399,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         var btn = $('<button/>', {
                             'id': 'deleteItemGridBtn'
                         }).addClass('icon-trash user-del-btn').css('left', 0);
-                        var title = $('<div/>').html('Edit Menu Item: ' + data.MenuItemUnique + ' | Item: ' + data.Unique + ' | Label: ' + label).prepend(btn)
+                        var title = $('<div/>').html('Edit Menu Item: ' + data.MenuItemUnique + ' | Item ID: '+ data.Unique +' | Item: ' + data.Item + ' | Label: ' + label).prepend(btn)
                             .css('padding-left', '2em');
                         itemWindow.setTitle(title);
                         itemWindow.open();
