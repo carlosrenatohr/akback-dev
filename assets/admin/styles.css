@@ -127,7 +127,7 @@ div.toolbar-list span {
 }
 
 .maingrid-container .row {
-    margin: 0;
+    /*margin: 0;*/
 }
 @media (max-width: 768px) {
     .restricter-dragdrop {
@@ -163,16 +163,16 @@ div.toolbar-list span {
 .restricter-dragdrop {
     /*max-height: 450px;*/
     height: 430px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    /*overflow-y: scroll;*/
+    /*overflow-x: hidden;*/
     background-color: lightgrey;
     border: #202020 2px solid;
-    padding: 0 !important;
+    /*padding: 0 !important;*/
 }
 
 .restricter-dragdrop .row {
-    margin-right: 0 !important;
-    margin-left: 0 !important;
+    /*margin-right: 0 !important;*/
+    /*margin-left: 0 !important;*/
 }
 
 .restricter-dragdrop .col-md- *, .restricter-dragdrop .col-sm- *,
@@ -233,7 +233,8 @@ div.toolbar-list span {
     background-color: lightgrey;
     border: black 2px dotted;
     padding: 0 !important;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
+    overflow-x: scroll;
 }
 
 #selectedItemInfo {

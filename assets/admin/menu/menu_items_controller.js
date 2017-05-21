@@ -410,7 +410,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 {name: 'MenuItemRow', type: 'number'},
                 {name: 'ItemLength', type: 'number'},
                 {name: 'CategoryName', type: 'string'},
-                {name: 'categories', type: 'json'}
+                {name: 'categories', type: 'json'},
+                //
+                {name: 'ScreenResolutionWidth', type: 'string'},
+                {name: 'ScreenResolutionHeight', type: 'string'},
+                {name: 'LeftPanelWidth', type: 'string'},
+                {name: 'RightPanelWidth', type: 'string'},
+                {name: 'ItemGridHeight', type: 'string'}
             ],
             //id: 'Unique',
             url: SiteRoot + 'admin/MenuItem/load_allMenusWithCategories/1/on'
@@ -448,6 +454,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     /**
      * -- EVENT ON MAIN LISTBOX MENU TO SELECT AND LOAD ON GRID
      */
+    var screenWidth, screenWidthParse, screenHeigth, screenHeigthParse,
+        leftTab, leftTabParse, rightTab, rightTabParse,
+        iGridHeight, iGridHeightParse,
+        minLeftWidth, minRightWidth;
     $scope.categoriesByMenu = [];
     $scope.menuListBoxSelecting = function (e) {
         $('.category-cell-grid').removeClass('clicked');
@@ -484,6 +494,39 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             round: (round)
         };
         $('.restricter-dragdrop div').remove();
+        // Layout
+        screenWidth = (row.ScreenResolutionWidth != null) ? row.ScreenResolutionWidth : '1024px';
+        screenWidthParse = screenWidth.split('px');
+        screenWidthParse = parseInt(screenWidthParse[0]);
+        screenHeigth = (row.ScreenResolutionHeight != null) ? row.ScreenResolutionHeight : '768px';
+        screenHeigthParse = screenHeigth.split('px');
+        screenHeigthParse = parseInt(screenHeigthParse[0]);
+        leftTab = (row.LeftPanelWidth != null) ? row.LeftPanelWidth : '30%';
+        leftTabParse = leftTab.split('%');
+        leftTabParse = parseInt(leftTabParse[0]);
+        rightTab = (row.RightPanelWidth != null) ? row.RightPanelWidth : '70%';
+        rightTabParse = rightTab.split('%');
+        rightTabParse = parseInt(rightTabParse[0]);
+        iGridHeight = (row.ItemGridHeight != null) ? row.ItemGridHeight : '320px';
+        iGridHeightParse = iGridHeight.split('px');
+        iGridHeightParse = parseInt(iGridHeightParse[0]);
+        console.log(screenWidthParse, screenHeigthParse, leftTabParse, rightTabParse, iGridHeightParse);
+        minLeftWidth = screenWidthParse * (leftTabParse / 100);
+        minRightWidth = screenWidthParse * (rightTabParse / 100);
+        console.log(minLeftWidth, minRightWidth);
+        $('#MenuItemLayoutContent').css({'width': screenWidth, 'height': screenHeigth});
+        $('#leftTabMenuItem').css('width', leftTab);
+        $('#itemselect-container').css('min-width', minLeftWidth);
+        //
+        console.log('diff', screenWidthParse, $(window).width(), screenWidthParse > $(window).width());
+        $('#rightTabMenuItem').css('width', rightTab);
+        $('.maingrid-container').css('width', minRightWidth);
+        if (screenWidthParse > $(window).width()) {
+            minRightWidth *= 1.5;
+        }
+        $('.restricter-dragdrop').css({'width': minRightWidth, 'height': iGridHeight,
+            margin: '0 0.8em', padding: '0 0.5%'});
+        $('#categories-grid').css('min-width', minRightWidth);
     };
 
     /**
@@ -536,6 +579,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         drawExistsItemsOnGrid();
         onClickDraggableItem();
         //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
+        var nWidth = minRightWidth / $scope.menuSelectedWithCategories.MenuItemColumn;
+        var nHeight = iGridHeightParse / $scope.menuSelectedWithCategories.MenuItemRow;
+        $('.draggable').css({width: nWidth, height: nHeight});
     };
 
     /**

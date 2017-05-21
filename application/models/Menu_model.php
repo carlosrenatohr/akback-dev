@@ -34,8 +34,7 @@ class Menu_model extends CI_Model
                             config_menu_category.Sort as CategorySort,
                             config_menu_category.Row as CategoryRow,
                             config_menu_category.Column as CategoryColumn,
-                            config_menu_category.Status as CategoryStatus,
-
+                            config_menu_category.Status as CategoryStatus
                             ');
             $this->db->join(
                 $this->category_table,
@@ -44,9 +43,7 @@ class Menu_model extends CI_Model
             );
             $this->db->where('config_menu_category.Status !=', 0);
         }
-//        $this->db->order_by('config_menu.MenuName', 'ASC');
         $this->db->order_by('config_menu.Created', 'DESC');
-
         $query = $this->db->get($this->menu_table);
         return $query->result_array();
     }
@@ -57,7 +54,6 @@ class Menu_model extends CI_Model
                   WHERE cmc.\"MenuUnique\" = cm.\"Unique\" ORDER BY cmc.\"Unique\"
                   LIMIT 1
                 ) AS CATEGORY_DATA
-
                 FROM config_menu cm
                 WHERE cm.\"Status\" = {$status}";
 
