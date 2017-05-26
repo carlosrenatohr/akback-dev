@@ -271,12 +271,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                                     });
                                 }
                             } else {
-                                resetItemCreateModalForm();
+                                // resetItemCreateModalForm();
                             }
 
                         } else if ($scope.ItemModalStateAction == 'edit') {
-                            console.log('item updated');
-                            // console.log(data)
+                            console.log('item updated'); // console.log(data)
                         }
                         //
                         searchActionOnItemList($('#item_Description').val()); // $('#ListBoxSearchInput').val()
