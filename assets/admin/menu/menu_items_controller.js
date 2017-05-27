@@ -56,6 +56,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $('#CreateItemBtn').on('click', function() {
         $scope.ItemModalStateAction = 'new';
         $scope.ItemModalID = null;
+        $('#pricestabItemModal').hide();
+        $('#costtabItemModal').hide();
+        $('#optionstabItemModal').hide();
+
         $('#itemsModalCreateTabs').jqxTabs('select', 0);
         setTimeout(function() {
             $('#item_Description').focus();
@@ -824,6 +828,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 .bind('dblclick', function(e) {
                     $scope.ItemModalStateAction = 'edit';
                     $scope.ItemModalID = row.Unique;
+                    //
+                    $('#pricestabItemModal').show();
+                    $('#costtabItemModal').show();
+                    $('#optionstabItemModal').show();
+                    //
                     $('#item_Description').val(row.Description);
                     $('#item_category').jqxComboBox('val', row.MainCategory);
                     $('#item_Item').val(row.Item);
@@ -1453,6 +1462,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             } else {
                 $scope.ItemModalStateAction = 'new';
                 $scope.ItemModalID = null;
+                $('#pricestabItemModal').hide();
+                $('#costtabItemModal').hide();
+                $('#optionstabItemModal').hide();
                 $('#itemsModalCreateTabs').jqxTabs('select', 0);
                 setTimeout(function() {
                     $('#item_Description').focus();

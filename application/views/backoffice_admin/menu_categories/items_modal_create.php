@@ -10,13 +10,29 @@
             <ul>
                 <li>Item</li>
                 <li>Tax</li>
+                <li id="pricestabItemModal">Prices</li>
+                <li id="costtabItemModal">Cost</li>
+                <li id="optionstabItemModal">Options</li>
             </ul>
             <!-- Menu Item subtab -->
             <div class="">
                 <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_itemtab');?>
             </div>
+            <!-- Taxes Item subtab -->
             <div class="">
                 <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_taxtab');?>
+            </div>
+            <!-- Prices Item subtab -->
+            <div >
+                <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_pricetab');?>
+            </div>
+            <!-- Cost Item subtab -->
+            <div >
+                <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_costtab');?>
+            </div>
+            <!-- Options Item subtab -->
+            <div >
+                <?php $this->load->view('backoffice_admin/menu_categories/items_modal_createitem_optionstab');?>
             </div>
         </jqx-tabs>
 
