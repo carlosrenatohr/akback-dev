@@ -48,7 +48,7 @@ app.service('menuCategoriesService', function ($http, adminService) {
         if (el.jqxColorPicker('getColor') != undefined)
             colorValue = el.jqxColorPicker('getColor').hex;
         else
-            colorValue = $scope.qibPrimaryColor;
+            colorValue = '000';
 
         if (colorValue != '' && colorValue != null)
             return '#' + colorValue;
