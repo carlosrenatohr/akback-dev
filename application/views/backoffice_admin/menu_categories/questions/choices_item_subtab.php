@@ -54,6 +54,7 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                         <option value="M">M</option>
+                        <option value="F">F</option>
                     </jqx-drop-down-list>
                 </div>
                 <div style="float:left; padding:8px; text-align:right; width:140px; font-weight:bold;">

@@ -438,6 +438,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_Description').val('');
         $('#qItem_Label').val('');
         $('#qItem_PriceLevel').val(1);
+        $('#qItem_PriceLevelVal').val(0);
         $scope.ddb_qibPrimaryColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitButtonPrimaryColorDef').val() })));
         $scope.qibPrimaryColor = $('#qitButtonPrimaryColorDef').val();
         $('#qibPrimaryColor').jqxColorPicker('setColor', '#' + $('#qitButtonPrimaryColorDef').val());
@@ -449,7 +450,6 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $scope.ddb_qilfontColor.setContent(getTextElementByColor(new $.jqx.color({ hex: $('#qitLabelFontColorDef').val() })));
         $scope.qilfontColor = $('#qitLabelFontColorDef').val();
         $('#qilfontColor').jqxColorPicker('setColor', '#' + $('#qitLabelFontColorDef').val());
-
         $('#qilfontSize').val($('#qitLabelFontSizeDef').val());
         //
         $scope.uploaderQI.flow.files = [];
@@ -488,6 +488,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         $('#qItem_SellPrice').val(row.sprice);
         $('#qItem_PriceLevel').val(row.PriceLevel);
         $('#qItem_PriceLevelVal').val(row.plPrice);
+        $('#qItem_PriceLevelVal').jqxNumberInput('disabled', (row.PriceLevel != 'F'));
 
         //-- Primary Button Color
         var bpc;
@@ -580,6 +581,11 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                     {name: 'Unique', type: 'int'},
                     {name: 'Description', type: 'string'},
                     {name: 'price1', type: 'string'},
+                    {name: 'price2', type: 'string'},
+                    {name: 'price3', type: 'string'},
+                    {name: 'price4', type: 'string'},
+                    {name: 'price5', type: 'string'},
+                    {name: 'PriceModify', type: 'string'},
                     {name: 'Item', type: 'string'},
                     {name: 'Category', type: 'string'},
                     {name: 'SubCategory', type: 'string'},
@@ -617,13 +623,17 @@ app.controller('menuQuestionController', function ($scope, questionService) {
         if (e.args) {
             var item = e.args.item;
             $('#qItem_Label').val(item.label);
+            item = item.originalItem;
             $('#qItem_SellPrice').prop('disabled', false);
-            $('#qItem_SellPrice').val(item.originalItem.price1);
+            $('#qItem_SellPrice').val(item.price1);
             $('#qItem_SellPrice').prop('disabled', true);
             //
             $('#qItem_Description').prop('disabled', false);
-            $('#qItem_Description').val(item.originalItem.Description);
+            $('#qItem_Description').val(item.Description);
             $('#qItem_Description').prop('disabled', true);
+            //
+            var lvl = $('#qItem_PriceLevel').val();
+            setQuestionPriceByLevel(lvl);
             //
             $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         }
@@ -636,6 +646,12 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     $("body").on('change', '#qItem_PriceLevel', function(e) {
         $('#saveQuestionItemBtnOnQuestionTab').prop('disabled', false);
         var level = $(this).val();
+        // $scope.questionDisabled = true;
+        $('#qItem_PriceLevelVal').jqxNumberInput('disabled', true);
+        setQuestionPriceByLevel(level);
+    });
+
+    function setQuestionPriceByLevel(level) {
         $.ajax({
             url: SiteRoot + 'admin/MenuQuestion/getPriceByLevel',
             method: 'post',
@@ -656,15 +672,18 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 }else if (level == '5') {
                     price = (resp.price5);
                 }else if (level == 'M') {
-                    price = (resp.priceModify);
+                    price = (resp.PriceModify);
+                }else if (level == 'F') {
+                    $('#qItem_PriceLevelVal').jqxNumberInput('disabled', false);
+                    price = (resp.FixedPrice);
                 } else {
                     price = (resp.price1);
                 }
                 price = (price != null) ? price : 0;
                 $('#qItem_PriceLevelVal').jqxNumberInput('val', price);
             }
-        })
-    });
+        });
+    }
 
     setTimeout(function() {
         $('#qilfontSize').on('change', function() {
@@ -740,6 +759,9 @@ app.controller('menuQuestionController', function ($scope, questionService) {
                 'LabelFontSize': $('#qilfontSize').val(),
                 'PictureFile': (pictures != '') ? pictures : null
             };
+            if (data.PriceLevel == 'F') {
+                data['FixedPrice'] = $('#qItem_PriceLevelVal').val();
+            }
             var url;
             if ($scope.newOrEditQItemOption == 'create') {
                 url = 'admin/MenuQuestion/post_question_item';

@@ -33,6 +33,7 @@ class Menu_question_model extends CI_Model
                 when config_questions_item.\"PriceLevel\" = '1' then item.price1 when config_questions_item.\"PriceLevel\" = '2' then item.price2
                 when config_questions_item.\"PriceLevel\" = '3' then item.price3 when config_questions_item.\"PriceLevel\" = '4' then item.price4
                 when config_questions_item.\"PriceLevel\" = '5' then item.price5 when config_questions_item.\"PriceLevel\" = 'M' then item.\"PriceModify\"
+                when config_questions_item.\"PriceLevel\" = 'F' then config_questions_item.\"FixedPrice\"
                 else item.price1 
                 END as \"plPrice\"
                 FROM config_questions_item 
@@ -53,10 +54,11 @@ class Menu_question_model extends CI_Model
         if ($id != null) {
             $select = "
         select price1, price2 , price3, price4, price5, \"PriceModify\", 
-        config_questions_item.\"PriceLevel\",
+        config_questions_item.\"PriceLevel\", config_questions_item.\"FixedPrice\",
         case when \"PriceLevel\" = '1' then price1 when \"PriceLevel\" = '2' then price2
         when \"PriceLevel\" = '3' then price3 when \"PriceLevel\" = '4' then price4
-        when \"PriceLevel\" = '5' then price5  when \"PriceLevel\" = 'M' then \"PriceModify\" 
+        when \"PriceLevel\" = '5' then price5  when \"PriceLevel\" = 'M' then \"PriceModify\"
+        when \"PriceLevel\" = 'F' then \"FixedPrice\" 
         else price1 end as \"Price\"
         from item
         left join config_questions_item 
