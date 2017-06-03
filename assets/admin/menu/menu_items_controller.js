@@ -419,7 +419,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 {name: 'ScreenResolutionHeight', type: 'string'},
                 {name: 'LeftPanelWidth', type: 'string'},
                 {name: 'RightPanelWidth', type: 'string'},
-                {name: 'ItemGridHeight', type: 'string'}
+                {name: 'ItemGridHeight', type: 'string'},
+                {name: 'ItemButtonHeight', type: 'string'},
+                {name: 'ItemButtonWidth', type: 'string'},
             ],
             //id: 'Unique',
             url: SiteRoot + 'admin/MenuItem/load_allMenusWithCategories/1/on'
@@ -458,6 +460,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
      * -- EVENT ON MAIN LISTBOX MENU TO SELECT AND LOAD ON GRID
      */
     var screenWidth, screenWidthParse, screenHeigth, screenHeigthParse,
+        itemBtnWidth, itemBtnHeight,
         leftTab, leftTabParse, rightTab, rightTabParse,
         iGridHeight, iGridHeightParse,
         minLeftWidth, minRightWidth;
@@ -516,7 +519,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         console.log(screenWidthParse, screenHeigthParse, leftTabParse, rightTabParse, iGridHeightParse);
         minLeftWidth = screenWidthParse * (leftTabParse / 100);
         minRightWidth = screenWidthParse * (rightTabParse / 100);
-        console.log(minLeftWidth, minRightWidth);
+        //
+        itemBtnWidth = row.ItemButtonWidth;
+        itemBtnHeight = (row.ItemButtonHeight != null) ? row.ItemButtonHeight : '20px';
         $('#MenuItemLayoutContent').css({'width': screenWidth, 'height': screenHeigth});
         $('#leftTabMenuItem').css('width', leftTab);
         $('#itemselect-container').css('min-width', minLeftWidth);
@@ -527,6 +532,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         if (screenWidthParse > $(window).width()) {
             minRightWidth *= 1.5;
         }
+        $('#mainGridMenuItem').css({'width': minRightWidth, 'height': iGridHeight});
         $('.restricter-dragdrop').css({'width': minRightWidth, 'height': iGridHeight,
             margin: '0 0.8em', padding: '0 0.5%'});
         $('#categories-grid').css('min-width', minRightWidth);
@@ -584,7 +590,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
         var nWidth = minRightWidth / $scope.menuSelectedWithCategories.MenuItemColumn;
         var nHeight = iGridHeightParse / $scope.menuSelectedWithCategories.MenuItemRow;
-        $('.draggable').css({width: nWidth, height: nHeight});
+        $('.draggable').css({width: nWidth, height: itemBtnHeight});
     };
 
     /**
