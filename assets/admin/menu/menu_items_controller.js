@@ -422,6 +422,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 {name: 'ItemGridHeight', type: 'string'},
                 {name: 'ItemButtonHeight', type: 'string'},
                 {name: 'ItemButtonWidth', type: 'string'},
+                {name: 'CategoryGridWidth', type: 'string'},
+                {name: 'CategoryGridHeight', type: 'string'},
+                {name: 'CategoryButtonWidth', type: 'string'},
+                {name: 'CategoryButtonHeight', type: 'string'},
             ],
             //id: 'Unique',
             url: SiteRoot + 'admin/MenuItem/load_allMenusWithCategories/1/on'
@@ -463,7 +467,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         itemBtnWidth, itemBtnHeight,
         leftTab, leftTabParse, rightTab, rightTabParse,
         iGridHeight, iGridHeightParse,
-        minLeftWidth, minRightWidth;
+        minLeftWidth, minRightWidth,
+        categoryGridWidth, categoryGridHeight, categoryBtnWidth, categoryBtnHeight;
     $scope.categoriesByMenu = [];
     $scope.menuListBoxSelecting = function (e) {
         $('.category-cell-grid').removeClass('clicked');
@@ -522,20 +527,27 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         //
         itemBtnWidth = row.ItemButtonWidth;
         itemBtnHeight = (row.ItemButtonHeight != null) ? row.ItemButtonHeight : '20px';
+        // todo apply on styles
+        categoryGridWidth = (row.CategoryGridWidth);
+        categoryGridHeight = (row.CategoryGridHeight != null) ? row.CategoryGridHeight : '200px';
+        categoryBtnWidth = (row.CategoryButtonWidth);
+        categoryBtnHeight = (row.CategoryButtonHeight != null) ? row.CategoryButtonHeight : '100px';
         $('#MenuItemLayoutContent').css({'width': screenWidth, 'height': screenHeigth});
         $('#leftTabMenuItem').css('width', leftTab);
         $('#itemselect-container').css('min-width', minLeftWidth);
         //
-        console.log('diff', screenWidthParse, $(window).width(), screenWidthParse > $(window).width());
         $('#rightTabMenuItem').css('width', rightTab);
         $('.maingrid-container').css('width', minRightWidth);
-        if (screenWidthParse > $(window).width()) {
-            minRightWidth *= 1.5;
-        }
+        // if (screenWidthParse > $(window).width()) {
+        //     minRightWidth *= 1.5;
+        // }
         $('#mainGridMenuItem').css({'width': minRightWidth, 'height': iGridHeight});
         $('.restricter-dragdrop').css({'width': minRightWidth, 'height': iGridHeight,
-            margin: '0 0.8em', padding: '0 0.5%'});
+            margin: '0 0.5em'/*, padding: '0 0.5%'*/});
+        //
         $('#categories-grid').css('min-width', minRightWidth);
+        var categoryInd = minRightWidth / $scope.menuSelectedWithCategories.Column;
+        $('.category-cell-grid').css({'height': categoryBtnHeight, 'width':categoryInd});
     };
 
     /**
@@ -568,9 +580,9 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         var strechedClass = (($scope.grid.cols % 2) != 0) ? ('streched' + $scope.grid.cols) : '';
         for (var i = 0; i < $scope.grid.rows; i++) {
             var template = '';
-            template += '<div class="row">';
+            template += '<div class="menuItemRowDrawn">'; // class="row"
             if (diff % 1 !== 0) {
-                template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
+                // template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
             }
             for (var j = 0; j < $scope.grid.cols; j++) {
                 var num = j + 1 + (i * $scope.grid.cols);
@@ -579,7 +591,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     num + '</div>';
             }
             if (diff % 1 !== 0) {
-                template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
+                // template += '<div class="col-md-offset-1 col-sm-offset-1"></div>';
             }
             template += '</div>';
             $('.restricter-dragdrop').append(template);
@@ -589,8 +601,12 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         onClickDraggableItem();
         //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
         var nWidth = minRightWidth / $scope.menuSelectedWithCategories.MenuItemColumn;
+        console.log(minRightWidth)
+        console.log($scope.menuSelectedWithCategories.MenuItemColumn)
+        console.log(nWidth)
         var nHeight = iGridHeightParse / $scope.menuSelectedWithCategories.MenuItemRow;
         $('.draggable').css({width: nWidth, height: itemBtnHeight});
+        $('.menuItemRowDrawn').css('width', minRightWidth);
     };
 
     /**

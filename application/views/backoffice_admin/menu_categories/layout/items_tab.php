@@ -49,25 +49,26 @@
         <div class="maingrid-container"
              style="padding: 0;/*width: 70%!important;overflow-x: scroll;*/">
             <!--|| ITEMS GRID ||-->
-            <div class="" id="mainGridMenuItem" style="overflow-y: scroll;overflow-x: scroll;">
+            <div id="mainGridMenuItem" style="overflow-y: scroll;overflow-x: scroll;">
             <!-- <div class="col-md-12 col-sm-12 restricter-dragdrop">-->
                 <div class=" restricter-dragdrop" style="height: 320px;"></div>
             </div>
             <!-- || CATEGORIES GRID ||-->
-            <div class="">
-                <div class="col-md-12 col-sm-12" style="padding-right: 0!important;padding-left: 0!important;">
-                    <!--  <h4 class="">Category grid</h4>-->
-                    <div id="categories-container">
-                        <category-cell-grid category-title="{{uno.CategoryName}}" id="categories-grid">
-                        </category-cell-grid>
-                    </div>
+            <div id="categories-parent-container" style="padding-right: 0!important;padding-left: 0!important;">
+<!--            <div class="col-md-12 col-sm-12" style="padding-right: 0!important;padding-left: 0!important;">-->
+                <!--  <h4 class="">Category grid</h4>-->
+                <div id="categories-container">
+                    <category-cell-grid category-title="{{uno.CategoryName}}" id="categories-grid">
+                    </category-cell-grid>
                 </div>
             </div>
             <!-- || FORM to Edit Categories ||-->
             <?php $this->load->view($categoryName_form); ?>
         </div>
     </div>
+    <!--   ----------------------------   -->
     <!--  Windows to save data on items   -->
+    <!--   ----------------------------   -->
     <jqx-window jqx-on-close="close()" jqx-settings="itemsMenuWindowsSetting"
                 jqx-create="itemsMenuWindowsSetting" id="itemsMenuMainWindow">
         <div>
