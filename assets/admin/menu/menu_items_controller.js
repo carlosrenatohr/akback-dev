@@ -521,33 +521,39 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         iGridHeight = (row.ItemGridHeight != null) ? row.ItemGridHeight : '320px';
         iGridHeightParse = iGridHeight.split('px');
         iGridHeightParse = parseInt(iGridHeightParse[0]);
-        console.log(screenWidthParse, screenHeigthParse, leftTabParse, rightTabParse, iGridHeightParse);
         minLeftWidth = screenWidthParse * (leftTabParse / 100);
         minRightWidth = screenWidthParse * (rightTabParse / 100);
         //
         itemBtnWidth = row.ItemButtonWidth;
         itemBtnHeight = (row.ItemButtonHeight != null) ? row.ItemButtonHeight : '20px';
-        // todo apply on styles
-        categoryGridWidth = (row.CategoryGridWidth);
-        categoryGridHeight = (row.CategoryGridHeight != null) ? row.CategoryGridHeight : '200px';
-        categoryBtnWidth = (row.CategoryButtonWidth);
-        categoryBtnHeight = (row.CategoryButtonHeight != null) ? row.CategoryButtonHeight : '100px';
+        //-- General Grid Settings and Display
         $('#MenuItemLayoutContent').css({'width': screenWidth, 'height': screenHeigth});
         $('#leftTabMenuItem').css('width', leftTab);
         $('#itemselect-container').css('min-width', minLeftWidth);
-        //
         $('#rightTabMenuItem').css('width', rightTab);
         $('.maingrid-container').css('width', minRightWidth);
         // if (screenWidthParse > $(window).width()) {
         //     minRightWidth *= 1.5;
         // }
         $('#mainGridMenuItem').css({'width': minRightWidth, 'height': iGridHeight});
-        $('.restricter-dragdrop').css({'width': minRightWidth, 'height': iGridHeight,
-            margin: '0 0.5em'/*, padding: '0 0.5%'*/});
+        $('.restricter-dragdrop').css({'width': minRightWidth, 'height': iGridHeight});
+        //-- Categories Grid Below Settings
+        categoryGridWidth = (row.CategoryGridWidth != null) ? row.CategoryGridWidth : '90%';
+        categoryGridWidth = categoryGridWidth.split('%');
+        categoryGridWidth = parseInt(categoryGridWidth[0]);
+        categoryGridHeight = (row.CategoryGridHeight != null) ? row.CategoryGridHeight : '200px';
+        categoryBtnWidth = (row.CategoryButtonWidth);
+        categoryBtnHeight = (row.CategoryButtonHeight != null) ? row.CategoryButtonHeight : '100px';
         //
-        $('#categories-grid').css('min-width', minRightWidth);
-        var categoryInd = minRightWidth / $scope.menuSelectedWithCategories.Column;
-        $('.category-cell-grid').css({'height': categoryBtnHeight, 'width':categoryInd});
+        var categoryInd = minRightWidth * (categoryGridWidth / 100) / $scope.menuSelectedWithCategories.Column;
+        setTimeout(function() {
+            $('#categories-grid').css({'min-width': minRightWidth, 'height': categoryGridHeight, 'display': 'inline-block'});
+            $('.category-cell-grid').css({'height': categoryBtnHeight, 'width':categoryInd, 'display': 'inline-block'});
+            console.log(categoryGridWidth);
+            // $('.categoryRowDrawn').css({'width':categoryGridWidth + '%'})
+            // $('#categories-container').css({'width':categoryGridWidth  + '%'})
+        }, 500)
+
     };
 
     /**
@@ -596,16 +602,13 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             template += '</div>';
             $('.restricter-dragdrop').append(template);
         }
-        //
         drawExistsItemsOnGrid();
         onClickDraggableItem();
         //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
+        //-- Main Menu Item Grid Above Settings
         var nWidth = minRightWidth / $scope.menuSelectedWithCategories.MenuItemColumn;
-        console.log(minRightWidth)
-        console.log($scope.menuSelectedWithCategories.MenuItemColumn)
-        console.log(nWidth)
         var nHeight = iGridHeightParse / $scope.menuSelectedWithCategories.MenuItemRow;
-        $('.draggable').css({width: nWidth, height: itemBtnHeight});
+        $('.draggable').css({width: nWidth, height: itemBtnHeight, padding: 0});
         $('.menuItemRowDrawn').css('width', minRightWidth);
     };
 

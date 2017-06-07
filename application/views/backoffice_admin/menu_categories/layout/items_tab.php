@@ -36,8 +36,7 @@
                     <jqx-list-box
                             jqx-on-select="itemListBoxOnSelect(event)"
                             jqx-settings="itemsListboxSettings"
-                            id="itemListboxSearch"
-                    >
+                            id="itemListboxSearch">
                     </jqx-list-box>
                 </div>
             </div>
@@ -51,7 +50,7 @@
             <!--|| ITEMS GRID ||-->
             <div id="mainGridMenuItem" style="overflow-y: scroll;overflow-x: scroll;">
             <!-- <div class="col-md-12 col-sm-12 restricter-dragdrop">-->
-                <div class=" restricter-dragdrop" style="height: 320px;"></div>
+                <div class="restricter-dragdrop" style="height: 320px;"></div>
             </div>
             <!-- || CATEGORIES GRID ||-->
             <div id="categories-parent-container" style="padding-right: 0!important;padding-left: 0!important;">
