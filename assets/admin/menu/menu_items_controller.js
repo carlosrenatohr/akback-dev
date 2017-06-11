@@ -552,7 +552,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             // $('.categoryRowDrawn').css({'width':categoryGridWidth + '%'})
             // $('#categories-container').css({'width':categoryGridWidth  + '%'})
         }, 500)
-
     };
 
     /**
@@ -603,12 +602,11 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         }
         drawExistsItemsOnGrid();
         onClickDraggableItem();
-        //$('#jqxTabsMenuItemSection').jqxTabs('select', 1);
         //-- Main Menu Item Grid Above Settings
-        var nWidth = minRightWidth / $scope.menuSelectedWithCategories.MenuItemColumn;
+        var nWidth = (minRightWidth * 98 / 100) / $scope.menuSelectedWithCategories.MenuItemColumn;
         var nHeight = iGridHeightParse / $scope.menuSelectedWithCategories.MenuItemRow;
         $('.draggable').css({width: nWidth, height: itemBtnHeight, padding: 0});
-        $('.menuItemRowDrawn').css('width', minRightWidth);
+        $('.menuItemRowDrawn').css({'padding-left': '2%'/*'width': minRightWidth*/});
     };
 
     /**

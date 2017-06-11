@@ -43,20 +43,20 @@
         </div>
     </div>
     <!--|| Right Tab | Menu Item Grid  ||-->
-    <div id="rightTabMenuItem" style="width: 70%;float: right;/*overflow-x: scroll;*/">
+    <div id="rightTabMenuItem" style="width: 70%;float: right;">
         <!--<div class="col-lg-10 col-lg-10-item col-md-10 col-md-10-item col-sm-10 maingrid-container"-->
         <div class="maingrid-container"
              style="padding: 0;/*width: 70%!important;overflow-x: scroll;*/">
             <!--|| ITEMS GRID ||-->
-            <div id="mainGridMenuItem" style="overflow-y: scroll;overflow-x: scroll;">
+            <div id="mainGridMenuItem" style="overflow: auto;direction: rtl;">
             <!-- <div class="col-md-12 col-sm-12 restricter-dragdrop">-->
-                <div class="restricter-dragdrop" style="height: 320px;"></div>
+                <div class="restricter-dragdrop" style="height: 320px;direction: ltr;"></div>
             </div>
             <!-- || CATEGORIES GRID ||-->
-            <div id="categories-parent-container" style="padding-right: 0!important;padding-left: 0!important;">
+            <div id="categories-parent-container" style="direction: ltr;padding-right: 0!important;padding-left: 0!important;">
 <!--            <div class="col-md-12 col-sm-12" style="padding-right: 0!important;padding-left: 0!important;">-->
                 <!--  <h4 class="">Category grid</h4>-->
-                <div id="categories-container">
+                <div id="categories-container" style="direction: rtl;">
                     <category-cell-grid category-title="{{uno.CategoryName}}" id="categories-grid">
                     </category-cell-grid>
                 </div>
