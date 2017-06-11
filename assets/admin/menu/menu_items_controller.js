@@ -547,6 +547,7 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
         //
         var categoryInd = minRightWidth * (categoryGridWidth / 100) / $scope.menuSelectedWithCategories.Column;
         setTimeout(function() {
+            $('#categories-container').css({'height':categoryGridHeight});
             $('#categories-grid').css({'min-width': minRightWidth, 'height': categoryGridHeight});
             $('.category-cell-grid').css({'height': categoryBtnHeight, 'width':categoryInd, 'float': 'left'});
             // $('.categoryRowDrawn').css({'width':categoryGridWidth + '%'})
