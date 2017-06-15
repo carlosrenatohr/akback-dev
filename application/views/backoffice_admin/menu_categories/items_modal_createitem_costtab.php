@@ -6,12 +6,12 @@
             <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
-                    <jqx-number-input id="menuitemmodal_cost" class="menuitem_pricesControls"
+                    <jqx-number-input id="menuitemmodal_cost" class="item_textcontrol menuitem_pricesControls"
                                       jqx-width="120" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
                                       jqx-symbol="''"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
-                                      ng-change="onChangeCostFieldsMenuItem()"
+                                      ng-change="getCostLandedMItemModal()"
                                       ng-model="cost"
                                       data-field="Cost"
                     ></jqx-number-input>
@@ -26,12 +26,12 @@
             <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
-                    <jqx-number-input id="menuitemmodal_Cost_Extra" class="menuitem_pricesControls"
+                    <jqx-number-input id="menuitemmodal_Cost_Extra" class="item_textcontrol menuitem_pricesControls"
                                       jqx-width="120" jqx-height="30"
                                       jqx-spin-buttons="false"
                                       jqx-input-mode="simple" jqx-symbol="''"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
-                                      ng-change="onChangeCostFieldsMenuItem()"
+                                      ng-change="getCostLandedMItemModal()"
                                       ng-model="costExtra"
                                       data-field="Cost_Extra"
                     ></jqx-number-input>
@@ -49,7 +49,7 @@
                     <jqx-number-input id="menuitemmodal_Cost_Freight" class="menuitem_pricesControls"
                                       jqx-width="120" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="onChangeCostFieldsMenuItem()"
+                                      jqx-symbol="''" ng-change="getCostLandedMItemModal()"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
                                       ng-model="costFreight"
                                       data-field="Cost_Freight"
@@ -68,7 +68,7 @@
                     <jqx-number-input id="menuitemmodal_Cost_Duty" class="menuitem_pricesControls"
                                       jqx-width="120" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="onChangeCostFieldsMenuItem()"
+                                      jqx-symbol="''" ng-change="getCostLandedMItemModal()"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
                                       ng-model="costDuty"
                                       data-field="Cost_Duty"
@@ -80,14 +80,14 @@
 
     <div class="row">
         <div class="form-group">
-            <label for="inputType" class="  control-label" style="width:120px;float:left;text-align:right">Cost Landed:</label>
+            <label for="inputType" class="control-label" style="width:120px;float:left;text-align:right">Cost Landed:</label>
             <div class="col-sm-6">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <jqx-number-input id="menuitemmodal_Cost_Landed" class="menuitem_pricesControls"
                                       jqx-width="120" jqx-height="30"
                                       jqx-spin-buttons="false" jqx-input-mode="simple"
-                                      jqx-symbol="''" ng-change="onChangeCostFieldsMenuItem()"
+                                      jqx-symbol="''" ng-change="getCostLandedMItemModal()"
                                       jqx-decimal-digits="<?= $decimalsPrice; ?>"
                                       ng-model="costLanded"
                                       ng-disabled="menuItemDisabled"

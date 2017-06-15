@@ -7,7 +7,7 @@
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
                             style='margin-top: 3px;'
-                            id="menuitemmodal_listPrice" name="menuitemmodal_listPrice" class="menuitem_pricesControls"
+                            id="menuitemmodal_listPrice" name="menuitemmodal_listPrice" class="item_textcontrol menuitem_pricesControls"
                             jqx-settings="numberPricesSet" ng-disabled="disabledControl"
                     ></jqx-number-input>
                 </div>
@@ -18,7 +18,7 @@
                 </div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
-                            style='margin-top: 3px;' class="menuitem_pricesControls"
+                            style='margin-top: 3px;' class="item_textcontrol  menuitem_pricesControls"
                             id="menuitemmodal_price1" name="menuitem_price1"
                             jqx-settings="numberPricesSet" ng-disabled="disabledControl"
                     ></jqx-number-input>
@@ -30,7 +30,7 @@
                 </div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
-                            style='margin-top: 3px;' class="menuitem_pricesControls"
+                            style='margin-top: 3px;' class="item_textcontrol menuitem_pricesControls"
                             id="menuitemmodal_price2" name="menuitem_price2"
                             jqx-settings="numberPricesSet"
                     ></jqx-number-input>
@@ -42,7 +42,7 @@
                 </div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
-                            style='margin-top: 3px;' class="menuitem_pricesControls"
+                            style='margin-top: 3px;' class="item_textcontrol menuitem_pricesControls"
                             id="menuitemmodal_price3" name="menuitem_price3"
                             jqx-settings="numberPricesSet"
                     ></jqx-number-input>
@@ -54,7 +54,7 @@
                 </div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
-                            style='margin-top: 3px;' class="menuitem_pricesControls"
+                            style='margin-top: 3px;' class="item_textcontrol  menuitem_pricesControls"
                             id="menuitemmodal_price4" name="menuitem_price4"
                             jqx-settings="numberPricesSet"
                     ></jqx-number-input>
@@ -65,7 +65,7 @@
                 </div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
-                            style='margin-top: 3px;' class="menuitem_pricesControls"
+                            style='margin-top: 3px;' class="item_textcontrol menuitem_pricesControls"
                             id="menuitemmodal_price5" name="menuitem_price5"
                             jqx-settings="numberPricesSet"
                     ></jqx-number-input>
@@ -77,7 +77,7 @@
                 </div>
                 <div style=" float:left; width:300px;">
                     <jqx-number-input
-                            style='margin-top: 3px;' class="menuitem_pricesControls"
+                            style='margin-top: 3px;' class="item_textcontrol menuitem_pricesControls"
                             id="menuitemmodal_priceModify" name="menuitem_priceModify"
                             jqx-settings="numberPricesSet"
                     ></jqx-number-input>

@@ -23,7 +23,10 @@ class Menu_item_model extends CI_Model
         $this->db->select('item.Unique, item.Description, item.Item, item.Part, item.Status,
                            item.CategoryUnique, item.MainCategory, item.ListPrice, item.price1, item.Cost,
                            item.price2, item.price3, item.price4, item.price5, item.PriceModify,
-                        category_sub.Name as SubCategory, category_main.MainName as Category,
+                           item.Cost_Extra, item.Cost_Freight, item.Cost_Duty,
+                           item.GiftCard, item.PromptPrice, item.PromptDescription, item.EBT, item.Label as ItemLabelVal,
+                            item.CountDown, item.Points, item.MinimumAge, item.Group,
+                        category_sub.Name as SubCategory, category_main.MainName as Category
                         ');
         $this->db->from($this->itemTable);
         $this->db->where(['item.Status!=' => 0]);

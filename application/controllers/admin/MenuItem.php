@@ -76,6 +76,10 @@ class MenuItem extends AK_Controller
         foreach($items as $item) {
             $item['ListPrice'] = number_format((float)$item['ListPrice'], $this->decimalPrice);
             $item['price1'] = number_format((float)$item['price1'], $this->decimalPrice);
+            $item['price2'] = number_format((float)$item['price2'], $this->decimalPrice);
+            $item['price3'] = number_format((float)$item['price3'], $this->decimalPrice);
+            $item['price4'] = number_format((float)$item['price5'], $this->decimalPrice);
+            $item['PriceModify'] = number_format((float)$item['PriceModify'], $this->decimalPrice);
             $item['Description'] = trim($item['Description']);
             $item['Item'] = trim($item['Item']);
             $item['Category'] = (is_null($item['Category'])) ? '-' : $item['Category'];
@@ -85,7 +89,6 @@ class MenuItem extends AK_Controller
 //            $item['taxes'] = ;
             $new_items[] = $item;
         }
-
         echo json_encode($new_items);
     }
 
@@ -484,6 +487,15 @@ class MenuItem extends AK_Controller
             if ($data['Item'] == '') {
                 $data['Item'] = $id;
             }
+            $data['GiftCard'] = (isset($data['GiftCard'])) ? (int)$data['GiftCard'] : null;
+            $data['Group'] = (isset($data['Group'])) ? (int)$data['Group'] : null;
+            $data['PromptPrice'] = (isset($data['PromptPrice'])) ? (int)$data['PromptPrice'] : null;
+            $data['PromptDescription'] = (isset($data['PromptDescription'])) ? (int)$data['PromptDescription'] : null;
+            $data['EBT'] = (isset($data['EBT'])) ? (int)$data['EBT'] : null;
+            $data['MinimumAge'] = (isset($data['MinimumAge'])) ? (int)$data['MinimumAge'] : null;
+            $data['CountDown'] = (isset($data['CountDown'])) ? (int)$data['CountDown'] : null;
+            $data['Points'] = (isset($data['Points'])) ? (float)$data['Points'] : null;
+            $data['Label'] = (isset($data['Label']) && !empty($data['Label'])) ? $data['Label'] : null;
             $newid = $this->item->updateItem($id, $data);
             if ($newid) {
                 $this->item->updateTaxesByItem($taxes, $id);

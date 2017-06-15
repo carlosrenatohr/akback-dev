@@ -72,6 +72,22 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
     $scope.subcategoryCbxSettings = inventoryExtraService.getSubcategoriesSettings();
     $scope.nitemSuccess = adminService.setNotificationSettings(1, '#nitemNotification');
     $scope.nitemError = adminService.setNotificationSettings(0, '#nitemNotification');
+
+    $scope.getCostLandedMItemModal = function() {
+        var cost = $('#menuitemmodal_cost').jqxNumberInput('val');
+        cost = (cost != undefined) ? parseFloat(cost) : 0.00;
+        var costDuty = $('#menuitemmodal_Cost_Duty').jqxNumberInput('val');
+        costDuty = (costDuty != undefined) ? parseFloat(costDuty) : 0.00;
+        var costFreight = $('#menuitemmodal_Cost_Freight').jqxNumberInput('val');
+        costFreight = (costFreight != undefined) ? parseFloat(costFreight) : 0.00;
+        var costExtra = $('#menuitemmodal_Cost_Extra').jqxNumberInput('val');
+        costExtra = (costExtra != undefined) ? parseFloat(costExtra) : 0.00;
+        //
+        var total = cost + costFreight  + costDuty + costExtra;
+        $('#menuitemmodal_Cost_Landed').jqxNumberInput('val', total);
+    };
+
+
     $scope.taxesInventoryGrid = inventoryExtraService.getTaxesGridData();
     var taxesValuesChanged = [];
     // Tax by item checkboxes change event
@@ -149,8 +165,8 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             }
         }
     };
-    //--
 
+    //--
     $scope.saveItemOnMenuItemGrid = function() {
         var beforeSaveInventory = function(fieldsToSkip) {
             var needValidation = false;
@@ -215,6 +231,41 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                 var url = SiteRoot + 'admin/MenuItem/simplePostItem';
             } else if ($scope.ItemModalStateAction == 'edit') {
                 var url = SiteRoot + 'admin/MenuItem/simpleUpdateItem/' + $scope.ItemModalID;
+                // Prices
+                dataRequest['ListPrice'] = $('#menuitemmodal_listPrice').jqxNumberInput('val');
+                dataRequest['price1'] = $('#menuitemmodal_price1').jqxNumberInput('val');
+                dataRequest['price2'] = $('#menuitemmodal_price2').jqxNumberInput('val');
+                dataRequest['price3'] = $('#menuitemmodal_price3').jqxNumberInput('val');
+                dataRequest['price4'] = $('#menuitemmodal_price4').jqxNumberInput('val');
+                dataRequest['price5'] = $('#menuitemmodal_price5').jqxNumberInput('val');
+                dataRequest['PriceModify'] = $('#menuitemmodal_priceModify').jqxNumberInput('val');
+                // Costs
+                dataRequest['Cost'] = $('#menuitemmodal_cost').jqxNumberInput('val');
+                dataRequest['Cost_Extra'] = $('#menuitemmodal_Cost_Extra').jqxNumberInput('val');
+                dataRequest['Cost_Freight'] = $('#menuitemmodal_Cost_Freight').jqxNumberInput('val');
+                dataRequest['Cost_Duty'] = $('#menuitemmodal_Cost_Duty').jqxNumberInput('val');
+                // Options
+                dataRequest['Group'] =
+                    ($('#menuitemmodal_group [aria-checked="true"]').length > 0) ?
+                        $('#menuitemmodal_group [aria-checked="true"]').data('val') :
+                        0;
+                dataRequest['PromptPrice'] =
+                    ($('#menuitemmodal_promptprice [aria-checked="true"]').length > 0) ?
+                        $('#menuitemmodal_promptprice [aria-checked="true"]').data('val') :
+                        0;
+                dataRequest['PromptDescription'] =
+                    ($('#menuitemmodal_promptdescription [aria-checked="true"]').length > 0)
+                        ? $('#menuitemmodal_promptdescription [aria-checked="true"]').data('val')
+                        : 0;
+                dataRequest['EBT'] =
+                    ($('#menuitemmodal_EBT [aria-checked="true"]').length > 0)
+                        ? $('#menuitemmodal_EBT [aria-checked="true"]').data('val')
+                        : 0;
+                dataRequest['GiftCard'] = $('#menuitemmodal_giftcard').val();
+                dataRequest['Points'] = $('#menuitemmodal_points').val();
+                dataRequest['MinimumAge'] = $('#menuitemmodal_minimumage').val();
+                dataRequest['CountDown'] = $('#menuitemmodal_countdown').val();
+                dataRequest['Label'] = $('#menuitemmodal_labelpos').val();
             }
             $.ajax({
                 method: 'POST',
@@ -767,14 +818,31 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     {name: 'Part', type: 'string'},
                     {name: 'ListPrice', type: 'string'},
                     {name: 'price1', type: 'string'},
+                    {name: 'price2', type: 'string'},
+                    {name: 'price3', type: 'string'},
+                    {name: 'price4', type: 'string'},
+                    {name: 'price5', type: 'string'},
+                    {name: 'PriceModify', type: 'string'},
                     {name: 'Cost', type: 'string'},
+                    {name: 'Cost_Extra', type: 'string'},
+                    {name: 'Cost_Freight', type: 'string'},
+                    {name: 'Cost_Duty', type: 'string'},
                     {name: 'Category', type: 'string'},
                     {name: 'SubCategory', type: 'string'},
                     {name: 'MainCategory', type: 'string'},
                     {name: 'CategoryUnique', type: 'string'},
                     {name: 'PrimaryPrinter', type: 'string'},
                     // {name: 'taxes', type: 'string'},
-                    {name: 'Status', type: 'number'}
+                    {name: 'Status', type: 'number'},
+                    {name: 'GiftCard', type: 'string'},
+                    {name: 'PromptPrice', type: 'string'},
+                    {name: 'PromptDescription', type: 'string'},
+                    {name: 'EBT', type: 'string'},
+                    {name: 'ItemLabelVal', type: 'string'},
+                    {name: 'CountDown', type: 'string'},
+                    {name: 'Points', type: 'string'},
+                    {name: 'MinimumAge', type: 'string'},
+                    {name: 'Group', type: 'string'},
                 ],
                 url: url
             }, settings
@@ -862,8 +930,36 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                     $('#item_Part').val(row.Part);
                     $('#mainPrinterNewItem').val(row.PrimaryPrinter);
                     $('#item_ListPrice').jqxNumberInput('val', row.ListPrice);
-                    $('#item_Price1').jqxNumberInput('val', row.price1);
-                    $('#item_Cost').jqxNumberInput('val', row.Cost);
+                    //
+                    $('#item_Price1, #menuitemmodal_price1').jqxNumberInput('val', row.price1);
+                    $('#menuitemmodal_price2').jqxNumberInput('val', row.price2);
+                    $('#menuitemmodal_price3').jqxNumberInput('val', row.price3);
+                    $('#menuitemmodal_price4').jqxNumberInput('val', row.price4);
+                    $('#menuitemmodal_price5').jqxNumberInput('val', row.price5);
+                    $('#menuitemmodal_priceModify').jqxNumberInput('val', row.PriceModify);
+                    //
+                    $('#item_Cost, #menuitemmodal_cost').jqxNumberInput('val', row.Cost);
+                    $('#menuitemmodal_Cost_Extra').jqxNumberInput('val', row.Cost_Extra);
+                    $('#menuitemmodal_Cost_Freight').jqxNumberInput('val', row.Cost_Freight);
+                    //
+                    $('#menuitemmodal_labelpos').val(row.ItemLabelVal);
+                    $('#menuitemmodal_countdown').val(row.CountDown);
+                    $('#menuitemmodal_minimumage').val(row.MinimumAge);
+                    $('#menuitemmodal_points').val(row.Points);
+                    $('#menuitemmodal_gcard').val(row.GiftCard);
+                    var gc;
+                    gc = $('#menuitemmodal_group .cbxExtraTab[data-val=' +
+                        ((row.Group == 0 || row.Group == null) ? '0' : '1') +']');
+                    gc.jqxRadioButton({ checked:true });
+                    gc = $('#menuitemmodal_promptprice .cbxExtraTab[data-val=' +
+                        ((row.PromptPrice == 0 || row.PromptPrice == null) ? 0 : 1) +']');
+                    gc.jqxRadioButton({ checked:true });
+                    gc = $('#menuitemmodal_promptdescription .cbxExtraTab[data-val=' +
+                        (row.PromptDescription == 0 || row.PromptDescription == null ? 0 : 1) +']');
+                    gc.jqxRadioButton({ checked:true });
+                    gc = $('#menuitemmodal_EBT .cbxExtraTab[data-val=' +
+                        ((row.EBT == 0 || row.EBT == null) ? 0 : 1) +']');
+                    gc.jqxRadioButton({ checked:true });
                     // Open Modal
                     $('#itemsModalCreateTabs').jqxTabs('select', 0);
                     setTimeout(function() {
@@ -1392,9 +1488,6 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
                         });
                         // Extra tab values
                         var gc;
-                        // gc = $('#itemcontrol_giftcard .cbxExtraTab[data-val=' +
-                        //     ((data.GiftCard == 0 || data.GiftCard == null) ? '0' : '1') +']');
-                        // gc.jqxRadioButton({ checked:true });
                         $('#itemcontrol_gcard').val(data.GiftCard);
                         gc = $('#itemcontrol_group .cbxExtraTab[data-val=' +
                             ((data.Group == 0 || data.Group == null) ? '0' : '1') +']');

@@ -97,7 +97,7 @@
                 <div style=" float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Points</div>
                 <div style=" float:left; width:120px;">
                     <jqx-number-input
-                        style='margin-top: 3px;' class="menuitem_extraControls"
+                        style='margin-top: 3px;' class="item_textcontrol"
                         id="menuitemmodal_points" name="itemcontrol_points"
                         jqx-settings="decimalsExtraSet"
                     ></jqx-number-input>
@@ -106,7 +106,7 @@
                 >Minimum Age</div>
                 <div style=" float:left; width:120px;">
                     <jqx-number-input
-                        style='margin-top: 3px;' class="menuitem_extraControls"
+                        style='margin-top: 3px;' class="item_textcontrol"
                         id="menuitemmodal_minimumage" name="itemcontrol_minimumage"
                         jqx-settings="numberExtraSet"
                     ></jqx-number-input>
@@ -117,7 +117,7 @@
                 <div style="float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Countdown</div>
                 <div style="float:left; width:120px;">
                     <jqx-number-input
-                        style='margin-top: 3px;' class="menuitem_extraControls"
+                        style='margin-top: 3px;' class="item_textcontrol"
                         id="menuitemmodal_countdown" name="itemcontrol_countdown"
                         jqx-settings="numberExtraSet"
                     ></jqx-number-input>
@@ -127,7 +127,7 @@
             <div style="float:left; padding:2px; width:100%; ">
                 <div style="float:left; padding:8px; text-align:right; width:120px; font-weight:bold;">Label</div>
                 <div id="iteminventory_labelpos">
-                    <jqx-drop-down-list id="menuitemmodal_itemlabelpos" class="menuitem_extraControls"
+                    <jqx-drop-down-list id="menuitemmodal_labelpos" class="item_textcontrol"
                                         jqx-width="100" style="margin-top: 10px;">
                         <option value="">None</option>
                         <?php foreach ($labelPos as $label) { ?>
