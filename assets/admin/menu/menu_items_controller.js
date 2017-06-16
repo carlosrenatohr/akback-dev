@@ -208,7 +208,10 @@ app.controller('menuItemController', function ($scope, $rootScope, $http, invent
             });
             //
             if ($('#item_Part').val() == '' || $('#item_Part').val() == null) {
-                dataRequest['Part'] = $('#item_Item').val();
+                // dataRequest['Part'] = $('#item_Item').val();
+                var barcode = Date.now().toString();
+                dataRequest['Part'] = barcode;
+                dataRequest['SupplierPart'] = barcode;
             }
             //
             dataRequest['MainCategory'] = $('#item_category').val();

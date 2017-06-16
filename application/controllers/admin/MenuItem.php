@@ -434,10 +434,10 @@ class MenuItem extends AK_Controller
             $newid = $this->item->saveItem($data);
             if ($newid) {
                 $ndata = [];
-                if ($data['Part'] == '') {
-                    $ndata['Part'] = $newid;
-                    $ndata['SupplierPart'] = $newid;
-                }
+//                if ($data['Part'] == '') {
+//                    $ndata['Part'] = $newid;
+//                    $ndata['SupplierPart'] = $newid;
+//                }
                 if ($data['Item'] == '') {
                     $ndata['Item'] = $newid;
                 }
@@ -480,10 +480,10 @@ class MenuItem extends AK_Controller
             $mainPrinter = $data['MainPrinter'];
             unset($data['MainPrinter']);
             //
-            if ($data['Part'] == '') {
-                $data['Part'] = $id;
-                $data['SupplierPart'] = $id;
-            }
+//            if ($data['Part'] == '') {
+//                $data['Part'] = $id;
+//                $data['SupplierPart'] = $id;
+//            }
             if ($data['Item'] == '') {
                 $data['Item'] = $id;
             }

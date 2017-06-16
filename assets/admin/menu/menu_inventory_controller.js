@@ -578,7 +578,10 @@ app.controller('menuItemsInventoryController', function($scope, $http, itemInven
         }
         $scope.saveInventoryAction(false, false, ['Item']);
         $('#item_Item').val($scope.itemInventoryID);
-        $('#item_Part').val($scope.itemInventoryID);
+        var barcode = Date.now().toString();
+        // $('#item_Part').val($scope.itemInventoryID);
+        $('#item_Part').val(barcode);
+        $('#item_SupplierPart').val(barcode);
         // $('#item_SupplierPart').val($scope.itemInventoryID);
         setTimeout(function(){
             $scope.saveInventoryAction(false, false, ['Item']);
