@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <jqx-grid id="_questionItemTable"
+        <jqx-grid id="_questionItemTable" style="display: none;"
                   jqx-settings="questionItemTableSettings"
                   jqx-on-rowdoubleclick="editQuestionItemTable($event)">
         </jqx-grid>

@@ -41,7 +41,7 @@ class Menu_question_model extends CI_Model
                 (($id != 'null') ?
               ' WHERE config_questions_item."QuestionUnique" = ' . $id :
                 " ") .
-              " ORDER BY config_questions_item.\"Sort\" ASC "
+              " ORDER BY config_questions_item.\"Sort\" ASC, item.\"Description\" ASC "
             ;
             $query = $this->db->query($sql)->result_array();
         } else

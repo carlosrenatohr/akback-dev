@@ -67,6 +67,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
 
     $('#questionstabsWin').on('tabclick', function (event) {
         var tabclicked = event.args.item;
+        $('#_questionItemTable').hide();
         //
         if (tabclicked == 0 ) {
             $(this).jqxTabs({height:"300px"});
@@ -77,7 +78,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
             // $('#deleteQuestionBtn').hide();
             if($scope.questionId != null) {
                 $scope.$apply(function() {
-                    updateItemQuestiontable();
+               updateItemQuestiontable();
                 });
             }
         }
@@ -412,6 +413,7 @@ app.controller('menuQuestionController', function ($scope, questionService) {
     };
 
     var updateItemQuestiontable = function() {
+        $('#_questionItemTable').show();
         $('#_questionItemTable').jqxGrid({
             source: choicesData()
         });
