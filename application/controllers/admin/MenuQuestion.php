@@ -55,6 +55,8 @@ class MenuQuestion extends AK_Controller
         $return = [];
         foreach ($result as $row) {
             $row['sprice'] = number_format($row['sprice'], (int)$this->session->userdata("DecimalsPrice"));
+            $row['plPrice'] = number_format($row['plPrice'], (int)$this->session->userdata("DecimalsPrice"));
+            $row['FixedPrice'] = number_format($row['FixedPrice'], (int)$this->session->userdata("DecimalsPrice"));
 //            $row['Sort'] = $row['sort'];
             $bpc = explode('#', $row['ButtonPrimaryColor']);
             $row['ButtonPrimaryColor'] = (!is_null($row['ButtonPrimaryColor'])) ? $bpc[1] : null;

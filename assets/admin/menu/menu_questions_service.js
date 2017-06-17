@@ -102,9 +102,9 @@
                 initrowdetails: initrowdetails,
                 rowdetailstemplate: {
                     rowdetails: "<div class='choicesNestedGrid'></div>",
-                        rowdetailsheight: 100,
-                        rowdetailshidden: true
-                    }
+                    rowdetailsheight: 100,
+                    rowdetailshidden: true
+                }
             };
         };
 
