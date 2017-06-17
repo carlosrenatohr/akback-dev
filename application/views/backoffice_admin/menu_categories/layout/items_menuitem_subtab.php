@@ -14,6 +14,50 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="form-group control-cont">
+                    <label for="" class="control-label" style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Item Number:</label>
+                    <div style="float:left; width:300px;">
+                        <input type="text" class="form-control menuitem_extraControls" id="itemcontrol_Item"
+                               ng-change="onChangeItemNumber(event)" ng-model="inventoryData.item"
+                               data-field="Item" placeholder="Item Number" autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group control-cont">
+                    <label for="" class="" style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Barcode:</label>
+                    <div style="float:left; width:300px;">
+                        <input type="text" class="form-control menuitem_extraControls" id="itemcontrol_Part"
+                               data-field="Part" placeholder="Barcode" ng-model="inventoryData.part"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group control-cont">
+                    <label style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Category:</label>
+                    <div style="float:left; width:300px;">
+                        <jqx-combo-box id="itemcontrol_category" jqx-width="'290px'" jqx-height="'30px'" class="menuitem_extraControls"
+                                       jqx-settings="categoryCbxSettings" jqx-on-change="onSelectCategoryCbx($event)"
+                                       data-field="Category"
+                        ></jqx-combo-box>
+<!--                        <span class="required-ast">*</span>-->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group control-cont">
+                    <label style="float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">SubCategory:</label>
+                    <div style="float:left; width:300px;">
+                        <jqx-combo-box id="itemcontrol_subcategory" jqx-width="'290px'" jqx-height="'30px'" class="menuitem_extraControls"
+                                       jqx-settings="subcategoryCbxSettings" data-field="Subcategory"
+                        ></jqx-combo-box>
+                    </div>
+                </div>
+            </div>
+
             <div style="float:left; padding:2px; width:100%; ">
                 <div style=" float:left; padding:8px; text-align:right; width:125px; font-weight:bold;">Description:</div>
                 <div style=" float:left; width:300px;">
