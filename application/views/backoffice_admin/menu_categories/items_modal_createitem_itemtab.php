@@ -16,7 +16,8 @@
 
             <div class="input">
                 <jqx-combo-box id="item_category" jqx-width="'250px'" jqx-height="'30px'" class="item_combobox req"
-                               jqx-settings="categoryCbxSettings" jqx-on-change="onSelectCategoryCbx($event)"
+                               jqx-settings="categoryCbxSettings"
+                               jqx-on-change="onSelectCategoryCbx($event)" jqx-on-select="onSelectCategoryCbx($event)"
                                data-field="Category" style="float: left;"
                 ></jqx-combo-box>
                 <span class="required-ast">*</span>
